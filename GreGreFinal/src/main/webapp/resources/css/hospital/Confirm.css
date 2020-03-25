@@ -1,0 +1,17 @@
+.col-md-4>li{
+    display: inline-block;
+}
+
+.bookingview{
+    background-color: rgb(252, 208, 151);
+    padding: 10px;
+    width: 400px;
+    padding-top: 50px;
+    padding-bottom: 30px;
+    border-radius: 5px;
+}
+
+
+span{
+    color: black;
+}

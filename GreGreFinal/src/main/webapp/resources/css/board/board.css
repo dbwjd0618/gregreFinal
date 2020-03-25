@@ -1,0 +1,16 @@
+tr {
+	border-top : 1px solid #e3dada;
+	border-bottom : 1px solid #e3dada;
+}
+th,td {
+    text-align: center;
+	padding : 10px;}
+th {
+	background : #bdbaba;
+}
+
+
+/* td {width:100%;} */
+#content th,#content td {text-align: center;}
+#reply th, #reply td {text-align:left;}
+

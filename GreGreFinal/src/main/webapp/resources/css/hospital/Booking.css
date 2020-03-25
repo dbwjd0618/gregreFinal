@@ -1,0 +1,19 @@
+.col-md-6>form>fieldset>li{
+    display: inline-block;
+}
+
+.pic{
+    padding: 10px;
+}
+
+.bookingview>th>td{
+    border: black solid;
+}
+
+.simpleview{
+    border: 1px rgba(130, 174, 255, 0.76) solid;
+    background-color: rgba(130, 174, 255, 0.76);
+    border-radius: 10px;
+    padding: 10px;
+    width: 400px;
+}

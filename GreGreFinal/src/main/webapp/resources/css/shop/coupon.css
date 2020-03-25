@@ -1,0 +1,68 @@
+.coupon-item__due-date {
+    margin-top:10px;
+    font-size: 13px;
+ }
+    .coupon-item {
+    position: relative;
+    box-sizing: border-box;
+    padding: 18% 10.65% 10.65%;
+    margin-top: 10px;
+    background-color: #fff;
+    /*border: 1px solid #ededed;*/
+    box-shadow: 0 2px 12px 0 #ededed;
+    border-radius: 10px;
+}
+.row{
+    margin:0 !important;
+}
+.coupon-item__title {
+    font-size: 14px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    font-weight: 700;
+    color: #000;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    word-wrap: break-word;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.coupon-item__valuation-number {
+    font-size: 25px;
+    font-family: Tahoma,sans;
+    letter-spacing: -2px;
+    color: #000;
+}
+.coupon-item__valuation {
+     margin: 10px 0; 
+     height: 70px;
+}
+.coupon-item__info {
+    height: 40px;
+    
+}
+.coupon-item__info_ {
+    margin-top: 2px;
+    font-size: 12px;
+}
+
+@media (min-width: 1024px){
+    .coupon-item {
+        margin: 20px 0 10px;
+        padding: 35px 20px 23px;
+    }
+    .item__title {
+    font-size: 24px;
+    height: 56px;
+    line-height: 28px;
+    }
+    .coupon-item__valuation {
+    margin: 16px 0;
+    }
+    .coupon-item__info {
+   
+        margin-top: 40px;
+    
+    }
+}

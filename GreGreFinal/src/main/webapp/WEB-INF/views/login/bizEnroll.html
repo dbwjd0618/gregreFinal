@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Kiddy &mdash; Website Template by Colorlib</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=DM+Sans:300,400,700|Indie+Flower" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="../fonts/icomoon/style.css">
+
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/bootstrap-datepicker.css">
+  <link rel="stylesheet" href="../css/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="../css/owl.carousel.min.css">
+  <link rel="stylesheet" href="../css/owl.theme.default.min.css">
+  <link rel="stylesheet" href="../fonts/flaticon/font/flaticon.css">
+  <link rel="stylesheet" href="../css/aos.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <!-- MAIN CSS -->
+  <link rel="stylesheet" href="../css/style.css">
+
+  <!-- Index CSS -->
+  <link rel="stylesheet" href="../css/index.css">
+  
+<!--login css-->
+<link rel="stylesheet" href="../css/member/login.css"> 
+</head>
+<style>
+.enroll-btn{
+    padding: 12px 0 !important;
+}
+</style>
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+
+        <header class="site-navbar site-navbar-target" role="banner">
+            <div class="container mb-3">
+                <div class="row" >
+                    <div class="col-md-12" style="padding:0 70px;">
+                        <div class="d-flex">
+                          <div class="site-logo mr-auto">
+                            <a href="/imdex.html">
+                              <img  class="main-logo" src="../images/logo/igre_main_logo2.png" alt="">
+                            </a>
+                          </div>
+                          <div class="site-quick-contact d-none d-lg-flex ml-auto ">
+                                <div class="d-flex site-info site-quick">
+                                        <div class="site-quick-text">
+                                          <!--home -->
+                                          <a href="../index.html">
+                                            <span style="color: black !important;">HOME</span>
+                                          </a>
+                                        </div>
+                                </div>
+                            <div class="d-flex site-info site-quick">
+                              <div class="site-quick-text">
+                                <!--로그인 -->
+                                <a href="../login/login.html">
+                                  <span style="color: black !important;">로그인</span>
+                                </a>
+                              </div>
+                            </div>
+                
+                          </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </header>
+
+ <!-- contents begin-->
+ <div class="site-section">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+                  <div class="card-body mx-auto" style="max-width:800px;">
+                      <article class="card-body">
+                          <h4 class="card-title text-center mb-4 mt-1">기업회원 가입</h4>
+                          <form action="">
+                              <div class="form-group input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">아이디</span>
+                                  </div>
+                                  <input name="memberId" class="form-control" id="memberId_"
+                                      placeholder="4글자 이상" type="text" required>
+  
+                              </div>
+                              <div class="form-group input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">패스워드 </span>
+                                  </div>
+                                  <input name="password" class="form-control" id="password_"
+                                      placeholder="" type="password" required>
+                              </div>
+                              <div class="form-group input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">패스확인</span>
+                                  </div>
+                                  <input class="form-control" placeholder="" id="password_2"
+                                      type="password" required>
+                              </div>
+  
+                              <div class="form-group input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text"> 이름</span>
+                                  </div>
+                                  <input name="memberName" class="form-control" id="memberName"
+                                      type="text">
+                              </div>
+                              <div class="form-group input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">비밀번호 찾기 힌트</span>
+                                  </div>
+                                  <select name="HintQ" id="HintQ" class="custom-select">
+                                      <option disabled selected value>목록</option>
+                                      <option disabled>----------</option>
+                                      <option value="1">당신의 첫 사랑 이름은?</option>
+                                      <option value="2">당신이 좋아하는 색은?</option>
+                                      <option value="3">첫번째 선생님의 성함은?</option>
+                                      <option value="4">당신의 부모님 결혼기념일은?</option>
+                                      <option value="5">당신이 좋아하는 음식은?</option>
+                                      <option value="6">당신에게 가장 소중한 물건은?</option>
+                                      <option value="7">당신이 가장 인상깊게 본 영화는?</option>
+                                      <option value="8">당신의 기억 속에 남는 도시는?</option>
+                                      <option value="9">당신이 졸업한 초등학교 이름은?</option>
+                                  </select>
+                              </div>
+  
+                              <div class="form-group input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text"> 힌트 정답</span>
+                                  </div>
+                                  <input name="HintA" class="form-control" id="HintA" type="text">
+                              </div>
+  
+                             
+                              <div class="form-group">
+                                  <button class="btn btn-primary btn-block enroll-btn">가입완료</button>
+                              </div>
+                          </form>
+                      </article>
+                  </div>
+              </div>
+        </div>
+      </div>
+      </div>
+     <!-- contents end-->
+
+
+
+     <script src="../js/jquery-migrate-3.0.0.js"></script>
+     <script src="../js/popper.min.js"></script>
+     <script src="../js/bootstrap.min.js"></script>
+     <script src="../js/owl.carousel.min.js"></script>
+     <script src="../js/jquery.sticky.js"></script>
+     <script src="../js/jquery.waypoints.min.js"></script>
+     <script src="../js/jquery.animateNumber.min.js"></script>
+     <script src="../js/jquery.fancybox.min.js"></script>
+     <script src="../js/jquery.stellar.min.js"></script>
+     <script src="../js/jquery.easing.1.3.js"></script>
+     <script src="../js/bootstrap-datepicker.min.js"></script>
+     <script src="../js/aos.js"></script>
+   
+     <script src="../js/main.js"></script>
+   
+   
+   
+   
+       <!-- Js Plugins -->
+   
+       <script src="js/shop/jquery-ui.min.js"></script>
+       <script src="js/shop/jquery.countdown.min.js"></script>
+       <script src="js/shop/jquery.nice-select.min.js"></script>
+       <script src="js/shop/jquery.zoom.min.js"></script>
+       <script src="js/shop/jquery.dd.min.js"></script>
+       <script src="js/shop/jquery.slicknav.js"></script>
+       <!-- <script src="js/shop/owl.carousel.min.js"></script> -->
+       <script src="js/shop/main.js"></script>
+   
+   </body>
+   
+   </html>

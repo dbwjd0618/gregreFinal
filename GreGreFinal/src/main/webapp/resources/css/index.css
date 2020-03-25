@@ -1,0 +1,714 @@
+
+/*추가*/
+.ti-angle-left:before {
+    content: url(https://img.icons8.com/ios/50/000000/back--v1.png);
+        content: url(https://img.icons8.com/ios/50/000000/back--v1.png);
+    font-size: 30px;
+    position: absolute;
+    left: -62px;
+    top: 25%;
+    color: #171717;
+    opacity: 0.5;
+}
+
+.ti-angle-right:before {
+    content: url(https://img.icons8.com/ios/50/000000/forward--v1.png);
+    font-size: 30px;
+    position: absolute;
+    top: 25%;
+    left: auto;
+    right: -62px;
+    color: #171717;
+    opacity: 0.5;
+}
+@media ( max-width : 991.98px) {
+	.site-section-cover, .site-section-cover .container>.row {
+		min-height: auto !important;
+	}
+}
+.site-section-pd {
+  padding: 4rem 0;
+}
+.owl-stage-outer {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+/*---------------------
+ 아이그레몰 추천상품 Section
+ -----------------------*/
+ .women-banner {
+   padding-right: 65px;
+   padding-left: 65px;
+   padding-top: 0;
+   background: rgb(245,245,245);
+   /* padding-bottom: 80px; */
+ }
+ 
+ .product-large {
+   /* height: 620px; */
+   margin-left: -15px;
+   margin-right: -15px;
+   text-align: center;
+   padding-top: 70px;
+
+ }
+ 
+ .product-large h2 {
+   color: #000;
+   font-size: 30px;
+   font-weight: 700;
+   margin-bottom: 18px;
+ }
+ 
+ .product-large a {
+   color: #000;
+   font-size: 18px;
+   font-weight: 500;
+   display: inline-block;
+   position: relative;
+ }
+ 
+
+ 
+ .filter-control {
+   text-align: center;
+   margin-bottom: 45px;
+   padding-top: 32px;
+ }
+ 
+ .filter-control ul li {
+   list-style: none;
+   display: inline-block;
+   font-size: 20px;
+   color: #b2b2b2;
+   margin-right: 22px;
+   position: relative;
+   cursor: pointer;
+ }
+ 
+ .filter-control ul li.active {
+   color: #171717;
+ }
+ 
+ .filter-control ul li.active:before {
+   opacity: 1;
+ }
+ 
+ .filter-control ul li:before {
+   position: absolute;
+   left: 0;
+   bottom: -3px;
+   width: 100%;
+   height: 2px;
+   background: #171717;
+   content: "";
+   opacity: 0;
+ }
+ 
+ .filter-control ul li:last-child {
+   margin-right: 0;
+ }
+ 
+ .product-slider .owl-nav button[type=button] {
+   font-size: 30px;
+   position: absolute;
+   left: -62px;
+   top: 25%;
+   color: #171717;
+   opacity: 0.3;
+ }
+ 
+ .product-slider .owl-nav button[type=button].owl-next {
+   left: auto;
+   right: -62px;
+   color: #171717;
+   opacity: 1;
+ }
+ 
+ /* .product-slider .owl-dots {
+   text-align: center;
+ }
+ 
+ .product-slider .owl-dots button {
+   width: 6px;
+   height: 6px;
+   background: #D8D9DA;
+   border-radius: 50%;
+   margin-right: 10px;
+   -webkit-transition: all 0.3s;
+   -o-transition: all 0.3s;
+   transition: all 0.3s;
+ }
+ 
+ .product-slider .owl-dots button:last-child {
+   margin-right: 0;
+ }
+ 
+ .product-slider .owl-dots button.active {
+   width: 30px;
+   background: #252525;
+   border-radius: 50px;
+ } */
+ 
+ .product-item {
+   margin-bottom: 26px;
+ }
+ 
+ .product-item:hover .pi-pic .icon {
+   top: 15px;
+   opacity: 1;
+ }
+ 
+ .product-item:hover .pi-pic ul {
+   bottom: 0;
+ }
+ 
+ .product-item .pi-pic {
+   overflow: hidden;
+   position: relative;
+ }
+ 
+ .product-item .pi-pic > img {
+   /* min-width: 100%;  */
+   height: 180px;
+    width: auto !important;
+   margin: 0 auto;
+ }
+ 
+ .product-item .pi-pic .sale {
+   color: #ffffff;
+   font-size: 10px;
+   background: #76BC42;
+   position: absolute;
+   left: 20px;
+   top: 20px;
+   padding: 5px 10px;
+   text-transform: uppercase;
+ }
+ 
+ .product-item .pi-pic .sale.pp-sale {
+   background: #4CA4ED;
+ }
+ 
+ .product-item .pi-pic .icon {
+   font-size: 20px;
+   color: #252525;
+   position: absolute;
+   /* right: 21px; */
+   right: 45px;
+   top: -15px;
+   cursor: pointer;
+   -webkit-transition: all 0.3s;
+   -o-transition: all 0.3s;
+   transition: all 0.3s;
+   opacity: 0;
+ }
+ 
+ .product-item .pi-pic ul {
+   position: absolute;
+   /* left: 0; */
+   bottom: -62px;
+   -webkit-transition: all 0.3s;
+   -o-transition: all 0.3s;
+   transition: all 0.3s;
+   text-align: center;
+   width: 100%;
+   right: 20px;
+ }
+ 
+ .product-item .pi-pic ul li {
+   list-style: none;
+   display: inline-block;
+   background: #ffffff;
+ }
+ 
+ .product-item .pi-pic ul li.w-icon.active a {
+   background: #4CA4ED;
+   color: #ffffff;
+ }
+ 
+ .product-item .pi-pic ul li a {
+   font-size: 14px;
+   font-weight: 700;
+   color: #252525;
+   display: block;
+   padding: 6px 10px;
+ 
+ }
+ 
+ .product-item .pi-text {
+   text-align: center;
+   padding-top: 16px;
+ }
+ 
+ .product-item .pi-text .catagory-name {
+   font-size: 10px;
+   color: #b2b2b2;
+   font-weight: 700;
+   letter-spacing: 2px;
+   text-transform: uppercase;
+   margin-bottom: 2px;
+ }
+ 
+ .product-item .pi-text a {
+   display: block;
+ }
+ 
+ .product-item .pi-text a h5 {
+   color: #252525;
+   font-size:16px;
+ }
+ 
+ .product-item .pi-text .product-price {
+   color: #4CA4ED;
+   font-size: 20px;
+   font-weight: 700;
+ }
+ 
+ .product-item .pi-text .product-price span {
+   font-size: 14px;
+   font-weight: 400;
+   color: #b2b2b2;
+   text-decoration: line-through;
+ }
+ 
+
+
+
+
+
+/*************************************/
+.top-social.ml-auto {
+    margin-right: 30px;
+  }
+
+  .container.mb-3 {
+    margin-bottom: 0px !important;
+  }
+
+  .testimonial-3-wrap {
+    margin-top: 102px;
+    height: 390px;
+    /* margin-bottom: 30px; */
+  }
+
+  .top-links {
+
+    margin-top: 150px;
+  }
+
+  .top-links ul {
+    overflow: hidden;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .top-links ul li:first-child {
+    background-color:#FFDB48
+  }
+  
+  .top-links ul li:last-child {
+    background-color: #FFDB48
+  }
+  .top-links li {
+    float: left !important;
+    background-color: #48DA91
+
+  }
+
+  @media (min-width: 1100px) {
+  .testimonial-3-wrap {
+
+    height: 320px;
+
+   }
+    .top-links ul li {
+      float: left !important;
+      width: 50%;
+      height: 160px;
+    }
+
+    .top-links {
+
+      float: right;
+      width: 432px;
+    }
+
+    .main-visual {
+
+      height: 470px;
+    }
+  }
+
+  @media (max-width: 1100px) and (min-width: 800px) {
+    .top-links ul li {
+      width: 50%;
+     height: 195px;
+    }
+
+  }
+
+  @media (max-width: 800px) and (min-width: 600px) {
+    .top-links ul li {
+      width: 25%;
+      height: 142px;
+    }
+    .top-links {
+    margin-top: 0;
+	}
+
+  }
+
+  .top-links li a {
+    display: block;
+    padding: 30px 0 0 0;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff !important;
+  }
+  .top-links img{
+    width: 65px;
+    padding-bottom: 10px;
+  }
+
+  .main-row2 {
+    overflow: hidden;
+    margin-bottom: 0;
+    border: 1px solid #dedede;
+    box-sizing: border-box;
+    width: 100%;
+    background: white;
+  }
+
+  .notice-list {
+    position: relative;
+  }
+
+  @media (min-width: 1100px) {
+    .notice-list {
+      float: left;
+      width: 304px;
+      height: 255px;
+      border-right: 1px solid #dedede;
+      box-sizing: border-box;
+      padding: 23px;
+    }
+
+    .notice-list ul li {
+      width: 90%;
+    }
+
+    .notice-list .more {
+      position: absolute;
+      top: 23px;
+      right: 23px;
+    }
+
+    .calendar-list {
+      float: left;
+      width: 303px;
+      height: 255px;
+      border-right: 1px solid #dedede;
+      box-sizing: border-box;
+      padding: 23px;
+    }
+
+    .calendar-list .btn {
+      position: absolute;
+      top: 23px;
+      right: 23px;
+    }
+
+    .photo-list {
+      float: right;
+      width: 350px;
+      box-sizing: border-box;
+      padding: 23px;
+    }
+
+    .photo-list .more {
+      position: absolute;
+      top: 23px;
+      right: 23px;
+    }
+
+    .photo-visual {
+      padding: 0 32px;
+    }
+  }
+
+  /*포토갤러리*/
+  .more {
+    width: 18px;
+    display: block;
+    text-indent: -9999px;
+  }
+
+  .photo-list {
+    position: relative;
+  }
+
+  .photo-list>h2 {
+    font-size: 18px;
+    color: #222;
+    margin-bottom: 25px;
+  }
+
+  /*교육/행사*/
+  .calendar-list .calendar-wrap .sat {
+    color: #0064a4;
+  }
+
+  .calendar-list .calendar-wrap .sun {
+    color: #ea5a33;
+  }
+
+  .calendar-list .calendar-wrap td {
+    padding: 2px 0;
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+    height: 24px;
+    line-height: 24px;
+  }
+
+  .calendar-list .calendar-wrap th {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    height: 24px;
+    line-height: 24px;
+  }
+
+  table caption {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    font-size: 0;
+  }
+
+  .calendar-list .calendar-wrap table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .calendar-list .calendar-wrap {
+    position: relative;
+  }
+
+  .calendar-list .btn {
+    font-size: 16px;
+    color: #666;
+    font-weight: 600;
+    line-height: 19px;
+  }
+
+
+
+  .notice-list>h2 {
+    font-size: 18px;
+    color: #222;
+    margin-bottom: 15px;
+  }
+
+  .notice-list ul li {
+    overflow: hidden;
+    line-height: 2.8em;
+    font-size: 0.7em;
+  }
+
+
+  .calendar-list>h2 {
+    font-size: 18px;
+    color: #222;
+    margin-bottom: 25px;
+  }
+
+  /*main-row3*/
+  @media (min-width: 1100px) {
+    .main-row3 {
+      height: 200px;
+    }
+
+    .toy-link {
+      float: left;
+      width: 304px;
+      border-right: 1px solid #dedede;
+      box-sizing: border-box;
+      padding: 23px;
+      height: 100%;
+    }
+    .quick-service {
+     float: right;
+     width: 834px;
+  }
+
+  }
+  .toy-link ul {
+  overflow: hidden;
+}
+
+
+/*시설찾기*/
+.quick-service img{
+width:95px;
+}
+.quick-service li a {
+  display: block;
+  text-align: center;
+}
+.quick-service li {
+  float: left;
+  width: 16.6%;
+  margin: 0 30px;
+}
+.quick-service ul {
+  overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+  list-style: none;
+  text-align: center;
+}
+.quick-service > h2 {
+  font-size: 18px;
+  color: #222;
+}
+.quick-service {
+  padding: 23px;
+}
+.site-section.site-section-pd {
+  background: white;
+
+}
+
+  .toy-link > h2 {
+  font-size: 18px;
+  color: #222;
+  margin-bottom: 22px;
+  }
+  .toy-link {
+    position: relative;
+  }
+
+  .main-row3 {
+    overflow: hidden;
+    margin-bottom: 30px;
+    border: 1px solid #dedede;
+    margin-top: -1px;
+    box-sizing: border-box;
+    background: white;
+  }
+.main-row2 h2, .main-row3 h2{
+  font-weight: 600;
+}
+
+/*header*/
+.menu-wrap.d-flex.align-items-center {
+  margin-top: 10px;
+}
+ul.site-menu.main-menu.js-clone-nav.mr-auto {
+  font-size: 19px;
+}
+.site-quick-contact.d-none.d-lg-flex.ml-auto {
+  height: 100%;
+}
+
+
+@media (max-width: 1100px) and (min-width: 800px){
+.quick-service img {
+  width: 70px;
+}
+.quick-service li {
+  float: left;
+  width: 19%;
+  margin: 0 10px;
+  font-size: 12px;
+
+}
+.quick-service ul {
+  overflow: hidden;
+  width: 700px;
+  margin: 0 auto;
+  list-style: none;
+  text-align: center;
+}
+.quick-service {
+    float: right;
+    width: 70%;
+}
+.toy-link {
+  float: left;
+  width: 30%;
+  border-right: 1px solid #dedede;
+  box-sizing: border-box;
+  padding: 23px;
+  height: 100%;
+}
+.notice-list {
+  float: left;
+  width: 30%;
+  height: 255px;
+  border-right: 1px solid #dedede;
+  box-sizing: border-box;
+  padding: 23px;
+}
+.calendar-list {
+  float: left;
+  width: 30%;
+  box-sizing: border-box;
+  padding: 23px;
+} 
+.photo-list {
+float: right;
+  width: 40%;
+  box-sizing: border-box;
+  padding: 23px;
+  height: 100%;
+  border-left: 1px solid #dedede;
+}
+}
+
+
+@media (max-width: 800px) and (min-width: 600px){
+.quick-service {
+    clear: both;
+    width: 100%;
+    padding: 23px 0;
+}
+.m-toy-link {
+  float: right;
+  width: 50%;
+  height: 255px;
+  box-sizing: border-box;
+  padding: 23px;
+  height: 100%;
+}
+.photo-list {
+  float: left;
+  width: 50%;
+  height: 255px;
+  border-right: 1px solid #dedede;
+  box-sizing: border-box;
+  padding: 23px;
+}
+.calendar-list {
+  float: left;
+  width: 50%;
+  height: 255px;
+  border-bottom: 1px solid #dedede;
+  box-sizing: border-box;
+  padding: 23px;
+}
+.notice-list {
+  float: left;
+  width: 50%;
+  height: 255px;
+  border-right: 1px solid #dedede;
+  border-bottom: 1px solid #dedede;
+  box-sizing: border-box;
+  padding: 23px;
+}
+
+}

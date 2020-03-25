@@ -1,0 +1,894 @@
+<!-- <!DOCTYPE html> -->
+<html lang="en">
+
+<head>
+    <title>Kiddy &mdash; Website Template by Colorlib</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans:300,400,700|Indie+Flower" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="../css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="../css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="../fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="../css/aos.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Index CSS -->
+    <link rel="stylesheet" href="../css/index.css">
+
+
+    <!--hospital CSS -->
+    <link rel="stylesheet" href="../css/hospital/Booking.css">
+    <link rel="stylesheet" href="../css/fullCalendar/core/main.css">
+    <script src='../js/fullCalendar/core/main.js'></script>
+    <script src='../js/fullCalendar/dayGrid/main.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['dayGrid']
+            });
+
+            calendar.render();
+        });
+    </script>
+    <style>
+        .hospital-map {
+            width: 100%;
+            height: 300px;
+            background: green;
+        }
+
+        input#hospital {
+            width: 100%;
+        }
+    </style>
+    <style>
+        .rsvClinicWrap {
+            width: 730px;
+            height: 241px;
+            padding: 30px;
+            border: 5px solid #fff;
+            background-color: #fff;
+            width: 100%;
+            height: auto;
+        }
+
+        .rsvClinicWrap.current {
+            border-color: #2763ba;
+        }
+
+        .boardInfo {
+            position: relative;
+            height: 40px;
+            margin-bottom: 30px;
+        }
+
+        .rsvClinicWrap .contTabWrap {
+            float: left;
+        }
+
+        .rsvClinicWrap li {
+            float: left;
+        }
+
+        .rsvClinicWrap a {
+            display: block;
+            width: 108px;
+            height: 38px;
+            margin-left: -1px;
+            border: 1px solid #ccc;
+            color: #666;
+            text-align: center;
+            line-height: 2.3;
+        }
+
+        .rsvClinicWrap .current a {
+            border-color: #2263bb;
+            color: #fff !important;
+            background-color: #2263bb;
+        }
+
+        ul.contTabWrap.feTab {
+            list-style: none;
+        }
+
+        .rsvClinicList {
+            overflow: hidden;
+            position: relative;
+            height: 160px;
+            padding: 0 31px;
+            border: 1px solid #000;
+            border-width: 2px 0 1px;
+        }
+
+        .rsvClinicList .feSlItem {
+            width: 678px;
+            height: auto;
+        }
+
+        .rsvClinicList .feFoRadio {
+            overflow: visible;
+            width: 30%;
+            margin-top: 16px;
+            font-size: 14px;
+            background: none;
+
+        }
+
+        [class*=feFo]>input,
+        [class*=feFo]>select {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .rsvClinicList .checked span {
+            border-bottom: 1px solid #2763ba;
+            color: #2763ba;
+        }
+
+        /*의료진 목록*/
+
+        .rsvDoctorWrap.current {
+            border-color: #2763ba;
+        }
+
+        .rsvDoctorWrap {
+            width: 100%;
+            height: auto;
+            margin-top: 20px;
+            padding: 22px 30px 30px;
+            border: 5px solid #fff;
+            background-color: #fff;
+        }
+
+        .rsvDoctorWrap .contTitleWrap {
+            position: relative;
+            margin: 0 0 30px;
+        }
+
+        .contTitleWrap>:first-child {
+            float: left;
+            font-size: 28px;
+            letter-spacing: -2.1px;
+        }
+
+        .rsvDoctorWrap .contTitleWrap> :first-child>span {
+            margin-left: 5px;
+            color: #2763ba;
+        }
+
+        .contTitleWrap>:first-child>span {
+            display: inline-block;
+            margin-left: 14px;
+            font-size: 20px;
+        }
+
+        .rsvDoctorList {
+            width: 100%;
+            border: 1px solid #333;
+            border-width: 2px 0 1px;
+        }
+
+        .contTitleWrap {
+            position: relative;
+            margin: 0 0 30px;
+            height: 30px;
+        }
+
+        .rsvDoctorInfo {
+            position: relative;
+            height: 197px;
+            padding-left: 130px;
+        }
+
+        .rsvDoctorInfo .thumb img {
+            width: 110px;
+            height: 136px;
+        }
+
+        .rsvDoctorList>ul {
+            width: 100%;
+            display: none;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            position: relative;
+            height: 740px;
+            margin-right: -37px;
+            padding-right: 20px;
+            list-style: none;
+            padding-left: 0 !important;
+            height: 500px;
+        }
+
+        .rsvDoctorList li:nth-child(odd) {
+            margin-left: 0;
+        }
+
+        .rsvDoctorList li {
+            float: left;
+            position: relative;
+            margin-left: 40px;
+            padding: 24px 0 25px;
+            border: 0;
+        }
+
+        .rsvDoctorInfo .info {
+            position: relative;
+            width: 159px;
+        }
+
+        .rsvDoctorInfo .thumb {
+            position: absolute;
+            top: 6px;
+            left: 0;
+        }
+
+        .rsvDoctorInfo .name {
+            display: inline-block;
+            position: relative;
+            max-width: 110px;
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .rsvDoctorInfo em {
+            display: block;
+            overflow: hidden;
+            margin: 11px 0 2px;
+            font-size: 18px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-style: normal;
+        }
+
+        .rsvDoctorInfo em {
+            display: block;
+            overflow: hidden;
+            margin: 11px 0 2px;
+            font-size: 18px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .rsvDoctorInfo p {
+            overflow: hidden;
+            max-height: 104px;
+            color: #666;
+            word-break: keep-all;
+            line-height: 1.63;
+        }
+
+        .rsvDoctorInfo p span {
+            margin-right: 4px;
+        }
+
+        .rsvDoctorInfo button {
+            overflow: hidden;
+            position: absolute;
+            top: 154px;
+            left: 0;
+            z-index: 1;
+            width: 110px;
+            height: 40px;
+            font-size: 15px;
+            white-space: nowrap;
+            border-color: #2763ba;
+            color: #2763ba;
+            font-weight: 600;
+            border: 1.5px solid;
+        }
+
+        .rsvDoctorInfo button:hover {
+            border-color: #2763ba;
+            color: white;
+            background-color: #2763ba;
+        }
+
+        /*진료일정*/
+        .rsvScheduleWrap {
+            width: 100%;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .rsvScheduleWrap>div {
+            padding: 30px;
+            background-color: #fff;
+        }
+
+        .rsvScheduleWrap h4 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .rsvScheduleWrap>div{
+            background-color:#f3f3f3;
+        }
+
+.rsvScheduleWrap h2{
+    font-size: 17px;
+    font-weight: 600;
+}
+.rsvSchedule .time .feFoRadio {
+    width: auto;
+    margin: 0 4px 15px;
+    text-align: center;
+    background: none;
+}
+.rsvSchedule .time{
+    padding: 30px 0;
+}
+.rsvSchedule table{
+    background: white;
+}
+.rsvSchedule .time span{
+    font-weight: 600;
+    border: 2px solid rgb(230, 223, 223);;
+    padding: 5px 6px;
+    display: inline-block;
+    background: white;
+
+}
+.rsvSchedule .time span:hover {
+    border-color: #2763ba;
+    color: white;
+    background-color: #2763ba;
+}
+.rsvInfoWrap {
+    margin-left: 20px;
+    background-color: #2763ba;
+    width: 100%;
+    height: 311px;
+}   
+.rsvInfoWrap .user {
+    padding-top: 24px;
+}
+.rsvInfoWrap h3 {
+    margin-bottom: 25px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+}
+.rsvInfoWrap > div {
+    padding: 30px;
+    color: #fff;
+}
+.rsvInfoWrap .btnWrap {
+    margin-top: 7px;
+    text-align: left;
+}
+.rsvInfoWrap dl {
+    overflow: hidden;
+}
+
+.rsvInfoWrap .info {
+    padding-top: 0;
+}
+.rsvInfoWrap li:first-child {
+    margin-top: 0;
+}
+.rsvInfoWrap li {
+    margin-top: 5px;
+}
+.rsvInfoWrap [class*=btnType] {
+    width: 92px;
+    height: 30px;
+    margin: 0 10px 0 0;
+    padding: 0;
+    border: 1px solid #fff;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    line-height: normal;
+    background-color: transparent;
+}
+[class*=btnWrap] {
+    display: block;
+    position: relative;
+    margin-top: 30px;
+    text-align: right;
+}
+.info ul{
+    list-style: none;
+    padding:0 !important;  
+}
+.info {
+    font-weight: 400;
+}
+.rsvInfoWrap li em {
+    color: #64dbc6;
+    font-style: normal;
+}
+
+.reserve-btn {
+    width: 100%;
+    height: 100px;
+    margin-top: 20px;
+    padding: 0;
+    color: #fff;
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: -1.2px;
+    line-height: normal;
+    background-color: #2763ba;
+    margin-left:20px;
+
+}
+    </style>
+</head>
+
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+
+
+    <div class="site-wrap" id="home-section">
+
+        <div class="site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div>
+
+
+
+        <header class="site-navbar site-navbar-target" role="banner">
+
+            <div class="container mb-3">
+                <div class="d-flex">
+                    <div class="site-logo mr-auto">
+                        <a href="../index.html">아이그레<span class="text-primary">.</span></a>
+                    </div>
+                    <div class="site-quick-contact d-none d-lg-flex ml-auto ">
+                        <div class="d-flex site-info site-quick">
+                            <div class="site-quick-text">
+                                <!--로그인 -->
+                                <a href="${pageContext.request.contextPath }/member/login.do">
+                                    <span style="color: black !important;">로그인</span>
+                                </a>
+                            </div>
+                            <div class="site-quick-text">
+                                <!--마이페이지 -->
+                                <a href="${pageContext.request.contextPath}/member/myPage/memberUpdate.do">
+                                    <span style="color: black !important;">마이페이지</span>
+                                </a>
+                            </div>
+                            <div class="site-quick-text" style=" border-left: 1.4px solid rgba(136, 131, 131, 0.849)">
+                                <!--쇼핑몰 -->
+                                <a href="../shop_html/shop.html">
+                                    <span style="color: black !important; padding-left: 20px; ">
+                                        아이그레몰
+                                        <img src="../images/index/circled-right-icoon.png" width="17px"
+                                            style="margin-bottom:3px;" alt="">
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container">
+                <div class="menu-wrap d-flex align-items-center">
+                    <span class="d-inline-block d-lg-none"><a href="#"
+                            class="text-black site-menu-toggle js-menu-toggle py-5"><span
+                                class="icon-menu h3 text-black"></span></a></span>
+
+
+
+                    <nav id="colorNav" class="site-navigation text-left mr-auto d-none d-lg-block" role="navigation">
+                        <ul class="site-menu main-menu js-clone-nav mr-auto">
+                            <li id="sub-title-1"><a href="#none" class="nav-link">임신</a></li>
+                            <li id="sub-title-2"><a href="#none" class="nav-link">육아</a></li>
+                            <li id="sub-title-3"><a href="#none" class="nav-link">상담센터</a></li>
+                            <li id="sub-title-4"><a href="#none" class="nav-link">병원예약</a></li>
+                            <li id="sub-title-5"><a href="#none" class="nav-link">시설찾기</a></li>
+                            <li id="sub-title-6"><a href="#none" class="nav-link">커뮤니티</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="ml-auto site-nav-right">
+                        <div class="top-social ml-auto">
+                            <a href="#"><span class="icon-facebook text-teal"></span></a> <a href="#"><span
+                                    class="icon-twitter text-success"></span></a> <a href="#"><span
+                                    class="icon-instagram text-yellow"></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container sub-menu-inner" id="sub-1">
+                <div class="inner_middle">
+                    <div class="sub-title ">
+                        <p class="li-title">임신</p>
+                    </div>
+                    <ul class="depth-2">
+                        <!-- 임신 여기서부터 링크 이동 -->
+                        <li><a href="">임신정보</a></li>
+                        <li><a href="">산부인과</a></li>
+                        <li><a href="">산후조리원</a></li>
+                        <li><a href="">임신상담</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container sub-menu-inner" id="sub-2">
+                <div class="inner_middle">
+                    <div class="sub-title ">
+                        <p class="li-title">육아</p>
+                    </div>
+                    <ul class="depth-2">
+                        <!-- 육아 여기서부터 링크 이동 -->
+                        <li><a href="">육아정보</a></li>
+                        <li><a href="">아이지킴이</a></li>
+                        <li><a href="">소아과</a></li>
+                        <li><a href="">육아상담</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container sub-menu-inner" id="sub-3">
+                <div class="inner_middle">
+                    <div class="sub-title ">
+                        <p class="li-title">상담센터</p>
+                    </div>
+                    <ul class="depth-2">
+                        <!-- 상담센터 여기서부터 링크 이동 -->
+                        <li><a href="">온라인상담</a></li>
+                        <li><a href="">오프라인상담</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container sub-menu-inner" id="sub-4">
+                <div class="inner_middle">
+                    <div class="sub-title ">
+                        <p class="li-title">병원예약</p>
+                    </div>
+                    <ul class="depth-2">
+                        <!-- 병원 여기서부터 링크 이동 -->
+                        <li><a href="#">산부인과</a></li>
+                        <li><a href="#">소아과</a></li>
+                        <li><a href="#">산후조리원</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container sub-menu-inner" id="sub-5">
+                <div class="inner_middle">
+                    <div class="sub-title ">
+                        <p class="li-title">시설찾기</p>
+                    </div>
+                    <ul class="depth-2">
+                        <!-- 시설찾기 여기서부터 링크 이동 -->
+                        <li><a href="">어린이집 찾기</a></li>
+                        <li><a href="#">복지센터 찾기</a></li>
+                        <li><a href="#">병원 찾기</a></li>
+                        <li><a href="#">약국 찾기</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container sub-menu-inner" id="sub-6">
+                <div class="inner_middle">
+                    <div class="sub-title ">
+                        <p class="li-title">커뮤니티</p>
+                    </div>
+                    <ul class="depth-2">
+                        <!-- 게시판 여기서부터 링크 이동 -->
+                        <li><a href="../../board/notice.html">공지사항</a></li>
+                        <li><a href="#">교육 및 행사</a></li>
+                        <li><a href="#">자료실</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <div class="ftco-blocks-cover-1">
+            <div class="site-section-cover overlay" data-stellar-background-ratio="0.5"
+                style="background-image: url('images/hero_1.jpg')">
+                <div class="container">
+                    <div class="row align-items-center ">
+                        <div class="col-md-5 mt-5 pt-5">
+                            <h1 class="mb-3 font-weight-bold text-teal">온라인 병원예약</h1>
+                            <p><a href="index.html" class="text-white">Home</a> <span class="mx-3">/</span>
+                                <strong>병원예약</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- contents begin-->
+        <div class="site-section">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <!-- contents begin-->
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="rsvClinicWrap current">
+                                    <!--병원 및 병과 선택-->
+                                    <!-- boardInfo -->
+                                    <div class="boardInfo clearFix">
+                                        <ul class="contTabWrap feTab" data-tab-group="feTab1Gr0" role="tablist">
+                                            <li class="current"><a href="#pub" onclick="detpList('1','');" role="tab"
+                                                    aria-selected="true">산부인과</a></li>
+                                            <li><a href="#cancer" onclick="detpList('G','');" role="tab"
+                                                    aria-selected="false">소아과</a></li>
+                                            <li><a href="#child" onclick="detpList('2','');" role="tab"
+                                                    aria-selected="false">산후조리원</a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- //boardInfo -->
+                                    <!-- 병원리스트 -->
+                                    <div id="pub" class="rsvClinicList feTabCont slideWrap feSlide" role="tabpanel"
+                                        aria-hidden="false" data-tab-group="feTab1Gr0" style="display: block;">
+                                        <div class="feSlMask"
+                                            style="overflow: hidden; position: relative; width: 678px; height: 178px;">
+                                            <div class="feSlWrap"
+                                                style="overflow: hidden; position: absolute; top: 0px; left: 0px; width: 2712px; height: 178px;">
+                                                <div class="feSlItem current" id="feSlItem-pub1" style="float: left;">
+                                                    <label class="feForm feFoRadio" for="feFoRadioIdx3">
+                                                        <input type="radio" name="clinic" value="IMR"
+                                                            onclick="doctorList(&quot;1&quot;,&quot;IMR&quot;);"
+                                                            title="산부인과병원1" id="feFoRadioIdx3"
+                                                            data-fe-idx="feFoRadioIdx3" style="opacity: 0;">
+                                                        <span>산부인과병원1</span>
+                                                    </label>
+                                                    <label class="feForm feFoRadio" for="feFoRadioIdx4">
+                                                        <input type="radio" name="clinic" value="IMC"
+                                                            onclick="doctorList(&quot;1&quot;,&quot;IMC&quot;);"
+                                                            title="산부인과병원2" id="feFoRadioIdx4"
+                                                            data-fe-idx="feFoRadioIdx4"
+                                                            style="opacity: 0;"><span>산부인과병원2</span>
+                                                    </label>
+                                                    <label class="feForm feFoRadio" for="feFoRadioIdx5"><input
+                                                            type="radio" name="clinic" value="IMG"
+                                                            onclick="doctorList(&quot;1&quot;,&quot;IMG&quot;);"
+                                                            title="산부인과병원3" id="feFoRadioIdx5"
+                                                            data-fe-idx="feFoRadioIdx5"
+                                                            style="opacity: 0;"><span>산부인과병원3</span>
+                                                    </label>
+                                                    <label class="feForm feFoRadio" for="feFoRadioIdx5"><input
+                                                            type="radio" name="clinic" value="IMG"
+                                                            onclick="doctorList(&quot;1&quot;,&quot;IMG&quot;);"
+                                                            title="산부인과병원3" id="feFoRadioIdx5"
+                                                            data-fe-idx="feFoRadioIdx5"
+                                                            style="opacity: 0;"><span>산부인과병원4</span>
+                                                    </label>
+                                                    <label class="feForm feFoRadio" for="feFoRadioIdx5"><input
+                                                            type="radio" name="clinic" value="IMG"
+                                                            onclick="doctorList(&quot;1&quot;,&quot;IMG&quot;);"
+                                                            title="산부인과병원3" id="feFoRadioIdx5"
+                                                            data-fe-idx="feFoRadioIdx5"
+                                                            style="opacity: 0;"><span>산부인과병원5</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--//병원리스트-->
+                                    </div>
+
+                                </div>
+
+                                <div class="rsvDoctorWrap current">
+                                    <div class="contTitleWrap">
+                                        <h3>의료진 목록<span id="doctorCnt">( 9 )</span></h3>
+                                    </div>
+                                    <div class="rsvDoctorList">
+                                        <ul id="doctorList" style="display: block;">
+                                            <li>
+                                                <div class="rsvDoctorInfo">
+                                                    <div class="thumb">
+                                                        <img src="/upload/med/dr/1012352_00750_01.jpg" >
+                                                    </div>
+                                                    <div class="info">
+                                                        <em class="name">윤보현</em>
+                                                        <em>산부인과</em>
+                                                        <p>
+                                                            <span>세부전공 :</span>
+                                                            습관성유산, 정상임신, 산모질환, 조산, 고위험임신, 쌍태아임신, 태아기형, 자궁무력증
+                                                        </p>
+                                                    </div>
+                                                    <button type="button" class="btn btn-outline-primary"
+                                                        data-docid="00750"
+                                                        onclick="setDoctor(this,'IMR','00750','김영환','N','호흡기내과'); ">선택</button>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="rsvDoctorInfo">
+                                                    <div class="thumb">
+                                                        <img src="/upload/med/dr/1012352_00750_01.jpg" >
+                                                    </div>
+                                                    <div class="info">
+                                                        <em class="name">윤보현</em>
+                                                        <em>산부인과</em>
+                                                        <p>
+                                                            <span>세부전공 :</span>
+                                                            습관성유산, 정상임신, 산모질환, 조산, 고위험임신, 쌍태아임신, 태아기형, 자궁무력증
+                                                        </p>
+                                                    </div>
+                                                    <button type="button" class="btn btn-outline-primary"
+                                                        data-docid="00750"
+                                                        onclick="setDoctor(this,'IMR','00750','김영환','N','호흡기내과'); ">선택</button>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="rsvDoctorInfo">
+                                                    <div class="thumb">
+                                                        <img src="/upload/med/dr/1012352_00750_01.jpg" >
+                                                    </div>
+                                                    <div class="info">
+                                                        <em class="name">윤보현</em>
+                                                        <em>산부인과</em>
+                                                        <p>
+                                                            <span>세부전공 :</span>
+                                                            습관성유산, 정상임신, 산모질환, 조산, 고위험임신, 쌍태아임신, 태아기형, 자궁무력증
+                                                        </p>
+                                                    </div>
+                                                    <button type="button" class="btn btn-outline-primary"
+                                                        onclick="setDoctor(this,'IMR','00750','김영환','N','호흡기내과'); ">선택</button>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="rsvDoctorInfo">
+                                                    <div class="thumb">
+                                                        <img src="/upload/med/dr/1012352_00750_01.jpg" >
+                                                    </div>
+                                                    <div class="info">
+                                                        <em class="name">윤보현</em>
+                                                        <em>산부인과</em>
+                                                        <p>
+                                                            <span>세부전공 :</span>
+                                                            습관성유산, 정상임신, 산모질환, 조산, 고위험임신, 쌍태아임신, 태아기형, 자궁무력증
+                                                        </p>
+                                                    </div>
+                                                    <button type="button" class="btn btn-outline-primary"
+                                                        onclick="setDoctor(this,'IMR','00750','김영환','N','호흡기내과'); ">선택</button>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="rsvDoctorInfo">
+                                                    <div class="thumb">
+                                                        <img src="/upload/med/dr/1012352_00750_01.jpg" >
+                                                    </div>
+                                                    <div class="info">
+                                                        <em class="name">윤보현</em>
+                                                        <em>산부인과</em>
+                                                        <p>
+                                                            <span>세부전공 :</span>
+                                                            습관성유산, 정상임신, 산모질환, 조산, 고위험임신, 쌍태아임신, 태아기형, 자궁무력증
+                                                        </p>
+                                                    </div>
+                                                    <button type="button" class="btn btn-outline-primary"
+                                                        onclick="setDoctor(this,'IMR','00750','김영환','N','호흡기내과'); ">선택</button>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <div class="rsvScheduleWrap">
+                                    <div>
+                                        <h4>진료일정</h4>
+                                        <!-- rsvSchedule -->
+                                        <div class="rsvSchedule" style="display: block;">
+                                            <!-- calendarWrap -->
+                                            <div class="calendarWrap">
+                                                <!-- calendar -->
+                                                <div id="calendar"></div>
+                                                <!-- //calendar -->
+                                            </div>
+                                            <!-- //calendarWrap -->
+                                            <!-- time -->
+                                            <div class="time current" style="display: block;">
+                                                <label class="feForm feFoRadio" for="feFoRadioIdx82">
+                                                    <input type="radio" name="time" class="rsvTime" title="13:30"
+                                                        id="feFoRadioIdx82" data-fe-idx="feFoRadioIdx82"
+                                                        style="opacity: 0;">
+                                                    <span>13:30</span></label><label class="feForm feFoRadio"
+                                                    for="feFoRadioIdx83">
+                                                    <input type="radio" name="time" class="rsvTime" title="13:45"
+                                                        id="feFoRadioIdx83" data-fe-idx="feFoRadioIdx83"
+                                                        style="opacity: 0;"><span>13:45</span></label><label
+                                                    class="feForm feFoRadio" for="feFoRadioIdx84"><input type="radio"
+                                                        name="time" class="rsvTime" title="14:00" id="feFoRadioIdx84"
+                                                        data-fe-idx="feFoRadioIdx84"
+                                                        style="opacity: 0;"><span>14:00</span></label><label
+                                                    class="feForm feFoRadio" for="feFoRadioIdx85"><input type="radio"
+                                                        name="time" class="rsvTime" title="14:15" id="feFoRadioIdx85"
+                                                        data-fe-idx="feFoRadioIdx85"
+                                                        style="opacity: 0;"><span>14:15</span></label></div>
+                                            <!-- //time -->
+                                        </div>
+                                        <!-- //rsvSchedule -->
+                                    </div>
+                                </div>
+                                <!--예약할정보확인-->
+                                <div class="rsvInfoWrap">
+                                        <div class="user">
+                                            <h3>예약하실 정보확인</h3>
+                                            <dl>
+                                                <dt>이진희</dt>
+                                            </dl>
+                                            <div class="btnWrap">
+                                                <button type="button" class="btnType01 layerBtn" data-layer="layerInfoCheck">정보확인</button>
+                                            </div>
+                                        </div>
+                                        <div class="info">
+                                            <ul>
+                                                <li>병원/진료과&nbsp; : &nbsp; <em class="" style="display: inline;">산부인과병원1/산부인과</em></li>
+                                                <li>의료진&nbsp; : &nbsp;<em class="" style="display: inline;">윤보현</em>&nbsp;&nbsp; <span class="" style="display: none;">선택진료</span></li>
+                                                <li>진료일시&nbsp; : &nbsp;<em class="" style="">2020-03-24 13:30</em></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!--예약할정보확인 끝-->
+                                <button type="button" class="btnType reserve-btn" onclick="validate();">예약확정하기</button>
+                            </div>
+                        </div>
+                        <!-- contents end-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- contents end-->
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <img src="" alt="">
+                        <p>아이그레로고</p>
+                    </div>
+                    <div class="col-lg-8">
+                        <p class="">서울특별시 그래구 그레로 123 </p>
+                        <p class="">TEL : 육아종합지원센터 02-123-1234 &nbsp;&nbsp;|&nbsp;&nbsp; FAX : 02-456-4567
+                            &nbsp;&nbsp;|&nbsp;&nbsp;Mail : i_gre@gmail.com</p>
+                        <p>Copyright(c) 2020 아이그레. All rights reserved.</a> </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+
+
+        <script src="../js/jquery-3.3.1.min.js"></script>
+        <script src="../js/jquery-migrate-3.0.0.js"></script>
+        <script src="../js/popper.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/owl.carousel.min.js"></script>
+        <script src="../js/jquery.sticky.js"></script>
+        <script src="../js/jquery.waypoints.min.js"></script>
+        <script src="../js/jquery.animateNumber.min.js"></script>
+        <script src="../js/jquery.fancybox.min.js"></script>
+        <script src="../js/jquery.stellar.min.js"></script>
+        <script src="../js/jquery.easing.1.3.js"></script>
+        <script src="../js/bootstrap-datepicker.min.js"></script>
+        <script src="../js/aos.js"></script>
+
+        <script src="../js/main.js"></script>
+        <!--서브메뉴 js-->
+        <script src="../js/subMenu/subMenu.js"></script>
+</body>
+
+</html>

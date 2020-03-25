@@ -1,0 +1,119 @@
+
+
+ul.menu {
+  padding: 0;
+    list-style: none;
+    width: 300px;
+    margin: 20px auto;
+    clear: both;
+    display: table;
+    margin-bottom: 100px;
+    border: 1px solid #ccc;
+    border-width: 1px;
+    border-radius: 7px;
+    background: #fff;
+    overflow: hidden;
+}
+ul.menu .list {
+  font-size: 16px;
+  /*border-bottom: 1px solid #324252;*/
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  height: 60px;
+  vertical-align: sub;
+  background: white;
+  clear: both;
+}
+ul.menu .list:after {
+  position: absolute;
+  right: 17px;
+  top: 17px;
+  padding: 0px 5px;
+  color: black;
+}
+ul.menu .list:before {
+  position: absolute;
+  left: 17px;
+  top: 17px;
+  padding: 0px 5px;
+  color: black;
+}
+ul.menu .list a {
+  text-decoration: none;
+  color: black;
+  padding: 17px 0px 17px 40px;
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+}
+ul.menu .list a:hover {
+
+  transition: 300ms all;
+  color: black;
+}
+ul.menu .list .items {
+  height: 0px;
+  overflow: hidden;
+}
+ul.menu .list .items a {
+  padding: 17px 40px;
+}
+ul.menu .list .items a:hover {
+  background-color: #2c786c;
+  color: #fff;
+  transition: 300ms all;
+}
+ul.menu .list:last-child {
+  border-bottom: none;
+}
+ul.menu .active:after {
+  position: absolute;
+  right: 17px;
+  top: 17px;
+  padding: 0px 5px;
+  color: #fff;
+}
+ul.menu .active:before {
+  position: absolute;
+  left: 17px;
+  top: 17px;
+  padding: 0px 5px;
+  color: #fff;
+}
+ul.menu .active > .items {
+  display: block;
+  background: #f5f5f5;
+  padding: 0px;
+  height: auto;
+  color: #fff;
+  transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: all 900ms;
+  clear: both;
+  float: left;
+  width: 100%;
+}
+ul.menu .active > .items li {
+  padding: 0px;
+  /*border-bottom: 1px solid #324252;*/
+  list-style: none;
+}
+ul.menu .active > .items li:last-child {
+  border-color: transparent;
+  padding-bottom: 0px;
+}
+ul.menu .active > .items .active > .items {
+  background-color: #f5f5f5;;
+}
+ul.menu .active > a {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+ul.menu .active .list {
+  background: #697d92;
+}
+ul.menu .active .list a {
+  padding: 17px 0px 17px 45px;
+}
+
+

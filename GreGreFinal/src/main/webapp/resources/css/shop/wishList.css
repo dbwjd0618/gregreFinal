@@ -1,0 +1,33 @@
+th.title-col {
+    padding-left: 44px !important;
+}
+
+table.tbl-col thead th {
+    padding: 17px 13px 15px;
+    color: #000;
+    font-size: 14px;
+    line-height: 18px;
+    border-bottom: 1px solid #aaa;
+    vertical-align: middle;
+    letter-spacing: -0.03em;
+    text-align: center;
+    }
+    table.tbl-col td {
+    padding: 25px 13px 23px;
+    color: #000;
+    font-size: 14px;
+    line-height: 22px;
+    vertical-align: middle;
+    text-align: center;
+    letter-spacing: -0.03em;
+    }
+    .aleft {
+    text-align: left !important;
+    }
+    .tbl-col{
+        width:100%;
+        border-top: 2px solid black;
+    }
+    .tbl-col td{
+        border-bottom:1px solid #aaa;
+    }

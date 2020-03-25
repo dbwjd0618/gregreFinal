@@ -1,0 +1,54 @@
+@import url("http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
+@import url("http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js");
+@import url("https://use.fontawesome.com/releases/v5.0.8/css/all.css");
+@import url("//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js");
+
+.imgmini{width:100%;max-height:560px;}
+
+.main-logo {
+    width: 14% !important;
+    margin: 0;
+}
+button.btn.btn-primary.btn-block {
+    font-weight: 400;
+    padding: 40px 0;
+    font-size: 18px;
+    margin-top: 8px;
+}
+      article.card-body {
+    padding: 3rem 5rem;
+}
+.site-section{
+        margin-bottom: 100px !important;
+        margin-top: 40px !important;
+
+}
+body {
+        background-color: #F5F5F5;
+}
+    .card-body{
+        background-color: white;
+    }
+.site-section .container{
+    margin-top: 100px;
+}
+.site-quick-text p{
+    font-size: 14px;
+}
+.site-quick-text{
+    /* padding-top:40px; */
+    margin: 0 !important;
+}
+.login-text p {
+
+    margin-bottom: 5px;
+}
+
+.col-md-12.text-center.login-text {
+    margin-bottom: 35px;
+}
+
+div#memberId-container{position:relative; padding:0px;}
+div#memberId-container span.guide {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
+div#memberId-container span.ok{color:green;}
+div#memberId-container span.error{color:red;}

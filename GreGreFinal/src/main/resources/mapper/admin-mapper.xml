@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="admin">
+ 
+ 	<select id="selectOne" resultMap="adminMap">
+ 		select 
+		    member_id admin_Id, member_pwd admin_Pwd, grade
+		from 
+			tb_member_info
+		where
+			member_id = #{adminId} and grade = 'A'
+ 	</select>
+ 	
+ 	<resultMap type="admin" id="adminMap">
+ 	</resultMap>
+ 	
+ 	<select id="list" resultType="Amember">
+	 	select
+		    *
+		from
+		    tb_member_info
+		where
+		    grade = 'M'
+ 	</select>
+ 
+ </mapper>

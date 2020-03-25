@@ -1,0 +1,375 @@
+body, h1, h2, j3, h4, p, div, ul, ol, li, input{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-size: 16px;
+}
+div{
+    display: block;
+}
+.counselor-search-container{
+    overflow: hidden;
+    width: 960px;
+    padding: 32px 0 20px;
+    margin: auto;
+}
+
+article, section{
+    display: block;
+    box-sizing: border-box;
+}
+
+@media (min-width: 1024px){
+body, button, input, select, textarea, table{
+        font-family: 'NanumBarunGothic', 'sans-serif';
+        color: #333333;
+    }   
+}
+
+.search-top-menu{
+    margin-bottom: 16px;
+}
+.counselor-filter{
+    width: 296px;
+    float: left;
+    padding: 8px;
+    background-color: #f2f2f2;
+}
+
+.counselor-filter-search{
+    position: relative;
+    padding: 16px;
+    margin-bottom: 8px;
+    background: white;
+}
+
+.search-title{
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+}
+
+h3 {
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.counselor-search-input-box{
+    
+}
+
+.counselor-search-input-box input{
+    width: 100%;
+    padding-left: 32px;
+    line-height: 1.5;
+    font-size: 16px;
+}
+
+.counselor-search-input-box button{
+    width: 48px;
+    height: 56px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: url(/images/search.png) no-repeat 16px center;
+    background-size: 24px auto;
+    text-indent: -9999px;
+}
+
+button{
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.counselor-filter-search-keyword{
+    position: relative;
+    padding: 16px;
+    margin-bottom: 8px;
+    background: white;
+}
+
+.keyword-title{
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.75;
+}
+
+.problem-checkbox-wrapper{
+    overflow: hidden;
+    margin: 12px 0 0 0;
+}
+
+.counselor-detail-select:last-child{
+    margin-bottom: 0;
+}
+
+.counselor-detail-select{
+    position: relative;
+    padding: 16px;
+    margin-bottom: 8px;
+    background: white;
+}
+
+.detail-select-title{
+    position: relative;
+    padding-bottom: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.75;
+}
+
+.counselor-detail-checkbox-wrapper:nth-child(2){
+    margin-top: 24px;
+}
+
+.counselor-detail-checkbox-wrapper h4{
+    margin-bottom: 10px;
+    line-height: 1.5;
+    color: #757575;
+}
+
+.level-checkbox1{
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.level-checkbox2{
+    display: inline-flex;
+    margin-right: 22px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.level-checkbox3{
+    display: inline-flex;
+    margin-right: 22px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.counselor-pay-level{
+    position: absolute;
+    right: 0;
+    top: 2px;
+    font-size: 14px;
+}
+
+.counselor-detail-checkbox-wrapper{
+    margin-top: 34px;
+}
+
+.counselor-detail-select:last-child{
+    margin-bottom: 0;
+}
+
+.counselor-list{
+    position: relative;
+    float: left;
+    width: calc(100% - 320px);
+    margin-left: 24px;
+}
+
+.list-filter-wrapper{
+    padding: 8px 0;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #333;
+}
+.counselor-search-list-num{
+    line-height: 1.5;
+}
+
+.search-result-count{
+    font-weight: bold;
+}
+
+em{
+    font-style: normal;
+}
+
+.counselor-list-wrapper{
+    
+}
+
+.counselor-info{
+    position: relative;
+    width: 66%;
+    height: 220px;
+    margin-left: 34%;
+    margin-bottom: -68px;
+    border: 1px solid #e0e0e0;
+    margin-top: 8%;
+}
+
+.counselor-info-name{
+    margin: 38px 0 0 160px;
+    cursor: pointer;
+}
+
+.counselor-name{
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+.counselor-simple-greetings{
+    overflow: hidden;
+    width: calc(100% - 80px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+    color: #757575;
+}
+
+.counselor-list-preview{
+    margin-top: 4px;
+}
+
+/* 평점 */
+ul, ol, li{
+    list-style: none;
+}
+
+.star-score__wrap--middle .is-all {
+    background-position: -20px 0;
+}
+
+.star-score__wrap--middle .is-half {
+    background-position: -40px 0;
+}
+
+.star-score__ico:last-child {
+    margin-right: 0;
+}
+
+.star-score__wrap--middle .star-score__ico {
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+    background-size: auto 20px;
+}
+
+.star-score__ico {
+    float: left;
+    background: url(https://trost-asset-images.s3-accelerate.amazonaws.com/service/partner/review_ico_star_small.png) no-repeat;
+    background-position: 0 0;
+}
+
+.partner-list-box__review-score {
+    display: inline-block;
+    margin-left: 8px;
+    line-height: 1.5;
+    color: #757575;
+}
+
+.counselor-img{
+    position: absolute;
+    left: 24px;
+    top: 26px;
+}
+.counselor-img img{
+    display: inline-block;
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+}
+
+img{
+    border: 0 none;
+}
+
+.counselor-type{
+    height: 55px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.counselor-type{
+    overflow: hidden;
+    padding: 15px 0 16px 0;
+}
+.counselling-type{
+    margin-left: 35px;
+}
+
+.counselling-type >li{
+    float: left;
+    margin-right: 8px;
+    font-size: 14px;
+    line-height: 1.71;
+}
+
+.counselor-price{
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.6;
+    position: absolute;
+    right: 24px;
+    top: 11px;
+}
+
+/* 찜하기 버튼 */
+.counselor-selectOne{
+    z-index: 1;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: url(https://trost-asset-images.s3-accelerate.amazonaws.com/service/partner/btn_heart32.png) no-repeat center 24px;
+    background-size: 32px auto;
+    cursor: pointer;
+    text-indent: -9999px;
+}
+.paging-wrapper{
+    margin-top: 10%;
+}
+
+.paging{
+    overflow: hidden;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.paging-num{
+    float: left;
+    width: 32px;
+    height: 32px;
+}
+
+.paging-num.active a{
+    color: #48DA91;
+}
+
+.paging-num a{
+    width: 100%;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+}
+
+a{
+    text-decoration: none;
+    cursor: pointer;
+}

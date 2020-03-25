@@ -1,0 +1,33 @@
+.quickBox {
+    border: 1px black solid;
+}
+
+.q_btn{
+    padding-left: 230px;
+}
+
+#btn{
+    border: 1px rgb(143, 143, 240)solid;
+    border-radius: 3px;
+    background-color: rgb(143, 143, 240);
+    color: black;
+    padding: 5px;
+}
+
+.simple_input{
+    border: 1px black solid;
+    padding: 10px;
+}
+
+.q_tel{
+    width: 20%;
+}
+
+.con{
+    padding: 10px;
+}
+
+span {
+    font-size: 14px;
+}
+

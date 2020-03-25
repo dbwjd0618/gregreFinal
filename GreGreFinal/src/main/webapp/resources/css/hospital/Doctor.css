@@ -1,0 +1,20 @@
+.pic{
+    padding: 30px;
+}
+
+.col-md-12{
+    left: 90px;
+}
+
+.site-section{
+    background-color: rgb(243, 235, 252);
+    height: 600px;
+}
+.col-md-12>li{
+    display: inline-block;
+}
+
+.obntext{
+    padding-left: 32px;
+    color: black;
+}
