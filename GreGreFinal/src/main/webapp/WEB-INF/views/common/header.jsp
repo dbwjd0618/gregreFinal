@@ -114,9 +114,8 @@
           </div>
           <ul class="depth-2">
             <!-- 임신 여기서부터 링크 이동 -->
-            <li><a href="">임신정보</a></li>
-            <li><a href="">월경캘린더</a></li>
-            <li><a href="">산부인과</a></li>
+            <li><a href="${pageContext.request.contextPath }/pregnancy/prePregnancy.do">임신정보</a></li>
+            <li><a href="${pageContext.request.contextPath }/pregnancy/calendar.do">월경캘린더</a></li>
             <li><a href="">임신상담</a></li>
           </ul>
         </div>
@@ -130,7 +129,6 @@
             <!-- 육아 여기서부터 링크 이동 -->
             <li><a href="">육아정보</a></li>
             <li><a href="">아이지킴이</a></li>
-            <li><a href="">소아과</a></li>
             <li><a href="">육아상담</a></li>
           </ul>
         </div>
