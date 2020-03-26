@@ -28,6 +28,7 @@ import kh.mclass.Igre.common.util.Utils;
 import kh.mclass.IgreMall.admin.product.model.exception.ProductException;
 import kh.mclass.IgreMall.admin.product.model.service.AdminProductService;
 import kh.mclass.IgreMall.product.model.vo.Attachment;
+import kh.mclass.IgreMall.product.model.vo.ProdOption;
 import kh.mclass.IgreMall.product.model.vo.Product;
 import lombok.extern.slf4j.Slf4j;
 
@@ -99,15 +100,38 @@ public class ShopAdminProductController {
 		
 		log.debug("insertImg login end {}",list);
 		return list;
-	}
+	}	
+	/*
+	 * 0325
+	 * 이진희
+	 * 
+	 * 상품등록
+	 */
 	@PostMapping("/insert.do")
 	public String insertProduct(@ModelAttribute Product product, 
+						@RequestParam(value="optionName", required=false)String[] optionName, 
+						@RequestParam(value="optionValue", required=false)String[] optionValue, 
+						@RequestParam(value="optionPrice", required=false)String[] optionPrice, 
+						@RequestParam(value="optionState", required=false)String[] optionState, 
 							MultipartHttpServletRequest mtfRequest,
 							RedirectAttributes redirectAttributes, 
 							HttpServletRequest request,
 							HttpServletResponse response) throws Exception{
 		log.debug("product={}", product);
-
+		
+        List<ProdOption> prodOptionList = new ArrayList<>();
+        for(int i=0; i< optionName.length;i++) {
+        	ProdOption prodOption = new ProdOption();
+        	prodOption.setOptionName(optionName[i]);
+        	prodOption.setOptionValue(optionValue[i]);
+        	prodOption.setOptionPrice(Integer.parseInt(optionPrice[i]));
+        	prodOption.setOptionState(optionState[i]);
+            prodOption.setProductId(product.getProductId());
+        	prodOptionList.add(prodOption);	
+        }
+        
+		log.debug("prodOption={}", prodOptionList);
+		
 		response.setContentType("text/html;charset=utf-8");
 		
 		try {
@@ -167,8 +191,7 @@ public class ShopAdminProductController {
 
 			}
 			log.debug("attachList={}", attachList);
-
-			int result = adminProductService.insertProduct(product, attachList);
+			int result = adminProductService.insertProduct(product, attachList, prodOptionList);
 			
 			redirectAttributes.addFlashAttribute("msg", result > 0 ? "등록성공!" : "등록실패");
 
