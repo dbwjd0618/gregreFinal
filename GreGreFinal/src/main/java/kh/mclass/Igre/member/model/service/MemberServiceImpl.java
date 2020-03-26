@@ -16,5 +16,17 @@ public class MemberServiceImpl implements MemberService {
 	public Member selectId(String memberId) {
 		return md.selectId(memberId);
 	}
+	
+	@Override
+	public int enroll(Member member) {
+		// TODO Auto-generated method stub
+		return md.enroll(member);
+	}
+	
+	@Override
+	public Object selectOne(String memberId) {
+		// TODO Auto-generated method stub
+		return md.selectOne(memberId);
+	}
 
 }

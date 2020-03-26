@@ -5,5 +5,9 @@ import kh.mclass.Igre.member.model.vo.Member;
 public interface MemberService {
 
 	Member selectId(String memberId);
+	
+	int enroll(Member member);
+	
+	Object selectOne(String memberId);
 
 }
