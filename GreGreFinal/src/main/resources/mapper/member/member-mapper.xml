@@ -4,14 +4,27 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
 
-	<select id="selectId" resultType="Member" >
-		select * from member where member_id = #{memberId}
-	</select>
-	
-	<insert id="enroll">
-	insert into member values(
-		#{memberId}, #{password}, #{memberName}, #{gender}, #{birthday}, #{email}, #{phone}, #{address}, #{hobby, typeHandler=strArrTypeHandler}, default, default
-	)
-	</insert>
+	<insert id="enroll"> 
+	insert into TB_MEMBER_INFO values( 
+		#{memberId},
+		#{memberPwd}, 
+		#{memberName}, 
+		#{nickname}, 
+		#{birthday}, 
+		#{phone},
+		#{pwdHintCode}, 
+		#{pwdAns}, 
+		#{address}, 
+		#{email}, 
+		#{gender}, 
+		#{grade},
+		#{age}, 
+		#{mateId}, 
+		#{childNumber}, 
+		default 
+		) </insert>
+
+	<select id="selectOne" resultType="member"> select * from TB_MEMBER_INFO
+		where member_Id = #{memberId} </select>
 	
 </mapper>
