@@ -37,12 +37,8 @@
     <link href="${pageContext.request.contextPath}/resources/css/admin/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
     <!-- jQuery 3.3.1  -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
-
-<script>
-
-</script>
-
   </head>
+  
   <body class="skin-blue">
     <div class="wrapper">
       
@@ -63,9 +59,9 @@
             <ul class="nav navbar-nav">
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span class="hidden-xs">${adminLoggedIn.adminId}님 안녕하세요!</span>
-                </a>
+               <%--  <a href="${pageContext.request.contextPath}/admin/adminUpdate.do" class="dropdown-toggle" data-toggle="dropdown"> --%>
+                  <a href="${pageContext.request.contextPath}/admin/adminUpdate.do"><span class="hidden-xs">${adminLoggedIn.adminId}님 안녕하세요!</span></a>
+            <!--     </a> -->
               </li>
             </ul>
           </div>
@@ -105,7 +101,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="${pageContext.request.contextPath }/admin/memberList.do"><i class="fa fa-circle-o"></i> 회원 목록</a></li>
-                <li><a href="memberDelete.html"><i class="fa fa-circle-o"></i> 회원 탈퇴</a></li>
+                <li><a href="${pageContext.request.contextPath }/admin/memberList.do"><i class="fa fa-circle-o"></i> 회원 탈퇴</a></li>
                 <li><a href="memberDeleteList.html"><i class="fa fa-circle-o"></i> 탈퇴 회원 관리</a></li>
               </ul>
             </li>
