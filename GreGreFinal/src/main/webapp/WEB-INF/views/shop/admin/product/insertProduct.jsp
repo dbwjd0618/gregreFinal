@@ -8,7 +8,7 @@
 <!-- 한글깨질때. -->
 <fmt:requestEncoding value="utf-8" />
 <!-- summernotes -->
- <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
 	crossorigin="anonymous"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
@@ -81,7 +81,22 @@ th#optionTh {
 }
 
 .modal-backdrop.in {
-    display: none !important;
+	display: none !important;
+}
+
+span.mr5.font-size16 {
+    float: left;
+    margin-top: 6px;
+}
+span.form-inline {
+    float: left;d
+}
+a#optListUpdate {
+    float: right;
+    margin: 12px 0px;
+}
+.clearfix.mb5 {
+    margin-bottom: 10px;
 }
 </style>
 
@@ -104,8 +119,8 @@ th#optionTh {
 		</div>
 		<form
 			action="${pageContext.request.contextPath}/shop/admin/product/insert.do"
-			method="post" enctype="multipart/form-data" >
-			 <input type="hidden" name="sellerId" value="igre_mall_test" />
+			method="post" enctype="multipart/form-data">
+			<input type="hidden" name="sellerId" value="igre_mall_test" />
 			<div class="form-group row">
 				<label for="productId" class="col-sm-2 col-form-label">제품번호</label>
 				<div class="col-sm-4">
@@ -141,7 +156,7 @@ th#optionTh {
 					<input type="text" name="brandName" class="form-control" id="">
 				</div>
 			</div>
-			 <div class="form-group row">
+			<div class="form-group row">
 				<label for="price" class="col-sm-2 col-form-label">판매가격</label>
 				<div class="col-sm-3">
 					<input type="number" name="price" class="form-control" value="0">
@@ -153,7 +168,8 @@ th#optionTh {
 			<div class="form-group row">
 				<label for="pointRate" class="col-sm-2 col-form-label">포인트적립비율</label>
 				<div class="col-sm-3">
-					<input type="number" name="pointRate" class="form-control" value="0">
+					<input type="number" name="pointRate" class="form-control"
+						value="0">
 				</div>
 				<div class="col-form-label">
 					<span>%</span>
@@ -162,7 +178,8 @@ th#optionTh {
 			<div class="form-group row">
 				<label for="discountPrice" class="col-sm-2 col-form-label">할인금액</label>
 				<div class="col-sm-3">
-					<input type="number" name="discountPrice" class="form-control" value="0">
+					<input type="number" name="discountPrice" class="form-control"
+						value="0">
 				</div>
 				<div class="col-form-label">
 					<span>원</span>
@@ -171,16 +188,17 @@ th#optionTh {
 			<div class="form-group row">
 				<label for="productStock" class="col-sm-2 col-form-label">재고수량</label>
 				<div class="col-sm-3">
-					<input type="number" name="productStock" class="form-control" value="999">
+					<input type="number" name="productStock" class="form-control"
+						value="999">
 				</div>
-			</div> 
-		<div class="form-group row">
+			</div>
+			<div class="form-group row">
 				<label for="productStock" class="col-sm-2 col-form-label">배송비설정</label>
 				<div class="col-sm-10">
-					<input type="radio" name=""  id="selectedDelivery-1" value="1"
-						checked> 기본 배송비 사용 ( 기본배송비 : 0원, 무료배송비 : 0원)<br> 
-					<input type="radio" name="" id="selectedDelivery-2" value="0">
-					 개별 배송비 설정
+					<input type="radio" name="" id="selectedDelivery-1" value="1"
+						checked> 기본 배송비 사용 ( 기본배송비 : 0원, 무료배송비 : 0원)<br> <input
+						type="radio" name="" id="selectedDelivery-2" value="0"> 개별
+					배송비 설정
 					<div id="delivery-1">
 						기본 배송비 : <input type="text" name="deliveryFee"
 							class="form-control number-coma"
@@ -201,8 +219,8 @@ th#optionTh {
 					<input type="checkbox" name="productState" value="Y" checked>
 					상품을 노출합니다.
 				</div>
-			</div> 
- 		 <div class="form-group row">
+			</div>
+			<div class="form-group row">
 				<label for="originalImgupload" class="col-sm-2 col-form-label">상품대표이미지</label>
 				<div class="col-sm-10">
 					<input type="file" name="mainImg"> <i
@@ -216,24 +234,268 @@ th#optionTh {
 				<label for="originalImgupload" class="col-sm-2 col-form-label">상품상세보기
 					이미지</label>
 				<div class="col-sm-10">
-					 <input multiple="multiple" type="file" name="subImg" />
-					<i class="fa fa-exclamation-triangle"></i> <span
-						class="help-inline">*최대 4개까지 업로드 가능합니다.</span>
+					<input multiple="multiple" type="file" name="subImg" /> <i
+						class="fa fa-exclamation-triangle"></i> <span class="help-inline">*최대
+						4개까지 업로드 가능합니다.</span>
 				</div>
-			</div> 
-   			<div class="form-group row">
+			</div>
+			<div class="form-group row">
 				<label for="productDetail" class="col-sm-2 col-form-label">상품설명</label>
 				<div class="col-sm-10">
-					<textarea class="form-control" id="summernote" name="productDetail"maxlength="140" rows="7"></textarea>
+					<textarea class="form-control" id="summernote" name="productDetail"
+						maxlength="140" rows="7"></textarea>
 				</div>
-			</div>   
-			<!-- 등록버튼 -->
-
-			<div class=" text-center" style="padding-bottom: 50px">
-				<input type="submit" class="btn btn-primary btn-lg" id=""
-					value="상품등록" />
 			</div>
-		
+
+
+			<h4 class="title-icon-bg"><strong>추가정보</strong></h4>
+			<span class="red"> &nbsp;*선택 항목입니다.</span>
+			<table class="table table-bordered">
+				<colgroup>
+					<col width="10%">
+					<col width="">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th class="bg_mint text-center" id="optionTh" rowspan="2">옵션
+						</th>
+					</tr>
+					<tr style="" id="optionTr">
+						<td class="table-height52 table-pt10">
+							<div class="mt10 table-pt36 table-mb4" id="optionBigDiv" style="">
+
+								<!-- 일반 / 재고옵션 -->
+								<table class="table table-bordered table-product-s"
+									style="border-bottom: 0px; margin-bottom: 0px;">
+									<colgroup>
+										<col style="width: 10%;">
+										<col width="">
+									</colgroup>
+									<tbody>
+										<tr style="border-bottom: 0px;">
+											<th class="bg_mint text-center" style="border-bottom: 0px;">일반옵션</th>
+											<td style="border-bottom: 0px;">
+												<div id="useNewOption" class="buttonset2 table-mt5" style="">
+													<!-- 신규등록 -->
+													<div id="optionDiv1"></div>
+
+													<!-- 옵션사항 시작 -->
+													<div class="mt5">
+														<div class="clearfix">
+															<div class="buttonset pull-left ui-buttonset">
+																<input type="radio" name="" id="optionState1"
+																	value="" checked="checked"><label
+																	for="optionState1"
+																	class="ui-state-active ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left"
+																	role="button" aria-disabled="false"><span
+																	class="ui-button-text"> 일반옵션</span></label> 
+															</div>
+														</div>
+
+														<!-- 옵션설정 -->
+														<table id="optTable" class="table table-bordered"
+															style="margin: 10px 0 0 0">
+															<colgroup>
+																<col style="width: 25%;">
+																<col style="width: 70%;">
+																<col style="width: 5%;">
+															</colgroup>
+															<tbody>
+																<tr>
+																	<th class="text-center">옵션명</th>
+																	<th class="text-center">옵션값</th>
+																	<th class="text-center"><a
+																		class="btn btn-info btn-sm" id="optPlus">추가</a></th>
+																</tr>
+																<tr>
+																	<td class="text-center"><input type="text"
+																		name="noTitle[0]" id="noTitle0" no="0" value=""
+																		maxlength="50" placeholder="50자까지 입력가능."
+																		class="form-control input_st4"></td>
+																	<td class="text-center"><input type="text"
+																		name="optionVal" placeholder="예)블랙,화이트 (,로 구분)"
+																		id="optionValue" value=""
+																		class="form-control input_st4"></td>
+																	<th class="text-center"></th>
+																</tr>
+								
+															</tbody>
+														</table>
+
+
+														<div style="text-align: center; padding: 5px;">
+															<a class="btn btn-info btn-sm" id="optionSetting">옵션
+																적용</a>
+														</div>
+
+														<!-- 일반옵션 리스트 -->
+														<div id="generalDiv">
+															<div class="clearfix mb5">
+																<div class="float_l mt10">
+																	<span class="mr5 font-size16">옵션목록 : <strong
+																		class="red" id="totalOptList">0</strong>개
+																	</span> 
+																	</span> <span class="form-inline m1 "
+																		style="padding-left: 15px;"> 사용여부 <select
+																		name="optView" id="optView"
+																		class="form-control select-check"
+																		style="width: 80px !important;">
+																			<option value="1">Y</option>
+																			<option value="0">N</option>
+																	</select>
+																	</span> 
+																</div>
+															</div>
+
+															<div
+																style="overflow: scroll; overflow-x: hidden; width: 100%; height: 250px; border: 1px solid #cfcfcf;">
+																<table id="optListTable" class="table table-bordered"
+																	style="border-left: none;">
+																	<colgroup>
+																		<col style="width: 3%;">
+																		<col style="width: 30%;">
+																		<col style="width: 30%;">
+																		<col style="width: 22%;">
+																		<col style="width: 10%;">
+																		<col style="width: 5%;">
+																	</colgroup>
+																	<tbody>
+																		<tr>
+																			<th class="text-center" style="border-left: none;"><input
+																				type="checkbox" id="optListAll" name="optListAll"
+																				value="Y"></th>
+																			<th class="text-center">옵션명</th>
+																			<th class="text-center">옵션값</th>
+																			<th class="text-center">추가금액(판매가에 추가됩니다.)</th>
+																			<th class="text-center">사용여부</th>
+																			<th class="text-center">삭제</th>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+														<!-- 일반옵션 리스트 끝-->
+
+													</div>
+													<!-- 옵션사항 끝 -->
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<!-- 일반 /재고옵션끝-->
+								<!-- 추가 상품 등록 -->
+								<table class="table table-bordered table-product-s"
+									style="margin-bottom: 0px;">
+									<colgroup>
+										<col style="width: 10%;">
+										<col width="">
+									</colgroup>
+									<tbody>
+										<tr>
+											<th class="bg_mint text-center">추가 상품 등록</th>
+											<td>
+												<div class="clearfix">
+													<div class="buttonset pull-left ui-buttonset">
+														<input type="radio" name="useAddNormalOption"
+															id="useAddNormalOption1" value="1"><label
+															for="useAddNormalOption1"
+															class="table-mb0 ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left ui-state-active"
+															role="button" aria-disabled="false" aria-pressed="true"><span
+															class="ui-button-text"> 사용</span></label> <input type="radio"
+															name="useAddNormalOption" id="useAddNormalOption2"
+															value="0" checked=""><label
+															for="useAddNormalOption2"
+															class="table-mb0 ui-button ui-widget ui-state-default ui-button-text-only ui-corner-right"
+															role="button" aria-disabled="false" aria-pressed="false"><span
+															class="ui-button-text"> 사용안함</span></label>
+													</div>
+												</div>
+
+												<div id="useAddNormalOption" style="">
+													<div id="goodAddNormalOptionForm" style="width: 100%;">
+														<table class="table table-bordered"
+															style="margin: 10px 0 0 0">
+															<colgroup>
+																<col width="">
+																<col width="">
+																<col width="50px">
+															</colgroup>
+															<tbody>
+																<tr>
+																	<th class="text-center active vertical_50">상품명(ex
+																		: 가방)</th>
+																	<th class="text-center active vertical_50">상품값(ex
+																		: 빨강,노랑) / 상품금액</th>
+																</tr>
+																<tr class="singleRow">
+																	<td style="vertical-align: top;"><span
+																		class="input_inbox"> <input type="text"
+																			name="addnoTitle[0]" index="0" value=""
+																			class="form-control input_st3 fl">
+																	</span>
+																		<div class="fl">
+																			<a class="btn btn-info btn-sm" id="addnoAddLineBtn"
+																				newindex="0" style="cursor: pointer;">추가</a>
+																		</div></td>
+																	<td>
+																		<table class="otin_t addnoItemRow">
+																			<tbody>
+																				<tr>
+																					<th class="text-left active vertical_25">상품값</th>
+																					<th class="text-left active vertical_25">재고</th>
+																					<th class="text-left active vertical_25">공급가</th>
+																					<th class="text-left active vertical_25">상품금액</th>
+																					<th class="text-left active vertical_25"></th>
+																				</tr>
+																				<tr>
+																					<td><span class="input_inbox"><input
+																							type="text" name="addnoValue[0][0]" idx="0"
+																							titlenum="0" value=""
+																							class="form-control input_st4"></span></td>
+																					<td><span class="input_inbox"><input
+																							type="text" name="addnoInven[0][0]" value="0"
+																							idx="0" titlenum="0"
+																							class="form-control number-coma input_st4"></span>
+																					</td>
+																					<td><span class="input_inbox"><input
+																							type="text" name="addnoSourcePrice[0][0]"
+																							value="0" idx="0" titlenum="0"
+																							class="form-control number-coma input_st4"></span>
+																					</td>
+																					<td><span class="input_inbox"><input
+																							type="text" name="addnoPrice[0][0]" value="0"
+																							idx="0" titlenum="0"
+																							class="form-control number-coma input_st4"></span>
+																					</td>
+																					<td><a
+																						class="btn btn-info btn-sm addnoAddValueBtn"
+																						style="cursor: pointer;">추가</a></td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								  </div>
+                              </td>
+                          </tr>
+                          </tbody>
+                       </table>
+								<!-- 추가 상품 등록 끝-->
+								<!-- 등록버튼 -->
+
+								<div class=" text-center" style="padding-bottom: 50px">
+									<input type="submit" class="btn btn-primary btn-lg" id=""
+										value="상품등록" />
+								</div>
 		</form>
 	</div>
 </div>
@@ -258,7 +520,7 @@ th#optionTh {
 
  
 </script>
- <script>    
+<script>    
 function sendFile(file, el) {
       var form_data = new FormData();
       form_data.append('file', file);
@@ -283,7 +545,7 @@ function sendFile(file, el) {
         }
       });
  }
-</script> 
+</script>
 
 
 
@@ -319,7 +581,38 @@ function sendFile(file, el) {
 		return true;
 	}
 </script>
-
+<script>
+ 
+ $(function(){
+ //입력옵션 추가 하는 스크립트
+ 
+ //일반옵션 추가하는 곳
+	 $("#optPlus").click(function(){
+		 var html='<tr><td class="text-center"><input type="text" name="noTitle[0]" id="noTitle0" no="0" value="" maxlength="50" placeholder="50자까지 입력가능." class="form-control input_st4"></td><td class="text-center"><input type="text" name="" placeholder="예)블랙,화이트 (,로 구분)" id="optionValue" value="" class="form-control input_st4"></td><th class="text-center"><a class="btn btn-danger btn-sm optMinus">삭제</a></th></tr>'
+		 $("#optTable").append(html)
+	 });
+		 
+	//일반 옵션 추가된것 삭제해주는 것	 
+	 $(document).on('click','.optMinus',function(e){
+		  $(this).parent().parent().remove();
+			});
+	
+	$("#optionSetting").click(function(){
+		var optName=$("#noTitle0").val();
+		var optVal = $("#optionValue").val();
+		var optHtml='<tr><td class="text-center" style="border-left:none;"><input type="checkbox" name="optCeck[]" value="1"></td><td><input type="text" name="optionName" value="'+optName+'" class="form-control input_st4" optnum="0" readonly=""></td><td><input type="text" name="optionValue" value="'+optVal+'" class="form-control input_st4" listnum="" readonly=""></td><td><input type="text" name="optionPrice" value="" class="form-control number-coma input_st4"></td><td><select name="optionState" class="form-control number-coma input_st4" value="Y"><option name ="optionState" value="Y" selected="">Y</option><option name ="optionState" value="N">N</option></select></td><td class="text-center"><a class="btn btn-danger btn-sm optListMinus">삭제</a></td></tr>'
+			$("#optListTable").append(optHtml)
+	});
+	
+	 $(document).on('click','.optListMinus',function(e){
+		  $(this).parent().parent().remove();
+			});
+	
+	
+	
+	
+ });
+ </script>
 
 <!-- /.content-wrapper -->
 <!--푸터영역-->
