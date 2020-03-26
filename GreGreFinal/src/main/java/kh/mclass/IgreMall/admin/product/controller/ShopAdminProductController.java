@@ -2,11 +2,13 @@ package kh.mclass.IgreMall.admin.product.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,12 +48,68 @@ public class ShopAdminProductController {
 		mav.setViewName("shop/admin/product/insertProduct");
 		return mav;
 	}
+	@PostMapping("/image")
+	public void summer_image(MultipartFile file, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		String file_name = file.getOriginalFilename();
+		log.debug("file_name={}", file_name);
+		String server_file_name = Utils.getRenamedFileName(file_name);
+		System.out.println("server file : " + server_file_name);
+		String save_folder = request.getServletContext().getRealPath("/resources/upload/shop/productDetail");
+		file.transferTo(new File(save_folder + server_file_name));
+		out.println("resources/upload"+server_file_name);
+		out.close();
+		
 
+	}
+
+	/**
+	 * 0326 진희 작업
+	 * 이미지 파일 업로드 메소드 
+	 * 
+	 * @param file
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("/insertImg.do")
+	@ResponseBody
+	public List<String> insertBoardImg(@RequestParam("file") MultipartFile file, HttpServletRequest request){
+		
+		
+		List<String> list = new ArrayList<String>();
+		//파일명 재생성
+		String originalFileName = file.getOriginalFilename();
+		String renamedFileName = Utils.getRenamedFileName(originalFileName);
+		
+		//파일 이동 경로 /resources/upload/admin/board
+		String saveDirectory = request.getServletContext().getRealPath("/resources/upload/shop/productDetail");
+		
+		//파일 생성.
+		try {
+			file.transferTo(new File(saveDirectory, renamedFileName));
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		list.add(originalFileName);
+		list.add(renamedFileName);
+		list.add("../resources/upload/shop/productDetail/"+renamedFileName);
+		
+		log.debug("insertImg login end {}",list);
+		return list;
+	}
 	@PostMapping("/insert.do")
-	public String insertProduct(@ModelAttribute Product product, MultipartHttpServletRequest mtfRequest,
-			RedirectAttributes redirectAttributes, HttpServletRequest request) {
+	public String insertProduct(@ModelAttribute Product product, 
+							MultipartHttpServletRequest mtfRequest,
+							RedirectAttributes redirectAttributes, 
+							HttpServletRequest request,
+							HttpServletResponse response) throws Exception{
 		log.debug("product={}", product);
 
+		response.setContentType("text/html;charset=utf-8");
+		
 		try {
 
 			List<Attachment> attachList = new ArrayList<>();
