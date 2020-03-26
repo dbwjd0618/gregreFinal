@@ -226,6 +226,15 @@
 	        <artifactId>jackson-databind</artifactId>
 	        <version>2.9.10.3</version>
 	    </dependency>
+	    
+	    <!-- 웹 크롤링 의존 -->
+	    <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+		<dependency>
+		    <groupId>org.jsoup</groupId>
+		    <artifactId>jsoup</artifactId>
+		    <version>1.11.3</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<plugins>

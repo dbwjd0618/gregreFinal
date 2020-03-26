@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminProduct">
+	
+<insert id="insertProduct">
+	insert into
+		TB_product
+	values (
+		#{sellerId},
+		#{productId},
+		#{categoryId},
+		#{productName},
+		#{brandName},
+		#{price},
+		#{deliveryFee},
+		#{pointRate},
+		#{discountPrice},
+		#{productStock},
+		#{productDetail},
+		default,
+		default
+	)
+</insert>
+
+<insert id="insertAttach">
+	insert into
+		TB_prod_img
+	values(
+		seq_prod_img_no.nextval,
+		#{productId},
+		#{originalImg},
+		#{renamedImg}
+	)
+</insert>
+
+<insert id="insertProdOption">
+	insert into
+		TB_prod_option
+	values(
+		to_char(sysdate,'yymmdd')||to_char(seq_prod_option_id.nextval, 'fm000000'),
+		#{productId},
+		#{optionName},
+		#{optionValue},
+		#{optionPrice},
+		#{optionState}
+	)
+</insert>
+
+</mapper>

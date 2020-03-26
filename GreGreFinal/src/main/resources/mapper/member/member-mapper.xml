@@ -4,8 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
 
-	<insert id="enroll"> 
-	insert into TB_MEMBER_INFO values( 
+
+	<select id="selectId" resultType="Member">
+		select * from TB_MEMBER_INFO
+		where member_id = #{memberId}
+	</select>
+
+	<insert id="enroll"> insert into TB_MEMBER_INFO values( 
 		#{memberId},
 		#{memberPwd}, 
 		#{memberName}, 
@@ -22,7 +27,8 @@
 		#{mateId}, 
 		#{childNumber}, 
 		default 
-		) </insert>
+		) 
+		</insert>
 
 	<select id="selectOne" resultType="member"> select * from TB_MEMBER_INFO
 		where member_Id = #{memberId} </select>

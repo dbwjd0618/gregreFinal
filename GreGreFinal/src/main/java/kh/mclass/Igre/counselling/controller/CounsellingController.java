@@ -15,4 +15,16 @@ public class CounsellingController {
 	public String counselorFind() {
 		return "counselling/counselorFind";
 	}
+	
+	
+	@GetMapping("/bookingMain.do")
+	public String bookingMain() {
+		return "counselling/bookingMain";
+	}
+	
+	@GetMapping("/bookingPage.do")
+	public String bookingPage() {
+		return "counselling/bookingPage";
+	}
+	
 }
