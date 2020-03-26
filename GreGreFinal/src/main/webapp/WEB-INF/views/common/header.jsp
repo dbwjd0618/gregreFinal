@@ -11,7 +11,6 @@
 
   <link href="https://fonts.googleapis.com/css?family=DM+Sans:300,400,700|Indie+Flower" rel="stylesheet">
 
-
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fonts/icomoon/style.css">
 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
@@ -180,9 +179,9 @@
           </div>
           <ul class="depth-2">
             <!-- 게시판 여기서부터 링크 이동 -->
-            <li><a href="board/notice.html">공지사항</a></li>
-            <li><a href="#">교육 및 행사</a></li>
-            <li><a href="#">자료실</a></li>
+            <c:forEach items="${boardList}" var="board">
+            	<li><a href="${pageContext.request.contextPath}/board/postList?boardCode=${board.boardCode}">${board.boardName}</a></li>
+            </c:forEach>
           </ul>
         </div>
       </div>
