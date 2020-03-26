@@ -131,7 +131,6 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -139,7 +138,6 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -176,11 +174,11 @@
 			<version>1.4</version>
 		</dependency>
 		<!-- 사설저장소 사용 (저장소 등록해야함): https://mvnrepository.com/artifact/oracle/ojdbc6  -->
-		<!-- <dependency>
+		 <dependency>
 			<groupId>oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
 			<version>11.2.0.3</version>
-		</dependency> -->
+		</dependency> 
 		<!-- #7. 스프링  security 프레임워크 의존 -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>

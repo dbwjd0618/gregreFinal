@@ -144,11 +144,10 @@
             
             <nav class="nav-menu mobile-menu">
                 <ul>
-                    <li class="active"><a href="${pageContext.request.contextPath }/shop/category.do">분유/이유식</a></li>
-                    <li><a href="${pageContext.request.contextPath }/shop/category.do">기저귀/물티슈</a></li>
-                    <li><a href="${pageContext.request.contextPath }/shop/category.do">수유/이유용품</a></li>
-                    <li><a href="${pageContext.request.contextPath }/shop/category.do">화장품/목욕</a></li>
-                    <li><a href="${pageContext.request.contextPath }/shop/category.do">장난감/완구</a></li>
+                    <li class="active"><a href="${pageContext.request.contextPath }/shop/category.do?category1=CA1&category2=CA2">분유/이유식</a></li>
+                    <li><a href="${pageContext.request.contextPath }/shop/category.do?category1=CA3&category2=CA4">기저귀/물티슈</a></li>
+                    <li><a href="${pageContext.request.contextPath }/shop/category.do?category1=CA5&category2=CA6">수유/이유용품</a></li>
+                    <li><a href="${pageContext.request.contextPath }/shop/category.do?category1=CA7">목욕용품</a></li>
                     <li><a href="${pageContext.request.contextPath }/shop/event/list.do">이벤트</a></li>
                 </ul>
             </nav>
