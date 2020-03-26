@@ -54,8 +54,8 @@
       
       <header class="main-header">
         <!-- Logo -->
-        <a href="${pageContext.request.contextPath }/shopadmin/admin.do" class="logo" 
-            style="background-image: url('${pageContext.request.contextPath}/resouces/images/admin/logo.png'); 
+        <a href="${pageContext.request.contextPath }/shop/admin/index.do" class="logo" 
+            style="background-image: url('${pageContext.request.contextPath}/resouces/images/logo/igre_mall_footer.png'); 
         background-size:contain; background-repeat:no-repeat;" ></a>
         
         <!-- Header Navbar: style can be found in header.less -->
@@ -103,6 +103,19 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">메뉴</li>
+             <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-user"></i>
+                  <span>상품관리</span>
+                  <i class="fa fa-angle-left pull-right"></i>	
+                  <!-- <span class="label label-primary pull-right">4</span> -->
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="${pageContext.request.contextPath}/shop/admin/product/insert.do"><i class="fa fa-circle-o"></i>상품 등록/삭제</a></li>
+                  <li><a href="orderList.html"><i class="fa fa-circle-o"></i> 주문 현황</a></li>
+                  
+                </ul>
+              </li>
             <li class="treeview">
                 <a href="#">
                   <i class="fa fa-user"></i>
@@ -159,7 +172,6 @@
                 <li><a href="${pageContext.request.contextPath }/shopadmin/board.do"><i class="fa fa-circle-o"></i> 게시판 목록</a></li>
               </ul>
             </li>
-            </li>
              <li class="treeview">
               <a href="#">
                 <i class="fa fa-share"></i> <span>단체안내</span>
@@ -170,6 +182,7 @@
                 <li><a href="message.html"><i class="fa fa-circle-o"></i> 단체 문자</a></li>
               </ul>
             </li>
+          </ul>
         </section>
         <!-- /.sidebar -->
       </aside>

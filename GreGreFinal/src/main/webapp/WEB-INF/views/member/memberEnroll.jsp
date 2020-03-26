@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <jsp:include page="/WEB-INF/views/common/header.jsp">
+	<jsp:param value="" name="pageTitle" />
+	</jsp:include>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,10 +27,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/aos.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <!-- MAIN CSS -->
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
 
-  <!-- Index CSS -->
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/index.css">
 
 <!--login css-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/login.css"> 
@@ -33,46 +36,15 @@
 .enroll-btn{
     padding: 12px 0 !important;
 }
+
+sapn.guide {display:none;font-size: 12px;position:absolute; top:12px; right:10px ; }
+span.ok{display:none;color:green;}
+span.error{display:none;color:red ;}
 </style>
 
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
 
-        <header class="site-navbar site-navbar-target" role="banner">
-            <div class="container mb-3">
-                <div class="row" >
-                    <div class="col-md-12" style="padding:0 70px;">
-                        <div class="d-flex">
-                          <div class="site-logo mr-auto">
-                            <a href="/imdex.html">
-                              <img  class="main-logo" src="${pageContext.request.contextPath}/resources/images/logo/igre_main_logo2.png" alt="">
-                            </a>
-                          </div>
-                          <div class="site-quick-contact d-none d-lg-flex ml-auto ">
-                                <div class="d-flex site-info site-quick">
-                                        <div class="site-quick-text">
-                                          <!--home -->
-                                          <a href="../index.html">
-                                            <span style="color: black !important;">HOME</span>
-                                          </a>
-                                        </div>
-                                </div>
-                            <div class="d-flex site-info site-quick">
-                              <div class="site-quick-text">
-                                <!--로그인 -->
-                                <a href="../login/login.html">
-                                  <span style="color: black !important;">로그인</span>
-                                </a>
-                              </div>
-                            </div>
-                
-                          </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </header>
 
  <!-- contents begin-->
  <div class="site-section">
@@ -88,13 +60,14 @@
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">아이디</span>
                                   </div>
-                                  <input name="memberId" class="form-control" id="memberId"
-                                      placeholder="4글자 이상" type="text" required> &nbsp;
+									<input type="text" class="form-control" placeholder="4글자이상" name="memberId" id="memberId" required>
                               </div>
-                              
-                                <span class="guide ok">이 아이디는 사용 가능합니다</span>
+
+								<span class="guide ok" >이 아이디는 사용 가능합니다</span>
 								<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
 								<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0"/>
+
+                              
 
                               <div class="form-group input-group">
                                   <div class="input-group-prepend">
@@ -171,7 +144,7 @@
                                   <input name="pwdAns" class="form-control" id="pwdAns" type="text">
                               </div>
                               
-                              <input type="hidden" id="grade" name="grade"/>
+                              
 
 								<div class="form-group input-group">
 									<div class="input-group-prepend">
@@ -196,6 +169,7 @@
 										id="addr3" type="text" />
 								</div>
 
+								<input type="hidden" id="address" name="address"/>
 
 
 								<div class="form-group input-group">
@@ -205,11 +179,6 @@
                                   <input name="email" class="form-control" id="email"
                                       placeholder="abc@xyz.com" type="email">
                               </div>
-  
-                              <!-- 							notnull이라 가입할때 기본값으로 -->
-                              <input type="hidden" value="1" />
-  
-  
   
   
                               <div class="form-group input-group">
@@ -225,6 +194,9 @@
                                       </div>
                                   </div>
                               </div>
+                              
+                              <!-- Gade -->
+                              <input type="hidden" id="grade" name="grade" value="M"/>
                               
                               <div class="form-group input-group">
                                   <div class="input-group-prepend">
@@ -261,7 +233,75 @@
       </div>
       </div>
      <!-- contents end-->
+  <script>
+  
+  $(function(){
+		
+		$("#memberPwd2").blur(function(){
+			let $p1 = $("#memberPwd");
+			let $p2 = $("#memberPwd2");
+			
+			if($p1.val() != $p2.val()){
+				alert("패스워드가 일치하지 않습니다.");
+				$p1.select();
+			}
+		});
+		
+		$("#memberId").on("keyup",function(){
+			let memberId = $("#memberId").val().trim();
+			
+			//아이디 글자수 검사
+			//아이디 재작성시
+			if(memberId.length <4){
+				$(".guide").hide();
+				$("#idDuplicateCheck").val(0);
+				return;
+			}
+			
+			$.ajax({
+				url:"${pageContext.request.contextPath}/member/"+memberId+"/checkId.do",
+				type:"get",
+				success: data =>{
+					console.log(data);
+					
+					if(data.isUsable == true){
+						$(".guide.error").hide();
+						$(".guide.ok").show();
+						$("#idDuplicateCheck").val(1);
+					}
+					else {
+						$(".guide.error").show();
+						$(".guide.ok").hide();
+						$("#idDuplicateCheck").val(0);
+					}
+				},
+					error: (x,s,e) => {
+						console.log(x,s,e);
+					}
+			});
+		});
+		
+		
+	});
 
+	function enrollValidate(){
+		var memberId = $("#memberId");
+		if(memberId.val().trim().length<4){
+			alert("아이디는 최소 4자리이상이어야 합니다.");
+			memberId.focus();
+			return false;
+		}
+		
+		if($("#idDuplicateCheck").val() ==0){
+			
+			alert("아이디 중복 검사 해주세요.");
+			return false;
+		}
+		
+		return true;
+	}
+  
+  </script>
 
   <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
@@ -292,54 +332,9 @@
     <script src="${pageContext.request.contextPath}/resources/js/shop/jquery.slicknav.js"></script>
     <!-- <script src="js/shop/owl.carousel.min.js"></script> -->
     <script src="${pageContext.request.contextPath}/resources/js/shop/main.js"></script>
-	<script>
-	$(function(){
-		
-		$("#memberPwd2").blur(function(){
-			var p1=$("memberPwd").val(), p2=$("memberPwd").val();
-			if(p1!=p2){
-				alert("패스워드가 일치하지 않습니다.");
-				$("memberPwd").focus();
-			}
-		});
-		
-		$("#memberId").on("keyup",function(){
-			let memberId = $(this).val().trim();
-			
-			//아이디 글자수 검사
-			//아이디 재작성시
-			if(memberId.length <4){
-				$(".guide").hide();
-				$("#idDuplicateCheck").val(0);
-				return;
-			}
-			
-			$.ajax({
-				url:"${pageContext.request.contextPath}/login/"+memberId+"/checkId.do",
-				success: data =>{
-					console.log(data);
-					
-					if(data.isUsable == true){
-						$(".guide.error").hide();
-						$(".guide.ok").show();
-						$("#idDuplicateCheck").val(1);
-					}
-					else {
-						$(".guide.error").show();
-						$(".guide.ok").hide();
-						$("#idDuplicateCheck").val(0);
-					}
-				},
-					error: (x,s,e) => {
-						console.log(x,s,e);
-					}
-			});
-		});
-		
-		
-	});
-	</script>
+	
 </body>
 
 </html>
 
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

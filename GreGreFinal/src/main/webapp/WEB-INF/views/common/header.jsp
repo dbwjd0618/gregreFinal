@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
   <title>IGRE</title>
@@ -7,7 +10,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link href="https://fonts.googleapis.com/css?family=DM+Sans:300,400,700|Indie+Flower" rel="stylesheet">
-
 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fonts/icomoon/style.css">
 
@@ -61,18 +63,27 @@
           </div>
           <div class="site-quick-contact d-none d-lg-flex ml-auto">
             <div class="d-flex site-info site-quick">
-              <div class="site-quick-text">
-                <!--로그인 -->
-                <a href="${pageContext.request.contextPath}/member/login.do">
-                  <span style="color: black !important; padding-right:20px;">log-in</span>
-                </a>
-              </div>
-              <%-- <div class="site-quick-text">
-                <!--마이페이지 -->
-                <a href="${pageContext.request.contextPath}/WEB-INF/views/myPage/myPageMain.html">
-                  <span style="color: black !important;">마이페이지</span>
-                </a>
-              </div> --%>
+              <!--로그인 -->
+              <c:if test="${memberLoggedIn == null }">
+              	<div class="site-quick-text">
+	                <a href="${pageContext.request.contextPath}/member/login.do">
+	                  <span style="color: black !important; padding-right:20px;">log-in</span>
+	                </a>
+              	</div>
+              </c:if>
+              <c:if test="${memberLoggedIn != null }">
+              	<div class="site-quick-text">
+	            	<!--마이페이지 -->
+	                <a href="${pageContext.request.contextPath}/WEB-INF/views/myPage/myPageMain.html">
+	                  <span style="color: black !important; padding-right:20px;">마이페이지</span>
+	                </a>
+              	</div>
+              	<div class="site-quick-text">
+	                <a href="${pageContext.request.contextPath}/member/logout.do">
+	                  <span style="color: black !important; padding-right:20px;">log-out</span>
+	                </a>
+              	</div>
+              </c:if>
               <div class="site-quick-text" style=" border-left: 1.4px solid rgba(136, 131, 131, 0.849)">
                 <!--쇼핑몰 -->
                 <a href="${pageContext.request.contextPath}/shop/shop.do"> 
@@ -99,7 +110,7 @@
           <nav id="colorNav" class="site-navigation text-left ml-auto d-none d-lg-block" role="navigation">
             <ul class="site-menu main-menu js-clone-nav mr-auto">
               <li id="sub-title-1"><a href="#none" class="nav-link">임신</a></li>
-              <li id="sub-title-2"><a href="#none" class="nav-link">육아</a></li>
+              <li id="sub-title-2"><a href="${pageContext.request.contextPath }/child/childInfo.do" class="nav-link">육아</a></li>
               <li id="sub-title-3"><a href="#none" class="nav-link">상담센터</a></li>
               <li id="sub-title-4"><a href="${pageContext.request.contextPath }/find/careCenter.do" class="nav-link">시설찾기</a></li>
               <li id="sub-title-5"><a href="#none" class="nav-link">커뮤니티</a></li>
@@ -114,9 +125,8 @@
           </div>
           <ul class="depth-2">
             <!-- 임신 여기서부터 링크 이동 -->
-            <li><a href="">임신정보</a></li>
-            <li><a href="">월경캘린더</a></li>
-            <li><a href="">산부인과</a></li>
+            <li><a href="${pageContext.request.contextPath }/pregnancy/prePregnancy.do">임신정보</a></li>
+            <li><a href="${pageContext.request.contextPath }/pregnancy/calendar.do">월경캘린더</a></li>
             <li><a href="">임신상담</a></li>
           </ul>
         </div>
@@ -128,9 +138,8 @@
           </div>
           <ul class="depth-2">
             <!-- 육아 여기서부터 링크 이동 -->
-            <li><a href="">육아정보</a></li>
-            <li><a href="">아이지킴이</a></li>
-            <li><a href="">소아과</a></li>
+            <li><a href="${pageContext.request.contextPath }/child/childInfo.do">육아정보</a></li>
+            <li><a href="${pageContext.request.contextPath }/child/childCare.do">아이지킴이</a></li>
             <li><a href="">육아상담</a></li>
           </ul>
         </div>
@@ -168,9 +177,9 @@
           </div>
           <ul class="depth-2">
             <!-- 게시판 여기서부터 링크 이동 -->
-            <li><a href="board/notice.html">공지사항</a></li>
-            <li><a href="#">교육 및 행사</a></li>
-            <li><a href="#">자료실</a></li>
+            <c:forEach items="${boardList}" var="board">
+            	<li><a href="${pageContext.request.contextPath}/board/postList?boardCode=${board.boardCode}">${board.boardName}</a></li>
+            </c:forEach>
           </ul>
         </div>
       </div>
