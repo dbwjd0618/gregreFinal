@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
   <title>IGRE</title>
@@ -61,18 +64,27 @@
           </div>
           <div class="site-quick-contact d-none d-lg-flex ml-auto">
             <div class="d-flex site-info site-quick">
-              <div class="site-quick-text">
-                <!--로그인 -->
-                <a href="${pageContext.request.contextPath}/member/login.do">
-                  <span style="color: black !important; padding-right:20px;">log-in</span>
-                </a>
-              </div>
-              <%-- <div class="site-quick-text">
-                <!--마이페이지 -->
-                <a href="${pageContext.request.contextPath}/WEB-INF/views/myPage/myPageMain.html">
-                  <span style="color: black !important;">마이페이지</span>
-                </a>
-              </div> --%>
+              <!--로그인 -->
+              <c:if test="${memberLoggedIn == null }">
+              	<div class="site-quick-text">
+	                <a href="${pageContext.request.contextPath}/member/login.do">
+	                  <span style="color: black !important; padding-right:20px;">log-in</span>
+	                </a>
+              	</div>
+              </c:if>
+              <c:if test="${memberLoggedIn != null }">
+              	<div class="site-quick-text">
+	            	<!--마이페이지 -->
+	                <a href="${pageContext.request.contextPath}/WEB-INF/views/myPage/myPageMain.html">
+	                  <span style="color: black !important; padding-right:20px;">마이페이지</span>
+	                </a>
+              	</div>
+              	<div class="site-quick-text">
+	                <a href="${pageContext.request.contextPath}/member/logout.do">
+	                  <span style="color: black !important; padding-right:20px;">log-out</span>
+	                </a>
+              	</div>
+              </c:if>
               <div class="site-quick-text" style=" border-left: 1.4px solid rgba(136, 131, 131, 0.849)">
                 <!--쇼핑몰 -->
                 <a href="${pageContext.request.contextPath}/shop/shop.do"> 
@@ -114,9 +126,8 @@
           </div>
           <ul class="depth-2">
             <!-- 임신 여기서부터 링크 이동 -->
-            <li><a href="">임신정보</a></li>
-            <li><a href="">월경캘린더</a></li>
-            <li><a href="">산부인과</a></li>
+            <li><a href="${pageContext.request.contextPath }/pregnancy/prePregnancy.do">임신정보</a></li>
+            <li><a href="${pageContext.request.contextPath }/pregnancy/calendar.do">월경캘린더</a></li>
             <li><a href="">임신상담</a></li>
           </ul>
         </div>
@@ -130,7 +141,6 @@
             <!-- 육아 여기서부터 링크 이동 -->
             <li><a href="">육아정보</a></li>
             <li><a href="">아이지킴이</a></li>
-            <li><a href="">소아과</a></li>
             <li><a href="">육아상담</a></li>
           </ul>
         </div>
