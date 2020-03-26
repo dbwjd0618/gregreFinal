@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,13 +91,14 @@
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">아이디</span>
                                   </div>
-                                  <input name="memberId" class="form-control" id="memberId"
+								<input name="memberId" class="form-control" id="memberId"
                                       placeholder="4글자 이상" type="text" required> &nbsp;
                               </div>
-                              
                                 <span class="guide ok">이 아이디는 사용 가능합니다</span>
 								<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
-								<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0"/>
+								
+								<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0"/> 
+                              
 
                               <div class="form-group input-group">
                                   <div class="input-group-prepend">
@@ -292,53 +296,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/shop/jquery.slicknav.js"></script>
     <!-- <script src="js/shop/owl.carousel.min.js"></script> -->
     <script src="${pageContext.request.contextPath}/resources/js/shop/main.js"></script>
-	<script>
-	$(function(){
-		
-		$("#memberPwd2").blur(function(){
-			var p1=$("memberPwd").val(), p2=$("memberPwd").val();
-			if(p1!=p2){
-				alert("패스워드가 일치하지 않습니다.");
-				$("memberPwd").focus();
-			}
-		});
-		
-		$("#memberId").on("keyup",function(){
-			let memberId = $(this).val().trim();
-			
-			//아이디 글자수 검사
-			//아이디 재작성시
-			if(memberId.length <4){
-				$(".guide").hide();
-				$("#idDuplicateCheck").val(0);
-				return;
-			}
-			
-			$.ajax({
-				url:"${pageContext.request.contextPath}/login/"+memberId+"/checkId.do",
-				success: data =>{
-					console.log(data);
-					
-					if(data.isUsable == true){
-						$(".guide.error").hide();
-						$(".guide.ok").show();
-						$("#idDuplicateCheck").val(1);
-					}
-					else {
-						$(".guide.error").show();
-						$(".guide.ok").hide();
-						$("#idDuplicateCheck").val(0);
-					}
-				},
-					error: (x,s,e) => {
-						console.log(x,s,e);
-					}
-			});
-		});
-		
-		
-	});
-	</script>
+	
 </body>
 
 </html>

@@ -20,8 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/member")
-@SessionAttributes(value = {"memberLoggedIn"})
+//@RequestMapping("/member")
+//@SessionAttributes(value = {"memberLoggedIn"})
 public class MemberController {
 	@Autowired
 	private MemberService ms;
@@ -62,10 +62,10 @@ public class MemberController {
 //	}
 	
 	//--------------------상욱--------------------
-	@GetMapping("/login/login.do")
+	@GetMapping("/member/login.do")
 	public ModelAndView login(ModelAndView mav) {
 		
-		mav.setViewName("login/login");
+		mav.setViewName("member/login");
 		
 		return mav;
 	}
