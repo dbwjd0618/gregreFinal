@@ -1096,7 +1096,7 @@ div.tit .t_bot2 { position:absolute; top:0; right:0; width:14px; height:34px; di
 
 div.tit .t_top3 { position:absolute; top:0; width:24px; height:34px; background:url("/images/cpin/sub/title_bg_top3.gif") no-repeat; }
 div.tit .t_cen3 { position:absolute; top:0; left:24px; height:34px; background:url("/images/cpin/sub/title_bg_center3.gif") repeat-x;  }
-div.tit .t_cen3 p { padding:0 30px 0 15px; line-height:34px; color:#fff; font-weight:bold; background:url("/images/cpin/sub/title_bg_blit.png") 0 47% no-repeat;}
+div.tit .t_cen3 p { padding:0 30px 0 15px; line-height:34px; font-size: 20px; font-weight:bold; background:url("/images/cpin/sub/title_bg_blit.png") 0 47% no-repeat;}
 div.tit .t_bot3 { position:absolute; top:0; right:0; width:14px; height:34px; display:inline-block; background:url("/images/cpin/sub/title_bg_point3.gif") right 0 no-repeat;  }
 
 p.f_tit_1 { color:#696969; font-weight:bold; }

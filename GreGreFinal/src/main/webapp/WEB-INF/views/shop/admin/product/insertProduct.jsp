@@ -7,7 +7,8 @@
 
 <!-- 한글깨질때. -->
 <fmt:requestEncoding value="utf-8" />
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+<!-- summernotes -->
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"
 	crossorigin="anonymous"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
@@ -22,12 +23,13 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 	crossorigin="anonymous"></script>
-
 <link
 	href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.css"
 	rel="stylesheet">
 <script
 	src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
+
+
 <!-- 헤더 선언!!-->
 <%@ include file="/WEB-INF/views/shop/admin/common/header.jsp"%>
 <style>
@@ -76,6 +78,10 @@ th#optionTh {
 
 .main-header>.navbar {
 	height: 30px;
+}
+
+.modal-backdrop.in {
+    display: none !important;
 }
 </style>
 
@@ -215,30 +221,79 @@ th#optionTh {
 						class="help-inline">*최대 4개까지 업로드 가능합니다.</span>
 				</div>
 			</div> 
-  		<div class="form-group row">
+   			<div class="form-group row">
 				<label for="productDetail" class="col-sm-2 col-form-label">상품설명</label>
 				<div class="col-sm-10">
-					<div id="summernote"></div>
+					<textarea class="form-control" id="summernote" name="productDetail"maxlength="140" rows="7"></textarea>
 				</div>
-			</div>  
+			</div>   
 			<!-- 등록버튼 -->
 
 			<div class=" text-center" style="padding-bottom: 50px">
 				<input type="submit" class="btn btn-primary btn-lg" id=""
 					value="상품등록" />
 			</div>
+		
 		</form>
 	</div>
 </div>
 
 <!-- 폼 끝  -->
+<script type="text/javascript">
+ 	
+     $('#summernote').summernote({
+    	placeholder : '제품설명을 입력해주세요.',
+    	tabsize : 2,
+    	height : 300,
+        focus: true,
+        lang:'ko-KR',
+        callbacks: {
+            onImageUpload: function(files, editor, welEditable) {
+              for (var i = files.length - 1; i >= 0; i--) {
+                sendFile(files[i], this);
+              }
+            }
+          } 
+    });
+
+ 
+</script>
+ <script>    
+function sendFile(file, el) {
+      var form_data = new FormData();
+      form_data.append('file', file);
+      $.ajax({
+        data: form_data,
+        type: "POST",
+        url: '${pageContext.request.contextPath}/shop/admin/product/insertImg.do',
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        success: function(data) {
+        	
+        	console.log("img up load success");
+			
+			var url = '${pageContext.request.contextPath}/resources/upload/shop/productDetail/'+data[1];
+				
+
+			console.log("url="+url);
+			$(el).summernote('editor.insertImage', url); 
+			$('summernote').append('<img src="'+url+'" width = "400", height = "auto" />');
+        }
+      });
+ }
+</script> 
+
+
+
 <script>
-<!--글쓰기 js -->
+/* <!--글쓰기 js -->
 	$('#summernote').summernote({
 		placeholder : '제품설명을 입력해주세요.',
 		tabsize : 2,
 		height : 300
-	});
+	}); */
 </script>
 <script>
 	$(function() {
@@ -271,8 +326,6 @@ th#optionTh {
 
 <!-- ./wrapper -->
 <!-- jQuery 2.1.3 -->
-<script
-	src="${pageContext.request.contextPath}/resources/js/admin/jQuery-2.1.3.min.js"></script>
 
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
@@ -297,20 +350,7 @@ th#optionTh {
 <script
 	src="${pageContext.request.contextPath}/resources/js/admin/demo.js"
 	type="text/javascript"></script>
-<!-- page script -->
-<!-- <script type="text/javascript">
-    $(function () {
-      $("#example1").dataTable();
-      $('#example2').dataTable({
-        "bPaginate": true,
-        "bLengthChange": false,
-        "bFilter": false,
-        "bSort": true,
-        "bInfo": true,
-        "bAutoWidth": false
-      });
-    });
-  </script> -->
+
 
 
 </body>

@@ -11,7 +11,6 @@
 
   <link href="https://fonts.googleapis.com/css?family=DM+Sans:300,400,700|Indie+Flower" rel="stylesheet">
 
-
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fonts/icomoon/style.css">
 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
@@ -111,7 +110,7 @@
           <nav id="colorNav" class="site-navigation text-left ml-auto d-none d-lg-block" role="navigation">
             <ul class="site-menu main-menu js-clone-nav mr-auto">
               <li id="sub-title-1"><a href="#none" class="nav-link">임신</a></li>
-              <li id="sub-title-2"><a href="#none" class="nav-link">육아</a></li>
+              <li id="sub-title-2"><a href="${pageContext.request.contextPath }/child/childInfo.do" class="nav-link">육아</a></li>
               <li id="sub-title-3"><a href="#none" class="nav-link">상담센터</a></li>
               <li id="sub-title-4"><a href="${pageContext.request.contextPath }/find/careCenter.do" class="nav-link">시설찾기</a></li>
               <li id="sub-title-5"><a href="#none" class="nav-link">커뮤니티</a></li>
@@ -139,8 +138,8 @@
           </div>
           <ul class="depth-2">
             <!-- 육아 여기서부터 링크 이동 -->
-            <li><a href="">육아정보</a></li>
-            <li><a href="">아이지킴이</a></li>
+            <li><a href="${pageContext.request.contextPath }/child/childInfo.do">육아정보</a></li>
+            <li><a href="${pageContext.request.contextPath }/child/childCare.do">아이지킴이</a></li>
             <li><a href="">육아상담</a></li>
           </ul>
         </div>
@@ -178,9 +177,9 @@
           </div>
           <ul class="depth-2">
             <!-- 게시판 여기서부터 링크 이동 -->
-            <li><a href="board/notice.html">공지사항</a></li>
-            <li><a href="#">교육 및 행사</a></li>
-            <li><a href="#">자료실</a></li>
+            <c:forEach items="${boardList}" var="board">
+            	<li><a href="${pageContext.request.contextPath}/board/postList?boardCode=${board.boardCode}">${board.boardName}</a></li>
+            </c:forEach>
           </ul>
         </div>
       </div>
