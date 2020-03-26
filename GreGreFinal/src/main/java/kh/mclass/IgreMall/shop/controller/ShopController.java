@@ -84,6 +84,7 @@ public class ShopController {
 		mav.setViewName("shop/category/category");
 		log.debug("category3={}",category3);	
 		log.debug("category={},@@{}",category1,category2);
+		log.debug("뭐지 ..");
 		return mav;
 	}
 	
