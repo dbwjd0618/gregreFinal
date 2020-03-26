@@ -56,8 +56,8 @@
 							</div>
 							<!-- form-group// -->
 							<p class="text-center">
-								<a href="#" class="btn">아이디·비밀번호찾기</a>
-								<a href="../login/enrollChoiceView.html" class="btn">회원가입</a>
+								<a href="${pageContext.request.contextPath}/member/passwordChoiceView.do" class="btn">아이디·비밀번호찾기</a>
+								<a href="${pageContext.request.contextPath}/member/enrollChoiceView.do" class="btn">회원가입</a>
 							</p>
 						</form>
 

@@ -1,65 +1,65 @@
-$(function(){
-	
-	$("#memberPwd2").blur(function(){
-		var p1=$("memberPwd").val(), p2=$("memberPwd2").val();
-		if(p1!=p2){
-			alert("패스워드가 일치하지 않습니다.");
-			$("memberPwd").focus();
-		}
-	});
-	
-	$("#memberId").on("keyup",function(){
-		let memberId = $("#memberId").val().trim();
-		
-		//아이디 글자수 검사
-		//아이디 재작성시
-		if(memberId.length <4){
-			$(".guide").hide();
-			$("#idDuplicateCheck").val(0);
-			return;
-		}
-		
-		$.ajax({
-			url:"${pageContext.request.contextPath}/login/"+memberId+"/checkId.do",
-			success: data =>{
-				console.log(data);
-				
-				if(data.isUsable == true){
-					$(".guide.error").hide();
-					$(".guide.ok").show();
-					$("#idDuplicateCheck").val(1);
-				}
-				else {
-					$(".guide.error").show();
-					$(".guide.ok").hide();
-					$("#idDuplicateCheck").val(0);
-				}
-			},
-				error: (x,s,e) => {
-					console.log(x,s,e);
-				}
-		});
-	});
-	
-	
-});
-
-function enrollValidate(){
-	var memberId = $("#memberId");
-	if(memberId.val().trim().length<4){
-		alert("아이디는 최소 4자리이상이어야 합니다.");
-		memberId.focus();
-		return false;
-	}
-	
-	if($("#idDuplicateCheck").val() ==0){
-		
-		alert("아이디 중복 검사 해주세요.");
-		return false;
-	}
-	
-	return true;
-}
+//$(function(){
+//	
+//	$("#memberPwd2").blur(function(){
+//		var p1=$("memberPwd").val(), p2=$("memberPwd2").val();
+//		if(p1!=p2){
+//			alert("패스워드가 일치하지 않습니다.");
+//			$("memberPwd").focus();
+//		}
+//	});
+//	
+//	$("#memberId").on("keyup",function(){
+//		let memberId = $("#memberId").val().trim();
+//		
+//		//아이디 글자수 검사
+//		//아이디 재작성시
+//		if(memberId.length <4){
+//			$(".guide").hide();
+//			$("#idDuplicateCheck").val(0);
+//			return;
+//		}
+//		
+//		$.ajax({
+//			url:"${pageContext.request.contextPath}/login/"+memberId+"/checkId.do",
+//			success: data =>{
+//				console.log(data);
+//				
+//				if(data.isUsable == true){
+//					$(".guide.error").hide();
+//					$(".guide.ok").show();
+//					$("#idDuplicateCheck").val(1);
+//				}
+//				else {
+//					$(".guide.error").show();
+//					$(".guide.ok").hide();
+//					$("#idDuplicateCheck").val(0);
+//				}
+//			},
+//				error: (x,s,e) => {
+//					console.log(x,s,e);
+//				}
+//		});
+//	});
+//	
+//	
+//});
+//
+//function enrollValidate(){
+//	var memberId = $("#memberId");
+//	if(memberId.val().trim().length<4){
+//		alert("아이디는 최소 4자리이상이어야 합니다.");
+//		memberId.focus();
+//		return false;
+//	}
+//	
+//	if($("#idDuplicateCheck").val() ==0){
+//		
+//		alert("아이디 중복 검사 해주세요.");
+//		return false;
+//	}
+//	
+//	return true;
+//}
 
 function execPostCode() {
          new daum.Postcode({

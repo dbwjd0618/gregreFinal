@@ -29,11 +29,7 @@ public class ShopAdminController {
 		mav.setViewName("shop/admin/adminIndex");
 		return mav;
 	}
-	@GetMapping("/product/insert.do")
-	public ModelAndView insertProduct(ModelAndView mav) {
-		mav.setViewName("shop/admin/insertProduct");
-		return mav;
-	}
+	
 	@GetMapping("/account.do")
 	public ModelAndView accountList(ModelAndView mav) {
 		mav.setViewName("shop/admin/accountBooks");

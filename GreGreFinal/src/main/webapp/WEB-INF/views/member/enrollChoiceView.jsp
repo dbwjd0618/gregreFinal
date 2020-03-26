@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+    <jsp:include page="/WEB-INF/views/common/header.jsp">
+	<jsp:param value="" name="pageTitle" />
+	</jsp:include>
+
 <html>
 <head>
   <title>Kiddy &mdash; Website Template by Colorlib</title>
@@ -35,44 +38,7 @@
 }
 </style>
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
-
-        <header class="site-navbar site-navbar-target" role="banner">
-            <div class="container mb-3">
-                <div class="row" >
-                    <div class="col-md-12" style="padding:0 70px;">
-                        <div class="d-flex">
-                          <div class="site-logo mr-auto">
-                            <a href="/imdex.html">
-                              <img  class="main-logo" src="${pageContext.request.contextPath}/resources/images/logo/igre_main_logo2.png" alt="">
-                            </a>
-                          </div>
-                          
-                          <div class="site-quick-contact d-none d-lg-flex ml-auto ">
-                              <div class="d-flex site-info site-quick">
-                                  <div class="site-quick-text">
-                                    <!--home -->
-                                    <a href="../index.html">
-                                      <span style="color: black !important;">HOME</span>
-                                    </a>
-                                  </div>
-                          </div>
-                            <div class="d-flex site-info site-quick">
-                              <div class="site-quick-text">
-                                <!--로그인 -->
-                                <a href="login/login.html">
-                                  <span style="color: black !important;">로그인</span>
-                                </a>
-                              </div>
-                            </div>
-                
-                          </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </header>
-
+   
        
            <!-- contents begin-->
            <div class="site-section">
@@ -90,7 +56,7 @@
                                <h4 class="card-title text-center mb-4 mt-1">개인회원</h4>
                                <p class="mb-5">개인회원 가입을 원하시면 선택해주세요</p>                      
                                 <div class="form-group">
-                                    <button type="button"  onclick="location.href = '${pageContext.request.contextPath}/login/memberEnroll.do'" class="btn btn-primary btn-block enroll-btn">
+                                    <button type="button"  onclick="location.href = '${pageContext.request.contextPath}/member/memberEnroll.do'" class="btn btn-primary btn-block enroll-btn">
                                         가입하기
                                     </button>
                                 </div>
@@ -152,3 +118,4 @@
 
 </html>
 
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

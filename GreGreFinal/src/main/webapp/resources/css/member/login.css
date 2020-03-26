@@ -48,7 +48,4 @@ body {
     margin-bottom: 35px;
 }
 
-div#memberId-container{position:relative; padding:0px;}
-div#memberId-container span.guide {display:none;font-size: 12px;position:absolute; top:12px; right:10px;}
-div#memberId-container span.ok{color:green;}
-div#memberId-container span.error{color:red;}
+/*중복아이디체크관련*/
