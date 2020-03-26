@@ -197,7 +197,7 @@
                   </div><!-- /.row -->
                 </div>
               </div><!-- /.box -->
-
+					
             </section><!-- right col -->
           </div><!-- /.row (main row) -->
 
@@ -205,6 +205,7 @@
       </div><!-- /.content-wrapper -->
       <!--footer 넣어도 되는 부분-->
     </div><!-- ./wrapper -->
+    
 
     <!-- jQuery 2.1.3 -->
     <script src="${pageContext.request.contextPath}/resources/js/admin/jQuery-2.1.3.min.js"></script>
