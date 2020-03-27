@@ -237,9 +237,7 @@
                             </div>
                             <div class="pi-text">
                                 <div class="catagory-name">Coat</div>
-                                <a href="#">
-                                    <h5>Pure Pineapple</h5>
-                                </a>
+                                <h5><a href="#">Pure Pineapple</a></h5>
                             </div>
                         </div>
                         <div class="product-item">

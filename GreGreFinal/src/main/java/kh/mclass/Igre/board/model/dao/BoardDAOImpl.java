@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
 import kh.mclass.Igre.board.model.vo.PostList;
+import kh.mclass.Igre.member.model.vo.PreferList;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
@@ -48,5 +49,10 @@ public class BoardDAOImpl implements BoardDAO {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("boardCode", boardCode);
 		return sss.selectOne("board.postCount", map);
+	}
+
+	@Override
+	public int preferIn(PreferList pf) {
+		return sss.insert("board.preferIn", pf);
 	}
 }

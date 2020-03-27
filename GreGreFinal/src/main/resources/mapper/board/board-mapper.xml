@@ -19,4 +19,8 @@
 	<select id="postCount" resultType="_int">
 		select count(*) from ${boardCode}
 	</select>
+	
+	<insert id="preferIn">
+		insert into TB_prefer values(#{memberId}, #{boardCode}, #{postNo})
+	</insert>
 </mapper>

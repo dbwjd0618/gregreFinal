@@ -98,10 +98,10 @@ a{
 				<h3 class="detail-select-title">상세조건</h3>
 				<div class="counselor-detail-checkbox-wrapper">
 					<h4>상담사 레벨</h4>
-					<label for="type-level1" class="level-checkbox1"> 
-						<input type="checkbox" name="" id="type-level1">마스터 상담사
-						<div class="counselor-pay-level">50,000원 ~</div>
-					</label> <label for="type-level2" class="level-checkbox1"> 
+					<input type="checkbox" name="" id="type-level1"/>
+					<label for="type-level1" class="level-checkbox1">마스터 상담사</label>
+					<div class="counselor-pay-level">50,000원 ~</div>
+					 <label for="type-level2" class="level-checkbox1"> 
 						<input type="checkbox" name="" id="type-level2">전문 상담사
 						<div class="counselor-pay-level">30,000원 ~</div>
 					</label> <label for="type-level3" class="level-checkbox1"> 
