@@ -11,4 +11,10 @@ public interface AdminService {
 
 	List<Amember> list();
 
+	int updateMember(Amember amember);
+
+	Amember MemberSelectOne(String memberId);
+
+	int updateAdmin(Amember amember);
+
 }

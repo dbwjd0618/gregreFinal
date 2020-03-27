@@ -27,6 +27,7 @@ public class AdminController {
 	@Autowired
 	AdminService adminService;
 	
+	//Admin 로그인 폼 불러오기
 	@GetMapping("/login.do")
 	public String admin() {
 		log.debug("[/admin/login.do]가 요청되었습니다.");
@@ -34,12 +35,14 @@ public class AdminController {
 		return "admin/adminLogin";
 	}
 	
+	//Admin 인덱스 불러오기
 	@GetMapping("/index.do")
 	public String index() {
 		
 		return "admin/adminIndex";
 	}
 	
+	//Admin 계정으로 로그인 했을 때, 인덱스 불러오기
 	@PostMapping("/index.do")
 	public String login(@RequestParam("adminId") String adminId,
 						@RequestParam("adminPwd") String adminPwd,
@@ -50,7 +53,7 @@ public class AdminController {
 		//로그인 처리
 		//1. adminId로 admin 객체조회
 		Admin admin = adminService.selectOne(adminId);
-		log.debug("admin={}"+admin);
+//		log.debug("admin={}"+admin);
 		
 		//2.사용자가 입력한 password와 저장된 password 비교해서 로그인처리
 		if(admin != null && adminPwd.equals(admin.getAdminPwd())) {
@@ -78,32 +81,77 @@ public class AdminController {
 		return "redirect:/admin/login.do";
 	}
 	
+	
+	//Admin 회원목록 불러오기
 	@GetMapping("/memberList.do")
 	public String list(Model model) {
 		
 		List<Amember> list = adminService.list();
 		
-		log.debug("list={}", list);
+//		log.debug("list={}", list);
 		model.addAttribute("list", list);
 		
 		return "admin/memberList";
 	}
 	
-	
+	//Admin 회원목록에서 수정버튼 클릭시 수정 폼 불러오기
 	@GetMapping("/memberUpdate.do")
-	public String update() {
+	public String update(Model model,
+						 @RequestParam("memberId") String memberId) {
+		
+		Amember amember = adminService.MemberSelectOne(memberId);
+		
+		model.addAttribute("amember", amember);
 		
 		return "admin/memberUpdate";
 	}
 	
+	//Admin 회원정보 수정하기
 	@PostMapping("/memberUpdate.do")
 	public String update(Amember amember, 
 						 RedirectAttributes redirectAttributes) {
 		
-//		int result = adminService.updateMember();
+		int result = adminService.updateMember(amember);
 		
-		return "admin/memberList";
+		redirectAttributes.addFlashAttribute("msg", result>0?"회원정보 수정이 완료되었습니다.":"회원정보 수정에 실패하였습니다.");
 		
+		return "redirect:/admin/memberList.do";
+		
+	}
+	
+	//Admin 관리자 정보 수정 폼으로 가기
+	@GetMapping("/adminUpdate.do")
+	public String adminUpdate() {
+		
+		return "admin/adminUpdate";
+	}
+		
+	
+	//Admin 관리자 정보 수정하기
+	@PostMapping("/adminUpdate.do")
+	public String adminUpdate(Amember amember,
+							  RedirectAttributes redirectAttributes) {
+		
+		int result = adminService.updateAdmin(amember);
+		
+		redirectAttributes.addFlashAttribute("msg", result>0?"정보수정이 완료되었습니다.":"정보수정에 실패하였습니다.");
+		
+		return "redirect:/admin/index.do";
+	}
+	
+	//Admin 회원 탈퇴하기
+	@GetMapping("/memberDelete.do")
+	public String delete(Model model,
+						 @RequestParam("memberId") String memberId,
+						 RedirectAttributes redirectAttributes) {
+//		
+//		int result = adminService.delete(memberId);
+//		
+//		redirectAttributes.addFlashAttribute("msg", result>0?"회원탈퇴가 완료되었습니다.":"회원탈퇴에 실패하였습니다.");
+//		
+//		
+		
+		return "redirect:/admin/memberList.do";
 	}
 	
 	

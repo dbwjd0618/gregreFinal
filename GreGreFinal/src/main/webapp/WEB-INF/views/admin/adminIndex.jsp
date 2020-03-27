@@ -1,8 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="function" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- admin header 선언 -->
 <%@ include file="/WEB-INF/views/admin/common/header.jsp"%>
+
+  <!-- alert 메세지 띄우기! -->
+<c:if test="${not empty msg }">
+<script>
+	$(()=>{
+		alert("${msg}");
+	});
+</script>
+</c:if>
+<% session.removeAttribute("msg"); %>
+
 
 <!-- admin index 선언 -->
 
