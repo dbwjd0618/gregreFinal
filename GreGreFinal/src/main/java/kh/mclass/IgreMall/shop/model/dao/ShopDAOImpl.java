@@ -2,6 +2,7 @@ package kh.mclass.IgreMall.shop.model.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,17 +14,20 @@ public class ShopDAOImpl implements ShopDAO {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 
-	@Override
-	public int selectTotalProducts() {
-		return sqlSession.selectOne("product.selectTotalProducts");
-	}
 
 	@Override
 	public List<Product> productList(int cPage, int numPerPage,Product cate3) {
-		// TODO Auto-generated method stub
+		int offset = (cPage-1)*numPerPage;
+		int limit = numPerPage;
+		RowBounds rbn = new RowBounds(offset, limit);
+		
 		System.out.println("category3@DAO"+cate3);
-		return sqlSession.selectList("product.productList",cate3);
+		return sqlSession.selectList("product.productList",cate3,rbn);
 	}
 
-	
+	@Override
+	public int selectTotalProducts(Product cate3) {
+		return sqlSession.selectOne("product.selectTotalProducts",cate3);
+	}
+
 }

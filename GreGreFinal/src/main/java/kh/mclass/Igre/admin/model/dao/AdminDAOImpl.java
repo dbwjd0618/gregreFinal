@@ -24,5 +24,22 @@ public class AdminDAOImpl implements AdminDAO {
 	public List<Amember> list() {
 		return sqlSession.selectList("admin.list");
 	}
+
+	@Override
+	public Amember MemberSelectOne(String memberId) {
+		return sqlSession.selectOne("admin.MemberSelectOne", memberId);
+	}
 	
+	@Override
+	public int updateMember(Amember amember) {
+		return sqlSession.update("admin.memberUpdate", amember);
+	}
+
+	@Override
+	public int updateAdmin(Amember amember) {
+		return sqlSession.update("admin.adminUpdate", amember);
+	}
+
+
+
 }

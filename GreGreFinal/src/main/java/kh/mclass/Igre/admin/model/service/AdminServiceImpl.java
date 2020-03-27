@@ -25,4 +25,20 @@ public class AdminServiceImpl implements AdminService{
 		return adminDAO.list();
 	}
 
+	@Override
+	public Amember MemberSelectOne(String memberId) {
+		return adminDAO.MemberSelectOne(memberId);
+	}
+	
+	@Override
+	public int updateMember(Amember amember) {
+		return adminDAO.updateMember(amember);
+	}
+
+	@Override
+	public int updateAdmin(Amember amember) {
+		return adminDAO.updateAdmin(amember);
+	}
+
+
 }

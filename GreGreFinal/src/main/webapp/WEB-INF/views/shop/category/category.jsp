@@ -36,13 +36,13 @@
 		</div>
 		<div class="row product-category-title">
 			<div class="col-lg-7">
-					<c:if test="${ category1 eq 'CA1'|| category2 eq 'CA2'}">		
+					<c:if test="${ category1 eq 'CA1'|| category1 eq 'CA2'}">		
 										<h2 class="sub-title">분유/이유식</h2>
 									</c:if>
-									<c:if test="${ category1 eq 'CA3'|| category2 eq 'CA4'}">
+									<c:if test="${ category1 eq 'CA3'|| category1 eq 'CA4'}">
 									<h2 class="sub-title">기저귀/물티슈</h2>
 									</c:if>
-									<c:if test="${ category1 eq 'CA5'|| category2 eq 'CA6'}">
+									<c:if test="${ category1 eq 'CA5'|| category1 eq 'CA6'}">
 									<h2 class="sub-title">수유/이유용품</h2>
 									</c:if>
 									<c:if test="${ category1 eq 'CA7'}">
@@ -51,44 +51,34 @@
 			</div>
 			<div class="col-lg-5 product-sub-nav">
 				<nav class="nav">
-				<!-- Ajax사용해야하는 것 같음, -->
+					<c:if test="${category1 eq 'CA1' ||category1 eq 'CA2'}">
 					<input type="button" class="nav-item is-active" active-color="rebeccapurple" value="전체"/>
-					<c:if test="${category1 eq 'CA1' }">
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA1'" value="${category1 eq 'CA1'?'분유':'' }"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA1&category1=CA1'" value="분유"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA2&category1=CA2'" value="이유식"/>
 					</c:if>
-					<c:if test="${category2 eq 'CA2' }">
-					<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA2'" value="${category2 eq 'CA2'?'이유식':'' }"/>
+					
+					<c:if test="${category1 eq 'CA3' || category1 eq 'CA4'}">
+					<input type="button" class="nav-item is-active" active-color="rebeccapurple" value="전체"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA3&category1=CA3'" value="기저귀"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA4&category1=CA4'" value="물티슈"/>
 					</c:if>
-					<c:if test="${category1 eq 'CA3' }">
-					<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA3'" value="${category1 eq 'CA3'?'기저귀':'' }"/>
-					</c:if>
-					<c:if test="${category2 eq 'CA4' }">
-					<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA4'" value="${category2 eq 'CA4'?'물티슈':'' }"/>
-					</c:if>
-					<c:if test="${category1 eq 'CA5' }">
-					<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA5'" value="${category1 eq 'CA5'?'수유':'' }"/>
-					</c:if>
-					<c:if test="${category2 eq 'CA6' }">
-					<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA6'" value="${category2 eq 'CA6'?'이유용품':'' }"/>
+					<c:if test="${category1 eq 'CA5' || category1 eq 'CA6'}">
+					<input type="button" class="nav-item is-active" active-color="rebeccapurple" value="전체"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA5&category1=CA5'" value="수유"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA6&category1=CA6'" value="이유용품"/>
 					</c:if>
 					<c:if test="${category1 eq 'CA7' }">
-					<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA7'" value="${category1 eq 'CA7'?'목용용품':'' }"/>
+					<input type="button" class="nav-item is-active" active-color="rebeccapurple" value="전체"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA7&category1=CA7'" value="목욕용품"/>
 					</c:if>
 					<span class="nav-indicator"></span>
 				</nav>
 			</div>
 		</div>
-		<script>
-		$(function(){
-			$(".nav-item").click(function(){
-				console.log("이거출려기외는")
-				alert(${category});
-			});
-		});
-		</script>
 		<div class="row">
 			<div class="col-lg-5">
-				<div class="tt-count-desc">총 <span id="totalCnt" class="fc-spot">${totalProducts}</span>개의 상품이 있습니다.</div>		
+				<div class="tt-count-desc">총 <span id="totalCnt" class="fc-spot">
+				${totalProducts}</span>개의 상품이 있습니다.</div>		
 			</div>
 		<div class="col-lg-7 col-md-7">
 			<div class="product-show-option" style="float:right;">
@@ -201,7 +191,7 @@
 						</div>
 						<!-- 적용되는 곳. -->
 						<c:forEach items="${list}" var="p"> 
-						<c:if test="${p.categoryId eq category1 || p.categoryId eq category2}">
+						<c:if test="${p.categoryId eq category1 || p.categoryId eq category2|| category3 eq p.categoryId}">
 						<!-- 샘플데이터 -->
 							<%-- <p>여기잖아${p.attachList.get(0).originalImg }</p>--%>
 							<div class="col-lg-4 col-sm-6">
@@ -273,6 +263,24 @@
 						</c:forEach>
 					</div>
 				</div>
+				<div>
+  <ul>
+    <c:if test="${pageMaker.prev}">
+    	<li><a href="list${pageMaker.makeQuery(pageMaker.startPage - 1)}">이전</a></li>
+    </c:if> 
+
+    <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+    	<li><a href="list${pageMaker.makeQuery(idx)}">${idx}</a></li>
+    </c:forEach>
+
+    <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+    	<li><a href="list${pageMaker.makeQuery(pageMaker.endPage + 1)}">다음</a></li>
+    </c:if> 
+  </ul>
+</div>
+				
+				
+				
 				<div id='pageBar'>${pageBar }</div>
 				<!-- 페이지 바 시작-->
 				<nav aria-label="Page navigation example">

@@ -42,6 +42,12 @@
 	    	COUNT(*) 
 	    FROM 
 	    	tb_product
+	    where
+	    	1=1
+	    <if test="categoryId !=null">
+	    and
+		category_id= #{categoryId}
+	    </if>
 	</select>
 	
 <select  id="productList" resultMap="productList">
@@ -55,6 +61,7 @@ where
 	and
 		category_id= #{categoryId}
 </if>
+
 </select>
 	<resultMap type="kh.mclass.IgreMall.product.model.vo.Product" id="productList">
 	<id column="product_no" property="productNo"/>
