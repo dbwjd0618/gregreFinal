@@ -40,6 +40,11 @@ public class AdminDAOImpl implements AdminDAO {
 		return sqlSession.update("admin.adminUpdate", amember);
 	}
 
+	@Override
+	public int delete(String memberId) {
+		return sqlSession.delete("admin.delete", memberId);
+	}
+
 
 
 }

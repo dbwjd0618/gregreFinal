@@ -37,6 +37,12 @@
     <link href="${pageContext.request.contextPath}/resources/css/admin/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
     <!-- jQuery 3.3.1  -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
+    
+    <style>
+    .logbtn{
+    	color:black;
+    }
+    </style>
   </head>
   
   <body class="skin-blue">
@@ -59,9 +65,7 @@
             <ul class="nav navbar-nav">
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
-               <%--  <a href="${pageContext.request.contextPath}/admin/adminUpdate.do" class="dropdown-toggle" data-toggle="dropdown"> --%>
                   <a href="${pageContext.request.contextPath}/admin/adminUpdate.do"><span class="hidden-xs">${adminLoggedIn.adminId}님 안녕하세요!</span></a>
-            <!--     </a> -->
               </li>
             </ul>
           </div>
@@ -75,8 +79,7 @@
           <div class="user-panel">
             <div class="pull-left info">
               <p>관리자</p>
-
-              <a href="#"><i class="fa fa-circle text-success"></i> 로그인</a>
+                  <button class="logbtn" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/logout.do'">로그아웃</button>
             </div>
           </div>
           <!-- search form -->
