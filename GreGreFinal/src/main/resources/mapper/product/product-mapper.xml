@@ -31,7 +31,8 @@
 		seq_prod_img_no.nextval,
 		#{productId},
 		#{originalImg},
-		#{renamedImg}
+		#{renamedImg},
+		#{imgType}
 	)
 </insert>
 
@@ -63,10 +64,11 @@
 </select>
 	
 <select  id="productList" resultMap="productList">
-	select *
+select *
 from (select * 
         from tb_product A join tb_prod_img B
-            on A.product_id = B.product_id)
+            on A.product_id = B.product_id
+        where B.img_type ='R'  order by A.enroll_date desc )
 where 
 	1=1
 <if test="categoryId != null">

@@ -24,7 +24,7 @@ public class Attachment implements Serializable {
 	private String productId;
 	private String originalImg;
 	private String renamedImg;
-	
+	private String ImgType;
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

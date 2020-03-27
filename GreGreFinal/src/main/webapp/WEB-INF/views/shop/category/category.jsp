@@ -53,23 +53,22 @@
 				<nav class="nav">
 					<c:if test="${category1 eq 'CA1' ||category1 eq 'CA2'}">
 						<input type="button" class="nav-item is-active" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA1&category2=CA2'" value="전체"/>
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA1&category1=CA1'" value="분유"/>
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA2&category1=CA2'" value="이유식"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA1'" value="분유"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA2'" value="이유식"/>
 					</c:if>
 					
 					<c:if test="${category1 eq 'CA3' || category1 eq 'CA4'}">
 					<input type="button" class="nav-item is-active" active-color="rebeccapurple"  onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA3&category2=CA4'" value="전체"/>
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA3&category1=CA3'" value="기저귀"/>
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA4&category1=CA4'" value="물티슈"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA3'" value="기저귀"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA4'" value="물티슈"/>
 					</c:if>
 					<c:if test="${category1 eq 'CA5' || category1 eq 'CA6'}">
 					<input type="button" class="nav-item is-active" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA5&category2=CA6'"  value="전체"/>
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA5&category1=CA5'" value="수유"/>
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA6&category1=CA6'" value="이유용품"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA5'" value="수유"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA6'" value="이유용품"/>
 					</c:if>
 					<c:if test="${category1 eq 'CA7' }">
-					<input type="button" class="nav-item is-active" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA7'" value="전체"/>
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA7&category1=CA7'" value="목욕용품"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA7'" value="목욕용품"/>
 					</c:if>
 					<span class="nav-indicator"></span>
 				</nav>
