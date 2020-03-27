@@ -48,7 +48,19 @@
 	    and
 		category_id= #{categoryId}
 	    </if>
-	</select>
+</select>
+<select id="categoryList" resultMap="productList">
+	select 
+		*
+	from
+		tb_product
+	 where
+	    	1=1
+	 <if test="categoryId !=null">
+	    and
+		category_id= #{categoryId}
+	</if>
+</select>
 	
 <select  id="productList" resultMap="productList">
 	select *

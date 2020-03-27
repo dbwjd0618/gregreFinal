@@ -11,4 +11,8 @@ public interface ShopDAO {
 
 	List<Product> productList(int cPage, int numPerPage, Product categoryId);
 
+	List<Product> productList(Product category1Prod);
+
+
+
 }
