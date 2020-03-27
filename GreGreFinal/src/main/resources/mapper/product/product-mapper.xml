@@ -35,4 +35,46 @@
 	)
 </insert>
 
+
+
+<select id="selectTotalProducts" resultType="_int">
+	    SELECT 
+	    	COUNT(*) 
+	    FROM 
+	    	tb_product
+	</select>
+	
+<select  id="productList" resultMap="productList">
+	select *
+from (select * 
+        from tb_product A join tb_prod_img B
+            on A.product_id = B.product_id)
+where 
+	1=1
+<if test="categoryId != null">
+	and
+		category_id= #{categoryId}
+</if>
+</select>
+	<resultMap type="kh.mclass.IgreMall.product.model.vo.Product" id="productList">
+	<id column="product_no" property="productNo"/>
+	<result column="product_id" property="productId"></result>
+	<result column="seller_id" property="sellerId"></result>	
+	<result column="category_id" property="categoryId"></result>	
+	<result column="product_name" property="productName"></result>	
+	<result column="brand_name" property="brandName"></result>	
+	<result column="price" property="price"></result>	
+	<result column="delivery_fee" property="deliveryFee"></result>	
+	<result column="point_rate" property="pointRate"></result>	
+	<result column="discount_price" property="discountPrice"></result>	
+	<result column="product_stock" property="productStock"></result>	
+	
+	<collection property="attachList" ofType="attachment">
+		<id column="attachment_no" property="attachmentNo"></id>	
+		<result column="poduct_id" property="productId"/>	
+		<result column="original_img" property="originalImg"/>	
+		<result column="renamed_img" property="renamedImg"/>	
+	</collection>
+	</resultMap>
+	
 </mapper>
