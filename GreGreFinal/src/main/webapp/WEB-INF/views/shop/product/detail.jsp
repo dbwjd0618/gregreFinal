@@ -658,9 +658,7 @@
                         </div>
                         <div class="pi-text">
                             <div class="catagory-name">Coat</div>
-                            <a href="#">
-                                <h5>Pure Pineapple</h5>
-                            </a>
+                            <h5><a href="#">Pure Pineapple</a></h5>
                             <div class="product-price">
                                 $14.00
                                 <span>$35.00</span>
@@ -683,9 +681,7 @@
                         </div>
                         <div class="pi-text">
                             <div class="catagory-name">Shoes</div>
-                            <a href="#">
-                                <h5>Guangzhou sweater</h5>
-                            </a>
+                            <h5><a href="#">Guangzhou sweater</a></h5>
                             <div class="product-price">
                                 $13.00
                             </div>
@@ -707,9 +703,7 @@
                         </div>
                         <div class="pi-text">
                             <div class="catagory-name">Towel</div>
-                            <a href="#">
-                                <h5>Pure Pineapple</h5>
-                            </a>
+                            <h5><a href="#">Pure Pineapple</a></h5>
                             <div class="product-price">
                                 $34.00
                             </div>
@@ -731,9 +725,7 @@
                         </div>
                         <div class="pi-text">
                             <div class="catagory-name">Towel</div>
-                            <a href="#">
-                                <h5>Converse Shoes</h5>
-                            </a>
+                            <h5><a href="#">Converse Shoes</a></h5>
                             <div class="product-price">
                                 $34.00
                             </div>

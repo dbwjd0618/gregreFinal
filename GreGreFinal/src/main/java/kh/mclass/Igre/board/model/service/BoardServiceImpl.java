@@ -9,6 +9,7 @@ import kh.mclass.Igre.board.model.dao.BoardDAO;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
 import kh.mclass.Igre.board.model.vo.PostList;
+import kh.mclass.Igre.member.model.vo.PreferList;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -35,4 +36,10 @@ public class BoardServiceImpl implements BoardService{
 	public int postCount(String boardCode) {
 		return bd.postCount(boardCode);
 	}
+
+	@Override
+	public int preferIn(PreferList pf) {
+		return bd.preferIn(pf);
+	}
+
 }
