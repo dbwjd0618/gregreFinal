@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kh.mclass.IgreMall.product.model.vo.Attachment;
+import kh.mclass.IgreMall.product.model.vo.ProdOption;
 import kh.mclass.IgreMall.product.model.vo.Product;
 
 @Repository
@@ -28,5 +29,20 @@ public class ProductDAOImpl implements ProductDAO{
 		for(Attachment attach : attachList) {
 			sqlSession.insert("product.insertAttachment", attach);
 		}
+	}
+
+	@Override
+	public Product selectProductOne(String productId) {
+		return sqlSession.selectOne("product.selectProductOne",productId);
+	}
+
+	@Override
+	public List<Attachment> selectAttachList(String productId) {
+		return sqlSession.selectList("product.selectAttachList",productId);
+	}
+
+	@Override
+	public List<ProdOption> selectOptionList(String productId) {
+		return sqlSession.selectList("product.selectOptionList",productId);
 	}
 }

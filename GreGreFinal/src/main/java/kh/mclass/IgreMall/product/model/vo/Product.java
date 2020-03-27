@@ -34,12 +34,15 @@ public class Product  implements Serializable{
 	private String productState;
 
 	private List<Attachment> attachList;
+	private List<ProdOption> optionList;
 	
 	
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	
 	public Product(String sellerId, String productId, String categoryId, String productName, String brandName,
 			int price, String deliveryFee, int pointRate, int discountPrice, int productStock, String productDetail,
 			Date enrollDate, String productState) {
@@ -63,4 +66,5 @@ public class Product  implements Serializable{
 		super();
 		this.categoryId = categoryId;
 	}
+	
 }
