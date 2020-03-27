@@ -29,5 +29,11 @@ public class CounselorDAOImpl implements CounselorDAO {
 		return sqlSession.selectList("counselor.selectCounselorList", null, rowBounds);
 	}
 
+	@Override
+	public Counselor selectOne(String advisId) {
+		
+		return sqlSession.selectOne("counselor.selectOne", advisId);
+	}
+
 	
 }

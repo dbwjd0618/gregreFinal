@@ -25,4 +25,14 @@ public class BoardServiceImpl implements BoardService{
 	public List<Post> postList(PostList bc, int cPage, int nPP) {
 		return bd.postList(bc, cPage, nPP);
 	}
+
+	@Override
+	public String boardName(String boardCode) {
+		return bd.boardName(boardCode);
+	}
+
+	@Override
+	public int postCount(String boardCode) {
+		return bd.postCount(boardCode);
+	}
 }

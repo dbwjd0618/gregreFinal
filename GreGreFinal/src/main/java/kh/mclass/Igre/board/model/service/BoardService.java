@@ -12,4 +12,8 @@ public interface BoardService {
 
 	List<Post> postList(PostList bc, int cPage, int nPP);
 
+	String boardName(String boardCode);
+
+	int postCount(String boardCode);
+
 }

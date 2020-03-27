@@ -10,4 +10,6 @@ public interface CounselorService {
 
 	List<Counselor> selectCounselorList(int cPage, int numPerPage);
 
+	Counselor selectOne(String advisId);
+
 }
