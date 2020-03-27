@@ -17,4 +17,6 @@ public interface AdminService {
 
 	int updateAdmin(Amember amember);
 
+	int delete(String memberId);
+
 }
