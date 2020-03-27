@@ -63,16 +63,18 @@
 					<h3 class="detail-select-title">상세조건</h3>
 					<div class="counselor-detail-checkbox-wrapper">
 						<h4>상담사 레벨</h4>
-						<label for="" class="level-checkbox1"> <input
-							type="checkbox" name="" id="">마스터 상담사
-							<div class="counselor-pay-level">50,000원 ~</div>
-						</label> <label for="" class="level-checkbox1"> <input
-							type="checkbox" name="" id="">전문 상담사
-							<div class="counselor-pay-level">30,000원 ~</div>
-						</label> <label for="" class="level-checkbox1"> <input
-							type="checkbox" name="" id="">일반 상담사
-							<div class="counselor-pay-level">15,000원 ~</div>
+						<label for="" class="level-checkbox1">
+							<input type="checkbox" name="" id="">마스터 상담사
 						</label>
+						<div class="counselor-pay-level">50,000원 ~</div>
+						<label for="" class="level-checkbox1">
+							<input type="checkbox" name="" id="">전문 상담사
+						</label>
+						<div class="counselor-pay-level">30,000원 ~</div>
+						<label for="" class="level-checkbox1">
+							<input type="checkbox" name="" id="">일반 상담사
+						</label>
+						<div class="counselor-pay-level">15,000원 ~</div>
 					</div>
 					<div class="counselor-detail-checkbox-wrapper">
 						<h4>상담사 성별</h4>
@@ -135,9 +137,7 @@
 								<!-- 평점 끝 -->
 							</div> <!-- 상담사 이미지 -->
 							<div class="counselor-img">
-								<img
-									src="${pageContext.request.contextPath}/resources/images/이루다.jpg"
-									alt="">
+								<img src="${pageContext.request.contextPath}/resources/images/이루다.jpg" alt="">
 							</div> <!-- 상담 유형 -->
 							<div class="counselor-type">
 								<div>
@@ -150,7 +150,6 @@
 								</div>
 							</div>
 							<button class="counselor-selectOne">상담사 찜하기</button>
-
 						</a>
 					</article>
 				</div>
