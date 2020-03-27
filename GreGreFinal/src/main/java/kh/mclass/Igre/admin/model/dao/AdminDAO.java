@@ -17,4 +17,6 @@ public interface AdminDAO {
 
 	int updateAdmin(Amember amember);
 
+	int delete(String memberId);
+
 }
