@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="counselor">
+	<select resultType="counselorWithFileCount" id="selectCounselorList">
+	SELECT A.*, (
+		SELECT
+			COUNT(*)
+		FROM
+			ATTACHMENT
+		WHERE BOARD_NO = A.BOARD_NO) FILECOUNT
+	FROM
+		BOARD A
+	ORDER BY
+		BOARD_NO DESC </select>
+	<select resultType="_int" id="selectBoardTotalContents">
+		SELECT
+			COUNT(*)
+		FROM
+		BOARD
+	</select>
+	
+	<select id="selectOne" resultMap="boardCollection">
+	select *
+	from 
+		board B 
+	  left join
+		attachment A
+			on B.board_no = A.board_no
+	where B.board_no = #{boardNo}
+	</select>
+	<resultMap type="board" id="boardCollection">
+		<id column="board_no" property="boardNo"/>
+		<result column="board_title" property="boardTitle"/>
+		<result column="board_writer" property="boardWriter"/>
+		<result column="board_content" property="boardContent"/>
+		<result column="board_date" property="boardDate"/>
+		<result column="board_read_count" property="boardReadCount"/>
+		
+		<collection property="attachList" ofType="attachment">
+			<id column="attachment_no" property="attachmentNo"/>
+			<result column="board_no" property="boardNo"/>
+			<result column="original_filename" property="originalFileName"/>
+			<result column="renamed_filename" property="renamedFileName"/>
+			<result column="upload_date" property="uploadDate"/>
+			<result column="download_count" property="downloadCount"/>
+			<result column="status" property="status"/>	
+		</collection>
+	</resultMap>
+	
+</mapper>

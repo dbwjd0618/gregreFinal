@@ -30,13 +30,24 @@ public class Counselor implements Serializable{
 	private String advisGender;
 	private String advisDay;
 	private String advisPrice;
-	private String advisKeyword;
+	private String[] advisKeyword;
 	private String advisLicenseFile;
 	private String advisImg;
 	
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	public Counselor(String advisName, String advisLineIntro, String advisGrade, String advisPrice, String[] advisKeyword, String advisImg) {
+		
+		this.advisName = advisName;
+		this.advisLineIntro = advisLineIntro;
+		this.advisGrade = advisGrade;
+		this.advisPrice = advisPrice;
+		this.advisKeyword = advisKeyword;
+		this.advisImg = advisImg;
+		
 	}
 	
 	
