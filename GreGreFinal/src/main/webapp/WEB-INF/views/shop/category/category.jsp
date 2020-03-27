@@ -21,16 +21,16 @@
 					Home</a> 
 					<c:if test="${ category1 eq 'CA1'|| category2 eq 'CA2'}">		
 									<span>분유/이유식</span>
-									</c:if>
-									<c:if test="${ category1 eq 'CA3'|| category2 eq 'CA4'}">
-									<span>기저귀/물티슈</span>
-									</c:if>
-									<c:if test="${ category1 eq 'CA5'|| category2 eq 'CA6'}">
-									<span>수유/이유용품</span>
-									</c:if>
-									<c:if test="${ category1 eq 'CA7'}">
-									<span>목욕용품</span>
-									</c:if>
+					</c:if>
+					<c:if test="${ category1 eq 'CA3'|| category2 eq 'CA4'}">
+						<span>기저귀/물티슈</span>
+					</c:if>
+					<c:if test="${ category1 eq 'CA5'|| category2 eq 'CA6'}">
+						<span>수유/이유용품</span>
+					</c:if>
+					<c:if test="${ category1 eq 'CA7'}">
+						<span>목욕용품</span>
+					</c:if>
 				</div>
 			</div>
 		</div>
@@ -52,24 +52,23 @@
 			<div class="col-lg-5 product-sub-nav">
 				<nav class="nav">
 					<c:if test="${category1 eq 'CA1' ||category1 eq 'CA2'}">
-					<input type="button" class="nav-item is-active" active-color="rebeccapurple" value="전체"/>
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA1&category1=CA1'" value="분유"/>
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA2&category1=CA2'" value="이유식"/>
+						<input type="button" class="nav-item is-active" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA1&category2=CA2'" value="전체"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA1'" value="분유"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA2'" value="이유식"/>
 					</c:if>
 					
 					<c:if test="${category1 eq 'CA3' || category1 eq 'CA4'}">
-					<input type="button" class="nav-item is-active" active-color="rebeccapurple" value="전체"/>
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA3&category1=CA3'" value="기저귀"/>
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA4&category1=CA4'" value="물티슈"/>
+					<input type="button" class="nav-item is-active" active-color="rebeccapurple"  onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA3&category2=CA4'" value="전체"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA3'" value="기저귀"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA4'" value="물티슈"/>
 					</c:if>
 					<c:if test="${category1 eq 'CA5' || category1 eq 'CA6'}">
-					<input type="button" class="nav-item is-active" active-color="rebeccapurple" value="전체"/>
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA5&category1=CA5'" value="수유"/>
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA6&category1=CA6'" value="이유용품"/>
+					<input type="button" class="nav-item is-active" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA5&category2=CA6'"  value="전체"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA5'" value="수유"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA6'" value="이유용품"/>
 					</c:if>
 					<c:if test="${category1 eq 'CA7' }">
-					<input type="button" class="nav-item is-active" active-color="rebeccapurple" value="전체"/>
-						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category3=CA7&category1=CA7'" value="목욕용품"/>
+						<input type="button" class="nav-item" active-color="rebeccapurple" onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA7'" value="목욕용품"/>
 					</c:if>
 					<span class="nav-indicator"></span>
 				</nav>
@@ -78,7 +77,7 @@
 		<div class="row">
 			<div class="col-lg-5">
 				<div class="tt-count-desc">총 <span id="totalCnt" class="fc-spot">
-				${totalProducts}</span>개의 상품이 있습니다.</div>		
+				${totalAllProd}</span>개의 상품이 있습니다.</div>		
 			</div>
 		<div class="col-lg-7 col-md-7">
 			<div class="product-show-option" style="float:right;">
@@ -153,44 +152,8 @@
 			<div class="col-lg-9 order-1 order-lg-2">
 				<div class="product-list">
 					<div class="row">
-						<div class="col-lg-4 col-sm-6">
-							<div class="product-item">
-								<div class="pi-pic">
-									<img src="${pageContext.request.contextPath }/resources/images/shop/products/product-1.jpg" alt="">
-									<div class="icon">
-										<img src="https://img.icons8.com/ios/50/000000/hearts.png"
-											style="width: 25px;">
-									</div>
-									<ul>
-										<li class="w-icon active"><a href="#"><svg
-													style="width: 18px; height: 16px; margin-bottom: 3px;"
-													xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-													width="50" height="50" viewBox="0 0 172 172"
-													style=" fill:#000000;">
-													<g fill="none" fill-rule="nonzero" stroke="none"
-														stroke-width="1" stroke-linecap="butt"
-														stroke-linejoin="miter" stroke-miterlimit="10"
-														stroke-dasharray="" stroke-dashoffset="0"
-														font-family="none" font-weight="none" font-size="none"
-														text-anchor="none" style="mix-blend-mode: normal">
-													<path d="M0,172v-172h172v172z" fill="none"></path>
-													<g fill="#ffffff">
-													<path
-														d="M86,3.44c-19.04094,0 -34.4,15.35906 -34.4,34.4v6.88h-27.1975l-0.3225,3.01l-13.76,120.4l-0.43,3.87h152.22l-0.43,-3.87l-13.76,-120.4l-0.3225,-3.01h-27.1975v-6.88c0,-19.04094 -15.35906,-34.4 -34.4,-34.4zM86,10.32c15.35906,0 27.52,12.16094 27.52,27.52v6.88h-55.04v-6.88c0,-15.35906 12.16094,-27.52 27.52,-27.52zM30.6375,51.6h20.9625v7.8475c-2.05594,1.19594 -3.44,3.37281 -3.44,5.9125c0,3.80281 3.07719,6.88 6.88,6.88c3.80281,0 6.88,-3.07719 6.88,-6.88c0,-2.53969 -1.38406,-4.71656 -3.44,-5.9125v-7.8475h55.04v7.8475c-2.05594,1.19594 -3.44,3.37281 -3.44,5.9125c0,3.80281 3.07719,6.88 6.88,6.88c3.80281,0 6.88,-3.07719 6.88,-6.88c0,-2.53969 -1.38406,-4.71656 -3.44,-5.9125v-7.8475h20.9625l13.0075,113.52h-136.74z"></path></g></g></svg></a></li>
-										<li class="quick-view"><a href="${pageContext.request.contextPath }/shop/product/detail.do">상세보기</a></li>
-									</ul>
-								</div>
-								<div class="pi-text">
-									<div class="catagory-name">Towel</div>
-									<a href="#">
-										<h5>Pure Pineapple</h5>
-									</a>
-									<div class="product-price">$34.00</div>
-								</div>
-							</div>
-						</div>
 						<!-- 적용되는 곳. -->
-						<c:forEach items="${list}" var="p"> 
+						<c:forEach items="${totalCategoryList}" var="p"> 
 						<c:if test="${p.categoryId eq category1 || p.categoryId eq category2|| category3 eq p.categoryId}">
 						<!-- 샘플데이터 -->
 							<%-- <p>여기잖아${p.attachList.get(0).originalImg }</p>--%>

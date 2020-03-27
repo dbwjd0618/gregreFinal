@@ -12,4 +12,7 @@ public interface ShopService {
 	List<Product> productList(int cPage, int numPerPage, Product categoryId);
 
 
+	List<Product> productList(Product category1Prod);
+
+
 }

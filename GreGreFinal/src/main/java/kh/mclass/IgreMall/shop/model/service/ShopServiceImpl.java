@@ -24,4 +24,16 @@ public class ShopServiceImpl implements ShopService {
 		return shopDAO.selectTotalProducts(cate3);
 	}
 
+
+
+	@Override
+	public List<Product> productList(Product category1Prod) {
+		return shopDAO.productList(category1Prod);
+	}
+
+	
+
+
+
+
 }

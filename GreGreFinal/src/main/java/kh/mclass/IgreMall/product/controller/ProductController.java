@@ -42,6 +42,9 @@ public class ProductController {
 		return mav;
 	}
 
+	
+	
+	
 	@GetMapping("/defaultinsert.do")
 	public String defaultInsert(HttpServletRequest request) {
 	
@@ -66,7 +69,7 @@ public class ProductController {
 
 			for (Map.Entry<String, String> entry : entries) {
 
-			  Attachment a = new Attachment( 0, entry.getKey(), entry.getValue(), Utils.getRenamedFileName(entry.getValue()));
+			  Attachment a = new Attachment( 0, entry.getKey(), entry.getValue(), Utils.getRenamedFileName(entry.getValue()), "R");
 			  attachList.add(a);
 			}
 

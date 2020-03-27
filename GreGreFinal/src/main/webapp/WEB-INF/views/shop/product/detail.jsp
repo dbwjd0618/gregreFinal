@@ -627,6 +627,7 @@
                     </div>
                 </div>
             </div>
+           </div>
     </section>
     <!-- Product Shop Section End -->
 

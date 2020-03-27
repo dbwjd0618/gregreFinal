@@ -40,5 +40,10 @@ public class AdminServiceImpl implements AdminService{
 		return adminDAO.updateAdmin(amember);
 	}
 
+	@Override
+	public int delete(String memberId) {
+		return adminDAO.delete(memberId);
+	}
+
 
 }

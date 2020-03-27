@@ -64,6 +64,15 @@
  		where
  			member_id = #{memberId}
  	</update>
+ 	
+ 	<delete id="delete">
+ 	delete
+ 	
+ 	from
+ 		tb_member_info
+ 	where
+ 		member_id = #{memberId}
+ 	</delete>
  
  </mapper>
  

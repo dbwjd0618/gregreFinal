@@ -9,7 +9,7 @@
 		TB_product
 	values (
 		#{sellerId},
-		#{productId},
+		'p'||to_char(seq_product_no.nextval, 'fm0000000'),
 		#{categoryId},
 		#{productName},
 		#{brandName},
@@ -20,8 +20,10 @@
 		#{productStock},
 		#{productDetail},
 		default,
-		default
-	)
+		default)
+		<selectKey keyProperty="productId" resultType="string" order="AFTER">
+			select 'p'||to_char(seq_product_no.currval, 'fm0000000') from dual
+		</selectKey>
 </insert>
 
 <insert id="insertAttach">
@@ -31,7 +33,8 @@
 		seq_prod_img_no.nextval,
 		#{productId},
 		#{originalImg},
-		#{renamedImg}
+		#{renamedImg},
+		#{imgType}
 	)
 </insert>
 
