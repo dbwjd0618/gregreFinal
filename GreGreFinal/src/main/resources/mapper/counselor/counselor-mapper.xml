@@ -3,22 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="counselor">
-	<select resultType="counselorWithFileCount" id="selectCounselorList">
-	SELECT A.*, (
-		SELECT
-			COUNT(*)
-		FROM
-			ATTACHMENT
-		WHERE BOARD_NO = A.BOARD_NO) FILECOUNT
-	FROM
-		BOARD A
-	ORDER BY
-		BOARD_NO DESC </select>
+	<!-- 상담사 전체 인원 count  -->
 	<select resultType="_int" id="selectBoardTotalContents">
 		SELECT
 			COUNT(*)
 		FROM
-		BOARD
+			TB_adviser
 	</select>
 	
 	<select id="selectOne" resultMap="boardCollection">
