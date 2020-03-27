@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="counselor">
+	<select resultType="counselor" id="selectCounselorList">
+		select 
+			* 
+		from 
+			TB_adviser
+	</select>
+	
+	
+	<!-- 상담사 전체 인원 count  -->
+	<select resultType="_int" id="selectCounselorTotalContents">
+		SELECT
+			COUNT(*)
+		FROM
+			TB_adviser
+	</select>
+	
+	<!-- 상담사 1명 선택  -->
+	<select id="selectOne" resultMap="counselorCollection">
+	select 
+		*
+	from 
+		TB_adviser
+	where 
+		advis_id = #{advisId}
+	</select>
+	
+	<resultMap type="counselor" id="keywordMap">
+		<result column="advis_keyword" property="advisKeyword" typeHandler="strArrTypeHandler"/>
+	</resultMap>
+	
+	<resultMap type="counselor" id="counselorCollection">
+		<id column="advis_id" property="advisId"/>
+		<result column="advis_name" property="advisName"/>	
+		<result column="advis_intro" property="advisIntro"/>	
+		<result column="advis_line_intro" property="advisLineIntro"/>	
+		<result column="advis_career" property="advisCareer"/>	
+		<result column="advis_license" property="advisLicense"/>	
+		<result column="advis_grade" property="advisGrade"/>	
+		<result column="advis_gender" property="advisGender"/>	
+		<result column="advis_day" property="advisDay"/>	
+		<result column="advis_price" property="advisPrice"/>	
+		<result column="advis_keyword" property="advisKeyword" typeHandler="strArrTypeHandler"/>	
+		<result column="advis_license_file" property="advisLicenseFile"/>	
+		<result column="advis_img" property="advisImg"/>	
+	</resultMap>
+	
+</mapper>

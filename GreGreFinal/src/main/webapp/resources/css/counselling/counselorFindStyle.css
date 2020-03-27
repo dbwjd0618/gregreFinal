@@ -74,16 +74,21 @@ h3 {
     font-size: 16px;
 }
 
-.counselor-search-input-box button{
+/* .counselor-search-input-box button{
     width: 48px;
     height: 56px;
     position: absolute;
     left: 0;
     top: 0;
-    background: url(/images/search.png) no-repeat 16px center;
+    background: url('${pageContext.request.contextPath}/resources/images/counselling/search.png') no-repeat 16px center;
     background-size: 24px auto;
     text-indent: -9999px;
+} */
+
+input[type=checkbox]{
+	cursor: pointer;
 }
+
 
 button{
     border: 0;
@@ -136,6 +141,13 @@ button{
     margin-bottom: 10px;
     line-height: 1.5;
     color: #757575;
+}
+
+.level-checkbox0{
+	position: relative;
+    align-items: center;
+    margin-bottom: 12px;
+    cursor: pointer;
 }
 
 .level-checkbox1{
