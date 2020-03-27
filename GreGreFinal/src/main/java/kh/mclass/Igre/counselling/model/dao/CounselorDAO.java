@@ -10,4 +10,6 @@ public interface CounselorDAO {
 
 	List<Counselor> selectCounselorList(int cPage, int numPerPage);
 
+	Counselor selectOne(String advisId);
+
 }

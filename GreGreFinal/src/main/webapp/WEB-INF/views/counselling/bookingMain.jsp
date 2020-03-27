@@ -7,6 +7,16 @@
 
 <!-- 헤더 선언!!-->
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<script>
+$(()=>{
+	$("a[data-advis-id]").on("click", function(){
+		let advisId = $(this).attr("data-advis-id");
+		console.log(advisId);
+		
+		location.href = "${pageContext.request.contextPath}/counselling/bookingPage.do?advisId="+advisId;
+	});
+});
+</script>
 
 
 	<div class="ftco-blocks-cover-1">
@@ -43,22 +53,23 @@
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
 					<div class="media">
-						<img src="${pageContext.request.contextPath}/resources/images/counselling/이루다.jpg" class="align-self-center mr-3" alt="...">
+						<img src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}" class="align-self-center mr-3" alt="...">
 						<div class="media-body">
 							<h5 class="mt-0">
-								○○○ <strong>전문</strong> 상담사
+								${counselor.advisName } <strong>${counselor.advisGrade }</strong> 상담사
 							</h5>
-							<p>저는 심리치료 교육 전공 석사입니다. 청소년, 성인(대학생, 취준생, 직장인), 중년 가족상담을 주로 하고
-							있습니다.</p>
-							<p class="mb-0">*저에게 상담이 어려운 키워드는 자살, 자해, 중독, 해외생활과 관련된 내용
-							입니다. 꼭 확인해주시고 신청 부탁드립니다. 전문적으로 임상경험이나 상담 교육을 해보신 분에게 받으시면 도움이
-							될거라고 생각됩니다. 감사합니다.</p>
-							</div>
+							<p class="mb-0">
+								${counselor.advisIntro }
+								${counselor.advisPrice }
+							</p>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-4">
-					<a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/counselling/bookingPage.do"
-						role="button">상담권 선택하기</a>
+					<%-- <form action="${pageContext.request.contextPath}/counselling/bookingPage.do">
+						<input type="hidden" name="advisId" value="${counselor.advisId }"/>
+					</form> --%>
+					<a data-advis-id="${counselor.advisId}" class="btn btn-primary btn-lg" role="button">상담권 선택하기</a>
 				</div>
 			</div>
 			<div class="row">
