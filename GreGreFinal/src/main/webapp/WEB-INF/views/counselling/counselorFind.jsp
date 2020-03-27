@@ -7,7 +7,16 @@
 
 <!-- 헤더 선언!!-->
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-
+<script>
+$(()=>{
+	$("article[data-advis-id]").on("click", function(){
+		let advisId = $(this).attr("data-advis-id");
+		console.log(advisId);
+		
+		location.href = "${pageContext.request.contextPath}/counselling/bookingMain.do?advisId="+advisId;
+	});
+});
+</script>
 
 <div class="ftco-blocks-cover-1">
 	<div class="site-section-cover overlay"
@@ -139,8 +148,7 @@ a{
 		<div class="counselor-list-wrapper">
 			<div class="counselor-info-list">
                 <c:forEach items="${list }" var="counselor">
-				    <article name="이루다 전문" class="counselor-info">
-					    <a href="${pageContext.request.contextPath}/counselling/bookingMain.do" class="goto-booking-main">
+				    <article data-advis-id="${counselor.advisId}" class="counselor-info">
 						    <div class="counselor-info-name">
 						    	<h3 class="counselor-name">${counselor.advisName} <span style="color: #48DA91;">${counselor.advisGrade} 상담사</span>
 						    	</h3>
@@ -177,7 +185,6 @@ a{
 								    <p class="counselor-price">${counselor.advisPrice}원~</p>
 							    </div>
 						    </div>
-					    </a>
 					    <button class="counselor-selectOne">상담사 찜하기</button>
                     </article>
                 </c:forEach>

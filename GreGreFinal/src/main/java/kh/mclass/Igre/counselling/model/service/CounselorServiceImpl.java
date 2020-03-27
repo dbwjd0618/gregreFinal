@@ -23,4 +23,9 @@ public class CounselorServiceImpl implements CounselorService {
 	public List<Counselor> selectCounselorList(int cPage, int numPerPage) {
 		return counselorDAO.selectCounselorList(cPage, numPerPage);
 	}
+
+	@Override
+	public Counselor selectOne(String advisId) {
+		return counselorDAO.selectOne(advisId);
+	}
 }
