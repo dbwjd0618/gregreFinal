@@ -49,9 +49,19 @@
                         </div>
                     </div>
                     <div class="ht-right">
-                         <a href="${pageContext.request.contextPath }/" class="login-panel">아이그레</a>
-                        <a href="${pageContext.request.contextPath }/shop/myShopping/order/list.do" class="login-panel">MY쇼핑</a>
-                        <a href="${pageContext.request.contextPath }/" class="login-panel">로그인</a>                   
+                         <a href="${pageContext.request.contextPath }/" class="login-panel">아이그레
+                         <img src="/Igre/resources/images/index/circled-right-icoon.png" width="17px" style="margin-bottom:1px;" alt="">
+                         </a>
+		               <!--로그인 -->
+		              <c:if test="${memberLoggedIn == null }">
+		              	  <a href="${pageContext.request.contextPath }/member/login.do" class="login-panel">로그인</a>
+		              </c:if>
+		              <c:if test="${memberLoggedIn != null }">
+						 <!-- 로그아웃 -->
+						 <a href="${pageContext.request.contextPath }/member/logout.do" class="login-panel">로그아웃</a>
+			            <!--마이쇼핑 -->
+			             <a href="${pageContext.request.contextPath }/shop/myShopping/order/list.do" class="login-panel">MY쇼핑</a>
+		              </c:if>                   
                     </div>
                 </div>
             </div>
