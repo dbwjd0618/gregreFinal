@@ -10,33 +10,29 @@
 		FROM
 			TB_adviser
 	</select>
-	
-	<select id="selectOne" resultMap="boardCollection">
-	select *
+
+	<select id="selectOne" resultMap="counselorCollection">
+	select 
+		*
 	from 
-		board B 
-	  left join
-		attachment A
-			on B.board_no = A.board_no
-	where B.board_no = #{boardNo}
+		TB_adviser
+	where 
+		advis_id = #{advisId}
 	</select>
-	<resultMap type="board" id="boardCollection">
-		<id column="board_no" property="boardNo"/>
-		<result column="board_title" property="boardTitle"/>
-		<result column="board_writer" property="boardWriter"/>
-		<result column="board_content" property="boardContent"/>
-		<result column="board_date" property="boardDate"/>
-		<result column="board_read_count" property="boardReadCount"/>
-		
-		<collection property="attachList" ofType="attachment">
-			<id column="attachment_no" property="attachmentNo"/>
-			<result column="board_no" property="boardNo"/>
-			<result column="original_filename" property="originalFileName"/>
-			<result column="renamed_filename" property="renamedFileName"/>
-			<result column="upload_date" property="uploadDate"/>
-			<result column="download_count" property="downloadCount"/>
-			<result column="status" property="status"/>	
-		</collection>
+	<resultMap type="counselor" id="counselorCollection">
+		<id column="advis_id" property="advisId"/>
+		<result column="advis_name" property="advisName"/>	
+		<result column="advis_intro" property="advisIntro"/>	
+		<result column="advis_line_intro" property="advisLineIntro"/>	
+		<result column="advis_career" property="advisCareer"/>	
+		<result column="advis_license" property="advisLicense"/>	
+		<result column="advis_grade" property="advisGrade"/>	
+		<result column="advis_gender" property="advisGender"/>	
+		<result column="advis_day" property="advisDay"/>	
+		<result column="advis_price" property="advisPrice"/>	
+		<result column="advis_keyword" property="advisKeyword"/>	
+		<result column="advis_license_file" property="advisLicenseFile"/>	
+		<result column="advis_img" property="advisImg"/>	
 	</resultMap>
 	
 </mapper>
