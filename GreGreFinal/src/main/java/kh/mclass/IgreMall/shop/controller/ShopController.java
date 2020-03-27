@@ -35,28 +35,40 @@ public class ShopController {
 	public ModelAndView category(ModelAndView mav, @RequestParam(value="cPage", defaultValue="1") int cPage, String category1,String category2,String category3, HttpServletRequest request, HttpServletResponse response) {
 		log.debug("상품리스트 출력");
 		
-		final int numPerPage =10;
 		
 		Product cate3 = new Product(category3);
+		final int numPerPage =10;
+		int cPage3=1;
+		try{
+			cPage3 = Integer.parseInt(request.getParameter("cPage"));
+		} catch(NumberFormatException e){
 		
-		List<Product> list = shopService.productList(cPage,numPerPage,cate3);
+		}
+
 		
+		List<Product> list = shopService.productList(cPage3,numPerPage,cate3);
 		//2.제품 갯수 구하기.
-		int totalProducts = shopService.selectTotalProducts();
+		int totalProducts = shopService.selectTotalProducts(cate3);
 		final int totalPage = (int)Math.ceil((double)totalProducts/numPerPage);
+		log.debug("totalPage={}",totalPage);
+		String pageBar = "";
 		
-		String pageBar = "";	
 		final int pageBarSize = 5;
-		int pageStart = ((cPage - 1)/pageBarSize) * pageBarSize +1;
+		int pageStart = ((cPage3 - 1)/pageBarSize) * pageBarSize +1;
 		int pageEnd = pageStart+pageBarSize-1;
 		int pageNo = pageStart;
+		
+		log.debug("pageStart{}",pageStart);
+		
+		
+		
 		
 		//[이전] section
 		if(pageNo == 1 ){
 			pageBar += "<span>[이전]</span>"; 
 		}
 		else {
-			pageBar += "<a href='"+request.getContextPath()+"/shop/category?cPage="+(pageNo-1)+"'>[이전]</a> ";
+			pageBar += "<a href='"+request.getContextPath()+"/shop/category.do?category3="+category3+"&category1="+category3+"&cPage="+(pageNo-1)+"'>[이전]</a> ";
 		}
 			
 		// pageNo section
@@ -66,7 +78,7 @@ public class ShopController {
 				pageBar += "<span class='cPage'>"+pageNo+"</span> ";
 			} 
 			else {
-				pageBar += "<a href='"+request.getContextPath()+"/shop/category?cPage="+pageNo+"'>"+pageNo+"</a> ";
+				pageBar += "<a href='"+request.getContextPath()+"/shop/category.do?category3="+category3+"&category1="+category3+"&cPage="+pageNo+"'>"+pageNo+"</a> ";
 			}
 			pageNo++;
 		}
@@ -74,7 +86,7 @@ public class ShopController {
 		if(pageNo > totalPage){
 			pageBar += "<span>[다음]</span>";
 		} else {
-			pageBar += "<a href='"+request.getContextPath()+"/shop/category?cPage="+pageNo+"'>[다음]</a>";
+			pageBar += "<a href='"+request.getContextPath()+"/shop/category.do?category3="+category3+"&category1="+category3+"&cPage="+pageNo+"'>[다음]</a>";
 		}
 		mav.addObject("list",list);
 		mav.addObject("totalProducts",totalProducts);
