@@ -1,5 +1,6 @@
 package kh.mclass.Igre.board.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -34,5 +35,18 @@ public class BoardDAOImpl implements BoardDAO {
 		bc.setBoardCode("TB_post_"+bc.getBoardCode());
 		log.debug("boardCode = " + bc.getBoardCode());
 		return sss.selectList("board.postList", bc, rbn);
+	}
+
+	@Override
+	public String boardName(String boardCode) {
+		return sss.selectOne("board.boardName",boardCode);
+	}
+
+	@Override
+	public int postCount(String boardCode) {
+		boardCode = "TB_post_"+boardCode;
+		HashMap<String, String> map = new HashMap<>();
+		map.put("boardCode", boardCode);
+		return sss.selectOne("board.postCount", map);
 	}
 }

@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
   <footer class="site-footer">
     <div class="container">
@@ -10,7 +13,7 @@
         <div class="col-lg-9">
           <p class="">서울특별시 그래구 그레로 123 </p>
           <p class="">TEL : 육아종합지원센터 02-123-1234 &nbsp;&nbsp;|&nbsp;&nbsp; FAX : 02-456-4567 &nbsp;&nbsp;|&nbsp;&nbsp;Mail : i_gre@gmail.com</p>
-          <p>Copyright(c) 2020 아이그레. All rights reserved.</a> </p>
+          <p>Copyright(c) 2020 아이그레. All rights reserved.</p>
         </div>
       </div>
     </div>
