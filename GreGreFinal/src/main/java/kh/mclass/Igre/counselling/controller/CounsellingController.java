@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.mclass.Igre.counselling.model.service.CounselorService;
+import kh.mclass.Igre.counselling.model.vo.Counselor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -26,8 +27,14 @@ public class CounsellingController {
 		log.debug("상담사 목록 페이지!");
 		ModelAndView mav = new ModelAndView();
 		
+		final int numPerPage =5;
+		
+		List<Counselor> list = counselorService.selectCounselorList(cPage, numPerPage);
+		log.debug("list="+list);
+		
 		int totalContents = counselorService.selectCounselorTotalContents();
 		
+		mav.addObject("list", list);
 		mav.addObject("totalContents", totalContents);
 		mav.setViewName("counselling/counselorFind");
 		

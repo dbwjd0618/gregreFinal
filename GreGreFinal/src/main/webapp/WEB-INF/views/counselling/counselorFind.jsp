@@ -138,45 +138,49 @@ a{
 		<!-- 상담사 view 영역 시작 -->
 		<div class="counselor-list-wrapper">
 			<div class="counselor-info-list">
-				<article name="이루다 전문" class="counselor-info">
-					<a href="${pageContext.request.contextPath}/counselling/bookingMain.do" class="goto-booking-main">
-						<div class="counselor-info-name">
-							<h3 class="counselor-name">이루다 <span style="color: #48DA91;">전문 상담사</span>
-							</h3>
-							<p class="counselor-simple-greetings">진정한 위로로 함께하고 싶어요.</p>
-							<!-- 평점 -->
-							<div class="counselor-list-preview">
-								<div class="star-score__wrap--middle">
-									<ol>
-										<li class="star-score__ico is-all"></li>
-										<li class="star-score__ico is-all"></li>
-										<li class="star-score__ico is-all"></li>
-										<li class="star-score__ico is-all"></li>
-										<li class="star-score__ico is-half"></li>
-									</ol>
-								</div>
-								<div class="partner-list-box__review-score js-review-star-num">(21)</div>
-							</div>
-							<!-- 평점 끝 -->
-						</div> 
-						<!-- 상담사 이미지 -->
-						<div class="counselor-img">
-							<img src="${pageContext.request.contextPath}/resources/images/counselling/이루다.jpg" alt="상담사 사진">
-						</div> 
-						<!-- 상담 유형 -->
-						<div class="counselor-type">
-							<div>
-								<ul class="counselor-type">
-									<li class="counselling-type">육아상담</li>
-								</ul>
-							</div>
-							<div>
-								<p class="counselor-price">35,000원 ~</p>
-							</div>
-						</div>
-					</a>
-					<button class="counselor-selectOne">상담사 찜하기</button>
-				</article>
+                <c:forEach items="${list }" var="counselor">
+				    <article name="이루다 전문" class="counselor-info">
+					    <a href="${pageContext.request.contextPath}/counselling/bookingMain.do" class="goto-booking-main">
+						    <div class="counselor-info-name">
+						    	<h3 class="counselor-name">${counselor.advisName} <span style="color: #48DA91;">${counselor.advisGrade} 상담사</span>
+						    	</h3>
+						    	<p class="counselor-simple-greetings">${counselor.advisLineIntro}</p>
+						    	<!-- 평점 -->
+						    	<div class="counselor-list-preview">
+						    		<div class="star-score__wrap--middle">
+						    			<ol>
+						    				<li class="star-score__ico is-all"></li>
+						    				<li class="star-score__ico is-all"></li>
+						    				<li class="star-score__ico is-all"></li>
+						    				<li class="star-score__ico is-all"></li>
+						    				<li class="star-score__ico is-half"></li>
+						    			</ol>
+						    		</div>
+						    		<div class="partner-list-box__review-score js-review-star-num">(21)</div>
+						    	</div>
+						    	<!-- 평점 끝 -->
+						    </div> 
+						    <!-- 상담사 이미지 -->
+						    <div class="counselor-img">
+						    	<img src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}" alt="상담사 사진">
+						    </div> 
+						    <!-- 상담 유형 -->
+						    <div class="counselor-type">
+							    <div>
+								    <ul class="counselor-type">
+                                        <c:forEach items="${counselor.advisKeyword}" var="keyword" varStatus="vs">
+                                            <li class="counselling-type">${keyword}${!vs.last?",":""}</li>
+                                        </c:forEach>        
+								    </ul>
+							    </div>
+							    <div>
+								    <p class="counselor-price">${counselor.advisPrice}원~</p>
+							    </div>
+						    </div>
+					    </a>
+					    <button class="counselor-selectOne">상담사 찜하기</button>
+                    </article>
+                </c:forEach>
 			</div>
 			<!-- 상담사 리스트 끝 -->
 			<!-- 페이징 시작 -->
