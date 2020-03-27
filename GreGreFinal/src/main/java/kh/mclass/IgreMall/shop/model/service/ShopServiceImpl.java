@@ -10,7 +10,7 @@ import kh.mclass.IgreMall.shop.model.dao.ShopDAO;
 
 @Service
 public class ShopServiceImpl implements ShopService {
-
+		//	testpush
 	@Autowired
 	ShopDAO shopDAO;
 
