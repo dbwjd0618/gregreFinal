@@ -121,13 +121,13 @@ a#optListUpdate {
 			action="${pageContext.request.contextPath}/shop/admin/product/insert.do"
 			method="post" enctype="multipart/form-data">
 			<input type="hidden" name="sellerId" value="igre_mall_test" />
-			<div class="form-group row">
+<!-- 			<div class="form-group row">
 				<label for="productId" class="col-sm-2 col-form-label">제품번호</label>
 				<div class="col-sm-4">
 					<input type="text" name="productId" class="form-control"
 						id="staticEmail" value="">
 				</div>
-			</div>
+			</div> -->
 			<div class="form-group row">
 				<label for="categoryId" class="col-sm-2 col-form-label">카테고리</label>
 				<div class="col-sm-10">

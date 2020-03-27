@@ -45,61 +45,61 @@ public class ProductController {
 	
 	
 	
-//	@GetMapping("/defaultinsert.do")
-//	public String defaultInsert(HttpServletRequest request) {
-//	
-//			List<DefaultProduct> defaultProductList = productApi();
-//			List<Product> productList = new ArrayList<>();
-//			List<Attachment> attachList=new ArrayList<>();
-//			Map<String, String> imgMap = new HashMap<>();
-//			for(DefaultProduct dp : defaultProductList ) {
-//				Product p = new Product(dp.getSellerId(), dp.getProductId(), dp.getCategoryId(), dp.getProductName(), 
-//											dp.getBrandName(), dp.getPrice(), dp.getDeliveryFee(),
-//											dp.getPointRate(), dp.getDiscountPrice(), dp.getProductStock(), 
-//											dp.getProductDetail(), dp.getEnrollDate(), dp.getProductState());
-//				String[] images = new String[5];
-//				images = dp.getProductImages();
-//				for(int i=0;i<images.length;i++) {
-//					imgMap.put(dp.getProductId(),images[i]);		
-//				}
-//				productList.add(p);
-//			}
-//			
-//			Set<Map.Entry<String, String>> entries = imgMap.entrySet();
-//
-//			for (Map.Entry<String, String> entry : entries) {
-//
-//			  Attachment a = new Attachment( 0, entry.getKey(), entry.getValue(), Utils.getRenamedFileName(entry.getValue()));
-//			  attachList.add(a);
-//			}
-//
-//			for (Attachment a : attachList) {
-//				// 비어있는 MultipartFile객체가 전달된 경우(파일 하나만 업로드)
-//				// 파일이 없다면 밑에는 실행하지 말아라
-//				if (a==null)
-//					continue;
-//
-//				// 파일 재생성 renamedFileName으로 저장하기
-//				String originalFileName = a.getOriginalImg();
-//				String renamedImg= Utils.getRenamedFileName(originalFileName);
-//
-//				// 파일이동
-////				String saveDirectory = request.getServletContext().getRealPath("/resources/upload/shop/productImg");
-//
-//				// 실제 파일데이터 originalFileName, renamedFileName을 db에 저장
-//				// Attachment객체
-//				a.setRenamedImg(renamedImg);
-//
-//
-//			}
-//			log.debug("attachList={}", attachList);
-//			log.debug("productList={}", productList);
-//
-//			productService.insert(productList);
-//			productService.insertAttach(attachList);
-//
-//		return "redirect:/";
-//	}
+	@GetMapping("/defaultinsert.do")
+	public String defaultInsert(HttpServletRequest request) {
+	
+			List<DefaultProduct> defaultProductList = productApi();
+			List<Product> productList = new ArrayList<>();
+			List<Attachment> attachList=new ArrayList<>();
+			Map<String, String> imgMap = new HashMap<>();
+			for(DefaultProduct dp : defaultProductList ) {
+				Product p = new Product(dp.getSellerId(), dp.getProductId(), dp.getCategoryId(), dp.getProductName(), 
+											dp.getBrandName(), dp.getPrice(), dp.getDeliveryFee(),
+											dp.getPointRate(), dp.getDiscountPrice(), dp.getProductStock(), 
+											dp.getProductDetail(), dp.getEnrollDate(), dp.getProductState());
+				String[] images = new String[5];
+				images = dp.getProductImages();
+				for(int i=0;i<images.length;i++) {
+					imgMap.put(dp.getProductId(),images[i]);		
+				}
+				productList.add(p);
+			}
+			
+			Set<Map.Entry<String, String>> entries = imgMap.entrySet();
+
+			for (Map.Entry<String, String> entry : entries) {
+
+			  Attachment a = new Attachment( 0, entry.getKey(), entry.getValue(), Utils.getRenamedFileName(entry.getValue()), "R");
+			  attachList.add(a);
+			}
+
+			for (Attachment a : attachList) {
+				// 비어있는 MultipartFile객체가 전달된 경우(파일 하나만 업로드)
+				// 파일이 없다면 밑에는 실행하지 말아라
+				if (a==null)
+					continue;
+
+				// 파일 재생성 renamedFileName으로 저장하기
+				String originalFileName = a.getOriginalImg();
+				String renamedImg= Utils.getRenamedFileName(originalFileName);
+
+				// 파일이동
+//				String saveDirectory = request.getServletContext().getRealPath("/resources/upload/shop/productImg");
+
+				// 실제 파일데이터 originalFileName, renamedFileName을 db에 저장
+				// Attachment객체
+				a.setRenamedImg(renamedImg);
+
+
+			}
+			log.debug("attachList={}", attachList);
+			log.debug("productList={}", productList);
+
+			productService.insert(productList);
+			productService.insertAttach(attachList);
+
+		return "redirect:/";
+	}
 
 	private static String getTagValue(String tag, Element eElement) {
 		NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();

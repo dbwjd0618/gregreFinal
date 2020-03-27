@@ -87,6 +87,7 @@ public class ShopController {
 			//2.카테고리1 제품개수 구하기.
 			int totalProd2 = shopService.selectTotalProducts(category2Prod);
 			totalAllProd +=totalProd2;
+			mav.addObject("category2List",category2List);
 		}
 		
 		
@@ -120,6 +121,7 @@ public class ShopController {
 		mav.addObject("list",list);
 		mav.addObject("totalAllProd",totalAllProd);
 		mav.addObject("pageBar",pageBar);
+		mav.addObject("category1List",category1List);
 		mav.addObject("category1",category1);
 		mav.addObject("category2",category2);
 		mav.addObject("totalCategoryList", totalCategoryList);
