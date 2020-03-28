@@ -123,7 +123,7 @@ span.error{display:none;color:red ;}
                                       <span class="input-group-text">비밀번호 찾기 힌트</span>
                                   </div>
                                   <select name="pwdHintCode" id="pwdHintCode" class="custom-select">
-                                      <option disabled selected value>목록</option>
+                                      <option disabled selected value="">목록</option>
                                       <option disabled>----------</option>
                                       <option value="H1">당신의 첫 사랑 이름은?</option>
                                       <option value="H2">당신이 좋아하는 색은?</option>

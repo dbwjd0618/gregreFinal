@@ -152,6 +152,7 @@
                 <li><a href="message.html"><i class="fa fa-circle-o"></i> 단체 문자</a></li>
               </ul>
             </li>
+          </ul>
         </section>
         <!-- /.sidebar -->
       </aside>

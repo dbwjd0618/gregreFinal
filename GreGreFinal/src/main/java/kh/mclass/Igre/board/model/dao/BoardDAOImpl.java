@@ -1,5 +1,6 @@
 package kh.mclass.Igre.board.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
 import kh.mclass.Igre.board.model.vo.PostList;
+import kh.mclass.Igre.member.model.vo.PreferList;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
@@ -34,5 +36,23 @@ public class BoardDAOImpl implements BoardDAO {
 		bc.setBoardCode("TB_post_"+bc.getBoardCode());
 		log.debug("boardCode = " + bc.getBoardCode());
 		return sss.selectList("board.postList", bc, rbn);
+	}
+
+	@Override
+	public String boardName(String boardCode) {
+		return sss.selectOne("board.boardName",boardCode);
+	}
+
+	@Override
+	public int postCount(String boardCode) {
+		boardCode = "TB_post_"+boardCode;
+		HashMap<String, String> map = new HashMap<>();
+		map.put("boardCode", boardCode);
+		return sss.selectOne("board.postCount", map);
+	}
+
+	@Override
+	public int preferIn(PreferList pf) {
+		return sss.insert("board.preferIn", pf);
 	}
 }

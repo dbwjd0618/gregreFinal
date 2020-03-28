@@ -121,13 +121,13 @@ a#optListUpdate {
 			action="${pageContext.request.contextPath}/shop/admin/product/insert.do"
 			method="post" enctype="multipart/form-data">
 			<input type="hidden" name="sellerId" value="igre_mall_test" />
-			<div class="form-group row">
+<!-- 			<div class="form-group row">
 				<label for="productId" class="col-sm-2 col-form-label">제품번호</label>
 				<div class="col-sm-4">
 					<input type="text" name="productId" class="form-control"
 						id="staticEmail" value="">
 				</div>
-			</div>
+			</div> -->
 			<div class="form-group row">
 				<label for="categoryId" class="col-sm-2 col-form-label">카테고리</label>
 				<div class="col-sm-10">
@@ -335,7 +335,7 @@ a#optListUpdate {
 																	<span class="mr5 font-size16">옵션목록 : <strong
 																		class="red" id="totalOptList">0</strong>개
 																	</span> 
-																	</span> <span class="form-inline m1 "
+																	<span class="form-inline m1 "
 																		style="padding-left: 15px;"> 사용여부 <select
 																		name="optView" id="optView"
 																		class="form-control select-check"
@@ -404,7 +404,7 @@ a#optListUpdate {
 															role="button" aria-disabled="false" aria-pressed="true"><span
 															class="ui-button-text"> 사용</span></label> <input type="radio"
 															name="useAddNormalOption" id="useAddNormalOption2"
-															value="0" checked=""><label
+															value="0" checked><label
 															for="useAddNormalOption2"
 															class="table-mb0 ui-button ui-widget ui-state-default ui-button-text-only ui-corner-right"
 															role="button" aria-disabled="false" aria-pressed="false"><span

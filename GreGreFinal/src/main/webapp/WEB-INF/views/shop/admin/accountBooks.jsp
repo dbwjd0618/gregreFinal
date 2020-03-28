@@ -167,6 +167,7 @@
                 <li><a href="message.html"><i class="fa fa-circle-o"></i> 단체 문자</a></li>
               </ul>
             </li>
+           </ul>
         </section>
         <!-- /.sidebar -->
       </aside>
@@ -353,7 +354,7 @@
           <footer class="main-footer">
             <p class="">서울특별시 그래구 그레로 123 </p>
             <p class="">TEL : 육아종합지원센터 02-123-1234 &nbsp;&nbsp;|&nbsp;&nbsp; FAX : 02-456-4567 &nbsp;&nbsp;|&nbsp;&nbsp;Mail : i_gre@gmail.com</p>
-            <p>Copyright(c) 2020 아이그레. All rights reserved.</a> </p>
+            <p>Copyright(c) 2020 아이그레. All rights reserved.</p>
           </footer>
         </div><!-- ./wrapper -->
         <!-- jQuery 2.1.3 -->

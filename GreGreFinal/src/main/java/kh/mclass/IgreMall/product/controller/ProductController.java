@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -25,6 +26,7 @@ import kh.mclass.Igre.common.util.Utils;
 import kh.mclass.IgreMall.product.model.service.ProductService;
 import kh.mclass.IgreMall.product.model.vo.Attachment;
 import kh.mclass.IgreMall.product.model.vo.DefaultProduct;
+import kh.mclass.IgreMall.product.model.vo.ProdOption;
 import kh.mclass.IgreMall.product.model.vo.Product;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,11 +39,24 @@ public class ProductController {
 	ProductService productService;
 
 	@GetMapping("/detail.do")
-	public ModelAndView product(ModelAndView mav) {
+	public ModelAndView product(ModelAndView mav, @RequestParam("productId") String productId) {
+		log.debug("productId={}", productId);
+		
+		Product product = productService.selectProductOne(productId);
+		List<Attachment> attachList = productService.selectAttachList(productId);
+		List<ProdOption> optionList = productService.selectOptionList(productId);
+		log.debug("attachList={}",attachList);
+		log.debug("optionList={}",optionList);
+		mav.addObject("p", product);
+		mav.addObject("attachList", attachList);
+		mav.addObject("optionList", optionList);
 		mav.setViewName("shop/product/detail");
 		return mav;
 	}
 
+	
+	
+	
 	@GetMapping("/defaultinsert.do")
 	public String defaultInsert(HttpServletRequest request) {
 	
@@ -66,7 +81,7 @@ public class ProductController {
 
 			for (Map.Entry<String, String> entry : entries) {
 
-			  Attachment a = new Attachment( 0, entry.getKey(), entry.getValue(), Utils.getRenamedFileName(entry.getValue()));
+			  Attachment a = new Attachment( 0, entry.getKey(), entry.getValue(), Utils.getRenamedFileName(entry.getValue()), "R");
 			  attachList.add(a);
 			}
 

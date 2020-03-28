@@ -147,6 +147,7 @@ public class ShopAdminProductController {
 			attach1.setOriginalImg(mainOriginalFileName);
 			attach1.setRenamedImg(mainRenamedFileName);
 			attach1.setProductId(product.getProductId());
+			attach1.setImgType("R");
 			attachList.add(attach1);
 			// 파일이동
 			String saveDirectory1 = request.getServletContext().getRealPath("/resources/upload/shop/productMainImg");
@@ -186,7 +187,7 @@ public class ShopAdminProductController {
 				attach2.setOriginalImg(subOriginalFileName);
 				attach2.setRenamedImg(subRenamedFileName);
 				attach2.setProductId(product.getProductId());
-
+				attach2.setImgType("D");
 				attachList.add(attach2);
 
 			}

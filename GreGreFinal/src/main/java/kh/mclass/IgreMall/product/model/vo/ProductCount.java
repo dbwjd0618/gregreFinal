@@ -2,7 +2,6 @@ package kh.mclass.IgreMall.product.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.List;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
