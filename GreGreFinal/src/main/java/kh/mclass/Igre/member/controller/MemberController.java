@@ -54,11 +54,11 @@ public class MemberController {
 					  Model model, RedirectAttributes rda) {
 		try {
 			Member m = ms.selectId(memberId);
-			log.error(""+m);
 			
 			if(m != null && m.getMemberPwd().equals(memberPwd)) {
 				HashMap<String, ArrayList<Integer>> preferList = ms.preferList(memberId);
 				m.setPrefList(preferList);
+				log.debug(""+m);
 				model.addAttribute("memberLoggedIn", m);
 			} else {
 				rda.addFlashAttribute("msg", "입력 정보가 올바르지 않습니다.");
