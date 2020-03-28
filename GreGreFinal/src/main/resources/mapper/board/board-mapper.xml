@@ -11,4 +11,16 @@
 	<select id="postList" resultType="Post">
 		select * from ${boardCode}
 	</select>
+	
+	<select id="boardName" resultType="String">
+		select board_name from TB_board where board_code = #{boardCode}
+	</select>
+	
+	<select id="postCount" resultType="_int">
+		select count(*) from ${boardCode}
+	</select>
+	
+	<insert id="preferIn">
+		insert into TB_prefer values(#{memberId}, #{boardCode}, #{postNo})
+	</insert>
 </mapper>

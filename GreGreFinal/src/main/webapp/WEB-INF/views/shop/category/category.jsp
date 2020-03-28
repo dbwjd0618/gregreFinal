@@ -7,6 +7,8 @@
 <jsp:include page="/WEB-INF/views/shop/common/header.jsp"/>
  <!-- 서브메뉴 -->
  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/subMenu/h-subMenu.css">
+ 
+
  <!-- Breadcrumb Section Begin -->
 <div class="breacrumb-section">
 	<div class="container">
@@ -160,7 +162,12 @@
 							<div class="col-lg-4 col-sm-6">
 							<div class="product-item">
 								<div class="pi-pic">
+									 <c:if test = "${fn:contains(p.attachList.get(0).originalImg, 'http://')}">
 									<img src="${p.attachList.get(0).originalImg}" alt="">
+									</c:if>
+								    <c:if test = "${fn:contains(p.productId, 'p')}">
+									<img src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${p.attachList.get(0).renamedImg}" alt="">
+								    </c:if>
 									<div class="icon">
 										<img src="https://img.icons8.com/ios/50/000000/hearts.png"
 											style="width: 25px;">
@@ -181,7 +188,7 @@
 													<g fill="#ffffff">
 													<path
 														d="M86,3.44c-19.04094,0 -34.4,15.35906 -34.4,34.4v6.88h-27.1975l-0.3225,3.01l-13.76,120.4l-0.43,3.87h152.22l-0.43,-3.87l-13.76,-120.4l-0.3225,-3.01h-27.1975v-6.88c0,-19.04094 -15.35906,-34.4 -34.4,-34.4zM86,10.32c15.35906,0 27.52,12.16094 27.52,27.52v6.88h-55.04v-6.88c0,-15.35906 12.16094,-27.52 27.52,-27.52zM30.6375,51.6h20.9625v7.8475c-2.05594,1.19594 -3.44,3.37281 -3.44,5.9125c0,3.80281 3.07719,6.88 6.88,6.88c3.80281,0 6.88,-3.07719 6.88,-6.88c0,-2.53969 -1.38406,-4.71656 -3.44,-5.9125v-7.8475h55.04v7.8475c-2.05594,1.19594 -3.44,3.37281 -3.44,5.9125c0,3.80281 3.07719,6.88 6.88,6.88c3.80281,0 6.88,-3.07719 6.88,-6.88c0,-2.53969 -1.38406,-4.71656 -3.44,-5.9125v-7.8475h20.9625l13.0075,113.52h-136.74z"></path></g></g></svg></a></li>
-										<li class="quick-view"><a href="${pageContext.request.contextPath }/shop/product/detail.do">상세보기</a></li>
+										<li class="quick-view"><a href="${pageContext.request.contextPath }/shop/product/detail.do?productId=${p.productId}">상세보기</a></li>
 									</ul>
 								</div>
 								<div class="pi-text">

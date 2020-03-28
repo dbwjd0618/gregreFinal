@@ -75,9 +75,33 @@ where
 	and
 		category_id= #{categoryId}
 </if>
-
 </select>
-	<resultMap type="kh.mclass.IgreMall.product.model.vo.Product" id="productList">
+<select id="selectProductOne" resultMap="productList">
+select 
+	*
+from 
+	tb_product
+where 
+	product_id = #{productId}
+</select>
+<select id="selectAttachList" resultMap="attachList">
+select 
+	*
+from 
+	tb_prod_img  
+where 
+	product_id = #{productId}
+</select>
+<select id="selectOptionList" resultMap="optionList">
+select 
+	*
+from 
+	tb_prod_option   
+where 
+	product_id = #{productId}
+</select>
+
+<resultMap type="kh.mclass.IgreMall.product.model.vo.Product" id="productList">
 	<id column="product_no" property="productNo"/>
 	<result column="product_id" property="productId"></result>
 	<result column="seller_id" property="sellerId"></result>	
@@ -89,13 +113,42 @@ where
 	<result column="point_rate" property="pointRate"></result>	
 	<result column="discount_price" property="discountPrice"></result>	
 	<result column="product_stock" property="productStock"></result>	
+	<result column="product_detail" property="productDetail"></result>	
+	<result column="enroll_date" property="enrollDate"></result>
+	<result column="product_state" property="productState"></result>			
 	
 	<collection property="attachList" ofType="attachment">
 		<id column="attachment_no" property="attachmentNo"></id>	
-		<result column="poduct_id" property="productId"/>	
+		<result column="product_id" property="productId"/>	
 		<result column="original_img" property="originalImg"/>	
 		<result column="renamed_img" property="renamedImg"/>	
+		<result column="img_type" property="imgType"/>	
 	</collection>
-	</resultMap>
+	<collection property="optionList" ofType="prodOption">
+		<id column="option_id" property="optionId"></id>	
+		<result column="product_id" property="productId"/>	
+		<result column="option_name" property="optionName"/>	
+		<result column="option_value" property="optionValue"/>	
+		<result column="option_price" property="optionPrice"/>	
+		<result column="option_state" property="optionState"/>	
+	</collection>
+</resultMap>
+
+<resultMap type="kh.mclass.IgreMall.product.model.vo.Attachment" id="attachList">
+	<id column="attachment_no" property="attachmentNo"></id>	
+		<result column="product_id" property="productId"/>	
+		<result column="original_img" property="originalImg"/>	
+		<result column="renamed_img" property="renamedImg"/>	
+		<result column="img_type" property="imgType"/>	
+</resultMap>
+
+<resultMap type="kh.mclass.IgreMall.product.model.vo.ProdOption" id="optionList">
+<id column="option_id" property="optionId"></id>	
+		<result column="product_id" property="productId"/>	
+		<result column="option_name" property="optionName"/>	
+		<result column="option_value" property="optionValue"/>	
+		<result column="option_price" property="optionPrice"/>	
+		<result column="option_state" property="optionState"/>
+</resultMap>
 	
 </mapper>

@@ -1,3 +1,4 @@
+<%@page import="kh.mclass.Igre.counselling.model.vo.Counselor"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,7 +8,20 @@
 
 <!-- 헤더 선언!!-->
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<script>
+$(function(){
+    $(".price").click(function(e){
+        $(".price").attr('checked', true);
+        $('#total-price').text($(this).attr('value'));
+    });
+});
 
+</script>
+<%
+	Counselor C = (Counselor)request.getAttribute("counselor");
+	pageContext.setAttribute("price1", Integer.parseInt(C.getAdvisPrice())*2);
+	pageContext.setAttribute("price2", Integer.parseInt(C.getAdvisPrice())*4);
+%>
 
 	<div class="ftco-blocks-cover-1">
 		<div class="site-section-cover overlay"
@@ -44,44 +58,47 @@
         text-align: center;
         font-size: 20px;
     }
+    table{
+    	cursor: pointer;
+    }
 </style>
 	<!-- 여기부터 container -->
 	<div class="site-section">
         <div class="container">
             <div class="row">
                 <div class="col-sm-2 col-md-offset-2 col-md-3">
-                    <img src="${pageContext.request.contextPath}/resources/images/counselling/이루다.jpg" class="align-self-center mr-3" alt="...">
-                    <h4>○○○ 상담사</h4>
+                    <img src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}" class="align-self-center mr-3" alt="...">
+                    <h4>${counselor.advisName }&nbsp;${counselor.advisGrade }상담사</h4>
                 </div>
                 <div class="col-md-5">
                     <table class="table table-hover">
                         <thead>
-                          <tr>
-                            <th colspan="2" class="c-title">상담권 선택하기</th>
-                          </tr>
+                        	<tr>
+                            	<th colspan="2" class="c-title">상담권 선택하기</th>
+                        	</tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <th scope="row">2주 프로그램</th>
-                            <td>50,000원</td>   
-                          </tr>
-                          <tr>
-                            <th scope="row">4주 프로그램</th>
-                            <td>90,000원</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">1회 상담권</th>
-                            <td >30,000원</td>
-                          </tr>
+                        	<tr class="price" value="${price1}">
+                            	<th scope="row">2주 프로그램</th>
+                            	<td>${price1}원</td>   
+                          	</tr>
+                          	<tr class="price" value="${price2 }">
+                            	<th scope="row">4주 프로그램</th>
+                            	<td>${price2}원</td>
+                          	</tr>
+                          	<tr class="price" value="${counselor.advisPrice}">
+                            	<th scope="row">1회 상담권</th>
+                            	<td >${counselor.advisPrice}원</td>
+                          	</tr>
                         </tbody>
-                      </table>
+                	</table>
                 </div>
             </div>
             <br><br>
             <div class="row">
                 <div class="col-md-offset-2 col-md-8">
                     <h5>최종 결제 금액</h5>
-                    <h4><strong>30,000원</strong></h4>
+                    <h4><strong><span id="total-price"></span> 원</strong></h4>
                 </div>
             </div>
             <br><br>

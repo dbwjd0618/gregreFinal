@@ -9,6 +9,10 @@
 		select * from TB_MEMBER_INFO
 		where member_id = #{memberId}
 	</select>
+	
+	<select id="preferList" resultType="PreferList">
+		select * from TB_prefer where member_Id = #{memberId}
+	</select>
 
 	<insert id="enroll"> insert into TB_MEMBER_INFO values( 
 		#{memberId},

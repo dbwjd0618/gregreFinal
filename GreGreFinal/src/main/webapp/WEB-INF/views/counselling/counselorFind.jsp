@@ -7,7 +7,16 @@
 
 <!-- 헤더 선언!!-->
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-
+<script>
+$(()=>{
+	$("article[data-advis-id]").on("click", function(){
+		let advisId = $(this).attr("data-advis-id");
+		console.log(advisId);
+		
+		location.href = "${pageContext.request.contextPath}/counselling/bookingMain.do?advisId="+advisId;
+	});
+});
+</script>
 
 <div class="ftco-blocks-cover-1">
 	<div class="site-section-cover overlay"
@@ -89,10 +98,10 @@ a{
 				<h3 class="detail-select-title">상세조건</h3>
 				<div class="counselor-detail-checkbox-wrapper">
 					<h4>상담사 레벨</h4>
-					<label for="type-level1" class="level-checkbox1"> 
-						<input type="checkbox" name="" id="type-level1">마스터 상담사
-						<div class="counselor-pay-level">50,000원 ~</div>
-					</label> <label for="type-level2" class="level-checkbox1"> 
+					<input type="checkbox" name="" id="type-level1"/>
+					<label for="type-level1" class="level-checkbox1">마스터 상담사</label>
+					<div class="counselor-pay-level">50,000원 ~</div>
+					 <label for="type-level2" class="level-checkbox1"> 
 						<input type="checkbox" name="" id="type-level2">전문 상담사
 						<div class="counselor-pay-level">30,000원 ~</div>
 					</label> <label for="type-level3" class="level-checkbox1"> 
@@ -139,8 +148,7 @@ a{
 		<div class="counselor-list-wrapper">
 			<div class="counselor-info-list">
                 <c:forEach items="${list }" var="counselor">
-				    <article name="이루다 전문" class="counselor-info">
-					    <a href="${pageContext.request.contextPath}/counselling/bookingMain.do" class="goto-booking-main">
+				    <article data-advis-id="${counselor.advisId}" class="counselor-info">
 						    <div class="counselor-info-name">
 						    	<h3 class="counselor-name">${counselor.advisName} <span style="color: #48DA91;">${counselor.advisGrade} 상담사</span>
 						    	</h3>
@@ -177,7 +185,6 @@ a{
 								    <p class="counselor-price">${counselor.advisPrice}원~</p>
 							    </div>
 						    </div>
-					    </a>
 					    <button class="counselor-selectOne">상담사 찜하기</button>
                     </article>
                 </c:forEach>
