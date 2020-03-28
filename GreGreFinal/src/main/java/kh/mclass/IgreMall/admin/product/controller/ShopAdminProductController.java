@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kh.mclass.Igre.common.util.Utils;
 import kh.mclass.IgreMall.admin.product.model.exception.ProductException;
 import kh.mclass.IgreMall.admin.product.model.service.AdminProductService;
+import kh.mclass.IgreMall.product.model.service.ProductService;
 import kh.mclass.IgreMall.product.model.vo.Attachment;
 import kh.mclass.IgreMall.product.model.vo.ProdOption;
 import kh.mclass.IgreMall.product.model.vo.Product;
@@ -203,5 +204,24 @@ public class ShopAdminProductController {
 
 		return "redirect:/shop/admin/product/insert.do";
 	}
-
+	@GetMapping("/list.do")
+	public ModelAndView productList(ModelAndView mav, Product productId) {
+		
+		List<Product> list = adminProductService.productList(productId);
+		
+		mav.addObject("list",list);
+		mav.setViewName("shop/admin/product/list");
+		return mav;
+	}
+	
+	
+	@GetMapping("/search.do")
+	public ModelAndView searchProduct(ModelAndView mav,String productId,String discount) {
+		
+		log.debug("productId=={}",productId);
+		log.debug("discount=={}",discount);
+		
+		mav.setViewName("shop/admin/product/list");
+		return mav;
+	}
 }

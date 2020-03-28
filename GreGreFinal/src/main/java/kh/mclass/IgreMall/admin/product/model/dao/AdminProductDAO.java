@@ -16,4 +16,6 @@ public interface AdminProductDAO {
 
 	int insertProdOption(ProdOption prodOption);
 
+	List<Product> productList(Product productId);
+
 }

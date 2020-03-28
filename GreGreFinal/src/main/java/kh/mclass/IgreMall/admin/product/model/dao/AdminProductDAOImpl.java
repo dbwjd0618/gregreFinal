@@ -21,7 +21,6 @@ public class AdminProductDAOImpl implements AdminProductDAO{
 		return sqlSession.insert("adminProduct.insertProduct", product);
 	}
 
-
 	@Override
 	public int insertAttach(Attachment attach) {
 		return sqlSession.insert("adminProduct.insertAttach", attach);
@@ -31,6 +30,11 @@ public class AdminProductDAOImpl implements AdminProductDAO{
 	@Override
 	public int insertProdOption(ProdOption prodOption) {
 		return  sqlSession.insert("adminProduct.insertProdOption", prodOption);
+	}
+
+	@Override
+	public List<Product> productList(Product productId) {
+		return sqlSession.selectList("adminProduct.productList", productId);
 	}
 
 }

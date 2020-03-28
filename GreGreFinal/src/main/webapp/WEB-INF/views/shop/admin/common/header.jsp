@@ -112,8 +112,7 @@
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="${pageContext.request.contextPath}/shop/admin/product/insert.do"><i class="fa fa-circle-o"></i>상품 등록/삭제</a></li>
-                  <li><a href="orderList.html"><i class="fa fa-circle-o"></i> 주문 현황</a></li>
-                  
+                  <li><a href="${pageContext.request.contextPath}/shop/admin/product/list.do"><i class="fa fa-circle-o"></i> 상품 관리</a></li>
                 </ul>
               </li>
             <li class="treeview">

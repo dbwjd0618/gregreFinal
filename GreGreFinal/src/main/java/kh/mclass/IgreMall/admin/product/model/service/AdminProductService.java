@@ -11,5 +11,7 @@ public interface AdminProductService {
 
 	int insertProduct(Product product, List<Attachment> attachList, List<ProdOption> prodOptionList);
 
+	List<Product> productList(Product productId);
+
 
 }
