@@ -41,6 +41,10 @@
     <style>
     .logbtn{
     	color:black;
+    	margin-left: 20px;
+    	margin-top: 10px;
+    	padding: 5px;
+    	border-radius: 7px;
     }
     </style>
   </head>
@@ -78,8 +82,9 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left info">
-              <p>관리자</p>
+              <p>관리자
                   <button class="logbtn" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/logout.do'">로그아웃</button>
+              </p>
             </div>
           </div>
           <!-- search form -->
@@ -105,7 +110,7 @@
               <ul class="treeview-menu">
                 <li><a href="${pageContext.request.contextPath }/admin/memberList.do"><i class="fa fa-circle-o"></i> 회원 목록</a></li>
                 <li><a href="${pageContext.request.contextPath }/admin/memberList.do"><i class="fa fa-circle-o"></i> 회원 탈퇴</a></li>
-                <li><a href="memberDeleteList.html"><i class="fa fa-circle-o"></i> 탈퇴 회원 관리</a></li>
+                <li><a href="${pageContext.request.contextPath }/admin/memberDeleteList.do"><i class="fa fa-circle-o"></i> 탈퇴 회원 관리</a></li>
               </ul>
             </li>
             <li>
@@ -115,7 +120,7 @@
                 <!-- <small class="label pull-right bg-green">new</small> -->
               </a>
               <ul class="treeview-menu">
-                <li><a href="declaration.html"><i class="fa fa-circle-o"></i> 신고 내역</a></li>
+                <li><a href="${pageContext.request.contextPath }/admin/report.do"><i class="fa fa-circle-o"></i>신고 내역</a></li>
               </ul>
             </li>
             <li class="treeview">

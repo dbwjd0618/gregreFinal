@@ -18,6 +18,7 @@ import kh.mclass.Igre.admin.model.exception.AdminException;
 import kh.mclass.Igre.admin.model.service.AdminService;
 import kh.mclass.Igre.admin.model.vo.Admin;
 import kh.mclass.Igre.admin.model.vo.Amember;
+import kh.mclass.Igre.admin.model.vo.Report;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -90,7 +91,6 @@ public class AdminController {
 		
 		List<Amember> list = adminService.list();
 		
-//		log.debug("list={}", list);
 		model.addAttribute("list", list);
 		
 		return "admin/memberList";
@@ -151,7 +151,7 @@ public class AdminController {
 		
 		redirectAttributes.addFlashAttribute("msg", result>0?"회원탈퇴가 완료되었습니다.":"회원탈퇴에 실패하였습니다.");
 		
-		return "redirect:/admin/memberList.do";
+		return "redirect:/admin/memberDeleteList.do";
 	}
 	
 	@GetMapping("/logout.do")
@@ -166,6 +166,40 @@ public class AdminController {
 		return "redirect:/admin/login.do";
 	}
 	
+	@GetMapping("/memberDeleteList.do")
+	public String deleteList(Model model,
+							 RedirectAttributes redirectAttributes) {
+		
+		List<Amember> list = adminService.deleteList();
+		
+		model.addAttribute("list", list);
+								
+		return "admin/memberDeleteList";
+	}
+	
+	@GetMapping("/report.do")
+	public String report(Model model) {
+		
+		List<Report> list = adminService.report();
+		
+		model.addAttribute("list", list);
+		
+		return "admin/report";
+	}
+	
+	@GetMapping("/reportDelete.do")
+	public String reportDelete(Model model,
+							   @RequestParam("reportNo") int reportNo,
+							   RedirectAttributes redirectattributes) {
+		
+		int result = adminService.reportDelete(reportNo);
+		
+		redirectattributes.addFlashAttribute("msg", result>0?"신고내역을 처리하였습니다.":"신고내역 처리에 실패하였습니다.");
+		
+		
+		return "redirect:/admin/areport.do";
+		
+	}
 	
 	
 	

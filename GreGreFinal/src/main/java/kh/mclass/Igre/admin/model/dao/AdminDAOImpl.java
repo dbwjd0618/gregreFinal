@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.mclass.Igre.admin.model.vo.Admin;
 import kh.mclass.Igre.admin.model.vo.Amember;
+import kh.mclass.Igre.admin.model.vo.Report;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO {
@@ -43,6 +44,21 @@ public class AdminDAOImpl implements AdminDAO {
 	@Override
 	public int delete(String memberId) {
 		return sqlSession.delete("admin.delete", memberId);
+	}
+
+	@Override
+	public List<Amember> deleteList() {
+		return sqlSession.selectList("admin.deleteList");
+	}
+
+	@Override
+	public List<Report> report() {
+		return sqlSession.selectList("admin.report");
+	}
+
+	@Override
+	public int reportDelete(int reportNo) {
+		return sqlSession.delete("admin.reportDelete");
 	}
 
 
