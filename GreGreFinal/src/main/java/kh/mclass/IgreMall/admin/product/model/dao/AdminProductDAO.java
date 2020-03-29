@@ -1,5 +1,7 @@
 package kh.mclass.IgreMall.admin.product.model.dao;
 
+import java.util.List;
+
 import kh.mclass.IgreMall.product.model.vo.Attachment;
 import kh.mclass.IgreMall.product.model.vo.ProdOption;
 import kh.mclass.IgreMall.product.model.vo.Product;
@@ -13,5 +15,7 @@ public interface AdminProductDAO {
 	int insertAttach(Attachment attach);
 
 	int insertProdOption(ProdOption prodOption);
+
+	List<Product> productList(Product productId);
 
 }

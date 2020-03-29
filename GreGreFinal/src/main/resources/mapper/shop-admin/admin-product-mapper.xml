@@ -50,5 +50,12 @@
 		#{optionState}
 	)
 </insert>
-
+<select id="productList" resultType="kh.mclass.IgreMall.product.model.vo.Product">
+select 
+	*
+from
+	tb_product
+where
+	seller_id = 'ekfcjd2'
+</select>
 </mapper>

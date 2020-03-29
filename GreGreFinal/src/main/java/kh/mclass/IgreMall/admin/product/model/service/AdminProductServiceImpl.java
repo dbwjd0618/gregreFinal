@@ -47,4 +47,10 @@ public class AdminProductServiceImpl implements AdminProductService{
 	}
 
 
+	@Override
+	public List<Product> productList(Product productId) {
+		return adminProductDAO.productList(productId);
+	}
+
+
 }

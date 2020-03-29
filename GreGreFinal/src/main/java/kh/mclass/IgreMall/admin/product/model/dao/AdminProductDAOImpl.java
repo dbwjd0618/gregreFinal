@@ -1,5 +1,7 @@
 package kh.mclass.IgreMall.admin.product.model.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,7 +21,6 @@ public class AdminProductDAOImpl implements AdminProductDAO{
 		return sqlSession.insert("adminProduct.insertProduct", product);
 	}
 
-
 	@Override
 	public int insertAttach(Attachment attach) {
 		return sqlSession.insert("adminProduct.insertAttach", attach);
@@ -29,6 +30,11 @@ public class AdminProductDAOImpl implements AdminProductDAO{
 	@Override
 	public int insertProdOption(ProdOption prodOption) {
 		return  sqlSession.insert("adminProduct.insertProdOption", prodOption);
+	}
+
+	@Override
+	public List<Product> productList(Product productId) {
+		return sqlSession.selectList("adminProduct.productList", productId);
 	}
 
 }
