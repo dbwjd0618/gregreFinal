@@ -9,8 +9,8 @@
 	margin-bottom: 5px;
 }
 	
-#one2{
-    margin-left: 40px;
+.one2{
+    margin-left: 40px !important;
 }
 </style>
 
@@ -24,9 +24,49 @@ $(function(){
 		else {
 			$("input[name=one]").prop("checked", false);
 		}
-	})
+	});
 	
+	$(".reportDelete").click(function(){
+		let rconfirm = confirm("신고건을 처리하시겠습니까?");
+		
+		if(rconfirm) {
+			let checkArr = new Array();
+			
+			$("input[class='one2']:checked").each(function(){
+				checkArr.push($(this).attr("data-report"));
+			});
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/admin/reportDelete.do",
+				type : "post",
+				data : { one2 : checkArr },
+				success : function(data){
+					console.log(data);
+					
+					if(data.result < checkArr.length){
+						alert("처리실패!");
+					}
+					else
+						//새로고침
+						location.reload();
+				}
+				
+			});
+		}
+	});
 });
+
+$(function(){
+	$(".one2").click(function(){
+		let $one2 = $(".one2");
+		let len = $one2.length;
+		let lenChecked = $one2.filter(":checked").length;
+		
+		$("#all2").prop("checked", len == lenChecked);
+	})
+});
+
+
 
 
 </script>
@@ -42,7 +82,7 @@ $(function(){
             <li class="active">신고 내역</li>
           </ol>
           	<br />
-          	<button class="reportDelete" type="submit" onclick="${pageContext.request.contextPath}/admin/reportDelete.do" >삭제</button>
+          	<button class="reportDelete" type="button" >삭제</button>
         </section>
 
         <!-- Main content -->
@@ -85,7 +125,7 @@ $(function(){
 					<c:if test="${not empty list}">
 						<c:forEach items="${list }" var="list" begin="0" varStatus="vs">
 							<tr>
-								<td><input type="checkbox" name="one" id="one2" class="form-check-input" value="A"/></td>
+								<td><input type="checkbox" name="one" class="one2" data-report="${list.reportNo }"/></td>
 								<td>${vs.count}</td>
 								<td>${list.reporterId }</td>
 								<td>${list.boardName }</td>
@@ -121,7 +161,7 @@ $(function(){
                 <div class="box-body table-responsive no-padding">
                   <table class="table table-hover">
                     <tr>
-                    	<th>선택</th>
+                    	<th>선택&nbsp;&nbsp;&nbsp; <input type="checkbox" name="reall" id="reall2" class="form-check-input" value="A"/></th>
                         <th>신고번호</th>
                         <th>신고자</th>
                         <th>신고 게시판</th>
@@ -131,6 +171,28 @@ $(function(){
                         <th>신고 내용</th>
                         <th>신고 처리</th>
                     </tr>
+                    
+                    <c:if test="${empty list }">
+						<tr>
+							<td colspan="7">신고된 게시글이 없습니다.</td>
+						</tr>
+					</c:if>
+
+					<c:if test="${not empty list}">
+						<c:forEach items="${list }" var="list" begin="0" varStatus="vs">
+							<tr>
+								<td><input type="checkbox" name="reone" class="reone2" data-report="${list.reportNo }"/></td>
+								<td>${vs.count}</td>
+								<td>${list.reporterId }</td>
+								<td>${list.boardName }</td>
+								<td>${list.postNo }</td>
+								<td>${list.replyNo }</td>
+								<td>${list.reporteeId }</td>
+								<td>${list.reportContent }</td>
+								<td>${list.reportConf }</td>
+							</tr>
+						</c:forEach>
+					</c:if>
                   </table>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->

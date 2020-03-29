@@ -24,6 +24,7 @@ public interface AdminDAO {
 
 	List<Report> report();
 
-	int reportDelete(int reportNo);
+	int reportDelete(Integer reportNo);
+
 
 }

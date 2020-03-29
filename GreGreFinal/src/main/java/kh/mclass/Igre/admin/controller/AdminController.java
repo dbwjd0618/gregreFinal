@@ -1,6 +1,8 @@
 package kh.mclass.Igre.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -187,29 +190,23 @@ public class AdminController {
 		return "admin/report";
 	}
 	
-	@GetMapping("/reportDelete.do")
-	public String reportDelete(Model model,
-							   @RequestParam("reportNo") int reportNo,
-							   RedirectAttributes redirectattributes) {
+	@PostMapping("/reportDelete.do")
+	@ResponseBody
+	public Map<String,Object> reportDelete(Model model,
+							   @RequestParam(value = "one2[]") List<Integer> chArr) {
+		log.debug("chArr={}",chArr);
 		
-		int result = adminService.reportDelete(reportNo);
+		int result = 0; 
 		
-		redirectattributes.addFlashAttribute("msg", result>0?"신고내역을 처리하였습니다.":"신고내역 처리에 실패하였습니다.");
-		
-		
-		return "redirect:/admin/areport.do";
+		 for(Integer reportNo : chArr) {
+			 result += adminService.reportDelete(reportNo); 
+		 }
+		 Map<String,Object> map = new HashMap<>();
+		 map.put("msg", result==chArr.size()?"신고내역을 처리하였습니다.":"신고내역 처리에 실패하였습니다.");
+		 map.put("result", result);
+		 
+		return map;
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
