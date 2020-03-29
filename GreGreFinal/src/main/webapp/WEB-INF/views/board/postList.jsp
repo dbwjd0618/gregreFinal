@@ -25,6 +25,7 @@
 	}
 %>
 <script>
+
 function preferSwitch(it, mi, bc, pn) {
 	let prefer = {
 			memberId : mi,
@@ -41,7 +42,7 @@ function preferSwitch(it, mi, bc, pn) {
 					 .attr('class', 'Yellow');
 			},
 			error: function(x,s,e){
-				alert("Gray오류가 발생했습니다. 새로고침 후 다시 실행해 주십시오.");
+				alert("오류가 발생했습니다. 새로고침 후 다시 실행해 주십시오.");
 			}
 		});
 	}
@@ -55,7 +56,7 @@ function preferSwitch(it, mi, bc, pn) {
 			 	 .attr('class', 'Gray');
 			},
 			error: function(){
-				alert("Yellow오류가 발생했습니다. 새로고침 후 다시 실행해 주십시오.");
+				alert("오류가 발생했습니다. 새로고침 후 다시 실행해 주십시오.");
 			}
 		});
 	}
@@ -63,6 +64,7 @@ function preferSwitch(it, mi, bc, pn) {
 </script>
 
 <div class="ftco-blocks-cover-1">
+
 	<div class="site-section-cover overlay" data-stellar-background-ratio="0.5" style="background-image: url('images/hero_1.jpg')">
 		<div class="container">
 			<div class="row align-items-center ">
@@ -108,8 +110,8 @@ function preferSwitch(it, mi, bc, pn) {
 								<tr>
 									<th>번호</th>
 									<th>제목</th>
-									<th>이름</th>
-									<th>날짜</th>
+									<th>작성자</th>
+									<th>작성날짜</th>
 									<th>조회수</th>
 									<th></th>
 								</tr>
@@ -135,48 +137,6 @@ function preferSwitch(it, mi, bc, pn) {
 										</td>
 									</c:forEach>
 								</c:if>
-								<tr>
-									<td>6</td>
-									<td><a href="../board/noticeView.html">일반 게시판 입니다.</a></td>
-									<td>admin000</td>
-									<td>2020-03-07</td>
-									<td>11</td>
-								</tr>
-								<tr>
-									<td>5</td>
-									<td><a href="${pageContext.request.contextPath }/board/noticeView.do">일반 게시판 입니다.</a></td>
-									<td>admin000</td>
-									<td>2020-03-06</td>
-									<td>131</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td><a href="${pageContext.request.contextPath }/board/noticeView.do">일반 게시판 입니다.</a></td>
-									<td>admin000</td>
-									<td>2020-03-05</td>
-									<td>13</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td><a href="${pageContext.request.contextPath }/board/noticeView.do">일반 게시판 입니다.</a></td>
-									<td>admin000</td>
-									<td>2020-03-04</td>
-									<td>123</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td><a href="${pageContext.request.contextPath }/board/noticeView.do">일반 게시판 입니다.</a></td>
-									<td>admin000</td>
-									<td>2020-03-03</td>
-									<td>134</td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td><a href="${pageContext.request.contextPath }/board/noticeView.do">일반 게시판 입니다.</a></td>
-									<td>admin000</td>
-									<td>2020-03-02</td>
-									<td>131</td>
-								</tr>
 							</table>
 						</div>
 						<div class="row">

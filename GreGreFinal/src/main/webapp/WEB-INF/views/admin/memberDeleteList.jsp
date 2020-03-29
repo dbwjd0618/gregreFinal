@@ -16,16 +16,15 @@
     });
 </script>
 
-//삭제 버튼 클릭시
-<script>
-function memberDelete(memberId){
-	if(!confirm("삭제하시겠습니까?")){
-		return;
-	}
-	location.href="${pageContext.request.contextPath}/admin/memberDelete.do?memberId="+memberId;
-}
-</script>
-
+<!-- alert 메세지 띄우기! -->
+<c:if test="${not empty msg }">
+	<script>
+		$(()=>{
+			alert("${msg}");
+		});
+	</script>
+</c:if>
+<% session.removeAttribute("msg"); %>
 
 <div class="wrapper">
 	<!-- Right side column. Contains the navbar and content of the page -->
@@ -33,12 +32,12 @@ function memberDelete(memberId){
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 			<h1>
-				회원관리 <small>회원목록</small>
+				회원관리 <small>회원탈퇴목록</small>
 			</h1>
 			<ol class="breadcrumb">
 				<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
 				<li><a href="#">회원관리</a></li>
-				<li class="active">회원목록</li>
+				<li class="active">회원탈퇴목록</li>
 			</ol>
 		</section>
 
@@ -48,7 +47,7 @@ function memberDelete(memberId){
 				<div class="col-xs-12">
 					<div class="box">
 						<div class="box-header">
-							<h3 class="box-title">회원 목록</h3>
+							<h3 class="box-title">회원탈퇴목록</h3>
 						</div>
 						<!-- /.box-header -->
 						<div class="box-body">
@@ -64,9 +63,7 @@ function memberDelete(memberId){
 									<th>이메일</th>
 									<th>성별</th>
 									<th>나이</th>
-									<th>가입일</th>
-									<th>수정</th>
-									<th>탈퇴</th>
+									<th>탈퇴일</th>
 								</tr>
 
 								<c:if test="${empty list }">
@@ -89,9 +86,6 @@ function memberDelete(memberId){
 											<td>${list.gender=="M"?"남":"여" }</td>
 											<td>${list.age }</td>
 											<td>${list.enrollDate }</td>
-											<td><input type="button" value="수정"
-												onclick="location.href='${pageContext.request.contextPath}/admin/memberUpdate.do?memberId='+'${list.memberId}'"></td>
-											<td><input type="button" value="탈퇴" id="delete" onclick="memberDelete('${list.memberId}');" ></td>
 										</tr>
 									</c:forEach>
 								</c:if>
