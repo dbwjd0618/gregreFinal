@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="admin">
+ 
+ 	<select id="selectOne" resultMap="adminMap">
+ 		select 
+		    member_id admin_Id, member_pwd admin_Pwd, member_name admin_Name,
+		    grade, nickname, birthday, phone, address, email, gender
+		from 
+			tb_member_info
+		where
+			member_id = #{adminId} and grade = 'A'
+ 	</select>
+ 	
+ 	<resultMap type="admin" id="adminMap">
+ 	</resultMap>
+ 	
+ 	<select id="list" resultType="Amember">
+	 	select
+		    *
+		from
+		    tb_member_info
+		where
+		    grade = 'M'
+ 	</select>
+ 	
+ 	<select id="MemberSelectOne" resultType="Amember">
+ 		select
+		    *
+		from
+		    tb_member_info
+		where
+			member_id = #{memberId}
+ 	</select>
+ 	
+ 	<update id="memberUpdate">
+ 		update
+ 			tb_member_info
+ 		set
+ 			member_pwd = #{memberPwd},
+ 			member_name = #{memberName},
+ 			nickname = #{nickname},
+ 			birthday = #{birthday},
+ 			phone = #{phone},
+ 			address = #{address},
+ 			email = #{email}
+ 		where
+ 			member_id = #{memberId}
+ 	</update>
+ 
+ 	<update id="adminUpdate">
+ 		update
+ 			tb_member_info
+ 		set
+ 			member_pwd = #{memberPwd},
+ 			member_name = #{memberName},
+ 			nickname = #{nickname},
+ 			birthday = #{birthday},
+ 			phone = #{phone},
+ 			address = #{address},
+ 			email = #{email}
+ 		where
+ 			member_id = #{memberId}
+ 	</update>
+ 	
+ 	<delete id="delete">
+ 	
+ 	delete
+ 	
+ 	from
+ 		tb_member_info
+ 	where
+ 		member_id = #{memberId}
+ 		
+ 	</delete>
+ 	
+ 	<select id="deleteList" resultType="Amember">
+ 	
+ 	select 
+ 		* 
+ 	from 
+ 		TB_withdraw_member_info
+ 	
+ 	</select>
+ 	
+ 	<select id="report" resultType="Report">
+ 	select 
+		* 
+	from 
+		tb_report R join tb_board B on R.report_board = B.board_code  
+		left join tb_post_b1 PB1 on R.report_post_no = PB1.post_no
+		left join tb_reply_b1 RB1 on R.report_reply_no = RB1.reply_no
+ 	</select>
+ 	
+	<delete id="reportDelete">
+	delete
+	
+	from
+		tb_report
+	where
+		report_no = #{reportNo}	
+	
+	</delete> 	
+ 
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

@@ -7,8 +7,12 @@ import kh.mclass.IgreMall.product.model.vo.Product;
 public interface ShopService {
 
 
-	int selectTotalProducts();
+	int selectTotalProducts(Product cate3);
 
 	List<Product> productList(int cPage, int numPerPage, Product categoryId);
+
+
+	List<Product> productList(Product category1Prod);
+
 
 }

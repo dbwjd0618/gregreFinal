@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import kh.mclass.Igre.board.model.service.BoardService;
 import kh.mclass.Igre.board.model.vo.Board;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @SessionAttributes(value={"boardList"})
-@Slf4j
 public class HomeController {
 	
 	@Autowired

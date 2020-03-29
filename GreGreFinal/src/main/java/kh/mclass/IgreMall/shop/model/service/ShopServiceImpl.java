@@ -10,22 +10,30 @@ import kh.mclass.IgreMall.shop.model.dao.ShopDAO;
 
 @Service
 public class ShopServiceImpl implements ShopService {
-
+		//	testpush
 	@Autowired
 	ShopDAO shopDAO;
-
-	@Override
-	public int selectTotalProducts() {
-		return shopDAO.selectTotalProducts();
-	}
-
-
-
 
 	@Override
 	public List<Product> productList(int cPage, int numPerPage,Product categoryId) {
 		return shopDAO.productList(cPage,numPerPage,categoryId);
 	}
+
+	@Override
+	public int selectTotalProducts(Product cate3) {
+		return shopDAO.selectTotalProducts(cate3);
+	}
+
+
+
+	@Override
+	public List<Product> productList(Product category1Prod) {
+		return shopDAO.productList(category1Prod);
+	}
+
+	
+
+
 
 
 }

@@ -11,4 +11,37 @@
 	<select id="postList" resultType="Post">
 		select * from ${boardCode}
 	</select>
+	
+	<select id="boardName" resultType="String">
+		select board_name from TB_board where board_code = #{boardCode}
+	</select>
+	
+	<select id="postCount" resultType="_int">
+		select count(*) from ${boardCode}
+	</select>
+	
+	<insert id="preferIn">
+		insert into TB_prefer values(#{memberId}, #{boardCode}, #{postNo})
+	</insert>
+	
+	<delete id="preferOut">
+		delete from TB_prefer where member_id = #{memberId} and board_code = #{boardCode} and post_no = #{postNo}
+	</delete>
+	
+	<select id="postView" resultType="Post">
+		select * from ${table} where post_no = #{postNo}
+	</select>
+	
+	<select id="replyList" resultType="Reply">
+		select * from ${table} where post_no = #{postNo}
+	</select>
+	
+	<select id="replyCount" resultType="_int">
+		select count(*) from ${table} where post_no = #{postNo}
+	</select>
+	
+	<select id="preferCount" resultType="_int">
+		select count(*) from TB_prefer where board_code = #{boardCode} and post_no = #{postNo}
+	</select>
+	
 </mapper>

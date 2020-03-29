@@ -3,13 +3,65 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminProduct">
-	
+
+<select id="totalProduct" resultType="_int">
+	    SELECT 
+	    	COUNT(*) 
+	    FROM 
+	    	tb_product
+	    where
+	    	seller_id='ekfcjd2'
+	    <if test="productName !=''">
+	    and
+			product_name like '%${productName}%'
+	    </if>
+	    <if test="productState !=''">
+	    and
+			product_state = #{productState}
+	    </if>	    
+</select>
+
+<select id="searchProduct" resultType="Product">
+select 
+	* 
+from 
+	tb_product
+where 
+	seller_id = 'ekfcjd2'
+<if test="productName !=''">
+and
+	product_name like '%${productName}%'
+</if>
+<if test="productState !=''">
+and
+	product_State= #{productState}
+</if>
+
+</select>
+
+<delete id="deleteProduct">
+delete from 
+	tb_product
+where 
+	product_id =#{productId}
+</delete>
+
+<update id="updateProduct">
+update 
+	tb_product
+set
+	discount_price=#{discountPrice},
+	product_stock=#{productStock},
+	product_state=#{productState}
+where
+	product_id =#{productId}
+</update>
 <insert id="insertProduct">
 	insert into
 		TB_product
 	values (
 		#{sellerId},
-		#{productId},
+		'p'||to_char(seq_product_no.nextval, 'fm0000000'),
 		#{categoryId},
 		#{productName},
 		#{brandName},
@@ -20,8 +72,10 @@
 		#{productStock},
 		#{productDetail},
 		default,
-		default
-	)
+		default)
+		<selectKey keyProperty="productId" resultType="string" order="AFTER">
+			select 'p'||to_char(seq_product_no.currval, 'fm0000000') from dual
+		</selectKey>
 </insert>
 
 <insert id="insertAttach">
@@ -31,7 +85,8 @@
 		seq_prod_img_no.nextval,
 		#{productId},
 		#{originalImg},
-		#{renamedImg}
+		#{renamedImg},
+		#{imgType}
 	)
 </insert>
 
@@ -43,9 +98,17 @@
 		#{productId},
 		#{optionName},
 		#{optionValue},
+		#{optionStock},
 		#{optionPrice},
 		#{optionState}
 	)
 </insert>
-
+<select id="productList" resultType="kh.mclass.IgreMall.product.model.vo.Product">
+select 
+	*
+from
+	tb_product
+where
+	seller_id = 'ekfcjd2'
+</select>
 </mapper>

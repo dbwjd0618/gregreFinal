@@ -2,6 +2,8 @@ package kh.mclass.Igre.member.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,9 +18,6 @@ import lombok.ToString;
 @ToString
 public class Member implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private String memberId;
@@ -37,4 +36,6 @@ public class Member implements Serializable{
 	private String mateId;
 	private int childNumber;
 	private Date enrollDate;
+	
+	private HashMap<String, ArrayList<Integer>> prefList;
 }
