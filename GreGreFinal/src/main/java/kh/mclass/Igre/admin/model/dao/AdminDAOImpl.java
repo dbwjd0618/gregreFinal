@@ -57,9 +57,10 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	@Override
-	public int reportDelete(int reportNo) {
-		return sqlSession.delete("admin.reportDelete");
+	public int reportDelete(Integer reportNo) {
+		return sqlSession.delete("admin.reportDelete", reportNo);
 	}
+
 
 
 

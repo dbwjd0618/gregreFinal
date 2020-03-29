@@ -57,7 +57,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int reportDelete(int reportNo) {
+	public int reportDelete(Integer reportNo) {
 		return adminDAO.reportDelete(reportNo);
 	}
 
