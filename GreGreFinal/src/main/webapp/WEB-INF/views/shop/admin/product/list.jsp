@@ -308,11 +308,12 @@ table {
 							<tr>
 								<th class="text-center active" style="vertical-align: middle;">등록날짜</th>
 								<td class="text-left"
-									style="background-color: #fff; vertical-align: middle;"><input
-									type="text" name="sdate" class="form-control"
+									style="background-color: #fff; vertical-align: middle;">
+									<input
+									type="text" name="startDate" class="form-control"
 									style="width: 100px; display: inline-block;" id="sdate"
 									value="" data-date="2020-03-19" data-date-format="yyyy-mm-dd">
-									~ <input type="text" name="edate" class="form-control"
+									~ <input type="text" name="endDate" class="form-control"
 									style="width: 100px; display: inline-block;" id="edate"
 									value="" data-date="2020-03-26" data-date-format="yyyy-mm-dd">
 									<button class="btn btn-default btn-xs sel_today" type="button">오늘</button>
@@ -320,25 +321,29 @@ table {
 									<button class="btn btn-default btn-xs sel_month" type="button">한달</button></td>
 								<th class="text-center active" style="vertical-align: middle;">노출여부</th>
 								<td class="text-center" style="background-color: #fff;"><select
-									name="view_yn" class="form-control" id="view_yn"
+									name="productState" class="form-control" id="view_yn"
 									style="width: 200px;">
 										<option value="">-- 선택 --</option>
 										<option value="Y">노출</option>
-										<option value="N">미노출</option>
+										<option value="D">미노출</option>
 								</select></td>
+								<td style="display: none">
+								<input type="hidden" name="sellerId" class="form-control"id="sdate" value="ekfcjd2">
+								</td>
 								<td class="text-center" rowspan="2"
 									style="background-color: #fff; vertical-align: middle;">
-									<button type="submit" class="btn btn-primary btn-lg"
-										id="service_pay">검 색</button>
+									<button type="submit" class="btn btn-primary btn-lg" id="service_pay"> 검 색1 </button>
+								<button type="button" class="btn btn-primary btn-lg" onclick="javascript:search();">검 색</button>
 								</td>
 							</tr>
 							<tr>
 								<th class="text-center active" style="vertical-align: middle;">상품명</th>
 								<td class="text-center" style="background-color: #fff;"><input
-									type="text" name="pname" class="form-control"
+									type="text" name="productName" class="form-control"
 									style="display: inline-block;" id="pname" value=""></td>
 								<th class="text-center active">&nbsp;<!--카테고리--></th>
-								<td class="text-center" style="background-color: #fff;">&nbsp;<!--검색폼--></td>
+								<td class="text-center" style="background-color: #fff;">&nbsp;
+								<!--검색폼--></td>
 							</tr>
 						</tbody>
 					</table>
@@ -357,7 +362,7 @@ table {
 						style="padding-left: 0px; padding-right: 0px;">
 						<span class="col-md-6 text-left b"
 							style="padding-left: 0px; margin-bottom: 5px; font-size: 1.3em; margin-bottom: 15px;">총
-							상품수 : <strong class="text-danger">1</strong>개
+							상품수 : <strong class="text-danger">${totalProducts }</strong>개
 						</span> <span class="col-md-6 text-right"
 							style="padding-right: 0px; margin-bottom: 5px; margin-bottom: 15px;">
 							<button class="btn btn-default btn-sm" type="button"
@@ -418,29 +423,30 @@ table {
 									<td class="text-left vertical-middle">${p.categoryId }</td>
 									<td class="text-center vertical-middle">${p.price }</td>
 									<td class="text-center vertical-middle"><input type="text"
-										class="form-control" id="inventory1_${p.productId}" name="inventory1_${p.productId}"
+										class="form-control" id="discount_${vs.index }" name="inventory1_${p.productId}"
 										value="${p.discountPrice }" style="width: 75px"></td>
 									<td class="text-center vertical-middle">${p.deliveryFee }</td>
 									<td class="text-center vertical-middle">${p.enrollDate }</td>
 									<td class="text-center vertical-middle"><a href="http://localhost:9090/Igre/shop/product/detail.do?productId=${p.productId }">상세페이지..</a></td>
 									<td class="text-center vertical-middle"><input type="text"
-										class="form-control" name="inventory_${product_id }"
+										class="form-control" id="stock_${vs.index }" name="inventory1_${product_id }"
 										value="${p.productStock }" style="width: 100px"></td>
+									
 										<td class="text-left vertical-middle" style="text-align:center">
-							<input type="radio" name="jh_yn_${p.productId }" value="Y" ${p.productState eq'Y'?'checked':''}> 노출
-							<input type="radio" name="jh_yn_${p.productId }" value="N" ${p.productState eq'D'?'checked':''} style="margin-left:10px;"> 미노출
+							<input type="radio" id="state_${vs.index }"  name="state_${vs.index }"  value="Y" ${p.productState eq'Y'?'checked':''}> 노출
+							<input type="radio" id="state_${vs.index }" name="state_${vs.index }"  value="D" ${p.productState eq'D'?'checked':''} style="margin-left:10px;"> 미노출
 													</td>
 													<td class="text-center vertical-middle"><input
 										type="checkbox" name="soldout_yn_${p.productId }" ${p.productStock<=0?'checked':'' }></td>
 									<td class="text-center vertical-middle">
 										<%-- <button class="btn btn-detail btn-noradpdd" type="button"
 											onclick="javascript:selUp( ${p.productId} , 1 );">변경</button> --%>
-											<button type="button" class="btn btn-detail btn-noradpdd"
-											onclick="${pageContext.request.contextPath}/shop/admin/product/update.do?productId=${p.productId}&discout=${p.discountPrice}">변경</button> 
+											<button type="button" class="btn btn-detail btn-noradpdd" 
+											onclick="javascript:edit( ${vs.index},${p.productId});">수정</button> 
 										<button class="btn btn-info btn-noradpdd" type="button"
 											onclick="javascript:location.href='./detail.php?c=${p.productId}';">수정</button>
 										<button class="btn btn-danger btn-noradpdd" type="button"
-											onclick="javascript:selUp( '15D' , 2 );">삭제</button>
+											onclick="javascript:deleteProduct(${p.productId});">삭제</button>
 									</td>
 								</tr>
 							</c:forEach>
@@ -457,8 +463,8 @@ table {
 					<li class="prev"><a href="#"
 						onclick="${pageContext.request.contextPath}/shop/admin/product/search.do">
 							&lt;</a></li>
-					<li class="active"><a
-						href="${pageContext.request.contextPath}/shop/admin/product/search.do?page=1&amp;sdate=&amp;edate=&amp;view_yn=&amp;pname=">1</a></li>
+					<li class="active">
+						<a href="/sales_manager/goods/index.php?sellerId=&amp;page=1&amp;sdate=&amp;edate=&amp;view_yn=&amp;pname=">1</a></li>
 					<li class="next"><a href="#"
 						onclick="javascript:return false;"> &gt; </a></li>
 					<li class="next"><a href="#"
@@ -469,15 +475,14 @@ table {
 		</div>
 
 	</div>
-<!-- 	<form action="xlsdown.php" method="post" name="xlsform">
+ 	<form action="xlsdown.php" method="post" name="xlsform">
 		<input type="hidden" name="pname" value=""> <input
 			type="hidden" name="sdate" value=""> <input type="hidden"
 			name="edate" value=""> <input type="hidden" name="view_yn"
-			value=""> -->
+			value="">
 	</form>
 
 </div>
-
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script
@@ -520,10 +525,24 @@ table {
 <div class="col-md-4">
 					<a data-advis-id="${counselor.advisId}" class="btn btn-primary btn-lg" role="button">상담권 선택하기</a>
 				</div>
-<script>
-$("#")
 
-function edit(){
+<script type="text/javascript">
+
+function edit11(){
+if (m == "1" ) {
+        document.regi_form.mode.value =  "update_list";		
+    }else {
+        var con = confirm("삭제하시겠습니까? \n 삭제하시면 복구 할 수 없습니다.");
+        if (con) {
+            document.regi_form.mode.value =  "delete_list";
+        }else {
+            return false;
+        }
+    }
+    document.regi_form.gid.value = val;
+    document.regi_form.submit();
+	
+	
 	/* var inven1 = "inventory1_"+vs; */
 	/* $.trim(inven1); */
 	/* console.log(dis);	 */
@@ -533,7 +552,7 @@ function edit(){
 	console.log(nChk);
 	console.log($(inven1));
 	console.log(discount); */
-	    location.href = "${pageContext.request.contextPath }/shop/admin/product/search.do?productId="+vs+"&discount="+${p.productId}; 
+	    /* location.href = "${pageContext.request.contextPath }/shop/admin/product/search.do?productId="+vs+"&discount="+${p.productId}; */ 
 	  
 }
 $(()=>{
@@ -558,6 +577,58 @@ $(()=>{
 <script src="./js/clipboard.min.js"></script>
 
 <script type="text/javascript">
+
+function deleteProduct(val){
+	
+	var productId = val;
+	console.log(productId)
+	        var con = confirm("삭제하시겠습니까? \n 삭제하시면 복구 할 수 없습니다.");
+	        if (con) {
+			   location.href="${pageContext.request.contextPath }/shop/admin/product/delete.do?productId="+productId;
+	        }else {
+	            return false;
+	        }
+
+}
+
+function edit(val,m) {
+
+	//할인가격 받아오는곳.
+	var vs = val;
+	var discountPrice = "discount_"+vs;
+	var discount1 = discountPrice;	
+	var resDiscount=document.getElementById(discount1);
+	var discountPrice=resDiscount.value
+	console.log(resDiscount.value);
+	
+	//재고 수량 변경
+	var stockvalue = "stock_"+vs;
+	var stock =stockvalue; 
+	var resStock=document.getElementById(stock);
+	console.log(resStock.value);
+	var productStock=resStock.value
+	
+	//프로덕트아이디 
+	var productId=m;
+	
+	//프로덕트 상태
+	var state = "state_"+vs;
+	var state1= state
+	var resState = document.getElementById(state1);
+	/* var productState = resState.value */
+	console.log(state1);
+	var size = document.getElementsByName(state1).length;
+    for(var i = 0; i < size; i++){
+        if(document.getElementsByName(state1)[i].checked == true){
+            productState=document.getElementsByName(state1)[i].value;
+        }
+    }
+    console.log(productState);
+	//호출문
+	   location.href="${pageContext.request.contextPath }/shop/admin/product/update.do?productId="+productId+"&discountPrice="+discountPrice+"&productStock="+productStock+"&productState="+productState; 
+	
+    
+}
         function selall(chekboxall,checkboxsub){
            var ischeck="";
             if (chekboxall.checked) {
@@ -621,9 +692,6 @@ $(()=>{
             document.regi_form.gid.value = val;
             document.regi_form.submit();
         }
-    
-    
-        
     
         $(document).ready(function(){
             $('#sdate').datepicker().on('changeDate', function(e) {
