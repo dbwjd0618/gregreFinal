@@ -47,6 +47,9 @@
 .myLocation{
 margin: 10px;
 }
+.custom-select{
+width: max-content;
+}
 </style>
 <!-- 헤더 소개 부분 -->
 <div class="ftco-blocks-cover-1">
