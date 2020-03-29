@@ -24,6 +24,7 @@ public class ProdOption implements Serializable {
 	private String productId;
 	private String optionName;
 	private String optionValue;
+	private int optionStock;
 	private int optionPrice;
 	private String optionState;
 

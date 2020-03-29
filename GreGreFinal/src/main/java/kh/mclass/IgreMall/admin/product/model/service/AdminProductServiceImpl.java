@@ -1,6 +1,7 @@
 package kh.mclass.IgreMall.admin.product.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,41 @@ public class AdminProductServiceImpl implements AdminProductService{
 	@Override
 	public List<Product> productList(Product productId) {
 		return adminProductDAO.productList(productId);
+	}
+
+
+	@Override
+	public int updateProduct(Product p) {
+		return adminProductDAO.updateProduct (p);
+	}
+
+
+	@Override
+	public int deleteProduct(Product p) {
+		// TODO Auto-generated method stub
+		return adminProductDAO.deleteProduct(p);
+	}
+
+
+
+
+	@Override
+	public int totalProducts(Product productId) {
+		// TODO Auto-generated method stub
+		return adminProductDAO.totalPrice(productId);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> searchProduct(Map<String, Object> time) {
+		// TODO Auto-generated method stub
+		return adminProductDAO.searchProduct(time);
+	}
+
+
+	@Override
+	public List<Product> searchProduct(Product p) {
+		return adminProductDAO.searchProduct(p);
 	}
 
 
