@@ -32,26 +32,12 @@ public class CounsellingController {
 		ModelAndView mav = new ModelAndView();
 		
 		final int numPerPage =5;
-		int cPage3 = 1;
-		try{
-			cPage3 = Integer.parseInt(request.getParameter("cPage"));
-		} catch(NumberFormatException e){
-		
-		}
 		
 		List<Counselor> list = counselorService.selectCounselorList(cPage, numPerPage);
 		
 		int totalContents = counselorService.selectCounselorTotalContents();
-		final int totalPage = (int)Math.ceil((double)totalContents/numPerPage);
-		String pageBar = "";
-		
-		final int pageBarSize = 5;
-		int pageStart = ((cPage3 - 1)/pageBarSize) * pageBarSize +1;
-		int pageEnd = pageStart+pageBarSize-1;
-		int pageNo = pageStart;
 		
 		mav.addObject("list", list);
-		mav.addObject("pageBar",pageBar);
 		mav.addObject("totalContents", totalContents);
 		mav.setViewName("counselling/counselorFind");
 		
