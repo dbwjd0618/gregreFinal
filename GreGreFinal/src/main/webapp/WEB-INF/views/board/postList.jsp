@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="kh.mclass.Igre.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -12,21 +14,57 @@
 
 <!--서브메뉴 js-->
 <script src="${pageContext.request.contextPath}/resources/js/subMenu/subMenu.js"></script>
-
+<%
+	Member m = (Member)session.getAttribute("memberLoggedIn");
+	if(m != null) {
+		String boardCode = (String)request.getAttribute("boardCode");
+		if(m.getPrefList().containsKey(boardCode)) {
+			ArrayList<Integer> prefer = m.getPrefList().get(boardCode);
+			pageContext.setAttribute("prefList", prefer);
+		}
+	}
+%>
 <script>
-function preferSwitch(it) {
-	if($(it).attr('class') == 'gray') {
-		$(it).attr('src',"${pageContext.request.contextPath}/resources/img/board/StarYellow.png")
-			 .attr('class', 'yellow');
+
+function preferSwitch(it, mi, bc, pn) {
+	let prefer = {
+			memberId : mi,
+			boardCode : bc,
+			postNo : pn
+	}
+	if($(it).attr('class') == 'Gray') {
+		$.ajax({
+			url:"${pageContext.request.contextPath}/board/preferIn.do",
+			data: prefer,
+			type:"POST",
+			success : function(){
+				$(it).attr('src',"${pageContext.request.contextPath}/resources/img/board/StarYellow.png")
+					 .attr('class', 'Yellow');
+			},
+			error: function(x,s,e){
+				alert("오류가 발생했습니다. 새로고침 후 다시 실행해 주십시오.");
+			}
+		});
 	}
 	else {
-		$(it).attr('src',"${pageContext.request.contextPath}/resources/img/board/StarGray.png")
-		 	 .attr('class', 'gray');
+		$.ajax({
+			url:"${pageContext.request.contextPath}/board/preferOut.do",
+			data: prefer,
+			type:"POST",
+			success : function(){
+				$(it).attr('src',"${pageContext.request.contextPath}/resources/img/board/StarGray.png")
+			 	 .attr('class', 'Gray');
+			},
+			error: function(){
+				alert("오류가 발생했습니다. 새로고침 후 다시 실행해 주십시오.");
+			}
+		});
 	}
 }
 </script>
 
 <div class="ftco-blocks-cover-1">
+
 	<div class="site-section-cover overlay" data-stellar-background-ratio="0.5" style="background-image: url('images/hero_1.jpg')">
 		<div class="container">
 			<div class="row align-items-center ">
@@ -72,8 +110,8 @@ function preferSwitch(it) {
 								<tr>
 									<th>번호</th>
 									<th>제목</th>
-									<th>이름</th>
-									<th>날짜</th>
+									<th>작성자</th>
+									<th>작성날짜</th>
 									<th>조회수</th>
 									<th></th>
 								</tr>
@@ -89,51 +127,16 @@ function preferSwitch(it) {
 										<td>${post.writer}</td>
 										<td>${post.postWriteTime}</td>
 										<td>${post.readCount}</td>
-										<td><img src="${pageContext.request.contextPath}/resources/img/board/StarGray.png" class="gray" style="width:21px;" onclick="preferSwitch(this);"/></td>
+										<td>
+											<c:if test="${memberLoggedIn == null }">
+												<img src="${pageContext.request.contextPath}/resources/img/board/StarGray.png" class="Gray" style="width:21px;"/>
+											</c:if>
+											<c:if test="${memberLoggedIn != null }">
+												<img src="${pageContext.request.contextPath}/resources/img/board/Star${prefList.contains(post.postNo)?'Yellow':'Gray'}.png" class="${prefList.contains(post.postNo)?'Yellow':'Gray'}" style="width:21px;" onclick="preferSwitch(this,'${memberLoggedIn.memberId}', '${post.boardCode}', '${post.postNo}');"/>
+											</c:if>
+										</td>
 									</c:forEach>
 								</c:if>
-								<tr>
-									<td>6</td>
-									<td><a href="../board/noticeView.html">일반 게시판 입니다.</a></td>
-									<td>admin000</td>
-									<td>2020-03-07</td>
-									<td>11</td>
-								</tr>
-								<tr>
-									<td>5</td>
-									<td><a href="${pageContext.request.contextPath }/board/noticeView.do">일반 게시판 입니다.</a></td>
-									<td>admin000</td>
-									<td>2020-03-06</td>
-									<td>131</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td><a href="${pageContext.request.contextPath }/board/noticeView.do">일반 게시판 입니다.</a></td>
-									<td>admin000</td>
-									<td>2020-03-05</td>
-									<td>13</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td><a href="${pageContext.request.contextPath }/board/noticeView.do">일반 게시판 입니다.</a></td>
-									<td>admin000</td>
-									<td>2020-03-04</td>
-									<td>123</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td><a href="${pageContext.request.contextPath }/board/noticeView.do">일반 게시판 입니다.</a></td>
-									<td>admin000</td>
-									<td>2020-03-03</td>
-									<td>134</td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td><a href="${pageContext.request.contextPath }/board/noticeView.do">일반 게시판 입니다.</a></td>
-									<td>admin000</td>
-									<td>2020-03-02</td>
-									<td>131</td>
-								</tr>
 							</table>
 						</div>
 						<div class="row">

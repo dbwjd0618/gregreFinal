@@ -11,7 +11,6 @@
 $(()=>{
 	$("a[data-advis-id]").on("click", function(){
 		let advisId = $(this).attr("data-advis-id");
-		console.log(advisId);
 		
 		location.href = "${pageContext.request.contextPath}/counselling/bookingPage.do?advisId="+advisId;
 	});
@@ -56,19 +55,15 @@ $(()=>{
 						<img src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}" class="align-self-center mr-3" alt="...">
 						<div class="media-body">
 							<h5 class="mt-0">
-								${counselor.advisName } <strong>${counselor.advisGrade }</strong> 상담사
+								${counselor.advisName }<strong>${counselor.advisGrade }</strong>상담사
 							</h5>
 							<p class="mb-0">
 								${counselor.advisIntro }
-								${counselor.advisPrice }
 							</p>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-4">
-					<%-- <form action="${pageContext.request.contextPath}/counselling/bookingPage.do">
-						<input type="hidden" name="advisId" value="${counselor.advisId }"/>
-					</form> --%>
 					<a data-advis-id="${counselor.advisId}" class="btn btn-primary btn-lg" role="button">상담권 선택하기</a>
 				</div>
 			</div>

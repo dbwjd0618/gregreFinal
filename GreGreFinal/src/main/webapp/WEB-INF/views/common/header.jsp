@@ -34,6 +34,14 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/login.css"> 
   <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
 
+	<c:if test="${not empty msg}">
+	<script>
+	$(function() {
+		alert("${msg}");
+	});
+	</script>
+	</c:if>
+	<% session.removeAttribute("msg"); %>
 </head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
@@ -139,7 +147,7 @@
           <ul class="depth-2">
             <!-- 육아 여기서부터 링크 이동 -->
             <li><a href="${pageContext.request.contextPath }/child/childInfo.do">육아정보</a></li>
-            <li><a href="${pageContext.request.contextPath }/child/childCare.do">아이지킴이</a></li>
+            <li><a href="${pageContext.request.contextPath }/child/childCare">아이지킴이</a></li>
             <li><a href="">육아상담</a></li>
           </ul>
         </div>
