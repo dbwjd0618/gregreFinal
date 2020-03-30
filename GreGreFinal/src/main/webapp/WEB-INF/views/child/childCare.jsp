@@ -7,7 +7,10 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
+<!-- 네이버 지도 API -->
+<script type="text/javascript"
+	src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=v5p2mqo6ba"></script>
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=v5p2mqo6ba&submodules=geocoder"></script>
 
 <style>
 .site-section-cover.overlay:before {
@@ -98,44 +101,140 @@
 								<option value='185' selected>연수구</option>
 								<option value='720' selected>옹진군</option>
 								<option value='110' selected>중구</option>
-							</select>
-							<input type="button" class="btn btn-block btn-outline-success btn-send" value="검색" >
-							</form>
+							</select> <input type="button"
+								class="btn btn-block btn-outline-success btn-send" value="검색">
+						</form>
 					</div>
 				</div>
-
+				
+				<div id="map" style="width:100%;height:400px;"></div>
 				<!--contents end-->
+				<div id="selectP"></div>
 			</div>
 		</div>
 	</div>
 </div>
 
 <script>
-$(".btn-send").click(e=>{
-	console.log("클릭 함");
-	console.log($("#form1").serialize());
+// 네이버 map 생성
+$(window).on("load", function() {
+    if (navigator.geolocation) {
+        /**
+         * navigator.geolocation 은 Chrome 50 버젼 이후로 HTTP 환경에서 사용이 Deprecate 되어 HTTPS 환경에서만 사용 가능 합니다.
+         * http://localhost 에서는 사용이 가능하며, 테스트 목적으로, Chrome 의 바로가기를 만들어서 아래와 같이 설정하면 접속은 가능합니다.
+         * chrome.exe --unsafely-treat-insecure-origin-as-secure="http://example.com"
+         */
+        navigator.geolocation.getCurrentPosition(onSuccessGeolocation, onErrorGeolocation);
+    } else {
+        var center = map.getCenter();
+        infowindow.setContent('<div style="padding:20px;"><h5 style="margin-bottom:5px;color:#f00;">Geolocation not supported</h5></div>');
+        infowindow.open(map, center);
+    }
+});
 
+var map = new naver.maps.Map('map', {
+    center: new naver.maps.LatLng(37.5666805, 126.9784147),
+    zoom: 10,
+    mapTypeId: naver.maps.MapTypeId.NORMAL
+});
+
+var infowindow = new naver.maps.InfoWindow();
+
+function onSuccessGeolocation(position) {
+    var location = new naver.maps.LatLng(position.coords.latitude,
+                                         position.coords.longitude);
+
+    map.setCenter(location); // 얻은 좌표를 지도의 중심으로 설정합니다.
+    map.setZoom(15); // 지도의 줌 레벨을 변경합니다.
+
+    infowindow.setContent('<div style="padding:10px;">' + '현 위치' + '</div>');
+
+    infowindow.open(map, location);
+    console.log('Coordinates: ' + location.toString());
+}
+
+function onErrorGeolocation() {
+    var center = map.getCenter();
+
+    infowindow.setContent('<div style="padding:20px;">' +
+        '<h5 style="margin-bottom:5px;color:#f00;">Geolocation failed!</h5>'+ "latitude: "+ center.lat() +"<br />longitude: "+ center.lng() +'</div>');
+
+    infowindow.open(map, center);
+}
+
+
+$(".btn-send").click(e=>{
+	
+	//주소 불러오기
+	
+	var si = $("[name=h_area1] option:selected").text();
+	var dong = $("[name=h_area2] option:selected").text();
+	
+	naver.maps.Service.geocode({
+        query: si+dong
+    }, function(status, response) {
+        if (status !== naver.maps.Service.Status.OK) {
+            return alert('Something wrong!');
+        }
+
+        var result = response.v2, // 검색 결과의 컨테이너
+            items = result.addresses; // 검색 결과의 배열
+            
+        console.log(items[0].x);
+            
+        var x = items[0].x;
+        var y = items[0].y;
+        
+        var point = new naver.maps.Point(x, y);
+
+        map.setCenter(point);
+        
+        // do Something
+    });
+	
 
 	$.ajax({
 		url: "${pageContext.request.contextPath}/child/childCare",
 		data: $("#form1").serialize(),
-		type: "GET",
-		dataType:"json",
-		success: data =>{
-			console.log(data)
+		type: "POST",
+		dataType: "XML",
+		success: function(data){
+			/* console.log(data); */
 			
-			/* var obj = JSON.parse(data); */
+			console.log(data);
 			
+			if($(data).find("resultCode").text() == '03'){
+				alert("해당 지역에는 사고내역이 없습니다.")
+				
+			}else{
+			let $item = $(data).find("item");
 			
-		
+				$(data).find("item").each(function(i,e){
+					
+					var marker = new naver.maps.Marker({
+				    position: new naver.maps.LatLng($($item[i]).find("la_crd").text(), $($item[i]).find("lo_crd").text()),
+				    map: map
+					});
+					
+					$("#selectP").append("<button style='width:50%;' onclick='go("+$($item[i]).find("la_crd").text()+", "+$($item[i]).find("lo_crd").text()+")'>"+$($item[i]).find("spot_nm").text()+"</button>");
+				});			
+			}
+			
+
 		},
 		error:(xhr,status, err) =>{
 			console.log(xhr,status,err);
 		}
 	});
+	
 });
+function go(a,b){
+	
+	map.setCenter(new naver.maps.LatLng(a,b));
+}
 </script>
-<script src="${pageContext.request.contextPath}/resources/js/child/childCare.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/child/childCare.js"></script>
 <!-- 풋터 선언!!-->
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 
