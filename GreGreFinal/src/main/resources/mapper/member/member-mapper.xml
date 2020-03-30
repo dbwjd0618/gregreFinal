@@ -10,6 +10,11 @@
 		where member_id = #{memberId}
 	</select>
 	
+	<select id="selectBizId" resultType="BizMember">
+		select * from TB_comp_member
+		where Cmember_ID = #{cmemberId}
+	</select>
+	
 	<select id="preferList" resultType="PreferList">
 		select * from TB_prefer where member_Id = #{memberId}
 	</select>
@@ -34,7 +39,74 @@
 		) 
 		</insert>
 
-	<select id="selectOne" resultType="member"> select * from TB_MEMBER_INFO
-		where member_Id = #{memberId} </select>
+	<select id="selectOne" resultType="kh.mclass.Igre.member.model.vo.Member"> 
+	select 
+		* 
+	from 
+		TB_MEMBER_INFO
+	where 
+		member_Id = #{memberId}
+	</select>
+		
+	<select id="selectOnec" resultType="kh.mclass.Igre.member.model.vo.BizMember"> 
+	select 
+		* 
+	from 
+		TB_comp_member
+	where 
+		cmember_Id = #{cmemberId}
+	</select>
+	
+	
+	<insert id="bizenroll">
+		insert into 
+			TB_comp_member 
+		values(
+			#{cmemberId},
+			#{memberPwd}, 
+			#{phone}, 
+			#{compDiv}	
+			)
+			
+	</insert>
+	
+	<insert id="insertAdvis">
+		insert into
+			tb_adviser
+		values(
+			#{advisId},
+			#{advisName},
+			#{advisIntro},
+			#{advisCareer},
+			#{advisLicense},
+			#{grade},
+			#{licenseFile},
+			#{advisImg}
+		)
+	</insert>
+	
+	<insert id="insertSeller">
+		insert into
+			tb_seller
+		values(
+			#{sellerId},
+			#{sellerPwd},
+			#{compName},
+			#{compId},
+			#{compNum},
+			#{compFax},
+			#{compAddress},
+			#{sellerName},
+			#{sellerPhone},
+			#{sellerEmail},
+			#{bankName},
+			#{accountNo},
+			#{accountHolder},
+			#{brandName},
+			#{salesCategories},
+			#{salesAboutprod}
+		)
+	</insert>
+	
 	
 </mapper>
