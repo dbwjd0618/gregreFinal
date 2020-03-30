@@ -1,6 +1,8 @@
 package kh.mclass.Igre.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -18,6 +21,7 @@ import kh.mclass.Igre.admin.model.exception.AdminException;
 import kh.mclass.Igre.admin.model.service.AdminService;
 import kh.mclass.Igre.admin.model.vo.Admin;
 import kh.mclass.Igre.admin.model.vo.Amember;
+import kh.mclass.Igre.admin.model.vo.Report;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -90,7 +94,6 @@ public class AdminController {
 		
 		List<Amember> list = adminService.list();
 		
-//		log.debug("list={}", list);
 		model.addAttribute("list", list);
 		
 		return "admin/memberList";
@@ -151,7 +154,7 @@ public class AdminController {
 		
 		redirectAttributes.addFlashAttribute("msg", result>0?"회원탈퇴가 완료되었습니다.":"회원탈퇴에 실패하였습니다.");
 		
-		return "redirect:/admin/memberList.do";
+		return "redirect:/admin/memberDeleteList.do";
 	}
 	
 	@GetMapping("/logout.do")
@@ -166,16 +169,44 @@ public class AdminController {
 		return "redirect:/admin/login.do";
 	}
 	
+	@GetMapping("/memberDeleteList.do")
+	public String deleteList(Model model,
+							 RedirectAttributes redirectAttributes) {
+		
+		List<Amember> list = adminService.deleteList();
+		
+		model.addAttribute("list", list);
+								
+		return "admin/memberDeleteList";
+	}
 	
+	@GetMapping("/report.do")
+	public String report(Model model) {
+		
+		List<Report> list = adminService.report();
+		
+		model.addAttribute("list", list);
+		
+		return "admin/report";
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@PostMapping("/reportDelete.do")
+	@ResponseBody
+	public Map<String,Object> reportDelete(Model model,
+							   @RequestParam(value = "one2[]") List<Integer> chArr) {
+		log.debug("chArr={}",chArr);
+		
+		int result = 0; 
+		
+		 for(Integer reportNo : chArr) {
+			 result += adminService.reportDelete(reportNo); 
+		 }
+		 Map<String,Object> map = new HashMap<>();
+		 map.put("msg", result==chArr.size()?"신고내역을 처리하였습니다.":"신고내역 처리에 실패하였습니다.");
+		 map.put("result", result);
+		 
+		return map;
+		
+	}
 
 }

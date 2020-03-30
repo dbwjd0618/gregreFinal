@@ -788,7 +788,6 @@ span.optNm2 {
 						<div class="pi-pic">
 							<img src="img/products/women-2.jpg" alt="">
 							<div class="icon">
-								<i class="icon_heart_alt"></i>
 							</div>
 							<ul>
 								<li class="w-icon active"><a href="#"><i

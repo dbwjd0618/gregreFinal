@@ -47,6 +47,9 @@
 .myLocation{
 margin: 10px;
 }
+.custom-select{
+width: max-content;
+}
 </style>
 <!-- 헤더 소개 부분 -->
 <div class="ftco-blocks-cover-1">
@@ -153,7 +156,7 @@ margin: 10px;
 
 <!-- 위치 검색 -->
 <script
-	src="${pageContext.request.contextPath}/resources/js/find/pharmacysearch.js"></script>
+	src="${pageContext.request.contextPath}/resources/js/find/phamacysearch.js"></script>
 
 
 <!-- 풋터 선언!!-->

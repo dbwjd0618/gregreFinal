@@ -16,16 +16,6 @@
     });
 </script>
 
-<!-- alert 메세지 띄우기! -->
-<c:if test="${not empty msg }">
-	<script>
-		$(()=>{
-			alert("${msg}");
-		});
-	</script>
-</c:if>
-<% session.removeAttribute("msg"); %>
-
 //삭제 버튼 클릭시
 <script>
 function memberDelete(memberId){
@@ -102,8 +92,6 @@ function memberDelete(memberId){
 											<td><input type="button" value="수정"
 												onclick="location.href='${pageContext.request.contextPath}/admin/memberUpdate.do?memberId='+'${list.memberId}'"></td>
 											<td><input type="button" value="탈퇴" id="delete" onclick="memberDelete('${list.memberId}');" ></td>
-											<%-- onclick="location.href='${pageContext.request.contextPath}/admin/memberDelete.do?memberId='+'${list.memberId}'" --%>
-
 										</tr>
 									</c:forEach>
 								</c:if>

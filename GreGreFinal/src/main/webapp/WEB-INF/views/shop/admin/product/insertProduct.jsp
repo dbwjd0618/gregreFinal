@@ -133,6 +133,14 @@ a#optListUpdate {
 				</div>
 			</div> -->
 			<div class="form-group row">
+				<label for="payment" class="col-sm-2 col-form-label">결제방식</label>
+				<div class="col-sm-10">
+					<input type="checkbox" name="productState" value="credit" >신용카드
+					<input type="checkbox" name="productState" value="phone" >휴대전화
+					<input type="checkbox" name="productState" value="account" >무통장입금
+					<input type="checkbox" name="productState" value="virtualAccount" >가상계좌
+					<input type="checkbox" name="productState" value="realtimeAccount" >실시간계좌이체
+				</div>
 				<label for="categoryId" class="col-sm-2 col-form-label">카테고리</label>
 				<div class="col-sm-10">
 					<select name="categoryId" class="form-control" id="categoryId"
@@ -338,8 +346,8 @@ a#optListUpdate {
 															<div class="clearfix mb5">
 																<div class="float_l mt10">
 																	<span class="mr5 font-size16">옵션목록 : <strong
-																		class="red" id="totalOptList">0</strong>개
-																	</span> </span> <span class="form-inline m1 "
+																	</span> 
+																	<span class="form-inline m1 "
 																		style="padding-left: 15px;"> 사용여부 <select
 																		name="optView" id="optView"
 																		class="form-control select-check"
@@ -399,7 +407,7 @@ a#optListUpdate {
 															role="button" aria-disabled="false" aria-pressed="true"><span
 															class="ui-button-text"> 사용</span></label> <input type="radio"
 															name="useAddNormalOption" id="useAddNormalOption2"
-															value="0" checked=""><label
+															value="0" checked><label
 															for="useAddNormalOption2"
 															class="table-mb0 ui-button ui-widget ui-state-default ui-button-text-only ui-corner-right"
 															role="button" aria-disabled="false" aria-pressed="false"><span

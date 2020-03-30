@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import kh.mclass.Igre.admin.model.dao.AdminDAO;
 import kh.mclass.Igre.admin.model.vo.Admin;
 import kh.mclass.Igre.admin.model.vo.Amember;
+import kh.mclass.Igre.admin.model.vo.Report;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -43,6 +44,21 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public int delete(String memberId) {
 		return adminDAO.delete(memberId);
+	}
+
+	@Override
+	public List<Amember> deleteList() {
+		return adminDAO.deleteList();
+	}
+
+	@Override
+	public List<Report> report() {
+		return adminDAO.report();
+	}
+
+	@Override
+	public int reportDelete(Integer reportNo) {
+		return adminDAO.reportDelete(reportNo);
 	}
 
 

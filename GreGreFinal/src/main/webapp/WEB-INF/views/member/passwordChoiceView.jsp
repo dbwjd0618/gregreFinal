@@ -107,7 +107,7 @@
                                 <h4 class="card-title text-center mb-4 mt-1">비밀번호 찾기</h4>
                                 <p class="mb-5">비밀번호 찾기를 원하시면 선택해주세요</p>                      
                                 <div class="form-group">
-                                    <button type=""  onclick="findPassword();" class="btn btn-primary btn-block enroll-btn">
+                                    <button type="button"  onclick="findPassword();" class="btn btn-primary btn-block enroll-btn">
                                     비밀번호 찾기
                                     </button>
                                 </div>
