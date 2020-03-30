@@ -745,7 +745,6 @@ span.optNm2 {
 		</div>
 	</section>
 	<!-- Product Shop Section End -->
-
 	<!-- Related Products Section End -->
 	<div class="related-products spad">
 		<div class="container">
@@ -954,7 +953,7 @@ span.optNm2 {
 		</div>
 	</div>
 </div>
-</div>
+
 
 
 <jsp:include page="/WEB-INF/views/shop/common/footer.jsp" />

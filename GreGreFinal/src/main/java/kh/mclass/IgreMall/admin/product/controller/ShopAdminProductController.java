@@ -196,10 +196,9 @@ public class ShopAdminProductController {
 	}
 
 	/*
+	 * 0325
+	 * 이진희
 	 * 0325 이진희
-	 * 
-	 * 상품등록
-	 */
 	/*진희수정1*/
 	@PostMapping("/insert.do")
 	public String insertProduct(@ModelAttribute Product product, 
@@ -215,10 +214,12 @@ public class ShopAdminProductController {
 							HttpServletResponse response) throws Exception{
 		log.debug("product={}", product);
 		product.setDeliveryFee(product.getDeliveryFee().replaceAll(",", ""));
+		
         List<ProdOption> prodOptionList = new ArrayList<>();
    
    
         for(int i=0; i< optionValue1.length;i++) {
+
         	ProdOption prodOption = new ProdOption();
         	String optValue = optionValue1[i];
         	if(optionValue2 !=null) {
@@ -236,6 +237,7 @@ public class ShopAdminProductController {
         	prodOption.setOptionState(optionState[i]);
         	prodOption.setProductId(product.getProductId());
         	prodOptionList.add(prodOption);	
+
         }
 		log.debug("prodOption={}", prodOptionList);
 
