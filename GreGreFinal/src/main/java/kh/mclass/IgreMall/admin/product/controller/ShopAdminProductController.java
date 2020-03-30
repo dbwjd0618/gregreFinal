@@ -200,41 +200,43 @@ public class ShopAdminProductController {
 	 * 
 	 * 상품등록
 	 */
-	/* 진희수정1 */
+	/*진희수정1*/
 	@PostMapping("/insert.do")
-	public String insertProduct(@ModelAttribute Product product,
-			@RequestParam(value = "optionName", required = false) String[] optionName,
-			@RequestParam(value = "optionValue1", required = false) String[] optionValue1,
-			@RequestParam(value = "optionValue2", required = false) String[] optionValue2,
-			@RequestParam(value = "optionStock", required = false) String[] optionStock,
-			@RequestParam(value = "optionPrice", required = false) String[] optionPrice,
-			@RequestParam(value = "optionState", required = false) String[] optionState,
-			MultipartHttpServletRequest mtfRequest, RedirectAttributes redirectAttributes, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public String insertProduct(@ModelAttribute Product product, 
+						@RequestParam(value="optionName", required=false)String[] optionName, 
+						@RequestParam(value="optionValue1", required=false)String[] optionValue1, 
+						@RequestParam(value="optionValue2", required=false)String[] optionValue2, 
+						@RequestParam(value="optionStock", required=false)String[] optionStock, 
+						@RequestParam(value="optionPrice", required=false)String[] optionPrice, 
+						@RequestParam(value="optionState", required=false)String[] optionState, 
+							MultipartHttpServletRequest mtfRequest,
+							RedirectAttributes redirectAttributes, 
+							HttpServletRequest request,
+							HttpServletResponse response) throws Exception{
 		log.debug("product={}", product);
 		product.setDeliveryFee(product.getDeliveryFee().replaceAll(",", ""));
-		List<ProdOption> prodOptionList = new ArrayList<>();
-
-		for (int i = 0; i < optionValue1.length; i++) {
-			ProdOption prodOption = new ProdOption();
-			String optValue = optionValue1[i];
-			if (optionValue2 != null) {
-				optValue += "," + optionValue2[i];
-			}
-			String optionNameRe = optionName[0];
-			if (optionName.length > 1) {
-				optionNameRe += "," + optionName[1];
-			}
-			System.out.println("optValue=" + optValue);
-			prodOption.setOptionName(optionNameRe);
-			prodOption.setOptionValue(optValue);
-			prodOption.setOptionPrice(Integer.parseInt(optionPrice[i]));
-			prodOption.setOptionStock(Integer.parseInt(optionStock[i]));
-			prodOption.setOptionState(optionState[i]);
-			prodOption.setProductId(product.getProductId());
-			prodOptionList.add(prodOption);
-		}
-
+        List<ProdOption> prodOptionList = new ArrayList<>();
+   
+   
+        for(int i=0; i< optionValue1.length;i++) {
+        	ProdOption prodOption = new ProdOption();
+        	String optValue = optionValue1[i];
+        	if(optionValue2 !=null) {
+        		optValue +=","+optionValue2[i];
+        	}
+        	String optionNameRe =optionName[0];
+        	if(optionName.length>1) {
+        		optionNameRe += ","+optionName[1];
+        	}
+        	System.out.println("optValue="+optValue);
+        	prodOption.setOptionName(optionNameRe);
+        	prodOption.setOptionValue(optValue);
+        	prodOption.setOptionPrice(Integer.parseInt(optionPrice[i]));
+        	prodOption.setOptionStock(Integer.parseInt(optionStock[i]));
+        	prodOption.setOptionState(optionState[i]);
+        	prodOption.setProductId(product.getProductId());
+        	prodOptionList.add(prodOption);	
+        }
 		log.debug("prodOption={}", prodOptionList);
 
 		response.setContentType("text/html;charset=utf-8");
