@@ -14,7 +14,6 @@ public class ShopDAOImpl implements ShopDAO {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 
-
 	@Override
 	public List<Product> productList(int cPage, int numPerPage,Product cate3) {
 		int offset = (cPage-1)*numPerPage;
@@ -30,14 +29,10 @@ public class ShopDAOImpl implements ShopDAO {
 		return sqlSession.selectOne("product.selectTotalProducts",cate3);
 	}
 
-
-
 	@Override
 	public List<Product> productList(Product category1Prod) {
 		return sqlSession.selectList("product.productList",category1Prod);
 	}
-
-
-
+	
 
 }

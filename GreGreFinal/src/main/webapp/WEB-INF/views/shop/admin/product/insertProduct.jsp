@@ -129,6 +129,14 @@ a#optListUpdate {
 				</div>
 			</div> -->
 			<div class="form-group row">
+				<label for="payment" class="col-sm-2 col-form-label">결제방식</label>
+				<div class="col-sm-10">
+					<input type="checkbox" name="productState" value="credit" >신용카드
+					<input type="checkbox" name="productState" value="phone" >휴대전화
+					<input type="checkbox" name="productState" value="account" >무통장입금
+					<input type="checkbox" name="productState" value="virtualAccount" >가상계좌
+					<input type="checkbox" name="productState" value="realtimeAccount" >실시간계좌이체
+				</div>
 				<label for="categoryId" class="col-sm-2 col-form-label">카테고리</label>
 				<div class="col-sm-10">
 					<select name="categoryId" class="form-control" id="categoryId"
