@@ -147,7 +147,7 @@
           <ul class="depth-2">
             <!-- 육아 여기서부터 링크 이동 -->
             <li><a href="${pageContext.request.contextPath }/child/childInfo.do">육아정보</a></li>
-            <li><a href="${pageContext.request.contextPath }/child/childCare.do">아이지킴이</a></li>
+            <li><a href="${pageContext.request.contextPath }/child/childCare">아이지킴이</a></li>
             <li><a href="">육아상담</a></li>
           </ul>
         </div>

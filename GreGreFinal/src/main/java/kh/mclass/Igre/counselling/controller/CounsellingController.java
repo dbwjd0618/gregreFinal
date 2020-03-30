@@ -2,6 +2,9 @@ package kh.mclass.Igre.counselling.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +26,7 @@ public class CounsellingController {
 	CounselorService counselorService;
 	
 	@GetMapping("/counselorFind.do")
-	public ModelAndView counselorFind(@RequestParam(value = "cPage", defaultValue = "1")int cPage) {
+	public ModelAndView counselorFind(@RequestParam(value = "cPage", defaultValue = "1")int cPage, HttpServletRequest request, HttpServletResponse response) {
 		
 		log.debug("상담사 목록 페이지!");
 		ModelAndView mav = new ModelAndView();
