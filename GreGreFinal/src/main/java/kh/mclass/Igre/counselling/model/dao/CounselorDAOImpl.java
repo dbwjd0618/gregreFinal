@@ -26,6 +26,7 @@ public class CounselorDAOImpl implements CounselorDAO {
 		int offset = (cPage-1)*numPerPage;
 		int limit = numPerPage;
 		RowBounds rowBounds = new RowBounds(offset, limit);
+		
 		return sqlSession.selectList("counselor.selectCounselorList", null, rowBounds);
 	}
 
