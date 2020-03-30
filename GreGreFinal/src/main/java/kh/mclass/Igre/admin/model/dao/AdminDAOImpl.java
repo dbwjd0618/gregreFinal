@@ -1,6 +1,8 @@
 package kh.mclass.Igre.admin.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,8 +59,36 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	@Override
-	public int reportDelete(Integer reportNo) {
-		return sqlSession.delete("admin.reportDelete", reportNo);
+	public int postDelete(String boardCode, Integer postNo) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("table", "tb_post_"+boardCode);
+		map.put("postNo", postNo);
+		return sqlSession.delete("admin.postDelete", map);
+	}
+
+	@Override
+	public int reportUpdate(String boardCode, Integer postNo) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("boardCode", boardCode);
+		map.put("postNo", postNo);
+		return sqlSession.update("admin.reportUpdate", map);
+	}
+
+	@Override
+	public int replyDelete(String boardCode, Integer replyNo) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("table","tb_reply_"+boardCode);
+		map.put("replyNo", replyNo);
+		return sqlSession.delete("admin.replyDelete", map);
+	}
+
+	@Override
+	public int replyUpdate(String boardCode, Integer postNo, Integer replyNo) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("boardCode", boardCode);
+		map.put("postNo", postNo);
+		map.put("replyNo", replyNo);
+		return sqlSession.update("admin.replyUpdate", map);
 	}
 
 

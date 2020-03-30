@@ -57,8 +57,23 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int reportDelete(Integer reportNo) {
-		return adminDAO.reportDelete(reportNo);
+	public int postDelete(String boardCode, Integer postNo) {
+		return adminDAO.postDelete(boardCode, postNo);
+	}
+
+	@Override
+	public int reportUpdate(String boardCode, Integer postNo) {
+		return adminDAO.reportUpdate(boardCode, postNo);
+	}
+
+	@Override
+	public int replyDelete(String boardCode, Integer replyNo) {
+		return adminDAO.replyDelete(boardCode, replyNo);
+	}
+
+	@Override
+	public int replyUpdate(String boardCode, Integer postNo, Integer replyNo) {
+		return adminDAO.replyUpdate(boardCode, postNo, replyNo);
 	}
 
 
