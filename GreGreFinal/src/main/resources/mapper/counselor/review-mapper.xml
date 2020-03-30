@@ -2,25 +2,27 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="counselor">
-	<!-- 상담사 리스트 출력  -->
-	<select resultType="counselor" id="selectCounselorList">
+<mapper namespace="review">
+	<!-- 리뷰 게시글 리스트 출력  -->
+	<select resultType="review" id="selectReviewList">
 		select 
 			* 
 		from 
-			TB_adviser
+			TB_adviser_review
+		where 
+			advis_id = #{advisId}
 	</select>
 	
-	<!-- 상담사 전체 인원 count  -->
-	<select resultType="_int" id="selectCounselorTotalContents">
+	<!-- 리뷰 게시글 count  -->
+	<select resultType="_int" id="selectReviewTotalContents">
 		SELECT
 			COUNT(*)
 		FROM
-			TB_adviser
+			TB_adviser_review
 	</select>
 	
 	<!-- 상담사 1명 선택  -->
-	<select id="selectOne" resultMap="counselorCollection">
+	<!-- <select id="selectOne" resultMap="counselorCollection">
 	select 
 		*
 	from 
@@ -47,7 +49,7 @@
 		<result column="advis_keyword" property="advisKeyword" typeHandler="strArrTypeHandler"/>	
 		<result column="advis_license_file" property="advisLicenseFile"/>	
 		<result column="advis_img" property="advisImg"/>	
-	</resultMap>
+	</resultMap> -->
 
 	
 </mapper>
