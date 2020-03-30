@@ -330,7 +330,7 @@ a#optListUpdate {
 															</tbody>
 														</table>
 
-
+<!-- 풀하는방법. -->
 														<div style="text-align: center; padding: 5px;">
 															<a class="btn btn-info btn-sm" id="optionSetting">옵션
 																적용</a>
@@ -651,8 +651,6 @@ function sendFile(file, el) {
 <script
 	src="${pageContext.request.contextPath}/resources/js/admin/demo.js"
 	type="text/javascript"></script>
-
-
 
 </body>
 </html>
