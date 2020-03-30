@@ -3,22 +3,24 @@ package kh.mclass.Igre.child.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
@@ -61,15 +63,23 @@ public class ChildController {
 	
 	
 	@GetMapping("/childCare")
+	public ModelAndView childCare() 
+	{
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("child/childCare");
+        return mav;
+	}
+	
+	@PostMapping("/childCare")
 	@ResponseBody
-	public ModelAndView childCare(@RequestParam(value = "h_area1", defaultValue = "0") String sido, @RequestParam(value = "h_area2", defaultValue = "0") String gungu ) throws IOException
+	public void childCare( @RequestParam(value = "h_area1", defaultValue = "0") String sido, @RequestParam(value = "h_area2", defaultValue = "0") String gungu, HttpServletResponse response ) throws IOException
 	{
 
-		ModelAndView mav = new ModelAndView();
 		
-		System.out.println(sido);
-		System.out.println(gungu);
-		
+	    System.out.println(sido);
+	    System.out.println(gungu);
+        Map<String, Object> result = new HashMap<>();
+
 		//스쿨존 API 실행
 	    StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552061/schoolzoneChild/getRestSchoolzoneChild"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=igOhdppcftectqSSgqumS465oHsYbu8ZNzLN2akiCCDXyk4mSe9K5VemoB1DdKpWR2ChBCwr%2FKeBJZZn7K%2FzFw%3D%3D"); /*Service Key*/
@@ -80,28 +90,83 @@ public class ChildController {
         urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("xml", "UTF-8")); /*결과형식(xml/json)*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*검색건수*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지 번호*/
+       
+        String url = urlBuilder.toString();
+       
+//        
+//        try {
+//        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+//        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+//        org.w3c.dom.Document xml = null;
+//        //XML DOCUMENT 획득
+//			xml = documentBuilder.parse(url);
+//        //Root엘리먼트 획득
+//        Element element = xml.getDocumentElement();
+//        
+////        NodeList nodelist = element.getElementsByTagName("items");
+//        
+//        
+//        result.put("result", element);
+//       
+//     
+//			
+//        } catch (Exception e) {
+//        	// TODO Auto-generated catch block
+//        	e.printStackTrace();
+//        }
+//		
+//   
+//        
+//
+//        
+//        
+////        System.out.println(urlBuilder.toString());
+////        URL url = new URL(urlBuilder.toString());
+////        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+////        System.out.println("Response code: " + conn.getResponseCode());
+////        
+////        BufferedReader rd;
+////        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+////            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+////        } else {
+////            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+////        }
+////        StringBuilder sb = new StringBuilder();
+////        String line;
+////        while ((line = rd.readLine()) != null) {
+////            sb.append(line);
+////        }
+//// 
+////       System.out.println(rd.toString());
+////
+////        rd.close();
+////        conn.disconnect();
+//       
+        HttpURLConnection urlconnection = null;
+        BufferedReader br = null;
+        String resultt = "";
+        try {
+        	URL apiUrl = new URL(url);
+        	urlconnection = (HttpURLConnection)apiUrl.openConnection();
+        	urlconnection.setRequestMethod("GET");
+        	br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream(), "UTF-8"));
+        	String line = "";
+        	while((line = br.readLine()) != null) {
+        		resultt += line;
+        	}
+        } catch(Exception e) {
+        	e.printStackTrace();
+        } finally {
+        	urlconnection.disconnect();
+        	br.close();
+        }
         
-        System.out.println(urlBuilder.toString());
-        URL url = new URL(urlBuilder.toString());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Content-type", "application/json");
-        System.out.println("Response code: " + conn.getResponseCode());
-        BufferedReader rd;
-        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-        }
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-        rd.close();
-        conn.disconnect();
-        mav.addObject("result", sb);
-		return mav;
+        response.setContentType("text/xml; charset=utf-8");
+        PrintWriter out = response.getWriter();
+        out.write(resultt);
+        
+        
+//        return result;
 	}
 
 }
