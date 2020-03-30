@@ -24,5 +24,7 @@ public interface AdminProductService {
 
 	List<Product> searchProduct(Product p);
 
+	List<Product> productListSeller(Product p);
+
 
 }

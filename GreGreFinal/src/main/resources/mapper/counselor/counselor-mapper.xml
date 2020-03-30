@@ -48,5 +48,6 @@
 		<result column="advis_license_file" property="advisLicenseFile"/>	
 		<result column="advis_img" property="advisImg"/>	
 	</resultMap>
+
 	
 </mapper>

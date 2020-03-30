@@ -79,6 +79,22 @@
 	                </a>
               	</div>
               </c:if>
+              
+              <c:if test="${bimemberLoggedIn != null }">
+              	<div class="site-quick-text">
+	            	<!--마이페이지 -->
+	                <a href="${pageContext.request.contextPath}/WEB-INF/views/myPage/myPageMain.html">
+	                  <span style="color: black !important; padding-right:20px;">마이페이지</span>
+	                </a>
+              	</div>
+              	<div class="site-quick-text">
+	                <a href="${pageContext.request.contextPath}/member/logout.do">
+	                  <span style="color: black !important; padding-right:20px;">log-out</span>
+	                </a>
+              	</div>
+              </c:if>
+              
+              
               <c:if test="${memberLoggedIn != null }">
               	<div class="site-quick-text">
 	            	<!--마이페이지 -->
