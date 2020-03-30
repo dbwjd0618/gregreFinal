@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/owl.theme.default.min.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fonts/flaticon/font/flaticon.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/aos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <!-- MAIN CSS -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
