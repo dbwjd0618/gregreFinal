@@ -29,4 +29,6 @@ public interface AdminProductDAO {
 
 	List<Product> searchProduct(Product p);
 
+	List<Product> productListSeller(Product p);
+
 }
