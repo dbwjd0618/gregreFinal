@@ -57,6 +57,7 @@ $(()=>{
 a{
 	text-decoration: none;
 }
+
 </style>
 
 
@@ -72,9 +73,7 @@ a{
 			<article class="counselor-filter-search">
 				<h3 class="search-title">상담사 이름 검색</h3>
 				<div class="counselor-search-input-box">
-					<input type="search" id="counselor-search-input"
-						placeholder="상담사 이름 검색">
-					<button type="button">찾기</button>
+					<input type="search" class="search-form" id="counselor-search-input" placeholder="상담사 이름 검색">
 				</div>
 			</article>
 			<!-- 상담사 검색창 끝 -->

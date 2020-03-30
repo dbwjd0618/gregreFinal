@@ -2,6 +2,9 @@ package kh.mclass.Igre.counselling.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,18 +26,32 @@ public class CounsellingController {
 	CounselorService counselorService;
 	
 	@GetMapping("/counselorFind.do")
-	public ModelAndView counselorFind(@RequestParam(value = "cPage", defaultValue = "1")int cPage) {
+	public ModelAndView counselorFind(@RequestParam(value = "cPage", defaultValue = "1")int cPage, HttpServletRequest request, HttpServletResponse response) {
 		
 		log.debug("상담사 목록 페이지!");
 		ModelAndView mav = new ModelAndView();
 		
 		final int numPerPage =5;
+		int cPage3 = 1;
+		try{
+			cPage3 = Integer.parseInt(request.getParameter("cPage"));
+		} catch(NumberFormatException e){
+		
+		}
 		
 		List<Counselor> list = counselorService.selectCounselorList(cPage, numPerPage);
 		
 		int totalContents = counselorService.selectCounselorTotalContents();
+		final int totalPage = (int)Math.ceil((double)totalContents/numPerPage);
+		String pageBar = "";
+		
+		final int pageBarSize = 5;
+		int pageStart = ((cPage3 - 1)/pageBarSize) * pageBarSize +1;
+		int pageEnd = pageStart+pageBarSize-1;
+		int pageNo = pageStart;
 		
 		mav.addObject("list", list);
+		mav.addObject("pageBar",pageBar);
 		mav.addObject("totalContents", totalContents);
 		mav.setViewName("counselling/counselorFind");
 		
