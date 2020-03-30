@@ -340,15 +340,17 @@ a#optListUpdate {
 															<a class="btn btn-info btn-sm" id="optionSetting">옵션
 																적용</a>
 														</div>
-
+<!-- 수정 -->
 														<!-- 일반옵션 리스트 -->
 														<div id="generalDiv">
 															<div class="clearfix mb5">
 																<div class="float_l mt10">
-																	<span class="mr5 font-size16">옵션목록 : <strong
+																	<span class="mr5 font-size16">옵션목록 : <strong>
+																		class="red" id="totalOptList">0</strong>개
+
 																	</span> 
-																	<span class="form-inline m1 "
-																		style="padding-left: 15px;"> 사용여부 <select
+																	<span class="form-inline m1 " style="padding-left: 15px;"> 사용여부 
+																	<select
 																		name="optView" id="optView"
 																		class="form-control select-check"
 																		style="width: 80px !important;">

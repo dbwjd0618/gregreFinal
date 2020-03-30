@@ -54,7 +54,7 @@
                        <div class="card-body mx-auto" id='login-container' style="max-width: 800px;">   
                         <article class="card-body text-center">
                                <h4 class="card-title text-center mb-4 mt-1">개인회원</h4>
-                               <p class="mb-5">개인회원 가입을 원하시면 선택해주세요</p>                      
+                               <p class="mb-5">개인 회원 가입을 원하시면 선택해주세요</p>                      
                                 <div class="form-group">
                                     <button type="button"  onclick="location.href = '${pageContext.request.contextPath}/member/memberEnroll.do'" class="btn btn-primary btn-block enroll-btn">
                                         가입하기
@@ -69,10 +69,10 @@
                     <div class="col-md-6">
                         <div class="card-body mx-auto" id='login-container' style="max-width: 800px;">   
                             <article class="card-body text-center">
-                                <h4 class="card-title text-center mb-4 mt-1">기업회원</h4>
-                                <p class="mb-5">기업회원 가입을 원하시면 선택해주세요</p>                      
+                                <h4 class="card-title text-center mb-4 mt-1">기업 회원</h4>
+                                <p class="mb-5">기업 회원 가입을 원하시면 선택해주세요</p>                      
                                 <div class="form-group">
-                                    <button type="button"  onclick="location.href = '../login/bizEnroll.html'" class="btn btn-primary btn-block enroll-btn">
+                                    <button type="button"  onclick="location.href = '${pageContext.request.contextPath}/member/enrollChoiceView2.do'" class="btn btn-primary btn-block enroll-btn">
                                     가입하기
                                     </button>
                                 </div>
