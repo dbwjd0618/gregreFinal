@@ -74,10 +74,6 @@ public class ChildController {
 	@ResponseBody
 	public void childCare( @RequestParam(value = "h_area1", defaultValue = "0") String sido, @RequestParam(value = "h_area2", defaultValue = "0") String gungu, HttpServletResponse response ) throws IOException
 	{
-
-		
-	    System.out.println(sido);
-	    System.out.println(gungu);
         Map<String, Object> result = new HashMap<>();
 
 		//스쿨존 API 실행

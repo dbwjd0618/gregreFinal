@@ -186,9 +186,7 @@ $(".btn-send").click(e=>{
         var y = items[0].y;
         
         var point = new naver.maps.Point(x, y);
-        console.log(x);
-        console.log(y);
-        
+
         map.setCenter(point);
         
         // do Something
