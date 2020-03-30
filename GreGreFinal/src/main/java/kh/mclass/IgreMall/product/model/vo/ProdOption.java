@@ -1,7 +1,6 @@
 package kh.mclass.IgreMall.product.model.vo;
 
 import java.io.Serializable;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +24,7 @@ public class ProdOption implements Serializable {
 	private String productId;
 	private String optionName;
 	private String optionValue;
+	private int optionStock;
 	private int optionPrice;
 	private String optionState;
 

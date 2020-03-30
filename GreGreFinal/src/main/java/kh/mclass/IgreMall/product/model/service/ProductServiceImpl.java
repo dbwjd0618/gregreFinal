@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kh.mclass.IgreMall.product.model.dao.ProductDAO;
 import kh.mclass.IgreMall.product.model.vo.Attachment;
+import kh.mclass.IgreMall.product.model.vo.ProdOption;
 import kh.mclass.IgreMall.product.model.vo.Product;
 
 @Service
@@ -25,6 +26,21 @@ public class ProductServiceImpl implements ProductService{
 	public void insertAttach(List<Attachment> attachList) {
 		productDAO.insertAttachment(attachList);
 		
+	}
+
+	@Override
+	public Product selectProductOne(String productId) {
+		return productDAO.selectProductOne(productId);
+	}
+
+	@Override
+	public List<Attachment> selectAttachList(String productId) {
+		return productDAO.selectAttachList(productId);
+	}
+
+	@Override
+	public List<ProdOption> selectOptionList(String productId) {
+		return productDAO.selectOptionList(productId);
 	}
 
 }

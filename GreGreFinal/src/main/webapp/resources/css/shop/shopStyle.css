@@ -71,8 +71,8 @@ em{
     max-width: 150px;
 }
 .logo img{
-    max-width:200px;
-}
+    max-width: 70%;
+} 
 
 /*myReview css*/
 .my-review-list__list__item.col-lg-12 {
@@ -2559,9 +2559,9 @@ em{
 	   margin-bottom: 34px;
    }
    
-   .product-content img {
+/*    .product-content img {
 	   min-width: 100%;
-   }
+   } */
    
    .specification-table {
 	   padding-top: 52px;

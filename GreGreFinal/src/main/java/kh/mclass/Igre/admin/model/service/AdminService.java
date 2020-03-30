@@ -4,6 +4,7 @@ import java.util.List;
 
 import kh.mclass.Igre.admin.model.vo.Admin;
 import kh.mclass.Igre.admin.model.vo.Amember;
+import kh.mclass.Igre.admin.model.vo.Report;
 
 public interface AdminService {
 
@@ -18,5 +19,12 @@ public interface AdminService {
 	int updateAdmin(Amember amember);
 
 	int delete(String memberId);
+
+	List<Amember> deleteList();
+
+	List<Report> report();
+
+	int reportDelete(Integer reportNo);
+
 
 }

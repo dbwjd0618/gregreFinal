@@ -54,7 +54,6 @@
     <!-- Footer Section End -->
 
    <!-- Js Plugins -->
-   <%-- <script src="${pageContext.request.contextPath }/resources/js/shop/jquery-3.3.1.min.js"></script> --%>
    <script src="${pageContext.request.contextPath }/resources/js/shop/bootstrap.min.js"></script>
    <script src="${pageContext.request.contextPath }/resources/js/shop/jquery-ui.min.js"></script>
    <script src="${pageContext.request.contextPath }/resources/js/shop/jquery.countdown.min.js"></script>
@@ -66,40 +65,7 @@
    <script src="${pageContext.request.contextPath }/resources/js/shop/main.js"></script>
    <script src="${pageContext.request.contextPath }/resources/js/subMenu/h-subMenu.js"></script>
 
-     <!--jsrender.min-->
-    <script src="${pageContext.request.contextPath }/resources/js/jsrender.min.js"></script>
-    <script src="https://www.jsviews.com/download/jsrender.min.js"></script>
-
-
-    
-	 <script>
-
-        function addOption(t, price) {
-            console.log("this=" + t);
-            console.log("price=" + price);
-            //$('.optPrice').val(price);
-            var data = [
-                {
-                    "optId": "203043-option-id",
-                    "optPrice": price,
-                    "optNm": "핑크80"
-
-                },
-                {
-                    "optId": "203043-option-id",
-                    "optPrice": price,
-                    "optNm": "핑크90"
-                }
-            ];
-
-            var template = $.templates("#itemTmplOption");
-
-            var htmlOutput = template.render(data);
-
-            $("#selected-option").html(htmlOutput);
-
-        }
-    </script>
+  
     
   
 </body>

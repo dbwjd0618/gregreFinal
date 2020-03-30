@@ -3,8 +3,11 @@ package kh.mclass.IgreMall.admin.product.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/shop/admin/product")
 public class ShopAdminProductController {
+	
 	@Autowired
 	AdminProductService adminProductService;
 	@Autowired
@@ -44,6 +48,83 @@ public class ShopAdminProductController {
 	@Autowired
 	ResourceLoader resourceLoader;
 
+	@RequestMapping("/search.do")
+	public ModelAndView searchProduct(ModelAndView mav,String sellerId,String productName,
+									  Date startDate,Date endDate,String productState) {
+		log.debug("서치를 시작합니다.");
+		log.debug("productName={}",productName);
+		log.debug("sellerId={}",sellerId);
+		System.out.println(startDate);
+//		Map<String, Object> time = new HashMap<String, Object>();
+//		if(time.get("startDate")==null) {
+//			time.put("startDate","");
+//		}else if(time.get("endDate")==null) {
+//			time.put("endDate","");
+//		}else if(time.get("productName")==null) {
+//			time.put("productName","");
+//		}else if(time.get("productState")==null) {
+//			time.put("productState","");
+//		}
+//		time.put("startDate", startDate);
+//		time.put("endDate", endDate);
+//		time.put("sellerId",sellerId);
+//		time.put("productState",productState);
+//		time.put("productName",productName);
+
+		Product p = new Product();
+		p.setSellerId(sellerId);
+		p.setProductName(productName);
+		p.setProductState(productState);
+		List<Product> list = adminProductService.searchProduct(p);
+//		List<Map<String, Object>> list = adminProductService.searchProduct(time);
+		System.out.println(startDate+",,,"+endDate);
+//		 log.debug("searchProduct={}",p); 
+				
+		//자료형 확인하는 공간
+//		System.out.println(time.get("startDate").getClass());
+//		System.out.println(time.get("endDate").getClass());
+//		System.out.println(time.get("productName").getClass());
+//		System.out.println(time.get("sellerId").getClass());
+		
+		int totalProducts = adminProductService.totalProducts(p);
+		mav.addObject("totalProducts",totalProducts);
+		log.debug("searchList={}",list);
+		mav.addObject("list",list);
+		mav.setViewName("shop/admin/product/list");
+		
+		return mav;		
+	}
+	@RequestMapping("/delete.do")
+	public ModelAndView deleteProduct(ModelAndView mav,String productId) {
+		Product p = new Product();
+		p.setProductId(productId);
+		System.out.println("productId="+productId);
+		int result = adminProductService.deleteProduct(p);
+		
+		log.debug("딜리트완료");
+		mav.setViewName("redirect:/shop/admin/product/list.do");
+		return mav;
+	}
+	
+	
+	@RequestMapping("/update.do")
+	public ModelAndView updateProduct(ModelAndView mav,HttpServletRequest request, HttpServletResponse response,
+			String productId,int discountPrice,int productStock,String productState) {
+		System.err.println("왜 ?;");
+		Product p = new Product();	
+		
+		p.setProductId(productId);
+		p.setDiscountPrice(discountPrice);
+		p.setProductStock(productStock);
+		p.setProductState(productState);
+		int result = adminProductService.updateProduct(p);
+		mav.setViewName("shop/admin/product/");
+		log.debug("업데이트완료");
+		mav.setViewName("redirect:/shop/admin/product/list.do");
+		
+		return mav;
+	}
+	
 	@GetMapping("/insert.do")
 	public ModelAndView insertProduct(ModelAndView mav) {
 		mav.setViewName("shop/admin/product/insertProduct");
@@ -102,106 +183,134 @@ public class ShopAdminProductController {
 		return list;
 	}	
 	/*
-	 * 0325
-	 * 이진희
-	 * 
-	 * 상품등록
-	 */
-	@PostMapping("/insert.do")
-	public String insertProduct(@ModelAttribute Product product, 
-						@RequestParam(value="optionName", required=false)String[] optionName, 
-						@RequestParam(value="optionValue", required=false)String[] optionValue, 
-						@RequestParam(value="optionPrice", required=false)String[] optionPrice, 
-						@RequestParam(value="optionState", required=false)String[] optionState, 
-							MultipartHttpServletRequest mtfRequest,
-							RedirectAttributes redirectAttributes, 
-							HttpServletRequest request,
-							HttpServletResponse response) throws Exception{
-		log.debug("product={}", product);
-		
+     * 0325
+     * 이진희
+     * 
+     * 상품등록
+     */
+    /*진희수정1*/
+    @PostMapping("/insert.do")
+    public String insertProduct(@ModelAttribute Product product, 
+                        @RequestParam(value="optionName", required=false)String[] optionName, 
+                        @RequestParam(value="optionValue1", required=false)String[] optionValue1, 
+                        @RequestParam(value="optionValue2", required=false)String[] optionValue2, 
+                        @RequestParam(value="optionStock", required=false)String[] optionStock, 
+                        @RequestParam(value="optionPrice", required=false)String[] optionPrice, 
+                        @RequestParam(value="optionState", required=false)String[] optionState, 
+                            MultipartHttpServletRequest mtfRequest,
+                            RedirectAttributes redirectAttributes, 
+                            HttpServletRequest request,
+                            HttpServletResponse response) throws Exception{
+        log.debug("product={}", product);
+        product.setDeliveryFee(product.getDeliveryFee().replaceAll(",", ""));
         List<ProdOption> prodOptionList = new ArrayList<>();
-        for(int i=0; i< optionName.length;i++) {
-        	ProdOption prodOption = new ProdOption();
-        	prodOption.setOptionName(optionName[i]);
-        	prodOption.setOptionValue(optionValue[i]);
-        	prodOption.setOptionPrice(Integer.parseInt(optionPrice[i]));
-        	prodOption.setOptionState(optionState[i]);
+   
+   
+        for(int i=0; i< optionValue1.length;i++) {
+            ProdOption prodOption = new ProdOption();
+            String optValue = optionValue1[i];
+            if(optionValue2 !=null) {
+                optValue +=","+optionValue2[i];
+            }
+            String optionNameRe =optionName[0];
+            if(optionName.length>1) {
+                optionNameRe += ","+optionName[1];
+            }
+            System.out.println("optValue="+optValue);
+            prodOption.setOptionName(optionNameRe);
+            prodOption.setOptionValue(optValue);
+            prodOption.setOptionPrice(Integer.parseInt(optionPrice[i]));
+            prodOption.setOptionStock(Integer.parseInt(optionStock[i]));
+            prodOption.setOptionState(optionState[i]);
             prodOption.setProductId(product.getProductId());
-        	prodOptionList.add(prodOption);	
+            prodOptionList.add(prodOption); 
         }
         
-		log.debug("prodOption={}", prodOptionList);
+        log.debug("prodOption={}", prodOptionList);
+        
+        response.setContentType("text/html;charset=utf-8");
+        
+        try {
+            List<Attachment> attachList = new ArrayList<>();
+            // 메인 이미지파일
+            MultipartFile mainImgFile = mtfRequest.getFile("mainImg");
+            String mainOriginalFileName = mainImgFile.getOriginalFilename(); // 원본 파일 명
+            String mainRenamedFileName = Utils.getRenamedFileName(mainOriginalFileName);
+            Attachment attach1 = new Attachment();
+            attach1.setOriginalImg(mainOriginalFileName);
+            attach1.setRenamedImg(mainRenamedFileName);
+            attach1.setProductId(product.getProductId());
+            attach1.setImgType("R");
+            attachList.add(attach1);
+            // 파일이동
+            String saveDirectory1 = request.getServletContext().getRealPath("/resources/upload/shop/productMainImg");
+            try {
+                mainImgFile.transferTo(new File(saveDirectory1, mainRenamedFileName));
+            } catch (IllegalStateException | IOException e) {
+                e.printStackTrace();
+            }
+            /* sub 이미지 */
+            // sub이미지파일
+            List<MultipartFile> fileList = mtfRequest.getFiles("subImg");
+            for (MultipartFile f : fileList) {
+                // 비어있는 MultipartFile객체가 전달된 경우(파일 하나만 업로드)
+                // 파일이 없다면 밑에는 실행하지 말아라
+                if (f.isEmpty())
+                    continue;
+                // 파일 재생성 renamedFileName으로 저장하기
+                String subOriginalFileName = f.getOriginalFilename();
+                String subRenamedFileName = Utils.getRenamedFileName(subOriginalFileName);
+                // 파일이동
+                String saveDirectory2 = request.getServletContext().getRealPath("/resources/upload/shop/productSubImg");
+                try {
+                    f.transferTo(new File(saveDirectory2, subRenamedFileName));
+                } catch (IllegalStateException | IOException e) {
+                    e.printStackTrace();
+                }
+                // 실제 파일데이터 originalFileName, renamedFileName을 db에 저장
+                // Attachment객체
+                Attachment attach2 = new Attachment();
+                attach2.setOriginalImg(subOriginalFileName);
+                attach2.setRenamedImg(subRenamedFileName);
+                attach2.setProductId(product.getProductId());
+                attach2.setImgType("D");
+                attachList.add(attach2);
+            }
+            log.debug("attachList={}", attachList);
+            int result = adminProductService.insertProduct(product, attachList, prodOptionList);
+            
+            redirectAttributes.addFlashAttribute("msg", result > 0 ? "등록성공!" : "등록실패");
+        } catch (Exception e) {
+            log.error("상품 등록 오류!", e);
+            throw new ProductException("상품 등록 오류! 관리자에게 문의하세요");
+        }
+        return "redirect:/shop/admin/product/insert.do";
+    }
+	@GetMapping("/list.do")
+	public ModelAndView productList(ModelAndView mav, Product p) {
 		
-		response.setContentType("text/html;charset=utf-8");
-		
-		try {
-
-			List<Attachment> attachList = new ArrayList<>();
-
-			// 메인 이미지파일
-			MultipartFile mainImgFile = mtfRequest.getFile("mainImg");
-
-			String mainOriginalFileName = mainImgFile.getOriginalFilename(); // 원본 파일 명
-			String mainRenamedFileName = Utils.getRenamedFileName(mainOriginalFileName);
-			Attachment attach1 = new Attachment();
-			attach1.setOriginalImg(mainOriginalFileName);
-			attach1.setRenamedImg(mainRenamedFileName);
-			attach1.setProductId(product.getProductId());
-			attach1.setImgType("R");
-			attachList.add(attach1);
-			// 파일이동
-			String saveDirectory1 = request.getServletContext().getRealPath("/resources/upload/shop/productMainImg");
-
-			try {
-				mainImgFile.transferTo(new File(saveDirectory1, mainRenamedFileName));
-
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-			}
-
-			/* sub 이미지 */
-			// sub이미지파일
-			List<MultipartFile> fileList = mtfRequest.getFiles("subImg");
-			for (MultipartFile f : fileList) {
-				// 비어있는 MultipartFile객체가 전달된 경우(파일 하나만 업로드)
-				// 파일이 없다면 밑에는 실행하지 말아라
-				if (f.isEmpty())
-					continue;
-				// 파일 재생성 renamedFileName으로 저장하기
-				String subOriginalFileName = f.getOriginalFilename();
-				String subRenamedFileName = Utils.getRenamedFileName(subOriginalFileName);
-
-				// 파일이동
-				String saveDirectory2 = request.getServletContext().getRealPath("/resources/upload/shop/productSubImg");
-
-				try {
-					f.transferTo(new File(saveDirectory2, subRenamedFileName));
-
-				} catch (IllegalStateException | IOException e) {
-					e.printStackTrace();
-				}
-
-				// 실제 파일데이터 originalFileName, renamedFileName을 db에 저장
-				// Attachment객체
-				Attachment attach2 = new Attachment();
-				attach2.setOriginalImg(subOriginalFileName);
-				attach2.setRenamedImg(subRenamedFileName);
-				attach2.setProductId(product.getProductId());
-				attach2.setImgType("D");
-				attachList.add(attach2);
-
-			}
-			log.debug("attachList={}", attachList);
-			int result = adminProductService.insertProduct(product, attachList, prodOptionList);
-			
-			redirectAttributes.addFlashAttribute("msg", result > 0 ? "등록성공!" : "등록실패");
-
-		} catch (Exception e) {
-			log.error("상품 등록 오류!", e);
-	   		throw new ProductException("상품 등록 오류! 관리자에게 문의하세요");
+		List<Product> list = adminProductService.productList(p);
+		if(p.getProductName()==null) {
+			p.setProductName("");
+		}if(p.getProductState()==null) {
+			p.setProductState("");
 		}
-
-		return "redirect:/shop/admin/product/insert.do";
+			System.out.println(p.getProductState());
+		//아래 ProductId 는 객체 P를 의미함.
+		int totalProducts = adminProductService.totalProducts(p);
+		mav.addObject("totalProducts",totalProducts);
+		mav.addObject("list",list);
+		mav.setViewName("shop/admin/product/list");
+		return mav;
 	}
-
+	
+	
+	/*
+	 * @GetMapping("/search.do") public ModelAndView searchProduct(ModelAndView
+	 * mav,String productId,String discount) {
+	 * 
+	 * log.debug("productId=={}",productId); log.debug("discount=={}",discount);
+	 * 
+	 * mav.setViewName("shop/admin/product/list"); return mav; }
+	 */
 }

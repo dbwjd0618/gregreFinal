@@ -32,9 +32,14 @@
     <!--myPage-->
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/myPage/myPage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/shop/orderList.css">
-    
+       
       <!-- Js Plugins -->
     <script src="${pageContext.request.contextPath }/resources/js/shop/jquery-3.3.1.min.js"></script>
+
+     <!--jsrender.min-->
+    <script src="${pageContext.request.contextPath }/resources/js/jsrender.min.js"></script>
+    <script src="https://www.jsviews.com/download/jsrender.min.js"></script>
+
 </head>
 
 <body>
