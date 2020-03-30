@@ -1,9 +1,10 @@
-var map, marker;
+			var map, marker;
 			var markerArr = [], labelArr = [];
+
 			
 			function initTmap() {
-
-
+				
+				
                 navigator.geolocation.getCurrentPosition(function(position){
 				// 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 				var lat = position.coords.latitude;
@@ -142,33 +143,96 @@ var map, marker;
 						var lon = projectionCng._lng;
 						
 						var labelPosition = new Tmapv2.LatLng(lat, lon);
-						console.log(phone);
-						var content = "<div style=' border-radius:10px 10px 10px 10px;background-color:#2f4f4f; position: relative; width:max-content;"
-						+ "line-height: 15px; padding: 5px 5px 2px 4px; right:65px;'>"
-						+ "<div style='font-size: 11px; font-weight: bold ; line-height: 15px; color : white; width: max-content' >"
-							+ "이름 : "
-							+ name
-							+ "</br>"
-							+ "주소 : "
-							+ address 
-							+"</br>"
-							+ "전화번호 : "
-							+phone+ "</div>" + "</div>";
-							
-							console.log(phone);
-						var labelInfo = new Tmapv2.Label({
-							position : labelPosition,
-							content : content,
-							map:map
-						});//popup 생성
 						
-						labelArr.push(labelInfo);
+						$.ajax({
+							method:"GET",
+							url:"https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByGeo/json?lat="+lat+"&lng="+lon+"&m=1000",
+							async:false,
+							success:function(data){
+								for(var i=0; i<data.count; i++){
+									if(data.stores[i].name == name){
+										
+										var content = "<div style=' border-radius:10px 10px 10px 10px;background-color:#2f4f4f; position: relative; width:max-content;"
+											+ "line-height: 15px; padding: 5px 5px 2px 4px; right:65px;'>"
+											+ "<div style='font-size: 11px; font-weight: bold ; line-height: 15px; color : white; width: max-content' >"
+												+ "이름 : "
+												+ name
+												+ "</br>"
+												+ "주소 : "
+												+ address 
+												+"</br>"
+												+ "전화번호 : "
+												+phone
+												+"</br>"
+												+ "마스크 잔여 :"
+												+ remain(data.stores[i].remain_stat);
+												+"</div>" + "</div>";
+										
+											var labelInfo = new Tmapv2.Label({
+												position : labelPosition,
+												content : content,
+												map:map
+											});//popup 생성
+											
+											labelArr.push(labelInfo);
+										
+									}
+								}
+								
+								
+							},
+							error:function(request,status,error){
+								console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+							}
+							
+						});
+						
+//						var content = "<div style=' border-radius:10px 10px 10px 10px;background-color:#2f4f4f; position: relative; width:max-content;"
+//						+ "line-height: 15px; padding: 5px 5px 2px 4px; right:65px;'>"
+//						+ "<div style='font-size: 11px; font-weight: bold ; line-height: 15px; color : white; width: max-content' >"
+//							+ "이름 : "
+//							+ name
+//							+ "</br>"
+//							+ "주소 : "
+//							+ address 
+//							+"</br>"
+//							+ "전화번호 : "
+//							+phone+ "</div>" + "</div>";
+//							
+//							console.log(phone);
+//						var labelInfo = new Tmapv2.Label({
+//							position : labelPosition,
+//							content : content,
+//							map:map
+//						});//popup 생성
+//						
+//						labelArr.push(labelInfo);
 						
 					},
 					error:function(request,status,error){
 						console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 					}
 				});
+			}
+			
+			//마스크 현황
+			function remain(result){
+				
+				var btn ='';
+				
+				if(result == 'plenty'){
+					btn = '<button style="background-color: green;">100개 이상</button>';
+				}else if(result =='some'){
+					btn = '<button style="background-color: yellow;">100개 미만</button>'
+				}else if(result == 'few'){
+					btn = '<button style="background-color: red;">30개 미만</button>'
+				}else if(result == 'empty'){
+					btn = '<button style="background-color: gray;">1개 이하</button>'
+				}else{
+					btn = '<button style="background-color: pink;">판매중지</button>'
+				}
+					
+				return btn;
 			}
 
 			//현 위치로 돌아오기

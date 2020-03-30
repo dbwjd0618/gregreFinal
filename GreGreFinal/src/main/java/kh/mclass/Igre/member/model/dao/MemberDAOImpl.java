@@ -9,8 +9,14 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.mclass.Igre.member.model.vo.Advis;
+import kh.mclass.Igre.member.model.vo.BizMember;
 import kh.mclass.Igre.member.model.vo.Member;
+
+import kh.mclass.Igre.member.model.vo.Seller;
+
 import kh.mclass.Igre.member.model.vo.PreferList;
+
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -36,6 +42,35 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
+
+	public Object selectOnec(String cmemberId) {
+		// TODO Auto-generated method stub
+		return sss.selectOne("member.selectOnec",cmemberId);
+	}
+
+	@Override
+	public int enroll(BizMember bizmember) {
+		// TODO Auto-generated method stub
+		return sss.insert("member.bizenroll",bizmember);
+	}
+
+	@Override
+	public int insertAdvis(Advis advis) {
+		// TODO Auto-generated method stub
+		System.out.println(advis.getAdvisId());
+		System.out.println(advis);
+		return sss.insert("member.insertAdvis",advis);
+	}
+
+	@Override
+	public int insert(Seller seller) {
+		System.out.println(seller.getSellerId());
+		System.out.println(seller);
+		return sss.insert("member.insertSeller",seller);
+	}
+
+
+
 	public HashMap<String, ArrayList<Integer>> preferList(String memberId) {
 		Map<String, String> map = new HashMap<>();
 		map.put("memberId", memberId);
@@ -49,4 +84,15 @@ public class MemberDAOImpl implements MemberDAO {
 		}
 		return prefer;
 	}
+
+	@Override
+	public BizMember selectBizId(String cmemberId) {
+		// TODO Auto-generated method stub
+		return sss.selectOne("member.selectBizId",cmemberId);
+	}
+
+
+
+
+
 }

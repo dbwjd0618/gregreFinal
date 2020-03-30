@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -57,9 +60,10 @@ $(()=>{
 a{
 	text-decoration: none;
 }
+
 </style>
 
-
+</head>
 <!-- 여기부터 container -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/counselling/counselorFindStyle.css">
 
@@ -72,9 +76,7 @@ a{
 			<article class="counselor-filter-search">
 				<h3 class="search-title">상담사 이름 검색</h3>
 				<div class="counselor-search-input-box">
-					<input type="search" id="counselor-search-input"
-						placeholder="상담사 이름 검색">
-					<button type="button">찾기</button>
+					<input type="search" class="search-form" id="counselor-search-input" placeholder="상담사 이름 검색">
 				</div>
 			</article>
 			<!-- 상담사 검색창 끝 -->
@@ -98,10 +100,10 @@ a{
 				<h3 class="detail-select-title">상세조건</h3>
 				<div class="counselor-detail-checkbox-wrapper">
 					<h4>상담사 레벨</h4>
-					<label for="type-level1" class="level-checkbox1">
-					<input type="checkbox" name="" id="type-level1"/>마스터 상담사
-					<div class="counselor-pay-level">50,000원 ~</div></label>
-					 <label for="type-level2" class="level-checkbox1"> 
+					<label for="type-level1" class="level-checkbox1"> 
+						<input type="checkbox" name="" id="type-level1">마스터 상담사
+						<div class="counselor-pay-level">50,000원 ~</div>
+					</label> <label for="type-level2" class="level-checkbox1"> 
 						<input type="checkbox" name="" id="type-level2">전문 상담사
 						<div class="counselor-pay-level">30,000원 ~</div>
 					</label> <label for="type-level3" class="level-checkbox1"> 
@@ -112,7 +114,7 @@ a{
 				<div class="counselor-detail-checkbox-wrapper">
 					<h4>상담사 성별</h4>
 					<label for="type-radio1" class="level-checkbox2"> <input
-						type="radio" name="gender-check" id="type-radio1" checked>무관
+						type="radio" name="gender-check" id="type-radio1" checked="">무관
 					</label> <label for="type-radio2" class="level-checkbox2"> <input
 						type="radio" name="gender-check" id="type-radio2">남자
 					</label> <label for="type-radio3" class="level-checkbox2"> <input
@@ -122,7 +124,7 @@ a{
 				<div class="counselor-detail-checkbox-wrapper">
 					<h4>상담 가능요일</h4>
 					<label for="type-day1" class="level-checkbox3"> 
-						<input type="radio" name="day-check" id="type-day1" checked>무관
+						<input type="radio" name="day-check" id="type-day1" checked="">무관
 					</label> <label for="type-day2" class="level-checkbox3"> 
 						<input type="radio" name="day-check" id="type-day2">평일
 					</label> <label for="type-day3" class="level-checkbox3"> 
