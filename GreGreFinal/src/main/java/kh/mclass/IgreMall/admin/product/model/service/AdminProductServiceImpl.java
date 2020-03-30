@@ -89,4 +89,10 @@ public class AdminProductServiceImpl implements AdminProductService{
 	}
 
 
+	@Override
+	public List<Product> productListSeller(Product p) {
+		return adminProductDAO.productListSeller(p);
+	}
+
+
 }

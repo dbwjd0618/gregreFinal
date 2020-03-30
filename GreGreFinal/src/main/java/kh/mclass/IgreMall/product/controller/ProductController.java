@@ -2,6 +2,7 @@ package kh.mclass.IgreMall.product.controller;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,9 +48,38 @@ public class ProductController {
 		List<ProdOption> optionList = productService.selectOptionList(productId);
 		log.debug("attachList={}",attachList);
 		log.debug("optionList={}",optionList);
+		String[] optNm = optionList.get(0).getOptionName().split(",");
+		List<String> optionName = new ArrayList<>();
+		for(String o : optNm) {
+			optionName.add(o);
+		}
+		
+		List<String> optionValue1 = new ArrayList<String>();
+		List<String> optionValue2 = new ArrayList<String>();
+		
+
+         for (int i = 0; i < optionList.size(); i++) {
+        	 String[] values= optionList.get(i).getOptionValue().split(",");
+             if (!optionValue1.contains(values[0])) {
+                 optionValue1.add(values[0]);
+             }
+             if (!optionValue2.contains(values[1])) {
+                 optionValue2.add(values[1]);
+             }
+         }
+        
+        
+        for(int i=0;i<optionList.size();i++) {
+        	
+        }
 		mav.addObject("p", product);
 		mav.addObject("attachList", attachList);
-		mav.addObject("optionList", optionList);
+		mav.addObject("optionValue1", optionValue1);//옵션1,옵션2
+		mav.addObject("optionValue2", optionValue2);//핑크 ~~
+		mav.addObject("optionName", optionName);//10,20담겨있다.
+		mav.addObject("optionList", optionList);//가격정보가 담겨있다.
+		
+	
 		mav.setViewName("shop/product/detail");
 		return mav;
 	}
