@@ -39,7 +39,7 @@
 								<td>(조회수)${post.readCount }</td>
 							</tr>
 							<tr>
-								<td colspan="4" style="text-align: left; height: 300px;">게시글 내용</td>
+								<td colspan="4" style="text-align: left; height: 300px;">${post.postContent }</td>
 							</tr>
 							<tr>
 								<td colspan="4">
