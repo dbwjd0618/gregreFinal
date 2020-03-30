@@ -409,7 +409,7 @@ table {
 								<th class="text-center active vertical-middle">관리</th>
 							</tr>
 
-							<c:forEach items="${list }" var="p" varStatus="vs">
+							<c:forEach items="${list}" var="p" varStatus="vs">
 								<tr style="background-color: #ffffff;">
 									<td class="text-center vertical-middle"><input
 										type="checkbox" name="chkDel" value="${p.productId }"></td>
@@ -692,7 +692,7 @@ function edit(val,m) {
             document.regi_form.gid.value = val;
             document.regi_form.submit();
         }
-    
+        
         $(document).ready(function(){
             $('#sdate').datepicker().on('changeDate', function(e) {
                 $("#sdate").datepicker('hide');
@@ -700,21 +700,69 @@ function edit(val,m) {
             $('#edate').datepicker().on('changeDate', function(e) {
                 $("#edate").datepicker('hide');
             });
-    
-            var today_val = "2020-03-26";
-            var week_val = "2020-03-19";
+            
+            var date = new Date(); //현재 날짜. 
+            var year = date.getFullYear();//년도 빼오기 
+            var month = new String(date.getMonth()+1);
+            var monthone = new String(date.getMonth());
+            var day = new String(date.getDate()); 
+            var alterday = new String(date.getDate()-7); 
+
+            // 한자리수일 경우 0을 채워준다. 
+            if(month.length == 1){ 
+              month = "0" + month; 
+            }
+            if(monthone.length == 1){ 
+                monthone = "0" + monthone; 
+              } 
+            if(day.length == 1){ 
+              day = "0" + day; 
+            }
+            if(alterday.length == 1){ 
+            	alterday = "0" + alterday; 
+            }  
+
+            /* $("#sdate").val(year + "-" + month + "-" + day); */
+            var today= year + "-" + month + "-" + day
+            var tomonth= year + "-" + monthone + "-" + day
+            var weekday=year + "-" + month + "-" + alterday 
+            
+            console.log(weekday)
+            
+            //현재 년월일 뽑아내는것.
+            var today_val = new Date().toISOString().substring(0, 10);
+            console.log(today_val)
+            
+            
+            /* var today = new Date(); */
+            console.log("today"+today)
+            /* var week_val  = today_val; */
+            /* week_val.setMonth(today_val.getMonth() - 1); */
+            
+            
+            /* var week_val= today.getMonth(); //현재 기준에서 -한달 한것. */
+            
+            /* console.log(week_val) */
+            
+            
+            /* var today_val = "2020-03-29"; */
+            /*  var week_val = "2020-03-19"; */  
             var mon_val = "2020-02-26";
     
+            //오늘 날짜 버튼 클릭시
             $(".sel_today").on("click",function(){
-                $("#sdate").val(today_val);
-                $("#edate").val(today_val);
+                $("#sdate").val(today);
+                $("#edate").val(today);
             });
+            
+            //일주일 관련 눌리기
             $(".sel_week").click(function(){
-                $("#sdate").val(week_val);
-                $("#edate").val(today_val);
+                $("#sdate").val(weekday);
+                $("#edate").val(today);
             });
+            //한달 날짜 눌리기
             $(".sel_month").click(function(){
-                $("#sdate").val(mon_val);
+                $("#sdate").val(tomonth);
                 $("#edate").val(today_val);
             });
         });

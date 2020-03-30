@@ -133,6 +133,14 @@ a#optListUpdate {
 				</div>
 			</div> -->
 			<div class="form-group row">
+				<label for="payment" class="col-sm-2 col-form-label">결제방식</label>
+				<div class="col-sm-10">
+					<input type="checkbox" name="productState" value="credit" >신용카드
+					<input type="checkbox" name="productState" value="phone" >휴대전화
+					<input type="checkbox" name="productState" value="account" >무통장입금
+					<input type="checkbox" name="productState" value="virtualAccount" >가상계좌
+					<input type="checkbox" name="productState" value="realtimeAccount" >실시간계좌이체
+				</div>
 				<label for="categoryId" class="col-sm-2 col-form-label">카테고리</label>
 				<div class="col-sm-10">
 					<select name="categoryId" class="form-control" id="categoryId"
@@ -337,13 +345,12 @@ a#optListUpdate {
 														<div id="generalDiv">
 															<div class="clearfix mb5">
 																<div class="float_l mt10">
-																	<span class="mr5 font-size16">옵션목록 : <strong
+																	<span class="mr5 font-size16">옵션목록 : <strong>
 																		class="red" id="totalOptList">0</strong>개
 
 																	</span> 
-																	<span class="form-inline m1 "
-
-																		style="padding-left: 15px;"> 사용여부 <select
+																	<span class="form-inline m1 " style="padding-left: 15px;"> 사용여부 
+																	<select
 																		name="optView" id="optView"
 																		class="form-control select-check"
 																		style="width: 80px !important;">
