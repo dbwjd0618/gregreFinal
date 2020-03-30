@@ -99,6 +99,9 @@ from
 	tb_prod_option   
 where 
 	product_id = #{productId}
+	and 
+	option_state='Y'
+order by option_id
 </select>
 
 <resultMap type="kh.mclass.IgreMall.product.model.vo.Product" id="productList">
@@ -128,7 +131,8 @@ where
 		<id column="option_id" property="optionId"></id>	
 		<result column="product_id" property="productId"/>	
 		<result column="option_name" property="optionName"/>	
-		<result column="option_value" property="optionValue"/>	
+		<result column="option_value" property="optionValue"/>
+		<result column="option_stock" property="optionStock"/>		
 		<result column="option_price" property="optionPrice"/>	
 		<result column="option_state" property="optionState"/>	
 	</collection>
@@ -147,6 +151,7 @@ where
 		<result column="product_id" property="productId"/>	
 		<result column="option_name" property="optionName"/>	
 		<result column="option_value" property="optionValue"/>	
+		<result column="option_stock" property="optionStock"/>	
 		<result column="option_price" property="optionPrice"/>	
 		<result column="option_state" property="optionState"/>
 </resultMap>

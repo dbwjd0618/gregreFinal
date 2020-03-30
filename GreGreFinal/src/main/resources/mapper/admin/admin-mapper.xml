@@ -92,17 +92,51 @@
 		tb_report R join tb_board B on R.report_board = B.board_code  
 		left join tb_post_b1 PB1 on R.report_post_no = PB1.post_no
 		left join tb_reply_b1 RB1 on R.report_reply_no = RB1.reply_no
+	order by
+    	report_no asc
  	</select>
  	
-	<delete id="reportDelete">
+	<delete id="postDelete">
 	delete
 	
 	from
-		tb_report
+		${table}
 	where
-		report_no = #{reportNo}	
-	
+		post_no = #{postNo}
 	</delete> 	
+	
+	<update id="reportUpdate">
+	update
+		tb_report
+	set
+		report_conf = 'Y'
+ 	where
+ 		report_board = #{boardCode}
+ 		and
+ 		report_post_no = #{postNo}
+	</update>
+	
+	<delete id="replyDelete">
+	delete
+	
+	from
+		${table}
+	where
+		reply_no = #{replyNo}
+	</delete>
+	
+	<update id="replyUpdate">
+	update
+		tb_report
+	set
+		report_conf = 'Y'
+	where
+		report_board = #{boardCode}
+		and
+		report_post_no = #{postNo}
+		and
+		report_reply_no = #{replyNo}
+	</update>
  
  </mapper>
  

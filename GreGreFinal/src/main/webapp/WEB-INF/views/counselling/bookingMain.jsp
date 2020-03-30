@@ -7,6 +7,7 @@
 
 <!-- 헤더 선언!!-->
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/counselling/bookingMainStyle.css">
 <script>
 $(()=>{
 	$("a[data-advis-id]").on("click", function(){
@@ -16,6 +17,12 @@ $(()=>{
 	});
 });
 </script>
+<style>
+.star-icon{
+	color: #e63535;
+}
+
+</style>
 
 
 	<div class="ftco-blocks-cover-1">
@@ -55,7 +62,7 @@ $(()=>{
 						<img src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}" class="align-self-center mr-3" alt="...">
 						<div class="media-body">
 							<h5 class="mt-0">
-								${counselor.advisName }<strong>${counselor.advisGrade }</strong>상담사
+								${counselor.advisName }&nbsp;<strong>${counselor.advisGrade }</strong>&nbsp;상담사
 							</h5>
 							<p class="mb-0">
 								${counselor.advisIntro }
@@ -71,7 +78,49 @@ $(()=>{
 				<div class="col-md-offset-2 col-md-8">상담사 평점</div>
 			</div>
 			<div class="row">
-				<div class="col-md-offset-2 col-md-8">상담사 후기게시판</div>
+				<div class="col-md-offset-2 col-md-8">
+					
+					<!-- 댓글게시판 시작  -->
+					<div class="review-list-wrapper">
+					<c:forEach items="${list }" var="review">
+    					<li class="review-list">
+        					<div class="review-list-top">
+            					<div class="star-score__wrap--small">
+            						<c:if test="${review.starPoint eq 1 }">
+            							<span class="star-icon">★</span>
+            						</c:if>
+            						<c:if test="${review.starPoint eq 2 }">
+            							<span class="star-icon">★★</span>
+            						</c:if>
+            						<c:if test="${review.starPoint eq 3 }">
+            							<span class="star-icon">★★★</span>
+            						</c:if>
+            						<c:if test="${review.starPoint eq 4 }">
+            							<span class="star-icon">★★★★</span>
+            						</c:if>
+            						<c:if test="${review.starPoint eq 5 }">
+            							<span class="star-icon">★★★★★</span>
+            						</c:if>
+            						${review.starPoint}
+            					</div>
+            					<div class="review-list-user-info">
+                					<span class="review-list__user--ellipsis">${review.reviewerId}</span> 님 / ${review.reviewDate}
+            					</div>
+        					</div>
+        					<div class="review-list-review-contents">
+            					${review.reviewContent}
+        						<div class="review-list-category">
+                					<ul class="review-list-category">
+                    					<li>#카테고리1&nbsp;</li>
+                    					<li>#카테고리2&nbsp;</li>
+                					</ul>
+            					</div>
+        					</div>
+    					</li>
+					</c:forEach>
+					</div>
+				<!-- 끝 -->	
+				</div>
 			</div>
 		</div>
 	</div>

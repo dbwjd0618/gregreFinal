@@ -24,7 +24,14 @@ public interface AdminService {
 
 	List<Report> report();
 
-	int reportDelete(Integer reportNo);
+	int postDelete(String boardCode, Integer postNo);
+
+	int reportUpdate(String boardCode, Integer postNo);
+
+	int replyDelete(String boardCode, Integer replyNo);
+
+	int replyUpdate(String boardCode, Integer postNo, Integer replyNo);
+
 
 
 }

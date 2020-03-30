@@ -7,7 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="" name="pageTitle" />
 </jsp:include>
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/login.css"> 
 <!-- contents begin-->
 <div class="site-section">
 	<div class="container">
@@ -20,8 +20,16 @@
 		<div class="row">
 			<div class="col-md-12">
 				<!-- 로그인 시작 -->
-				<div class="card-body mx-auto" id='login-container' style="max-width: 800px;">
-					<article class="card-body">
+				<div class="card-body mx-auto 1" id='login-container' style="max-width: 800px;">
+
+
+					<label class="switch"> <input type="checkbox" name="biztoggle"> <span
+						class="slider round"></span>
+					</label>
+					<p class="biztoggle">기업회원 로그인</p>
+					<p class="biztoggle" style="display: none;">일반회원 로그인</p>
+
+					<article class="card-body" id="loginen">
 						<h3 class="card-title text-center mb-5 mt-1">로그인</h3>
 						<form action="${pageContext.request.contextPath}/member/login.do" method="POST">
 							<div class="row">
@@ -58,16 +66,122 @@
 							<p class="text-center">
 								<a href="${pageContext.request.contextPath}/member/passwordChoiceView.do" class="btn">아이디·비밀번호찾기</a>
 								<a href="${pageContext.request.contextPath}/member/enrollChoiceView.do" class="btn">회원가입</a>
+								
+
 							</p>
 						</form>
 
 					</article>
 				</div>
 				<!-- 로그인 끝 -->
+				
+				<div class="card-body mx-auto 1" id='login-container2' style="max-width: 800px;">
+					<article class="card-body" id="loginbz" style="display:none;">					
+
+						<h3 class="card-title text-center mb-5 mt-1">기업회원 로그인</h3>
+						<form action="${pageContext.request.contextPath}/member/bizlogin.do" method="POST">
+							<div class="row">
+								<div class="col-lg-9">
+									<div class="form-group">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="fa fa-user"></i>
+												</span>
+											</div>
+											<input type="text" name="cmemberId" class="form-control" placeholder="아이디를 입력해주세요."/>
+										</div>
+									</div>
+									<!-- form-group// -->
+									<div class="form-group">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="fa fa-lock"></i>
+												</span>
+											</div>
+											<input type="password" name="memberPwd" class="form-control" placeholder="비밀번호를 입력해주세요."/>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<button type="submit" class="btn btn-primary btn-block">로그인</button>
+									</div>
+								</div>
+							</div>
+							<!-- form-group// -->
+							<p class="text-center">
+								<a href="${pageContext.request.contextPath}/member/passwordChoiceView.do" class="btn">아이디·비밀번호찾기</a>
+								<a href="${pageContext.request.contextPath}/member/enrollChoiceView.do" class="btn">회원가입</a>
+								
+
+							</p>
+						</form>
+
+					</article>
+				</div>
+				
 			</div>
 		</div>
 	</div>
 </div>
 <!-- contents end-->
+<script>
+/*  $(function() {
+	$("#changebiz").click(function() {
+		$(".card-body mx-auto 1").css("display", "none");
+		$(".card-body mx-auto 2").css("display", "block");
 
+	});
+}); */
+
+/* $(document).ready(function(){
+	$('#changebiz').change(function(){
+	if(this.is(":checked") == true)
+	$('login-container 1').css('slow');
+	else
+	$('login-container 2').fadeOut('slow');
+
+	});
+	}); */
+
+/* 	function setDisplay(){
+	    if($('input:checkbox[id=changebiz]').is(':checked')){
+	        $('login-container 1').hide();
+	    }else{
+	        $('login-container 2').show();
+	    }
+	}
+
+ */
+
+ 
+ $("input[name='biztoggle']").click(function () {
+	 if(this.checked) {
+		 $("#loginen").hide();
+		 $("#loginbz").show();
+	 }
+	 else {
+		 $("#loginen").show();
+		 $("#loginbz").hide();
+		 
+	 }
+});
+ 
+/*  $("input[name$='biztoggle']").click(function () {
+     $("#loginbiz").hide(this.checked);
+     $("#loginen").show(this.checked);
+}); */
+ 
+/* $(function (){ $("#changebiz").click(function (){ $(".card-body mx-auto 1").css("display", "none"); }); }); */
+
+var check = $("input[type='checkbox']");
+check.click(function(){
+	$(".biztoggle").toggle();
+});
+
+
+
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
