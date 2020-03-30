@@ -332,7 +332,7 @@ a#optListUpdate {
 															<a class="btn btn-info btn-sm" id="optionSetting">옵션
 																적용</a>
 														</div>
-
+<!-- 수정 -->
 														<!-- 일반옵션 리스트 -->
 														<div id="generalDiv">
 															<div class="clearfix mb5">
