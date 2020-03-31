@@ -115,8 +115,8 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public int recomRecomP(Recommendation recom) {
-		return sss.insert("board.recomRecomP", recom);
+	public int RecomDecom(Recommendation recom) {
+		return sss.insert("board.RecomDecom", recom);
 	}
 
 	@Override
@@ -125,7 +125,27 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public int recomRecomR(Recommendation recom) {
-		return sss.insert("board.recomRecomR", recom);
+	public int postDecom(Recommendation recom) {
+		return sss.update("board.postDecom", recom);
+	}
+
+	@Override
+	public int replyDecom(Recommendation recom) {
+		return sss.update("board.replyDecom", recom);
+	}
+
+	@Override
+	public String confirmWriter(Post post) {
+		return sss.selectOne("board.confirmWriter", post);
+	}
+
+	@Override
+	public int deletePostR(Post post) {
+		return sss.delete("board.deletePostR", post);
+	}
+
+	@Override
+	public int deletePostP(Post post) {
+		return sss.delete("board.deletePostP", post);
 	}
 }

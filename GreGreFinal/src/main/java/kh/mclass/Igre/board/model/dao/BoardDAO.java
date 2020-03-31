@@ -36,11 +36,18 @@ public interface BoardDAO {
 
 	int postRecom(Recommendation recom);
 
-	int recomRecomP(Recommendation recom);
+	int RecomDecom(Recommendation recom);
 
 	int replyRecom(Recommendation recom);
 
-	int recomRecomR(Recommendation recom);
+	int postDecom(Recommendation recom);
 
+	int replyDecom(Recommendation recom);
+
+	String confirmWriter(Post post);
+
+	int deletePostR(Post post);
+
+	int deletePostP(Post post);
 
 }
