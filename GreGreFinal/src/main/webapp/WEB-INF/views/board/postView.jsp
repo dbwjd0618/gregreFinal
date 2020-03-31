@@ -11,8 +11,11 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board/board.css">
 <style>
 .clickable:hover {color:red;}
-.clickable {cursor:pointer;}
+.clickable, .rclick {cursor:pointer;}
 .thumbs {display: inline-block; height:30px; margin: 2px; padding: 0px; padding-top: 6px; border-radius: 10px; text-align: center;}
+#reply .inline{display: inline-block; padding:0 10px;}
+.recom {color:green; border:1px solid green;}
+.decom {color:blue; border:1px solid blue;}
 </style>
 
 <!-- body begin-->
@@ -48,8 +51,8 @@
 							</tr>
 							<tr>
 								<td colspan="4">
-									<div class="col-md-1 thumbs" style="color:green; border:1px solid green;"><i class="far fa-thumbs-up"></i>추천 0</div>
-									<div class="col-md-1 thumbs" style="color:blue; border:1px solid blue;"><i class="far fa-thumbs-down"></i>비추천 0</div>
+									<div class="col-md-1 thumbs clickable recom" onclick="recom(0);"><i class="far fa-thumbs-up"></i>추천 0</div>
+									<div class="col-md-1 thumbs clickable decom" onclick="decom(0);"><i class="far fa-thumbs-down"></i>비추천 0</div>
 								</td>
 							</tr>
 							<tr>
@@ -71,9 +74,22 @@
 							<c:forEach items="${replyList}" var="reply">
 							<tr>
 								<td>
-									<div>${reply.replyWriter} / ${reply.replyWritetime}</div>
-									<div><i class="far fa-thumbs-up">${reply.recommenCount}</i><i class="far fa-thumbs-down">${reply.decommenCount}</i><i title="신고" class="fas fa-exclamation-triangle"></i></div>
-									<div><i title="수정" class="far fa-edit"></i><i title="삭제" class="fas fa-eraser"></i></div>
+									<div class="inline">${reply.replyWriter} / ${reply.replyWriteTime}</div>
+									<div class="inline">
+									<c:if test="${memberLoggedIn.memberId == reply.replyWriter}">
+										<i class="far fa-thumbs-up">${reply.recommenCount}</i> 
+										<i class="far fa-thumbs-down">${reply.decommenCount}</i> 
+										<i title="신고" class="fas fa-exclamation-triangle"></i>
+									</c:if>
+									<c:if test="${memberLoggedIn.memberId != reply.replyWriter }">
+										<i class="far fa-thumbs-up rclick" onclick="recom(${reply.replyNo});">${reply.recommenCount}</i> 
+										<i class="far fa-thumbs-down rclick" onclick="decom(${reply.replyNo});">${reply.decommenCount}</i> 
+										<i title="신고" class="fas fa-exclamation-triangle rclick"></i>
+									</c:if>
+									</div>
+									<c:if test="${memberLoggedIn.memberId == reply.replyWriter}">
+										<div class="inline"><i title="수정" class="far fa-edit rclick"></i> <i title="삭제" class="fas fa-eraser rclick"></i></div>
+									</c:if>
 									<br />
 									<div>${reply.replyContent}</div>
 								</td>
@@ -112,22 +128,49 @@ function writeReply() {
 	}
 	
 	let reply = {
-			boardCode : ${post.boardCode},
+			boardCode : "${post.boardCode}",
 			postNo : ${post.postNo},
-			replyWriter : ${memberLoggedIn.memberId},
+			replyWriter : "${memberLoggedIn.memberId}",
 			replyContent : $("#ReplyWrite").val()
 	}
 	$.ajax({
-			url: "${pageContext.request.contextPath}/board/replyWrite",
+			url: "${pageContext.request.contextPath}/board/replyWrite.ajax",
 			data: reply,
 			type: "POST",
-			success: function() {
-				location.reload();
+			success: function(data) {
+				if(data>0)
+					location.reload();
+				else alert("댓글 작성에 실패했습니다.");
 			},
 			error : function(x,s,e) {
 				alert("댓글 작성에 실패했습니다.");
 				console.log(x,s,e);
 			}
+	});
+}
+function recom(replyNo) {
+	alert("AA");
+	if(!confirm("추천하시겠습니까?")) {
+		return;
+	}
+	let recom = {
+			memberId : "${memberLoggedIn.memberId}"
+			boardCode : "${post.boardCode}",
+			postNo : ${post.postNo},
+			replyNo : replyNo
+	}
+	$.ajax({
+		url: "${pageContext.request.contextPath}/board/recom.ajax",
+		data: recom,
+		type: "POST",
+		success: function(data) {
+			if(data>0)
+				location.reload();
+			else alert("이미 추천/비추천한 상태입니다.");
+		},
+		error: function(x,s,e) {
+			console.log(x,s,e);
+		}
 	});
 }
 </script>
