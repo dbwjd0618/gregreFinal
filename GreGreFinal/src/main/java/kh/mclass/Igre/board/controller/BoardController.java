@@ -136,4 +136,30 @@ public class BoardController {
 		else 
 			return bs.recommenR(recom);
 	}
+	
+	@PostMapping("/decom.ajax")
+	@ResponseBody
+	public int decomm(Recommendation recom) {
+		int check = bs.checkComm(recom);
+		if(check > 0) {
+			return 0;
+		}
+		
+		if(recom.getReplyNo() == 0) 
+			return bs.decommenP(recom);
+		else 
+			return bs.decommenR(recom);
+	}
+	
+	@PostMapping("/deletePost.do")
+	public String deletePost(Post post, HttpSession session) {
+		String writer = bs.confirmWriter(post);
+		if(!writer.equals(post.getWriter())) {
+			session.setAttribute("msg", "잘못된 접근입니다.");
+			return "redirect:/board/postList?boardCode="+post.getBoardCode();
+		}
+		int result = bs.deletePost(post);
+		session.setAttribute("msg", result>0?"삭제가 완료되었습니다.":"삭제 도중 오류가 발생했습니다.");
+		return "redirect:/board/postList?boardCode="+post.getBoardCode();
+	}
 }

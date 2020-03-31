@@ -37,6 +37,12 @@
 						<div class="row">
 							<div class="col-md-6">
 								<span style="font-size: x-large">${post.title }</span>
+								<form action="" id="postForm" method="POST">
+									<input type="hidden" name="boardCode" value="${post.boardCode}"/>
+									<input type="hidden" name="postNo" value="${post.postNo}" />
+									<input type="hidden" name="writer" value="${memberLoggedIn.memberId}" />
+									<input type="hidden" id="delRpl" name="replyNo"/>
+								</form>
 							</div>
 						</div>
 						<table id="content" style="width: 100%;">
@@ -51,8 +57,8 @@
 							</tr>
 							<tr>
 								<td colspan="4">
-									<div class="col-md-1 thumbs clickable recom" onclick="recom(0);"><i class="far fa-thumbs-up"></i>추천 0</div>
-									<div class="col-md-1 thumbs clickable decom" onclick="decom(0);"><i class="far fa-thumbs-down"></i>비추천 0</div>
+									<div class="col-md-1 thumbs clickable recom" onclick="recom('0');"><i class="far fa-thumbs-up"></i>추천 ${post.recommenCount }</div>
+									<div class="col-md-1 thumbs clickable decom" onclick="decom('0');"><i class="far fa-thumbs-down"></i>비추천 ${post.decommenCount }</div>
 								</td>
 							</tr>
 							<tr>
@@ -60,8 +66,11 @@
 									<i title="목록으로" class="fas fa-clipboard-list clickable" onclick="location.href='${pageContext.request.contextPath}/board/postList?boardCode=${post.boardCode }'"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									<i title="신고하기" class="fas fa-exclamation-triangle clickable"></i>
 								</td>
+								<c:if test="${memberLoggedIn.memberId == post.writer}">
 								<td><i title="수정하기" class="far fa-edit clickable"></i></td>
-								<td><i title="삭제하기" class="fas fa-eraser clickable"></i></td>
+								<td><i title="삭제하기" class="fas fa-eraser clickable" onclick="deletePost();"></i></td>
+								</c:if>
+								<c:if test="${memberLoggedIn.memberId != post.writer }"><td/><td/></c:if>
 							</tr>
 						</table>
 						<br />
@@ -74,24 +83,24 @@
 							<c:forEach items="${replyList}" var="reply">
 							<tr>
 								<td>
-									<div class="inline">${reply.replyWriter} / ${reply.replyWriteTime}</div>
+									<div class="inline" style="font-size:12px;">${reply.replyWriter} / ${reply.replyWriteTime}</div>
 									<div class="inline">
 									<c:if test="${memberLoggedIn.memberId == reply.replyWriter}">
-										<i class="far fa-thumbs-up">${reply.recommenCount}</i> 
-										<i class="far fa-thumbs-down">${reply.decommenCount}</i> 
+										<i class="far fa-thumbs-up"> ${reply.recommenCount}</i>&nbsp;&nbsp;
+										<i class="far fa-thumbs-down"> ${reply.decommenCount}</i>&nbsp;&nbsp;
 										<i title="신고" class="fas fa-exclamation-triangle"></i>
 									</c:if>
 									<c:if test="${memberLoggedIn.memberId != reply.replyWriter }">
-										<i class="far fa-thumbs-up rclick" onclick="recom(${reply.replyNo});">${reply.recommenCount}</i> 
-										<i class="far fa-thumbs-down rclick" onclick="decom(${reply.replyNo});">${reply.decommenCount}</i> 
+										<i class="far fa-thumbs-up rclick" onclick="recom('${reply.replyNo}');"> ${reply.recommenCount}</i>&nbsp;&nbsp;
+										<i class="far fa-thumbs-down rclick" onclick="decom('${reply.replyNo}');"> ${reply.decommenCount}</i>&nbsp;&nbsp;
 										<i title="신고" class="fas fa-exclamation-triangle rclick"></i>
 									</c:if>
 									</div>
 									<c:if test="${memberLoggedIn.memberId == reply.replyWriter}">
-										<div class="inline"><i title="수정" class="far fa-edit rclick"></i> <i title="삭제" class="fas fa-eraser rclick"></i></div>
+										<div class="inline"><i title="수정" class="far fa-edit rclick"></i> <i title="삭제" class="fas fa-eraser rclick" onclick="deleteReply(${reply.replyNo})"></i></div>
 									</c:if>
 									<br />
-									<div>${reply.replyContent}</div>
+									<div style="font-size:18px;"><strong>${reply.replyContent}</strong></div>
 								</td>
 							</tr>
 							</c:forEach>
@@ -129,7 +138,7 @@ function writeReply() {
 	
 	let reply = {
 			boardCode : "${post.boardCode}",
-			postNo : ${post.postNo},
+			postNo : "${post.postNo}",
 			replyWriter : "${memberLoggedIn.memberId}",
 			replyContent : $("#ReplyWrite").val()
 	}
@@ -149,14 +158,13 @@ function writeReply() {
 	});
 }
 function recom(replyNo) {
-	alert("AA");
 	if(!confirm("추천하시겠습니까?")) {
 		return;
 	}
 	let recom = {
-			memberId : "${memberLoggedIn.memberId}"
+			memberId : "${memberLoggedIn.memberId}",
 			boardCode : "${post.boardCode}",
-			postNo : ${post.postNo},
+			postNo : "${post.postNo}",
 			replyNo : replyNo
 	}
 	$.ajax({
@@ -173,7 +181,47 @@ function recom(replyNo) {
 		}
 	});
 }
+function decom(replyNo) {
+	if(!confirm("비추천하시겠습니까?")) {
+		return;
+	}
+	let decom = {
+			memberId : "${memberLoggedIn.memberId}",
+			boardCode : "${post.boardCode}",
+			postNo : "${post.postNo}",
+			replyNo : replyNo
+	}
+	$.ajax({
+		url: "${pageContext.request.contextPath}/board/decom.ajax",
+		data: decom,
+		type: "POST",
+		success: function(data) {
+			if(data>0)
+				location.reload();
+			else alert("이미 추천/비추천한 상태입니다.");
+		},
+		error: function(x,s,e) {
+			console.log(x,s,e);
+		}
+	});
+}
 </script>
 </c:if>
+
+<script>
+function deletePost() {
+	if(!confirm("게시글을 삭제하시겠습니까?"))
+		return;
+	$("#postForm").attr("action", "${pageContext.request.contextPath}/board/deletePost.do")
+				  .submit();
+}
+function deleteReply(replyNo) {
+	if(!confirm("댓글을 삭제하시겠습니까?"))
+		return;
+	$("#delRpl").val(replyNo);
+	$("#postForm").attr("action","${pageContext.request.contextPath}/board/deleteReply.do")
+				.submit();
+}
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

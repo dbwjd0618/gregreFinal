@@ -38,5 +38,13 @@ public interface BoardService {
 
 	int recommenR(Recommendation recom);
 
+	int decommenP(Recommendation recom);
+
+	int decommenR(Recommendation recom);
+
+	String confirmWriter(Post post);
+
+	int deletePost(Post post);
+
 
 }

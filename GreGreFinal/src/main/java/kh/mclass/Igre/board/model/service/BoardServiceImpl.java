@@ -81,14 +81,40 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int recommenP(Recommendation recom) {
 		int result = bd.postRecom(recom);
-		result += bd.recomRecomP(recom);
+		result += bd.RecomDecom(recom);
 		return result;
 	}
 
 	@Override
 	public int recommenR(Recommendation recom) {
 		int result = bd.replyRecom(recom);
-		result += bd.recomRecomR(recom);
+		result += bd.RecomDecom(recom);
+		return result;
+	}
+
+	@Override
+	public int decommenP(Recommendation recom) {
+		int result = bd.postDecom(recom);
+		result += bd.RecomDecom(recom);
+		return result;
+	}
+
+	@Override
+	public int decommenR(Recommendation recom) {
+		int result = bd.replyDecom(recom);
+		result += bd.RecomDecom(recom);
+		return result;
+	}
+
+	@Override
+	public String confirmWriter(Post post) {
+		return bd.confirmWriter(post);
+	}
+
+	@Override
+	public int deletePost(Post post) {
+		int result = bd.deletePostR(post);
+		result += bd.deletePostP(post);
 		return result;
 	}
 
