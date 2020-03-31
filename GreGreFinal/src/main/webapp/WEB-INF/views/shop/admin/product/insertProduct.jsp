@@ -135,11 +135,14 @@ a#optListUpdate {
 			<div class="form-group row">
 				<label for="payment" class="col-sm-2 col-form-label">결제방식</label>
 				<div class="col-sm-10">
-					<input type="checkbox" name="productState" value="credit" >신용카드
-					<input type="checkbox" name="productState" value="phone" >휴대전화
-					<input type="checkbox" name="productState" value="account" >무통장입금
-					<input type="checkbox" name="productState" value="virtualAccount" >가상계좌
-					<input type="checkbox" name="productState" value="realtimeAccount" >실시간계좌이체
+					<input type="checkbox" name="paymentMethodCode" value="cr" >신용카드
+					<input type="checkbox" name="paymentMethodCode" value="ph" >휴대전화
+					<input type="checkbox" name="paymentMethodCode" value="ac" >무통장입금
+					<input type="checkbox" name="paymentMethodCode" value="va" >가상계좌
+					<input type="checkbox" name="paymentMethodCode" value="ra" >실시간계좌이체
+					<input type="checkbox" name="paymentMethodCode" value="ka" >카카오페이
+					<input type="checkbox" name="paymentMethodCode" value="to" >토스
+					<input type="checkbox" name="paymentMethodCode" value="na" >네이버페이
 				</div>
 				<label for="categoryId" class="col-sm-2 col-form-label">카테고리</label>
 				<div class="col-sm-10">
@@ -346,8 +349,7 @@ a#optListUpdate {
 															<div class="clearfix mb5">
 																<div class="float_l mt10">
 																	<span class="mr5 font-size16">옵션목록 : <strong>
-																		class="red" id="totalOptList">0</strong>개
-
+																		<span class="red" id="totalOptList">0</span></span></strong>개
 																	</span> 
 																	<span class="form-inline m1 " style="padding-left: 15px;"> 사용여부 
 																	<select
