@@ -14,7 +14,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Review implements Serializable {/**
+public class Review implements Serializable {
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;

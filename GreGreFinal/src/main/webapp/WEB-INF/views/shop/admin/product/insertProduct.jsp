@@ -102,6 +102,10 @@ a#optListUpdate {
 .clearfix.mb5 {
 	margin-bottom: 10px;
 }
+
+input[name="paymentMethodCode"] {
+    margin-left: 10px;
+}
 </style>
 
 <div class="content-wrapper">
@@ -135,11 +139,14 @@ a#optListUpdate {
 			<div class="form-group row">
 				<label for="payment" class="col-sm-2 col-form-label">결제방식</label>
 				<div class="col-sm-10">
-					<input type="checkbox" name="productState" value="credit" >신용카드
-					<input type="checkbox" name="productState" value="phone" >휴대전화
-					<input type="checkbox" name="productState" value="account" >무통장입금
-					<input type="checkbox" name="productState" value="virtualAccount" >가상계좌
-					<input type="checkbox" name="productState" value="realtimeAccount" >실시간계좌이체
+					<input type="checkbox" name="paymentMethodCode" value="cr" >신용카드
+					<input type="checkbox" name="paymentMethodCode" value="ph" >휴대전화
+					<input type="checkbox" name="paymentMethodCode" value="ac" >무통장입금
+				<!-- 	<input type="checkbox" name="paymentMethodCode" value="va" >가상계좌 -->
+					<input type="checkbox" name="paymentMethodCode" value="ra" >실시간계좌이체
+					<input type="checkbox" name="paymentMethodCode" value="ka" >카카오페이
+					<input type="checkbox" name="paymentMethodCode" value="to" >토스
+					<input type="checkbox" name="paymentMethodCode" value="na" >네이버페이
 				</div>
 				<label for="categoryId" class="col-sm-2 col-form-label">카테고리</label>
 				<div class="col-sm-10">
@@ -169,7 +176,16 @@ a#optListUpdate {
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="price" class="col-sm-2 col-form-label">판매가격</label>
+				<label for="supplyValue" class="col-sm-2 col-form-label">공급가</label>
+				<div class="col-sm-3">
+					<input type="number" name="supplyValue" class="form-control" value="0">
+				</div>
+				<div class="col-form-label">
+					<span>원</span>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="price" class="col-sm-2 col-form-label">판매가</label>
 				<div class="col-sm-3">
 					<input type="number" name="price" class="form-control" value="0">
 				</div>
@@ -264,20 +280,7 @@ a#optListUpdate {
 				<strong>추가정보</strong>
 			</h4>
 			<span class="red"> &nbsp;*선택 항목입니다.</span>
-			<table class="table table-bordered">
-				<colgroup>
-					<col width="10%">
-					<col width="">
-				</colgroup>
-				<tbody>
-					<tr>
-						<th class="bg_mint text-center" id="optionTh" rowspan="2">옵션
-						</th>
-					</tr>
-					<tr style="" id="optionTr">
-						<td class="table-height52 table-pt10">
-							<div class="mt10 table-pt36 table-mb4" id="optionBigDiv" style="">
-
+		
 								<!-- 일반 / 재고옵션 -->
 								<table class="table table-bordered table-product-s"
 									style="border-bottom: 0px; margin-bottom: 0px;">
@@ -287,7 +290,7 @@ a#optListUpdate {
 									</colgroup>
 									<tbody>
 										<tr style="border-bottom: 0px;">
-											<th class="bg_mint text-center" style="border-bottom: 0px;">일반옵션</th>
+											<th class="bg_mint text-center" style="border-bottom: 0px;">재고옵션</th>
 											<td style="border-bottom: 0px;">
 												<div id="useNewOption" class="buttonset2 table-mt5" style="">
 													<!-- 신규등록 -->
@@ -295,16 +298,6 @@ a#optListUpdate {
 
 													<!-- 옵션사항 시작 -->
 													<div class="mt5">
-														<div class="clearfix">
-															<div class="buttonset pull-left ui-buttonset">
-																<input type="radio" name="" id="optionState1" value=""
-																	checked="checked"><label for="optionState1"
-																	class="ui-state-active ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left"
-																	role="button" aria-disabled="false"><span
-																	class="ui-button-text"> 일반옵션</span></label>
-															</div>
-														</div>
-
 														<!-- 옵션설정 -->
 														<table id="optTable" class="table table-bordered"
 															style="margin: 10px 0 0 0">
@@ -346,8 +339,7 @@ a#optListUpdate {
 															<div class="clearfix mb5">
 																<div class="float_l mt10">
 																	<span class="mr5 font-size16">옵션목록 : <strong>
-																		class="red" id="totalOptList">0</strong>개
-
+																		<span class="red" id="totalOptList">0</span></span></strong>개
 																	</span> 
 																	<span class="form-inline m1 " style="padding-left: 15px;"> 사용여부 
 																	<select
@@ -372,7 +364,8 @@ a#optListUpdate {
 															</th>
 															<th style="width:50%;" class="text-center" id="optNameTd" colspan="1">옵션명</th>
 															<th style="width:10%" class="text-center" rowspan="2"> 재고</th>
-															<th style="width:10%" class="text-center" rowspan="2">추가금액</th>
+															<th style="width:10%" class="text-center" rowspan="2">공급가</th>
+															<th style="width:10%" class="text-center" rowspan="2">판매가</th>
 															<th style="width:10%" class="text-center" rowspan="2">사용여부</th>
 															<th style="width:10%" class="text-center" rowspan="2">삭제</th>
 														</tr>
@@ -490,12 +483,6 @@ a#optListUpdate {
 									</tbody>
 								</table>
 								<!-- 상품 옵션  끝 -->
-
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
 			<!-- 추가 상품 등록 끝-->
 			<!-- 등록버튼 -->
 
@@ -632,7 +619,7 @@ a#optListUpdate {
 				if(tidx==0){
 					var optHtml ='';
 					for( index  ; index < optValStr.length;index ++){
-						optHtml += '<tr class="first-made"><td class="text-center" style="border-left:none;"><input type="checkbox" name="optCeck2[]" value="1"><input type="hidden" name="oListNum[]" value=""></td><td><input type="text" name="optionValue1" id="optVal'+index+'" value="'+optValStr[index]+'" class="form-control input_st4" readonly=""></td><td><input type="text" name="optionStock" value="0" class="form-control number-coma input_st4" idx="1"></td><td><input type="text" name="optionPrice" value="0" class="form-control number-coma input_st4" idx="1"></td><td><select name="optionState" class="form-control number-coma input_st4"><option value="Y" selected="">Y</option><option value="N">N</option></select></td><td class="text-center"><a class="btn btn-danger btn-sm optListMinus">삭제</a></td></tr>'
+						optHtml += '<tr class="first-made"><td class="text-center" style="border-left:none;"><input type="checkbox" name="optCeck2[]" value="1"><input type="hidden" name="oListNum[]" value=""></td><td><input type="text" name="optionValue1" id="optVal'+index+'" value="'+optValStr[index]+'" class="form-control input_st4" readonly=""></td><td><input type="text" name="optionStock" value="0" class="form-control number-coma input_st4" idx="1"></td><td><input type="text" name="optionSupplyValue" value="0" class="form-control number-coma input_st4" idx="1"></td><td><input type="text" name="optionPrice" value="0" class="form-control number-coma input_st4" idx="1"></td><td><select name="optionState" class="form-control number-coma input_st4"><option value="Y" selected="">Y</option><option value="N">N</option></select></td><td class="text-center"><a class="btn btn-danger btn-sm optListMinus">삭제</a></td></tr>'
 					
 					}
 					$("#optListTable").append(optHtml);				
@@ -645,7 +632,7 @@ a#optListUpdate {
 						var optValResult = document.getElementById(optVal2);
 						var optValue = optValResult.value; 
 						for(var t=0; t<optValStr.length;t++){
-							optHtml = '<tr><td class="text-center" style="border-left:none;"><input type="checkbox" name="optCeck2[]" value="1"><input type="hidden" name="oListNum[]" value=""></td><td><input type="text" name="optionValue1" id="optVal'+oIdex+'" value="'+optValue+'" class="form-control input_st4" readonly=""></td><td><input type="text" name="optionValue2" id="optVal'+oIdex+'" value="'+optValStr[t]+'" class="form-control input_st4" readonly=""></td><td><input type="text" name="optionStock" value="0" class="form-control number-coma input_st4" idx="1"></td><td><input type="text" name="optionPrice" value="0" class="form-control number-coma input_st4" idx="1"></td><td><select name="optionState" class="form-control number-coma input_st4"><option value="Y" selected="">Y</option><option value="N">N</option></select></td><td class="text-center"><a class="btn btn-danger btn-sm optListMinus">삭제</a></td></tr>';
+							optHtml = '<tr><td class="text-center" style="border-left:none;"><input type="checkbox" name="optCeck2[]" value="1"><input type="hidden" name="oListNum[]" value=""></td><td><input type="text" name="optionValue1" id="optVal'+oIdex+'" value="'+optValue+'" class="form-control input_st4" readonly=""></td><td><input type="text" name="optionValue2" id="optVal'+oIdex+'" value="'+optValStr[t]+'" class="form-control input_st4" readonly=""></td><td><input type="text" name="optionStock" value="0" class="form-control number-coma input_st4" idx="1"></td><td><input type="text" name="optionSupplyValue" value="0" class="form-control number-coma input_st4" idx="1"></td><td><input type="text" name="optionPrice" value="0" class="form-control number-coma input_st4" idx="1"></td><td><select name="optionState" class="form-control number-coma input_st4"><option value="Y" selected="">Y</option><option value="N">N</option></select></td><td class="text-center"><a class="btn btn-danger btn-sm optListMinus">삭제</a></td></tr>';
 							console.log('모지=='+optVal2);
 							console.log('optResult=='+optValResult);
 							console.log('모지optValue=='+optValue);

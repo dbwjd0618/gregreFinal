@@ -97,13 +97,15 @@ span.optNm2 {
 		var optValueArr = new Array();
 		var optStockArr = new Array();
 		var optIdArr = new Array();
+		
+		var discountPrice = Number("${p.discountPrice}");
  		for( idx ; idx<dataOpt1.length;idx++){
 			for( t ; t<dataOpt2.length;t++){
 				var resultOption = optVal1+','+dataOpt2[t];
 			/* 	if(dataOpt1[i] == optVal1){ */
 				 for (var a=0; a<dataOptList.length;a++) {
 					if(resultOption == dataOptList[a].optionValue){
-						optPriceArr.push(dataOptList[a].optionPrice);
+						optPriceArr.push(Number(dataOptList[a].optionPrice)-discountPrice);
 						optValueArr.push(dataOpt2[t]);
 						optStockArr.push(dataOptList[a].optionStock);
 						optIdArr.push(dataOptList[a].optionId);
@@ -167,7 +169,7 @@ span.optNm2 {
 		//$('.optPrice').val(price);
 		var data = [ {
 			"optId" : optId,
-			"optPrice" : Number(price)+Number(optPrice),
+			"optPrice" : Number(optPrice),
 			"optNm" : optNm1+"/"+optNm2,
 			"optStock" : Number(optStock)
 		} ];
@@ -180,7 +182,7 @@ span.optNm2 {
 		var template = $.templates("#itemTmplOption");
 		var htmlOutput = template.render(data);
 		$("#selected-option").append(htmlOutput);
-		var prevPrice = Number($('#totalPrice').text())+Number(price)+Number(optPrice);
+		var prevPrice = Number($('#totalPrice').text())+Number(optPrice);
 	
 		$('#totalPrice').text(prevPrice);			
 		
@@ -240,6 +242,19 @@ span.optNm2 {
 		}
 
 	}
+</script>
+<script>
+function detailSubmit(index){
+	if(index == 1){
+		document.detailFrm.action=' ${pageContext.request.contextPath }/shop/cart.do';
+	}
+	if(index==2){
+		document.detailFrm.action='${pageContext.request.contextPath }/shop/order/checkOut.do';
+		
+	}
+	document.detailFrm.submit();
+}
+
 </script>
 <!-- Breadcrumb Section Begin -->
 <div class="breacrumb-section">
@@ -405,10 +420,10 @@ span.optNm2 {
 									</script>
 									<script id="itemTmplOption" type="text/x-jsrender"
 										data-jsv-tmpl="jsvTmpl">
-
+									
                                         <div class="option-box">
-                                            <input type="hidden" class="optionId" value="{{:optId}}"> 
-                                            <input type="hidden" class="optDftPrice priceChg" value="{{:optPrice}}">
+                                            <input type="hidden" name="optionId" value="{{:optId}}"> 
+                                            <input type="hidden" name="optionPrice" value="{{:optPrice}}">
                                             <div class="sel-title">
                                                                                                         선택 : {{:optNm}}
                                                 <button type="button" class="btn-option-delete" onclick="optDelete(this);"><span class="" style="color:#979696; margin: 0 auto;"><strong>X</strong></span></button>
@@ -433,12 +448,13 @@ span.optNm2 {
                                                 </div>
                                             </div>
                                         </div>
+									
                                     </script>
-
+                                <form name="detailFrm" method='POST' enctype="multipart/form-data">
 									<!-- 선택정보영역 -->
-									<div id="selected-option"></div>
-
-
+									<div id="selected-option">
+									</div>
+								</form>
 								</div>
 								<div class="row">
 									<div class="col">
@@ -448,8 +464,8 @@ span.optNm2 {
 											</div>
 											<div class="fright">
 												<div class="price-total" style="overflow: inherit;">
-													<span class="number" id="totalPrice">0</span><span
-														class="unit">원</span>
+													<span class="number" id="totalPrice">0</span>
+													<span class="unit">원</span>
 												</div>
 												<div class="price-saving">
 													최대 예상적립P <span class="number pointAmt">0</span><span
@@ -457,17 +473,17 @@ span.optNm2 {
 												</div>
 											</div>
 										</div>
-
+							
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-lg-6" style="padding: 0 5px 0 10px !important;">
-										<a href="${pageContext.request.contextPath }/shop/cart.do"
-											class="btn btn-outline-dark product-btn pd-cart">장바구니</a>
+										<input type="button" onclick="detailSubmit(1);"
+											class="btn btn-outline-dark product-btn pd-cart" value="장바구니">
 									</div>
 									<div class="col-lg-6" style="padding: 0 5px 0 10px !important;">
-										<a href="${pageContext.request.contextPath }/shop/checkOut.do"
-											class="btn btn-outline-dark product-btn check-out">바로구매</a>
+										<input type="button"  onclick="detailSubmit(2);"
+											class="btn btn-outline-dark product-btn check-out" value="바로구매">
 									</div>
 								</div>
 							</div>

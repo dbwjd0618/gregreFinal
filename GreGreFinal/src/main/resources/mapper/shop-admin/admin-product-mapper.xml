@@ -69,13 +69,16 @@ where
 		#{productName},
 		#{brandName},
 		#{price},
+		#{supplyValue},
 		#{deliveryFee},
 		#{pointRate},
 		#{discountPrice},
 		#{productStock},
 		#{productDetail},
 		default,
-		default)
+		#{productState},
+		#{paymentMethodCode, typeHandler=strArrTypeHandler}
+		)
 		<selectKey keyProperty="productId" resultType="string" order="AFTER">
 			select 'p'||to_char(seq_product_no.currval, 'fm0000000') from dual
 		</selectKey>
@@ -102,6 +105,7 @@ where
 		#{optionName},
 		#{optionValue},
 		#{optionStock},
+		#{optionSupplyValue},
 		#{optionPrice},
 		#{optionState}
 	)

@@ -19,4 +19,6 @@ public interface CounselorDAO {
 
 	List<Review> selectReviewList(Counselor c);
 
+	Double selectReviewRating(String advisId);
+
 }

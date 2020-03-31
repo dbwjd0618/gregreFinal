@@ -2818,9 +2818,7 @@ em{
 	   padding-top: 30px;
    }
    
-   .cart-table table tr td.cart-pic {
-	   width: 12%;
-   }
+  
    
    .cart-table table tr td.cart-title {
 	   text-align: left;
@@ -2828,11 +2826,10 @@ em{
    
    .cart-table table tr td.cart-title h5 {
 	   color: #252525;
+	   font-size:14px;
    }
    
-   .cart-table table tr td.p-price {
-	   width: 16%;
-   }
+
    
    .cart-table table tr td.p-price,
    .cart-table table tr td.total-price {
@@ -2841,10 +2838,7 @@ em{
 	   font-weight: 700;
    }
    
-   .cart-table table tr td.qua-col {
-	   width: 16%;
-   }
-   
+
    .cart-table table tr td.qua-col .quantity {
 	   display: -webkit-box;
 	   display: -ms-flexbox;

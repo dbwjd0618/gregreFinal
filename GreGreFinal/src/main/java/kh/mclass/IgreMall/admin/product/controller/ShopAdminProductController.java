@@ -205,7 +205,8 @@ public class ShopAdminProductController {
 						@RequestParam(value="optionName", required=false)String[] optionName, 
 						@RequestParam(value="optionValue1", required=false)String[] optionValue1, 
 						@RequestParam(value="optionValue2", required=false)String[] optionValue2, 
-						@RequestParam(value="optionStock", required=false)String[] optionStock, 
+						@RequestParam(value="optionStock", required=false)String[] optionStock,
+						@RequestParam(value="optionSupplyValue", required=false)String[] optionSupplyValue,
 						@RequestParam(value="optionPrice", required=false)String[] optionPrice, 
 						@RequestParam(value="optionState", required=false)String[] optionState, 
 							MultipartHttpServletRequest mtfRequest,
@@ -232,6 +233,7 @@ public class ShopAdminProductController {
         	System.out.println("optValue="+optValue);
         	prodOption.setOptionName(optionNameRe);
         	prodOption.setOptionValue(optValue);
+        	prodOption.setOptionSupplyValue(Integer.parseInt(optionSupplyValue[i]));
         	prodOption.setOptionPrice(Integer.parseInt(optionPrice[i]));
         	prodOption.setOptionStock(Integer.parseInt(optionStock[i]));
         	prodOption.setOptionState(optionState[i]);
