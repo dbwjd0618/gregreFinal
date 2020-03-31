@@ -40,8 +40,14 @@ public class CounselorServiceImpl implements CounselorService {
 		return counselorDAO.selectReviewTotalContents();
 	}
 
-@Override
-public List<Review> selectReviewList(Counselor c) {
-	return counselorDAO.selectReviewList(c);
-}
+	@Override
+	public List<Review> selectReviewList(Counselor c) {
+		return counselorDAO.selectReviewList(c);
+	}
+
+	@Override
+	public Double selectReviewRating(String advisId) {
+	
+	return counselorDAO.selectReviewRating(advisId);
+	}
 }
