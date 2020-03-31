@@ -39,27 +39,45 @@ $(()=>{
 	</div>
 </div>
 <style>
-.site-section-cover.overlay:before {
-	width: 0;
-	background-image: url();
-}
+	.site-section-cover.overlay:before {
+		width: 0;
+		background-image: url();
+	}
 
-.counselor-search-input-box button {
-	width: 48px;
-	height: 56px;
-	position: absolute;
-	left: 0;
-	top: 0;
-	background:
-		url('${pageContext.request.contextPath}/resources/images/counselling/search.png')
-		no-repeat 16px center;
-	background-size: 24px auto;
-	text-indent: -9999px;
-}
+	.counselor-search-input-box button {
+		width: 48px;
+		height: 56px;
+		position: absolute;
+		left: 0;
+		top: 0;
+		background:
+			url('${pageContext.request.contextPath}/resources/images/counselling/search.png')
+			no-repeat 16px center;
+		background-size: 24px auto;
+		text-indent: -9999px;
+	}
 
-a{
-	text-decoration: none;
-}
+	a{
+		text-decoration: none;
+	}
+	
+	.star-rating {
+    	width: 79px;
+	}
+
+    .star-rating,
+    .star-rating span {
+            display: inline-block;
+            height: 15px;
+            overflow: hidden;
+            background: url(${pageContext.request.contextPath}/resources/images/counselling/성준테스트/star-small.png)no-repeat;
+    }
+
+    .star-rating span {
+    	background-position: left bottom;
+        line-height: 0;
+        vertical-align: top;
+    }
 
 </style>
 
@@ -158,15 +176,11 @@ a{
 						    	<!-- 평점 -->
 						    	<div class="counselor-list-preview">
 						    		<div class="star-score__wrap--middle">
-						    			<ol>
-						    				<li class="star-score__ico is-all"></li>
-						    				<li class="star-score__ico is-all"></li>
-						    				<li class="star-score__ico is-all"></li>
-						    				<li class="star-score__ico is-all"></li>
-						    				<li class="star-score__ico is-half"></li>
-						    			</ol>
+						    			<span class='star-rating'>
+        									<span style="width:${reviewRating*20}%"></span>
+    									</span>
 						    		</div>
-						    		<div class="partner-list-box__review-score js-review-star-num">(21)</div>
+						    		<div class="partner-list-box__review-score js-review-star-num">${counselorReviews}</div>
 						    	</div>
 						    	<!-- 평점 끝 -->
 						    </div> 
@@ -205,35 +219,5 @@ a{
 	</div>
 </div>
 <!-- contents end  -->
-
-
-<script src="../js/jquery-migrate-3.0.0.js"></script>
-<script src="../js/popper.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/owl.carousel.min.js"></script>
-<script src="../js/jquery.sticky.js"></script>
-<script src="../js/jquery.waypoints.min.js"></script>
-<script src="../js/jquery.animateNumber.min.js"></script>
-<script src="../js/jquery.fancybox.min.js"></script>
-<script src="../js/jquery.stellar.min.js"></script>
-<script src="../js/jquery.easing.1.3.js"></script>
-<script src="../js/bootstrap-datepicker.min.js"></script>
-<script src="../js/aos.js"></script>
-
-<script src="../js/main.js"></script>
-
-
-
-
-<!-- Js Plugins -->
-
-<script src="js/shop/jquery-ui.min.js"></script>
-<script src="js/shop/jquery.countdown.min.js"></script>
-<script src="js/shop/jquery.nice-select.min.js"></script>
-<script src="js/shop/jquery.zoom.min.js"></script>
-<script src="js/shop/jquery.dd.min.js"></script>
-<script src="js/shop/jquery.slicknav.js"></script>
-<!-- <script src="js/shop/owl.carousel.min.js"></script> -->
-<script src="js/shop/main.js"></script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

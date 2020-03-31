@@ -19,6 +19,17 @@
 			TB_adviser
 	</select>
 	
+	<!-- 상담사별 리뷰게시글 숫자 count -->
+	<select resultType="_int" id="selectCounselorReviewCount">
+		select 
+    		count(*) 
+		from 
+    		TB_adviser A join TB_adviser_review R 
+        		on A.advis_id = R.advis_id
+    	where A.advis_id = #{advis_id}
+	</select>
+
+	
 	<!-- 상담사 1명 선택  -->
 	<select id="selectOne" resultMap="counselorCollection">
 	select 

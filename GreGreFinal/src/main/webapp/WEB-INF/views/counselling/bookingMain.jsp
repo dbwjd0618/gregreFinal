@@ -137,7 +137,7 @@ $(()=>{
     					<div class="star1-rating-main">
         					<span class="main-star">
             					<span class='star-rating'>
-    								<span style ='width:${reviewRating*20}%'></span>
+    								<span style ="width:${reviewRating*20}%"></span>
 								</span>
         					</span>
             				<span class="rating-point">
