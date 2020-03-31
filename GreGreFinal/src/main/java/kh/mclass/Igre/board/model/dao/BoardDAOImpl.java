@@ -10,13 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
-import kh.mclass.Igre.board.model.vo.PostList;
+import kh.mclass.Igre.board.model.vo.Recommendation;
 import kh.mclass.Igre.board.model.vo.Reply;
 import kh.mclass.Igre.member.model.vo.PreferList;
-import lombok.extern.slf4j.Slf4j;
 
 @Repository
-@Slf4j
 public class BoardDAOImpl implements BoardDAO {
 
 	@Autowired
@@ -28,15 +26,15 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public List<Post> postList(PostList bc, int cPage, int nPP) {
+	public List<Post> postList(String boardCode, int cPage, int nPP) {
 		
 		int offset = (cPage-1)*nPP;
 		int limit = nPP;
 		RowBounds rbn = new RowBounds(offset, limit);
 		
-		bc.setBoardCode("TB_post_"+bc.getBoardCode());
-		log.debug("boardCode = " + bc.getBoardCode());
-		return sss.selectList("board.postList", bc, rbn);
+		HashMap<String, String> map = new HashMap<>();
+		map.put("table", "TB_post_"+boardCode);
+		return sss.selectList("board.postList", map, rbn);
 	}
 
 	@Override
@@ -99,5 +97,35 @@ public class BoardDAOImpl implements BoardDAO {
 		map.put("postNo", ""+postNo);
 		
 		return sss.selectOne("board.preferCount", map);
+	}
+
+	@Override
+	public int replyWrite(Reply reply) {
+		return sss.insert("board.replyWrite", reply);
+	}
+
+	@Override
+	public int checkComm(Recommendation recom) {
+		return sss.selectOne("board.checkComm", recom);
+	}
+
+	@Override
+	public int postRecom(Recommendation recom) {
+		return sss.update("board.postRecom", recom);
+	}
+
+	@Override
+	public int recomRecomP(Recommendation recom) {
+		return sss.insert("board.recomRecomP", recom);
+	}
+
+	@Override
+	public int replyRecom(Recommendation recom) {
+		return sss.update("board.replyRecom", recom);
+	}
+
+	@Override
+	public int recomRecomR(Recommendation recom) {
+		return sss.insert("board.recomRecomR", recom);
 	}
 }

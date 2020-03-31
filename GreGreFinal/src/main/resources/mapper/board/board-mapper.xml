@@ -9,7 +9,7 @@
 	</select>
 
 	<select id="postList" resultType="Post">
-		select * from ${boardCode}
+		select * from ${table}
 	</select>
 	
 	<select id="boardName" resultType="String">
@@ -43,5 +43,30 @@
 	<select id="preferCount" resultType="_int">
 		select count(*) from TB_prefer where board_code = #{boardCode} and post_no = #{postNo}
 	</select>
+	
+	<insert id="replyWrite">
+		insert into TB_reply_${boardCode} values(#{boardCode}, #{postNo}, seq_${boardCode}_reply.nextval, #{replyWriter}, #{replyContent}, default, default, default)
+	</insert>
+	
+	<select id="checkComm" resultType="_int">
+		select count(*) from TB_recommen where member_id = #{memberId} and board_code = #{boardCode} and post_no = #{postNo} and reply_no = #{replyNo}
+	</select>
+	
+	<update id="postRecom">
+		update TB_post_${boardCode} set recommen_count = recommen_count + 1 where post_no = #{postNo}
+	</update>
+	
+	<insert id="recomRecomP">
+		insert into TB_recommen values(#{memberId}, #{boardCode}, #{postNo}, default)
+	</insert>
+	
+	<update id="replyRecom">
+		update TB_reply_${boardCode} set recommen_count = recommen_count + 1 where post_no = #{postNo} and reply_no = #{replyNo}
+	</update>
+	
+	<insert id="recomRecomR">
+		insert into TB_recommen values(#{memberId}, #{boardCode}, #{postNo}, #{replyNo})
+	</insert>
+	
 	
 </mapper>
