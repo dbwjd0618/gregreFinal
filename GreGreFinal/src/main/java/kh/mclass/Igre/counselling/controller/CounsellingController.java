@@ -66,6 +66,10 @@ public class CounsellingController {
 		List<Review> list = counselorService.selectReviewList(c);
 		
 		int totalReviewContents = counselorService.selectReviewTotalContents();
+		log.debug("여기는 뭐가 찍히ㅏ나요요요오오옹={}",advisId);
+		Double reviewRating = counselorService.selectReviewRating(advisId);
+		System.err.println("reviewRating=="+reviewRating);
+		mav.addObject("reviewRating",reviewRating);
 		mav.addObject("counselor",counselor);
 		mav.addObject("list", list);
 		mav.addObject("totalReviewContents", totalReviewContents);

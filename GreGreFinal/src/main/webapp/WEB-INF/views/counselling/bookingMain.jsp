@@ -20,8 +20,40 @@ $(()=>{
 <style>
 .star-icon{
 	color: #e63535;
-}
+	}
 
+.main-rating-wrapper{
+        border: 1px solid rgba(229,229,229);
+        min-width: 800px;
+        max-width: 800px;
+        min-height: 200px;
+        margin: 10% auto;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+        border-bottom: 0;
+        margin-bottom: -100px;
+
+    }
+
+    .star1-rating-main{
+        border: 1px solid rgba(229,229,229);
+        max-width: 400px;
+        min-height: 100px;
+        border-left: 0;
+        border-top: 0;
+        border-bottom: 0;
+    }
+    .main-star{
+        font-size: 40px;
+        color: red;
+    }
+    .rating-point{
+        font-size: 40px;
+    }
+    .ratio-m{
+        color: #999999;
+    }
 </style>
 
 
@@ -52,6 +84,31 @@ $(()=>{
     	width: 200px;
         height: 200px;
     }
+    
+    .star-rating { 
+    	width:205px; 
+    }
+    
+	.star-rating,.star-rating span { 
+		display:inline-block; 
+		height:39px; 
+		overflow:hidden; 
+		background:url(${pageContext.request.contextPath}/resources/images/counselling/star.png)no-repeat;
+	}
+		
+	.star-rating span{ 
+		background-position:left bottom; 
+		line-height:0; 
+		vertical-align:top; 
+	}
+	.star-icon-fill{
+		color: red;
+	}
+	.star-icon-empty{
+		color: #EDEDED;
+		margin-left: -4px;
+	}
+</style>
 </style>
 	<!-- contents begin-->
 	<div class="site-section">
@@ -75,7 +132,22 @@ $(()=>{
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-offset-2 col-md-8">상담사 평점</div>
+				<div class="col-md-offset-2 col-md-8">
+					<div class="main-rating-wrapper">
+    					<div class="star1-rating-main">
+        					<span class="main-star">
+            					<span class='star-rating'>
+    								<span style ='width:${reviewRating*20}%'></span>
+								</span>
+        					</span>
+            				<span class="rating-point">
+                				<strong>${reviewRating}</strong>
+                				<span class="ratio-m">/5</span>
+            				</span>
+        
+    					</div>
+					</div>
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
@@ -87,19 +159,23 @@ $(()=>{
         					<div class="review-list-top">
             					<div class="star-score__wrap--small">
             						<c:if test="${review.starPoint eq 1 }">
-            							<span class="star-icon">★</span>
+            							<span class="star-icon-fill">★</span>
+            							<span class="star-icon-empty">★★★★</span>
             						</c:if>
             						<c:if test="${review.starPoint eq 2 }">
-            							<span class="star-icon">★★</span>
+            							<span class="star-icon-fill">★★</span>
+            							<span class="star-icon-empty">★★★</span>
             						</c:if>
             						<c:if test="${review.starPoint eq 3 }">
-            							<span class="star-icon">★★★</span>
+            							<span class="star-icon-fill">★★★</span>
+            							<span class="star-icon-empty">★★</span>
             						</c:if>
             						<c:if test="${review.starPoint eq 4 }">
-            							<span class="star-icon">★★★★</span>
+            							<span class="star-icon-fill">★★★★</span>
+            							<span class="star-icon-empty">★</span>
             						</c:if>
             						<c:if test="${review.starPoint eq 5 }">
-            							<span class="star-icon">★★★★★</span>
+            							<span class="star-icon-fill">★★★★★</span>
             						</c:if>
             						${review.starPoint}
             					</div>

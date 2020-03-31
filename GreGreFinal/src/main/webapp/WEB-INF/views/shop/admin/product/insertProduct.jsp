@@ -85,18 +85,26 @@ th#optionTh {
 }
 
 span.mr5.font-size16 {
-    float: left;
-    margin-top: 6px;
+	float: left;
+	margin-top: 6px;
 }
+
 span.form-inline {
-    float: left;d
+	float: left;
+	d
 }
+
 a#optListUpdate {
-    float: right;
-    margin: 12px 0px;
+	float: right;
+	margin: 12px 0px;
 }
+
 .clearfix.mb5 {
-    margin-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+input[name="paymentMethodCode"] {
+    margin-left: 10px;
 }
 </style>
 
@@ -121,7 +129,7 @@ a#optListUpdate {
 			action="${pageContext.request.contextPath}/shop/admin/product/insert.do"
 			method="post" enctype="multipart/form-data">
 			<input type="hidden" name="sellerId" value="igre_mall_test" />
-<!-- 			<div class="form-group row">
+			<!-- 			<div class="form-group row">
 				<label for="productId" class="col-sm-2 col-form-label">제품번호</label>
 				<div class="col-sm-4">
 					<input type="text" name="productId" class="form-control"
@@ -131,11 +139,14 @@ a#optListUpdate {
 			<div class="form-group row">
 				<label for="payment" class="col-sm-2 col-form-label">결제방식</label>
 				<div class="col-sm-10">
-					<input type="checkbox" name="productState" value="credit" >신용카드
-					<input type="checkbox" name="productState" value="phone" >휴대전화
-					<input type="checkbox" name="productState" value="account" >무통장입금
-					<input type="checkbox" name="productState" value="virtualAccount" >가상계좌
-					<input type="checkbox" name="productState" value="realtimeAccount" >실시간계좌이체
+					<input type="checkbox" name="paymentMethodCode" value="cr" >신용카드
+					<input type="checkbox" name="paymentMethodCode" value="ph" >휴대전화
+					<input type="checkbox" name="paymentMethodCode" value="ac" >무통장입금
+					<input type="checkbox" name="paymentMethodCode" value="va" >가상계좌
+					<input type="checkbox" name="paymentMethodCode" value="ra" >실시간계좌이체
+					<input type="checkbox" name="paymentMethodCode" value="ka" >카카오페이
+					<input type="checkbox" name="paymentMethodCode" value="to" >토스
+					<input type="checkbox" name="paymentMethodCode" value="na" >네이버페이
 				</div>
 				<label for="categoryId" class="col-sm-2 col-form-label">카테고리</label>
 				<div class="col-sm-10">
@@ -165,7 +176,16 @@ a#optListUpdate {
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="price" class="col-sm-2 col-form-label">판매가격</label>
+				<label for="supplyValue" class="col-sm-2 col-form-label">공급가</label>
+				<div class="col-sm-3">
+					<input type="number" name="supplyValue" class="form-control" value="0">
+				</div>
+				<div class="col-form-label">
+					<span>원</span>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="price" class="col-sm-2 col-form-label">판매가</label>
 				<div class="col-sm-3">
 					<input type="number" name="price" class="form-control" value="0">
 				</div>
@@ -205,18 +225,18 @@ a#optListUpdate {
 				<div class="col-sm-10">
 					<input type="radio" name="" id="selectedDelivery-1" value="1"
 						checked> 기본 배송비 사용 ( 기본배송비 : 0원, 무료배송비 : 0원)<br> <input
-						type="radio" name="" id="selectedDelivery-2" value="0"> 개별
+						type="radio" name="" id="selectedDelivery-2" > 개별
 					배송비 설정
 					<div id="delivery-1">
 						기본 배송비 : <input type="text" name="deliveryFee"
 							class="form-control number-coma"
 							style="width: 100px; display: inline-block; margin: 0;" id="fee1"
-							value=""> 원 ( 무료배송 시 0 입력 )
+							value="0"> 원 ( 무료배송 시 0 입력 )
 					</div>
 					<div id="delivery-2" style="display: none;">
 						조건부무료 배송비 : <input type="text" name="deliveryFee"
 							class="form-control number-coma"
-							style="width: 100px; display: inline-block;" id="fee2" value="">
+							style="width: 100px; display: inline-block;" id="fee2" >
 						원 이상시 무료배송
 					</div>
 				</div>
@@ -256,22 +276,11 @@ a#optListUpdate {
 			</div>
 
 
-			<h4 class="title-icon-bg"><strong>추가정보</strong></h4>
+			<h4 class="title-icon-bg">
+				<strong>추가정보</strong>
+			</h4>
 			<span class="red"> &nbsp;*선택 항목입니다.</span>
-			<table class="table table-bordered">
-				<colgroup>
-					<col width="10%">
-					<col width="">
-				</colgroup>
-				<tbody>
-					<tr>
-						<th class="bg_mint text-center" id="optionTh" rowspan="2">옵션
-						</th>
-					</tr>
-					<tr style="" id="optionTr">
-						<td class="table-height52 table-pt10">
-							<div class="mt10 table-pt36 table-mb4" id="optionBigDiv" style="">
-
+		
 								<!-- 일반 / 재고옵션 -->
 								<table class="table table-bordered table-product-s"
 									style="border-bottom: 0px; margin-bottom: 0px;">
@@ -281,7 +290,7 @@ a#optListUpdate {
 									</colgroup>
 									<tbody>
 										<tr style="border-bottom: 0px;">
-											<th class="bg_mint text-center" style="border-bottom: 0px;">일반옵션</th>
+											<th class="bg_mint text-center" style="border-bottom: 0px;">재고옵션</th>
 											<td style="border-bottom: 0px;">
 												<div id="useNewOption" class="buttonset2 table-mt5" style="">
 													<!-- 신규등록 -->
@@ -289,17 +298,6 @@ a#optListUpdate {
 
 													<!-- 옵션사항 시작 -->
 													<div class="mt5">
-														<div class="clearfix">
-															<div class="buttonset pull-left ui-buttonset">
-																<input type="radio" name="" id="optionState1"
-																	value="" checked="checked"><label
-																	for="optionState1"
-																	class="ui-state-active ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left"
-																	role="button" aria-disabled="false"><span
-																	class="ui-button-text"> 일반옵션</span></label> 
-															</div>
-														</div>
-
 														<!-- 옵션설정 -->
 														<table id="optTable" class="table table-bordered"
 															style="margin: 10px 0 0 0">
@@ -317,73 +315,65 @@ a#optListUpdate {
 																</tr>
 																<tr>
 																	<td class="text-center"><input type="text"
-																		name="noTitle[0]" id="noTitle0" no="0" value=""
+																		name="noTitle[]" id="noTitle0" no="0" value=""
 																		maxlength="50" placeholder="50자까지 입력가능."
 																		class="form-control input_st4"></td>
 																	<td class="text-center"><input type="text"
 																		name="optionVal" placeholder="예)블랙,화이트 (,로 구분)"
-																		id="optionValue" value=""
+																		id="optionValue0" value=""
 																		class="form-control input_st4"></td>
 																	<th class="text-center"></th>
 																</tr>
-								
+
 															</tbody>
 														</table>
 
-														<!-- 풀하는방법. -->
+
 														<div style="text-align: center; padding: 5px;">
 															<a class="btn btn-info btn-sm" id="optionSetting">옵션
 																적용</a>
 														</div>
-
+<!-- 수정 -->
 														<!-- 일반옵션 리스트 -->
 														<div id="generalDiv">
 															<div class="clearfix mb5">
 																<div class="float_l mt10">
-																	<span class="mr5 font-size16">옵션목록 : <strong
-																		class="red" id="totalOptList">0</strong>개
+																	<span class="mr5 font-size16">옵션목록 : <strong>
+																		<span class="red" id="totalOptList">0</span></span></strong>개
 																	</span> 
-																	<span class="form-inline m1 "
-																		style="padding-left: 15px;"> 사용여부 <select
+																	<span class="form-inline m1 " style="padding-left: 15px;"> 사용여부 
+																	<select
 																		name="optView" id="optView"
 																		class="form-control select-check"
 																		style="width: 80px !important;">
 																			<option value="1">Y</option>
 																			<option value="0">N</option>
 																	</select>
-																	</span> 
+																	</span>
+																	<a class="btn btn-primary btn-sm ml5" id="optListUpdate2" style="float:right;">선택목록 일괄수정</a>
 																</div>
-															</div>
-
-															<div
-																style="overflow: scroll; overflow-x: hidden; width: 100%; height: 250px; border: 1px solid #cfcfcf;">
-																<table id="optListTable" class="table table-bordered"
-																	style="border-left: none;">
-																	<colgroup>
-																		<col style="width: 3%;">
-																		<col style="width: 30%;">
-																		<col style="width: 30%;">
-																		<col style="width: 22%;">
-																		<col style="width: 10%;">
-																		<col style="width: 5%;">
-																	</colgroup>
-																	<tbody>
-																		<tr>
-																			<th class="text-center" style="border-left: none;"><input
-																				type="checkbox" id="optListAll" name="optListAll"
-																				value="Y"></th>
-																			<th class="text-center">옵션명</th>
-																			<th class="text-center">옵션값</th>
-																			<th class="text-center">추가금액(판매가에 추가됩니다.)</th>
-																			<th class="text-center">사용여부</th>
-																			<th class="text-center">삭제</th>
-																		</tr>
-																	</tbody>
-																</table>
 															</div>
 														</div>
 														<!-- 일반옵션 리스트 끝-->
-
+														<div style="overflow:scroll; overflow-x:hidden; width:100%; height:250px; border:1px solid #cfcfcf;">
+													<table id="optListTable" class="table table-bordered" style="border-left:none;">
+														<tbody>
+														<tr>
+															<th style="width:3%" class="text-center" rowspan="2">
+																<input type="checkbox" id="optListAll2" name="optListAll2" value="Y">
+															</th>
+															<th style="width:50%;" class="text-center" id="optNameTd" colspan="1">옵션명</th>
+															<th style="width:10%" class="text-center" rowspan="2"> 재고</th>
+															<th style="width:10%" class="text-center" rowspan="2">공급가</th>
+															<th style="width:10%" class="text-center" rowspan="2">판매가</th>
+															<th style="width:10%" class="text-center" rowspan="2">사용여부</th>
+															<th style="width:10%" class="text-center" rowspan="2">삭제</th>
+														</tr>
+														<tr id="optNameTd2">
+								
+														</tbody>
+													</table>
+												</div>
 													</div>
 													<!-- 옵션사항 끝 -->
 												</div>
@@ -492,78 +482,75 @@ a#optListUpdate {
 										</tr>
 									</tbody>
 								</table>
-								  </div>
-                              </td>
-                          </tr>
-                          </tbody>
-                       </table>
-								<!-- 추가 상품 등록 끝-->
-								<!-- 등록버튼 -->
+								<!-- 상품 옵션  끝 -->
+			<!-- 추가 상품 등록 끝-->
+			<!-- 등록버튼 -->
 
-								<div class=" text-center" style="padding-bottom: 50px">
-									<input type="submit" class="btn btn-primary btn-lg" id=""
-										value="상품등록" />
-								</div>
+			<div class=" text-center" style="padding-bottom: 50px">
+				<input type="submit" class="btn btn-primary btn-lg" id=""
+					value="상품등록" />
+			</div>
+
+
 		</form>
 	</div>
 </div>
 
 <!-- 폼 끝  -->
 <script type="text/javascript">
- 	
-     $('#summernote').summernote({
-    	placeholder : '제품설명을 입력해주세요.',
-    	tabsize : 2,
-    	height : 300,
-        focus: true,
-        lang:'ko-KR',
-        callbacks: {
-            onImageUpload: function(files, editor, welEditable) {
-              for (var i = files.length - 1; i >= 0; i--) {
-                sendFile(files[i], this);
-              }
-            }
-          } 
-    });
-
- 
+	$('#summernote').summernote({
+		placeholder : '제품설명을 입력해주세요.',
+		tabsize : 2,
+		height : 300,
+		focus : true,
+		lang : 'ko-KR',
+		callbacks : {
+			onImageUpload : function(files, editor, welEditable) {
+				for (var i = files.length - 1; i >= 0; i--) {
+					sendFile(files[i], this);
+				}
+			}
+		}
+	});
 </script>
-<script>    
-function sendFile(file, el) {
-      var form_data = new FormData();
-      form_data.append('file', file);
-      $.ajax({
-        data: form_data,
-        type: "POST",
-        url: '${pageContext.request.contextPath}/shop/admin/product/insertImg.do',
-        cache: false,
-        contentType: false,
-        enctype: 'multipart/form-data',
-        processData: false,
-        success: function(data) {
-        	
-        	console.log("img up load success");
-			
-			var url = '${pageContext.request.contextPath}/resources/upload/shop/productDetail/'+data[1];
-				
+<script>
+	function sendFile(file, el) {
+		var form_data = new FormData();
+		form_data.append('file', file);
+		$.ajax({
+					data : form_data,
+					type : "POST",
+					url : '${pageContext.request.contextPath}/shop/admin/product/insertImg.do',
+					cache : false,
+					contentType : false,
+					enctype : 'multipart/form-data',
+					processData : false,
+					success : function(data) {
 
-			console.log("url="+url);
-			$(el).summernote('editor.insertImage', url); 
-			$('summernote').append('<img src="'+url+'" width = "400", height = "auto" />');
-        }
-      });
- }
+						console.log("img up load success");
+
+						var url = '${pageContext.request.contextPath}/resources/upload/shop/productDetail/'
+								+ data[1];
+
+						console.log("url=" + url);
+						$(el).summernote('editor.insertImage', url);
+						$('summernote')
+								.append(
+										'<img src="'+url+'" width = "400", height = "auto" />');
+					}
+				});
+	}
 </script>
 
 
 
 <script>
-/* <!--글쓰기 js -->
-	$('#summernote').summernote({
-		placeholder : '제품설명을 입력해주세요.',
-		tabsize : 2,
-		height : 300
-	}); */
+	/* <!--글쓰기 js -->
+	 $('#summernote').summernote({
+	 placeholder : '제품설명을 입력해주세요.',
+	 tabsize : 2,
+	 height : 300
+	 }); */
 </script>
 <script>
 	$(function() {
@@ -590,41 +577,91 @@ function sendFile(file, el) {
 	}
 </script>
 <script>
- 
- $(function(){
- //입력옵션 추가 하는 스크립트
- 
- //일반옵션 추가하는 곳
-	 $("#optPlus").click(function(){
-		 var html='<tr><td class="text-center"><input type="text" name="noTitle[0]" id="noTitle0" no="0" value="" maxlength="50" placeholder="50자까지 입력가능." class="form-control input_st4"></td><td class="text-center"><input type="text" name="" placeholder="예)블랙,화이트 (,로 구분)" id="optionValue" value="" class="form-control input_st4"></td><th class="text-center"><a class="btn btn-danger btn-sm optMinus">삭제</a></th></tr>'
-		 $("#optTable").append(html)
-	 });
-		 
-	//일반 옵션 추가된것 삭제해주는 것	 
-	 $(document).on('click','.optMinus',function(e){
-		  $(this).parent().parent().remove();
-			});
+	var optPlusIdx=1;
+	var index =0;
+	var tidx =0;
+
+	console.log("t123=="+tidx);
+	$(function() {
+		//입력옵션 추가 하는 스크립트
+		//일반옵션 추가하는 곳
+		$("#optPlus").click( function() {
+							var html = '<tr><td class="text-center"><input type="text" name="optionName" id="noTitle'+optPlusIdx+'" no="0" value="" maxlength="50" placeholder="50자까지 입력가능." class="form-control input_st4"></td><td class="text-center"><input type="text" name="" placeholder="예)블랙,화이트 (,로 구분)" id="optionValue'+optPlusIdx+'" value="" class="form-control input_st4"></td><th class="text-center"><a class="btn btn-danger btn-sm optMinus">삭제</a></th></tr>'
+							$("#optTable").append(html)
+							optPlusIdx++;
+						});
+
+		//일반 옵션 추가된것 삭제해주는 것	 
+		$(document).on('click', '.optMinus', function(e) {
+			$(this).parent().parent().remove();
+		});
 	
-	$("#optionSetting").click(function(){
-		var optName=$("#noTitle0").val();
-		var optVal = $("#optionValue").val();
-		var optHtml='<tr><td class="text-center" style="border-left:none;"><input type="checkbox" name="optCeck[]" value="1"></td><td><input type="text" name="optionName" value="'+optName+'" class="form-control input_st4" optnum="0" readonly=""></td><td><input type="text" name="optionValue" value="'+optVal+'" class="form-control input_st4" listnum="" readonly=""></td><td><input type="text" name="optionPrice" value="" class="form-control number-coma input_st4"></td><td><select name="optionState" class="form-control number-coma input_st4" value="Y"><option name ="optionState" value="Y" selected="">Y</option><option name ="optionState" value="N">N</option></select></td><td class="text-center"><a class="btn btn-danger btn-sm optListMinus">삭제</a></td></tr>'
-			$("#optListTable").append(optHtml)
+		
+		$(document).on('click', '.optListMinus', function(e) {
+			$(this).parent().parent().remove();
+		});
+
 	});
-	
-	 $(document).on('click','.optListMinus',function(e){
-		  $(this).parent().parent().remove();
-			});
-	
-	
-	
-	
- });
- </script>
+	$(function(){
+		$("#optionSetting").click( function() {
+			var optNameHtml='';
+			for( tidx ; tidx <optPlusIdx; tidx++){
+				var optionName  = 'noTitle'+tidx;
+				var optionName2 = optionName;
+				var nameResult = document.getElementById(optionName2);
+				console.log("tidx=="+optionName2);
+				var optName = nameResult.value;
+
+				var optionValue ='optionValue'+tidx+'';
+				var optionValue2 = optionValue;
+				var optResult = document.getElementById(optionValue2);
+				var optValStr = optResult.value.split(',');
+				if(tidx==0){
+					var optHtml ='';
+					for( index  ; index < optValStr.length;index ++){
+						optHtml += '<tr class="first-made"><td class="text-center" style="border-left:none;"><input type="checkbox" name="optCeck2[]" value="1"><input type="hidden" name="oListNum[]" value=""></td><td><input type="text" name="optionValue1" id="optVal'+index+'" value="'+optValStr[index]+'" class="form-control input_st4" readonly=""></td><td><input type="text" name="optionStock" value="0" class="form-control number-coma input_st4" idx="1"></td><td><input type="text" name="optionSupplyValue" value="0" class="form-control number-coma input_st4" idx="1"></td><td><input type="text" name="optionPrice" value="0" class="form-control number-coma input_st4" idx="1"></td><td><select name="optionState" class="form-control number-coma input_st4"><option value="Y" selected="">Y</option><option value="N">N</option></select></td><td class="text-center"><a class="btn btn-danger btn-sm optListMinus">삭제</a></td></tr>'
+					
+					}
+					$("#optListTable").append(optHtml);				
+				}else{
+					var optHtml ='';
+					var oIdex = 0;
+					for(var opt=0; opt < index ;opt++){
+						var optVal  = 'optVal'+opt;
+						var optVal2 = optVal;
+						var optValResult = document.getElementById(optVal2);
+						var optValue = optValResult.value; 
+						for(var t=0; t<optValStr.length;t++){
+							optHtml = '<tr><td class="text-center" style="border-left:none;"><input type="checkbox" name="optCeck2[]" value="1"><input type="hidden" name="oListNum[]" value=""></td><td><input type="text" name="optionValue1" id="optVal'+oIdex+'" value="'+optValue+'" class="form-control input_st4" readonly=""></td><td><input type="text" name="optionValue2" id="optVal'+oIdex+'" value="'+optValStr[t]+'" class="form-control input_st4" readonly=""></td><td><input type="text" name="optionStock" value="0" class="form-control number-coma input_st4" idx="1"></td><td><input type="text" name="optionSupplyValue" value="0" class="form-control number-coma input_st4" idx="1"></td><td><input type="text" name="optionPrice" value="0" class="form-control number-coma input_st4" idx="1"></td><td><select name="optionState" class="form-control number-coma input_st4"><option value="Y" selected="">Y</option><option value="N">N</option></select></td><td class="text-center"><a class="btn btn-danger btn-sm optListMinus">삭제</a></td></tr>';
+							console.log('모지=='+optVal2);
+							console.log('optResult=='+optValResult);
+							console.log('모지optValue=='+optValue);
+							$("#optListTable").append(optHtml);		
+							oIdex++;
+						}
+					}
+					$("tr").remove(".first-made"); 
+											
+				}
+					
+
+				optNameHtml +='<th class="text-center">'+optName+'</th>';
+				var test = '<input type="hidden" name="optionName" value="'+optName+'" >';
+				$('#optNameTd2').append(test);
+				console.log("뭐야=="+optNameHtml);
+				$('#optNameTd2').append(optNameHtml);
+				$('#optNameTd').attr('colspan',optPlusIdx);
+				
+			}
+			
+
+			console.log('optPlusIdx++ =='+optPlusIdx);
+});
+	});
+</script>
 
 <!-- /.content-wrapper -->
 <!--푸터영역-->
-
 <!-- ./wrapper -->
 <!-- jQuery 2.1.3 -->
 
@@ -651,6 +688,8 @@ function sendFile(file, el) {
 <script
 	src="${pageContext.request.contextPath}/resources/js/admin/demo.js"
 	type="text/javascript"></script>
+
+
 
 </body>
 </html>

@@ -19,4 +19,6 @@ public interface CounselorService {
 
 	List<Review> selectReviewList(Counselor c);
 
+	Double selectReviewRating(String advisId);
+
 }

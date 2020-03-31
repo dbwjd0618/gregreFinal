@@ -9,7 +9,7 @@
 		TB_product
 	values (
 		#{sellerId},
-		#{productId},
+		'p'||to_char(seq_product_no.nextval, 'fm0000000'),
 		#{categoryId},
 		#{productName},
 		#{brandName},
