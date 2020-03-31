@@ -24,8 +24,8 @@ public class OrderList implements Serializable{/**
 	private String sellerId;
 	private String productId;
 	private String payMethod;
-	private String totalPrice;
-	private String totalDeliveryFee;
+	private int totalPrice;
+	private int totalDeliveryFee;
 	private String recptName;
 	private String recptPhone;
 	private String recptEmail;
