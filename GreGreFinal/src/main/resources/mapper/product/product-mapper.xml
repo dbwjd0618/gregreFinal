@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
 	
-<insert id="insert">
+<insert id="insertProduct">
 	insert into
 		TB_product
 	values (
@@ -14,14 +14,16 @@
 		#{productName},
 		#{brandName},
 		#{price},
+		#{supplyValue},
 		#{deliveryFee},
 		#{pointRate},
 		#{discountPrice},
 		#{productStock},
 		#{productDetail},
 		default,
-		default
-	)
+		#{productState},
+		#{paymentMethodCode, typeHandler=strArrTypeHandler}
+		)
 </insert>
 
 <insert id="insertAttachment">

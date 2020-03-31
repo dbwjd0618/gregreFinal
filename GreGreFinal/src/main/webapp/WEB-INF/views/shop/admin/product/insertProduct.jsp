@@ -142,7 +142,7 @@ input[name="paymentMethodCode"] {
 					<input type="checkbox" name="paymentMethodCode" value="cr" >신용카드
 					<input type="checkbox" name="paymentMethodCode" value="ph" >휴대전화
 					<input type="checkbox" name="paymentMethodCode" value="ac" >무통장입금
-					<input type="checkbox" name="paymentMethodCode" value="va" >가상계좌
+				<!-- 	<input type="checkbox" name="paymentMethodCode" value="va" >가상계좌 -->
 					<input type="checkbox" name="paymentMethodCode" value="ra" >실시간계좌이체
 					<input type="checkbox" name="paymentMethodCode" value="ka" >카카오페이
 					<input type="checkbox" name="paymentMethodCode" value="to" >토스
