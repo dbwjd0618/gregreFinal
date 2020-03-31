@@ -105,6 +105,14 @@ where
 	option_state='Y'
 order by option_id
 </select>
+<select id="selectOptionOne" resultMap="optionList">
+select 
+	*
+from 
+	tb_prod_option   
+where 
+	option_id = #{optionID}
+</select>
 
 <resultMap type="kh.mclass.IgreMall.product.model.vo.Product" id="productList">
 	<id column="product_no" property="productNo"/>
