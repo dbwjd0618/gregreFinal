@@ -97,13 +97,15 @@ span.optNm2 {
 		var optValueArr = new Array();
 		var optStockArr = new Array();
 		var optIdArr = new Array();
+		
+		var discountPrice = Number("${p.discountPrice}");
  		for( idx ; idx<dataOpt1.length;idx++){
 			for( t ; t<dataOpt2.length;t++){
 				var resultOption = optVal1+','+dataOpt2[t];
 			/* 	if(dataOpt1[i] == optVal1){ */
 				 for (var a=0; a<dataOptList.length;a++) {
 					if(resultOption == dataOptList[a].optionValue){
-						optPriceArr.push(dataOptList[a].optionPrice);
+						optPriceArr.push(Number(dataOptList[a].optionPrice)-discountPrice);
 						optValueArr.push(dataOpt2[t]);
 						optStockArr.push(dataOptList[a].optionStock);
 						optIdArr.push(dataOptList[a].optionId);
@@ -167,7 +169,7 @@ span.optNm2 {
 		//$('.optPrice').val(price);
 		var data = [ {
 			"optId" : optId,
-			"optPrice" : Number(price)+Number(optPrice),
+			"optPrice" : Number(optPrice),
 			"optNm" : optNm1+"/"+optNm2,
 			"optStock" : Number(optStock)
 		} ];
@@ -180,7 +182,7 @@ span.optNm2 {
 		var template = $.templates("#itemTmplOption");
 		var htmlOutput = template.render(data);
 		$("#selected-option").append(htmlOutput);
-		var prevPrice = Number($('#totalPrice').text())+Number(price)+Number(optPrice);
+		var prevPrice = Number($('#totalPrice').text())+Number(optPrice);
 	
 		$('#totalPrice').text(prevPrice);			
 		
@@ -745,7 +747,6 @@ span.optNm2 {
 		</div>
 	</section>
 	<!-- Product Shop Section End -->
-
 	<!-- Related Products Section End -->
 	<div class="related-products spad">
 		<div class="container">
@@ -954,7 +955,7 @@ span.optNm2 {
 		</div>
 	</div>
 </div>
-</div>
+
 
 
 <jsp:include page="/WEB-INF/views/shop/common/footer.jsp" />

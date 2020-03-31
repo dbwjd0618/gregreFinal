@@ -190,23 +190,60 @@ public class AdminController {
 		return "admin/report";
 	}
 	
-	@PostMapping("/reportDelete.do")
 	@ResponseBody
-	public Map<String,Object> reportDelete(Model model,
-							   @RequestParam(value = "one2[]") List<Integer> chArr) {
-		log.debug("chArr={}",chArr);
+	@PostMapping("/postDelete.do")
+	public Map<String,Object> postDelete(Model model,
+							   @RequestParam(value = "arr1[]") List<String> bcArr,
+							   @RequestParam(value = "arr2[]") List<Integer> pnArr) {
+		
+		/* log.debug("pnArr={}",pnArr); */
 		
 		int result = 0; 
 		
-		 for(Integer reportNo : chArr) {
-			 result += adminService.reportDelete(reportNo); 
-		 }
+		for(int i=0; i<pnArr.size(); i++) {
+			
+			result += adminService.postDelete(bcArr.get(i), pnArr.get(i));
+			result += adminService.reportUpdate(bcArr.get(i), pnArr.get(i));
+		}
+		
 		 Map<String,Object> map = new HashMap<>();
-		 map.put("msg", result==chArr.size()?"신고내역을 처리하였습니다.":"신고내역 처리에 실패하였습니다.");
 		 map.put("result", result);
 		 
 		return map;
 		
 	}
+	
+	@ResponseBody
+	@PostMapping("/replyDelete.do")
+	public Map<String,Object> replyDelete(Model model,
+										  @RequestParam(value = "rearr1[]") List<String> rebcArr,
+										  @RequestParam(value = "rearr2[]") List<Integer> repnArr,
+										  @RequestParam(value = "rearr3[]") List<Integer> renArr) {
+		int result = 0;
+		
+		log.debug("reArr={}", renArr);
+		
+		for(int i=0; i<renArr.size(); i++) {
+			
+			result += adminService.replyDelete(rebcArr.get(i), renArr.get(i));
+			result += adminService.replyUpdate(rebcArr.get(i), repnArr.get(i), renArr.get(i));
+		}
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("result", result);
+		
+		return map;
+		
+	}
 
 }
+
+
+
+
+
+
+
+
+
+

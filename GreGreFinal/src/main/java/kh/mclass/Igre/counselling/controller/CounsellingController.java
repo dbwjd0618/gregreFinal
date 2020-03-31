@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kh.mclass.Igre.counselling.model.service.CounselorService;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
+import kh.mclass.Igre.counselling.model.vo.Review;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -26,7 +27,8 @@ public class CounsellingController {
 	CounselorService counselorService;
 	
 	@GetMapping("/counselorFind.do")
-	public ModelAndView counselorFind(@RequestParam(value = "cPage", defaultValue = "1")int cPage, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView counselorFind(@RequestParam(value = "cPage", defaultValue = "1")int cPage,
+										HttpServletRequest request, HttpServletResponse response) {
 		
 		log.debug("상담사 목록 페이지!");
 		ModelAndView mav = new ModelAndView();
@@ -46,19 +48,42 @@ public class CounsellingController {
 	
 	
 	@GetMapping("/bookingMain.do")
-	public void bookingMain(@RequestParam("advisId") String advisId, Model model) {
+	public ModelAndView bookingMain(@RequestParam(value = "cPage", defaultValue = "1")int cPage,
+									@RequestParam("advisId") String advisId, 
+			/* @RequestParam("reviewerId") String reviewerId, */
+									Model model) {
+			
+		ModelAndView mav = new ModelAndView();
+		final int numPerPage =5;
 		
 		Counselor counselor = counselorService.selectOne(advisId);
-		model.addAttribute("counselor", counselor);
 		
+		Counselor c = new Counselor();
+		
+				c.setAdvisId(advisId);//test1
+			
+		//리뷰 리스트
+		List<Review> list = counselorService.selectReviewList(c);
+		
+		int totalReviewContents = counselorService.selectReviewTotalContents();
+		log.debug("여기는 뭐가 찍히ㅏ나요요요오오옹={}",advisId);
+		Double reviewRating = counselorService.selectReviewRating(advisId);
+		System.err.println("reviewRating=="+reviewRating);
+		mav.addObject("reviewRating",reviewRating);
+		mav.addObject("counselor",counselor);
+		mav.addObject("list", list);
+		mav.addObject("totalReviewContents", totalReviewContents);
+		mav.setViewName("counselling/bookingMain");
+		
+		return mav;
 	}
 	
 	@GetMapping("/bookingPage.do")
 	public void bookingPage(@RequestParam("advisId") String advisId, Model model) {
-	
+		//상담사 정보
 		Counselor counselor = counselorService.selectOne(advisId);
+
 		model.addAttribute("counselor", counselor);
-	
 		
 	}
 	

@@ -196,17 +196,17 @@ public class ShopAdminProductController {
 	}
 
 	/*
+	 * 0325
+	 * 이진희
 	 * 0325 이진희
-	 * 
-	 * 상품등록
-	 */
 	/*진희수정1*/
 	@PostMapping("/insert.do")
 	public String insertProduct(@ModelAttribute Product product, 
 						@RequestParam(value="optionName", required=false)String[] optionName, 
 						@RequestParam(value="optionValue1", required=false)String[] optionValue1, 
 						@RequestParam(value="optionValue2", required=false)String[] optionValue2, 
-						@RequestParam(value="optionStock", required=false)String[] optionStock, 
+						@RequestParam(value="optionStock", required=false)String[] optionStock,
+						@RequestParam(value="optionSupplyValue", required=false)String[] optionSupplyValue,
 						@RequestParam(value="optionPrice", required=false)String[] optionPrice, 
 						@RequestParam(value="optionState", required=false)String[] optionState, 
 							MultipartHttpServletRequest mtfRequest,
@@ -215,10 +215,12 @@ public class ShopAdminProductController {
 							HttpServletResponse response) throws Exception{
 		log.debug("product={}", product);
 		product.setDeliveryFee(product.getDeliveryFee().replaceAll(",", ""));
+		
         List<ProdOption> prodOptionList = new ArrayList<>();
    
    
         for(int i=0; i< optionValue1.length;i++) {
+
         	ProdOption prodOption = new ProdOption();
         	String optValue = optionValue1[i];
         	if(optionValue2 !=null) {
@@ -231,11 +233,13 @@ public class ShopAdminProductController {
         	System.out.println("optValue="+optValue);
         	prodOption.setOptionName(optionNameRe);
         	prodOption.setOptionValue(optValue);
+        	prodOption.setOptionSupplyValue(Integer.parseInt(optionSupplyValue[i]));
         	prodOption.setOptionPrice(Integer.parseInt(optionPrice[i]));
         	prodOption.setOptionStock(Integer.parseInt(optionStock[i]));
         	prodOption.setOptionState(optionState[i]);
         	prodOption.setProductId(product.getProductId());
         	prodOptionList.add(prodOption);	
+
         }
 		log.debug("prodOption={}", prodOptionList);
 
