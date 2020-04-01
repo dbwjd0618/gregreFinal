@@ -414,12 +414,10 @@ table {
 									<td class="text-center vertical-middle"><input
 										type="checkbox" name="chkDel" value="${p.productId }"></td>
 									<td class="text-center vertical-middle">${p.productId }</td>
-									<td class="text-left vertical-middle"><a
-										href="javascript:void(0)"
+									<td class="text-left vertical-middle">
+									<a href="javascript:void(0)"
 										onclick="javascript:location.href='./detail.php?c=${p.productId}';">${p.productName }</a></td>
-									<td class="text-center vertical-middle"><img
-										src="/sales_manager/data/22/0" border="0" alt=""
-										style="max-width: 80px; margin-bottom: 10px;"></td>
+									<td class="text-center vertical-middle"><img src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attachList.get(0).renamedImg}" alt=""></td>
 									<td class="text-left vertical-middle">${p.categoryId }</td>
 									<td class="text-center vertical-middle">${p.price }</td>
 									<td class="text-center vertical-middle"><input type="text"
