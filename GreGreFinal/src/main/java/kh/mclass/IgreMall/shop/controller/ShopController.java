@@ -138,11 +138,7 @@ public class ShopController {
 		mav.setViewName("shop/cart/cart");
 		return mav;
 	}
-	@GetMapping("/checkOut.do")
-	public ModelAndView checkOut(ModelAndView mav) {
-		mav.setViewName("shop/checkOut/checkOut");
-		return mav;
-	}
+
 	
 	
 }

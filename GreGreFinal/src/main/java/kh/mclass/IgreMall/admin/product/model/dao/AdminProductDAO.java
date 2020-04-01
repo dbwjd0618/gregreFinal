@@ -31,4 +31,5 @@ public interface AdminProductDAO {
 
 	List<Product> productListSeller(Product p);
 
+
 }

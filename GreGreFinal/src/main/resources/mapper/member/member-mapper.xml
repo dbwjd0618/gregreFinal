@@ -48,11 +48,11 @@
 		member_Id = #{memberId}
 	</select>
 		
-	<select id="selectOnec" resultType="kh.mclass.Igre.member.model.vo.BizMember"> 
+	<select id="selectOnec" resultType="BizMember"> 
 	select 
 		* 
 	from 
-		TB_comp_member
+		TB_COMP_MEMBER
 	where 
 		cmember_Id = #{cmemberId}
 	</select>
@@ -77,10 +77,15 @@
 			#{advisId},
 			#{advisName},
 			#{advisIntro},
+			#{advisLineIntro},
 			#{advisCareer},
 			#{advisLicense},
-			#{grade},
-			#{licenseFile},
+			#{advisGrade},
+			#{advisGender},
+			#{advisDay},
+			#{advisPrice},
+			#{advisKeyword},
+			#{advislicenseFile},
 			#{advisImg}
 		)
 	</insert>

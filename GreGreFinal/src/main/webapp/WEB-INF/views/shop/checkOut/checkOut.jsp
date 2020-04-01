@@ -12,7 +12,9 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     
-    
+   	<!-- 주소찾기 API -->
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/member/member.js"></script>
     
 <!-- Breadcrumb Section Begin -->
     <div class="breacrumb-section">
@@ -38,9 +40,17 @@
                     <div class="col-lg-12">
                             <div class="cart-table">
                                     <table>
+                                    	<colgroup>
+											<col style="width: 15%;">
+											<col style="width: 35%;">
+											<col style="width: 15%;">
+											<col style="width: 5%;">
+											<col style="width: 15%;">
+											<col style="width: 15%;">
+										</colgroup>
                                         <thead>
                                             <tr>
-                                                <th  class="title-col" colspan="2">상품정보</th>
+                                                <th  class="title-col" colspan='2'>상품정보</th>
                                                 <th class="title-col">배송비</th>
                                                 <th class="title-col">수량</th>
                                                 <th class="title-col">할인</th>
@@ -48,21 +58,30 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+  
                                             <tr>
-                                                <td class="cart-pic first-row"><img src="img/cart-page/product-1.jpg" alt=""></td>
+                                                <td class="cart-pic first-row">
+                                                	<img src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attachList.get(0).renamedImg}" alt="">
+                                               	</td>
                                                 <td class="cart-title first-row">
-                                                    <h5>Pure Pineapple</h5>
+                                                    <h5>[<span>${p.brandName} </span>]</h5> 
+                                                    <h3 class="product-name">${p.productName}</h3>
                                                     <div class="option">
                                                             <span class="ico_option"><span class="blind">옵션</span></span>
+                                               
                                                             <ul class="option_list">
-                                                                    <!-- 상품 공통 코드에 대한 convert 작업이 필요하다. -->
+                                                                <c:forEach items="${optionList}" var ="optList">
+                                                                    <c:set var ="optName" value="${fn:split(optList.optionName,',') }"/>
+                                                                    <c:set var = "optValue" value="${fn:split(optList.optionValue,',') }"/>
                                                                     <li>
-                                                                    COLOR:River/SIZE:Free/1개
+                                                                    ${optName[0]}:${optValue[0]}/${optName[1]}:${optValue[1]}/${optList.optionStock}개
                                                                     </li>
+                                                                </c:forEach>
+                                                              
                                                             </ul>
                                                         </div>
                                                 </td>
-                                                <td class="p-price first-row">2000원</td>
+                                                <td class="p-price first-row"><fmt:formatNumber type="number" maxFractionDigits="3" value="${p.deliveryFee}" />원</td>
                                                 <td class="qua-col first-row">2</td>
                                                 <td class="qua-col first-row">
                                                     <span class="discount">
@@ -78,36 +97,44 @@
                                      
                                                
                                             </tr>
-                                    
                                         </tbody>
                                     </table>
                                 </div>
                     </div>
                 </div>
+                 
+                              		
+                <fmt:formatNumber var="licsNo" value="${memberLoggedIn.phone }" pattern="###,####,####"/>
+                <c:set var = "phone" value="0${fn:replace(licsNo, ',', '-')}"/>
                 <div class="row" style="margin-top: 30px; margin-bottom: 50px;  ">
                         <div class="col-lg-8">           
                                 <h4>배송정보</h4>
                                 <div class="chkout-row">
-      
-                                    <div class="col-lg-3">
-                                        <label for="fir">수령인<span>*</span></label>
-                                        <input type="text" id="fir" value="이진희">
+      								<div class="row">
+	                                    <div class="col-lg-3">
+	                                        <label for="fir">수령인<span>*</span></label>
+	                                        <input type="text" value="${memberLoggedIn.memberName }">
+	                                    </div>
+      								</div>
+      								<div class="row">
+	                                    <div class="col-lg-5">
+	                                            <label for="phone">연락처<span>*</span></label>
+	                                            <input type="text" id="phone" value="${phone }">
+	                                    </div>
+      								</div>			
+                                    <div class="row">
+	                                    <div class="col-lg-5">
+		                                    <label for="street">배송지 주소<span>*</span></label>
+	                                    </div>
+                                    
                                     </div>
-                                    <div class="col-lg-5">
-                                            <label for="phone">연락처<span>*</span></label>
-                                            <input type="text" id="phone" value="010-1234-1234">
-                                    </div>
-                                        <div class="col-lg-5">
-                                            <label for="email">이메일</label>
-                                            <input type="text" id="email">
-                                        </div>
-                                    <div class="col-lg-3" style="float: left;">
-                                        <label for="street">배송지 주소<span>*</span></label>
-                                        <input type="text" name="zipcode" id="zipcode" class="zipcode" value="12345" readonly>
-                                    </div>
-                                    <div  class="col-lg-3" style="float: left;">
-                                            <label >&nbsp;</label>
-                                        <input type="button"  value="우편번호찾기"/>
+                                    <div class="row">
+	                                    <div class="col-lg-3" style="float: left;">
+	                                        <input type="text" name="zipcode" id="zipcode" class="zipcode" value="" readonly>
+	                                    </div>
+	                                    <div  class="col-lg-3">
+	                                           <input type="button"  class="btn" onclick="execPostCode();" value="우편번호 찾기">
+	                                    </div>
                                     </div>
                                     <div  class="col-lg-3" style="float: left;">
                                             <label >&nbsp;</label>
@@ -116,7 +143,7 @@
                                     <div class="col-lg-4" style="float: left;">
                                         <input type="text" name="address1" readonly>          
                                     </div>
-                                    <div class="col-lg-5" style="float: left;">                                 
+                                    <div class="col-lg-5" >                                 
                                         <input type="text" name="address2">
                                     </div>
                                
@@ -133,9 +160,10 @@
                             <div class="col-lg-4">
                                 <h5 style="font-weight: 700;">주문자 정보</h5>
                                 <ul class="user_info">
-                                    <li>이진희</li>
-                                    <li class="_telNoHighlight "><span class="_memberTelNumber">010-1234-1234</span><button class="update-btn">수정</button></li>
-                                    <li><span class="_memberEmailAddress">test123@naver.com</span><button class="update-btn">수정</button></li>
+              
+                                    <li>${memberLoggedIn.memberName }</li>
+                                    <li class="_telNoHighlight "><span class="_memberTelNumber">${phone }</span><button class="update-btn">수정</button></li>
+                                    <li><span class="_memberEmailAddress">${memberLoggedIn.email }</span><button class="update-btn">수정</button></li>
                                 </ul>
                             </div> 
                             
