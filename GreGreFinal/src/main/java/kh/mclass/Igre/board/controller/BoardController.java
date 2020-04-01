@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kh.mclass.Igre.board.model.service.BoardService;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
-import kh.mclass.Igre.board.model.vo.PostList;
+import kh.mclass.Igre.board.model.vo.Recommendation;
 import kh.mclass.Igre.board.model.vo.Reply;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.member.model.vo.PreferList;
@@ -53,13 +53,12 @@ public class BoardController {
 		model.addAttribute("postCount", postCount);
 		
 		final int NPP = 10;
-		PostList bc = new PostList(boardCode);
-		List<Post> postList = bs.postList(bc, cPage, NPP);
+		List<Post> postList = bs.postList(boardCode, cPage, NPP);
 		model.addAttribute("postList", postList);
 		return "board/postList";
 	}
 	
-	@PostMapping("/preferIn.do")
+	@PostMapping("/preferIn.ajax")
 	@ResponseBody
 	public void preferIn(PreferList pf, HttpSession session) {
 		log.debug(""+pf);
@@ -79,7 +78,7 @@ public class BoardController {
 		}
 	}
 	
-	@PostMapping("/preferOut.do")
+	@PostMapping("/preferOut.ajax")
 	@ResponseBody
 	public void preferOut(PreferList pf, HttpSession session) {
 		log.debug(""+pf);
@@ -116,5 +115,51 @@ public class BoardController {
 		model.addAttribute("prefCount", prefCount);
 		
 		return "board/postView";
+	}
+	
+	@PostMapping("/replyWrite.ajax")
+	@ResponseBody
+	public int replyWrite(Reply reply) {
+		return bs.replyWrite(reply);
+	}
+	
+	@PostMapping("/recom.ajax")
+	@ResponseBody
+	public int recomm(Recommendation recom) {
+		int check = bs.checkComm(recom);
+		if(check > 0) {
+			return 0;
+		}
+		
+		if(recom.getReplyNo() == 0) 
+			return bs.recommenP(recom);
+		else 
+			return bs.recommenR(recom);
+	}
+	
+	@PostMapping("/decom.ajax")
+	@ResponseBody
+	public int decomm(Recommendation recom) {
+		int check = bs.checkComm(recom);
+		if(check > 0) {
+			return 0;
+		}
+		
+		if(recom.getReplyNo() == 0) 
+			return bs.decommenP(recom);
+		else 
+			return bs.decommenR(recom);
+	}
+	
+	@PostMapping("/deletePost.do")
+	public String deletePost(Post post, HttpSession session) {
+		String writer = bs.confirmWriter(post);
+		if(!writer.equals(post.getWriter())) {
+			session.setAttribute("msg", "잘못된 접근입니다.");
+			return "redirect:/board/postList?boardCode="+post.getBoardCode();
+		}
+		int result = bs.deletePost(post);
+		session.setAttribute("msg", result>0?"삭제가 완료되었습니다.":"삭제 도중 오류가 발생했습니다.");
+		return "redirect:/board/postList?boardCode="+post.getBoardCode();
 	}
 }

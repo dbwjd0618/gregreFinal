@@ -2,13 +2,13 @@ package kh.mclass.IgreMall.product.controller;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -40,7 +40,9 @@ public class ProductController {
 	ProductService productService;
 
 	@GetMapping("/detail.do")
-	public ModelAndView product(ModelAndView mav, @RequestParam("productId") String productId) {
+	public ModelAndView product(ModelAndView mav, 
+						@RequestParam("productId") String productId,
+						HttpServletRequest request) throws Exception {
 		log.debug("productId={}", productId);
 		
 		Product product = productService.selectProductOne(productId);
@@ -72,7 +74,12 @@ public class ProductController {
         for(int i=0;i<optionList.size();i++) {
         	
         }
-		mav.addObject("p", product);
+        
+        HttpSession session = request.getSession();
+		
+        session.setAttribute("p",product);
+        session.setAttribute("attachList", attachList);
+        mav.addObject("p", product);
 		mav.addObject("attachList", attachList);
 		mav.addObject("optionValue1", optionValue1);//옵션1,옵션2
 		mav.addObject("optionValue2", optionValue2);//핑크 ~~

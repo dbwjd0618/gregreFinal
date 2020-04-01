@@ -138,7 +138,7 @@
               <li id="sub-title-2"><a href="${pageContext.request.contextPath }/child/childInfo.do" class="nav-link">육아</a></li>
               <li id="sub-title-3"><a href="#none" class="nav-link">상담센터</a></li>
               <li id="sub-title-4"><a href="${pageContext.request.contextPath }/find/careCenter.do" class="nav-link">시설찾기</a></li>
-              <li id="sub-title-5"><a href="#none" class="nav-link">커뮤니티</a></li>
+              <li id="sub-title-5"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardList[0].boardCode}" class="nav-link">커뮤니티</a></li>
             </ul>
           </nav>
         </div>
