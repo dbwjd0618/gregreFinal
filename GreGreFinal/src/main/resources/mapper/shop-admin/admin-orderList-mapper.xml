@@ -3,64 +3,69 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminOrder">
-<!-- <select id="totalOrders" resultType="_int">
+<select id="totalOrders" resultType="_int">
 select 
 	count(*)
 from 
 	orderlist
 where
 	1=1
-<if test="productName !=''">
+<!-- <if test="productName !=null">
 and
 	product_name like '%${productName}%'
-</if>
-<if test="payState!=''">
+</if> -->
+<if test="payState!=null">
 and
 	product_state = #{payState}
 </if>	 
-<if test="payMethod != ''">
+<if test="payMethod != '' ">
 and
 	pay_method = #{payMethod}
 </if>
-<if test="deliveryState!=''">
+
+<if test="deliveryState!=null">
 and
 	product_state = #{deliveryState}
 </if>
-<if test="payState != ''">
+<if test="payState != null">
 and
 	pay_state = #{payState}
 </if>
-</select> -->
+</select> 
 
 
-<!-- <select id="searchList" resultType="OrderList">
+<select id="searchList" resultMap="orderCollection">
 select
 	*
 from 
-	orderlist
-where
-	1=1
-<if test="productName !=''">
+	(orderlist A left join tb_prod_img B 
+        on A.product_id = B.product_id )
+where 
+	B.img_type='R'
+
+<!-- <if test="productName !=''">
 and
 	product_name like '%${productName}%'
-</if>
-<if test="payState!=''">
+</if> -->
+<if test="payState!=null ">
 and
 	product_state = #{payState}
 </if>	 
-<if test="payMethod != ''">
+<if test="payMethod != '' ">
 and
 	pay_method = #{payMethod}
 </if>
-<if test="deliveryState!=''">
+<if test="deliveryState!= null ">
 and
 	product_state = #{deliveryState}
 </if>
-<if test="payState != ''">
+<if test="payState != null ">
 and
 	pay_state = #{payState}
 </if>
-</select> -->
+</select>
+
+
 
 <select id="selectList" resultMap="orderCollection">
 select

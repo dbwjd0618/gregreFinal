@@ -169,7 +169,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="${pageContext.request.contextPath }/shopadmin/board.do"><i class="fa fa-circle-o"></i> 게시판 목록</a></li>
+                <li><a href="${pageContext.request.contextPath }/shop/admin/board.do"><i class="fa fa-circle-o"></i> 게시판 목록</a></li>
               </ul>
             </li>
              <li class="treeview">
