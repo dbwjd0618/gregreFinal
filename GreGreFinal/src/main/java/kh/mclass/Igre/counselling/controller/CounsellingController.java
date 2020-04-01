@@ -53,7 +53,7 @@ public class CounsellingController {
 									@RequestParam("advisId") String advisId, 
 			/* @RequestParam("reviewerId") String reviewerId, */
 									Model model) {
-			
+		System.out.println("===================================bookingMain=======================================");
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage =5;
 		
@@ -62,11 +62,15 @@ public class CounsellingController {
 		Counselor c = new Counselor();
 		
 		c.setAdvisId(advisId);//test1
-			
 		//리뷰 리스트
 		List<Review> list = counselorService.selectReviewList(c);
 		
+		//모든상담사 리뷰 총 개수
 		int totalReviewContents = counselorService.selectReviewTotalContents();
+		
+		//특정 상담사 리뷰 총 개수
+//		int reviewCountSelectOne = counselorService.selectReviewCounselorOne();
+		
 		Double reviewRating = counselorService.selectReviewRating(advisId);
 		System.err.println("reviewRating=="+reviewRating);
 		mav.addObject("reviewRating",reviewRating);

@@ -54,6 +54,38 @@ $(()=>{
     .ratio-m{
         color: #999999;
     }
+    
+    
+    .chart-graph{
+        border: 1px solid rgba(229,229,229);
+        max-width: 400px;
+        min-height: 100px;
+        margin-left: 500px;
+        margin-top: -120px;
+        border: 0;
+    }
+
+    .chart-rating {
+        width: 100px;
+    }
+    .chart-rating,
+    .chart-rating span {
+        display: inline-block;
+        height: 15px;
+        overflow: hidden;
+        background: url(${pageContext.request.contextPath}/resources/images/counselling/chartex.jpg)no-repeat;
+    }
+    .chart-rating span {
+        background-position: left bottom;
+        line-height: 0;
+        vertical-align: top;
+    }
+    .chart-rating-wrapper{
+        min-width: 150px;
+        max-width: 150px;
+    }
+    
+    
 </style>
 
 
@@ -109,7 +141,6 @@ $(()=>{
 		margin-left: -4px;
 	}
 </style>
-</style>
 	<!-- contents begin-->
 	<div class="site-section">
 		<div class="container">
@@ -144,8 +175,40 @@ $(()=>{
                 				<strong>${reviewRating}</strong>
                 				<span class="ratio-m">/5</span>
             				</span>
-        
     					</div>
+    					<div class="chart-graph">
+                            <div class="chart-rating-wrapper">
+                                5
+                                <span class='chart-rating'>
+                                    <span style="width:100%"></span>
+                                </span>
+                                ()
+                                <br>
+                                4
+                                <span class='chart-rating'>
+                                    <span style="width:80%"></span>
+                                </span>
+                                ()
+                                <br>
+                                3
+                                <span class='chart-rating'>
+                                    <span style="width:60%"></span>
+                                </span>
+                                ()
+                                <br>
+                                2
+                                <span class='chart-rating'>
+                                    <span style="width:40%"></span>
+                                </span>
+                                ()
+                                <br>
+                                1
+                                <span class='chart-rating'>
+                                    <span style="width:20%"></span>
+                                </span>
+                                ()
+                            </div>
+                        </div>
 					</div>
 				</div>
 			</div>
