@@ -21,6 +21,7 @@ import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
 import kh.mclass.Igre.board.model.vo.Recommendation;
 import kh.mclass.Igre.board.model.vo.Reply;
+import kh.mclass.Igre.board.model.vo.Report;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.member.model.vo.PreferList;
 import lombok.extern.slf4j.Slf4j;
@@ -161,5 +162,29 @@ public class BoardController {
 		int result = bs.deletePost(post);
 		session.setAttribute("msg", result>0?"삭제가 완료되었습니다.":"삭제 도중 오류가 발생했습니다.");
 		return "redirect:/board/postList?boardCode="+post.getBoardCode();
+	}
+	
+	@PostMapping("/deleteReply.do")
+	public String deleteReply(Reply reply, HttpSession session) {
+		String writer = bs.confirmWriter(reply);
+		if(!writer.equals(reply.getReplyWriter())) {
+			session.setAttribute("msg", "잘못된 접근입니다.");
+		} else {
+			int result = bs.deleteReply(reply);
+			session.setAttribute("msg", result>0?"삭제가 완료되었습니다.":"삭제 도중 오류가 발생했습니다.");
+		}
+		return "redirect:/board/postView?boardCode="+reply.getBoardCode()+"&postNo="+reply.getPostNo(); 
+	}
+	
+	@PostMapping("/checkReport.ajax")
+	@ResponseBody
+	public int checkReport(Report report) {
+		return bs.checkReport(report);
+	}
+	
+	@PostMapping("/submitReport.ajax")
+	@ResponseBody
+	public int submitReport(Report report) {
+		return bs.submitReport(report);
 	}
 }

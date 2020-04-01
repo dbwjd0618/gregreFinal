@@ -6,6 +6,7 @@ import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
 import kh.mclass.Igre.board.model.vo.Recommendation;
 import kh.mclass.Igre.board.model.vo.Reply;
+import kh.mclass.Igre.board.model.vo.Report;
 import kh.mclass.Igre.member.model.vo.PreferList;
 
 public interface BoardService {
@@ -45,6 +46,14 @@ public interface BoardService {
 	String confirmWriter(Post post);
 
 	int deletePost(Post post);
+
+	String confirmWriter(Reply reply);
+
+	int deleteReply(Reply reply);
+
+	int checkReport(Report report);
+
+	int submitReport(Report report);
 
 
 }

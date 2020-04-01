@@ -76,6 +76,10 @@
 		select writer from TB_post_${boardCode} where post_no = #{postNo}
 	</select>
 	
+	<select id="confirmWriterR" resultType="String">
+		select reply_writer from TB_reply_${boardCode} where post_no = #{postNo} and reply_no = #{replyNo}
+	</select>
+	
 	<delete id="deletePostR">
 		delete from TB_reply_${boardCode} where post_no = #{postNo}
 	</delete>
@@ -84,5 +88,21 @@
 		delete from TB_post_${boardCode} where post_no = #{postNo}
 	</delete>
 	
+	<delete id="deleteReply">
+		delete from TB_reply_${boardCode} where post_no = #{postNo} and reply_no = #{replyNo}
+	</delete>
+	
+	<select id="checkReport" resultType="_int">
+		select count(*) from TB_report where
+		report_board = #{boardCode}
+		and report_post_no = #{postNo}
+		and report_reply_no = #{replyNo}
+		and reporter_id = #{reporterId}
+		and report_conf = 'N'
+	</select>
+	
+	<insert id="submitReport">
+		insert into TB_report values(seq_report_no.nextval, #{reporterId}, #{reporteeId}, #{boardCode}, #{postNo}, #{replyNo}, #{reportContent}, default)
+	</insert>
 	
 </mapper>
