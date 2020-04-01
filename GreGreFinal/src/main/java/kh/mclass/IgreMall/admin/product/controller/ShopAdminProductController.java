@@ -306,6 +306,13 @@ public class ShopAdminProductController {
 	public ModelAndView productList(ModelAndView mav, Product p) {
 
 		List<Product> list = adminProductService.productList(p);
+		log.debug("list={}",list);
+		/*
+		 * List<Attachment> attachList = new ArrayList<>(); for (int
+		 * i=0;i<list.size();i++) { Attachment a =
+		 * adminProductService.selectAttachOne(list.get(i).getProductId());
+		 * attachList.add(a); }
+		 */		
 		if (p.getProductName() == null) {
 			p.setProductName("");
 		}
@@ -313,11 +320,13 @@ public class ShopAdminProductController {
 			p.setProductState("");
 		}
 		System.out.println(p.getProductState());
-		// 아래 ProductId 는 객체 P를 의미함.
+		// 아래 ProductId 는 객체 P를 의미함	.
 		int totalProducts = adminProductService.totalProducts(p);
+//		mav.addObject("attachList",attachList);
 		mav.addObject("totalProducts", totalProducts);
 		mav.addObject("list", list);
 		mav.setViewName("shop/admin/product/list");
 		return mav;
+		
 	}
 }
