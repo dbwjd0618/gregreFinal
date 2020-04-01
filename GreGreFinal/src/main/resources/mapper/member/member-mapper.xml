@@ -19,7 +19,8 @@
 		select * from TB_prefer where member_Id = #{memberId}
 	</select>
 
-	<insert id="enroll"> insert into TB_MEMBER_INFO values( 
+	<insert id="enroll"> 
+	insert into TB_MEMBER_INFO values( 
 		#{memberId},
 		#{memberPwd}, 
 		#{memberName}, 
@@ -48,15 +49,23 @@
 		member_Id = #{memberId}
 	</select>
 		
-	<select id="selectOnec" resultType="BizMember"> 
-	select 
-		* 
-	from 
-		TB_COMP_MEMBER
-	where 
+	<select id="selectOneComp" resultType="BizMember">
+	select
+		*
+	from
+		TB_comp_member
+	where
 		cmember_Id = #{cmemberId}
 	</select>
 	
+	<select id="selectOneSomp" resultType="BizMember">
+		select
+		*
+	from
+		TB_comp_member
+	where
+		cmember_Id = #{cmemberId}
+	</select>
 	
 	<insert id="bizenroll">
 		insert into 

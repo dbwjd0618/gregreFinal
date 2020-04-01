@@ -17,7 +17,7 @@
 
 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fonts/icomoon/style.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-datepicker.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery.fancybox.min.css">
@@ -40,6 +40,10 @@
 sapn.guide {display:none;font-size: 12px;position:absolute; top:12px; right:10px ; }
 span.ok{display:none;color:green;}
 span.error{display:none;color:red ;}
+
+sapn.pguide {display:none;font-size: 12px;position:absolute; top:12px; right:10px ; }
+span.ok1{display:none;color:green;}
+span.error2{display:none;color:red ;}
 </style>
 
 
@@ -54,7 +58,7 @@ span.error{display:none;color:red ;}
                   <div class="card-body mx-auto" style="max-width:800px;">
                       <article class="card-body">
                           <h4 class="card-title text-center mb-4 mt-1">판매자 회원 가입</h4>
-                          <form name="sellerEnroll" action="sellerEnroll.do" method="post" onsubmit="return enrollValidate();">
+                          <form name="sellerEnroll" action="sellerEnroll.do" method="post" onsubmit="return enrollValidate3();">
 
                              <h5>판매자</h5><br />
                               <div class="form-group input-group">
@@ -131,7 +135,7 @@ span.error{display:none;color:red ;}
                               </div>
                               <span class="guide ok" >이 아이디는 사용 가능합니다</span>
 								<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
-								<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0"/>
+								<input type="hidden" name="idDuplicateCheck3" id="idDuplicateCheck3" value="0"/>
 
                               	<input type="hidden" name="sellerId" id="sellerId"/>
 
@@ -146,10 +150,12 @@ span.error{display:none;color:red ;}
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">비밀번호 확인</span>
                                   </div>
-                                  <input name="sellerPwd2"class="form-control" placeholder="" id="sellerPwd2"
+                                  <input name="memberPwd2"class="form-control" placeholder="" id="memberPwd2"
                                       type="password" required>
                               </div>
   								
+  								<span class="pguide ok1" id="alert-success">비밀번호가 일치합니다.</span> 
+                              <span class="pguide error2" id="alert-danger">비밀번호가 일치하지 않습니다.</span>
  
                               <div class="form-group input-group">
                                   <div class="input-group-prepend">
@@ -266,45 +272,34 @@ span.error{display:none;color:red ;}
       </div>
      <!-- contents end-->
   <script>
-  
   $(function(){
 		
-		$("#memberPwd2").blur(function(){
-			let $p1 = $("#memberPwd");
-			let $p2 = $("#memberPwd2");
-			
-			if($p1.val() != $p2.val()){
-				alert("패스워드가 일치하지 않습니다.");
-				$p1.select();
-			}
-		});
-		
-		$("#memberId").on("keyup",function(){
-			let memberId = $("#memberId").val().trim();
+		$("#cmemberId").on("keyup",function(){
+			let cmemberId = $("#cmemberId").val().trim();
 			
 			//아이디 글자수 검사
 			//아이디 재작성시
-			if(memberId.length <4){
+			if(cmemberId.length <4){
 				$(".guide").hide();
-				$("#idDuplicateCheck").val(0);
+				$("#idDuplicateCheck3").val(0);
 				return;
 			}
 			
 			$.ajax({
-				url:"${pageContext.request.contextPath}/member/"+memberId+"/checkId.do",
+				url:"${pageContext.request.contextPath}/member/"+cmemberId+"/checksId.do",
 				type:"get",
 				success: data =>{
 					console.log(data);
 					
-					if(data.isUsable == true){
+					if(data.isUsable3 == true){
 						$(".guide.error").hide();
 						$(".guide.ok").show();
-						$("#idDuplicateCheck").val(1);
+						$("#idDuplicateCheck3").val(1);
 					}
 					else {
 						$(".guide.error").show();
 						$(".guide.ok").hide();
-						$("#idDuplicateCheck").val(0);
+						$("#idDuplicateCheck3").val(0);
 					}
 				},
 					error: (x,s,e) => {
@@ -316,15 +311,37 @@ span.error{display:none;color:red ;}
 		
 	});
 
-	function enrollValidate(){
-		var memberId = $("#memberId");
-		if(memberId.val().trim().length<4){
+
+$(function(){
+	  $("#alert-success").hide(); 
+	  $("#alert-danger").hide(); 
+	  $("input").keyup(function(){
+		  var pwd1=$("#memberPwd").val(); 
+		  var pwd2=$("#memberPwd2").val(); 
+		  if(pwd1 != "" || pwd2 != ""){ 
+			  if(pwd1 == pwd2){ 
+				  $("#alert-success").show(); 
+				  $("#alert-danger").hide(); 
+				  $("#submit").removeAttr("disabled"); 
+				  }else{ 
+					  $("#alert-success").hide(); 
+					  $("#alert-danger").show(); 
+					  $("#submit").attr("disabled", "disabled"); 
+					  } 
+			  } 
+		  }); 
+	  });
+
+
+	function enrollValidate3(){
+		var cmemberId = $("#cmemberId");
+		if(cmemberId.val().trim().length<4){
 			alert("아이디는 최소 4자리이상이어야 합니다.");
-			memberId.focus();
+			cmemberId.focus();
 			return false;
 		}
 		
-		if($("#idDuplicateCheck").val() ==0){
+		if($("#idDuplicateCheck3").val() ==0){
 			
 			alert("아이디 중복 검사 해주세요.");
 			return false;
@@ -335,7 +352,7 @@ span.error{display:none;color:red ;}
   
   </script>
 
-  <script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-migrate-3.0.0.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/popper.min.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/owl.carousel.min.js"></script>
@@ -349,9 +366,7 @@ span.error{display:none;color:red ;}
   <script src="${pageContext.request.contextPath}/resources/js/aos.js"></script>
 
   <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
 
 
 

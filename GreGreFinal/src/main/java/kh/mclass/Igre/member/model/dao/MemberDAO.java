@@ -30,6 +30,10 @@ public interface MemberDAO {
 
 	Object selectOne(String memberId);
 
+	Object selectOneComp(String cmemberId);
+
+	Object selectOneSomp(String cmemberId);
+
 
 
 
