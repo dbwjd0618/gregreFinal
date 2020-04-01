@@ -2,6 +2,7 @@ package kh.mclass.IgreMall.order.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,6 +39,8 @@ public class OrderList implements Serializable{/**
 	private String deliveryState;
 	private Date orderDate;
 	
+	
+	private List<Attachment2> attachList;
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

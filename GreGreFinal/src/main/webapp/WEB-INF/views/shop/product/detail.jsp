@@ -451,6 +451,7 @@ function detailSubmit(index){
 									
                                     </script>
                                 <form name="detailFrm" method='POST' enctype="multipart/form-data">
+                                	<input type="hidden" name="memberId" value="${memberLoggedIn.memberId }"> 
 									<!-- 선택정보영역 -->
 									<div id="selected-option">
 									</div>
@@ -968,6 +969,7 @@ function detailSubmit(index){
 			</div>
 		</div>
 	</div>
+	<!-- 모달 끝 -->
 </div>
 
 

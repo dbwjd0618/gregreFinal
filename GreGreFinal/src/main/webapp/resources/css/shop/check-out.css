@@ -1,8 +1,15 @@
 /*추가*/
 ul.option_list {
     font-size: 13px;
-    padding-left: 45px;
+    padding-left: 42px;
+    padding-top: 1px;
 }
+
+td.cart-pic.first-row {
+    padding-right: 5px;
+}
+
+
 /*추가*/
 .expect_mileage {
     display: -webkit-box;
@@ -47,8 +54,8 @@ div.mileage {
     text-align: center;
     background: #48DA91;
     color: white;
-    font-size: 13px;
-    padding: 2px 7px;
+    font-size: 12px;
+    padding: 1px 7px;
 }
 
 ul, ol {
