@@ -235,6 +235,12 @@ public class AdminController {
 		return map;
 		
 	}
+	
+	@GetMapping("/board.do")
+	public String board() {
+		
+		return "admin/board";
+	}
 
 }
 

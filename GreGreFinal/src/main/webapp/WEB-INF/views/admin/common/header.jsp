@@ -37,6 +37,8 @@
     <link href="${pageContext.request.contextPath}/resources/css/admin/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
     <!-- jQuery 3.3.1  -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
+    <!--  font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
     
     <style>
     .logbtn{
@@ -129,7 +131,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="board.html"><i class="fa fa-circle-o"></i> 게시판 목록</a></li>
+                <li><a href="${pageContext.request.contextPath }/admin/board.do"><i class="fa fa-circle-o"></i> 게시판 목록</a></li>
               </ul>
             </li>
             <li class="treeview">
