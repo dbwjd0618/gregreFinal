@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,7 +53,7 @@ public class CounsellingController {
 									@RequestParam("advisId") String advisId, 
 			/* @RequestParam("reviewerId") String reviewerId, */
 									Model model) {
-			
+		System.out.println("===================================bookingMain=======================================");
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage =5;
 		
@@ -60,13 +61,16 @@ public class CounsellingController {
 		
 		Counselor c = new Counselor();
 		
-				c.setAdvisId(advisId);//test1
-			
+		c.setAdvisId(advisId);//test1
 		//리뷰 리스트
 		List<Review> list = counselorService.selectReviewList(c);
 		
+		//모든상담사 리뷰 총 개수
 		int totalReviewContents = counselorService.selectReviewTotalContents();
-		log.debug("여기는 뭐가 찍히ㅏ나요요요오오옹={}",advisId);
+		
+		//특정 상담사 리뷰 총 개수
+//		int reviewCountSelectOne = counselorService.selectReviewCounselorOne();
+		
 		Double reviewRating = counselorService.selectReviewRating(advisId);
 		System.err.println("reviewRating=="+reviewRating);
 		mav.addObject("reviewRating",reviewRating);
