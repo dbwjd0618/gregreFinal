@@ -36,38 +36,19 @@ public class MemberServiceImpl implements MemberService {
 		return md.enroll(member);
 	}
 	
-	@Override
-	public Object selectOne(String memberId) {
-		// TODO Auto-generated method stub
-		return md.selectOne(memberId);
-	}
-
-	@Override
-
-	public Object selectOnec(String cmemberId) {
-		// TODO Auto-generated method stub
-		return md.selectOnec(cmemberId);
-	}
-
-
 
 
 	@Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.READ_COMMITTED,
 			rollbackFor = Exception.class)
 	  
-	 @Override public int bizEnroll(BizMember bizmember, List<Advis> advisList) {
+	 @Override public int bizEnroll(BizMember bizmember, Advis advis) {
 		int result = 0;
 		result = md.enroll(bizmember);
-		System.out.println("serviceeeeeeeeeeeee"+bizmember.getCmemberId());
-		for (Advis advism : advisList) {
-			advism.setAdvisId(bizmember.getCmemberId());
-			System.out.println("advismmmmmmmmmmm"+advism.getAdvisId());
-			result = md.insertAdvis(advism);
+			advis.setAdvisId(bizmember.getCmemberId());
+			result = md.insertAdvis(advis);
 
-		}
-	  
-	  
-	  
+ 
+	  	  
 	 return result; 
 	 }
 
@@ -98,6 +79,13 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return md.selectBizId(cmemberId);
 	}
+
+	@Override
+	public Object selectOne(String memberId) {
+		// TODO Auto-generated method stub
+		return md.selectOne(memberId);
+	}
+
 
 
 

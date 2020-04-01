@@ -34,7 +34,7 @@ function preferSwitch(it, mi, bc, pn) {
 	}
 	if($(it).attr('class') == 'Gray') {
 		$.ajax({
-			url:"${pageContext.request.contextPath}/board/preferIn.do",
+			url:"${pageContext.request.contextPath}/board/preferIn.ajax",
 			data: prefer,
 			type:"POST",
 			success : function(){
@@ -48,7 +48,7 @@ function preferSwitch(it, mi, bc, pn) {
 	}
 	else {
 		$.ajax({
-			url:"${pageContext.request.contextPath}/board/preferOut.do",
+			url:"${pageContext.request.contextPath}/board/preferOut.ajax",
 			data: prefer,
 			type:"POST",
 			success : function(){
