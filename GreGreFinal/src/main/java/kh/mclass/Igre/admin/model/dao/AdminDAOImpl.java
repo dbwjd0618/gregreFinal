@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import kh.mclass.Igre.admin.model.vo.Admin;
 import kh.mclass.Igre.admin.model.vo.Amember;
-import kh.mclass.Igre.admin.model.vo.Report;
+import kh.mclass.Igre.admin.model.vo.AdminReport;
+import kh.mclass.Igre.board.model.vo.Board;
+import kh.mclass.Igre.board.model.vo.Post;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO {
@@ -54,7 +56,7 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	@Override
-	public List<Report> report() {
+	public List<AdminReport> report() {
 		return sqlSession.selectList("admin.report");
 	}
 
@@ -89,6 +91,34 @@ public class AdminDAOImpl implements AdminDAO {
 		map.put("postNo", postNo);
 		map.put("replyNo", replyNo);
 		return sqlSession.update("admin.replyUpdate", map);
+	}
+
+	@Override
+	public List<Board> board() {
+		return sqlSession.selectList("admin.board");
+	}
+
+	@Override
+	public int insertboard(Board board) {
+		return sqlSession.insert("admin.insertBoard", board);
+	}
+
+	@Override
+	public List<Post> boardList(String boardCode) {
+		
+		Map<String,String> map = new HashMap<>();
+		map.put("boardCode", boardCode);
+		 
+		return sqlSession.selectList("admin.boardList", map);
+	}
+
+	@Override
+	public Board boardName(String boardCode) {
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("boardCode", boardCode);
+		
+		return sqlSession.selectOne("admin.boardName", map);
 	}
 
 
