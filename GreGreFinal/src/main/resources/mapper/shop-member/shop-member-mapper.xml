@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shopMember">
+
+
+	<select id="selectOne" resultMap="shopMemberCollection"> 
+	select 
+    	* 
+	from  tb_member_info M left join tb_consumer_info S 
+                        on  M.member_id = S.member_id
+                        left join tb_coupon_list C
+                        on M.member_id = C.member_id
+	where 
+		M.member_Id = #{memberId}
+	</select>
+	<select id="selectCouponInfoOne" resultType="kh.mclass.IgreMall.coupon.model.vo.CouponInfo"> 
+	select 
+    	* 
+	from  
+		tb_coupon_info
+	where 
+		coupon_id = #{couponId}
+	</select>
+	<resultMap type="shopMember" id="shopMemberCollection">
+		<id column ='member_Id' property="memberId"/>
+		<result column ='member_pwd' property="memberPwd"/>
+		<result column ='member_name' property="memberName"/>
+		<result column ='nickname' property="nickname"/>
+		<result column ='birthday' property="birthday"/>
+		<result column ='phone' property="phone"/>
+		<result column ='address' property="address"/>
+		<result column ='email' property="email"/>
+		<result column ='enroll_date' property="enrollDate"/>
+		<result column ='point' property="point"/>
+		
+		<collection property="couponList" ofType="kh.mclass.IgreMall.coupon.model.vo.Coupon" javaType="java.util.ArrayList">
+			<id column="coupon_id" property="couponId" />
+			<result column="expire_date" property="expireDate" />
+			<result column="coupon_state" property="couponState" />
+		</collection>
+	</resultMap>
+	
+	
+</mapper>
