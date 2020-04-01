@@ -84,6 +84,18 @@ public class MemberDAOImpl implements MemberDAO {
 		return sss.selectOne("member.selectOne",memberId);
 	}
 
+	@Override
+	public Object selectOneComp(String cmemberId) {
+		// TODO Auto-generated method stub
+		return sss.selectOne("member.selectOneComp",cmemberId);
+	}
+
+	@Override
+	public Object selectOneSomp(String cmemberId) {
+		// TODO Auto-generated method stub
+		return sss.selectOne("member.selectOneSomp",cmemberId);
+	}
+
 
 
 

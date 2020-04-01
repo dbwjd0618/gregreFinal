@@ -73,15 +73,16 @@
           <div class="site-quick-contact d-none d-lg-flex ml-auto">
             <div class="d-flex site-info site-quick">
               <!--로그인 -->
-              <c:if test="${memberLoggedIn == null }">
+              <c:if test="${memberLoggedIn == null and bizmemberLoggedIn == null}">
               	<div class="site-quick-text">
 	                <a href="${pageContext.request.contextPath}/member/login.do">
 	                  <span style="color: black !important; padding-right:20px;">log-in</span>
 	                </a>
               	</div>
-              </c:if>
+              </c:if>            
               
-              <c:if test="${bimemberLoggedIn != null }">
+              
+              <c:if test="${memberLoggedIn != null}">
               	<div class="site-quick-text">
 	            	<!--마이페이지 -->
 	                <a href="${pageContext.request.contextPath}/WEB-INF/views/myPage/myPageMain.html">
@@ -96,7 +97,7 @@
               </c:if>
               
               
-              <c:if test="${memberLoggedIn != null }">
+               <c:if test="${bizmemberLoggedIn != null}">
               	<div class="site-quick-text">
 	            	<!--마이페이지 -->
 	                <a href="${pageContext.request.contextPath}/WEB-INF/views/myPage/myPageMain.html">
@@ -109,6 +110,7 @@
 	                </a>
               	</div>
               </c:if>
+              
               <div class="site-quick-text" style=" border-left: 1.4px solid rgba(136, 131, 131, 0.849)">
                 <!--쇼핑몰 -->
                 <a href="${pageContext.request.contextPath}/shop/shop.do"> 

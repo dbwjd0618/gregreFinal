@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -40,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 @RequestMapping("/member")
-@SessionAttributes(value = { "memberLoggedIn", "bizmemberLoggedIn" })
+@SessionAttributes(value = {"memberLoggedIn","bizmemberLoggedIn"})
 
 public class MemberController {
 	@Autowired
@@ -65,6 +64,29 @@ public class MemberController {
 		}
 		return "redirect:/";
 	}
+	
+	@PostMapping("/login.do")
+	public String login(@RequestParam("memberId") String memberId, @RequestParam("memberPwd") String memberPwd,
+					Model model, RedirectAttributes rda) {
+		try {
+			Member m = ms.selectId(memberId);
+			
+			if (m != null && m.getMemberPwd().equals(memberPwd)) {
+				HashMap<String, ArrayList<Integer>> preferList = ms.preferList(memberId);
+				m.setPrefList(preferList);
+				log.debug("" + m);
+				model.addAttribute("memberLoggedIn", m);
+			} else {
+				rda.addFlashAttribute("msg", "입력 정보가 올바르지 않습니다.");
+				return "redirect:/member/login.do";
+			}
+		} catch (Exception e) {
+			rda.addFlashAttribute("msg", "로그인 도중 오류가 발생했습니다.");
+			e.printStackTrace();
+			return "redirect:/member/login.do";
+		}
+		return "redirect:/";
+	}
 
 	@GetMapping("bizlogin.do")
 	public String bizlogin(HttpSession session) {
@@ -82,44 +104,28 @@ public class MemberController {
 	@PostMapping("/bizlogin.do")
 	public String bizlogin(@RequestParam("cmemberId") String cmemberId, @RequestParam("memberPwd") String memberPwd,
 			Model model, RedirectAttributes rda) {
+		BizMember bm = ms.selectBizId(cmemberId);
 		try {
-			BizMember bm = ms.selectBizId(cmemberId);
 			if (bm != null && bm.getMemberPwd().equals(memberPwd)) {
 				model.addAttribute("bizmemberLoggedIn", bm);
 			} else {
-				rda.addFlashAttribute("msg", "입력 정보가 올바르지 않습니다.");
-				return "redirect:/member/login.do";
+			rda.addFlashAttribute("msg", "입력 정보가 올바르지 않습니다.");
+			return "redirect:/member/login.do";
 			}
 		} catch (Exception e) {
 			rda.addFlashAttribute("msg", "로그인 도중 오류가 발생했습니다.");
 			e.printStackTrace();
 			return "redirect:/member/login.do";
 		}
-		return "redirect:/shop/admin/index.do";
-	}
-
-	@PostMapping("/login.do")
-	public String login(@RequestParam("memberId") String memberId, @RequestParam("memberPwd") String memberPwd,
-			Model model, RedirectAttributes rda) {
-		try {
-			Member m = ms.selectId(memberId);
-
-			if (m != null && m.getMemberPwd().equals(memberPwd)) {
-				HashMap<String, ArrayList<Integer>> preferList = ms.preferList(memberId);
-				m.setPrefList(preferList);
-				log.debug("" + m);
-				model.addAttribute("memberLoggedIn", m);
-			} else {
-				rda.addFlashAttribute("msg", "입력 정보가 올바르지 않습니다.");
-				return "redirect:/member/login.do";
-			}
-		} catch (Exception e) {
-			rda.addFlashAttribute("msg", "로그인 도중 오류가 발생했습니다.");
-			e.printStackTrace();
-			return "redirect:/member/login.do";
+		if(bm.getCompDiv()=="S") {
+			
+			return "redirect:/shop/admin/index.do";
 		}
-		return "redirect:/";
+		else {
+			return "redirect:/";
+		}
 	}
+
 
 	@GetMapping("/logout.do")
 	public String logout(SessionStatus ss) {
@@ -179,15 +185,16 @@ public class MemberController {
 	}
 
 	@PostMapping("/memberEnroll.do")
-	public String memberEnrollP(Member member, RedirectAttributes ras, String addr1, String addr2, String addr3) {
+	public String memberEnrollP(Member member, RedirectAttributes ras, String addr1, String addr2, String addr3 ,String mateId,String childNumber) {
 
 		String address = addr1 + addr2 + addr3;
+
 		member.setAddress(address);
 		int result = ms.enroll(member);
 		String msg = result > 0 ? "회원가입 완료!" : "누락된 항목이 있습니다";
 		ras.addFlashAttribute("msg", msg);
 
-		return "redirect:/";
+		return "redirect:/member/login.do";
 
 	}
 
@@ -254,7 +261,7 @@ public class MemberController {
 		} catch (Exception e) {
 			log.error("게시판 등록 오류!", e);
 		}
-		return "redirect:/";
+		return "redirect:/member/login.do";
 	}
 
 	@GetMapping("/{memberId}/checkId.do")
@@ -271,6 +278,30 @@ public class MemberController {
 		return map;
 	}
 	  
-	 
+	@GetMapping("/{cmemberId}/checkcId.do")
+	@ResponseBody
+	public Map<String,Object> checkid3(@PathVariable("cmemberId")String cmemberId,Model model){
+		
+		Map<String,Object> cmap = new HashMap<>();
+		
+		boolean isUsable2 = ms.selectOneComp(cmemberId)==null?true:false;
+		
+		cmap.put("isUsable2", isUsable2);
+		
+		return cmap;
+		
+	}
+	
+	@GetMapping("/{cmemberId}/checksId.do") 
+	@ResponseBody
+	public Map<String,Object> checkid4(@PathVariable("cmemberId")String cmemberId,Model model){
+		Map<String,Object> smap = new HashMap<>();
+		
+		boolean isUsable3 = ms.selectOneSomp(cmemberId)==null?true:false;
+		
+		smap.put("isUsable3", isUsable3);
+		
+		return smap;
+	}
 
 }

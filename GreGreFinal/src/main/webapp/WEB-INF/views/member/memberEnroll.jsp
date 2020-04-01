@@ -215,7 +215,7 @@ span.error2{display:none;color:red ;}
                               <!-- Gade -->
                               <input type="hidden" id="grade" name="grade" value="M"/>
                               	<!-- 나이 -->
-                              	<input name="age" class="form-control" id="age" type="hidden">
+                              	<input name="age" class="form-control" id="age" type="hidden" value="0">
                              <!--  <div class="form-group input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">회원 나이 </span>
@@ -234,7 +234,7 @@ span.error2{display:none;color:red ;}
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">자녀여부 </span>
                                   </div>
-                                  <input name="childNumber" class="form-control" id="childNumber" type="number" placeholder="자녀수(숫자)">
+                                  <input name="childNumber" class="form-control" id="childNumber" type="number" value="0" placeholder="자녀수(숫자)">
                               </div>  
                               
                               <input type="hidden" name="enroll_date" id="enroll_date" />                            

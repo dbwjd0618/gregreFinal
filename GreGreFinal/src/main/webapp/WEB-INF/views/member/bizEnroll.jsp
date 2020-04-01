@@ -56,7 +56,7 @@ span.error2{display:none;color:red ;}
                   <div class="card-body mx-auto" style="max-width:800px;">
                       <article class="card-body">
                           <h4 class="card-title text-center mb-4 mt-1">상담사 회원 가입</h4>
-                          <form action="bizEnroll.do" enctype="multipart/form-data"  method="post" onsubmit="return enrollValidate();">
+                          <form action="bizEnroll.do" enctype="multipart/form-data"  method="post" onsubmit="return enrollValidate2();">
                               <div class="form-group input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">아이디</span>
@@ -67,7 +67,7 @@ span.error2{display:none;color:red ;}
                               </div>
                               <span class="guide ok" >이 아이디는 사용 가능합니다</span>
 								<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
-								<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0"/>
+								<input type="hidden" name="idDuplicateCheck2" id="idDuplicateCheck2" value="0"/>
                               
                               <div class="form-group input-group">
                                   <div class="input-group-prepend">
@@ -242,31 +242,31 @@ span.error2{display:none;color:red ;}
   $(function(){
 		
 		$("#cmemberId").on("keyup",function(){
-			let memberId = $("#cmemberId").val().trim();
+			let cmemberId = $("#cmemberId").val().trim();
 			
 			//아이디 글자수 검사
 			//아이디 재작성시
-			if(memberId.length <4){
+			if(cmemberId.length <4){
 				$(".guide").hide();
-				$("#idDuplicateCheck").val(0);
+				$("#idDuplicateCheck2").val(0);
 				return;
 			}
 			
 			$.ajax({
-				url:"${pageContext.request.contextPath}/member/"+cmemberId+"/checkId.do",
+				url:"${pageContext.request.contextPath}/member/"+cmemberId+"/checkcId.do",
 				type:"get",
 				success: data =>{
 					console.log(data);
 					
-					if(data.isUsable == true){
+					if(data.isUsable2 == true){
 						$(".guide.error").hide();
 						$(".guide.ok").show();
-						$("#idDuplicateCheck").val(1);
+						$("#idDuplicateCheck2").val(1);
 					}
 					else {
 						$(".guide.error").show();
 						$(".guide.ok").hide();
-						$("#idDuplicateCheck").val(0);
+						$("#idDuplicateCheck2").val(0);
 					}
 				},
 					error: (x,s,e) => {
@@ -300,15 +300,15 @@ $(function(){
 	  });
 
 
-	function enrollValidate(){
-		var memberId = $("#cmemberId");
-		if(memberId.val().trim().length<4){
+	function enrollValidate2(){
+		var cmemberId = $("#cmemberId");
+		if(cmemberId.val().trim().length<4){
 			alert("아이디는 최소 4자리이상이어야 합니다.");
-			memberId.focus();
+			cmemberId.focus();
 			return false;
 		}
 		
-		if($("#idDuplicateCheck").val() ==0){
+		if($("#idDuplicateCheck2").val() ==0){
 			
 			alert("아이디 중복 검사 해주세요.");
 			return false;
