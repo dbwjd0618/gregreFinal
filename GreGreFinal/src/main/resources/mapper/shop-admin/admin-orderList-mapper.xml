@@ -17,16 +17,16 @@ and
 <if test="payState!=null">
 and
 	product_state = #{payState}
-</if>	 
+</if>
 <if test="payMethod != '' ">
 and
 	pay_method = #{payMethod}
 </if>
 
-<if test="deliveryState!=null">
+<!-- <if test="deliveryState!=null">
 and
 	product_state = #{deliveryState}
-</if>
+</if> -->
 <if test="payState != null">
 and
 	pay_state = #{payState}
@@ -38,15 +38,17 @@ and
 select
 	*
 from 
-	(orderlist A left join tb_prod_img B 
-        on A.product_id = B.product_id )
+	orderlist A left join tb_prod_img B 
+        on A.product_id = B.product_id 
+      left join tb_product C
+       on A.product_id = C.product_id
 where 
 	B.img_type='R'
 
-<!-- <if test="productName !=''">
+<if test="productName !=''">
 and
 	product_name like '%${productName}%'
-</if> -->
+</if>
 <if test="payState!=null ">
 and
 	product_state = #{payState}
@@ -55,14 +57,11 @@ and
 and
 	pay_method = #{payMethod}
 </if>
-<if test="deliveryState!= null ">
+<!-- <if test="deliveryState!= null ">
 and
 	product_state = #{deliveryState}
-</if>
-<if test="payState != null ">
-and
-	pay_state = #{payState}
-</if>
+</if> -->
+
 </select>
 
 
@@ -71,11 +70,12 @@ and
 select
 	*
 from 
-	(orderlist A left join tb_prod_img B 
-        on A.product_id = B.product_id )
+	orderlist A left join tb_prod_img B 
+        on A.product_id = B.product_id 
+      left join tb_product C
+       on A.product_id = C.product_id
 where 
 	B.img_type='R'
-       
 </select>
 <resultMap type="OrderList" id="orderCollection">
 <id column="order_no" property="orderNo"/>
@@ -99,10 +99,12 @@ where
 <collection property="attachList" ofType="Attachment2">
 		<id column="attachment_no" property="attachmentNo"></id>	
 		<result column="product_Id" property="productId"/>
+		<result column="product_name" property="productName"/>
 		<result column="original_img" property="originalImg"/>	
 		<result column="img_type" property="imgType"/>
 		<result column="renamed_img" property="renamedImg"/>	
-	</collection>
+</collection>
+
 </resultMap>
 
 </mapper>

@@ -48,6 +48,7 @@ public class ProductController {
 		Product product = productService.selectProductOne(productId);
 		List<Attachment> attachList = productService.selectAttachList(productId);
 		List<ProdOption> optionList = productService.selectOptionList(productId);
+		
 		log.debug("attachList={}",attachList);
 		log.debug("optionList={}",optionList);
 		String[] optNm = optionList.get(0).getOptionName().split(",");

@@ -21,7 +21,7 @@
 		<form method="get" role="form" class="form-horizontal" name="seach_form" id="seach_form">
 		<input type="hidden" name="page" value="1">
 		<input type="hidden" name="S" value="1">
-		<input type="hidden" name="ostatus" value="">
+		<!-- <input type="hidden" name="ostatus" value=""> -->
 		
 		  
 		<table class="table table-bordered">
@@ -41,21 +41,15 @@
 					<button class="btn btn-default btn-xs sel_week" type="button" >일주일</button> 
 					<button class="btn btn-default btn-xs sel_month" type="button" >한달</button>
 				</td>							
-				<th class="text-center active" style="vertical-align:middle;">현금영수증</th> 
-				<td class="text-left" style="background-color:#fff;vertical-align:middle;">
-					<input type="checkbox" name="receipt_yn" id="receipt_yn" value=""  /> 신청
+					
+				<th class="text-center active" style="vertical-align:middle;">상품명</th>
+				<td class="text-center" style="background-color:#fff;">
+					<input type="text" name="productName" class="form-control" style="display:inline-block;" id="pname" value="" />
 				</td>
 				<td class="text-center" rowspan="5" style="background-color:#fff;vertical-align:middle;"><button class="btn btn-primary btn-lg" id="searchBtn" type="button" onclick="searchPram();"> 검 색 </button></td>
 			</tr>
 			<tr>
-				<th class="text-center active" style="vertical-align:middle;">통합검색</th>
-				<td class="text-left" style="background-color:#fff;vertical-align:middle;">
-					<input type="text" name="searchK" class="form-control" style="display:inline-block;" id="searchK" value="" /> 
-				</td>
-				<th class="text-center active" style="vertical-align:middle;">상품명</th>
-				<td class="text-center" style="background-color:#fff;">
-					<input type="text" name="porductName" class="form-control" style="display:inline-block;" id="pname" value="" />
-				</td>
+				
 			</tr>
 			<tr>
 				<th class="text-center active" style="vertical-align:middle;">결제방식</th>
@@ -71,105 +65,41 @@
 						<option value="na" > 네이버페이 </option>
 					</select>
 				</td>
-				<th class="text-center active" style="vertical-align:middle;">목록갯수</th>
-				<td class="text-center" style="background-color:#fff;">
-					<select name="list_count" class="form-control" id="list_count" style="width:200px;">
-						<option value="" selected> -- 선택 -- </option>
-						<option value="50" > 50개씩 </option>
-						<option value="100" > 100개씩 </option>
-						<option value="all" > 전체 </option>
-					</select>
-				</td>
-
-			</tr>
-			<tr>
-				<th class="text-center active" style="vertical-align:middle;">정렬</th>
-				<td class="text-left" style="background-color:#fff;vertical-align:middle;" colspan="3">
-					<select name="sort" class="form-control" id="sort" style="width:200px;display:inline-block;">
-						<option value="" selected> -- 선택 -- </option>
-						<option value="o_date" > 주문일</option>
-						<option value="o_num"  > 주문번호</option>
-						<option value="r_date" > 입금일</option>
-						<option value="order_name" > 주문자</option>
-						<option value="order_phone" > 핸드폰번호</option>
-					</select>
-					<select name="orderby" class="form-control" id="orderby" style="width:200px;display:inline-block;">
-						<option value="" selected> -- 선택 -- </option>
-						<option value="desc" > 내림차순 </option>
-						<option value="asc" > 오름차순 </option>
-					</select>
-				</td>
-
-			</tr>
-						<tr>
 				<th class="text-center active" style="vertical-align:middle;">주문상태</th>
 				<td class="text-left" style="background-color:#fff;" colspan="3">
-
 					<label>
-						<input type="checkbox" name="status" value="0" >
-						<span style="font-size:12px; color:#5f6164; vertical-align:top; line-height:21px; margin-right:10px;">미입금</span>
+					
+						<input type="checkbox" name="ostatus" value="A" >
+						<span style="font-size:12px; color:#5f6164; vertical-align:top; line-height:21px; margin-right:10px;">입금대기</span>
 					</label>
 
 					<label>
-						<input type="checkbox" name="status" value="2" >
-						<span style="font-size:12px; color:#5f6164; vertical-align:top; line-height:21px; margin-right:10px;">신규주문</span>
+						<input type="checkbox" name="ostatus" value="B" >
+						<span style="font-size:12px; color:#5f6164; vertical-align:top; line-height:21px; margin-right:10px;">결제완료</span>
 					</label>
 
 					<label>
-						<input type="checkbox" name="status" value="3" >
+						<input type="checkbox" name="ostatus" value="C" >
 						<span style="font-size:12px; color:#5f6164; vertical-align:top; line-height:21px; margin-right:10px;">배송준비</span>
 					</label>
 
 					<label>
-						<input type="checkbox" name="status" value="4" >
+						<input type="checkbox" name="ostatus" value="D" >
 						<span style="font-size:12px; color:#5f6164; vertical-align:top; line-height:21px; margin-right:10px;">배송중</span>
 					</label>
 
 					<label>
-						<input type="checkbox" name="status" value="5" >
+						<input type="checkbox" name="ostatus" value="E" >
 						<span style="font-size:12px; color:#5f6164; vertical-align:top; line-height:21px; margin-right:10px;">배송완료</span>
 					</label>
 
-					<label>
-						<input type="checkbox" name="status" value="10" >
-						<span style="font-size:12px; color:#5f6164; vertical-align:top; line-height:21px; margin-right:10px;">배송예약</span>
-					</label>
-
-					<label>
-						<input type="checkbox" name="status" value="60" >
-						<span style="font-size:12px; color:#5f6164; vertical-align:top; line-height:21px; margin-right:10px;">취소접수</span>
-					</label>
-
-					<label>
-						<input type="checkbox" name="status" value="61" >
-						<span style="font-size:12px; color:#5f6164; vertical-align:top; line-height:21px; margin-right:10px;">취소완료</span>
-					</label>
-
-					<label>
-						<input type="checkbox" name="status" value="70" >
-						<span style="font-size:12px; color:#5f6164; vertical-align:top; line-height:21px; margin-right:10px;">반품중</span>
-					</label>
-
-					<label>
-						<input type="checkbox" name="status" value="71" >
-						<span style="font-size:12px; color:#5f6164; vertical-align:top; line-height:21px; margin-right:10px;">반품완료</span>
-					</label>
-
-					<label>
-						<input type="checkbox" name="status" value="80" >
-						<span style="font-size:12px; color:#5f6164; vertical-align:top; line-height:21px; margin-right:10px;">교환중</span>
-					</label>
-
-					<label>
-						<input type="checkbox" name="status" value="81" >
-						<span style="font-size:12px; color:#5f6164; vertical-align:top; line-height:21px; margin-right:10px;">교환완료</span>
-					</label>
 				</td>
-			</tr>	
+			</tr>
+			
 					</table>
 		</form>
 		<form method="post" action="${PageContext.request.contextPath}/shop/admin/order/search.do"  role="form" class="form-horizontal" name="regi_form" id="regi_form">
-		<input type="hidden" name="sdate"		id="sdate"			value="">
+		<!-- <input type="hidden" name="sdate"		id="sdate"			value="">
 		<input type="hidden" name="edate"		id="edate"			value="">
 		<input type="hidden" name="receipt_yn"	id="receipt_yn"	value="">
 		<input type="hidden" name="searchK"		id="searchK"		value="">
@@ -183,9 +113,9 @@
 		<input type="hidden" name="S"				id="S"				value="">
 		<input type="hidden" name="gid"			id="gid"				value="">
 		<input type="hidden" name="mode"			id="mode"			value="">
-		<input type="hidden" name="MID"			id="MID"				value=""> <!-- 현금영수증 발급을 위한 가맹점 번호 -->
+		<input type="hidden" name="MID"			id="MID"				value=""> 현금영수증 발급을 위한 가맹점 번호
 		<input type="hidden" name="statusup"	id="statusup"		value="">
-		<input type="hidden" name="ostatus"		id="ostatus"		value="">
+		<input type="hidden" name="ostatus"		id="ostatus"		value=""> -->
 
 			<div class="col-md-12" style="text-align:left;margin-bottom:8px; padding-left:0px;">
 				<span class="col-md-12 text-left b" style="font-size:1.3em; padding-left:0px;">총 주문건수 : <strong class="text-danger">${totalOrders }</strong>개
@@ -243,9 +173,9 @@
 					<th class="text-center active">상품금액</th>
 					<th class="text-center active">배송비<br>총결제금액</th>
 					<th class="text-center active">택배사<br>배송번호</th>
-					<th class="text-center active">결제방법<br>입금자명</th>
+					<th class="text-center active">결제방법</th>
+					<th class="text-center active">결제상태<br>입금자명</th>
 					<th class="text-center active">주문상태</th>
-					<th class="text-center active">배송상태</th>
 					<th class="text-center active">관리</th>
 
 				</tr>
@@ -267,22 +197,26 @@
 						${l.recptName }<br>
 						<a class="btn btn_black btn-sm sendSMSForm" recvphone="1234">1234</a>
 					</td>
-					<td class="text-left vertical-middle" colspan="2">
+					
+					<td class="text-left vertical-middle" >
 						${l.recptZipcode }<br>
 						${l.recptAddr }<br>
 						${l.recptDetailAddr }			</td>
 					<td class="text-left vertical-middle">
-					 <img src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${l.attachList.get(0).renamedImg}" alt=""><br>
-					<strong></strong><br><br>
+					 <img src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${l.attachList.get(0).renamedImg}" style="width:200px;" alt=""><br>
+					<strong><a href="location.href='http://localhost:9090/Igre/shop/product/detail.do?productId=${p.productId }">${l.attachList.get(0).productName}</a></strong><br><br>
 					opt : 90/블랙(1개)<br>					</td>
 					<td class="text-right vertical-middle">${l.totalPrice }</td>
 					<td class="text-right vertical-middle">${l.totalDeliveryFee } 원<br>${l.totalPrice+l.totalDeliveryFee } 원</td>
 					<td class="text-right vertical-middle">우체국택배<br>${l.deliveryNo}</td>
+					<td class="text-right vertical-middle">${l.payMethod }</td>
 					<td class="text-center vertical-middle"><span class="dev_stat_red">${l.payState }</span></td>
 					<td class="text-center vertical-middle"><span class="dev_stat_green">${l.deliveryState }</span></td>
 					<td class="text-center vertical-middle">
-						<button class="btn btn-detail btn-norad" onclick="${Context.request.pageContext}/';" type="button">상세보기</button>
-																		<button class="btn btn-warning btn-norad" onclick="sel_check('TLYChVDHcld_73929','60');" type="button">주문취소</button>
+						<button class="btn btn-detail btn-norad" 
+						onclick="location.href='${pageContext.request.contextPath }/shop/product/detail.do?productId=${l.productId}'"
+						 type="button">상세보기</button>
+						<button class="btn btn-warning btn-norad" onclick="sel_check('TLYChVDHcld_73929','60');" type="button">주문취소</button>
 					</td>
 				</tr>
 				</c:forEach>
@@ -381,11 +315,8 @@
             <div class="sms_wrap" style="margin-top:0px;">
                 <form id="smsForm">
                     <input type="hidden" name="searchform" value="">
-
                     <h2 style="margin-top:0px;">SMS 보내기</h2>
-
                     <p><textarea class="form-control" rows="3" name="smsMessage" id="smsMessage"></textarea></p>
-
                     <div class="sms_number">
                         <ul>
                             <li class="clearfix">
@@ -451,10 +382,11 @@
 
 <script src="/sales_manager/js/plugins/jquery.zeroclipboard.min.js"></script>
 <script type="text/javascript">
+//검색버튼 실행시 해당 부분 실행됩니다.
 	function searchPram(){
 		var form=document.seach_form;
 		var i; 
-		var nChk = document.getElementsByName("status");     //체크되어있는 박스 value값
+		var nChk = document.getElementsByName("ostatus");     //체크되어있는 박스 value값
 		form.ostatus.value ='';
 		if(nChk){
 			for(i=0;i<nChk.length;i++) { 
@@ -540,7 +472,7 @@
 			if ( val == "1" ) { // SMS발송
 				var con = confirm("선택된 주문에대해서 미입금 확인 SMS를 발송하시겠습니까?");
 				if (con) {
-					form.status_update.value =  "";
+					form.ostatus_update.value =  "";
 					form.mode.value =  "sms10";
 					document.regi_form.action = "_proc.php";
 				} else {
@@ -549,7 +481,7 @@
 			}else if ( val == "2" ) { // 일괄취소
 				var con = confirm("선택된 내역을 일괄 취소하시겠습니까?");
 				if (con) {
-					form.status_update.value =  "61";
+					form.ostatus_update.value =  "61";
 					form.mode.value =  "save_money";
 					document.regi_form.action = "_procnew.php";
 				} else {
