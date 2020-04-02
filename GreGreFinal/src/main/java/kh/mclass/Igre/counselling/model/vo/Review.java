@@ -19,12 +19,15 @@ public class Review implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	private int advisReviewNo;
+	private int appointNo;
 	private String advisId;
 	private String reviewerId;
 	private int starPoint;
 	private String reviewContent;
 	private Date reviewDate;
+	
 	
 	
 

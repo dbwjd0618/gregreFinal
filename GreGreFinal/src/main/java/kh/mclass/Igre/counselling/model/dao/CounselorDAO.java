@@ -19,7 +19,11 @@ public interface CounselorDAO {
 
 	List<Review> selectReviewList(Counselor c);
 
-	Double selectReviewRating(String advisId);
+	List<Counselor> selectFilter(Map<String, String[]> param);
+
+	double selectStarPoint(String advisId);
+
+	int selectReviewTotal(String advisId);
 
 	int selectReviewCounselorOne(String advisId);
 

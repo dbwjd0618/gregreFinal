@@ -1,5 +1,6 @@
 package kh.mclass.Igre.counselling.model.dao;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -49,12 +50,22 @@ public class CounselorDAOImpl implements CounselorDAO {
 		return sqlSession.selectList("review.selectReviewList",c);
 	}
 
+
 	@Override
-	public Double selectReviewRating(String advisId) {
-		
-		return sqlSession.selectOne("review.selectReviewRating",advisId);
+	public List<Counselor> selectFilter(Map<String, String[]> param) {
+		return sqlSession.selectList("counselor.selectFilter", param);
 	}
 
+	@Override
+	public double selectStarPoint(String advisId) {
+		return sqlSession.selectOne("counselor.selectStarPoint",advisId);
+	}
+
+	@Override
+	public int selectReviewTotal(String advisId) {
+		return sqlSession.selectOne("counselor.selectReviewTotal",advisId);
+	}
+	
 	@Override
 	public int selectReviewCounselorOne(String advisId) {
 		return sqlSession.selectOne("review.selectReviewCounselorOne", advisId);
