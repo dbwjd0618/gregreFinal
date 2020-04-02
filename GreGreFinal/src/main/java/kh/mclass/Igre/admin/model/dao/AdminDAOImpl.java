@@ -121,6 +121,24 @@ public class AdminDAOImpl implements AdminDAO {
 		return sqlSession.selectOne("admin.boardName", map);
 	}
 
+	@Override
+	public int boardPostDelete(String boardCode, Integer postNo) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("table", "tb_post_"+boardCode);
+		map.put("postNo", postNo);
+		return sqlSession.delete("admin.boardPostDelete", map);
+	}
+
+	@Override
+	public int noticeUpdate(String boardCode, Integer postNo) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("table", "tb_post_"+boardCode);
+		map.put("boardCode", boardCode);
+		map.put("postNo", postNo);
+		
+		return sqlSession.update("admin.noticeUpdate", map);
+	}
+
 
 
 

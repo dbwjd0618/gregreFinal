@@ -98,6 +98,16 @@ public class AdminServiceImpl implements AdminService{
 		return adminDAO.boardName(boardCode);
 	}
 
+	@Override
+	public int boardPostDelete(String boardCode, Integer postNo) {
+		return adminDAO.boardPostDelete(boardCode, postNo);
+	}
+
+	@Override
+	public int noticeUpdate(String boardCode, Integer postNo) {
+		return adminDAO.noticeUpdate(boardCode, postNo);
+	}
+
 
 
 }
