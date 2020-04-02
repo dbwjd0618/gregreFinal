@@ -223,7 +223,7 @@ public class AdminController {
 										  @RequestParam(value = "rearr3[]") List<Integer> renArr) {
 		int result = 0;
 		
-		log.debug("reArr={}", renArr);
+		/* log.debug("reArr={}", renArr); */
 		
 		for(int i=0; i<renArr.size(); i++) {
 			
@@ -270,6 +270,44 @@ public class AdminController {
 		return "admin/boardList";
 	}
 
+	@ResponseBody
+	@PostMapping("/boardPostDelete.do")
+	public Map<String, Object> boardPostDelete(Model model,
+								  @RequestParam(value="arr1[]") List<String> bcArr,
+								  @RequestParam(value="arr2[]") List<Integer> pnArr) {
+		
+		int result = 0;
+		
+		for(int i=0; i<pnArr.size(); i++) {
+			result += adminService.boardPostDelete(bcArr.get(i), pnArr.get(i));
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/noticeUpdate.do")
+	public Map<String, Object> noticeUpdate(Model model,
+											@RequestParam(value="narr1[]") List<String> nbcArr,
+											@RequestParam(value="narr2[]") List<Integer> npnArr) {
+												
+		int result = 0;
+		
+		
+		for(int i=0; i<npnArr.size(); i++) {
+			result += adminService.noticeUpdate(nbcArr.get(i), npnArr.get(i));
+			log.debug("nbcArr={}", nbcArr.get(i));
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", result);
+		
+		return map;
+	}
+	
 }
 
 
