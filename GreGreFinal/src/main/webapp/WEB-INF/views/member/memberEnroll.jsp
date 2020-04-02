@@ -40,6 +40,10 @@
 sapn.guide {display:none;font-size: 12px;position:absolute; top:12px; right:10px ; }
 span.ok{display:none;color:green;}
 span.error{display:none;color:red ;}
+
+sapn.pguide {display:none;font-size: 12px;position:absolute; top:12px; right:10px ; }
+span.ok1{display:none;color:green;}
+span.error2{display:none;color:red ;}
 </style>
 
 
@@ -83,6 +87,11 @@ span.error{display:none;color:red ;}
                                   <input name="memberPwd2"class="form-control" placeholder="" id="memberPwd2"
                                       type="password" required>
                               </div>
+                              
+                              <span class="pguide ok1" id="alert-success">비밀번호가 일치합니다.</span> 
+                              <span class="pguide error2" id="alert-danger">비밀번호가 일치하지 않습니다.</span>
+
+
   
                               <div class="form-group input-group">
                                   <div class="input-group-prepend">
@@ -194,29 +203,38 @@ span.error{display:none;color:red ;}
                                       </div>
                                   </div>
                               </div>
+                              <hr />
+                              
+
+					<label class="switch"> <input type="checkbox" name="biztoggle"> <span
+						class="slider round"></span>
+					</label>
+					<p class="biztoggle">추가입력</p>
+					<p class="biztoggle" style="display: none;">닫기</p>
                               
                               <!-- Gade -->
                               <input type="hidden" id="grade" name="grade" value="M"/>
-                              
-                              <div class="form-group input-group">
+                              	<!-- 나이 -->
+                              	<input name="age" class="form-control" id="age" type="hidden" value="0">
+                             <!--  <div class="form-group input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">회원 나이 </span>
                                   </div>
                                   <input name="age" class="form-control" id="age" type="number">
-                              </div>
+                              </div> -->
                               
-                              <div class="form-group input-group">
+                              <div class="form-group input-group" style="display: none;" id="pid">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">배우자 아이디 </span>
                                   </div>
                                   <input name="mateId" class="form-control" id="mateId" type="text">
                               </div>
                               
-                              <div class="form-group input-group">
+                              <div class="form-group input-group" style="display: none;" id="cad">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">자녀여부 </span>
                                   </div>
-                                  <input name="childNumber" class="form-control" id="childNumber" type="number" placeholder="자녀수(숫자)">
+                                  <input name="childNumber" class="form-control" id="childNumber" type="number" value="0" placeholder="자녀수(숫자)">
                               </div>  
                               
                               <input type="hidden" name="enroll_date" id="enroll_date" />                            
@@ -235,17 +253,28 @@ span.error{display:none;color:red ;}
      <!-- contents end-->
   <script>
   
+  
+  $("input[name='biztoggle']").click(function () {
+		 if(this.checked) {
+			 $("#pid").show();
+			 $("#cad").show();
+		 }
+		 else {
+			 $("#pid").hide();
+			 $("#cad").hide();
+
+			 
+		 }
+	});
+
+	var check = $("input[type='checkbox']");
+	check.click(function(){
+		$(".biztoggle").toggle();
+	});
+  
+  
+  
   $(function(){
-		
-		$("#memberPwd2").blur(function(){
-			let $p1 = $("#memberPwd");
-			let $p2 = $("#memberPwd2");
-			
-			if($p1.val() != $p2.val()){
-				alert("패스워드가 일치하지 않습니다.");
-				$p1.select();
-			}
-		});
 		
 		$("#memberId").on("keyup",function(){
 			let memberId = $("#memberId").val().trim();
@@ -284,6 +313,28 @@ span.error{display:none;color:red ;}
 		
 	});
 
+  
+ $(function(){
+	  $("#alert-success").hide(); 
+	  $("#alert-danger").hide(); 
+	  $("input").keyup(function(){
+		  var pwd1=$("#memberPwd").val(); 
+		  var pwd2=$("#memberPwd2").val(); 
+		  if(pwd1 != "" || pwd2 != ""){ 
+			  if(pwd1 == pwd2){ 
+				  $("#alert-success").show(); 
+				  $("#alert-danger").hide(); 
+				  $("#submit").removeAttr("disabled"); 
+				  }else{ 
+					  $("#alert-success").hide(); 
+					  $("#alert-danger").show(); 
+					  $("#submit").attr("disabled", "disabled"); 
+					  } 
+			  } 
+		  }); 
+	  });
+
+  
 	function enrollValidate(){
 		var memberId = $("#memberId");
 		if(memberId.val().trim().length<4){

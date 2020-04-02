@@ -1,7 +1,6 @@
 package kh.mclass.Igre.member.model.vo;
 
 import java.io.Serializable;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,15 +26,18 @@ public class Advis implements Serializable{
 	}
 
 	private String advisId;
-	private String originalFileName;
-	private String renamedFileName;
 	private String advisName;
 	private String advisIntro;
 	private String advisCareer;
 	private String advisLicense;
-	private String grade;
-	private String licenseFile;
+	private String advisLineIntro;
+	private String advisGender;
+	private int advisPrice;
+	private String advisGrade;
+	private String advisDay;
+	private String advislicenseFile;
 	private String advisImg;
+	private String advisKeyword;
 
 
 

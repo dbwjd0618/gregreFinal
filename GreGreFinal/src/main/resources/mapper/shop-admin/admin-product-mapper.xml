@@ -69,13 +69,16 @@ where
 		#{productName},
 		#{brandName},
 		#{price},
+		#{supplyValue},
 		#{deliveryFee},
 		#{pointRate},
 		#{discountPrice},
 		#{productStock},
 		#{productDetail},
 		default,
-		default)
+		#{productState},
+		#{paymentMethodCode}
+		)
 		<selectKey keyProperty="productId" resultType="string" order="AFTER">
 			select 'p'||to_char(seq_product_no.currval, 'fm0000000') from dual
 		</selectKey>
@@ -166,3 +169,200 @@ where
 </resultMap>
 
 </mapper>
+
+
+<!-- <?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminProduct">
+
+<select id="selectAttachOne" resultMap='attachList'>
+select 
+	* 
+from 
+	tb_prod_img
+where 
+	product_id= #{productId};
+
+</select>
+<resultMap type="kh.mclass.IgreMall.product.model.vo.Attachment" id="attachList">
+	<id column="attachment_no" property="attachmentNo"></id>	
+		<result column="product_id" property="productId"/>	
+		<result column="original_img" property="originalImg"/>	
+		<result column="renamed_img" property="renamedImg"/>	
+		<result column="img_type" property="imgType"/>	
+</resultMap>
+
+
+<select id="totalProduct" resultType="_int">
+	    SELECT 
+	    	COUNT(*) 
+	    FROM 
+	    	tb_product
+	    where
+	    	seller_id='ekfcjd2'
+	    <if test="productName !=''">
+	    and
+			product_name like '%${productName}%'
+	    </if>
+	    <if test="productState !=''">
+	    and
+			product_state = #{productState}
+	    </if>	    
+</select>
+
+<select id="searchProduct" resultType="Product">
+select 
+	* 
+from 
+	tb_product
+where 
+	seller_id = 'ekfcjd2'
+<if test="productName !=''">
+and
+	product_name like '%${productName}%'
+</if>
+<if test="productState !=''">
+and
+	product_State= #{productState}
+</if>
+<if test="startDate !='' ||endDate !=''">
+and
+	enrollDate between(#{endDate}and#{startDate})
+</if> 
+</select>
+
+<delete id="deleteProduct">
+delete from 
+	tb_product
+where 
+	product_id =#{productId}
+</delete>
+
+<update id="updateProduct">
+update 
+	tb_product
+set
+	discount_price=#{discountPrice},
+	product_stock=#{productStock},
+	product_state=#{productState}
+where
+	product_id =#{productId}
+</update>
+<insert id="insertProduct">
+	insert into
+		TB_product
+	values (
+		#{sellerId},
+		'p'||to_char(seq_product_no.nextval, 'fm0000000'),
+		#{categoryId},
+		#{productName},
+		#{brandName},
+		#{price},
+		#{supplyValue},
+		#{deliveryFee},
+		#{pointRate},
+		#{discountPrice},
+		#{productStock},
+		#{productDetail},
+		default,
+		#{productState},
+		#{paymentMethodCode, typeHandler=strArrTypeHandler}
+		)
+		<selectKey keyProperty="productId" resultType="string" order="AFTER">
+			select 'p'||to_char(seq_product_no.currval, 'fm0000000') from dual
+		</selectKey>
+</insert>
+
+<insert id="insertAttach">
+	insert into
+		TB_prod_img
+	values(
+		seq_prod_img_no.nextval,
+		#{productId},
+		#{originalImg},
+		#{renamedImg},
+		#{imgType}
+	)
+</insert>
+
+<insert id="insertProdOption">
+	insert into
+		TB_prod_option
+	values(
+		to_char(sysdate,'yymmdd')||to_char(seq_prod_option_id.nextval, 'fm000000'),
+		#{productId},
+		#{optionName},
+		#{optionValue},
+		#{optionStock},
+		#{optionSupplyValue},
+		#{optionPrice},
+		#{optionState}
+	)
+</insert>
+<select id="productList" resultMap="productList">
+select 
+	*
+from
+	(tb_product A left join tb_prod_img B
+		on A.product_id = B.product_id)
+where
+	seller_id = 'igre_mall_test'
+and
+	B.img_type='R'
+</select>
+
+<select id="productListSeller" resultMap="productList">
+select 
+	* 
+from 
+	tb_product 
+where 
+	seller_id = #{sellerId}  
+	<if test="productState !=''">
+	and
+	product_state=#{productState}
+	</if>
+	<if test="productName !=''">
+	and
+	product_name like '%${productName}%'
+	</if>
+</select>
+
+<resultMap type="Product" id="productList">
+	<id column="product_no" property="productNo"/>
+	<result column="product_id" property="productId"></result>
+	<result column="seller_id" property="sellerId"></result>	
+	<result column="category_id" property="categoryId"></result>	
+	<result column="product_name" property="productName"></result>	
+	<result column="brand_name" property="brandName"></result>	
+	<result column="price" property="price"></result>	
+	<result column="delivery_fee" property="deliveryFee"></result>	
+	<result column="point_rate" property="pointRate"></result>	
+	<result column="discount_price" property="discountPrice"></result>	
+	<result column="product_stock" property="productStock"></result>	
+	<result column="product_detail" property="productDetail"></result>	
+	<result column="enroll_date" property="enrollDate"></result>
+	<result column="product_state" property="productState"></result>			
+	
+	<collection property="attachList" ofType="attachment">
+		<id column="attachment_no" property="attachmentNo"></id>	
+		<result column="product_id" property="productId"/>	
+		<result column="original_img" property="originalImg"/>	
+		<result column="renamed_img" property="renamedImg"/>	
+		<result column="img_type" property="imgType"/>	
+	</collection>
+	
+	<collection property="optionList" ofType="prodOption">
+		<id column="option_id" property="optionId"></id>	
+		<result column="product_id" property="productId"/>	
+		<result column="option_name" property="optionName"/>	
+		<result column="option_value" property="optionValue"/>	
+		<result column="option_price" property="optionPrice"/>	
+		<result column="option_state" property="optionState"/>	
+	</collection>
+</resultMap>
+
+
+</mapper> -->

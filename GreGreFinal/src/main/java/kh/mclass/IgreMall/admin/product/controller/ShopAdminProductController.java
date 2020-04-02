@@ -205,7 +205,8 @@ public class ShopAdminProductController {
 						@RequestParam(value="optionName", required=false)String[] optionName, 
 						@RequestParam(value="optionValue1", required=false)String[] optionValue1, 
 						@RequestParam(value="optionValue2", required=false)String[] optionValue2, 
-						@RequestParam(value="optionStock", required=false)String[] optionStock, 
+						@RequestParam(value="optionStock", required=false)String[] optionStock,
+						@RequestParam(value="optionSupplyValue", required=false)String[] optionSupplyValue,
 						@RequestParam(value="optionPrice", required=false)String[] optionPrice, 
 						@RequestParam(value="optionState", required=false)String[] optionState, 
 							MultipartHttpServletRequest mtfRequest,
@@ -232,6 +233,7 @@ public class ShopAdminProductController {
         	System.out.println("optValue="+optValue);
         	prodOption.setOptionName(optionNameRe);
         	prodOption.setOptionValue(optValue);
+        	prodOption.setOptionSupplyValue(Integer.parseInt(optionSupplyValue[i]));
         	prodOption.setOptionPrice(Integer.parseInt(optionPrice[i]));
         	prodOption.setOptionStock(Integer.parseInt(optionStock[i]));
         	prodOption.setOptionState(optionState[i]);
@@ -304,6 +306,13 @@ public class ShopAdminProductController {
 	public ModelAndView productList(ModelAndView mav, Product p) {
 
 		List<Product> list = adminProductService.productList(p);
+		log.debug("list={}",list);
+		/*
+		 * List<Attachment> attachList = new ArrayList<>(); for (int
+		 * i=0;i<list.size();i++) { Attachment a =
+		 * adminProductService.selectAttachOne(list.get(i).getProductId());
+		 * attachList.add(a); }
+		 */		
 		if (p.getProductName() == null) {
 			p.setProductName("");
 		}
@@ -311,11 +320,13 @@ public class ShopAdminProductController {
 			p.setProductState("");
 		}
 		System.out.println(p.getProductState());
-		// 아래 ProductId 는 객체 P를 의미함.
+		// 아래 ProductId 는 객체 P를 의미함	.
 		int totalProducts = adminProductService.totalProducts(p);
+//		mav.addObject("attachList",attachList);
 		mav.addObject("totalProducts", totalProducts);
 		mav.addObject("list", list);
 		mav.setViewName("shop/admin/product/list");
 		return mav;
+		
 	}
 }

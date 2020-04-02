@@ -13,13 +13,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class PostList implements Serializable{
+public class Recommendation implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
+	private String memberId;
 	private String boardCode;
+	private int postNo;
+	private int replyNo;
 
 }

@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 import kh.mclass.Igre.board.model.dao.BoardDAO;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
-import kh.mclass.Igre.board.model.vo.PostList;
+import kh.mclass.Igre.board.model.vo.Recommendation;
 import kh.mclass.Igre.board.model.vo.Reply;
+import kh.mclass.Igre.board.model.vo.Report;
 import kh.mclass.Igre.member.model.vo.PreferList;
 
 @Service
@@ -24,8 +25,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<Post> postList(PostList bc, int cPage, int nPP) {
-		return bd.postList(bc, cPage, nPP);
+	public List<Post> postList(String boardCode, int cPage, int nPP) {
+		return bd.postList(boardCode, cPage, nPP);
 	}
 
 	@Override
@@ -67,5 +68,76 @@ public class BoardServiceImpl implements BoardService{
 	public int preferCount(String boardCode, int postNo) {
 		return bd.preferCount(boardCode, postNo);
 	}
+
+	@Override
+	public int replyWrite(Reply reply) {
+		return bd.replyWrite(reply);
+	}
+
+	@Override
+	public int checkComm(Recommendation recom) {
+		return bd.checkComm(recom);
+	}
+
+	@Override
+	public int recommenP(Recommendation recom) {
+		int result = bd.postRecom(recom);
+		result += bd.RecomDecom(recom);
+		return result;
+	}
+
+	@Override
+	public int recommenR(Recommendation recom) {
+		int result = bd.replyRecom(recom);
+		result += bd.RecomDecom(recom);
+		return result;
+	}
+
+	@Override
+	public int decommenP(Recommendation recom) {
+		int result = bd.postDecom(recom);
+		result += bd.RecomDecom(recom);
+		return result;
+	}
+
+	@Override
+	public int decommenR(Recommendation recom) {
+		int result = bd.replyDecom(recom);
+		result += bd.RecomDecom(recom);
+		return result;
+	}
+
+	@Override
+	public String confirmWriter(Post post) {
+		return bd.confirmWriter(post);
+	}
+
+	@Override
+	public int deletePost(Post post) {
+		int result = bd.deletePostR(post);
+		result += bd.deletePostP(post);
+		return result;
+	}
+
+	@Override
+	public String confirmWriter(Reply reply) {
+		return bd.confirmWriter(reply);
+	}
+
+	@Override
+	public int deleteReply(Reply reply) {
+		return bd.deleteReply(reply);
+	}
+
+	@Override
+	public int checkReport(Report report) {
+		return bd.checkReport(report);
+	}
+
+	@Override
+	public int submitReport(Report report) {
+		return bd.submitReport(report);
+	}
+
 
 }

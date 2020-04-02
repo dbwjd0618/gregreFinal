@@ -34,7 +34,7 @@ function preferSwitch(it, mi, bc, pn) {
 	}
 	if($(it).attr('class') == 'Gray') {
 		$.ajax({
-			url:"${pageContext.request.contextPath}/board/preferIn.do",
+			url:"${pageContext.request.contextPath}/board/preferIn.ajax",
 			data: prefer,
 			type:"POST",
 			success : function(){
@@ -48,7 +48,7 @@ function preferSwitch(it, mi, bc, pn) {
 	}
 	else {
 		$.ajax({
-			url:"${pageContext.request.contextPath}/board/preferOut.do",
+			url:"${pageContext.request.contextPath}/board/preferOut.ajax",
 			data: prefer,
 			type:"POST",
 			success : function(){
@@ -102,7 +102,7 @@ function preferSwitch(it, mi, bc, pn) {
 								<span>총 ${postCount}건</span>
 							</div>
 							<div class="col-md-6" style="text-align: right; padding-right: 3px;">
-								<button style="width: 80px" onclick="location.href='postWrite.html'">글쓰기</button>
+								<i class="fas fa-pencil-alt" style="color:blue; cursor:pointer;"></i>
 							</div>
 						</div>
 						<div class="row" style="display: grid; margin-bottom: 20px;">

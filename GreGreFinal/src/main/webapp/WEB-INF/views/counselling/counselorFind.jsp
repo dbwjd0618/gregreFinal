@@ -141,27 +141,52 @@ $(function(){
 
 </script>
 <style>
-.site-section-cover.overlay:before {
-	width: 0;
-	background-image: url();
-}
+	.site-section-cover.overlay:before {
+		width: 0;
+		background-image: url();
+	}
 
-.counselor-search-input-box button {
-	width: 48px;
-	height: 56px;
-	position: absolute;
-	left: 0;
-	top: 0;
-	background:
-		url('${pageContext.request.contextPath}/resources/images/counselling/search.png')
-		no-repeat 16px center;
-	background-size: 24px auto;
-	text-indent: -9999px;
-}
+	.counselor-search-input-box button {
+		width: 48px;
+		height: 56px;
+		position: absolute;
+		left: 0;
+		top: 0;
+		background:
+			url('${pageContext.request.contextPath}/resources/images/counselling/search.png')
+			no-repeat 16px center;
+		background-size: 24px auto;
+		text-indent: -9999px;
+	}
 
+<<<<<<< HEAD
 a {
 	text-decoration: none;
 }
+=======
+	a{
+		text-decoration: none;
+	}
+	
+	.star-rating {
+    	width: 79px;
+	}
+
+    .star-rating,
+    .star-rating span {
+            display: inline-block;
+            height: 15px;
+            overflow: hidden;
+            background: url(${pageContext.request.contextPath}/resources/images/counselling/성준테스트/star-small.png)no-repeat;
+    }
+
+    .star-rating span {
+    	background-position: left bottom;
+        line-height: 0;
+        vertical-align: top;
+    }
+
+>>>>>>> branch 'master' of https://github.com/Wingater/GreGre.git
 </style>
 
 <div class="ftco-blocks-cover-1">
@@ -272,6 +297,7 @@ a {
 		<!-- 상담사 view 영역 시작 -->
 		<%-- <div class="counselor-list-wrapper">
 			<div class="counselor-info-list">
+<<<<<<< HEAD
 				<c:forEach items="${list }" var="counselor">
 					<article data-advis-id="${counselor.advisId}"
 						class="counselor-info">
@@ -319,6 +345,45 @@ a {
 						<button class="counselor-selectOne">상담사 찜하기</button>
 					</article>
 				</c:forEach>
+=======
+                <c:forEach items="${list }" var="counselor">
+				    <article data-advis-id="${counselor.advisId}" class="counselor-info">
+						    <div class="counselor-info-name">
+						    	<h3 class="counselor-name">${counselor.advisName} <span style="color: #48DA91;">${counselor.advisGrade} 상담사</span>
+						    	</h3>
+						    	<p class="counselor-simple-greetings">${counselor.advisLineIntro}</p>
+						    	<!-- 평점 -->
+						    	<div class="counselor-list-preview">
+						    		<div class="star-score__wrap--middle">
+						    			<span class='star-rating'>
+        									<span style="width:${reviewRating*20}%"></span>
+    									</span>
+						    		</div>
+						    		<div class="partner-list-box__review-score js-review-star-num">${counselorReviews}</div>
+						    	</div>
+						    	<!-- 평점 끝 -->
+						    </div> 
+						    <!-- 상담사 이미지 -->
+						    <div class="counselor-img">
+						    	<img src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}" alt="상담사 사진">
+						    </div> 
+						    <!-- 상담 유형 -->
+						    <div class="counselor-type">
+							    <div>
+								    <ul class="counselor-type">
+                                        <c:forEach items="${counselor.advisKeyword}" var="keyword" varStatus="vs">
+                                            <li class="counselling-type">${keyword}${!vs.last?",":""}</li>
+                                        </c:forEach>        
+								    </ul>
+							    </div>
+							    <div>
+								    <p class="counselor-price">${counselor.advisPrice}원~</p>
+							    </div>
+						    </div>
+					    <button class="counselor-selectOne">상담사 찜하기</button>
+                    </article>
+                </c:forEach>
+>>>>>>> branch 'master' of https://github.com/Wingater/GreGre.git
 			</div>
 			<!-- 상담사 리스트 끝 -->
 			<!-- 페이징 시작 -->
@@ -334,6 +399,7 @@ a {
 <!-- contents end  -->
 <script>
 
+<<<<<<< HEAD
 function filter(){
 	//초기화
 	$(".search-form").val("");
@@ -406,4 +472,6 @@ function filter(){
 };
 </script>
 
+=======
+>>>>>>> branch 'master' of https://github.com/Wingater/GreGre.git
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

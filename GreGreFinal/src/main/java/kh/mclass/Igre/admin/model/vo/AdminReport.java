@@ -19,7 +19,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Report implements Serializable {
+public class AdminReport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	

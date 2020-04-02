@@ -19,12 +19,8 @@ public interface MemberService {
 	
 	int enroll(Member member);
 	
-	Object selectOne(String memberId);
 
-
-	Object selectOnec(String cmemberId);
-
-	int bizEnroll(BizMember bizmember, List<Advis> advisList);
+	int bizEnroll(BizMember bizmember, Advis advis);
 
 	int sellerEnroll(BizMember bizmember, Seller seller);
 
@@ -34,6 +30,18 @@ public interface MemberService {
 
 
 	BizMember selectBizId(String cmemberId);
+
+
+	Object selectOne(String memberId);
+
+
+	Object selectOneComp(String cmemberId);
+
+
+	Object selectOneSomp(String cmemberId);
+
+
+
 
 
 

@@ -12,6 +12,8 @@
     <meta charset="UTF-8">
     <title>아이그레</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <!--  font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
     <!-- Bootstrap 3.3.2 -->
     <link href="${pageContext.request.contextPath}/resources/css/admin/bootstrap.min.css" rel="stylesheet" type="text/css" />    
     <!-- FontAwesome 4.3.0 -->
@@ -129,7 +131,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="board.html"><i class="fa fa-circle-o"></i> 게시판 목록</a></li>
+                <li><a href="${pageContext.request.contextPath }/admin/board.do"><i class="fa fa-circle-o"></i> 게시판 목록</a></li>
               </ul>
             </li>
             <li class="treeview">

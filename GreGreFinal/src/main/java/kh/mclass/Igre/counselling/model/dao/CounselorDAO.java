@@ -14,8 +14,6 @@ public interface CounselorDAO {
 
 	Counselor selectOne(String advisId);
 
-//	List<Review> selectReviewList(int cPage, int numPerPage);
-
 	int selectReviewTotalContents();
 
 	List<Review> selectReviewList(Counselor c);
@@ -25,6 +23,5 @@ public interface CounselorDAO {
 	double selectStarPoint(String advisId);
 
 	int selectReviewTotal(String advisId);
-
 
 }

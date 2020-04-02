@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/owl.theme.default.min.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fonts/flaticon/font/flaticon.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/aos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <!-- MAIN CSS -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
@@ -72,15 +73,16 @@
           <div class="site-quick-contact d-none d-lg-flex ml-auto">
             <div class="d-flex site-info site-quick">
               <!--로그인 -->
-              <c:if test="${memberLoggedIn == null }">
+              <c:if test="${memberLoggedIn == null and bizmemberLoggedIn == null}">
               	<div class="site-quick-text">
 	                <a href="${pageContext.request.contextPath}/member/login.do">
 	                  <span style="color: black !important; padding-right:20px;">log-in</span>
 	                </a>
               	</div>
-              </c:if>
+              </c:if>            
               
-              <c:if test="${bimemberLoggedIn != null }">
+              
+              <c:if test="${memberLoggedIn != null}">
               	<div class="site-quick-text">
 	            	<!--마이페이지 -->
 	                <a href="${pageContext.request.contextPath}/WEB-INF/views/myPage/myPageMain.html">
@@ -95,7 +97,7 @@
               </c:if>
               
               
-              <c:if test="${memberLoggedIn != null }">
+               <c:if test="${bizmemberLoggedIn != null}">
               	<div class="site-quick-text">
 	            	<!--마이페이지 -->
 	                <a href="${pageContext.request.contextPath}/WEB-INF/views/myPage/myPageMain.html">
@@ -108,6 +110,7 @@
 	                </a>
               	</div>
               </c:if>
+              
               <div class="site-quick-text" style=" border-left: 1.4px solid rgba(136, 131, 131, 0.849)">
                 <!--쇼핑몰 -->
                 <a href="${pageContext.request.contextPath}/shop/shop.do"> 
@@ -137,7 +140,7 @@
               <li id="sub-title-2"><a href="${pageContext.request.contextPath }/child/childInfo.do" class="nav-link">육아</a></li>
               <li id="sub-title-3"><a href="#none" class="nav-link">상담센터</a></li>
               <li id="sub-title-4"><a href="${pageContext.request.contextPath }/find/careCenter.do" class="nav-link">시설찾기</a></li>
-              <li id="sub-title-5"><a href="#none" class="nav-link">커뮤니티</a></li>
+              <li id="sub-title-5"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardList[0].boardCode}" class="nav-link">커뮤니티</a></li>
             </ul>
           </nav>
         </div>

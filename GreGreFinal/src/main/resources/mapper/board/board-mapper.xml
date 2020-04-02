@@ -9,7 +9,7 @@
 	</select>
 
 	<select id="postList" resultType="Post">
-		select * from ${boardCode}
+		select * from ${table}
 	</select>
 	
 	<select id="boardName" resultType="String">
@@ -43,5 +43,66 @@
 	<select id="preferCount" resultType="_int">
 		select count(*) from TB_prefer where board_code = #{boardCode} and post_no = #{postNo}
 	</select>
+	
+	<insert id="replyWrite">
+		insert into TB_reply_${boardCode} values(#{boardCode}, #{postNo}, seq_${boardCode}_reply.nextval, #{replyWriter}, #{replyContent}, default, default, default)
+	</insert>
+	
+	<select id="checkComm" resultType="_int">
+		select count(*) from TB_recommen where member_id = #{memberId} and board_code = #{boardCode} and post_no = #{postNo} and reply_no = #{replyNo}
+	</select>
+	
+	<update id="postRecom">
+		update TB_post_${boardCode} set recommen_count = recommen_count + 1 where post_no = #{postNo}
+	</update>
+	
+	<insert id="RecomDecom">
+		insert into TB_recommen values(#{memberId}, #{boardCode}, #{postNo}, #{replyNo})
+	</insert>
+	
+	<update id="replyRecom">
+		update TB_reply_${boardCode} set recommen_count = recommen_count + 1 where post_no = #{postNo} and reply_no = #{replyNo}
+	</update>
+
+	<update id="postDecom">
+		update TB_post_${boardCode} set decommen_count = decommen_count + 1 where post_no = #{postNo}
+	</update>
+	
+	<update id="replyDecom">
+		update TB_reply_${boardCode} set decommen_count = decommen_count + 1 where post_no = #{postNo} and reply_no = #{replyNo}
+	</update>
+	
+	<select id="confirmWriter" resultType="String">
+		select writer from TB_post_${boardCode} where post_no = #{postNo}
+	</select>
+	
+	<select id="confirmWriterR" resultType="String">
+		select reply_writer from TB_reply_${boardCode} where post_no = #{postNo} and reply_no = #{replyNo}
+	</select>
+	
+	<delete id="deletePostR">
+		delete from TB_reply_${boardCode} where post_no = #{postNo}
+	</delete>
+	
+	<delete id="deletePostP">
+		delete from TB_post_${boardCode} where post_no = #{postNo}
+	</delete>
+	
+	<delete id="deleteReply">
+		delete from TB_reply_${boardCode} where post_no = #{postNo} and reply_no = #{replyNo}
+	</delete>
+	
+	<select id="checkReport" resultType="_int">
+		select count(*) from TB_report where
+		report_board = #{boardCode}
+		and report_post_no = #{postNo}
+		and report_reply_no = #{replyNo}
+		and reporter_id = #{reporterId}
+		and report_conf = 'N'
+	</select>
+	
+	<insert id="submitReport">
+		insert into TB_report values(seq_report_no.nextval, #{reporterId}, #{reporteeId}, #{boardCode}, #{postNo}, #{replyNo}, #{reportContent}, default)
+	</insert>
 	
 </mapper>

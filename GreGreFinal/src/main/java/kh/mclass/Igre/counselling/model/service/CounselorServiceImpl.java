@@ -30,11 +30,6 @@ public class CounselorServiceImpl implements CounselorService {
 	public Counselor selectOne(String advisId) {
 		return counselorDAO.selectOne(advisId);
 	}
-//
-//	@Override
-//	public List<Review> selectReviewList(int cPage, int numPerPage) {
-//		return counselorDAO.selectReviewList(cPage, numPerPage);
-//	}
 
 	@Override
 	public int selectReviewTotalContents() {
@@ -62,6 +57,5 @@ public class CounselorServiceImpl implements CounselorService {
 	public int selectReviewTotal(String advisId) {
 		return counselorDAO.selectReviewTotal(advisId);
 	}
-
-
+	
 }

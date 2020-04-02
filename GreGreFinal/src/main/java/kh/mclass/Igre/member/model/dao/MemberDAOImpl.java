@@ -34,19 +34,8 @@ public class MemberDAOImpl implements MemberDAO {
 		// TODO Auto-generated method stub
 		return sss.insert("member.enroll",member);
 	}
-	
-	@Override
-	public Object selectOne(String memberId) {
-		// TODO Auto-generated method stub
-		return sss.selectOne("member.selectOne",memberId);
-	}
 
-	@Override
 
-	public Object selectOnec(String cmemberId) {
-		// TODO Auto-generated method stub
-		return sss.selectOne("member.selectOnec",cmemberId);
-	}
 
 	@Override
 	public int enroll(BizMember bizmember) {
@@ -57,8 +46,6 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public int insertAdvis(Advis advis) {
 		// TODO Auto-generated method stub
-		System.out.println(advis.getAdvisId());
-		System.out.println(advis);
 		return sss.insert("member.insertAdvis",advis);
 	}
 
@@ -90,6 +77,26 @@ public class MemberDAOImpl implements MemberDAO {
 		// TODO Auto-generated method stub
 		return sss.selectOne("member.selectBizId",cmemberId);
 	}
+
+	@Override
+	public Object selectOne(String memberId) {
+		// TODO Auto-generated method stub
+		return sss.selectOne("member.selectOne",memberId);
+	}
+
+	@Override
+	public Object selectOneComp(String cmemberId) {
+		// TODO Auto-generated method stub
+		return sss.selectOne("member.selectOneComp",cmemberId);
+	}
+
+	@Override
+	public Object selectOneSomp(String cmemberId) {
+		// TODO Auto-generated method stub
+		return sss.selectOne("member.selectOneSomp",cmemberId);
+	}
+
+
 
 
 

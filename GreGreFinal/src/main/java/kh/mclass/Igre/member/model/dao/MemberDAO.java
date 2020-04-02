@@ -19,9 +19,6 @@ public interface MemberDAO {
 	
 	int enroll(Member member);
 	
-	Object selectOne(String memberId);
-
-	Object selectOnec(String cmemberId);
 
 	int enroll(BizMember bizmember);
 
@@ -30,6 +27,14 @@ public interface MemberDAO {
 	int insert(Seller seller);
 
 	HashMap<String, ArrayList<Integer>> preferList(String memberId);
+
+	Object selectOne(String memberId);
+
+	Object selectOneComp(String cmemberId);
+
+	Object selectOneSomp(String cmemberId);
+
+
 
 
 }

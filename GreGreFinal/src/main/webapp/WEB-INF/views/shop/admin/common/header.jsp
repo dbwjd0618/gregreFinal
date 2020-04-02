@@ -36,7 +36,8 @@
     <link href="${pageContext.request.contextPath}/resources/css/admin/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
     <!-- bootstrap wysihtml5 - text editor -->
     <link href="${pageContext.request.contextPath}/resources/css/admin/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
-
+        <!-- Js Plugins -->
+    <script src="${pageContext.request.contextPath }/resources/js/shop/jquery-3.3.1.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -123,8 +124,8 @@
                   <!-- <span class="label label-primary pull-right">4</span> -->
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="${pageContext.request.contextPath}/shopadmin/admin.do"><i class="fa fa-circle-o"></i>상품 등록/삭제</a></li>
-                  <li><a href="orderList.html"><i class="fa fa-circle-o"></i> 주문 현황</a></li>
+                  
+                  <li><a href="${pageContext.request.contextPath}/shop/admin/order/orderList.do"><i class="fa fa-circle-o"></i> 주문 현황</a></li>
                   
                 </ul>
               </li>
@@ -136,7 +137,7 @@
                   <!-- <span class="label label-primary pull-right">4</span> -->
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="${pageContext.request.contextPath}/shopadmin/account.do"><i class="fa fa-circle-o"></i>매출조회</a></li>
+                  <li><a href="${pageContext.request.contextPath}/shop/admin/accountBook.do"><i class="fa fa-circle-o"></i>매출조회</a></li>
                 </ul>
               </li>
             <li class="treeview">

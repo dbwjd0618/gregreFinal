@@ -21,7 +21,9 @@ import kh.mclass.Igre.admin.model.exception.AdminException;
 import kh.mclass.Igre.admin.model.service.AdminService;
 import kh.mclass.Igre.admin.model.vo.Admin;
 import kh.mclass.Igre.admin.model.vo.Amember;
-import kh.mclass.Igre.admin.model.vo.Report;
+import kh.mclass.Igre.admin.model.vo.AdminReport;
+import kh.mclass.Igre.board.model.vo.Board;
+import kh.mclass.Igre.board.model.vo.Post;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -183,7 +185,7 @@ public class AdminController {
 	@GetMapping("/report.do")
 	public String report(Model model) {
 		
-		List<Report> list = adminService.report();
+		List<AdminReport> list = adminService.report();
 		
 		model.addAttribute("list", list);
 		
@@ -234,6 +236,38 @@ public class AdminController {
 		
 		return map;
 		
+	}
+	
+	@GetMapping("/board.do")
+	public String board(Model model) {
+		
+		List<Board> list = adminService.board();
+		
+		model.addAttribute("list", list);
+		
+		return "admin/board";
+	}
+	
+	@PostMapping("/insertBoard.do")
+	public String insertboard(Board board) {
+		
+		int result = adminService.insertboard(board);
+		
+		return "redirect:/admin/board.do";
+		
+	}
+	
+	@GetMapping("/boardList.do")
+	public String boardView(Model model,
+							@RequestParam("boardCode") String boardCode) {
+		
+		List<Post> list = adminService.boardList(boardCode);
+		Board board = adminService.boardName(boardCode);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("board", board);
+		
+		return "admin/boardList";
 	}
 
 }

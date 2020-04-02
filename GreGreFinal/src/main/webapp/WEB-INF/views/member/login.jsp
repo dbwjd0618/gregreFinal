@@ -128,33 +128,6 @@
 </div>
 <!-- contents end-->
 <script>
-/*  $(function() {
-	$("#changebiz").click(function() {
-		$(".card-body mx-auto 1").css("display", "none");
-		$(".card-body mx-auto 2").css("display", "block");
-
-	});
-}); */
-
-/* $(document).ready(function(){
-	$('#changebiz').change(function(){
-	if(this.is(":checked") == true)
-	$('login-container 1').css('slow');
-	else
-	$('login-container 2').fadeOut('slow');
-
-	});
-	}); */
-
-/* 	function setDisplay(){
-	    if($('input:checkbox[id=changebiz]').is(':checked')){
-	        $('login-container 1').hide();
-	    }else{
-	        $('login-container 2').show();
-	    }
-	}
-
- */
 
  
  $("input[name='biztoggle']").click(function () {
@@ -168,13 +141,6 @@
 		 
 	 }
 });
- 
-/*  $("input[name$='biztoggle']").click(function () {
-     $("#loginbiz").hide(this.checked);
-     $("#loginen").show(this.checked);
-}); */
- 
-/* $(function (){ $("#changebiz").click(function (){ $(".card-body mx-auto 1").css("display", "none"); }); }); */
 
 var check = $("input[type='checkbox']");
 check.click(function(){

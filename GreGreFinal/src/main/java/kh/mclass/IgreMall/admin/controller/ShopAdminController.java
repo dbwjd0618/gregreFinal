@@ -1,5 +1,7 @@
 package kh.mclass.IgreMall.admin.controller;
 
+import java.util.List;
+
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import kh.mclass.IgreMall.order.model.vo.OrderList;
 
 @Controller
 @RequestMapping("/shop/admin")
@@ -26,10 +30,13 @@ public class ShopAdminController {
 		mav.setViewName("shop/admin/adminIndex");
 		return mav;
 	}
+
 	
-	@GetMapping("/account.do")
+	@GetMapping("/accountBook.do")
 	public ModelAndView accountList(ModelAndView mav) {
-		mav.setViewName("shop/admin/accountBooks");
+		
+		
+		mav.setViewName("shop/admin/accountBook/accountBook");
 		return mav; 
 	}
 	

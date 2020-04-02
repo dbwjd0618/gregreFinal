@@ -1,4 +1,16 @@
+/*추가*/
+ul.option_list {
+    font-size: 13px;
+    padding-left: 42px;
+    padding-top: 1px;
+}
 
+td.cart-pic.first-row {
+    padding-right: 5px;
+}
+
+
+/*추가*/
 .expect_mileage {
     display: -webkit-box;
     display: -webkit-flex;
@@ -37,9 +49,13 @@ div.mileage {
 }
 
 .ico_option {
-	float: left;
-	width: 42px;
-	height: 14px;
+
+    float: left;
+    text-align: center;
+    background: #48DA91;
+    color: white;
+    font-size: 12px;
+    padding: 1px 7px;
 }
 
 ul, ol {
@@ -50,7 +66,10 @@ ul, ol {
 	margin-top: 17px;
 	color: #000;
 }
-
+.product-name{
+	font-size: 17px;
+    font-weight: 500;
+}
 .user_info li {
 	position: relative;
 	line-height: 27px;
