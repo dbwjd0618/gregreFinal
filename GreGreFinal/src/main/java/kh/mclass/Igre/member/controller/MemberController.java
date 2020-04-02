@@ -53,11 +53,14 @@ public class MemberController {
 //	private BCryptPasswordEncoder bcpe;
 
 	@GetMapping("/login.do")
-	public String login(HttpSession session) {
+	public String login(HttpSession session, HttpServletRequest request) {
 		try {
 			Member m = (Member) session.getAttribute("memberLoggedIn");
 			m.getMemberId().equals(null);
 		} catch (NullPointerException e) {
+			String referer = request.getHeader("referer");
+			session.setAttribute("referer", referer);
+			log.debug("referer = " + referer);
 			return "member/login";
 		} catch (Exception e) {
 			e.printStackTrace();
