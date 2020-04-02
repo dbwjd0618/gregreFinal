@@ -1,6 +1,7 @@
 package kh.mclass.Igre.counselling.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,9 +40,28 @@ public class CounselorServiceImpl implements CounselorService {
 	public int selectReviewTotalContents() {
 		return counselorDAO.selectReviewTotalContents();
 	}
+	
+	@Override
+	public List<Review> selectReviewList(Counselor c) {
+		return counselorDAO.selectReviewList(c);
+	}
+	
+	
+	
+	@Override
+	public List<Counselor> selectFilter(Map<String, String[]> param) {
+		return counselorDAO.selectFilter(param);
+	}
+	
+	@Override
+	public double selectStarPoint(String advisId) {
+		return counselorDAO.selectStarPoint(advisId);
+	}
 
-@Override
-public List<Review> selectReviewList(Counselor c) {
-	return counselorDAO.selectReviewList(c);
-}
+	@Override
+	public int selectReviewTotal(String advisId) {
+		return counselorDAO.selectReviewTotal(advisId);
+	}
+
+
 }

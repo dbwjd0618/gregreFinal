@@ -4,9 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="counselor">
 	<!-- 상담사 리스트 출력  -->
-	<select resultType="counselor" id="selectCounselorList">
+	<select resultType="counselor" id="selectCounselorList" resultMap="counselorCollection">
 		select 
-			* 
+			*
 		from 
 			TB_adviser
 	</select>
@@ -29,6 +29,75 @@
 		advis_id = #{advisId}
 	</select>
 	
+	<select id="selectFilter" resultMap="counselorCollection">
+	
+	select
+		*
+	from
+		TB_adviser
+	where
+		1=1
+	<if test = "category.length != 0">
+		<foreach collection="category"
+					item="advisKeyword" index="i">
+		<if test="i==0">
+			and (advis_keyword like '%${advisKeyword}%'
+		</if>
+		<if test="i!=0">
+			or advis_keyword like '%${advisKeyword}%'
+		</if>
+		</foreach>
+		)
+	</if>
+	<if test="level.length != 0">
+		<foreach collection="level"
+					item="advisGrade" index="i">
+			<if test="i==0">
+			and (advis_grade like '%${advisGrade}%'
+			</if>
+			<if test="i!=0">
+			or advis_grade like '%${advisGrade}%'
+			</if>
+		</foreach>
+		)
+		
+	</if>	
+	<if test="gender.length !=0">
+	and advis_gender in 
+		<foreach collection="gender"
+					item="gender"
+					open="("
+					close=")"
+					separator=",">
+		#{gender}
+		</foreach>
+	</if>	
+	<if test="day.length != 0">
+	and advis_day in 
+		<foreach collection="day"
+					item="day"
+					open="("
+					close=")"
+					separator=",">
+		#{day}
+		</foreach>
+	</if>
+
+	</select>
+	
+	<select id="selectReviewTotal" resultType="_int">
+	select count(*) reviewTotal
+	from TB_adviser_review
+	where advis_id = #{advisId}
+	</select>
+	
+	<select id="selectStarPoint" resultType="_double">
+	select nvl(avg(star_point),0) starPoint
+	from TB_adviser_review
+	where advis_id = #{advisId}
+	</select>
+	
+	
 	<resultMap type="counselor" id="keywordMap">
 		<result column="advis_keyword" property="advisKeyword" typeHandler="strArrTypeHandler"/>
 	</resultMap>
@@ -46,7 +115,7 @@
 		<result column="advis_price" property="advisPrice"/>	
 		<result column="advis_keyword" property="advisKeyword" typeHandler="strArrTypeHandler"/>	
 		<result column="advis_license_file" property="advisLicenseFile"/>	
-		<result column="advis_img" property="advisImg"/>	
+		<result column="advis_img" property="advisImg"/>		
 	</resultMap>
 
 	

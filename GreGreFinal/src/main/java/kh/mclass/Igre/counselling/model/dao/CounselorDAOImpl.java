@@ -1,6 +1,8 @@
 package kh.mclass.Igre.counselling.model.dao;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -56,6 +58,24 @@ public class CounselorDAOImpl implements CounselorDAO {
 	public List<Review> selectReviewList(Counselor c) {
 		return sqlSession.selectList("review.selectReviewList",c);
 	}
+
+
+	@Override
+	public List<Counselor> selectFilter(Map<String, String[]> param) {
+		return sqlSession.selectList("counselor.selectFilter", param);
+	}
+
+	@Override
+	public double selectStarPoint(String advisId) {
+		return sqlSession.selectOne("counselor.selectStarPoint",advisId);
+	}
+
+	@Override
+	public int selectReviewTotal(String advisId) {
+		return sqlSession.selectOne("counselor.selectReviewTotal",advisId);
+	}
+
+
 
 	
 }
