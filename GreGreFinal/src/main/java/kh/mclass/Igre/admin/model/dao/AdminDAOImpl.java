@@ -105,19 +105,15 @@ public class AdminDAOImpl implements AdminDAO {
 
 	@Override
 	public List<Post> boardList(String boardCode) {
-		
 		Map<String,String> map = new HashMap<>();
 		map.put("boardCode", boardCode);
-		 
 		return sqlSession.selectList("admin.boardList", map);
 	}
 
 	@Override
 	public Board boardName(String boardCode) {
-		
 		Map<String, String> map = new HashMap<>();
 		map.put("boardCode", boardCode);
-		
 		return sqlSession.selectOne("admin.boardName", map);
 	}
 
@@ -135,8 +131,37 @@ public class AdminDAOImpl implements AdminDAO {
 		map.put("table", "tb_post_"+boardCode);
 		map.put("boardCode", boardCode);
 		map.put("postNo", postNo);
-		
 		return sqlSession.update("admin.noticeUpdate", map);
+	}
+
+	@Override
+	public List<Admin> adminList() {
+		return sqlSession.selectList("admin.adminList");
+	}
+
+	@Override
+	public List<Amember> amemberList() {
+		return sqlSession.selectList("admin.amemberList");
+	}
+
+	@Override
+	public void createBoard(Board board) {
+		sqlSession.update("admin.createBoard", board);
+	}
+
+	@Override
+	public void createReply(Board board) {
+		sqlSession.update("admin.createReply", board);
+	}
+
+	@Override
+	public void seqPost(Board board) {
+		sqlSession.update("admin.seqPost", board);
+	}
+
+	@Override
+	public void seqReply(Board board) {
+		sqlSession.update("admin.seqReply", board);
 	}
 
 

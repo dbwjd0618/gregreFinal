@@ -46,5 +46,17 @@ public interface AdminDAO {
 
 	int noticeUpdate(String boardCode, Integer postNo);
 
+	List<Admin> adminList();
+
+	List<Amember> amemberList();
+
+	void createBoard(Board board);
+
+	void createReply(Board board);
+
+	void seqPost(Board board);
+
+	void seqReply(Board board);
+
 
 }
