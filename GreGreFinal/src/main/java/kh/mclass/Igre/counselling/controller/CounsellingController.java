@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kh.mclass.Igre.common.Pagebar;
 import kh.mclass.Igre.counselling.model.service.CounselorService;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
@@ -86,45 +87,24 @@ public class CounsellingController {
 		System.out.println("===================================bookingMain=======================================");
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage =5;
+		
 		Counselor counselor = counselorService.selectOne(advisId);
 		
 		Counselor c = new Counselor();
 
 		c.setAdvisId(advisId);//test1
-		//리뷰 리스트
-		List<Review> list = counselorService.selectReviewList(c);
-		
-//		for(int i=0; i<list.size();i++) {
-//			switch(list.get(i).getStarPoint()) {
-//			case 1: //점일떄.
-//				fourStar+= list.get(0).getStarPoint();
-//			case 2:
-//				fourStar+= list.get(0).getStarPoint();
-//				
-//			}
-//			if(list.get(i).getStarPoint()==4) {
-//			fourStar+= list.get(0).getStarPoint();
-//			}
-//		}
-//		Map<String, Integer > starMap = HashMap<String,Integer>();
-//		
-//		int fourStarCnt =fourStar/4; 
-//		
-//		starMap.put("fourStar",fourStarCnt);
-//		
-//		
-//		
-//		
-//		System.err.println(fourStarCnt);
-////		Map가져가라 ?
-//		//스타 포인트 가져오니까 여기서 처리하고 그걸 넘겨주면된다 .
 		
 		//모든상담사 리뷰 총 개수
 		int totalReviewContents = counselorService.selectReviewTotalContents();
 		
-		//특정 상담사에 관한 리뷰 총 개수
+		//상담사 1명의 리뷰 게시글 count
 		System.out.println("==========================reviewCountSelectOne==========================");
 		int reviewCountSelectOne = counselorService.selectReviewCounselorOne(advisId);
+		
+		//리뷰 리스트
+//		List<Review> list = counselorService.selectReviewList(c, cPage, numPerPage);
+		List<Map<String,String>> list = counselorService.selectReviewList(c, cPage, numPerPage);
+		mav.addObject("pageBar",Pagebar.getPageBar(reviewCountSelectOne, cPage, numPerPage,"/Igre/counselling/bookingMain.do?advisId="+advisId));
 		
 		//특정상담사에 관한 리뷰중 특정평점을 받은 글의 총 개수
 		List<reviewStar> list1 = new ArrayList<>();
@@ -134,8 +114,8 @@ public class CounsellingController {
 		list1.add(new reviewStar(2, counselorService.countReview(advisId, 2)));
 		list1.add(new reviewStar(1, counselorService.countReview(advisId, 1)));
 		
-		
 		Double reviewRating = counselorService.selectReviewRating(advisId);
+
 		System.err.println("reviewRating=="+reviewRating);
 		mav.addObject("reviewRating",reviewRating);
 		mav.addObject("counselor",counselor);

@@ -216,33 +216,41 @@ public class ShopAdminProductController {
 		log.debug("product={}", product);
 		product.setDeliveryFee(product.getDeliveryFee().replaceAll(",", ""));
 		
-        List<ProdOption> prodOptionList = new ArrayList<>();
-   
-   
-        for(int i=0; i< optionValue1.length;i++) {
-
-        	ProdOption prodOption = new ProdOption();
-        	String optValue = optionValue1[i];
-        	if(optionValue2 !=null) {
-        		optValue +=","+optionValue2[i];
+		List<ProdOption> prodOptionList = new ArrayList<>();
+        if(optionName != null) {
+        	
+        	
+        	for(int i=0; i< optionValue1.length;i++) {
+        		
+        		ProdOption prodOption = new ProdOption();
+        		String optValue = optionValue1[i];
+        		if(optionValue2 !=null) {
+        			optValue +=","+optionValue2[i];
+        		}
+        		String optionNameRe ="";
+        	
+        		optionNameRe =optionName[0];    			
+        	
+        		if(optionName.length>1) {
+        			optionNameRe = optionName[1]+ ","+optionName[0];
+        		}
+        
+ 
+        		prodOption.setOptionName(optionNameRe);
+        		prodOption.setOptionValue(optValue);
+        		prodOption.setOptionSupplyValue(Integer.parseInt(optionSupplyValue[i]));
+        		prodOption.setOptionPrice(Integer.parseInt(optionPrice[i]));
+        		prodOption.setOptionStock(Integer.parseInt(optionStock[i]));
+        		prodOption.setOptionState(optionState[i]);
+        		prodOption.setProductId(product.getProductId());
+        		prodOptionList.add(prodOption);	
+        		
         	}
-        	String optionNameRe =optionName[0];
-        	if(optionName.length>1) {
-        		optionNameRe += ","+optionName[1];
-        	}
-        	System.out.println("optValue="+optValue);
-        	prodOption.setOptionName(optionNameRe);
-        	prodOption.setOptionValue(optValue);
-        	prodOption.setOptionSupplyValue(Integer.parseInt(optionSupplyValue[i]));
-        	prodOption.setOptionPrice(Integer.parseInt(optionPrice[i]));
-        	prodOption.setOptionStock(Integer.parseInt(optionStock[i]));
-        	prodOption.setOptionState(optionState[i]);
-        	prodOption.setProductId(product.getProductId());
-        	prodOptionList.add(prodOption);	
-
+        	
+     
         }
-		log.debug("prodOption={}", prodOptionList);
-
+        log.debug("prodOption={}", prodOptionList);
+        
 		response.setContentType("text/html;charset=utf-8");
 
 		try {

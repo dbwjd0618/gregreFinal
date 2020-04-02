@@ -18,7 +18,7 @@ public interface CounselorService {
 
 	int selectReviewTotalContents();
 
-	List<Review> selectReviewList(Counselor c);
+	List<Map<String, String>> selectReviewList(Counselor c, int cPage, int numPerPage);
 
 	List<Counselor> selectFilter(Map<String, String[]> param);
 
