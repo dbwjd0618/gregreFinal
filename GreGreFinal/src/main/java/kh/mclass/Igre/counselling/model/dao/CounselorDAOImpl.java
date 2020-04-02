@@ -82,5 +82,11 @@ public class CounselorDAOImpl implements CounselorDAO {
 		return sqlSession.selectOne("review.countReview", map);
 	}
 
+	@Override
+	public Double selectReviewRating(String advisId) {
+		
+		return sqlSession.selectOne("review.selectReviewRating", advisId);
+	}
+
 
 }

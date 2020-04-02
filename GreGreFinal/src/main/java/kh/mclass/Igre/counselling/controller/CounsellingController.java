@@ -135,7 +135,7 @@ public class CounsellingController {
 		list1.add(new reviewStar(1, counselorService.countReview(advisId, 1)));
 		
 		
-		Double reviewRating = 1.0;
+		Double reviewRating = counselorService.selectReviewRating(advisId);
 		System.err.println("reviewRating=="+reviewRating);
 		mav.addObject("reviewRating",reviewRating);
 		mav.addObject("counselor",counselor);
@@ -173,6 +173,17 @@ public class CounsellingController {
 		param.put("day", day);
 		
 		List<Counselor> list = counselorService.selectFilter(param);
+		
+		//총 리뷰 가져오기
+		for(int i=0; i< list.size(); i++) {
+			list.get(i).setReviewTotal(counselorService.selectReviewTotal(list.get(i).getAdvisId())); 			
+		}
+		
+		
+		//별점 가져오기
+		for(int i=0; i< list.size(); i++) {
+			list.get(i).setStarPoint(counselorService.selectStarPoint(list.get(i).getAdvisId())); 			
+		}
 		log.debug(list.toString());
 		return list;
 	}

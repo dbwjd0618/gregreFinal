@@ -78,4 +78,9 @@ public class CounselorServiceImpl implements CounselorService {
 		return counselorDAO.countReview(map);
 	}
 
+	@Override
+	public Double selectReviewRating(String advisId) {
+		return counselorDAO.selectReviewRating(advisId);
+	}
+
 }

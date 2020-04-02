@@ -32,5 +32,7 @@ public interface CounselorService {
 
 	int countReview(String advisId, int starPoint);
 
+	Double selectReviewRating(String advisId);
+
 
 }

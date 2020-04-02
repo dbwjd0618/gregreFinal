@@ -24,7 +24,7 @@
 	<!-- 리뷰 점수 계산  -->
 	<select resultType="_double" id="selectReviewRating">
 		select 
-			avg(star_point) 
+			 nvl(avg(star_point),0) 
 		from 
 			TB_adviser_review 
 		where 
