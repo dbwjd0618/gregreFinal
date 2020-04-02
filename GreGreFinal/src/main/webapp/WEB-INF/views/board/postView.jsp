@@ -96,6 +96,7 @@ body {padding-right: 0px !important;}
 								<tr><td>작성된 댓글이 없습니다. 첫 댓글을 작성해주세요!</td></tr>
 							</c:if>
 							<c:if test="${not empty replyList}">
+							<input type="hidden" id="cPage" value="${cPage}" />
 								<c:forEach items="${replyList}" var="reply">
 									<tr>
 										<td>
@@ -128,6 +129,62 @@ body {padding-right: 0px !important;}
 									<input type="text" id="ReplyWrite" placeholder="댓글을 입력하세요." style="width: 90%;" />&nbsp;
 									<button onclick="writeReply();">댓글 작성</button>
 								</td>
+							</tr>
+						</table>
+						<!-- 댓글 페이징 -->
+						<table>
+							<tr>
+							<!-- cPage -->
+							<c:if test="${3 ge cPage}">
+							<td><span>&lt;&lt;</span></td>
+							<td><span>&lt;</span></td>
+							</c:if>
+							<c:if test="${3 lt cPage }">
+							<td><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=1">&lt;&lt;</a></td>
+							<td><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${cPage-3}">&lt;</a></td>
+							</c:if>
+							
+							<!-- endPage가 5 이하일때 -->
+							<c:if test="${endPage le 5 }">
+								<c:forEach begin="1" end="${endPage}" var="pNo">
+									<c:if test="${pNo != cPage}"><td><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${pNo}">${pNo}</a></td></c:if>
+									<c:if test="${pNo == cPage}"><td><span>[${pNo}]</span></td></c:if>
+								</c:forEach>
+							</c:if>
+							
+							<!-- endPage가 5 초과일때 -->
+							<c:if test="${endPage gt 5 }">
+								<!-- cPage가 3 이하일때 -->
+								<c:if test="${cPage le 3}">
+									<c:forEach begin="1" end="5" var="pNo">
+										<c:if test="${pNo != cPage}"><td><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${pNo}">${pNo}</a></td></c:if>
+										<c:if test="${pNo == cPage}"><td><span>[${pNo}]</span></td></c:if>
+									</c:forEach>
+								</c:if>
+								<!--cPage가 endPage-2 이상일때 -->
+								<c:if test="${cPage ge (endPage-2)}">
+									<c:forEach begin="${endPage-4 }" end="${endPage }" var="pNo">
+										<c:if test="${pNo != cPage}"><td><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${pNo}">${pNo}</a></td></c:if>
+										<c:if test="${pNo == cPage}"><td><span>[${pNo}]</span></td></c:if>
+									</c:forEach>
+								</c:if>
+								<!--cPage가 3 초과 endPage-2 미만일때 -->
+								<c:if test="${cPage gt 3 && cPage lt (endPage-2)}">
+									<c:forEach begin="${cPage-2}" end="${cPage+2}" var="pNo">
+										<c:if test="${pNo != cPage}"><td><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${pNo}">${pNo}</a></td></c:if>
+										<c:if test="${pNo == cPage}"><td><span>[${pNo}]</span></td></c:if>
+									</c:forEach>
+								</c:if>
+							</c:if>
+							
+							<c:if test="${cPage ge endPage-2}">
+							<td><span>&gt;</span></td>
+							<td><span>&gt;&gt;</span></td>
+							</c:if>
+							<c:if test="${cPage lt endPage-2}">
+							<td><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${cPage+3}">&gt;</a></td>
+							<td><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${endPage}">&gt;&gt;</a></td>
+							</c:if>
 							</tr>
 						</table>
 					</div>
@@ -230,6 +287,7 @@ body {padding-right: 0px !important;}
 					console.log(x,s,e);
 				}
 		  });
+		  $("[name=reportContent]:checked").checked(false);
 		  $('#modalBox').modal('hide');
 	}
 </script>
@@ -336,6 +394,15 @@ function deleteReply(replyNo) {
 	$("#postForm").attr("action","deleteReply.do")
 				.submit();
 }
+$(function() {
+	var cPage = $("#cPage").val();
+	console.log(cPage);
+	if(cPage != 1) {
+		var offset = $("#reply").offset();
+		console.log(offset);
+		document.getElementById('reply').scrollIntoView();
+	}
+});
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
