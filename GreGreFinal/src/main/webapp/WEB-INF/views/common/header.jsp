@@ -85,7 +85,7 @@
               <c:if test="${memberLoggedIn != null}">
               	<div class="site-quick-text">
 	            	<!--마이페이지 -->
-	                <a href="${pageContext.request.contextPath}/WEB-INF/views/myPage/myPageMain.html">
+	                <a href="${pageContext.request.contextPath}/myPage/myPageMain.do">
 	                  <span style="color: black !important; padding-right:20px;">마이페이지</span>
 	                </a>
               	</div>

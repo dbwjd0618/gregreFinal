@@ -7,6 +7,8 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="" name="pageTitle" />
 </jsp:include>
+
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/login.css"> 
 <!-- contents begin-->
 <div class="site-section">
