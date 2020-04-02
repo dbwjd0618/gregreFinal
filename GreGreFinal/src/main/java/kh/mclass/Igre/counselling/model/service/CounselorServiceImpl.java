@@ -15,6 +15,11 @@ import kh.mclass.Igre.counselling.model.vo.reviewStar;
 @Service
 public class CounselorServiceImpl implements CounselorService {
 	
+	@Override
+	public Double selectReviewRating(String advisId) {
+		return counselorDAO.selectReviewRating(advisId);
+	}
+
 	@Autowired
 	private CounselorDAO counselorDAO;
 
@@ -39,8 +44,8 @@ public class CounselorServiceImpl implements CounselorService {
 	}
 	
 	@Override
-	public List<Review> selectReviewList(Counselor c) {
-		return counselorDAO.selectReviewList(c);
+	public List<Map<String, String>> selectReviewList(Counselor c, int cPage, int numPerPage) {
+		return counselorDAO.selectReviewList(c, cPage, numPerPage);
 	}
 	
 	
@@ -78,9 +83,5 @@ public class CounselorServiceImpl implements CounselorService {
 		return counselorDAO.countReview(map);
 	}
 
-	@Override
-	public Double selectReviewRating(String advisId) {
-		return counselorDAO.selectReviewRating(advisId);
-	}
 
 }
