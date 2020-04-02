@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
+import kh.mclass.Igre.counselling.model.vo.reviewStar;
 
 @Repository
 public class CounselorDAOImpl implements CounselorDAO {
@@ -64,5 +65,22 @@ public class CounselorDAOImpl implements CounselorDAO {
 	public int selectReviewTotal(String advisId) {
 		return sqlSession.selectOne("counselor.selectReviewTotal",advisId);
 	}
+	
+	@Override
+	public int selectReviewCounselorOne(String advisId) {
+		return sqlSession.selectOne("review.selectReviewCounselorOne", advisId);
+	}
+
+	@Override
+	public List<reviewStar> particularReviewPointCount(String advisId) {
+		return sqlSession.selectList("review.particularReviewPointCount", advisId);
+	}
+
+	@Override
+	public int countReview(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("review.countReview", map);
+	}
+
 
 }

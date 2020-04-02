@@ -1,5 +1,6 @@
 package kh.mclass.Igre.counselling.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import kh.mclass.Igre.counselling.model.dao.CounselorDAO;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
+import kh.mclass.Igre.counselling.model.vo.reviewStar;
 
 @Service
 public class CounselorServiceImpl implements CounselorService {
@@ -58,4 +60,22 @@ public class CounselorServiceImpl implements CounselorService {
 		return counselorDAO.selectReviewTotal(advisId);
 	}
 	
+	@Override
+	public int selectReviewCounselorOne(String advisId) {
+		return counselorDAO.selectReviewCounselorOne(advisId);
+	}
+
+	@Override
+	public List<reviewStar> particularReviewPointCount(String advisId) {
+		return counselorDAO.particularReviewPointCount(advisId);
+	}
+
+	@Override
+	public int countReview(String advisId, int starPoint) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("advisId", advisId);
+		map.put("starPoint", starPoint);
+		return counselorDAO.countReview(map);
+	}
+
 }

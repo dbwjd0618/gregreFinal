@@ -32,12 +32,12 @@
 	
 	<!-- 상담사 1명 선택  -->
 	<select id="selectOne" resultMap="counselorCollection">
-	select 
-		*
-	from 
-		TB_adviser
-	where 
-		advis_id = #{advisId}
+		select 
+			* 
+		from 
+			TB_adviser 
+		where 
+			advis_id = #{advis_id}
 	</select>
 	
 	<select id="selectFilter" resultMap="counselorCollection">
