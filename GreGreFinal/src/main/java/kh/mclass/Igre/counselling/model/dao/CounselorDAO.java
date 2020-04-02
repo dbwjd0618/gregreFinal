@@ -31,5 +31,7 @@ public interface CounselorDAO {
 
 	int countReview(Map<String, Object> map);
 
+	Double selectReviewRating(String advisId);
+
 
 }
