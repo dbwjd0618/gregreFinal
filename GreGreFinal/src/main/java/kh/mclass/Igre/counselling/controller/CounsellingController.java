@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kh.mclass.Igre.common.Pagebar;
 import kh.mclass.Igre.counselling.model.service.CounselorService;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
@@ -86,21 +87,24 @@ public class CounsellingController {
 		System.out.println("===================================bookingMain=======================================");
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage =5;
+		
 		Counselor counselor = counselorService.selectOne(advisId);
 		
 		Counselor c = new Counselor();
 
 		c.setAdvisId(advisId);//test1
-		//리뷰 리스트
-		List<Review> list = counselorService.selectReviewList(c);
-		
 		
 		//모든상담사 리뷰 총 개수
 		int totalReviewContents = counselorService.selectReviewTotalContents();
 		
-		//특정 상담사에 관한 리뷰 총 개수
+		//상담사 1명의 리뷰 게시글 count
 		System.out.println("==========================reviewCountSelectOne==========================");
 		int reviewCountSelectOne = counselorService.selectReviewCounselorOne(advisId);
+		
+		//리뷰 리스트
+//		List<Review> list = counselorService.selectReviewList(c, cPage, numPerPage);
+		List<Map<String,String>> list = counselorService.selectReviewList(c, cPage, numPerPage);
+		mav.addObject("pageBar",Pagebar.getPageBar(reviewCountSelectOne, cPage, numPerPage,"/Igre/counselling/bookingMain.do?advisId="+advisId));
 		
 		//특정상담사에 관한 리뷰중 특정평점을 받은 글의 총 개수
 		List<reviewStar> list1 = new ArrayList<>();
@@ -110,8 +114,6 @@ public class CounsellingController {
 		list1.add(new reviewStar(2, counselorService.countReview(advisId, 2)));
 		list1.add(new reviewStar(1, counselorService.countReview(advisId, 1)));
 		
-
-
 		Double reviewRating = counselorService.selectReviewRating(advisId);
 
 		System.err.println("reviewRating=="+reviewRating);
@@ -151,6 +153,17 @@ public class CounsellingController {
 		param.put("day", day);
 		
 		List<Counselor> list = counselorService.selectFilter(param);
+		
+		//총 리뷰 가져오기
+		for(int i=0; i< list.size(); i++) {
+			list.get(i).setReviewTotal(counselorService.selectReviewTotal(list.get(i).getAdvisId())); 			
+		}
+		
+		
+		//별점 가져오기
+		for(int i=0; i< list.size(); i++) {
+			list.get(i).setStarPoint(counselorService.selectStarPoint(list.get(i).getAdvisId())); 			
+		}
 		log.debug(list.toString());
 		return list;
 	}

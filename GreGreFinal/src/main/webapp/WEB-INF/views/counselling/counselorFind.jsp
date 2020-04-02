@@ -11,14 +11,6 @@
 <!-- 헤더 선언!!-->
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <script>
-$(()=>{
-	$("article[data-advis-id]").on("click", function(){
-		let advisId = $(this).attr("data-advis-id");
-		console.log(advisId);
-		
-		location.href = "${pageContext.request.contextPath}/counselling/bookingMain.do?advisId="+advisId;
-	});
-});
 
 //전체 상담사 저장
 var counselorR = [];
@@ -40,19 +32,14 @@ $(function(){
 	
 
 	let result = "<div class='counselor-list-wrapper'><div class='counselor-info-list'>";
-	
 	for(var i=0; i<counselorR.length; i++){
 		result += "<article data-advis-id='"+counselorR[i].advisId+"'class='counselor-info'>";
 		result += "<div class='counselor-info-name'><h3 class='counselor-name'>"+counselorR[i].advisName+" <span style='color: #48DA91;'>"+counselorR[i].advisGrade+" 상담사</span></h3>";
 		result += "<p class='counselor-simple-greetings'>"+counselorR[i].advisLineIntro+"</p>";
 		//<!-- 평점 -->
-		result += "<div class='counselor-list-preview'><div class='star-score__wrap--middle'><ol>";
-		result += "<li class='star-score__ico is-all'></li>";
-		result += "<li class='star-score__ico is-all'></li>";
-		result += "<li class='star-score__ico is-all'></li>";
-		result += "<li class='star-score__ico is-all'></li>";
-		result += "<li class='star-score__ico is-half'></li>";
-		result += "</ol></div><div class='partner-list-box__review-score js-review-star-num'>"+counselorR[i].reviewTotal+"</div></div></div>";
+		result += "<div class='counselor-list-preview'><div class='star-score__wrap--middle'>";
+		result += "<span class='star-rating-middle'><span style='width:"+counselorR[i].starPoint*20+"%'>&nbsp;</span></span>"
+		result += "<div class='partner-list-box__review-score js-review-star-num'>("+counselorR[i].reviewTotal+")</div></div></div></div>";
 		//상담 이미지
 		result += "<div class='counselor-img'><img src='${pageContext.request.contextPath}/resources/images/counselling/"+counselorR[i].advisImg+"'alt='상담사 사진'></div>";
 		//상담 유형
@@ -108,13 +95,9 @@ $(function(){
 				result += "<div class='counselor-info-name'><h3 class='counselor-name'>"+nameChk[i].advisName+" <span style='color: #48DA91;'>"+nameChk[i].advisGrade+" 상담사</span></h3>";
 				result += "<p class='counselor-simple-greetings'>"+nameChk[i].advisLineIntro+"</p>";
 				//<!-- 평점 -->
-				result += "<div class='counselor-list-preview'><div class='star-score__wrap--middle'><ol>";
-				result += "<li class='star-score__ico is-all'></li>";
-				result += "<li class='star-score__ico is-all'></li>";
-				result += "<li class='star-score__ico is-all'></li>";
-				result += "<li class='star-score__ico is-all'></li>";
-				result += "<li class='star-score__ico is-half'></li>";
-				result += "</ol></div><div class='partner-list-box__review-score js-review-star-num'>"+nameChk[i].reviewTotal+"</div></div></div>";
+				result += "<div class='counselor-list-preview'><div class='star-score__wrap--middle'>";
+				result += "<span class='star-rating-middle'><span style='width:"+nameChk[i].starPoint*20+"%'>&nbsp;</span></span>"
+				result += "<div class='partner-list-box__review-score js-review-star-num'>("+nameChk[i].reviewTotal+")</div></div></div></div>";
 				//상담 이미지
 				result += "<div class='counselor-img'><img src='${pageContext.request.contextPath}/resources/images/counselling/"+nameChk[i].advisImg+"'alt='상담사 사진'></div>";
 				//상담 유형
@@ -159,34 +142,31 @@ $(function(){
 		text-indent: -9999px;
 	}
 
-<<<<<<< HEAD
+
 a {
 	text-decoration: none;
 }
-=======
-	a{
-		text-decoration: none;
-	}
-	
+
 	.star-rating {
     	width: 79px;
 	}
 
-    .star-rating,
-    .star-rating span {
+        .star-rating-middle {
+            width: 104px;
+        }
+        .star-rating-middle,
+        .star-rating-middle span {
             display: inline-block;
-            height: 15px;
+            height: 20px;
             overflow: hidden;
-            background: url(${pageContext.request.contextPath}/resources/images/counselling/성준테스트/star-small.png)no-repeat;
-    }
+            background: url(${pageContext.request.contextPath}/resources/images/counselling/star-middle.jpg)no-repeat;
+        }
+        .star-rating-middle span {
+            background-position: left bottom;
+            line-height: 0;
+            vertical-align: top;
+        }
 
-    .star-rating span {
-    	background-position: left bottom;
-        line-height: 0;
-        vertical-align: top;
-    }
-
->>>>>>> branch 'master' of https://github.com/Wingater/GreGre.git
 </style>
 
 <div class="ftco-blocks-cover-1">
@@ -399,7 +379,6 @@ a {
 <!-- contents end  -->
 <script>
 
-<<<<<<< HEAD
 function filter(){
 	//초기화
 	$(".search-form").val("");
@@ -438,13 +417,9 @@ function filter(){
 				result += "<div class='counselor-info-name'><h3 class='counselor-name'>"+resultArr[i].advisName+" <span style='color: #48DA91;'>"+resultArr[i].advisGrade+" 상담사</span></h3>";
 				result += "<p class='counselor-simple-greetings'>"+resultArr[i].advisLineIntro+"</p>";
 				//<!-- 평점 -->
-				result += "<div class='counselor-list-preview'><div class='star-score__wrap--middle'><ol>";
-				result += "<li class='star-score__ico is-all'></li>";
-				result += "<li class='star-score__ico is-all'></li>";
-				result += "<li class='star-score__ico is-all'></li>";
-				result += "<li class='star-score__ico is-all'></li>";
-				result += "<li class='star-score__ico is-half'></li>";
-				result += "</ol></div><div class='partner-list-box__review-score js-review-star-num'>"+resultArr[i].reviewTotal+"</div></div></div>";
+				result += "<div class='counselor-list-preview'><div class='star-score__wrap--middle'>";
+				result += "<span class='star-rating-middle'><span style='width:"+resultArr[i].starPoint*20+"%'>&nbsp;</span></span>"
+				result += "<div class='partner-list-box__review-score js-review-star-num'>("+resultArr[i].reviewTotal+")</div></div></div></div>";
 				//상담 이미지
 				result += "<div class='counselor-img'><img src='${pageContext.request.contextPath}/resources/images/counselling/"+resultArr[i].advisImg+"'alt='상담사 사진'></div>";
 				//상담 유형
@@ -470,8 +445,16 @@ function filter(){
 	
 	
 };
+
+$(()=>{
+	$("article[data-advis-id]").on("click", function(){
+		console.log("클릭함");
+		let advisId = $(this).attr("data-advis-id");
+		console.log(advisId);
+		
+		location.href = "${pageContext.request.contextPath}/counselling/bookingMain.do?advisId="+advisId;
+	});
+});
 </script>
 
-=======
->>>>>>> branch 'master' of https://github.com/Wingater/GreGre.git
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

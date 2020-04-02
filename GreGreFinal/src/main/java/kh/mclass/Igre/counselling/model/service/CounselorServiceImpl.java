@@ -44,8 +44,8 @@ public class CounselorServiceImpl implements CounselorService {
 	}
 	
 	@Override
-	public List<Review> selectReviewList(Counselor c) {
-		return counselorDAO.selectReviewList(c);
+	public List<Map<String, String>> selectReviewList(Counselor c, int cPage, int numPerPage) {
+		return counselorDAO.selectReviewList(c, cPage, numPerPage);
 	}
 	
 	
@@ -82,5 +82,6 @@ public class CounselorServiceImpl implements CounselorService {
 		map.put("starPoint", starPoint);
 		return counselorDAO.countReview(map);
 	}
+
 
 }
