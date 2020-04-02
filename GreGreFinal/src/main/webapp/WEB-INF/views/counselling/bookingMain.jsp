@@ -180,33 +180,33 @@ $(()=>{
                             <div class="chart-rating-wrapper">
                                 5
                                 <span class='chart-rating'>
-                                    <span style="width:100%"></span>
+                                    <span style="width:${list1.get(0).getReviewCount()*100/totalReviewContents}%"></span>
                                 </span>
-                                ()
+                                (${list1.get(0).getReviewCount()})
                                 <br>
                                 4
                                 <span class='chart-rating'>
-                                    <span style="width:80%"></span>
+                                    <span style="width:${list1.get(1).getReviewCount()*100/totalReviewContents}%"></span>
                                 </span>
-                                ()
+                                (${list1.get(1).getReviewCount()})
                                 <br>
                                 3
                                 <span class='chart-rating'>
-                                    <span style="width:60%"></span>
+                                    <span style="width:${list1.get(2).getReviewCount()*100/totalReviewContents}%"></span>
                                 </span>
-                                ()
+                                (${list1.get(2).getReviewCount()})
                                 <br>
                                 2
                                 <span class='chart-rating'>
-                                    <span style="width:40%"></span>
+                                    <span style="width:${list1.get(3).getReviewCount()*100/totalReviewContents}%"></span>
                                 </span>
-                                ()
+                                (${list1.get(3).getReviewCount()})
                                 <br>
                                 1
                                 <span class='chart-rating'>
-                                    <span style="width:20%"></span>
+                                    <span style="width:${list1.get(4).getReviewCount()*100/totalReviewContents}%"></span>
                                 </span>
-                                ()
+                                (${list1.get(4).getReviewCount()})
                             </div>
                         </div>
 					</div>

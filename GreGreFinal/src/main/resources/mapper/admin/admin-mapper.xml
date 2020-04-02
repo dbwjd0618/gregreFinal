@@ -161,6 +161,8 @@
 		*
 	from
 		tb_post_${boardCode}
+	order by
+		post_no asc
 	
 	</select>
 	
@@ -173,6 +175,26 @@
 		board_code = #{boardCode}
 	
 	</select>
+	
+	<delete id="boardPostDelete">
+	delete
+	
+	from
+		${table}
+	where
+		post_no = #{postNo}
+	</delete>
+	
+	<update id="noticeUpdate">
+	update
+		${table}
+	set
+		notice='Y'
+	where
+		board_code = #{boardCode}
+		and
+		post_no = #{postNo}
+	</update>
 	
 	
  
