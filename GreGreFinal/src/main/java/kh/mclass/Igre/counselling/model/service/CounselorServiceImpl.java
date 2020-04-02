@@ -15,6 +15,11 @@ import kh.mclass.Igre.counselling.model.vo.reviewStar;
 @Service
 public class CounselorServiceImpl implements CounselorService {
 	
+	@Override
+	public Double selectReviewRating(String advisId) {
+		return counselorDAO.selectReviewRating(advisId);
+	}
+
 	@Autowired
 	private CounselorDAO counselorDAO;
 
@@ -37,18 +42,29 @@ public class CounselorServiceImpl implements CounselorService {
 	public int selectReviewTotalContents() {
 		return counselorDAO.selectReviewTotalContents();
 	}
-
+	
 	@Override
 	public List<Review> selectReviewList(Counselor c) {
 		return counselorDAO.selectReviewList(c);
 	}
-
-	@Override
-	public Double selectReviewRating(String advisId) {
 	
-	return counselorDAO.selectReviewRating(advisId);
+	
+	
+	@Override
+	public List<Counselor> selectFilter(Map<String, String[]> param) {
+		return counselorDAO.selectFilter(param);
+	}
+	
+	@Override
+	public double selectStarPoint(String advisId) {
+		return counselorDAO.selectStarPoint(advisId);
 	}
 
+	@Override
+	public int selectReviewTotal(String advisId) {
+		return counselorDAO.selectReviewTotal(advisId);
+	}
+	
 	@Override
 	public int selectReviewCounselorOne(String advisId) {
 		return counselorDAO.selectReviewCounselorOne(advisId);
@@ -66,6 +82,5 @@ public class CounselorServiceImpl implements CounselorService {
 		map.put("starPoint", starPoint);
 		return counselorDAO.countReview(map);
 	}
-
 
 }

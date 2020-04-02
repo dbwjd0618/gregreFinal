@@ -20,13 +20,19 @@ public interface CounselorService {
 
 	List<Review> selectReviewList(Counselor c);
 
-	Double selectReviewRating(String advisId);
+	List<Counselor> selectFilter(Map<String, String[]> param);
+
+	double selectStarPoint(String advisId);
+
+	int selectReviewTotal(String advisId);
 
 	int selectReviewCounselorOne(String advisId);
 
 	List<reviewStar> particularReviewPointCount(String advisId);
 
 	int countReview(String advisId, int starPoint);
+
+	Double selectReviewRating(String advisId);
 
 
 }
