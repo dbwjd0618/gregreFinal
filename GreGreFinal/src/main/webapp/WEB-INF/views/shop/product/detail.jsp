@@ -102,7 +102,6 @@ span.optNm2 {
  		for( idx ; idx<dataOpt1.length;idx++){
 			for( t ; t<dataOpt2.length;t++){
 				var resultOption = optVal1+','+dataOpt2[t];
-			/* 	if(dataOpt1[i] == optVal1){ */
 				 for (var a=0; a<dataOptList.length;a++) {
 					if(resultOption == dataOptList[a].optionValue){
 						optPriceArr.push(Number(dataOptList[a].optionPrice)-discountPrice);
@@ -112,7 +111,6 @@ span.optNm2 {
 					}
 					
 				} 
-			/* 	} 	 */
 			}
 		}
 
@@ -160,6 +158,48 @@ span.optNm2 {
 		var htmlOutput = template.render(data);
 		$('#opt2-list .item').remove();
 		$("#opt2-list").append(htmlOutput);
+		
+		//optionValue가 없을 때
+		if(${optionValue2}==""){
+			console.log("없다");
+			
+			var optId="";
+			var optPrice=0;
+			var optNm1="";
+			var optStock=0;
+			for(var vIdx =0; vIdx <dataOptList.length ; vIdx++){
+				if(dataOptList[vIdx].optionValue == optVal1){
+			
+					optId = dataOptList[vIdx].optionId;
+					optPrice = dataOptList[vIdx].optionPrice;
+					optNm1 = dataOptList[vIdx].optionValue;
+					optStock = dataOptList[vIdx].optionStock;
+				}
+			}
+			console.log("optId"+optId);
+			console.log("optId"+optPrice);
+			console.log("optId"+optNm1);
+			console.log("optId"+optStock);
+			var price = "${p.price-p.discountPrice}";
+			//$('.optPrice').val(price);
+			var data = [ {
+				"optId" : optId,
+				"optPrice" : Number(optPrice),
+				"optNm" : optNm1,
+				"optStock" : Number(optStock)
+			} ];
+			
+			$('span.optNm2').remove();
+
+
+			
+			var template = $.templates("#itemTmplOption");
+			var htmlOutput = template.render(data);
+			$("#selected-option").append(htmlOutput);
+			var prevPrice = Number($('#totalPrice').text())+Number(optPrice);
+		
+			$('#totalPrice').text(prevPrice);		
+		}
 
 	}
 </script>
@@ -226,8 +266,6 @@ span.optNm2 {
 		if (num >= $(t).parent('div').find('[name=count]').attr('max')) {
 			console.log("증가값=" + num);
 			alert('더이상 늘릴수 없습니다.');
-		/* 	$('#totalPrice').text(prevPrice);
-			$(t).parent().parent().parent().parent().parent().find('.optPrice').text(resultOptPrice);	 */
 
 		} else if (num < $(t).parent('div').find('[name=count]').attr('max')) {
 			num++;
@@ -255,6 +293,13 @@ function detailSubmit(index){
 	document.detailFrm.submit();
 }
 
+</script>
+
+<script>
+$(function(){
+	$("#dec-button").prev().hide();
+	$("#inc-button").next().hide();
+});
 </script>
 <!-- Breadcrumb Section Begin -->
 <div class="breacrumb-section">
@@ -286,9 +331,14 @@ function detailSubmit(index){
 										src="${attachList.get(0).originalImg}" alt="">
 								</c:if>
 								<c:if test="${fn:contains(p.productId, 'p')}">
-									<img class="product-big-img"
-										src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attachList.get(0).renamedImg}"
-										alt="">
+									<c:forEach var="attach" items="${attachList}" varStatus="vs">
+									<c:if test='${ "R" eq attach.imgType}'>
+										<img class="product-big-img"
+											src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attach.renamedImg}"
+											alt="">
+								
+									</c:if>
+									</c:forEach>
 								</c:if>
 								<div class="zoom-icon">
 									<i class="fa fa-search-plus"></i>
@@ -296,36 +346,26 @@ function detailSubmit(index){
 							</div>
 							<div class="product-thumbs">
 								<div class="product-thumbs-track ps-slider owl-carousel">
-									<div class="pt active"
-										data-imgbigurl="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attachList.get(0).renamedImg}">
-										<img
-											src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attachList.get(0).renamedImg}"
-											alt="">
-									</div>
-									<div class="pt active"
-										data-imgbigurl="${pageContext.request.contextPath}/resources/upload/shop/productSubImg/${attachList.get(1).renamedImg}">
-										<img
-											src="${pageContext.request.contextPath}/resources/upload/shop/productSubImg/${attachList.get(1).renamedImg}"
-											alt="">
-									</div>
-									<div class="pt"
-										data-imgbigurl="${pageContext.request.contextPath}/resources/upload/shop/productSubImg/${attachList.get(2).renamedImg}">
-										<img
-											src="${pageContext.request.contextPath}/resources/upload/shop/productSubImg/${attachList.get(2).renamedImg}"
-											alt="">
-									</div>
-									<div class="pt"
-										data-imgbigurl="${pageContext.request.contextPath}/resources/upload/shop/productSubImg/${attachList.get(3).renamedImg}">
-										<img
-											src="${pageContext.request.contextPath}/resources/upload/shop/productSubImg/${attachList.get(3).renamedImg}"
-											alt="">
-									</div>
-									<div class="pt"
-										data-imgbigurl="${pageContext.request.contextPath}/resources/upload/shop/productSubImg/${attachList.get(4).renamedImg}">
-										<img
-											src="${pageContext.request.contextPath}/resources/upload/shop/productSubImg/${attachList.get(4).renamedImg}"
-											alt="">
-									</div>
+									<c:forEach var="attach" items="${attachList}" varStatus="vs">
+									<c:if test='${ "R" eq attach.imgType}'>
+											<div class="pt active"
+												data-imgbigurl="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attach.renamedImg}">
+												<img
+													src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attach.renamedImg}"
+													alt="">
+											</div>
+										</c:if> 
+									</c:forEach>
+									<c:forEach var="attach" items="${attachList}" varStatus="vs"> 
+										<c:if test='${ "D" eq attach.imgType}'>
+											<div class="pt"
+												data-imgbigurl="${pageContext.request.contextPath}/resources/upload/shop/productSubImg/${attach.renamedImg}">
+												<img
+													src="${pageContext.request.contextPath}/resources/upload/shop/productSubImg/${attach.renamedImg}"
+													alt="">
+											</div> 
+										</c:if>
+									</c:forEach>
 								</div>
 							</div>
 						</div>
@@ -343,6 +383,7 @@ function detailSubmit(index){
 								</div>
 								<div class="pd-desc">
 									<h4>
+										<c:set var="discountedPrice" value= "${p.price-p.discountPrice}"/>
 										<fmt:formatNumber type="number" maxFractionDigits="3"
 											value="${p.price-p.discountPrice}" />
 										원 <span> <fmt:formatNumber type="number"
@@ -454,6 +495,40 @@ function detailSubmit(index){
                                 	<input type="hidden" name="memberId" value="${memberLoggedIn.memberId }"> 
 									<!-- 선택정보영역 -->
 									<div id="selected-option">
+									
+										<!-- 옵션이 없을 경우 -->
+										<c:if test="${ empty optionList }">
+										
+											 <div class="option-box">
+                                            <input type="hidden" name="optionId" value="${p.productId }"> 
+                                            <input type="hidden" name="optionPrice" value="${discountedPrice }">
+                                            <div class="sel-title">
+                                                                                                        선택 : ${p.productName}
+                                              
+                                            </div>
+                                            
+                                            <div class="option-info">
+                                                <div class="fleft">
+                                                    <!--수량체크-->
+                                                    <div class="number-count fn-count">
+                                                            <div class="quantity">
+                                                                <div class="pro-qty">
+																	<span class="dec qtybtn" id="dec-button" onclick="dec(this,${discountedPrice});">-</span>
+                                                                    <input type="text" name="count" value="1"  min="1" max="${p.productStock }">
+                                                               		<span class="inc qtybtn" id="inc-button" onclick="inc(this,${discountedPrice});">+</span></div>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                                <div class="fright">
+                                                    <div class="price-select">
+                                                        <span class="number optPrice">${discountedPrice}</span><span class="unit">원</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+										</c:if>
+										
+										<!--  옵션이 없을 경우 끝 -->
 									</div>
 								</form>
 								</div>
@@ -465,7 +540,12 @@ function detailSubmit(index){
 											</div>
 											<div class="fright">
 												<div class="price-total" style="overflow: inherit;">
-													<span class="number" id="totalPrice">0</span>
+													<c:if test="${ empty optionList }" >
+														<span class="number" id="totalPrice">${discountedPrice}</span>
+													</c:if >
+													<c:if test="${ not empty optionList }" >
+														<span class="number" id="totalPrice">0</span>
+													</c:if >
 													<span class="unit">원</span>
 												</div>
 												<div class="price-saving">
