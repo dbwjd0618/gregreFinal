@@ -46,8 +46,13 @@ public class CounselorDAOImpl implements CounselorDAO {
 	}
 
 	@Override
-	public List<Review> selectReviewList(Counselor c) {
-		return sqlSession.selectList("review.selectReviewList",c);
+	public List<Map<String, String>> selectReviewList(Counselor c, int cPage, int numPerPage) {
+		
+		int offset = (cPage-1)*numPerPage;
+		int limit = numPerPage;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return sqlSession.selectList("review.selectReviewList",c,rowBounds);
 	}
 
 
@@ -78,13 +83,12 @@ public class CounselorDAOImpl implements CounselorDAO {
 
 	@Override
 	public int countReview(Map<String, Object> map) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectOne("review.countReview", map);
 	}
 
 	@Override
 	public Double selectReviewRating(String advisId) {
-		
+
 		return sqlSession.selectOne("review.selectReviewRating", advisId);
 	}
 
