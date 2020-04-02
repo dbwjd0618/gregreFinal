@@ -66,30 +66,6 @@ public class CounsellingController {
 		//리뷰 리스트
 		List<Review> list = counselorService.selectReviewList(c);
 		
-//		for(int i=0; i<list.size();i++) {
-//			switch(list.get(i).getStarPoint()) {
-//			case 1: //점일떄.
-//				fourStar+= list.get(0).getStarPoint();
-//			case 2:
-//				fourStar+= list.get(0).getStarPoint();
-//				
-//			}
-//			if(list.get(i).getStarPoint()==4) {
-//			fourStar+= list.get(0).getStarPoint();
-//			}
-//		}
-//		Map<String, Integer > starMap = HashMap<String,Integer>();
-//		
-//		int fourStarCnt =fourStar/4; 
-//		
-//		starMap.put("fourStar",fourStarCnt);
-//		
-//		
-//		
-//		
-//		System.err.println(fourStarCnt);
-////		Map가져가라 ?
-//		//스타 포인트 가져오니까 여기서 처리하고 그걸 넘겨주면된다 .
 		
 		//모든상담사 리뷰 총 개수
 		int totalReviewContents = counselorService.selectReviewTotalContents();
@@ -106,7 +82,7 @@ public class CounsellingController {
 		list1.add(new reviewStar(2, counselorService.countReview(advisId, 2)));
 		list1.add(new reviewStar(1, counselorService.countReview(advisId, 1)));
 		
-		
+
 		Double reviewRating = counselorService.selectReviewRating(advisId);
 		System.err.println("reviewRating=="+reviewRating);
 		mav.addObject("reviewRating",reviewRating);
