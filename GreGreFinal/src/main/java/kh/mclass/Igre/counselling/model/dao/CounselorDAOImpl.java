@@ -1,6 +1,7 @@
 package kh.mclass.Igre.counselling.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
+import kh.mclass.Igre.counselling.model.vo.reviewStar;
 
 @Repository
 public class CounselorDAOImpl implements CounselorDAO {
@@ -52,4 +54,22 @@ public class CounselorDAOImpl implements CounselorDAO {
 		
 		return sqlSession.selectOne("review.selectReviewRating",advisId);
 	}
+
+	@Override
+	public int selectReviewCounselorOne(String advisId) {
+		return sqlSession.selectOne("review.selectReviewCounselorOne", advisId);
+	}
+
+	@Override
+	public List<reviewStar> particularReviewPointCount(String advisId) {
+		return sqlSession.selectList("review.particularReviewPointCount", advisId);
+	}
+
+	@Override
+	public int countReview(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("review.countReview", map);
+	}
+
+
 }
