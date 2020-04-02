@@ -1,9 +1,11 @@
 package kh.mclass.Igre.counselling.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
+import kh.mclass.Igre.counselling.model.vo.reviewStar;
 
 public interface CounselorDAO {
 
@@ -13,12 +15,23 @@ public interface CounselorDAO {
 
 	Counselor selectOne(String advisId);
 
-//	List<Review> selectReviewList(int cPage, int numPerPage);
-
 	int selectReviewTotalContents();
 
 	List<Review> selectReviewList(Counselor c);
 
+	List<Counselor> selectFilter(Map<String, String[]> param);
+
+	double selectStarPoint(String advisId);
+
+	int selectReviewTotal(String advisId);
+
+	int selectReviewCounselorOne(String advisId);
+
+	List<reviewStar> particularReviewPointCount(String advisId);
+
+	int countReview(Map<String, Object> map);
+
 	Double selectReviewRating(String advisId);
+
 
 }

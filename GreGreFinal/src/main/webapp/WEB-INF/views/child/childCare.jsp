@@ -108,8 +108,9 @@
 				</div>
 				
 				<div id="map" style="width:100%;height:400px;"></div>
+				 <div id="result"></div>
 				<!--contents end-->
-				<div id="selectP"></div>
+				 <div id="selectP"></div> 
 			</div>
 		</div>
 	</div>
@@ -165,6 +166,8 @@ function onErrorGeolocation() {
 
 $(".btn-send").click(e=>{
 	
+	$("#selectP").html("");
+	
 	//주소 불러오기
 	
 	var si = $("[name=h_area1] option:selected").text();
@@ -208,6 +211,7 @@ $(".btn-send").click(e=>{
 				
 			}else{
 			let $item = $(data).find("item");
+			
 			
 				$(data).find("item").each(function(i,e){
 					

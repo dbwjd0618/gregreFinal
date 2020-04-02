@@ -82,7 +82,7 @@ width: max-content;
 					<li class="list"><a href="${pageContext.request.contextPath }/find/careCenter.do">어린이집 찾기</a></li>
 					<li class="list"><a href="${pageContext.request.contextPath }/find/serviceCenter.do">복지센터 찾기</a></li>
 					<li class="list"><a href="${pageContext.request.contextPath }/find/hospital.do">병원 찾기</a></li>
-					<li class="list"><a href="${pageContext.request.contextPath }/find/phamacy.do">약국 찾기</a></li>
+					<li class="list"><a href="${pageContext.request.contextPath }/find/pharmacy.do">약국 찾기</a></li>
 				</ul>
 			</div>
 

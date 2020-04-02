@@ -4,7 +4,9 @@ import java.util.List;
 
 import kh.mclass.Igre.admin.model.vo.Admin;
 import kh.mclass.Igre.admin.model.vo.Amember;
-import kh.mclass.Igre.admin.model.vo.Report;
+import kh.mclass.Igre.admin.model.vo.AdminReport;
+import kh.mclass.Igre.board.model.vo.Board;
+import kh.mclass.Igre.board.model.vo.Post;
 
 public interface AdminService {
 
@@ -22,7 +24,7 @@ public interface AdminService {
 
 	List<Amember> deleteList();
 
-	List<Report> report();
+	List<AdminReport> report();
 
 	int postDelete(String boardCode, Integer postNo);
 
@@ -31,6 +33,18 @@ public interface AdminService {
 	int replyDelete(String boardCode, Integer replyNo);
 
 	int replyUpdate(String boardCode, Integer postNo, Integer replyNo);
+
+	List<Board> board();
+
+	int insertboard(Board board);
+
+	List<Post> boardList(String boardCode);
+
+	Board boardName(String boardCode);
+
+	int boardPostDelete(String boardCode, Integer postNo);
+
+	int noticeUpdate(String boardCode, Integer postNo);
 
 
 

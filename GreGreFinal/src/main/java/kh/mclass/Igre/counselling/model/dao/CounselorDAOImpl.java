@@ -1,6 +1,8 @@
 package kh.mclass.Igre.counselling.model.dao;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
+import kh.mclass.Igre.counselling.model.vo.reviewStar;
 
 @Repository
 public class CounselorDAOImpl implements CounselorDAO {
@@ -37,16 +40,6 @@ public class CounselorDAOImpl implements CounselorDAO {
 		return sqlSession.selectOne("counselor.selectOne", advisId);
 	}
 
-//	@Override
-//	public List<Review> selectReviewList(int cPage, int numPerPage) {
-//		
-//		int offset = (cPage-1)*numPerPage;
-//		int limit = numPerPage;
-//		RowBounds rowBounds = new RowBounds(offset, limit);
-//		
-//		return sqlSession.selectList("review.selectReviewList", null, rowBounds);
-//	}
-
 	@Override
 	public int selectReviewTotalContents() {
 		return sqlSession.selectOne("review.selectReviewTotalContents");
@@ -57,9 +50,43 @@ public class CounselorDAOImpl implements CounselorDAO {
 		return sqlSession.selectList("review.selectReviewList",c);
 	}
 
+
+	@Override
+	public List<Counselor> selectFilter(Map<String, String[]> param) {
+		return sqlSession.selectList("counselor.selectFilter", param);
+	}
+
+	@Override
+	public double selectStarPoint(String advisId) {
+		return sqlSession.selectOne("counselor.selectStarPoint",advisId);
+	}
+
+	@Override
+	public int selectReviewTotal(String advisId) {
+		return sqlSession.selectOne("counselor.selectReviewTotal",advisId);
+	}
+	
+	@Override
+	public int selectReviewCounselorOne(String advisId) {
+		return sqlSession.selectOne("review.selectReviewCounselorOne", advisId);
+	}
+
+	@Override
+	public List<reviewStar> particularReviewPointCount(String advisId) {
+		return sqlSession.selectList("review.particularReviewPointCount", advisId);
+	}
+
+	@Override
+	public int countReview(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("review.countReview", map);
+	}
+
 	@Override
 	public Double selectReviewRating(String advisId) {
 		
-		return sqlSession.selectOne("review.selectReviewRating",advisId);
+		return sqlSession.selectOne("review.selectReviewRating", advisId);
 	}
+
+
 }

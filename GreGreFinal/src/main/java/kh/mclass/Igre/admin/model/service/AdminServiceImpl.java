@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import kh.mclass.Igre.admin.model.dao.AdminDAO;
 import kh.mclass.Igre.admin.model.vo.Admin;
 import kh.mclass.Igre.admin.model.vo.Amember;
-import kh.mclass.Igre.admin.model.vo.Report;
+import kh.mclass.Igre.admin.model.vo.AdminReport;
+import kh.mclass.Igre.board.model.vo.Board;
+import kh.mclass.Igre.board.model.vo.Post;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -52,7 +54,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<Report> report() {
+	public List<AdminReport> report() {
 		return adminDAO.report();
 	}
 
@@ -75,6 +77,37 @@ public class AdminServiceImpl implements AdminService{
 	public int replyUpdate(String boardCode, Integer postNo, Integer replyNo) {
 		return adminDAO.replyUpdate(boardCode, postNo, replyNo);
 	}
+
+	@Override
+	public List<Board> board() {
+		return adminDAO.board();
+	}
+
+	@Override
+	public int insertboard(Board board) {
+		return adminDAO.insertboard(board);
+	}
+
+	@Override
+	public List<Post> boardList(String boardCode) {
+		return adminDAO.boardList(boardCode);
+	}
+
+	@Override
+	public Board boardName(String boardCode) {
+		return adminDAO.boardName(boardCode);
+	}
+
+	@Override
+	public int boardPostDelete(String boardCode, Integer postNo) {
+		return adminDAO.boardPostDelete(boardCode, postNo);
+	}
+
+	@Override
+	public int noticeUpdate(String boardCode, Integer postNo) {
+		return adminDAO.noticeUpdate(boardCode, postNo);
+	}
+
 
 
 }
