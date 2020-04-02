@@ -30,12 +30,16 @@
 .table td, .table th {
 	border-top: 0;
 }
-</style>
-<script>
-function goCoupon(){
-	
+img.kakao-img {
+    padding-top: 29px;
+    padding-bottom: 6px;
 }
-</script>
+input.site-btn.place-btn {
+    width: 170px;
+    height: auto;
+}
+</style>
+
 <!-- Breadcrumb Section Begin -->
 <div class="breacrumb-section">
 	<div class="container">
@@ -53,7 +57,7 @@ function goCoupon(){
 
 <!-- Shopping Cart Section Begin -->
 <section class="checkout-section spad">
-	<form action="#" class="checkout-form">
+	<form class="checkout-form">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
@@ -107,13 +111,16 @@ function goCoupon(){
 									</td>
 
 									<td class="p-price first-row">
-										<fmt:formatNumber type="number" maxFractionDigits="3" value="${p.deliveryFee}" />원
+										<fmt:formatNumber type="number" maxFractionDigits="3" value="${p.deliveryFee}" />
+										  원
 									</td>
 									<td class="qua-col first-row">${totalAmount}</td>
-									<td class="qua-col first-row"><span class="discount">
+									<td class="qua-col first-row">
+									<span class="discount">
 											<c:set var="totalDiscount" value="${fn:length(optionList)*p.discountPrice }" /> <span
 											class="_discountAmount">(-) </span> <span
-											class="_discountAmountText"> <fmt:formatNumber
+											class="_discountAmountText"> 
+											<fmt:formatNumber
 													type="number" maxFractionDigits="3"
 													value="${totalDiscount}" /> 원
 										</span>
@@ -231,15 +238,13 @@ function goCoupon(){
 									<td>
 										<div class="input_area">
 											<input type="text" name="productCouponPrice" id="pro_coupon"
-												value="29,200" class="value" title="상품/주문쿠폰금액"
-												disabled="disabled"> <span class="measure">원</span>
+												value="" class="value" title="상품/주문쿠폰금액"
+												readOnly> <span class="measure">원</span>
 										</div>
 										<button type="button" class="coupon-btn" data-toggle="modal"
 											data-target="#couponModal">쿠폰사용</button>
 										<ul class="use_list">
-											<li>(사용가능 쿠폰 : <em>1</em>장
-											</li>
-											<li>보유 쿠폰 : <em>0</em>장)
+											<li>(보유 쿠폰 : <em>${fn:length(sMem.couponList)}</em>장)
 											</li>
 										</ul>
 									</td>
@@ -262,8 +267,8 @@ function goCoupon(){
 									<th>보유 포인트</th>
 									<td>
 										<div class="input_area no_underline">
-											<span class="value">${sMem.point }</span> <span
-												class="measure" style="position: relative; top: -24px;">원</span>
+											 <span class="value" id="has-point">${sMem.point }</span>  
+											<span class="measure" style="position: relative; top: -24px;">원</span>				
 										</div>
 									</td>
 								</tr>
@@ -271,9 +276,16 @@ function goCoupon(){
 									<th>사용 포인트</th>
 									<td>
 										<div class="input_area">
+										<c:if test="${sMem.point == 0 }">
 											<input type="text" id="mileage" title="포인트" name="payAmounts"
-												value="0" class="value"> <span class="measure"
-												style="position: relative; top: -24px;">원</span>
+												value="0" class="value" readonly /> 
+												<span class="measure" style="position: relative; top: -24px;">원</span>
+											</c:if> 
+											<c:if test="${sMem.point!= 0 }">
+												<input type="text" id="mileage" title="포인트" name="payAmounts"
+													value="0" class="value"> 
+													<span class="measure" style="position: relative; top: -24px;">원</span>
+											</c:if>
 
 										</div>
 
@@ -302,12 +314,12 @@ function goCoupon(){
 								결제 금액</h5>
 							<ul class="order-table">
 								<li class="total-price" style="border: 0; margin-bottom: 20px;"><span
-									style="font-size: 30px; padding-top: 5px; float: left;">242,500원</span></li>
-								<li class="fw-normal">총 상품금액 <span>60,000원</span></li>
-								<li class="fw-normal">배송비 <span>2500원</span></li>
-								<li class="fw-normal">할인금액<span>(-)2500원</span></li>
-								<li class="fw-normal">포인트 사용금액<span>(-)2500원</span></li>
-								<li class="fw-normal">쿠폰 사용금액<span>(-)2500원</span></li>
+									style="font-size: 30px; padding-top: 5px; float: left;"><em id="total-pay"></em>원</span></li>
+								<li class="fw-normal">총 상품금액 <span><em id="total-prod">${totalPrice}</em>원</span></li>
+								<li class="fw-normal">배송비 <span>(+)<em id="total-del"><fmt:formatNumber type="number" maxFractionDigits="3" value="${p.deliveryFee}" /></em>원</span></li>
+								<li class="fw-normal">할인금액<span>(-)<em id="total-dis">${totalDiscount}</em>원</span></li>
+								<li class="fw-normal">포인트 사용금액<span>(-)<em id="used-point"></em>원</span></li>
+								<li class="fw-normal">쿠폰 사용금액<span>(-)<em id="used-coupon"></em>원</span></li>
 							</ul>
 						</div>
 					</div>
@@ -319,52 +331,29 @@ function goCoupon(){
 					<h4>결제수단</h4>
 					<div class="pay_method">
 						<div class="payment_panel">
-							<input type="radio" value="tosspay" name="order[payment_method]"
-								id="order_payment_method_tosspay"> <label
-								class="first  top" for="order_payment_method_tosspay"> <img
-								class="img" width="64"
-								src="https://bucketplace-v2-development.s3.amazonaws.com/pg/toss.png"
-								alt="Toss">
-								<div class="title">토스</div>
-							</label> <input type="radio" value="kcp_credit_card"
-								name="order[payment_method]"
-								id="order_payment_method_kcp_credit_card"> <label
-								class=" top" for="order_payment_method_kcp_credit_card">
+						<!-- 결제선택  시작-->
+							<!-- 신용카드 결제 -->
+							<input type="radio" value="cr"
+								name="payMethod"
+								id="order_payment_method_kcp_credit_card"> 
+								<label
+								class="first top" for="order_payment_method_kcp_credit_card">
 								<img class="img" width="64"
 								src="https://bucketplace-v2-development.s3.amazonaws.com/pg/card.png"
 								alt="Card">
 								<div class="title">카드</div>
-							</label> <input type="radio" value="payco" name="order[payment_method]"
-								id="order_payment_method_payco"> <label class=" top"
-								for="order_payment_method_payco"> <img class="img"
-								width="64"
-								src="https://bucketplace-v2-development.s3.amazonaws.com/pg/payco.png"
-								alt="Payco">
-								<div class="title">페이코</div>
-							</label> <input type="radio" value="smilepay"
-								name="order[payment_method]" id="order_payment_method_smilepay">
+							</label> 
+							<!-- 실시간 계좌이체 -->
+							<input type="radio" value="ra"
+								name="payMethod" id="order_payment_method_smilepay">
 							<label class=" top" for="order_payment_method_smilepay">
 								<img class="img" width="64"
 								src="https://bucketplace-v2-development.s3.amazonaws.com/pg/smilepay.png"
 								alt="Smilepay">
-								<div class="title">스마일페이</div>
-							</label> <input type="radio" value="naverpay"
-								name="order[payment_method]" id="order_payment_method_naverpay">
-							<label class=" top" for="order_payment_method_naverpay">
-								<img class="img" width="64"
-								src="https://bucketplace-v2-development.s3.amazonaws.com/pg/naver.png"
-								alt="Naver">
-								<div class="title">네이버페이</div>
-
-							</label> <input type="radio" value="without_bankbook"
-								name="order[payment_method]"
-								id="order_payment_method_without_bankbook"> <label
-								class=" top" for="order_payment_method_without_bankbook">
-								<img class="img" width="64"
-								src="https://bucketplace-v2-development.s3.amazonaws.com/pg/vbank.png"
-								alt="Vbank">
-								<div class="title">무통장입금</div>
-							</label> <input type="radio" value="phone" name="order[payment_method]"
+								<div class="title">실시간계좌이체</div>
+							</label>
+							<!-- 휴대폰 결제 -->
+							<input type="radio" value="ph" name="payMethod"
 								id="order_payment_method_phone"> <label class=" top"
 								for="order_payment_method_phone"> <img class="img"
 								width="64"
@@ -372,8 +361,48 @@ function goCoupon(){
 								alt="Phone">
 								<div class="title">핸드폰</div>
 
-							</label>
+							</label> 
+							<!-- 무통장입금 -->
+							<input type="radio" value="ac"
+								name="payMethod"
+								id="order_payment_method_without_bankbook"> <label
+								class=" top" for="order_payment_method_without_bankbook">
+								<img class="img" width="64"
+								src="https://bucketplace-v2-development.s3.amazonaws.com/pg/vbank.png"
+								alt="Vbank">
+								<div class="title">무통장입금</div>
+							</label> 
+							<!-- 네이버페이 -->
+							<input type="radio" value="na"
+								name="payMethod" id="order_payment_method_naverpay">
+							<label class=" top" for="order_payment_method_naverpay">
+								<img class="img" width="64"
+								src="https://bucketplace-v2-development.s3.amazonaws.com/pg/naver.png"
+								alt="Naver">
+								<div class="title">네이버페이</div>
 
+							</label> 
+							<!-- 카카오페이 -->
+							<input type="radio" value="ka" name="payMethod"
+								id="order_payment_method_kakao"> <label class=" top"
+								for="order_payment_method_kakao"> 
+								<img 
+								width="64"
+								class="kakao-img"
+								src="${pageContext.request.contextPath }/resources/images/shop/pay/kakaoPay.png"
+								alt="kakaoPay">
+								<div class="title">카카오페이</div>
+							</label> 
+								<!-- 토스결제 -->
+							<input type="radio" value="to" name="payMethod"
+								id="order_payment_method_tosspay"> <label
+								class="top" for="order_payment_method_tosspay"> <img
+								class="img" width="64"
+								src="https://bucketplace-v2-development.s3.amazonaws.com/pg/toss.png"
+								alt="Toss">
+								<div class="title">토스</div>
+							</label> 
+							<!-- 결제선택 끝 -->
 						</div>
 					</div>
 					<div id="confirm_checkbox">
@@ -467,13 +496,15 @@ function goCoupon(){
 						</div>
 					</div>
 					<div class="order-btn">
-						<button type="submit" class="site-btn place-btn">결제하기</button>
+						<input type="button" class="site-btn place-btn" onclick="goPay();" value="결제하기"/>
 					</div>
 				</div>
 			</div>
-	</form>
-	<button type="button" class="site-btn place-btn impPay">결제하기test</button>
+			</div>
+		</form>
 
+</section>
+<!-- 	<button type="button" class="site-btn place-btn impPay">결제하기test</button> -->
 	<!-- 쿠폰사용 modal -->
 	<div class="modal fade" id="couponModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -487,7 +518,7 @@ function goCoupon(){
 					</button>
 				</div>
 			<form>
-				<div class="modal-body">
+				<div class="modal-body" >
 						<div class="row">	
 							<div class="col-lg-12">	
 								<label for="coupon-title" class="col-form-label">할인 쿠폰 선택</label>
@@ -508,7 +539,7 @@ function goCoupon(){
 								</colgroup>
 									<thead>
 										<tr>
-											<th></th>
+											<th>선택</th>
 											<th>쿠폰번호</th>
 											<th>쿠폰명</th>
 											<th>할인액(율)</th>
@@ -521,10 +552,11 @@ function goCoupon(){
 									 
 										<tr>
 											<td>
-												<input type="radio"  style="height:auto; margin:0px"/>
+												<input type="radio" name="coupon-radio"  style="height:auto; margin:0px"/>
 												<input type="hidden" name="couponId"  value="${cList.couponId }"/>
 												<c:if test="${cList.discountType eq 'P'}">
-													<input type="hidden" name="discountValue" value="${fn:length(optionList)*cList.discountValue*0.01}"/>
+													<fmt:parseNumber var="discountVal" integerOnly="true" value="${totalPrice*cList.discountValue*0.01} " />  													
+													<input type="hidden" name="discountValue" value="<fmt:formatNumber type="number" maxFractionDigits="3" value="${discountVal}" />"/>
 												</c:if>
 												<c:if test="${cList.discountType eq 'C'}">
 													<input type="hidden" name="discountValue" value="${cList.discountValue }"/>
@@ -567,8 +599,97 @@ function goCoupon(){
 		</div>
 	</div>
 	<!-- 모달 끝 -->
-</section>
-<!-- 아임포트 결제하기 부분 -->
+<!-- 최종 금액 -->
+<script>
+$(function(){
+	var totalProd = Number($('#total-prod').text());
+	var totalDel = Number($('#total-del').text().replace(",",""));
+	var totalDis = Number($('#total-dis').text());
+	var totalPay = totalProd+totalDel - totalDis;
+	
+	$("#total-pay").text(totalPay);
+});
+</script>
+<!-- 포인트 사용 -->
+<script>
+$(function(){
+	$("input[name=payAmounts]").on("propertychange change keyup paste input",function(){
+		var usingPoint = $(this).val();
+		var hasPoint = Number($("#has-point").text());
+		var totalPay = Number($("#total-pay").text());
+		if(Number(usingPoint)>hasPoint){
+			alert("보유하신 포인트보다 많습니다. ");
+			$(this).val(hasPoint);
+			return;
+		}
+		if(hasPoint>0){
+		$('#used-point').text(usingPoint);	
+		 	totalPay -= Number(usingPoint);
+			$("#total-pay").text(totalPay);
+		}
+		
+		return;
+	});
+
+});
+</script>
+<!--쿠폰 사용 -->
+<script>
+function goCoupon(){
+ 	var couponValue = $("input[name=coupon-radio]:checked").next().next().val();
+	var totalPay = Number($("#total-pay").text());
+	
+	totalPay -= Number(couponValue.replace(",",""));
+	$("#total-pay").text(totalPay);
+	
+	$("#pro_coupon").val(couponValue);
+	$('#used-coupon').text(couponValue);
+ 	$('#couponModal').modal('hide');
+	
+}
+</script>
+<!-- 결제하기 -->
+<script>
+function goPay(){
+	var payMethod = $("input[name=payMethod]:checked").val();
+	console.log("payMe"+payMethod);
+	if(payMethod =='cr'){
+		var IMP = window.IMP; // 생략가능
+        IMP.init('iamport');
+		
+	        IMP.request_pay({
+	            pg : 'inicis', // version 1.1.0부터 지원.
+	            pay_method : 'card',
+	            merchant_uid : 'merchant_' + new Date().getTime(),
+	            name : '주문명:결제테스트',
+	            amount : 14000,
+	            buyer_email : 'iamport@siot.do',
+	            buyer_name : '구매자이름',
+	            buyer_tel : '010-1234-5678',
+	            buyer_addr : '서울특별시 강남구 삼성동',
+	            buyer_postcode : '123-456',
+	            m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+	        }, function(rsp) {
+	            if ( rsp.success ) {
+	                var msg = '결제가 완료되었습니다.';
+	                msg += '고유ID : ' + rsp.imp_uid;
+	                msg += '상점 거래ID : ' + rsp.merchant_uid;
+	                msg += '결제 금액 : ' + rsp.paid_amount;
+	                msg += '카드 승인번호 : ' + rsp.apply_num;
+	            } else {
+	                var msg = '결제에 실패하였습니다.';
+	                msg += '에러내용 : ' + rsp.error_msg;
+	            }
+	            alert(msg);
+        });
+	}
+	
+	
+}
+
+
+</script>
+ <!-- 아임포트 결제하기 테스트 -->
 <script>
     $(function(){
     	$(".impPay").click(function(){
@@ -601,7 +722,7 @@ function goCoupon(){
 		            alert(msg);
 	        });
     	});
-    });
+    }); 
     
     </script>
 <!-- Shopping Cart Section End -->
