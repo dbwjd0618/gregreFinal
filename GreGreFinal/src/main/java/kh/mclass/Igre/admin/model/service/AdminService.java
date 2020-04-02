@@ -42,6 +42,10 @@ public interface AdminService {
 
 	Board boardName(String boardCode);
 
+	int boardPostDelete(String boardCode, Integer postNo);
+
+	int noticeUpdate(String boardCode, Integer postNo);
+
 
 
 }
