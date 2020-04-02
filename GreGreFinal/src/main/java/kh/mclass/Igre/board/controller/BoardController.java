@@ -3,6 +3,7 @@ package kh.mclass.Igre.board.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -195,5 +196,21 @@ public class BoardController {
 	@ResponseBody
 	public int submitReport(Report report) {
 		return bs.submitReport(report);
+	}
+	
+	@GetMapping("/postWrite.do")
+	public void postWrite(Model model, @RequestParam("boardCode") String boardCode) {
+		
+		String boardName = bs.boardName(boardCode);
+		if(boardName == null) {
+			boardCode = "B1";
+			boardName = "공지사항";
+		}
+		model.addAttribute("boardName", boardName);
+		model.addAttribute("boardCode", boardCode);
+		
+		List<Board> boardList = bs.boardList();
+		model.addAttribute("boardList", boardList);
+		
 	}
 }
