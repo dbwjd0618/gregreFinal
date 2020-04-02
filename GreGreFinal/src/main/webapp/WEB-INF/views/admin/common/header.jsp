@@ -141,7 +141,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="memberAuthor.html"><i class="fa fa-circle-o"></i> 관리자 권한 수정</a></li>
+                <li><a href="${pageContext.request.contextPath }/admin/athorityList.do"><i class="fa fa-circle-o"></i> 관리자 권한 수정</a></li>
               </ul>
             </li>
              <li class="treeview">

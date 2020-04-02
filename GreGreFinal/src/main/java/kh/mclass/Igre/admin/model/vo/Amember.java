@@ -25,12 +25,12 @@ public class Amember implements Serializable{
 	private String memberId;
 	private String memberPwd;
 	private String memberName;
+	private String grade;
 	private String nickname;
 	private Date birthday;
 	private String phone;
 	private String address;
 	private String email;
-	private String grade;
 	private String gender;
 	private int age;
 	private Date enrollDate;

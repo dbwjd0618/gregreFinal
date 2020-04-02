@@ -25,15 +25,17 @@ public class Admin implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String adminId;
-	private String adminPwd;
 	private String adminName;
-	private String grade;
 	private String nickname;
 	private Date birthday;
 	private String phone;
 	private String address;
 	private String email;
 	private String gender;
+	private Date enrollDate;
+	private String grade;
+	private String adminPwd;
+	
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
