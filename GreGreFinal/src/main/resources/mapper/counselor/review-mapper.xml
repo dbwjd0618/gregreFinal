@@ -30,6 +30,30 @@
 		where 
 			advis_id = #{advisId}
 	</select>
+	
+	<!-- 특정 상담사에게 달린 댓글 총 개수  -->
+	<select resultType="_int" id="selectReviewCounselorOne">
+		select 
+			count (*) 
+		from 
+			TB_adviser_review 
+		where 
+			advis_id = #{advis_id}
+	</select>
+	
+	<!-- 특정상담사에 관한 리뷰중 특정평점을 받은 글의 총 개수  -->
+	<select resultType="reviewStar" id="particularReviewPointCount">
+		select star_point, count(*) review_count from TB_adviser_review where advis_id = #{advisId} group by star_point
+	</select>
+	
+	<select id="countReview" resultType="_int">
+		select 
+			count (*) 
+		from 
+			TB_adviser_review 
+		where 
+			advis_id = #{advisId} and star_point = #{starPoint}
+	</select>
 
 	
 </mapper>
