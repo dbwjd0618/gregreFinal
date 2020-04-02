@@ -7,6 +7,10 @@
 
 <!-- 헤더 선언!!-->
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%
+	String pageBar = (String)request.getAttribute("pageBar");
+%>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/counselling/bookingMainStyle.css">
 <script>
 $(()=>{
@@ -54,6 +58,50 @@ $(()=>{
     .ratio-m{
         color: #999999;
     }
+    
+    
+    .chart-graph{
+        border: 1px solid rgba(229,229,229);
+        max-width: 400px;
+        min-height: 100px;
+        margin-left: 500px;
+        margin-top: -120px;
+        border: 0;
+    }
+
+    .chart-rating {
+        width: 100px;
+    }
+    .chart-rating,
+    .chart-rating span {
+        display: inline-block;
+        height: 15px;
+        overflow: hidden;
+        background: url(${pageContext.request.contextPath}/resources/images/counselling/chartex.jpg)no-repeat;
+    }
+    .chart-rating span {
+        background-position: left bottom;
+        line-height: 0;
+        vertical-align: top;
+    }
+    .chart-rating-wrapper{
+        min-width: 150px;
+        max-width: 150px;
+    }
+    
+    /*페이지바*/
+	div#pageBar{
+		margin-top:10px; 
+		text-align:center; 
+	}
+	div#pageBar span.cPage{
+		color: #0066ff; margin-right: 5px;
+	}
+	div#pageBar a{
+		margin-right: 5px;
+	}
+    
+    
 </style>
 
 
@@ -109,7 +157,6 @@ $(()=>{
 		margin-left: -4px;
 	}
 </style>
-</style>
 	<!-- contents begin-->
 	<div class="site-section">
 		<div class="container">
@@ -137,15 +184,47 @@ $(()=>{
     					<div class="star1-rating-main">
         					<span class="main-star">
             					<span class='star-rating'>
-    								<span style ='width:${reviewRating*20}%'></span>
+    								<span style ="width:${reviewRating*20}%"></span>
 								</span>
         					</span>
             				<span class="rating-point">
                 				<strong>${reviewRating}</strong>
                 				<span class="ratio-m">/5</span>
             				</span>
-        
     					</div>
+    					<div class="chart-graph">
+                            <div class="chart-rating-wrapper">
+                                5
+                                <span class='chart-rating'>
+                                    <span style="width:${list1.get(0).getReviewCount()*100/totalReviewContents}%"></span>
+                                </span>
+                                (${list1.get(0).getReviewCount()})
+                                <br>
+                                4
+                                <span class='chart-rating'>
+                                    <span style="width:${list1.get(1).getReviewCount()*100/totalReviewContents}%"></span>
+                                </span>
+                                (${list1.get(1).getReviewCount()})
+                                <br>
+                                3
+                                <span class='chart-rating'>
+                                    <span style="width:${list1.get(2).getReviewCount()*100/totalReviewContents}%"></span>
+                                </span>
+                                (${list1.get(2).getReviewCount()})
+                                <br>
+                                2
+                                <span class='chart-rating'>
+                                    <span style="width:${list1.get(3).getReviewCount()*100/totalReviewContents}%"></span>
+                                </span>
+                                (${list1.get(3).getReviewCount()})
+                                <br>
+                                1
+                                <span class='chart-rating'>
+                                    <span style="width:${list1.get(4).getReviewCount()*100/totalReviewContents}%"></span>
+                                </span>
+                                (${list1.get(4).getReviewCount()})
+                            </div>
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -195,40 +274,13 @@ $(()=>{
     					</li>
 					</c:forEach>
 					</div>
-				<!-- 끝 -->	
+				<!-- 끝 -->
+				<!-- 페이지바  -->
+				<div id='pageBar'><%=pageBar %></div>	
 				</div>
 			</div>
 		</div>
 	</div>
 
 <!-- container 끝  -->
-	<script src="../js/jquery-migrate-3.0.0.js"></script>
-	<script src="../js/popper.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
-	<script src="../js/owl.carousel.min.js"></script>
-	<script src="../js/jquery.sticky.js"></script>
-	<script src="../js/jquery.waypoints.min.js"></script>
-	<script src="../js/jquery.animateNumber.min.js"></script>
-	<script src="../js/jquery.fancybox.min.js"></script>
-	<script src="../js/jquery.stellar.min.js"></script>
-	<script src="../js/jquery.easing.1.3.js"></script>
-	<script src="../js/bootstrap-datepicker.min.js"></script>
-	<script src="../js/aos.js"></script>
-
-	<script src="../js/main.js"></script>
-
-
-
-
-	<!-- Js Plugins -->
-
-	<script src="js/shop/jquery-ui.min.js"></script>
-	<script src="js/shop/jquery.countdown.min.js"></script>
-	<script src="js/shop/jquery.nice-select.min.js"></script>
-	<script src="js/shop/jquery.zoom.min.js"></script>
-	<script src="js/shop/jquery.dd.min.js"></script>
-	<script src="js/shop/jquery.slicknav.js"></script>
-	<!-- <script src="js/shop/owl.carousel.min.js"></script> -->
-	<script src="js/shop/main.js"></script>
-
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

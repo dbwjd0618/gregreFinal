@@ -21,7 +21,9 @@ import kh.mclass.Igre.admin.model.exception.AdminException;
 import kh.mclass.Igre.admin.model.service.AdminService;
 import kh.mclass.Igre.admin.model.vo.Admin;
 import kh.mclass.Igre.admin.model.vo.Amember;
-import kh.mclass.Igre.admin.model.vo.Report;
+import kh.mclass.Igre.admin.model.vo.AdminReport;
+import kh.mclass.Igre.board.model.vo.Board;
+import kh.mclass.Igre.board.model.vo.Post;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -183,7 +185,7 @@ public class AdminController {
 	@GetMapping("/report.do")
 	public String report(Model model) {
 		
-		List<Report> list = adminService.report();
+		List<AdminReport> list = adminService.report();
 		
 		model.addAttribute("list", list);
 		
@@ -221,7 +223,7 @@ public class AdminController {
 										  @RequestParam(value = "rearr3[]") List<Integer> renArr) {
 		int result = 0;
 		
-		log.debug("reArr={}", renArr);
+		/* log.debug("reArr={}", renArr); */
 		
 		for(int i=0; i<renArr.size(); i++) {
 			
@@ -237,11 +239,75 @@ public class AdminController {
 	}
 	
 	@GetMapping("/board.do")
-	public String board() {
+	public String board(Model model) {
+		
+		List<Board> list = adminService.board();
+		
+		model.addAttribute("list", list);
 		
 		return "admin/board";
 	}
+	
+	@PostMapping("/insertBoard.do")
+	public String insertboard(Board board) {
+		
+		int result = adminService.insertboard(board);
+		
+		return "redirect:/admin/board.do";
+		
+	}
+	
+	@GetMapping("/boardList.do")
+	public String boardView(Model model,
+							@RequestParam("boardCode") String boardCode) {
+		
+		List<Post> list = adminService.boardList(boardCode);
+		Board board = adminService.boardName(boardCode);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("board", board);
+		
+		return "admin/boardList";
+	}
 
+	@ResponseBody
+	@PostMapping("/boardPostDelete.do")
+	public Map<String, Object> boardPostDelete(Model model,
+								  @RequestParam(value="arr1[]") List<String> bcArr,
+								  @RequestParam(value="arr2[]") List<Integer> pnArr) {
+		
+		int result = 0;
+		
+		for(int i=0; i<pnArr.size(); i++) {
+			result += adminService.boardPostDelete(bcArr.get(i), pnArr.get(i));
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	@ResponseBody
+	@PostMapping("/noticeUpdate.do")
+	public Map<String, Object> noticeUpdate(Model model,
+											@RequestParam(value="narr1[]") List<String> nbcArr,
+											@RequestParam(value="narr2[]") List<Integer> npnArr) {
+												
+		int result = 0;
+		
+		
+		for(int i=0; i<npnArr.size(); i++) {
+			result += adminService.noticeUpdate(nbcArr.get(i), npnArr.get(i));
+			log.debug("nbcArr={}", nbcArr.get(i));
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", result);
+		
+		return map;
+	}
+	
 }
 
 

@@ -1,7 +1,6 @@
 package kh.mclass.Igre.member.model.service;
 
 
-import java.util.List;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,6 +83,18 @@ public class MemberServiceImpl implements MemberService {
 	public Object selectOne(String memberId) {
 		// TODO Auto-generated method stub
 		return md.selectOne(memberId);
+	}
+
+	@Override
+	public Object selectOneComp(String cmemberId) {
+		// TODO Auto-generated method stub
+		return md.selectOneComp(cmemberId);
+	}
+
+	@Override
+	public Object selectOneSomp(String cmemberId) {
+		// TODO Auto-generated method stub
+		return md.selectOneSomp(cmemberId);
 	}
 
 

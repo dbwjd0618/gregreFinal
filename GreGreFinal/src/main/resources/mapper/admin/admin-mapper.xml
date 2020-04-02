@@ -85,7 +85,7 @@
  	
  	</select>
  	
- 	<select id="report" resultType="Report">
+ 	<select id="report" resultType="AdminReport">
  	select 
 		* 
 	from 
@@ -137,6 +137,66 @@
 		and
 		report_reply_no = #{replyNo}
 	</update>
+	
+	<select id="board" resultType="Board">
+	select
+		*
+	from
+		tb_board
+	order by
+		board_code asc
+	</select>
+	
+	<insert id="insertBoard">
+	insert into 
+		tb_board 
+	values(
+		#{boardCode},
+		#{boardName}
+	)
+	</insert>
+	
+	<select id="boardList" resultType="Post">
+	select
+		*
+	from
+		tb_post_${boardCode}
+	order by
+		post_no asc
+	
+	</select>
+	
+	<select id="boardName" resultType="Board">
+	select
+		*
+	from
+		tb_board
+	where
+		board_code = #{boardCode}
+	
+	</select>
+	
+	<delete id="boardPostDelete">
+	delete
+	
+	from
+		${table}
+	where
+		post_no = #{postNo}
+	</delete>
+	
+	<update id="noticeUpdate">
+	update
+		${table}
+	set
+		notice='Y'
+	where
+		board_code = #{boardCode}
+		and
+		post_no = #{postNo}
+	</update>
+	
+	
  
  </mapper>
  

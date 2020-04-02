@@ -24,9 +24,7 @@ public class BizMember implements Serializable{
 	}
 
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private String cmemberId;
@@ -35,18 +33,12 @@ public class BizMember implements Serializable{
 	private String compDiv;
 
 
-	private List<Advis> advisList;
+	
 
 
 	private HashMap<String, ArrayList<Integer>> prefList2;
 	
-	public BizMember(String cmemberId, String memberPwd, String phone, String compDiv) {
-		super();
-		this.cmemberId = cmemberId;
-		this.memberPwd = memberPwd;
-		this.phone = phone;
-		this.compDiv = compDiv;
-	}
+
 	
 	
 }

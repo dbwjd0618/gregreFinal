@@ -12,6 +12,7 @@ import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
 import kh.mclass.Igre.board.model.vo.Recommendation;
 import kh.mclass.Igre.board.model.vo.Reply;
+import kh.mclass.Igre.board.model.vo.Report;
 import kh.mclass.Igre.member.model.vo.PreferList;
 
 @Repository
@@ -148,4 +149,26 @@ public class BoardDAOImpl implements BoardDAO {
 	public int deletePostP(Post post) {
 		return sss.delete("board.deletePostP", post);
 	}
+
+	@Override
+	public String confirmWriter(Reply reply) {
+		return sss.selectOne("board.confirmWriterR", reply);
+	}
+
+	@Override
+	public int deleteReply(Reply reply) {
+		return sss.delete("board.deleteReply", reply);
+	}
+
+	@Override
+	public int checkReport(Report report) {
+		return sss.selectOne("board.checkReport", report);
+	}
+
+	@Override
+	public int submitReport(Report report) {
+		return sss.insert("board.submitReport", report);
+	}
+	
+	
 }

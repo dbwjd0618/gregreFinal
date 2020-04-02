@@ -13,7 +13,7 @@
 			advis_id = #{advisId}
 	</select>
 	
-	<!-- 리뷰 게시글 count  -->
+	<!-- 리뷰 게시글 전체 count  -->
 	<select resultType="_int" id="selectReviewTotalContents">
 		SELECT
 			COUNT(*)
@@ -24,11 +24,35 @@
 	<!-- 리뷰 점수 계산  -->
 	<select resultType="_double" id="selectReviewRating">
 		select 
-			avg(star_point) 
+			 round(nvl(avg(star_point),0),1) 
 		from 
 			TB_adviser_review 
 		where 
 			advis_id = #{advisId}
+	</select>
+	
+	<!-- 상담사 1명에게 달린 리뷰 게시글 count  -->
+	<select resultType="_int" id="selectReviewCounselorOne">
+		select 
+			count (*) 
+		from 
+			TB_adviser_review 
+		where 
+			advis_id = #{advis_id}
+	</select>
+	
+	<!-- 특정상담사에 관한 리뷰중 특정평점을 받은 글의 총 개수  -->
+	<select resultType="reviewStar" id="particularReviewPointCount">
+		select star_point, count(*) review_count from TB_adviser_review where advis_id = #{advisId} group by star_point
+	</select>
+	
+	<select id="countReview" resultType="_int">
+		select 
+			count (*) 
+		from 
+			TB_adviser_review 
+		where 
+			advis_id = #{advisId} and star_point = #{starPoint}
 	</select>
 
 	

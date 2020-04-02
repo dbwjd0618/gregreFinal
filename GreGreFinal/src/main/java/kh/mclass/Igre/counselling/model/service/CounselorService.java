@@ -1,9 +1,12 @@
 package kh.mclass.Igre.counselling.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
+import kh.mclass.Igre.counselling.model.vo.reviewStar;
 
 public interface CounselorService {
 
@@ -13,12 +16,23 @@ public interface CounselorService {
 
 	Counselor selectOne(String advisId);
 
-//	List<Review> selectReviewList(int cPage, int numPerPage);
-
 	int selectReviewTotalContents();
 
-	List<Review> selectReviewList(Counselor c);
+	List<Map<String, String>> selectReviewList(Counselor c, int cPage, int numPerPage);
+
+	List<Counselor> selectFilter(Map<String, String[]> param);
+
+	double selectStarPoint(String advisId);
+
+	int selectReviewTotal(String advisId);
+
+	int selectReviewCounselorOne(String advisId);
+
+	List<reviewStar> particularReviewPointCount(String advisId);
+
+	int countReview(String advisId, int starPoint);
 
 	Double selectReviewRating(String advisId);
+
 
 }
