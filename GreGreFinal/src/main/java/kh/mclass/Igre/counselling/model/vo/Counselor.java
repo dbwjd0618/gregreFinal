@@ -1,6 +1,7 @@
 package kh.mclass.Igre.counselling.model.vo;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,21 +35,15 @@ public class Counselor implements Serializable{
 	private String advisLicenseFile;
 	private String advisImg;
 	
+	//스타포인트
+	private int reviewTotal;
+	private double starPoint;
+	
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	
-	public Counselor(String advisName, String advisLineIntro, String advisGrade, String advisPrice, String[] advisKeyword, String advisImg) {
-		
-		this.advisName = advisName;
-		this.advisLineIntro = advisLineIntro;
-		this.advisGrade = advisGrade;
-		this.advisPrice = advisPrice;
-		this.advisKeyword = advisKeyword;
-		this.advisImg = advisImg;
-		
-	}
-	
+
 	
 }
