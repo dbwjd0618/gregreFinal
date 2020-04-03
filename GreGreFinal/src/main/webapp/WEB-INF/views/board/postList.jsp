@@ -102,7 +102,7 @@ function preferSwitch(it, mi, bc, pn) {
 								<span>총 ${postCount}건</span>
 							</div>
 							<div class="col-md-6" style="text-align: right; padding-right: 3px;">
-								<i class="fas fa-pencil-alt" style="color:blue; cursor:pointer;"></i>
+								<i class="fas fa-pencil-alt" style="color:blue; cursor:pointer;" onclick="location.href='postWrite.do?boardCode=${boardCode}'"></i>
 							</div>
 						</div>
 						<div class="row" style="display: grid; margin-bottom: 20px;">

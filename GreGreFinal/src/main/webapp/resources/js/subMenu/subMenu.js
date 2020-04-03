@@ -18,3 +18,4 @@ function accordion(e) {
 for (i = 0; i < list.length; i++) {
   list[i].addEventListener('click', accordion);
 }
+

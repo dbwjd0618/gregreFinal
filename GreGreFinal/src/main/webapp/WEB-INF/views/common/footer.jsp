@@ -46,6 +46,7 @@
   <script src="${pageContext.request.contextPath}/resources/js/shop/main.js"></script>
   <!-- 서브메뉴 -->
   <script src="${pageContext.request.contextPath}/resources/js/subMenu/subMenu.js"></script>
+  <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   </body>
   
 

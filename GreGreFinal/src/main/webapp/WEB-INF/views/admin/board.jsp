@@ -28,6 +28,18 @@
 			$("[name=boardName]").val("");
 
 		});
+		
+		$("#boardDelete").click(function(e){
+			let confrim = confirm("삭제하시겠습니까?");
+			
+			if(confirm){
+				location.href="${pageContext.request.contextPath}/admin/deleteBoard?boardCode="+boardCode;
+			}
+			else{
+				e.stopPropagatioin();
+			}
+		});
+		
 	});
 </script>
 
@@ -67,7 +79,8 @@
 						<c:if test="${not empty list }">
 							<c:forEach items="${list }" var="list">
 								<button type="button" class="btn btn-primary btn-lg btn-block"
-									onclick="location.href='${pageContext.request.contextPath}/admin/boardList.do?boardCode=${list.boardCode}'">${list.boardName}</button>
+									onclick="location.href='${pageContext.request.contextPath}/admin/boardList.do?boardCode=${list.boardCode}'">
+									<i class='far fa-times-circle fa-lg' id="boardDelete"></i>&nbsp;&nbsp;${list.boardName}</button>
 							</c:forEach>
 						</c:if>
 

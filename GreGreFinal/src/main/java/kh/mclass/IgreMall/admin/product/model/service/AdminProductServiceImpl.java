@@ -23,7 +23,7 @@ public class AdminProductServiceImpl implements AdminProductService{
 		int result = 0;
 		//1. Board테이블에 insert
 		result = adminProductDAO.insertProduct(product);
-		
+		System.out.println("result= 등록"+result);
 		if(result== 0)
 			throw new ProductException("첨부파일등록 오류!");
 		//2. Attachment테이블에 insert
@@ -36,12 +36,15 @@ public class AdminProductServiceImpl implements AdminProductService{
 		}
 		
 		//PropductOptionInsert
-		for(ProdOption prodOption : prodOptionList) {
-			System.out.println("product.getProductId222"+product.getProductId());
-			prodOption.setProductId(product.getProductId());
-			result = adminProductDAO.insertProdOption(prodOption);
-			if(result== 0)
-				throw new ProductException("옵션 등록 오류");
+		if(prodOptionList != null) {
+			for(ProdOption prodOption : prodOptionList) {
+				System.out.println("product.getProductId222"+product.getProductId());
+				prodOption.setProductId(product.getProductId());
+				result = adminProductDAO.insertProdOption(prodOption);
+				if(result== 0)
+					throw new ProductException("옵션 등록 오류");
+			}
+			
 		}
 		
 		return result;

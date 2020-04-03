@@ -53,11 +53,14 @@ public class MemberController {
 //	private BCryptPasswordEncoder bcpe;
 
 	@GetMapping("/login.do")
-	public String login(HttpSession session) {
+	public String login(HttpSession session, HttpServletRequest request) {
 		try {
 			Member m = (Member) session.getAttribute("memberLoggedIn");
 			m.getMemberId().equals(null);
 		} catch (NullPointerException e) {
+			String referer = request.getHeader("referer");
+			session.setAttribute("referer", referer);
+			log.debug("referer = " + referer);
 			return "member/login";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -187,7 +190,7 @@ public class MemberController {
 	@PostMapping("/memberEnroll.do")
 	public String memberEnrollP(Member member, RedirectAttributes ras, String addr1, String addr2, String addr3 ,String mateId,String childNumber) {
 
-		String address = addr1 + addr2 + addr3;
+		String address = addr1 +","+ addr2 +","+ addr3;
 
 		member.setAddress(address);
 		int result = ms.enroll(member);
@@ -202,7 +205,7 @@ public class MemberController {
 	public String sellerEnrollP(BizMember bizmember, Seller seller, RedirectAttributes ras, String addr1, String addr2,
 			String addr3, String compId1, String compId2, String compId3, String[] categories) {
 
-		String address = addr1 + addr2 + addr3;
+		String address = addr1 +","+ addr2 +","+ addr3;
 		String compId = compId1 + compId2 + compId3;
 		String categorieslist = "";
 
