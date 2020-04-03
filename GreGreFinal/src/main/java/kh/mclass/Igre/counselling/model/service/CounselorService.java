@@ -34,5 +34,7 @@ public interface CounselorService {
 
 	Double selectReviewRating(String advisId);
 
+	List<Map<String, String>> selectCounselorList1(int cPage, int numPerPage);
+
 
 }
