@@ -102,7 +102,6 @@ public class CounsellingController {
 		int reviewCountSelectOne = counselorService.selectReviewCounselorOne(advisId);
 		
 		//리뷰 리스트
-//		List<Review> list = counselorService.selectReviewList(c, cPage, numPerPage);
 		List<Map<String,String>> list = counselorService.selectReviewList(c, cPage, numPerPage);
 		mav.addObject("pageBar",Pagebar.getPageBar(reviewCountSelectOne, cPage, numPerPage,"/Igre/counselling/bookingMain.do?advisId="+advisId));
 		

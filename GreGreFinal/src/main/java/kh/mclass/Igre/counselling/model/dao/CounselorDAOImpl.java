@@ -92,5 +92,15 @@ public class CounselorDAOImpl implements CounselorDAO {
 		return sqlSession.selectOne("review.selectReviewRating", advisId);
 	}
 
+	@Override
+	public List<Map<String, String>> selectCounselorList1(int cPage, int numPerPage) {
+		
+		int offset = (cPage-1)*numPerPage;
+		int limit = numPerPage;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return sqlSession.selectList("counselor.selectCounselorList",null,rowBounds);
+	}
+
 
 }
