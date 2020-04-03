@@ -50,30 +50,41 @@ public class ProductController {
 		List<ProdOption> optionList = productService.selectOptionList(productId);
 		log.debug("attachList={}",attachList);
 		log.debug("optionList={}",optionList);
-		String[] optNm = optionList.get(0).getOptionName().split(",");
-		List<String> optionName = new ArrayList<>();
-		for(String o : optNm) {
-			optionName.add(o);
+		//옵션이 있는 상품만
+		if(!optionList.isEmpty()) {
+	
+			String[] optNm = optionList.get(0).getOptionName().split(",");
+			List<String> optionName = new ArrayList<>();
+			for(String o : optNm) {
+				optionName.add(o);
+			}
+			
+			List<String> optionValue1 = new ArrayList<String>();
+			List<String> optionValue2 = new ArrayList<String>();
+			
+			for (int i = 0; i < optionList.size(); i++) {
+				String[] values= optionList.get(i).getOptionValue().split(",");
+				if (!optionValue1.contains(values[0])) {
+					optionValue1.add(values[0]);
+				}
+				if(values.length>1) {
+					if (!optionValue2.contains(values[1])) {
+						optionValue2.add(values[1]);
+					}
+					
+				}
+			}
+			
+			mav.addObject("optionValue1", optionValue1);//옵션1,옵션2
+			mav.addObject("optionValue2", optionValue2);//핑크 ~~
+			mav.addObject("optionName", optionName);//10,20담겨있다.
+		
+			
 		}
-		
-		List<String> optionValue1 = new ArrayList<String>();
-		List<String> optionValue2 = new ArrayList<String>();
-		
 
-         for (int i = 0; i < optionList.size(); i++) {
-        	 String[] values= optionList.get(i).getOptionValue().split(",");
-             if (!optionValue1.contains(values[0])) {
-                 optionValue1.add(values[0]);
-             }
-             if (!optionValue2.contains(values[1])) {
-                 optionValue2.add(values[1]);
-             }
-         }
         
         
-        for(int i=0;i<optionList.size();i++) {
-        	
-        }
+     
         
         HttpSession session = request.getSession();
 		
@@ -81,9 +92,6 @@ public class ProductController {
         session.setAttribute("attachList", attachList);
         mav.addObject("p", product);
 		mav.addObject("attachList", attachList);
-		mav.addObject("optionValue1", optionValue1);//옵션1,옵션2
-		mav.addObject("optionValue2", optionValue2);//핑크 ~~
-		mav.addObject("optionName", optionName);//10,20담겨있다.
 		mav.addObject("optionList", optionList);//가격정보가 담겨있다.
 		
 	
