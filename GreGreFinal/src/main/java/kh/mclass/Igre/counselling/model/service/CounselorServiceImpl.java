@@ -83,5 +83,10 @@ public class CounselorServiceImpl implements CounselorService {
 		return counselorDAO.countReview(map);
 	}
 
+	@Override
+	public List<Map<String, String>> selectCounselorList1(int cPage, int numPerPage) {
+		return counselorDAO.selectCounselorList1(cPage, numPerPage);
+	}
+
 
 }

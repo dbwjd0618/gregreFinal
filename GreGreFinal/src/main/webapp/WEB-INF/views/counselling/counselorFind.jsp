@@ -1,21 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<fmt:requestEncoding value="utf-8" />
-
+<fmt:requestEncoding value="utf-8"/>
+<style>
+	strong{
+		color: red;
+	}
+</style>
 <!-- 헤더 선언!!-->
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <script>
-
 //전체 상담사 저장
 var counselorR = [];
-
-
 </script>
 
 <c:forEach items="${list }" var="counselor">
@@ -25,12 +23,9 @@ counselorR.push(JSON.parse('${counselor}'));
 </c:forEach> 
 
 <script>
-
-
 $(function(){
-	$(".counselor-list").append("<div class='list-filter-wrapper'><span class='counselor-search-list-num' id=''>검색 결과 <em id='search-result-count'>"+counselorR.length+"</em>건</span></div>");
+	$(".counselor-list").append("<div class='list-filter-wrapper'><span class='counselor-search-list-num' id=''>검색 결과 <em id='search-result-count'><strong>"+counselorR.length+"</strong></em>건</span></div>");
 	
-
 	let result = "<div class='counselor-list-wrapper'><div class='counselor-info-list'>";
 	for(var i=0; i<counselorR.length; i++){
 		result += "<article data-advis-id='"+counselorR[i].advisId+"'class='counselor-info'>";
@@ -50,18 +45,11 @@ $(function(){
 		result += "</li></ul></div><div><p class='counselor-price'>"+counselorR[i].advisPrice+"원~</p></div></div><button class='counselor-selectOne'>상담사 찜하기</button></article>";	
 	}
 	
-	result += "</div>";
-	
-	//페이징
-	
-	result += "<div class='paging-wrapper'><ul class='paging'><li class='paging-num active'><a href='#'>1</a></li></ul></div></div>";
+	result += "</div></div>";
 	
 	$(".counselor-list").after(result);
 	
 });
-
-
-
 $(function(){
 	
 	$(".counselor-search-input-box .search-form").on("keyup",function(){
@@ -82,12 +70,10 @@ $(function(){
 		console.log(nameChk);
 		if(nameChk != null){
 			//페이지 동적 처리
-
 			$(".counselor-list").empty();
 			
-			$(".counselor-list").append("<div class='list-filter-wrapper'><span class='counselor-search-list-num' id=''>검색 결과 <em id='search-result-count'>"+nameChk.length+"</em>건</span></div>");
+			$(".counselor-list").append("<div class='list-filter-wrapper'><span class='counselor-search-list-num' id=''>검색 결과 <em id='search-result-count'><strong>"+nameChk.length+"</strong></em>건</span></div>");
 			
-
 			let result = "<div class='counselor-list-wrapper'><div class='counselor-info-list'>";
 			
 			for(var i=0; i<nameChk.length; i++){
@@ -108,11 +94,7 @@ $(function(){
 				result += "</li></ul></div><div><p class='counselor-price'>"+nameChk[i].advisPrice+"원~</p></div></div><button class='counselor-selectOne'>상담사 찜하기</button></article>";	
 			}
 			
-			result += "</div>";
-			
-			//페이징
-			
-			result += "<div class='paging-wrapper'><ul class='paging'><li class='paging-num active'><a href='#'>1</a></li></ul></div></div>";
+			result += "</div></div>";
 			
 			$(".counselor-list").after(result);
 		}
@@ -121,14 +103,12 @@ $(function(){
 	});
 		
 });
-
 </script>
 <style>
 	.site-section-cover.overlay:before {
 		width: 0;
 		background-image: url();
 	}
-
 	.counselor-search-input-box button {
 		width: 48px;
 		height: 56px;
@@ -141,16 +121,12 @@ $(function(){
 		background-size: 24px auto;
 		text-indent: -9999px;
 	}
-
-
 a {
 	text-decoration: none;
 }
-
 	.star-rating {
     	width: 79px;
 	}
-
         .star-rating-middle {
             width: 104px;
         }
@@ -159,14 +135,13 @@ a {
             display: inline-block;
             height: 20px;
             overflow: hidden;
-            background: url(${pageContext.request.contextPath}/resources/images/counselling/star-middle.jpg)no-repeat;
+            background: url(${pageContext.request.contextPath}/resources/images/counselling/star-middle.png)no-repeat;
         }
         .star-rating-middle span {
             background-position: left bottom;
             line-height: 0;
             vertical-align: top;
         }
-
 </style>
 
 <div class="ftco-blocks-cover-1">
@@ -378,14 +353,12 @@ a {
 </div>
 <!-- contents end  -->
 <script>
-
 function filter(){
 	//초기화
 	$(".search-form").val("");
 	$(".counselor-list").html("");
 	$(".counselor-list-wrapper").html("");
 	$(".counselor-list-wrapper").remove();
-
 	 var dd = $("#filter").serialize();
 	
 	$.ajax({
@@ -407,9 +380,8 @@ function filter(){
 			$(".counselor-list-wrapper").html("");
 			$(".counselor-list-wrapper").remove();
 			
-			$(".counselor-list").append("<div class='list-filter-wrapper'><span class='counselor-search-list-num' id=''>검색 결과 <em id='search-result-count'>"+resultArr.length+"</em>건</span></div>");
+			$(".counselor-list").append("<div class='list-filter-wrapper'><span class='counselor-search-list-num' id=''>검색 결과 <em id='search-result-count'><strong>"+resultArr.length+"</strong></em>건</span></div>");
 			
-
 			let result = "<div class='counselor-list-wrapper'><div class='counselor-info-list'>";
 			
 			for(var i=0; i<resultArr.length; i++){
@@ -430,11 +402,7 @@ function filter(){
 				result += "</li></ul></div><div><p class='counselor-price'>"+resultArr[i].advisPrice+"원~</p></div></div><button class='counselor-selectOne'>상담사 찜하기</button></article>";	
 			}
 			
-			result += "</div>";
-			
-			//페이징
-			
-			result += "<div class='paging-wrapper'><ul class='paging'><li class='paging-num active'><a href='#'>1</a></li></ul></div></div>";
+			result += "</div></div>";
 			
 			$(".counselor-list").after(result);
 		},
@@ -445,7 +413,6 @@ function filter(){
 	
 	
 };
-
 $(()=>{
 	$("article[data-advis-id]").on("click", function(){
 		console.log("클릭함");
