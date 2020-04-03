@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import kh.mclass.IgreMall.coupon.model.vo.CouponInfo;
 import kh.mclass.IgreMall.shopMember.model.dao.ShopMemberDAO;
+import kh.mclass.IgreMall.shopMember.model.vo.Cart;
 import kh.mclass.IgreMall.shopMember.model.vo.ShopMember;
 
 @Service
@@ -20,5 +21,10 @@ public class ShopMemberServiceImpl implements ShopMemberService {
 	@Override
 	public CouponInfo selectCouponInfoOne(String couponId) {
 		return shopMemberDAO.selectCouponInfoOne(couponId);
+	}
+
+	@Override
+	public int insertCart(Cart cart) {
+		return shopMemberDAO.insertCart(cart);
 	}
 }

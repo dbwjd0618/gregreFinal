@@ -133,11 +133,6 @@ public class ShopController {
 	}
 	
 	
-	@GetMapping("/cart.do")
-	public ModelAndView cart(ModelAndView mav) {
-		mav.setViewName("shop/cart/cart");
-		return mav;
-	}
 
 	
 	

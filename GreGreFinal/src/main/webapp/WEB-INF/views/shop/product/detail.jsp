@@ -161,7 +161,6 @@ span.optNm2 {
 		
 		//optionValue가 없을 때
 		if(${optionValue2}==""){
-			console.log("없다");
 			
 			var optId="";
 			var optPrice=0;
@@ -176,12 +175,8 @@ span.optNm2 {
 					optStock = dataOptList[vIdx].optionStock;
 				}
 			}
-			console.log("optId"+optId);
-			console.log("optId"+optPrice);
-			console.log("optId"+optNm1);
-			console.log("optId"+optStock);
 			var price = "${p.price-p.discountPrice}";
-			//$('.optPrice').val(price);
+
 			var data = [ {
 				"optId" : optId,
 				"optPrice" : Number(optPrice),
@@ -284,13 +279,46 @@ span.optNm2 {
 <script>
 function detailSubmit(index){
 	if(index == 1){
-		document.detailFrm.action=' ${pageContext.request.contextPath }/shop/cart.do';
+		 var optionIdArr = [];
+		 if($('[name=optionId]').val()!=null){
+	         $('[name=optionId]').each(function(i){//체크된 리스트 저장
+	    		optionIdArr.push($(this).val()); 
+	         	console.log("이거는="+$(this).val());
+	          });		 
+		 }        
+		 var countArr = [];
+         $('[name=count]').each(function(i){//체크된 리스트 저장
+        	 countArr.push($(this).val());
+         	console.log("이거는="+$(this).val());
+          }); 
+		
+		/* 		document.detailFrm.action=' ${pageContext.request.contextPath }/shop/myShopping/cart.do'; */
+		var objParams = {
+			"memberId" : $("[name=memberId]").val(),
+			"optionIdList" : optionIdArr,
+			"countList" : countArr
+		} 
+		$.ajax({
+		    type : 'POST',
+		    dataType : "json",
+			url:"${pageContext.request.contextPath}/shop/myShopping/cartInsert.do",
+			 data : objParams,
+			success: function(retVal){
+                    alert(retVal.message);
+                 
+            },
+			error:(x,s,e)=>{
+				console.log(x,s,e);
+			}
+		}); 
+	
+	
 	}
 	if(index==2){
 		document.detailFrm.action='${pageContext.request.contextPath }/shop/order/checkOut.do';
+		document.detailFrm.submit();
 		
 	}
-	document.detailFrm.submit();
 }
 
 </script>
@@ -463,8 +491,8 @@ $(function(){
 										data-jsv-tmpl="jsvTmpl">
 									
                                         <div class="option-box">
-                                            <input type="hidden" name="optionId" value="{{:optId}}"> 
-                                            <input type="hidden" name="optionPrice" value="{{:optPrice}}">
+                                            <input type="hidden" name="optionId"  value="{{:optId}}"> 
+                                            <input type="hidden" name="optionPrice"  value="{{:optPrice}}">
                                             <div class="sel-title">
                                                                                                         선택 : {{:optNm}}
                                                 <button type="button" class="btn-option-delete" onclick="optDelete(this);"><span class="" style="color:#979696; margin: 0 auto;"><strong>X</strong></span></button>
@@ -477,7 +505,7 @@ $(function(){
                                                             <div class="quantity">
                                                                 <div class="pro-qty">
 																	<span class="dec qtybtn" onclick="dec(this,{{:optPrice}});">-</span>
-                                                                    <input type="text" name="count" value="1"  min="1" max="{{:optStock}}">
+                                                                    <input type="text" name="count"  value="1"  min="1" max="{{:optStock}}">
                                                                		<span class="inc qtybtn" onclick="inc(this,{{:optPrice}});">+</span></div>
                                                             </div>
                                                         </div>
