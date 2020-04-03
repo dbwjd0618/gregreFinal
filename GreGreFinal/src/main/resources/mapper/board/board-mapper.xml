@@ -105,4 +105,15 @@
 		insert into TB_report values(seq_report_no.nextval, #{reporterId}, #{reporteeId}, #{boardCode}, #{postNo}, #{replyNo}, #{reportContent}, default)
 	</insert>
 	
+	<insert id="postWrite">
+		insert into TB_post_${boardCode} values(
+			#{boardCode}, seq_B1_post.nextval, #{writer}, default,
+			<if test="postPwd != null">#{postPwd},</if>
+			<if test="postPwd == null">default, </if>
+			#{title}, #{content}, default, 0, 0, 0, 0,
+			<if test="originFilename == null">null, null</if>
+			<if test="originFilename != null">#{originFilename}, #{renameFilename}</if>
+		)
+	</insert>
+	
 </mapper>

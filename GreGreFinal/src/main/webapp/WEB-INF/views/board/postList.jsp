@@ -122,19 +122,21 @@ function preferSwitch(it, mi, bc, pn) {
 								</c:if>
 								<c:if test="${not empty postList}">
 									<c:forEach items="${postList}" var="post">
-										<td>${post.postNo}</td>
-										<td><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}">${post.title}</a></td>
-										<td>${post.writer}</td>
-										<td>${post.postWriteTime}</td>
-										<td>${post.readCount}</td>
-										<td>
-											<c:if test="${memberLoggedIn == null }">
-												<img src="${pageContext.request.contextPath}/resources/img/board/StarGray.png" class="Gray" style="width:21px;"/>
-											</c:if>
-											<c:if test="${memberLoggedIn != null }">
-												<img src="${pageContext.request.contextPath}/resources/img/board/Star${prefList.contains(post.postNo)?'Yellow':'Gray'}.png" class="${prefList.contains(post.postNo)?'Yellow':'Gray'}" style="width:21px;" onclick="preferSwitch(this,'${memberLoggedIn.memberId}', '${post.boardCode}', '${post.postNo}');"/>
-											</c:if>
-										</td>
+										<tr>
+											<td>${post.postNo}</td>
+											<td><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}">${post.title}</a></td>
+											<td>${post.writer}</td>
+											<td>${post.postWriteTime}</td>
+											<td>${post.readCount}</td>
+											<td>
+												<c:if test="${memberLoggedIn == null }">
+													<img src="${pageContext.request.contextPath}/resources/img/board/StarGray.png" class="Gray" style="width:21px;"/>
+												</c:if>
+												<c:if test="${memberLoggedIn != null }">
+													<img src="${pageContext.request.contextPath}/resources/img/board/Star${prefList.contains(post.postNo)?'Yellow':'Gray'}.png" class="${prefList.contains(post.postNo)?'Yellow':'Gray'}" style="width:21px;" onclick="preferSwitch(this,'${memberLoggedIn.memberId}', '${post.boardCode}', '${post.postNo}');"/>
+												</c:if>
+											</td>
+										</tr>
 									</c:forEach>
 								</c:if>
 							</table>
