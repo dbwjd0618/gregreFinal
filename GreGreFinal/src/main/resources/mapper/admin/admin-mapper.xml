@@ -189,6 +189,41 @@
 		)
 	</insert>
 	
+	<delete id="boardDelete">
+		delete 
+		
+		from 
+			tb_board 
+		where 
+			board_code = #{boardCode}
+	</delete>
+
+	<update id="dropReply">
+		drop
+		
+		table
+		
+		tb_reply_${boardCode}
+	</update>
+	
+	<update id="dropBoard">
+		drop 
+		
+		table 
+		
+		tb_post_${boardCode}
+	</update>
+	
+	<update id="dropSeqPost">
+		drop 
+			sequence seq_${boardCode}_post
+	</update>
+	
+	<update id="dropSeqReply">
+		drop 
+			sequence seq_${boardCode}_reply
+	</update>
+	
 	<select id="boardList" resultType="Post">
 		select
 			*
@@ -246,11 +281,6 @@
 		    grade = 'M'
 	</select>
 	
-	
-	
-
-	
- 
  </mapper>
  
  

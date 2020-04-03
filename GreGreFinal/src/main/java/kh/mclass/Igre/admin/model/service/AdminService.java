@@ -50,6 +50,8 @@ public interface AdminService {
 
 	List<Amember> amemberList();
 
+	int boardDelete(String boardCode);
+
 
 
 }

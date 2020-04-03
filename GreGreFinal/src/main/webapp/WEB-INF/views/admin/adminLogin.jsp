@@ -39,7 +39,7 @@
       <div class="login-box-body">
         <p class="login-box-msg"><b>관리자</b>님 안녕하세요!</p>
         <p class="login-box-msg">로그인을 해주세요.</p>
-        <form action="${pageContext.request.contextPath}/admin/index.do" method="post">
+        <form action="${pageContext.request.contextPath}/admin/login.do" method="post">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" name="adminId" placeholder="아이디"/>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>

@@ -9,10 +9,32 @@
 	border-style: none;
 	background-color: white;
 }
+button.btn.btn-primary.btn-lg.btn-block {
+    width: 655px;
+}
+button.del-btn {
+    float: left;
+    border: 0;
+    background: none;
+    margin-right: auto;
+}
+button.btn.btn-primary.btn-lg.btn-block.board-btn {
+    float: left;
+    margin-left: 493px;
+    margin-bottom: 4px;
+}
+.board-btn-form {
+    width: auto;
+    display: flex;
+}
+button#add{
+ margin: 0 auto;
+}
 </style>
 
 <script>
 	$(document).ready(function() {
+
 
 		$("#boardCodeCreate").hide();
 		/* '+'버튼을 누르면 게시판생성 폼이 나옴 */
@@ -29,15 +51,32 @@
 
 		});
 		
-		$("#boardDelete").click(function(e){
-			let confrim = confirm("삭제하시겠습니까?");
-			let boardCode = $("input[name=boardCode]").val();
+		$(".del-btn").click(function(){
+			let boardCode = {
+					boardCode : $(this).next().val()
+			}
+	        let confrim = confirm("해당 게시판을 삭제하시겠습니까?"); 
 			
 			if(confirm){
-				location.href="${pageContext.request.contextPath}/admin/deleteBoard?boardCode="+boardCode;
-			}
-			else{
-				e.stopPropagatioin();
+				console.log("boradCode="+boardCode);
+				 
+				$.ajax({
+					url : "${pageContext.request.contextPath}/admin/boardDelete.do",
+					type : "POST",
+					data : boardCode,
+					
+					success : function(result){
+						if(result<1){
+							alert("게시판 삭제 처리에 실패하였습니다.");
+						}
+						else {
+							location.reload();
+						}
+					},
+					error: function(x,s,e) {
+						console.log(x,s,e);
+					}
+				});
 			}
 		});
 		
@@ -79,16 +118,22 @@
 
 						<c:if test="${not empty list }">
 							<c:forEach items="${list }" var="list">
-								<button type="button" class="btn btn-primary btn-lg btn-block"
+							<div class="board-btn-form">
+								<button type="button" class="btn btn-primary btn-lg btn-block board-btn"
 									onclick="location.href='${pageContext.request.contextPath}/admin/boardList.do?boardCode=${list.boardCode}'">
-									<i class='far fa-times-circle fa-lg' id="boardDelete"></i>&nbsp;&nbsp;${list.boardName}</button>
+									&nbsp;&nbsp;${list.boardName}
+									</button>
+								<button type="button" class="del-btn"><i class="fas fa-times"></i></button>
+								<input type="hidden" name="b-code" value="${list.boardCode }" />
+							</div>
+									
 							</c:forEach>
 						</c:if>
 
 						<button type="button" class="btn btn-primary btn-lg btn-block" id="add">
 							<i class="fa fa-plus"></i>
 						</button>
-
+						
 						<div style='margin: 20px 0; text-align: center;'
 							id='boardCodeCreate'>
 							<form
