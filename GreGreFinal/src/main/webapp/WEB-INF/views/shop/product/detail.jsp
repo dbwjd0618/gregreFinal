@@ -67,7 +67,17 @@ span.optNm2 {
     color: #FF5722;
     font-weight: 500;
 }
+.modal-header{
+	border:0;
+}
+.modal-footer{
+	border:0;
+}
+#cart-modal h5{
+    padding-bottom: 34px;
+}
 </style>
+
 <script>
 	function addOpt1(optVal1) {
 		var dataOpt1 = new Array();
@@ -232,6 +242,7 @@ span.optNm2 {
 	}
 </script>
 <script>
+//수량체크
 	function dec(t, optPrice) {
 		
 		var num = Number($(t).parent('div').find('[name=count]').val());
@@ -276,8 +287,10 @@ span.optNm2 {
 
 	}
 </script>
+
 <script>
 function detailSubmit(index){
+	//장바구니 버튼클릭시 장바구니 등록
 	if(index == 1){
 		 var optionIdArr = [];
 		 if($('[name=optionId]').val()!=null){
@@ -292,7 +305,6 @@ function detailSubmit(index){
          	console.log("이거는="+$(this).val());
           }); 
 		
-		/* 		document.detailFrm.action=' ${pageContext.request.contextPath }/shop/myShopping/cart.do'; */
 		var objParams = {
 			"memberId" : $("[name=memberId]").val(),
 			"optionIdList" : optionIdArr,
@@ -304,7 +316,8 @@ function detailSubmit(index){
 			url:"${pageContext.request.contextPath}/shop/myShopping/cartInsert.do",
 			 data : objParams,
 			success: function(retVal){
-                    alert(retVal.message);
+                    console.log(retVal.message);
+                    $('#cart-modal').modal('show');
                  
             },
 			error:(x,s,e)=>{
@@ -314,6 +327,7 @@ function detailSubmit(index){
 	
 	
 	}
+	//바로구매하기
 	if(index==2){
 		document.detailFrm.action='${pageContext.request.contextPath }/shop/order/checkOut.do';
 		document.detailFrm.submit();
@@ -322,6 +336,13 @@ function detailSubmit(index){
 }
 
 </script>
+<script>
+//장바구니보러가기
+function goCart(){	
+	location.href="${pageContext.request.contextPath }/shop/myShopping/cart.do";
+}
+</script>
+
 
 <script>
 $(function(){
@@ -587,7 +608,8 @@ $(function(){
 								</div>
 								<div class="row">
 									<div class="col-lg-6" style="padding: 0 5px 0 10px !important;">
-										<input type="button" onclick="detailSubmit(1);"
+										<input type="button"  
+											onclick="detailSubmit(1);"
 											class="btn btn-outline-dark product-btn pd-cart" value="장바구니">
 									</div>
 									<div class="col-lg-6" style="padding: 0 5px 0 10px !important;">
@@ -978,9 +1000,29 @@ $(function(){
 			</div>
 		</div>
 	</div>
-
+	<!-- 장바구니 Modal  -->
+	<div class="modal fade cart-modal" id="cart-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body" style="text-align:center;">
+	        <h5 class="modal-title" id="exampleModalLabel">장바구니에 상품을 담았습니다</h5>
+	        <div style="padding-bottom:15px;">
+		        <button type="button" class="btn btn-primary" onclick="goCart();">장바구니 보기</button>
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+	        </div>
+	      </div>
+	      <div class="modal-footer">
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
 	<!-- 리뷰쓰기 modal -->
-
 	<div class="modal fade" id="writeReviewModal" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
