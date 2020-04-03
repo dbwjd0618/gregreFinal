@@ -9,7 +9,7 @@
 	</select>
 
 	<select id="postList" resultType="Post">
-		select * from ${table}
+		select * from ${table} order by post_no desc
 	</select>
 	
 	<select id="boardName" resultType="String">
@@ -108,8 +108,8 @@
 	<insert id="postWrite">
 		insert into TB_post_${boardCode} values(
 			#{boardCode}, seq_B1_post.nextval, #{writer}, default,
-			<if test="postPwd != null">#{postPwd},</if>
-			<if test="postPwd == null">default, </if>
+			<if test="postPwd == null or postPwd == ''">default, </if>
+			<if test="postPwd != null and postPwd != ''">#{postPwd},</if>
 			#{title}, #{content}, default, 0, 0, 0, 0,
 			<if test="originFilename == null">null, null</if>
 			<if test="originFilename != null">#{originFilename}, #{renameFilename}</if>

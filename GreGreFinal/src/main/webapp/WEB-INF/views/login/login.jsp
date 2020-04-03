@@ -48,7 +48,7 @@
                                 <div class="d-flex site-info site-quick">
                                         <div class="site-quick-text">
                                           <!--home -->
-                                          <a href="../index.html">
+                                          <a href="${pageContext.request.contextPath}/">
                                             <span style="color: black !important;">HOME</span>
                                           </a>
                                         </div>
