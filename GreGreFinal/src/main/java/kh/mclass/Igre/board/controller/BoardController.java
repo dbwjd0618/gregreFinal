@@ -170,6 +170,7 @@ public class BoardController {
 	public String deletePost(Post post, HttpSession session) {
 		String writer = bs.confirmWriter(post);
 		if(!writer.equals(post.getWriter())) {
+			log.debug("Writer = "+writer+" // postWriter = " + post.getWriter());
 			session.setAttribute("msg", "잘못된 접근입니다.");
 			return "redirect:/board/postList?boardCode="+post.getBoardCode();
 		}
@@ -179,9 +180,12 @@ public class BoardController {
 	}
 	
 	@PostMapping("/deleteReply.do")
-	public String deleteReply(Reply reply, HttpSession session) {
+	public String deleteReply(Reply reply, HttpSession session,
+							@RequestParam("writer") String replyWriter) {
 		String writer = bs.confirmWriter(reply);
-		if(!writer.equals(reply.getReplyWriter())) {
+		if(!writer.equals(replyWriter)) {
+			log.debug("Writer = "+writer+" // replyWriter = " + replyWriter);
+			log.debug(""+reply);
 			session.setAttribute("msg", "잘못된 접근입니다.");
 		} else {
 			int result = bs.deleteReply(reply);
@@ -221,7 +225,7 @@ public class BoardController {
 	public String postWriteEnd(Post post, RedirectAttributes rda, HttpServletRequest request,
 							   @RequestParam(value="originFilename", required=false) MultipartFile f) {
 		
-		if(!f.isEmpty()) {
+		if(f != null) {
 			
 			String originFileName = f.getOriginalFilename();
 			String renamedFileName = Utils.getRenamedFileName(originFileName);
