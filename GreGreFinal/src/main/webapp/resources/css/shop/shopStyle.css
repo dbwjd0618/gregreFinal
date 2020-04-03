@@ -32,6 +32,60 @@
 /*----------------------------------------*/
 /*
 수정 및 추가*/
+.orgn_price {
+    display: block;
+    font-size: 12px;
+    text-decoration: line-through;
+    color: #979797;
+}
+td.cart-title.first-row {
+    border-right: 1px solid #ebebeb;
+}
+td.qua-col.first-row {
+   border-right: 1px solid #ebebeb;
+   text-align: left;
+}
+
+td.total-price.first-row {
+    border-right: 1px solid #ebebeb;
+}
+.product-name {
+    font-size: 17px;
+    font-weight: 500;
+}
+.prod-img{
+  padding-right: 0px !important;
+}
+
+.product_button_area--2QEjZg27nU {
+    position: relative;
+    float: right;
+    top: -9px;
+    right: -10px;
+}
+.button_tooltip--1NnSURB4D6, .button_delete--3w1UpShPvn {
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+}
+.button_delete--3w1UpShPvn {
+    padding: 5px;
+    border:0;
+    background:none;
+}
+
+.blind {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+}
+.prod-info-container{
+	height:100px;
+}
+/*추가*/
 em{
 	font-style: normal !important;
 }
@@ -2809,13 +2863,13 @@ em{
    
    .cart-table table tr td {
 	   text-align: center;
-	   padding-bottom: 34px;
+	   padding-bottom: 24px;
 	   padding-left: 20px;
 	   padding-right:20px;
    }
    
    .cart-table table tr td.first-row {
-	   padding-top: 30px;
+	   padding-top: 20px;
    }
    
   
@@ -2827,6 +2881,7 @@ em{
    .cart-table table tr td.cart-title h5 {
 	   color: #252525;
 	   font-size:14px;
+	   padding-top:12px;
    }
    
 

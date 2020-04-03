@@ -111,7 +111,7 @@ select
 from 
 	tb_prod_option   
 where 
-	option_id = #{optionID}
+	option_id = #{optionId}
 </select>
 
 <resultMap type="kh.mclass.IgreMall.product.model.vo.Product" id="productList">
