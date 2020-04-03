@@ -212,7 +212,7 @@ em{
 }
 
 .counselor-list-wrapper{
-    
+    min-height: 1364px;
 }
 
 .counselor-info{
@@ -270,12 +270,6 @@ ul, ol, li{
     height: 20px;
     margin-right: 2px;
     background-size: auto 20px;
-}
-
-.star-score__ico {
-    float: left;
-    background: url(https://trost-asset-images.s3-accelerate.amazonaws.com/service/partner/review_ico_star_small.png) no-repeat;
-    background-position: 0 0;
 }
 
 .partner-list-box__review-score {

@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<fmt:requestEncoding value="utf-8" />
-
+<fmt:requestEncoding value="utf-8"/>
+<style>
+	strong{
+		color: red;
+	}
+</style>
 <!-- 헤더 선언!!-->
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <script>
@@ -23,7 +24,7 @@ counselorR.push(JSON.parse('${counselor}'));
 
 <script>
 $(function(){
-	$(".counselor-list").append("<div class='list-filter-wrapper'><span class='counselor-search-list-num' id=''>검색 결과 <em id='search-result-count'>"+counselorR.length+"</em>건</span></div>");
+	$(".counselor-list").append("<div class='list-filter-wrapper'><span class='counselor-search-list-num' id=''>검색 결과 <em id='search-result-count'><strong>"+counselorR.length+"</strong></em>건</span></div>");
 	
 	let result = "<div class='counselor-list-wrapper'><div class='counselor-info-list'>";
 	for(var i=0; i<counselorR.length; i++){
@@ -71,7 +72,7 @@ $(function(){
 			//페이지 동적 처리
 			$(".counselor-list").empty();
 			
-			$(".counselor-list").append("<div class='list-filter-wrapper'><span class='counselor-search-list-num' id=''>검색 결과 <em id='search-result-count'>"+nameChk.length+"</em>건</span></div>");
+			$(".counselor-list").append("<div class='list-filter-wrapper'><span class='counselor-search-list-num' id=''>검색 결과 <em id='search-result-count'><strong>"+nameChk.length+"</strong></em>건</span></div>");
 			
 			let result = "<div class='counselor-list-wrapper'><div class='counselor-info-list'>";
 			
@@ -134,7 +135,7 @@ a {
             display: inline-block;
             height: 20px;
             overflow: hidden;
-            background: url(${pageContext.request.contextPath}/resources/images/counselling/star-middle.jpg)no-repeat;
+            background: url(${pageContext.request.contextPath}/resources/images/counselling/star-middle.png)no-repeat;
         }
         .star-rating-middle span {
             background-position: left bottom;
@@ -379,7 +380,7 @@ function filter(){
 			$(".counselor-list-wrapper").html("");
 			$(".counselor-list-wrapper").remove();
 			
-			$(".counselor-list").append("<div class='list-filter-wrapper'><span class='counselor-search-list-num' id=''>검색 결과 <em id='search-result-count'>"+resultArr.length+"</em>건</span></div>");
+			$(".counselor-list").append("<div class='list-filter-wrapper'><span class='counselor-search-list-num' id=''>검색 결과 <em id='search-result-count'><strong>"+resultArr.length+"</strong></em>건</span></div>");
 			
 			let result = "<div class='counselor-list-wrapper'><div class='counselor-info-list'>";
 			
