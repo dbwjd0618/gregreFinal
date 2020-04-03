@@ -308,6 +308,24 @@ public class AdminController {
 		return map;
 	}
 	
+	@GetMapping("/athorityList.do")
+	public String athorityList(Model model) {
+		
+		List<Admin> admin = adminService.adminList();
+		 List<Amember> amember = adminService.amemberList(); 
+		
+		model.addAttribute("admin", admin);
+		 model.addAttribute("amember",amember); 
+		
+		return "admin/athorityList";
+	}
+	
+	@GetMapping("/athorityUpdate.do")
+	public String athorityUpdate() {
+		
+		return "admin/athorityUpdate";
+	}
+	
 }
 
 

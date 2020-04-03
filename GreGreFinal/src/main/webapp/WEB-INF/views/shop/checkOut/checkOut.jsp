@@ -1104,10 +1104,7 @@ $(function(){
     </script>
 <!-- 카카오페이 -->
 <!-- <input type="button" id="kakaoPayBtn" value="카카오페이결제 버튼"> -->
-<script>
-   
-    
-    </script>
+
 <!-- Shopping Cart Section End -->
 
 
