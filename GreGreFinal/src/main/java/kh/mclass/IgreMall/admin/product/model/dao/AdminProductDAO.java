@@ -31,5 +31,7 @@ public interface AdminProductDAO {
 
 	List<Product> productListSeller(Product p);
 
+	List<Product> productEdit(String productId);
+
 
 }

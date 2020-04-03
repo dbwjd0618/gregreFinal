@@ -47,7 +47,14 @@ public class ShopAdminProductController {
 
 	@Autowired
 	ResourceLoader resourceLoader;
-
+	
+	@RequestMapping("edit.do")
+	public ModelAndView productEdit(ModelAndView mav,String productId) {
+		List<Product> p = adminProductService.productEdit(productId);
+		
+		mav.setViewName("shop/admin/product/insertProduct");
+		return mav;
+	}
 	@RequestMapping("/search.do")
 	public ModelAndView searchProduct(ModelAndView mav, @RequestParam("sellerId") String sellerId,
 			@RequestParam(value = "productName", required = false) String productName,

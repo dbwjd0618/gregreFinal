@@ -98,6 +98,13 @@ public class AdminProductServiceImpl implements AdminProductService{
 	}
 
 
+	@Override
+	public List<Product> productEdit(String productId) {
+		// TODO Auto-generated method stub
+		return adminProductDAO.productEdit(productId);
+	}
+
+
 
 
 }

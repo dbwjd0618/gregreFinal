@@ -379,6 +379,7 @@
     </div>
 </div>
 <!--sms 선택모달창 끝-->
+<jsp:include page="/WEB-INF/views/shop/admin/common/footer.jsp"/>
 
 <script src="/sales_manager/js/plugins/jquery.zeroclipboard.min.js"></script>
 <script type="text/javascript">

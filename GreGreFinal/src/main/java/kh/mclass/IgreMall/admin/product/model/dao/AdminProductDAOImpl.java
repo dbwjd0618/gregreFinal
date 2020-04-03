@@ -59,4 +59,9 @@ public class AdminProductDAOImpl implements AdminProductDAO{
 	public List<Product> productListSeller(Product p) {
 		return sqlSession.selectList("adminProduct.productListSeller", p);
 	}
+	@Override
+	public List<Product> productEdit(String productId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("adminProduct.productEdit", productId);
+	}
 }

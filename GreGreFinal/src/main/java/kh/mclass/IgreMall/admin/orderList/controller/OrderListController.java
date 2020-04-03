@@ -95,8 +95,8 @@ public class OrderListController {
 			}
 				
 		}
-		System.out.println("여기에서 찍혀줘야해 아래것임");
-		System.out.println("하하하한"+allOrderList.get(0).getAttachList().get(0).getProductName());
+//		System.out.println("여기에서 찍혀줘야해 아래것임");
+//		System.out.println("하하하한"+allOrderList.get(0).getAttachList().get(0).getProductName());
 		
 	
 //		for (int i = 0; i < allOrderList.size(); i++) {

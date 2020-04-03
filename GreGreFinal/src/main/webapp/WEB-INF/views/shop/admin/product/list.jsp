@@ -440,9 +440,9 @@ table {
 										<%-- <button class="btn btn-detail btn-noradpdd" type="button"
 											onclick="javascript:selUp( ${p.productId} , 1 );">변경</button> --%>
 											<button type="button" class="btn btn-detail btn-noradpdd" 
-											onclick="javascript:edit( ${vs.index},${p.productId});">수정</button> 
+											onclick="javascript:edit( ${vs.index},${p.productId});">변경</button> 
 										<button class="btn btn-info btn-noradpdd" type="button"
-											onclick="javascript:location.href='./detail.php?c=${p.productId}';">수정</button>
+											onclick="javascript:location.href='edit.do?productId=${p.productId}';">수정</button>
 										<button class="btn btn-danger btn-noradpdd" type="button"
 											onclick="javascript:deleteProduct(${p.productId});">삭제</button>
 									</td>
@@ -523,7 +523,7 @@ table {
 <div class="col-md-4">
 					<a data-advis-id="${counselor.advisId}" class="btn btn-primary btn-lg" role="button">상담권 선택하기</a>
 				</div>
-
+<jsp:include page="/WEB-INF/views/shop/admin/common/footer.jsp"/>
 <script type="text/javascript">
 
 function edit11(){
@@ -590,7 +590,7 @@ function deleteProduct(val){
 }
 
 function edit(val,m) {
-
+	alert("뭐에요 ?.");
 	//할인가격 받아오는곳.
 	var vs = val;
 	var discountPrice = "discount_"+vs;

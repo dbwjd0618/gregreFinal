@@ -4,21 +4,24 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminOrder">
 <select id="totalOrders" resultType="_int">
-select 
+select
 	count(*)
 from 
-	orderlist
-where
-	1=1
-<!-- <if test="productName !=null">
+	orderlist A left join tb_prod_img B 
+        on A.product_id = B.product_id 
+      left join tb_product C
+       on A.product_id = C.product_id
+where 
+	B.img_type='R'
+<if test="productName !=null or productName !=''">
 and
 	product_name like '%${productName}%'
-</if> -->
+</if>
 <if test="payState!=null">
 and
 	product_state = #{payState}
 </if>
-<if test="payMethod != '' ">
+<if test="payMethod != null or payMethod!=''">
 and
 	pay_method = #{payMethod}
 </if>
