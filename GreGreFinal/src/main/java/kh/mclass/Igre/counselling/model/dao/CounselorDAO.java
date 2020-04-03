@@ -33,4 +33,6 @@ public interface CounselorDAO {
 
 	Double selectReviewRating(String advisId);
 
+	List<Map<String, String>> selectCounselorList1(int cPage, int numPerPage);
+
 }
