@@ -3,6 +3,7 @@ package kh.mclass.Igre.board.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +97,7 @@ public class BoardController {
 	@GetMapping("/postView")
 	public String postView(@RequestParam("boardCode") String boardCode,
 						   @RequestParam("postNo") int postNo,
+						   @RequestParam(value="cPage", defaultValue = "1") int cPage,
 						   Model model,
 						   RedirectAttributes rda) {
 		
@@ -104,16 +106,24 @@ public class BoardController {
 			rda.addAttribute("msg", "게시글이 존재하지 않습니다.");
 			return "redirect:/board/postList?boardCode="+boardCode;
 		}
-		List<Reply> rpList = bs.replyList(boardCode, postNo, 1);
-		
 		model.addAttribute("post", post);
-		model.addAttribute("replyList", rpList);
-		
+				
 		int rpCount = bs.replyCount(boardCode, postNo);
 		model.addAttribute("replyCount", rpCount);
 		
+		int endPage = ((rpCount-1)/10)+1;
+		if(cPage>endPage)
+			cPage = endPage;
+		if(cPage<1)
+			cPage = 1;
+		
+		List<Reply> rpList = bs.replyList(boardCode, postNo, cPage);
+		model.addAttribute("replyList", rpList);
+		
 		int prefCount = bs.preferCount(boardCode, postNo);
 		model.addAttribute("prefCount", prefCount);
+		model.addAttribute("cPage", cPage);
+		model.addAttribute("endPage", endPage);
 		
 		return "board/postView";
 	}
@@ -186,5 +196,21 @@ public class BoardController {
 	@ResponseBody
 	public int submitReport(Report report) {
 		return bs.submitReport(report);
+	}
+	
+	@GetMapping("/postWrite.do")
+	public void postWrite(Model model, @RequestParam("boardCode") String boardCode) {
+		
+		String boardName = bs.boardName(boardCode);
+		if(boardName == null) {
+			boardCode = "B1";
+			boardName = "공지사항";
+		}
+		model.addAttribute("boardName", boardName);
+		model.addAttribute("boardCode", boardCode);
+		
+		List<Board> boardList = bs.boardList();
+		model.addAttribute("boardList", boardList);
+		
 	}
 }
