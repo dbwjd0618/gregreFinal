@@ -53,21 +53,35 @@
 								<span style="font-size: x-large">게시글 작성</span>
 							</div>
 						</div>
-						<table id="content" style="width: 100%;">
-							<tr>
-								<td>
-									<input type="text" name="postTitle" placeholder="제목을 입력하세요." style="width: 100%;" />
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="text" name="postContent" style="width: 100%; min-height: 300px;" placeholder="내용을 입력하세요." />
-								</td>
-							</tr>
-							<tr style="border-bottom: unset;">
-								<td><button>글쓰기</button>&nbsp;<button onclick="location.href='notice.do'">취소</button></td>
-							</tr>
-						</table>
+						<form action="postWrite.do" method="POST">
+							<input type="hidden" name="boardCode" value="${boardCode}"/>
+							<input type="hidden" name="postNo" value="0" />
+							<input type="hidden" name="writer" value="${memberLoggedIn.memberId}" />
+							<table id="content" style="width: 100%;">
+								<tr>
+									<td>
+										<input type="text" name="title" placeholder="제목을 입력하세요." style="width: 80%;" />
+										<input type="text" name="postPwd" placeholder="게시글 암호" style="width:15%;" maxlength="4"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="text" name="content" style="width: 100%; min-height: 300px;" placeholder="내용을 입력하세요." />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="file" name="originFilename" />
+									</td>
+								</tr>
+								<tr style="border-bottom: unset;">
+									<td>
+										<button>글쓰기</button>&nbsp;
+										<button type="button" onclick="location.href='postList?boardCode=${boardCode}'">취소</button>
+									</td>
+								</tr>
+							</table>
+						</form>
 					</div>
 				</div>
 				<!-- contents end-->
@@ -76,6 +90,5 @@
 	</div>
 </div>
 <!-- contents end-->
-
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

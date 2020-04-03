@@ -55,5 +55,7 @@ public interface BoardService {
 
 	int submitReport(Report report);
 
+	int postWrite(Post post);
+
 
 }

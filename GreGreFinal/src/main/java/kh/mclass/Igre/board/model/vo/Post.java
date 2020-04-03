@@ -29,10 +29,10 @@ public class Post implements Serializable{
 	private String title;
 	private String content;
 	private Date postWriteTime;
-	private int readCount;
-	private int likeCount;
-	private int recommenCount;
-	private int decommenCount;
+	private String readCount;
+	private String likeCount;
+	private String recommenCount;
+	private String decommenCount;
 	private String originFilename;
 	private String renameFilename;
 

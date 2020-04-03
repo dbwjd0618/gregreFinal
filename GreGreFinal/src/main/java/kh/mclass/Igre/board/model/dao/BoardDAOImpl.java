@@ -169,6 +169,11 @@ public class BoardDAOImpl implements BoardDAO {
 	public int submitReport(Report report) {
 		return sss.insert("board.submitReport", report);
 	}
+
+	@Override
+	public int postWrite(Post post) {
+		return sss.insert("board.postWrite", post);
+	}
 	
 	
 }
