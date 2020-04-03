@@ -58,5 +58,15 @@ public interface AdminDAO {
 
 	void seqReply(Board board);
 
+	int boardDelete(String boardCode);
+
+	void dropBoard(String boardCode);
+
+	void dropReply(String boardCode);
+
+	void dropSeqPost(String boardCode);
+
+	void dropSeqReply(String boardCode);
+
 
 }

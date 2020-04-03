@@ -174,7 +174,7 @@ $(function(){
 										<tr>
 											<td><input type="checkbox" name="choose" class="choose2" data-board="${list.boardCode }" data-post="${list.postNo }"/></td>
 											<td>${vs.count }</td>
-											<td><a href="#">${list.title }</a></td>
+											<td><a href="${pageContext.request.contextPath}/admin/boardView.do">${list.title }</a></td>
 											<td>${list.writer }</td>
 											<td>${list.postWriteTime }</td>
 											<td>${list.readCount }</td>

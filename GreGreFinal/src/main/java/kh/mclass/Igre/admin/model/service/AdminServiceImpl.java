@@ -94,6 +94,17 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
+	public int boardDelete(String boardCode) {
+		adminDAO.dropReply(boardCode);
+		adminDAO.dropBoard(boardCode);
+		adminDAO.dropSeqPost(boardCode);
+		adminDAO.dropSeqReply(boardCode);
+		
+		return adminDAO.boardDelete(boardCode);
+	}
+
+	
+	@Override
 	public List<Post> boardList(String boardCode) {
 		return adminDAO.boardList(boardCode);
 	}
@@ -123,6 +134,7 @@ public class AdminServiceImpl implements AdminService{
 		return adminDAO.amemberList();
 	}
 
+	
 
 
 }
