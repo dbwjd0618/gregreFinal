@@ -23,8 +23,8 @@
 	text-align: center;
 }
 #reply .inline {display: inline-block; padding: 0 10px;}
-.recom {color: green; border: 1px solid green;}
-.decom {color: blue; border: 1px solid blue;}
+.recom {color: green; border: 1px solid green; min-width: 100px;}
+.decom {color: blue; border: 1px solid blue; min-width: 100px;}
 #modalBox {padding-right: 0px !important;}
 body {padding-right: 0px !important;}
 .Pg {
@@ -35,9 +35,10 @@ body {padding-right: 0px !important;}
 	text-align: center;
 	border : 3px solid gray;
 }
-.CPg:hover {
-	cursor: pointer;
-	background: aqua;
+.CPg:hover {cursor: pointer; background: aqua;}
+.FDbtn {
+	background: white;
+	border: unset;
 }
 </style>
 
@@ -75,9 +76,17 @@ body {padding-right: 0px !important;}
 								<td style="min-width: 60px; width:auto;"><i title="선호수" class="fas fa-heart"></i> ${prefCount}</td>
 								<td style="min-width: 60px; width:auto;"><i title="조회수" class="far fa-eye"></i> ${post.readCount}</td>
 							</tr>
-							<tr>
+							<tr style="border-bottom : unset;">
 								<td colspan="4" style="text-align: left; height: 300px;">${post.content }</td>
 							</tr>
+							<c:if test="${post.originFilename != null}">
+							<tr style="border-top: unset;">
+								<td colspan="4" style="text-align: left;">
+									<i class="fas fa-paperclip"></i>
+									<button type="button" class="FDbtn" onclick="fileDownload('${post.originFilename}','${post.renameFilename}');"> ${post.originFilename}</button>
+								</td>
+							</tr>
+							</c:if>
 							<tr>
 								<td colspan="4">
 									<div class="col-md-1 thumbs clickable recom" onclick="recom('0');">
@@ -138,7 +147,7 @@ body {padding-right: 0px !important;}
 							</c:if>
 							<tr style="border-bottom:unset;">
 								<td>
-									<input type="text" id="ReplyWrite" placeholder="댓글을 입력하세요." style="width: 90%;" />&nbsp;
+									<input type="text" id="ReplyWrite" placeholder="댓글을 입력하세요." style="width: 88%;" />&nbsp;
 									<button onclick="writeReply();">댓글 작성</button>
 								</td>
 							</tr>
@@ -416,6 +425,10 @@ $(function() {
 		document.getElementById('reply').scrollIntoView();
 	}
 });
+function fileDownload(oName, rName){
+	oName = encodeURIComponent(oName);
+	location.href="${pageContext.request.contextPath}/board/fileDownload.do?oName="+oName+"&rName="+rName;
+}
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
