@@ -1,6 +1,7 @@
 package kh.mclass.Igre.admin.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import kh.mclass.Igre.admin.model.vo.Amember;
 import kh.mclass.Igre.admin.model.vo.AdminReport;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
+import kh.mclass.Igre.board.model.vo.Reply;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -105,8 +107,8 @@ public class AdminServiceImpl implements AdminService{
 
 	
 	@Override
-	public List<Post> boardList(String boardCode) {
-		return adminDAO.boardList(boardCode);
+	public List<Post> boardList(Map<String, String> param) {
+		return adminDAO.boardList(param);
 	}
 
 	@Override
@@ -133,6 +135,32 @@ public class AdminServiceImpl implements AdminService{
 	public List<Amember> amemberList() {
 		return adminDAO.amemberList();
 	}
+
+	@Override
+	public Post postView(Map<String, Object> param) {
+		return adminDAO.postView(param);
+	}
+
+	@Override
+	public List<Reply> replyView(Map<String, Object> param) {
+		return adminDAO.replyView(param);
+	}
+
+	@Override
+	public int replyCount(Map<String, Object> param) {
+		return adminDAO.replyCount(param);
+	}
+
+	@Override
+	public int prefCount(Map<String, Object> param) {
+		return adminDAO.prefCount(param);
+	}
+
+	@Override
+	public int postCount(Map<String, String> param) {
+		return adminDAO.postCount(param);
+	}
+
 
 	
 

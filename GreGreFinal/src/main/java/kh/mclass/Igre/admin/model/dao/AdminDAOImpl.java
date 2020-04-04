@@ -13,6 +13,7 @@ import kh.mclass.Igre.admin.model.vo.Amember;
 import kh.mclass.Igre.admin.model.vo.AdminReport;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
+import kh.mclass.Igre.board.model.vo.Reply;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO {
@@ -100,10 +101,8 @@ public class AdminDAOImpl implements AdminDAO {
 
 
 	@Override
-	public List<Post> boardList(String boardCode) {
-		Map<String,String> map = new HashMap<>();
-		map.put("boardCode", boardCode);
-		return sqlSession.selectList("admin.boardList", map);
+	public List<Post> boardList(Map<String, String> param) {
+		return sqlSession.selectList("admin.boardList", param);
 	}
 
 	@Override
@@ -130,15 +129,6 @@ public class AdminDAOImpl implements AdminDAO {
 		return sqlSession.update("admin.noticeUpdate", map);
 	}
 
-	@Override
-	public List<Admin> adminList() {
-		return sqlSession.selectList("admin.adminList");
-	}
-
-	@Override
-	public List<Amember> amemberList() {
-		return sqlSession.selectList("admin.amemberList");
-	}
 	//등록될 게시글 생성
 	@Override
 	public int insertboard(Board board) {
@@ -199,6 +189,45 @@ public class AdminDAOImpl implements AdminDAO {
 		map.put("boardCode", boardCode);
 		sqlSession.update("admin.dropSeqReply", map);
 	}
+	//게시글 보기
+	@Override
+	public Post postView(Map<String, Object> param) {
+		return sqlSession.selectOne("admin.postView", param);
+	}
+	//댓글 보기
+	@Override
+	public List<Reply> replyView(Map<String, Object> param) {
+		return sqlSession.selectList("admin.replyView", param);
+	}
+	//댓글 조회수
+	@Override
+	public int replyCount(Map<String, Object> param) {
+		return sqlSession.selectOne("admin.replyCount", param);
+	}
+	//선호수
+	@Override
+	public int prefCount(Map<String, Object> param) {
+		return sqlSession.selectOne("admin.prefCount", param);
+	}
+	//게시글 갯수
+	@Override
+	public int postCount(Map<String, String> param) {
+		return sqlSession.selectOne("admin.postCount", param);
+	}
+	
+	@Override
+	public List<Admin> adminList() {
+		return sqlSession.selectList("admin.adminList");
+	}
+
+	@Override
+	public List<Amember> amemberList() {
+		return sqlSession.selectList("admin.amemberList");
+	}
+
+
+
+
 
 
 
