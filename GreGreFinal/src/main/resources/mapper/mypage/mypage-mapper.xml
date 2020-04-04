@@ -28,6 +28,46 @@
 		member_id = #{memberId}			
 	</update>
 	
+	<insert id="enroll">
+	insert
+		into
+	TB_child
+		values(
+		#{parentsId},
+		#{childId},
+		#{childName},
+		#{birthday},
+		#{gender},
+		#{phone}
+		) 
+	</insert>
+	<update id="updateChildNumber">		
+	update
+		TB_MEMBER_INFO
+	set
+		child_number = +1
+	where
+		member_id = #{memberId}	
+	</update>
+	
+<!-- 		<resultMap type="Member" id="childCollection">
+		
+		<id column='member_id' property="memberId"></id>
+			<result column='member_name' property="memberName"/>
+			<result column='child_name' property="childName"/>
+			<result column='birthday' property="birthday"/>
+			<result column='gender' property="gender"/>
+			<result column='phone' property="phone"/>	
+		</resultMap> -->
+	<select id="selectChild" resultType="Child">
+	select
+		*
+	from
+		TB_child
+	where
+		parents_ID = #{parentsId}
+	</select>
+	
 	
 	
 </mapper>
