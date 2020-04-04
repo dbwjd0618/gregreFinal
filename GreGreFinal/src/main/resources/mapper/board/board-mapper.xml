@@ -17,7 +17,7 @@
 	</select>
 	
 	<select id="postCount" resultType="_int">
-		select count(*) from ${boardCode}
+		select count(*) from ${table}
 	</select>
 	
 	<insert id="preferIn">
@@ -107,7 +107,7 @@
 	
 	<insert id="postWrite">
 		insert into TB_post_${boardCode} values(
-			#{boardCode}, seq_B1_post.nextval, #{writer}, default,
+			#{boardCode}, seq_${boardCode}_post.nextval, #{writer}, default,
 			<if test="postPwd == null or postPwd == ''">default, </if>
 			<if test="postPwd != null and postPwd != ''">#{postPwd},</if>
 			#{title}, #{content}, default, 0, 0, 0, 0,
@@ -115,5 +115,9 @@
 			<if test="originFilename != null">#{originFilename}, #{renameFilename}</if>
 		)
 	</insert>
+	
+	<update id="viewCount">
+		update TB_post_${boardCode} set read_count = read_count+1 where post_no = #{postNo}
+	</update>
 	
 </mapper>

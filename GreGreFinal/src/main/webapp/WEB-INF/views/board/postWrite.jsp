@@ -53,7 +53,7 @@
 								<span style="font-size: x-large">게시글 작성</span>
 							</div>
 						</div>
-						<form action="postWrite.do" method="POST">
+						<form action="postWrite.do" method="POST" enctype="multipart/form-data">
 							<input type="hidden" name="boardCode" value="${boardCode}"/>
 							<input type="hidden" name="postNo" value="0" />
 							<input type="hidden" name="writer" value="${memberLoggedIn.memberId}" />
@@ -71,7 +71,8 @@
 								</tr>
 								<tr>
 									<td>
-										<input type="file" name="originFilename" />
+										<input type="file" name="upFile" id="originFilename"/>
+										<label for="originFilename">파일을 선택하세요.</label>
 									</td>
 								</tr>
 								<tr style="border-bottom: unset;">
