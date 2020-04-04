@@ -179,7 +179,7 @@
           <ul class="depth-2">
             <!-- 상담센터 여기서부터 링크 이동 -->
             <li><a href="${pageContext.request.contextPath }/counselling/counselorFind.do">상담사 찾기</a></li>
-            <li><a href="offlineCounselling/offlineCounsellingView.html">상담하기</a></li>
+            <li><a href="${pageContext.request.contextPath }/counselling/counsellingStart.do">상담하기</a></li>
           </ul>
         </div>
       </div>

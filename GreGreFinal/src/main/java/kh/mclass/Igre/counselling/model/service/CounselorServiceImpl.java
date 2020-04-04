@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kh.mclass.Igre.chat.model.vo.Msg;
 import kh.mclass.Igre.counselling.model.dao.CounselorDAO;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
@@ -82,5 +83,7 @@ public class CounselorServiceImpl implements CounselorService {
 	public Double selectReviewRating(String advisId) {
 		return counselorDAO.selectReviewRating(advisId);
 	}
+
+
 
 }

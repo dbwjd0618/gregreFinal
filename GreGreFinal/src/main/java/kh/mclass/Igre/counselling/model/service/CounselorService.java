@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kh.mclass.Igre.chat.model.vo.Msg;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.counselling.model.vo.reviewStar;

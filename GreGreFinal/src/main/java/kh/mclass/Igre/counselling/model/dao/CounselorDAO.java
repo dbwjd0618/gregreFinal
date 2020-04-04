@@ -33,5 +33,4 @@ public interface CounselorDAO {
 
 	Double selectReviewRating(String advisId);
 
-
 }
