@@ -75,7 +75,7 @@ public class AdminDAOImpl implements AdminDAO {
 		map.put("postNo", postNo);
 		return sqlSession.update("admin.reportUpdate", map);
 	}
-
+	//댓글삭제
 	@Override
 	public int replyDelete(String boardCode, Integer replyNo) {
 		Map<String,Object> map = new HashMap<>();
@@ -83,7 +83,7 @@ public class AdminDAOImpl implements AdminDAO {
 		map.put("replyNo", replyNo);
 		return sqlSession.delete("admin.replyDelete", map);
 	}
-
+	//댓글처리 Y
 	@Override
 	public int replyUpdate(String boardCode, Integer postNo, Integer replyNo) {
 		Map<String,Object> map = new HashMap<>();
@@ -98,26 +98,18 @@ public class AdminDAOImpl implements AdminDAO {
 		return sqlSession.selectList("admin.board");
 	}
 
-	@Override
-	public int insertboard(Board board) {
-		return sqlSession.insert("admin.insertBoard", board);
-	}
 
 	@Override
 	public List<Post> boardList(String boardCode) {
-		
 		Map<String,String> map = new HashMap<>();
 		map.put("boardCode", boardCode);
-		 
 		return sqlSession.selectList("admin.boardList", map);
 	}
 
 	@Override
 	public Board boardName(String boardCode) {
-		
 		Map<String, String> map = new HashMap<>();
 		map.put("boardCode", boardCode);
-		
 		return sqlSession.selectOne("admin.boardName", map);
 	}
 
@@ -135,8 +127,77 @@ public class AdminDAOImpl implements AdminDAO {
 		map.put("table", "tb_post_"+boardCode);
 		map.put("boardCode", boardCode);
 		map.put("postNo", postNo);
-		
 		return sqlSession.update("admin.noticeUpdate", map);
+	}
+
+	@Override
+	public List<Admin> adminList() {
+		return sqlSession.selectList("admin.adminList");
+	}
+
+	@Override
+	public List<Amember> amemberList() {
+		return sqlSession.selectList("admin.amemberList");
+	}
+	//등록될 게시글 생성
+	@Override
+	public int insertboard(Board board) {
+		return sqlSession.insert("admin.insertBoard", board);
+	}
+	//게시판 생성
+	@Override
+	public void createBoard(Board board) {
+		sqlSession.update("admin.createBoard", board);
+	}
+	//댓글 생성
+	@Override
+	public void createReply(Board board) {
+		sqlSession.update("admin.createReply", board);
+	}
+	//게시글 시퀀스생성
+	@Override
+	public void seqPost(Board board) {
+		sqlSession.update("admin.seqPost", board);
+	}
+	//댓글 시퀀스 생성
+	@Override
+	public void seqReply(Board board) {
+		sqlSession.update("admin.seqReply", board);
+	}
+	//등록된 게시글 삭제
+	@Override
+	public int boardDelete(String boardCode) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("boardCode", boardCode);
+		return sqlSession.delete("admin.boardDelete", map);
+	}
+	//댓글 테이블 삭제
+	@Override
+	public void dropReply(String boardCode) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("boardCode", boardCode);
+		sqlSession.update("admin.dropReply", map);
+	}
+	//게시판 테이블 삭제
+	@Override
+	public void dropBoard(String boardCode) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("boardCode", boardCode);
+		sqlSession.update("admin.dropBoard", map);
+	}
+	//게시판 시퀀스 삭제
+	@Override
+	public void dropSeqPost(String boardCode) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("boardCode", boardCode);
+		sqlSession.update("admin.dropSeqPost", map);
+	}
+	//댓글 시퀀스 삭제
+	@Override
+	public void dropSeqReply(String boardCode) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("boardCode", boardCode);
+		sqlSession.update("admin.dropSeqReply", map);
 	}
 
 

@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kh.mclass.Igre.chat.model.vo.Msg;
 import kh.mclass.Igre.counselling.model.dao.CounselorDAO;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
@@ -16,6 +15,11 @@ import kh.mclass.Igre.counselling.model.vo.reviewStar;
 @Service
 public class CounselorServiceImpl implements CounselorService {
 	
+	@Override
+	public Double selectReviewRating(String advisId) {
+		return counselorDAO.selectReviewRating(advisId);
+	}
+
 	@Autowired
 	private CounselorDAO counselorDAO;
 
@@ -40,8 +44,8 @@ public class CounselorServiceImpl implements CounselorService {
 	}
 	
 	@Override
-	public List<Review> selectReviewList(Counselor c) {
-		return counselorDAO.selectReviewList(c);
+	public List<Map<String, String>> selectReviewList(Counselor c, int cPage, int numPerPage) {
+		return counselorDAO.selectReviewList(c, cPage, numPerPage);
 	}
 	
 	
@@ -80,10 +84,9 @@ public class CounselorServiceImpl implements CounselorService {
 	}
 
 	@Override
-	public Double selectReviewRating(String advisId) {
-		return counselorDAO.selectReviewRating(advisId);
+	public List<Map<String, String>> selectCounselorList1(int cPage, int numPerPage) {
+		return counselorDAO.selectCounselorList1(cPage, numPerPage);
 	}
-
 
 
 }

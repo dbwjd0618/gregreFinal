@@ -14,8 +14,7 @@
 			member_id = #{adminId} and grade = 'A'
  	</select>
  	
- 	<resultMap type="admin" id="adminMap">
- 	</resultMap>
+ 	<resultMap type="admin" id="adminMap"></resultMap>
  	
  	<select id="list" resultType="Amember">
 	 	select
@@ -49,7 +48,7 @@
  		where
  			member_id = #{memberId}
  	</update>
- 
+
  	<update id="adminUpdate">
  		update
  			tb_member_info
@@ -66,138 +65,222 @@
  	</update>
  	
  	<delete id="delete">
- 	
- 	delete
- 	
- 	from
- 		tb_member_info
- 	where
- 		member_id = #{memberId}
- 		
+	 	delete
+	 	
+	 	from
+	 		tb_member_info
+	 	where
+	 		member_id = #{memberId}
  	</delete>
  	
  	<select id="deleteList" resultType="Amember">
- 	
- 	select 
- 		* 
- 	from 
- 		TB_withdraw_member_info
- 	
+	 	select 
+	 		* 
+	 	from 
+	 		TB_withdraw_member_info
  	</select>
  	
  	<select id="report" resultType="AdminReport">
- 	select 
-		* 
-	from 
-		tb_report R join tb_board B on R.report_board = B.board_code  
-		left join tb_post_b1 PB1 on R.report_post_no = PB1.post_no
-		left join tb_reply_b1 RB1 on R.report_reply_no = RB1.reply_no
-	order by
-    	report_no asc
+	 	select 
+			* 
+		from 
+			tb_report R join tb_board B on R.report_board = B.board_code  
+			left join tb_post_b1 PB1 on R.report_post_no = PB1.post_no
+			left join tb_reply_b1 RB1 on R.report_reply_no = RB1.reply_no
+		order by
+	    	report_no asc
  	</select>
  	
 	<delete id="postDelete">
-	delete
-	
-	from
-		${table}
-	where
-		post_no = #{postNo}
+		delete
+		
+		from
+			${table}
+		where
+			post_no = #{postNo}
 	</delete> 	
 	
 	<update id="reportUpdate">
-	update
-		tb_report
-	set
-		report_conf = 'Y'
- 	where
- 		report_board = #{boardCode}
- 		and
- 		report_post_no = #{postNo}
+		update
+			tb_report
+		set
+			report_conf = 'Y'
+	 	where
+	 		report_board = #{boardCode}
+	 		and
+	 		report_post_no = #{postNo}
 	</update>
 	
 	<delete id="replyDelete">
-	delete
-	
-	from
-		${table}
-	where
-		reply_no = #{replyNo}
+		delete
+		
+		from
+			${table}
+		where
+			reply_no = #{replyNo}
 	</delete>
 	
 	<update id="replyUpdate">
-	update
-		tb_report
-	set
-		report_conf = 'Y'
-	where
-		report_board = #{boardCode}
-		and
-		report_post_no = #{postNo}
-		and
-		report_reply_no = #{replyNo}
+		update
+			tb_report
+		set
+			report_conf = 'Y'
+		where
+			report_board = #{boardCode}
+			and
+			report_post_no = #{postNo}
+			and
+			report_reply_no = #{replyNo}
 	</update>
 	
 	<select id="board" resultType="Board">
-	select
-		*
-	from
-		tb_board
-	order by
-		board_code asc
+		select
+			*
+		from
+			tb_board
+		order by
+			board_code asc
 	</select>
 	
+	<update id="createBoard" parameterType="java.lang.String">
+		create table TB_post_${boardCode}(
+			board_code varchar2(5) constraint fk_post_${boardCode} references TB_board(board_code) on delete cascade not null, 
+			post_no number constraint pk_post_${boardCode} primary key,
+			writer varchar2(15) constraint fk_${boardCode}_writer references TB_member_info(member_ID) on delete set null, 
+			notice char(1) default 'N' not null constraint chk_${boardCode}_notice check (notice in ('Y', 'N')), 
+			post_PWD char(4) default '0000' not null, 
+			title varchar2(100) default '제목없음' not null, 
+			content varchar2(3000) default '내용없음' not null, 
+			post_write_time date default sysdate not null, 
+			read_count number not null, 
+			like_count number default 0, 
+			recommen_count number default 0, 
+			decommen_count number default 0, 
+			origin_filename varchar2(500), 
+			rename_filename varchar2(500))
+	</update>
+	
+	<update id="createReply" parameterType="java.lang.String">
+		create table TB_reply_${boardCode}(
+			board_code varchar2(5) constraint fk_reply_${boardCode} references TB_board(board_code) on delete cascade not null, 
+			post_no number constraint fk_reply_post_${boardCode} references TB_post_${boardCode}(post_no) on delete cascade not null, 
+			reply_no number constraint pk_${boardCode}_reply primary key, 
+			reply_writer varchar2(30) constraint fk_reply_writer_${boardCode} references TB_member_info(member_ID) on delete set null not null,
+			reply_content varchar2(50) not null, 
+			reply_write_time date default sysdate, 
+			recommen_count number default 0, 
+			decommen_count number default 0)
+	</update>
+	
+	<update id="seqPost" parameterType="java.lang.String">
+		create sequence seq_${boardCode}_post
+	</update>
+	
+	<update id="seqReply" parameterType="java.lang.String">	
+		create sequence seq_${boardCode}_reply
+	</update>
+	
 	<insert id="insertBoard">
-	insert into 
-		tb_board 
-	values(
-		#{boardCode},
-		#{boardName}
-	)
+		insert into 
+			tb_board 
+		values(
+			#{boardCode},
+			#{boardName}
+		)
 	</insert>
 	
-	<select id="boardList" resultType="Post">
-	select
-		*
-	from
-		tb_post_${boardCode}
-	order by
-		post_no asc
+	<delete id="boardDelete">
+		delete 
+		
+		from 
+			tb_board 
+		where 
+			board_code = #{boardCode}
+	</delete>
+
+	<update id="dropReply">
+		drop
+		
+		table
+		
+		tb_reply_${boardCode}
+	</update>
 	
+	<update id="dropBoard">
+		drop 
+		
+		table 
+		
+		tb_post_${boardCode}
+	</update>
+	
+	<update id="dropSeqPost">
+		drop 
+			sequence seq_${boardCode}_post
+	</update>
+	
+	<update id="dropSeqReply">
+		drop 
+			sequence seq_${boardCode}_reply
+	</update>
+	
+	<select id="boardList" resultType="Post">
+		select
+			*
+		from
+			tb_post_${boardCode}
+		order by
+			post_no asc
 	</select>
 	
 	<select id="boardName" resultType="Board">
-	select
-		*
-	from
-		tb_board
-	where
-		board_code = #{boardCode}
-	
+		select
+			*
+		from
+			tb_board
+		where
+			board_code = #{boardCode}
 	</select>
 	
 	<delete id="boardPostDelete">
-	delete
-	
-	from
-		${table}
-	where
-		post_no = #{postNo}
+		delete
+		
+		from
+			${table}
+		where
+			post_no = #{postNo}
 	</delete>
 	
 	<update id="noticeUpdate">
-	update
-		${table}
-	set
-		notice='Y'
-	where
-		board_code = #{boardCode}
-		and
-		post_no = #{postNo}
+		update
+			${table}
+		set
+			notice='Y'
+		where
+			board_code = #{boardCode}
+			and
+			post_no = #{postNo}
 	</update>
 	
+	<select id="adminList" resultType="Admin">
+		select 
+		    member_id admin_Id, member_name admin_Name, 
+		    nickname, birthday, phone, address, email, grade, gender, enroll_date
+		from 
+			tb_member_info
+		where
+			grade = 'A'
+	</select>
 	
- 
+	<select id="amemberList" resultType="Amember">
+		select
+		    *
+		from
+		    tb_member_info
+		where
+		    grade = 'M'
+	</select>
+	
  </mapper>
  
  

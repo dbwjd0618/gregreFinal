@@ -17,7 +17,7 @@ public interface CounselorDAO {
 
 	int selectReviewTotalContents();
 
-	List<Review> selectReviewList(Counselor c);
+	List<Map<String, String>> selectReviewList(Counselor c, int cPage, int numPerPage);
 
 	List<Counselor> selectFilter(Map<String, String[]> param);
 
@@ -32,5 +32,7 @@ public interface CounselorDAO {
 	int countReview(Map<String, Object> map);
 
 	Double selectReviewRating(String advisId);
+
+	List<Map<String, String>> selectCounselorList1(int cPage, int numPerPage);
 
 }

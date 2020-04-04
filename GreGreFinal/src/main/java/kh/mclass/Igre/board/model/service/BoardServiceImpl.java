@@ -139,5 +139,10 @@ public class BoardServiceImpl implements BoardService{
 		return bd.submitReport(report);
 	}
 
+	@Override
+	public int postWrite(Post post) {
+		return bd.postWrite(post);
+	}
+
 
 }

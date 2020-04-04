@@ -51,7 +51,7 @@ public class AdminController {
 	}
 	
 	//Admin 계정으로 로그인 했을 때, 인덱스 불러오기
-	@PostMapping("/index.do")
+	@PostMapping("/login.do")
 	public String login(@RequestParam("adminId") String adminId,
 						@RequestParam("adminPwd") String adminPwd,
 						Model model,
@@ -76,7 +76,7 @@ public class AdminController {
 			String msg = "입력하신 아이디 혹은 비밀번호가 일치하지 않습니다.";
 
 			redirectAttributes.addFlashAttribute("msg", msg);
-			log.debug(msg);
+				/* log.debug(msg); */
 		}
 	}
 	
@@ -254,8 +254,18 @@ public class AdminController {
 		int result = adminService.insertboard(board);
 		
 		return "redirect:/admin/board.do";
-		
 	}
+	
+	@ResponseBody
+	@PostMapping("/boardDelete.do")
+	public int boardDelete(Model model, String boardCode) {
+		
+		int result = adminService.boardDelete(boardCode);
+		
+		return result;
+	}
+	
+	
 	
 	@GetMapping("/boardList.do")
 	public String boardView(Model model,
@@ -269,7 +279,7 @@ public class AdminController {
 		
 		return "admin/boardList";
 	}
-
+	
 	@ResponseBody
 	@PostMapping("/boardPostDelete.do")
 	public Map<String, Object> boardPostDelete(Model model,
@@ -299,13 +309,31 @@ public class AdminController {
 		
 		for(int i=0; i<npnArr.size(); i++) {
 			result += adminService.noticeUpdate(nbcArr.get(i), npnArr.get(i));
-			log.debug("nbcArr={}", nbcArr.get(i));
+			/* log.debug("nbcArr={}", nbcArr.get(i)); */
 		}
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", result);
 		
 		return map;
+	}
+	
+	@GetMapping("/athorityList.do")
+	public String athorityList(Model model) {
+		
+		List<Admin> admin = adminService.adminList();
+		 List<Amember> amember = adminService.amemberList(); 
+		
+		model.addAttribute("admin", admin);
+		 model.addAttribute("amember",amember); 
+		
+		return "admin/athorityList";
+	}
+	
+	@GetMapping("/athorityUpdate.do")
+	public String athorityUpdate() {
+		
+		return "admin/athorityUpdate";
 	}
 	
 }

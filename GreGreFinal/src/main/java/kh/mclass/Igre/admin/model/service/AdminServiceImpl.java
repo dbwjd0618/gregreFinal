@@ -85,9 +85,25 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public int insertboard(Board board) {
+		adminDAO.createBoard(board);
+		adminDAO.createReply(board); 
+		adminDAO.seqPost(board);
+		adminDAO.seqReply(board);
+		 
 		return adminDAO.insertboard(board);
 	}
 
+	@Override
+	public int boardDelete(String boardCode) {
+		adminDAO.dropReply(boardCode);
+		adminDAO.dropBoard(boardCode);
+		adminDAO.dropSeqPost(boardCode);
+		adminDAO.dropSeqReply(boardCode);
+		
+		return adminDAO.boardDelete(boardCode);
+	}
+
+	
 	@Override
 	public List<Post> boardList(String boardCode) {
 		return adminDAO.boardList(boardCode);
@@ -108,6 +124,17 @@ public class AdminServiceImpl implements AdminService{
 		return adminDAO.noticeUpdate(boardCode, postNo);
 	}
 
+	@Override
+	public List<Admin> adminList() {
+		return adminDAO.adminList();
+	}
+
+	@Override
+	public List<Amember> amemberList() {
+		return adminDAO.amemberList();
+	}
+
+	
 
 
 }

@@ -139,14 +139,14 @@ input[name="paymentMethodCode"] {
 			<div class="form-group row">
 				<label for="payment" class="col-sm-2 col-form-label">결제방식</label>
 				<div class="col-sm-10">
-					<input type="checkbox" name="paymentMethodCode" value="cr" >신용카드
-					<input type="checkbox" name="paymentMethodCode" value="ph" >휴대전화
-					<input type="checkbox" name="paymentMethodCode" value="ac" >무통장입금
+					<input type="checkbox" name="paymentMethodCode" value="cr" checked >신용카드
+					<input type="checkbox" name="paymentMethodCode" value="ph" checked>휴대전화
+					<input type="checkbox" name="paymentMethodCode" value="ac" checked>무통장입금
 				<!-- 	<input type="checkbox" name="paymentMethodCode" value="va" >가상계좌 -->
-					<input type="checkbox" name="paymentMethodCode" value="ra" >실시간계좌이체
-					<input type="checkbox" name="paymentMethodCode" value="ka" >카카오페이
-					<input type="checkbox" name="paymentMethodCode" value="to" >토스
-					<input type="checkbox" name="paymentMethodCode" value="na" >네이버페이
+					<input type="checkbox" name="paymentMethodCode" value="ra" checked>실시간계좌이체
+					<input type="checkbox" name="paymentMethodCode" value="ka" checked>카카오페이
+					<input type="checkbox" name="paymentMethodCode" value="to" checked>토스
+					<input type="checkbox" name="paymentMethodCode" value="na" checked>네이버페이
 				</div>
 				<label for="categoryId" class="col-sm-2 col-form-label">카테고리</label>
 				<div class="col-sm-10">

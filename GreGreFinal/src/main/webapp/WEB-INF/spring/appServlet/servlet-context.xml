@@ -21,12 +21,32 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="kh.mclass.**" />
+	<context:component-scan base-package="kh.mclass.**" />	
+	
+		<interceptors>
+		<interceptor>
+			<mapping path="/myPage/**"/>
+			<mapping path="/board/*.ajax"/>
+			<mapping path="/board/delete*.do"/>
+			<mapping path="/board/*Write.do"/>
+			<beans:bean id="loginCheckIntercepotr" class="kh.mclass.Igre.common.interceptor.LoginInterceptor"/>
+		</interceptor>
+		
+		<!-- 유정구역!! -->
+		<interceptor>
+			<mapping path="/admin/**"/>	
+			<exclude-mapping path="/admin/login.do"/>	
+			<beans:bean id="adminLoginCheckInterceptor" class="kh.mclass.Igre.common.interceptor.AdminLoginInterceptor"/>
+		</interceptor>
+		<!-- 유정구역 끝!! -->
+	</interceptors>
 	
 	<!-- #11.1 파일업로드를 처리할 Resolver클래스 빈등록(빈이름 주의) -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">   
 		<beans:property name="maxUploadSize" value="52428800" /> <!-- multipart/form-data 요청당 최대 파일 크기는 50MB이다. default: -1(제한없음)-->
 		<beans:property name="maxUploadSizePerFile" value="10485760" /> <!-- 파일하나당 최대용량은 10MB이다. 기본값: -1(제한없음) -->
 	</beans:bean>
+	
+	
 	
 </beans:beans>
