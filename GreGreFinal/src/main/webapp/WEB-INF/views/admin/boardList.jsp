@@ -9,7 +9,7 @@
 
 <style>
 .searchvar{
-	margin-left : 465px;
+	margin-left : 575px;
 }
 	
 #postDelete, #noticeSave{
@@ -113,6 +113,7 @@ $(function(){
 			
 		}
 	});
+	
 });
 
 
@@ -144,7 +145,7 @@ $(function(){
 					<div class="box-body">
 						<div class="row">
 							<div class="col-md-6">
-								<span>총 6건</span>
+								<span>총 ${postCount} 개</span>
 							</div>
 						<div class="col-md-6" style="text-align: right; padding-right: 3px;">
 							<button id="postDelete" type="button">삭제</button>
@@ -174,7 +175,7 @@ $(function(){
 										<tr>
 											<td><input type="checkbox" name="choose" class="choose2" data-board="${list.boardCode }" data-post="${list.postNo }"/></td>
 											<td>${vs.count }</td>
-											<td><a href="${pageContext.request.contextPath}/admin/boardView.do">${list.title }</a></td>
+											<td><a href="${pageContext.request.contextPath}/admin/postView.do?boardCode=${list.boardCode}&postNo=${list.postNo}">${list.title }</a></td>
 											<td>${list.writer }</td>
 											<td>${list.postWriteTime }</td>
 											<td>${list.readCount }</td>
@@ -187,14 +188,11 @@ $(function(){
 						
 						<!-- 페이징바 영역 -->
 						<div class="searchvar">
-							<select>
-								<option value="title" >제목</option>
-								<option value="content">내용</option>
-								<option value="writer">작성자</option>
-							</select>
-							&nbsp;
-							<input type="text" style="width: 500px;" />&nbsp;
-							<button style="width: 80px;">검색</button>
+							<form action="${pageContext.request.contextPath}/admin/boardList.do" method="GET">
+								<input type="hidden" name="boardCode" value="${board.boardCode }" />
+								<input type="text" name="search" style="width: 400px;" />&nbsp;
+								<button type="submit" id="searchAll" style="width: 80px;">검색</button>
+							</form>
 						</div>
 						<br />
 					</div>
