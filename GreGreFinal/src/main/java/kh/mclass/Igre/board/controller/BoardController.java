@@ -1,5 +1,7 @@
 package kh.mclass.Igre.board.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.mclass.Igre.board.model.service.BoardService;
@@ -23,6 +26,7 @@ import kh.mclass.Igre.board.model.vo.Post;
 import kh.mclass.Igre.board.model.vo.Recommendation;
 import kh.mclass.Igre.board.model.vo.Reply;
 import kh.mclass.Igre.board.model.vo.Report;
+import kh.mclass.Igre.common.util.Utils;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.member.model.vo.PreferList;
 import lombok.extern.slf4j.Slf4j;
@@ -166,6 +170,7 @@ public class BoardController {
 	public String deletePost(Post post, HttpSession session) {
 		String writer = bs.confirmWriter(post);
 		if(!writer.equals(post.getWriter())) {
+			log.debug("Writer = "+writer+" // postWriter = " + post.getWriter());
 			session.setAttribute("msg", "잘못된 접근입니다.");
 			return "redirect:/board/postList?boardCode="+post.getBoardCode();
 		}
@@ -175,9 +180,12 @@ public class BoardController {
 	}
 	
 	@PostMapping("/deleteReply.do")
-	public String deleteReply(Reply reply, HttpSession session) {
+	public String deleteReply(Reply reply, HttpSession session,
+							@RequestParam("writer") String replyWriter) {
 		String writer = bs.confirmWriter(reply);
-		if(!writer.equals(reply.getReplyWriter())) {
+		if(!writer.equals(replyWriter)) {
+			log.debug("Writer = "+writer+" // replyWriter = " + replyWriter);
+			log.debug(""+reply);
 			session.setAttribute("msg", "잘못된 접근입니다.");
 		} else {
 			int result = bs.deleteReply(reply);
@@ -211,6 +219,37 @@ public class BoardController {
 		
 		List<Board> boardList = bs.boardList();
 		model.addAttribute("boardList", boardList);
+	}
+	
+	@PostMapping("/postWrite.do")
+	public String postWriteEnd(Post post, RedirectAttributes rda, HttpServletRequest request,
+							   @RequestParam(value="originFilename", required=false) MultipartFile f) {
 		
+		if(f != null) {
+			
+			String originFileName = f.getOriginalFilename();
+			String renamedFileName = Utils.getRenamedFileName(originFileName);
+			
+			//파일 이동
+			String saveDirectory = request.getServletContext().getRealPath("/resources/upload/board");
+			
+			try {
+				f.transferTo(new File(saveDirectory, renamedFileName));
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+			
+			post.setOriginFilename(originFileName);
+			post.setRenameFilename(renamedFileName);
+			
+		} else {
+			post.setOriginFilename(null);
+			post.setRenameFilename(null);
+		}
+		int result = bs.postWrite(post);
+		
+		rda.addFlashAttribute("msg", result>0?"게시글이 등록되었습니다.":"게시글 등록 중 오류가 발생했습니다.");
+		
+		return "redirect:/board/postList?boardCode="+post.getBoardCode();
 	}
 }

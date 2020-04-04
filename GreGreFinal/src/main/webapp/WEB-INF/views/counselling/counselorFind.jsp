@@ -153,7 +153,7 @@ a {
 				<div class="col-md-5 mt-5 pt-5">
 					<h1 class="mb-3 font-weight-bold text-teal">상담사 찾기</h1>
 					<p>
-						<a href="index.html" class="text-white">Home</a> <span
+						<a href="${pageContext.request.contextPath}/" class="text-white">Home</a> <span
 							class="mx-3">/</span> <strong>상담센터</strong>
 					</p>
 				</div>

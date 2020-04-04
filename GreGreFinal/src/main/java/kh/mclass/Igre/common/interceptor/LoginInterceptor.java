@@ -23,16 +23,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		logger.debug("memberLoggedIn = " + memberLoggedIn);
 		if(memberLoggedIn == null) {
 			ss.setAttribute("msg", "로그인 후 이용해주세요");
-			response.sendRedirect(request.getContextPath());
+			response.sendRedirect(request.getHeader("referer"));
 			return false;
 		}
-
-//		String memberId = request.getParameter("memberId");
-//		if(!memberLoggedIn.getMemberId().equals(memberId)) {
-//			ss.setAttribute("msg", "잘못된 경로로 접근하셨습니다.");
-//			response.sendRedirect(request.getContextPath());
-//			return false;
-//		}
 		
 		return super.preHandle(request, response, handler);
 	}

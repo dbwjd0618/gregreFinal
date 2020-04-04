@@ -59,4 +59,6 @@ public interface BoardDAO {
 
 	int submitReport(Report report);
 
+	int postWrite(Post post);
+
 }

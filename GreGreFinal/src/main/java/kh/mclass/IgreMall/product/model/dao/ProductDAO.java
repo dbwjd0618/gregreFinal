@@ -18,6 +18,6 @@ public interface ProductDAO {
 
 	List<ProdOption> selectOptionList(String productId);
 
-	ProdOption selectOptionOne(String optionID);
+	ProdOption selectOptionOne(String optionId);
 
 }
