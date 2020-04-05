@@ -52,8 +52,6 @@
   </head>
   
   <body class="skin-blue">
-    <div class="wrapper">
-      
       <header class="main-header">
         <!-- Logo -->
         <a href="${pageContext.request.contextPath }/admin/index.do" class="logo" 

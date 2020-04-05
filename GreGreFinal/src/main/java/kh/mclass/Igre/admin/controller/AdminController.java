@@ -20,10 +20,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kh.mclass.Igre.admin.model.exception.AdminException;
 import kh.mclass.Igre.admin.model.service.AdminService;
 import kh.mclass.Igre.admin.model.vo.Admin;
-import kh.mclass.Igre.admin.model.vo.Amember;
 import kh.mclass.Igre.admin.model.vo.AdminReport;
+import kh.mclass.Igre.admin.model.vo.Amember;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
+import kh.mclass.Igre.board.model.vo.Reply;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -258,7 +259,7 @@ public class AdminController {
 	
 	@ResponseBody
 	@PostMapping("/boardDelete.do")
-	public int boardDelete(Model model, String boardCode) {
+	public int boardDelete(Model model, @RequestParam("boardCode") String boardCode) {
 		
 		int result = adminService.boardDelete(boardCode);
 		
@@ -268,14 +269,23 @@ public class AdminController {
 	
 	
 	@GetMapping("/boardList.do")
-	public String boardView(Model model,
-							@RequestParam("boardCode") String boardCode) {
+	public String boardList(Model model,
+							@RequestParam("boardCode") String boardCode,
+							@RequestParam(value = "search", required = false) String search) {
 		
-		List<Post> list = adminService.boardList(boardCode);
+		Map<String,String> param = new HashMap<>();
+		param.put("boardCode", boardCode);
+		param.put("search", search);
+		
+		List<Post> list = adminService.boardList(param);
 		Board board = adminService.boardName(boardCode);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("board", board);
+		
+		int postCount = adminService.postCount(param);
+		
+		model.addAttribute("postCount", postCount);
 		
 		return "admin/boardList";
 	}
@@ -318,6 +328,32 @@ public class AdminController {
 		return map;
 	}
 	
+	@GetMapping("/postView.do")
+	public String boardView(Model model,
+							@RequestParam("boardCode") String boardCode,
+							@RequestParam("postNo") int postNo) {
+		
+		Map<String,Object> param = new HashMap<>();
+		param.put("boardCode", boardCode);
+		param.put("postNo", postNo);
+		Post post = adminService.postView(param);
+		List<Reply> reply = adminService.replyView(param);
+		
+		model.addAttribute("post", post);
+		model.addAttribute("reply", reply);
+		
+		int replyCount = adminService.replyCount(param);
+		int prefCount = adminService.prefCount(param); 
+		
+		model.addAttribute("replyCount", replyCount);
+		model.addAttribute("prefCount", prefCount);
+		
+		log.debug("post={}",post);
+		log.debug("reply={}",reply);
+		
+		return "admin/postView";
+	}
+	
 	@GetMapping("/athorityList.do")
 	public String athorityList(Model model) {
 		
@@ -336,6 +372,7 @@ public class AdminController {
 		return "admin/athorityUpdate";
 	}
 	
+
 }
 
 
