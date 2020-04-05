@@ -39,6 +39,9 @@ input.site-btn.place-btn {
     width: 170px;
     height: auto;
 }
+td.p-price.first-row {
+    border-right: 1px solid #ebebeb;
+}
 </style>
 
 <!-- Breadcrumb Section Begin -->
@@ -92,7 +95,7 @@ input.site-btn.place-btn {
 										</h5>
 										<h3 class="product-name">${p.productName}</h3>
 										<div class="option">
-											<span class="ico_option"><span class="blind">옵션</span></span>
+											<span class="ico_option"><span class="">옵션</span></span>
 
 											<ul class="option_list">
 												<c:forEach items="${optionList}" var="optList">

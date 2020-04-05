@@ -1,6 +1,7 @@
 package kh.mclass.IgreMall.shopMember.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,11 +37,46 @@ public class ShopMemberController {
 	ShopMemberService shopMemberService;
 	@Autowired
 	ProductService productService;
+	/**
+	 * 0405 이진희
+	 * 
+	 * 장바구니 옵션 삭제
+	 * @return
+	 */
+	@PostMapping("/optionDelete.do")
+	@ResponseBody
+	public Map<String,Object> optionDelete(@RequestParam(value = "optionId", required = false) String optionId,
+								@RequestParam(value = "cartId", required = false) String cartId,
+								 HttpSession session) {
+		
+		Cart cart= shopMemberService.selectCartOne(cartId); 
+		List<String> optionIdList = new ArrayList<>(Arrays.asList(cart.getOptionId()));
+		List<String> prodCountList = new ArrayList<>(Arrays.asList(cart.getProdCount()));
+		int idx = optionIdList.indexOf(optionId);
+		
+		//옵션 id 삭제
+		optionIdList.remove(optionId);
+		cart.setOptionId(optionIdList.toArray(new String[optionIdList.size()]));
+		//옵션수량 삭제
+		prodCountList.remove(idx);	
+		cart.setProdCount(prodCountList.toArray(new String[prodCountList.size()]));
+		
+		
+		int result = shopMemberService.updateCartOne(cart);
+		
+		Map<String,Object> map = new HashMap<>();
+		if(result>0) {
+			map.put("cartId", cartId);
+			map.put("optionId", optionId);
+		}
 	
+		return map;
+	}
+			
 	/**
 	 * 0403 이진희
 	 * 
-	 * 장바구니 답기
+	 * 장바구니 담기
 	 * @return
 	 */
 	@PostMapping("/cartInsert.do")
@@ -123,14 +159,18 @@ public class ShopMemberController {
 			
 			cartList.get(i).setOptionList(optionList);
 			cartList.get(i).setProduct(p);
+			System.out.println("optionList="+optionList);
 			//옵션이 있는 경우
 			if (cartList.get(i).getOptionId() != null) {
 				int optionPrice=0;
 	
 				for(int j=0;j<optionList.size();j++) {
 					int stock = Integer.parseInt(cartList.get(i).getProdCount()[j]);
-					optionPrice += (optionList.get(i).getOptionPrice() - p.getDiscountPrice())*stock;
+					System.out.println("stock="+stock);
+					optionPrice += (optionList.get(j).getOptionPrice() - p.getDiscountPrice())*stock;
+					System.out.println("optionPrice="+optionPrice);
 				}
+				System.out.println("optionPrice="+optionPrice);
 				allPriceList.add(Integer.toString(optionPrice));
 				
 			}else {
@@ -142,8 +182,6 @@ public class ShopMemberController {
 			}
 		}
 		
-		log.debug("cartList={}"+cartList);
-		log.debug("allPriceList={}"+allPriceList);
 		
 		mav.addObject("cartList", cartList);
 		mav.addObject("allPriceList", allPriceList);

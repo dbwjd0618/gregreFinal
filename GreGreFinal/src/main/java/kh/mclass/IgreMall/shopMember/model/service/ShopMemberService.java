@@ -16,4 +16,8 @@ public interface ShopMemberService {
 
 	List<Cart> selectCartList(String memberId);
 
+	Cart selectCartOne(String cartId);
+
+	int updateCartOne(Cart cart);
+
 }
