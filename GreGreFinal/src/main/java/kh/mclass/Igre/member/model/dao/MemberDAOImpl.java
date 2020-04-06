@@ -96,6 +96,18 @@ public class MemberDAOImpl implements MemberDAO {
 		return sss.selectOne("member.selectOneSomp",cmemberId);
 	}
 
+	@Override
+	public int createMenses(Member member) {
+		// TODO Auto-generated method stub
+		return sss.update("member.createMenses",member);
+	}
+
+	@Override
+	public int createTbMenses(Member member) {
+		// TODO Auto-generated method stub
+		return sss.update("member.createTbMenses",member);
+	}
+
 
 
 
