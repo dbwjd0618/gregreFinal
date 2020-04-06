@@ -12,7 +12,11 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
     <!--서브메뉴 js-->
     <script src="${pageContext.request.contextPath}/resources/js/subMenu/subMenu.js"></script>
-
+	<style>
+	sapn.pguide {display:none;font-size: 12px;position:absolute; top:12px; right:10px ; }
+span.ok1{display:none;color:green;}
+span.error2{display:none;color:red ;}
+	</style>
 
    
    
@@ -70,7 +74,7 @@
 							<a class="menu__item" href="#">
 								<div class="menu__title">예약현황 조회/취소</div>
 							</a> 
-							<a class="menu__item" href="#">
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/deleteMember.do">
 								<div class="menu__title">회원탈퇴</div>
 							</a>
 						</div>
@@ -230,8 +234,9 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="${pageContext.request.contextPath}/myPage/memberChildUpdate.do" method="post">
+              <form action="${pageContext.request.contextPath}/myPage/updatePassword.do" method="post">
                     <div class="form-group input-group">
+                    <input type="hidden" name="memberId" id="memberId_" class="form-control" value="${m.memberId }" readonly>
                                   <div class="input-group-prepend">
                                       <span class="input-group-text">패스워드 </span>
                                   </div>
@@ -263,6 +268,27 @@
 
 <script src="${pageContext.request.contextPath}/resources/js/mypage/mypage.js"></script>
 <script>
+
+$(function(){
+	  $("#alert-success").hide(); 
+	  $("#alert-danger").hide(); 
+	  $("input").keyup(function(){
+		  var pwd1=$("#memberPwd").val(); 
+		  var pwd2=$("#memberPwd2").val(); 
+		  if(pwd1 != "" || pwd2 != ""){ 
+			  if(pwd1 == pwd2){ 
+				  $("#alert-success").show(); 
+				  $("#alert-danger").hide(); 
+				  $("#submit").removeAttr("disabled"); 
+				  }else{ 
+					  $("#alert-success").hide(); 
+					  $("#alert-danger").show(); 
+					  $("#submit").attr("disabled", "disabled"); 
+					  } 
+			  } 
+		  }); 
+	  });
+
 
 $("#addr1").val(addArr[0]);
 $("#addr2").val(addArr[1]);

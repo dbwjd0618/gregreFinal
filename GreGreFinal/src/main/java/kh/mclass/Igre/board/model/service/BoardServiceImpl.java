@@ -160,5 +160,10 @@ public class BoardServiceImpl implements BoardService{
 		return bd.postView(post);
 	}
 
+	@Override
+	public int modifyPost(Post post) {
+		return bd.modifyPost(post);
+	}
+
 
 }

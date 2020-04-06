@@ -13,7 +13,18 @@
 <!--서브메뉴 js-->
 <script src="${pageContext.request.contextPath }/resources/js/subMenu/subMenu.js"></script>
 
-
+<script>
+$(function() {
+	$("#originFilename").on("change", function() {
+		$("#UFlabel").hide();
+		$("#OFN").val("change");
+	});
+});
+function upDel() {
+	$("#UFlabel").text("파일을 선택하세요.").show();
+	$("#OFN").val("delete");
+}
+</script>
 
 <div class="ftco-blocks-cover-1">
 	<div class="site-section-cover overlay" data-stellar-background-ratio="0.5" style="background-image: url('${pageContext.request.contextPath}/resources/img/hero-1.jpg')">
@@ -53,32 +64,38 @@
 								<span style="font-size: x-large">게시글 작성</span>
 							</div>
 						</div>
-						<form action="postWrite.do" method="POST" enctype="multipart/form-data">
-							<input type="hidden" name="boardCode" value="${boardCode}"/>
-							<input type="hidden" name="postNo" value="0" />
+						<form action="postModify.do" method="POST" enctype="multipart/form-data">
+							<input type="hidden" name="boardCode" value="${post.boardCode}"/>
+							<input type="hidden" name="postNo" value="${post.postNo }" />
 							<input type="hidden" name="writer" value="${memberLoggedIn.memberId}" />
 							<table id="content" style="width: 100%;">
 								<tr>
 									<td>
-										<input type="text" name="title" placeholder="제목을 입력하세요." style="width: 80%;" />
-										<input type="text" name="postPwd" placeholder="게시글 암호" style="width:15%;" maxlength="4"/>
+										<input type="text" name="title" placeholder="제목을 입력하세요." style="width: 100%;" value="${post.title}"/>
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<input type="text" name="content" style="width: 100%; min-height: 300px;" placeholder="내용을 입력하세요." />
+										<input type="text" name="content" style="width: 100%; min-height: 300px;" placeholder="내용을 입력하세요." value="${post.content}"/>
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td style="text-align:left; min-width:100px;">
 										<input type="file" name="upFile" id="originFilename"/>
-										<label for="originFilename">파일을 선택하세요.</label>
+										<input type="button" value="삭제" onclick="upDel();" style="position: relative;"/>
+										<c:if test="${post.originFilename != null }">
+											<label for="originFilename" id="UFlabel" style="left: -290px; position: relative; background: white; width:130px;">${post.originFilename}</label>
+										</c:if>
+										<c:if test="${post.originFilename == null }">
+											<label for="originFilename" id="UFlabel" style="left: -290px; position: relative; background: white; width:130px;">파일을 선택하세요.</label>
+										</c:if>
+										<input type="hidden" name="originFilename" id="OFN" value="${post.originFilename}" />
 									</td>
 								</tr>
 								<tr style="border-bottom: unset;">
 									<td>
-										<button>글쓰기</button>&nbsp;
-										<button type="button" onclick="location.href='postList?boardCode=${boardCode}'">취소</button>
+										<button>수정</button>&nbsp;
+										<button type="button" onclick="location.href='postView?boardCode=${post.boardCode}&postNo=${post.postNo}'">취소</button>
 									</td>
 								</tr>
 							</table>

@@ -65,7 +65,7 @@
 							<a class="menu__item" href="#">
 								<div class="menu__title">예약현황 조회/취소</div>
 							</a> 
-							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/deleteMember.do">
+							<a class="menu__item" href="#">
 								<div class="menu__title">회원탈퇴</div>
 							</a>
 						</div>
@@ -92,13 +92,13 @@
                                     <div class="col-md-3">
                                        <img src="../images/myPage/pic2.PNG" class="imgmini">
                                     </div>
-                                    <div class="col-md-7"> 
+                                    <div class="col-md-7">
+                                        <p>1</p>
                                         <p>자녀이름 : ${c.childName }</p>
-                                        <p>자녀생일 : ${c.birthday }</p>
-                                        <p>성별 : ${c.gender eq 'M'? '남':'여'}</p>
+                                        <p>2020.02.01(15개월 2주)</p>
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="button" class="btn btn-outline bg-gray" >추가입력</button>
+                                        <button type="button" class="btn btn-outline bg-gray" >정보수정</button>
                                     </div>
                                 </div>
                                 

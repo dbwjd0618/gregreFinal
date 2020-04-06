@@ -17,6 +17,10 @@ public interface MyPageDAO {
 
 	List<Child> selectChild(Child child);
 
+	int updatePassword(Member member);
+
+	int memberDelete(Member member);
+
 
 
 
