@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.service.MyPageService;
 import kh.mclass.Igre.mypage.model.vo.Child;
@@ -89,6 +91,13 @@ public class MyPageController {
 		mav.addObject("m",m);
 		mav.addObject("list",list);
 		mav.setViewName("myPage/memberChildUpdate");
+		return mav;
+	}
+	
+	@GetMapping("/counsellingInfo.do")
+	public ModelAndView selectCounsellingInfo(ModelAndView mav, Counselor counselor, HttpSession session) {
+		
+		
 		return mav;
 	}
 	
