@@ -29,7 +29,7 @@
 	</delete>
 	
 	<select id="postView" resultType="Post">
-		select * from ${table} where post_no = #{postNo}
+		select * from TB_post_${boardCode} where post_no = #{postNo}
 	</select>
 	
 	<select id="replyList" resultType="Reply">
@@ -37,7 +37,7 @@
 	</select>
 	
 	<select id="replyCount" resultType="_int">
-		select count(*) from ${table} where post_no = #{postNo}
+		select count(*) from TB_reply_${boardCode} where post_no = #{postNo}
 	</select>
 	
 	<select id="preferCount" resultType="_int">
@@ -118,6 +118,10 @@
 	
 	<update id="viewCount">
 		update TB_post_${boardCode} set read_count = read_count+1 where post_no = #{postNo}
+	</update>
+	
+	<update id="replyModify">
+		update TB_reply_${boardCode} set reply_content = #{replyContent} where post_no = #{postNo} and reply_no = #{replyNo}
 	</update>
 	
 </mapper>
