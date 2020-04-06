@@ -194,7 +194,7 @@ public class MemberController {
 
 		member.setAddress(address);
 		int result = ms.enroll(member);
-		String msg = result > 0 ? "회원가입 완료!" : "누락된 항목이 있습니다";
+		String msg = result > 0 ? "회원가입 완료!" : "";
 		ras.addFlashAttribute("msg", msg);
 
 		return "redirect:/member/login.do";
