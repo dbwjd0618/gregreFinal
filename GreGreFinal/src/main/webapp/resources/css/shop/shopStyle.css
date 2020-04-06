@@ -32,6 +32,12 @@
 /*----------------------------------------*/
 /*
 수정 및 추가*/
+span#dec-button {
+    margin-top: 2px;
+}
+span#inc-button {
+    margin-top: 2px;
+}
 .orgn_price {
     display: block;
     font-size: 12px;
@@ -82,8 +88,11 @@ td.total-price.first-row {
     height: 1px;
     margin: -1px;
 }
-.prod-info-container{
+/* .prod-info-container{
 	height:100px;
+} */
+td.first-row.prod-img {
+    padding-left: 0px;
 }
 /*추가*/
 em{
@@ -2954,8 +2963,8 @@ em{
    }
    
    .cart-buttons .continue-shop {
-	   color: #b2b2b2;
-	   border: 2px solid #ebebeb;
+	   color: #545252;
+	   border: 2px solid  #656464;
 	   background: #ffffff;
 	   margin-right: 8px;
 	   padding: 12px 20px 12px 20px;

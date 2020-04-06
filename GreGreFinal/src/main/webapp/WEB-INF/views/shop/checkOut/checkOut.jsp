@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="kh.mclass.IgreMall.product.model.vo.Product"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -5,6 +7,18 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <fmt:requestEncoding value="utf-8" />
 <jsp:include page="/WEB-INF/views/shop/common/header.jsp" />
+
+<%
+
+  List<Product> prodList = (List<Product>)request.getAttribute("prodList");
+  List<Integer> totalPriceList = (List<Integer>)request.getAttribute("totalPriceList");
+  int totalPoint=0;
+ for( int i=0; i<prodList.size();i++){
+	 totalPoint += prodList.get(i).getPointRate()*0.01*totalPriceList.get(i); 
+ }
+//총 적림 예상금액
+ pageContext.setAttribute("totalPoint", totalPoint );
+%>
 <!--checkOut css-->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/css/shop/check-out.css">
@@ -38,6 +52,9 @@ img.kakao-img {
 input.site-btn.place-btn {
     width: 170px;
     height: auto;
+}
+td.p-price.first-row {
+    border-right: 1px solid #ebebeb;
 }
 </style>
 
@@ -81,21 +98,26 @@ input.site-btn.place-btn {
 								</tr>
 							</thead>
 							<tbody>
-
+							<c:forEach var="prod" items="${prodList}" varStatus="vs">
 								<tr>
-									<td class="cart-pic first-row"><img
-										src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attachList.get(0).renamedImg}"
-										alt=""></td>
+									<td class="cart-pic first-row">
+									<c:forEach var="attach" items="${prod.attachList}" >
+									<c:if test='${ "R" eq attach.imgType}'>
+										<img src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attach.renamedImg}"
+										alt="">
+										</c:if> 
+									</c:forEach>	
+									</td>
 									<td class="cart-title first-row">
 										<h5>
-											[<span>${p.brandName} </span>]
+											[<span>${prod.brandName} </span>]
 										</h5>
-										<h3 class="product-name">${p.productName}</h3>
+										<h3 class="product-name">${prod.productName}</h3>
 										<div class="option">
-											<span class="ico_option"><span class="blind">옵션</span></span>
+											<span class="ico_option"><span class="">옵션</span></span>
 
 											<ul class="option_list">
-												<c:forEach items="${optionList}" var="optList">
+												<c:forEach items="${prod.optionList}" var="optList">
 													<c:set var="optName"
 														value="${fn:split(optList.optionName,',') }" />
 													<c:set var="optValue"
@@ -111,13 +133,13 @@ input.site-btn.place-btn {
 									</td>
 
 									<td class="p-price first-row">
-										<fmt:formatNumber type="number" maxFractionDigits="3" value="${p.deliveryFee}" />
+										<fmt:formatNumber type="number" maxFractionDigits="3" value="${prod.deliveryFee}" />
 										  원
 									</td>
-									<td class="qua-col first-row">${totalAmount}</td>
+									<td class="qua-col first-row">${totalAmountList.get(vs.index)}</td>
 									<td class="qua-col first-row">
 									<span class="discount">
-											<c:set var="totalDiscount" value="${fn:length(optionList)*p.discountPrice }" /> <span
+											<c:set var="totalDiscount" value="${fn:length(prod.optionList)*prod.discountPrice }" /> <span
 											class="_discountAmount">(-) </span> <span
 											class="_discountAmountText"> 
 											<fmt:formatNumber
@@ -128,12 +150,13 @@ input.site-btn.place-btn {
 									<td class="total-price first-row"><span
 										class="orgn_price "><em><fmt:formatNumber
 													type="number" maxFractionDigits="3"
-													value="${totalPrice+totalDiscount}" /></em>원</span> <strong><em
+													value="${totalPriceList.get(vs.index)+totalDiscount}" /></em>원</span> <strong><em
 											class=""><fmt:formatNumber type="number"
-													maxFractionDigits="3" value="${totalPrice}" /></em>원</strong></td>
+													maxFractionDigits="3" value="${totalPriceList.get(vs.index)}" /></em>원</strong></td>
 
 
 								</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>
@@ -297,12 +320,11 @@ input.site-btn.place-btn {
 					</div>
 					<h4>예상 적립 포인트</h4>
 					<div class="expect_mileage">
-						<fmt:parseNumber var="intPoint" integerOnly="true"
-							value="${p.pointRate*0.01*totalPrice} " />
+					
 						<fmt:formatNumber type="number" maxFractionDigits="3"
-							var="totalPoint" value="${intPoint }" />
+							var="tPoint" value="${totalPoint }" />
 						<div class="mileage" id="expect_mileage" data-benefit="1"
-							data-hj-suppress="">${totalPoint}P</div>
+							data-hj-suppress="">${tPoint}P</div>
 						<div>적립예정</div>
 					</div>
 				</div>
@@ -315,8 +337,8 @@ input.site-btn.place-btn {
 							<ul class="order-table">
 								<li class="total-price" style="border: 0; margin-bottom: 20px;"><span
 									style="font-size: 30px; padding-top: 5px; float: left;"><em id="total-pay"></em>원</span></li>
-								<li class="fw-normal">총 상품금액 <span><em id="total-prod">${totalPrice}</em>원</span></li>
-								<li class="fw-normal">배송비 <span>(+)<em id="total-del"><fmt:formatNumber type="number" maxFractionDigits="3" value="${p.deliveryFee}" /></em>원</span></li>
+								<li class="fw-normal">총 상품금액 <span><em id="total-prod"></em>원</span></li>
+								<li class="fw-normal">배송비 <span>(+)<em id="total-del"><fmt:formatNumber type="number" maxFractionDigits="3" value="" /></em>원</span></li>
 								<li class="fw-normal">할인금액<span>(-)<em id="total-dis">${totalDiscount}</em>원</span></li>
 								<li class="fw-normal">포인트 사용금액<span>(-)<em id="used-point"></em>원</span></li>
 								<li class="fw-normal">쿠폰 사용금액<span>(-)<em id="used-coupon"></em>원</span></li>
