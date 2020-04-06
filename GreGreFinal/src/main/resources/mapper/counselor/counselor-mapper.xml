@@ -156,7 +156,7 @@
 		    counselor_chat_log 
 		        (id, chat_room_id, member_id, msg, time)
 		values(
-		    seq_chat.nextval, 
+		    counselor_seq_chat.nextval, 
 				(select id from counselor_chat_room where chat_id = #{chatId}), 
 				#{memberId}, 
 				#{msg}, 
@@ -165,64 +165,39 @@
 		</insert>
 	
 		<select id="findRecentList" resultType="map">
-		select 
-    *
-from (
-    select 
-        id,
-        cv.cr_id,
-        cv.chat_id,
-        (select member_id from counselor_chat_view where cr_id = cl.chat_room_id) member_id,
-        cl.msg,
-        cl.time,
-        count(*) over(partition by cl.chat_room_id,cl.member_id) cnt,
-        rank() over(partition by cl.chat_room_id order by time desc) rank 
-    from 
-        counselor_chat_log cl
-      left join
-        counselor_chat_view cv
-          on cl.chat_room_id = cv.cr_id and cl.member_id = cv.member_id
-    where 
-        time > (select last_check from counselor_chat_view where cr_id = cl.chat_room_id)
-    order by
-        time desc
-    )
-where 
-    rank = 1
-union all 
 select 
-    *
-from (
-    select 
-        id,
-        cv.cr_id,
-        cv.chat_id,
-        (select member_id from counselor_chat_view where cr_id = cl.chat_room_id) member_id,
-        cl.msg,
-        cl.time,
-        0 cnt,
-        rank() over(partition by cl.chat_room_id order by time desc) rank 
-    from 
-        counselor_chat_log cl
-      left join
-        counselor_chat_view cv
-          on cl.chat_room_id = cv.cr_id and cl.member_id = cv.member_id
-    order by 
-        time desc
-    ) A
-where 
-    rank = 1 
-  and 
-    time <![CDATA[ <= ]]>= (select last_check from counselor_chat_view where cr_id = A.cr_id )	
+		    *
+		from (
+		    select 
+		        id,
+		        cv.cr_id,
+		        cv.chat_id,
+		        (select member_id from counselor_chat_view where cr_id = cl.chat_room_id and member_id != #{memberId}) member_id,
+		        cl.msg,
+		        cl.time,
+		        0 cnt,
+		        rank() over(partition by cl.chat_room_id order by time desc) rank 
+		    from 
+		        counselor_chat_log cl
+		      left join
+		        counselor_chat_view cv
+		          on cl.chat_room_id = cv.cr_id and cl.member_id = cv.member_id
+		    order by
+		        time desc
+		    )
+		where 
+		    rank = 1
+	    order by
+    		time desc
 	</select>
 
 	<select id="findChatListByChatId" resultType="msg">
-		select 
+		select
 		    * 
 		from 
 		    counselor_chat_log
 		where 
-		    chat_room_id = (select id from chat_room where chat_id = #{chatId})
+		    chat_room_id = (select id from counselor_chat_room where chat_id = #{chatId})
 		order by 
 		    id
 	</select>
@@ -237,6 +212,42 @@ where
 	  and 
 	    member_id = #{memberId}
 </update>
+
+<select id="counselorFindId" resultType="string">
+	select advis_ID
+	from TB_advis_use
+	where member_ID = #{memberId}
+	</select>
+	
+	<insert id="insertChatRoom">
+		insert into
+		    counselor_chat_room 
+		        (id, chat_id)
+		values(
+		    counselor_seq_chat.nextval, 
+		    #{chatId}
+		)
+		<selectKey order="AFTER" keyProperty="id" resultType="_long">
+			select 
+				counselor_seq_chat.currval
+			from
+				dual
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="insertChatMember">
+		insert into
+		    counselor_chat_member
+		        (id, chat_room_id, member_id)
+		
+		values(
+		    counselor_seq_chat.nextval,
+		    #{chatRoom.id},
+		    #{memberId}
+		)
+	</insert>
+	
 
 	
 </mapper>

@@ -43,17 +43,22 @@ public class ChatDAOImpl implements ChatDAO {
 	}
 
 	@Override
-	public List<Map<String, String>> counselorFindRecentList() {
-		return sqlSession.selectList("counselor.findRecentList");
+	public List<Map<String, String>> counselorFindRecentList(String memberId) {
+		return sqlSession.selectList("counselor.findRecentList", memberId);
 	}
 
 	@Override
 	public List<Msg> counselorFindChatListByChatId(String chatId) {
-		return sqlSession.selectList("counselor.findChatListByChatId");
+		return sqlSession.selectList("counselor.findChatListByChatId",chatId);
 	}
 
 	@Override
 	public int counselorUpdateLastCheck(Msg fromMessage) {
 		return sqlSession.update("counselor.updateLastCheck");
+	}
+
+	@Override
+	public String counselorFindId(String memberId) {
+		return sqlSession.selectOne("counselor.counselorFindId",memberId);
 	}
 }

@@ -41,7 +41,7 @@ function sendMessage() {
 	}
 	
 	//전역변수 stompClient를 통해 메세지 전송 
-	stompClient.send(`/spring-ws/chat/${chatId}`, {}, JSON.stringify(data));
+	stompClient.send(`/Igre/chattt/counselor/${chatId}`, {}, JSON.stringify(data));
 
 	//message창 초기화
 	$('#message').val('');

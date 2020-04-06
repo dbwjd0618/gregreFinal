@@ -48,19 +48,7 @@ public class CounselorController {
 		log.debug("counselorId 속성값 설정되었음. [{}]",counselorId);
 	}
 	
-	@GetMapping("/chat/counselorList")
-	public String admin(Model model, 
-						@ModelAttribute("counselorId")String counselorId){
-		
-		//최근 사용자 채팅메세지 목록
-		List<Map<String, String>> recentList = chatService.counselorFindRecentList();
-		log.debug("recentList={}",recentList);
-		
-		model.addAttribute("recentList", recentList);
-		
-		return "chat/counselorChatList";
-		
-	}
+	
 	
 	@GetMapping("/chat/counselor/{chatId}")
 	public String adminChat(@PathVariable("chatId") String chatId, Model model){

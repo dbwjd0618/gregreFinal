@@ -42,7 +42,7 @@ const memberId = '${memberId}';
 
 //웹소켓 선언 및 연결
 //1.최초 웹소켓 생성 url: /stomp
-let socket = new SockJS('/spring-ws/stomp');
+let socket = new SockJS('/Igre/chat');
 let stompClient = Stomp.over(socket);
 
 let sessionId;

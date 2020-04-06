@@ -35,6 +35,7 @@ public class ChatServiceImpl implements ChatService {
 			result += chatDAO.counselorInsertChatMember(chatMember);
 		}
 		return result;
+		
 	}
 
 	@Override
@@ -48,8 +49,8 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public List<Map<String, String>> counselorFindRecentList() {
-		return chatDAO.counselorFindRecentList();
+	public List<Map<String, String>> counselorFindRecentList(String memberId) {
+		return chatDAO.counselorFindRecentList(memberId);
 	}
 
 	@Override
@@ -60,6 +61,12 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public int counselorUpdateLastCheck(Msg fromMessage) {
 		return chatDAO.counselorUpdateLastCheck(fromMessage);
+	}
+
+	//구매 상담사 아이디 조회
+	@Override
+	public String counselorFindId(String memberId) {
+		return chatDAO.counselorFindId(memberId);
 	}
 
 	

@@ -49,7 +49,7 @@
 
 
 <!-- 사용자 chat관련 script -->
-<script src="${pageContext.request.contextPath }/resources/js/chat.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/chat/chat.js"></script>
 <script>
 const memberId = '${memberId}';
 const chatId = '${chatId}';
@@ -82,8 +82,8 @@ function chatSubscribe(){
 		if(conntionDone==false && stompClient.connected){
 			
 			//stomp에서는 구독개념으로 세션을 관리한다. 핸들러 메소드의 @SendTo어노테이션과 상응한다.
-			stompClient.subscribe('/chat/'+chatId, function(message) {
-				console.log("receive from subscribe /chat/"+chatId+":", message);
+			stompClient.subscribe('/chat/counselor/'+chatId, function(message) {
+				console.log("receive from subscribe /chat/counselor/"+chatId+":", message);
 				let messsageBody = JSON.parse(message.body);
 				$("#data").append("<li class=\"list-group-item\">"+messsageBody.memberId+" : "+messsageBody.msg+ "</li>");
 				scrollTop();

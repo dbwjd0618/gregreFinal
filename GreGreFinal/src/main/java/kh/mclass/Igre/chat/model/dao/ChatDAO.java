@@ -19,11 +19,13 @@ public interface ChatDAO {
 
 	int counselorInsertChatLog(Msg fromMessage);
 
-	List<Map<String, String>> counselorFindRecentList();
+	List<Map<String, String>> counselorFindRecentList(String memberId);
 
 	List<Msg> counselorFindChatListByChatId(String chatId);
 
 	int counselorUpdateLastCheck(Msg fromMessage);
+
+	String counselorFindId(String memberId);
 
 
 

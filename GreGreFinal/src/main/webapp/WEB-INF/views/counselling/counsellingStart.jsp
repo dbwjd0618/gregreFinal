@@ -3,6 +3,7 @@
 <!-- 헤더 선언!!-->
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
+
 <!-- 상담 페이지 css -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/counselling/counseling.css">
@@ -52,17 +53,23 @@
 				<div id='counseling_list'>
 					<div class='eachCounseling H_Y'>
 						<h3>현재 진행 중인 상담</h3>
-						<a target="_self" href="/service/counseling/texttime/?no=511841">
-							<ul id="511841" class="eachintro">
-								<li>
-									<img src="https://trost-asset-images.s3-accelerate.amazonaws.com/partner/15551464323_.png" alt="상담사 프로필 이미지">
-									<p>상담이 처음이신가요?<br><br>
-										<span class="recently_message">새로운 메시지가 도착하였습니다.</span><br>
-										<span class="recently_time">(2018-05-08)</span>
-									</p>
-								</li>
-							</ul>
-						</a>
+						<c:if test="${recentList != null}">
+						
+						 <c:forEach items="${recentList }" var="m" varStatus="vs">
+							<a target="_self" href="${pageContext.request.contextPath}/chat/counselorChat">
+								<ul id="511841" class="eachintro">
+									<li>
+										<img src="https://trost-asset-images.s3-accelerate.amazonaws.com/partner/15551464323_.png" alt="상담사 프로필 이미지">
+										<p>${m.MSG }<br><br>
+											<span class="recently_message">${m.MEMBER_ID }</span><br>
+											<span class="recently_time">안 읽은 글 :  ${m.CNT }</span>
+										</p>
+									</li>
+								</ul>
+							</a>
+						    
+						  </c:forEach>
+						</c:if>
 					</div>
 					<div class='eachCounseling H_N'>
 						<h3>종료된 상담</h3>
