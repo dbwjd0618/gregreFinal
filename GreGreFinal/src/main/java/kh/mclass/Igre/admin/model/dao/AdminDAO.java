@@ -1,12 +1,14 @@
 package kh.mclass.Igre.admin.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import kh.mclass.Igre.admin.model.vo.Admin;
 import kh.mclass.Igre.admin.model.vo.Amember;
 import kh.mclass.Igre.admin.model.vo.AdminReport;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
+import kh.mclass.Igre.board.model.vo.Reply;
 
 public interface AdminDAO {
 
@@ -38,7 +40,7 @@ public interface AdminDAO {
 
 	int insertboard(Board board);
 
-	List<Post> boardList(String boardCode);
+	List<Post> boardList(Map<String, String> param);
 
 	Board boardName(String boardCode);
 
@@ -67,6 +69,16 @@ public interface AdminDAO {
 	void dropSeqPost(String boardCode);
 
 	void dropSeqReply(String boardCode);
+
+	Post postView(Map<String, Object> param);
+
+	List<Reply> replyView(Map<String, Object> param);
+
+	int replyCount(Map<String, Object> param);
+
+	int prefCount(Map<String, Object> param);
+
+	int postCount(Map<String, String> param);
 
 
 }

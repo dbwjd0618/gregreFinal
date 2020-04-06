@@ -227,6 +227,7 @@ span.optNm2 {
 		var template = $.templates("#itemTmplOption");
 		var htmlOutput = template.render(data);
 		$("#selected-option").append(htmlOutput);
+		
 		var prevPrice = Number($('#totalPrice').text())+Number(optPrice);
 	
 		$('#totalPrice').text(prevPrice);			

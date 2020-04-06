@@ -1,4 +1,4 @@
-package kh.mclass.Igre.mypage.controller;
+ package kh.mclass.Igre.mypage.controller;
 
 import java.util.List;
 
@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.service.MyPageService;
+import kh.mclass.Igre.mypage.model.vo.Child;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -37,6 +38,16 @@ public class MyPageController {
 		return mav;
 	}
 	
+//	@GetMapping("memberChildUpdate")
+//	public ModelAndView mypagechildview(ModelAndView mav,HttpSession session) {
+//		
+//		Member m = (Member) session.getAttribute("memberLoggedIn");
+//		mav.addObject("m",m);
+//		mav.setViewName("myPage/memberChildUpdate");
+//
+//	return mav;
+//}
+	
 	@GetMapping("/memberUpdate.do")
 	public ModelAndView memberUpdate(ModelAndView mav,HttpSession session) {
 
@@ -48,7 +59,7 @@ public class MyPageController {
 	}
 	@PostMapping("updateMember.do")
 	public String updateMember(SessionStatus ss,HttpSession session,Member member,RedirectAttributes rda,String addr1,String addr2,String addr3) {
-		String address = addr1 +","+ addr2 +","+ addr3;
+		String address = addr1 +"+"+ addr2 +"+"+ addr3;
 		member.setAddress(address);
 		int result = mps.updateMember(member);
 		ss.setComplete();
@@ -56,6 +67,29 @@ public class MyPageController {
 		rda.addFlashAttribute("msg", msg);
 
 		return "redirect:/member/login.do";
+	}
+	
+	@PostMapping("/memberChildUpdate.do")
+	public String memberChildUpdate(Member member,Child child,RedirectAttributes ras,String parentsId,String childName) {
+		String childId = parentsId+"_"+childName;
+		child.setChildId(childId);
+		int result = mps.enroll(child,member);
+		String msg = result > 0 ? "자녀추가 완료!" : "누락된 항목이 있습니다";
+		ras.addFlashAttribute("msg", msg);
+		
+		return "redirect:/myPage/memberChildUpdate.do";
+	}
+	
+	@GetMapping("/memberChildUpdate.do")
+	public ModelAndView selectChild(ModelAndView mav , Child child,HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String parentsId = m.getMemberId();
+		child.setParentsId(parentsId);
+		List<Child> list = mps.selectChild(child);
+		mav.addObject("m",m);
+		mav.addObject("list",list);
+		mav.setViewName("myPage/memberChildUpdate");
+		return mav;
 	}
 	
 }
