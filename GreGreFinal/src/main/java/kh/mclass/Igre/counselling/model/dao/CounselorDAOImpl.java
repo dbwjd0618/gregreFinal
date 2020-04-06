@@ -1,6 +1,5 @@
 package kh.mclass.Igre.counselling.model.dao;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -108,6 +107,7 @@ public class CounselorDAOImpl implements CounselorDAO {
 	public int bookingInsert(bookingInfo info) {
 		return sqlSession.insert("counselor.bookingInfo", info);
 	}
+
 
 
 }
