@@ -27,15 +27,38 @@
 .decom {color: blue; border: 1px solid blue; min-width: 100px;}
 #modalBox {padding-right: 0px !important;}
 body {padding-right: 0px !important;}
-.Pg {
-	display: inline-block;
-	background: lightgray;
-	min-width:30px;
-	width: auto;
-	text-align: center;
-	border : 3px solid gray;
+.page_wrap {text-align:center;}
+.pg{display:inline-block; border:1px solid #ccc; min-width:30px;}
+.page_nation a{
+	display:block;
+	margin:0 3px;
+	float:left;
+	width:28px;
+	height:28px;
+	line-height:28px;
+	text-align:center;
+	background-color:#fff;
+	font-size:13px;
+	color:#999999;
+	text-decoration:none;
 }
-.CPg:hover {cursor: pointer; background: aqua;}
+.page_nation span {
+	display:block;
+	margin:0 3px;
+	float:left;
+	width:28px;
+	height:28px;
+	line-height:28px;
+	text-align:center;
+	font-size:13px;
+	color:#999999;
+	text-decoration:none;
+}
+.active {
+	background-color:#42454c;
+	color:#fff;
+	border:1px solid #42454c;
+}
 .FDbtn {
 	background: white;
 	border: unset;
@@ -105,7 +128,7 @@ body {padding-right: 0px !important;}
 									</c:if>
 								</td>
 								<c:if test="${memberLoggedIn.memberId == post.writer}">
-									<td><i title="수정하기" class="far fa-edit clickable"></i></td>
+									<td><i title="수정하기" class="far fa-edit clickable" onclick="modPost();"></i></td>
 									<td><i title="삭제하기" class="fas fa-eraser clickable" onclick="deletePost();"></i></td>
 								</c:if>
 								<c:if test="${memberLoggedIn.memberId != post.writer }"><td /><td /></c:if>
@@ -136,11 +159,12 @@ body {padding-right: 0px !important;}
 											</div>
 											<c:if test="${memberLoggedIn.memberId == reply.replyWriter}">
 												<div class="inline">
-													<i title="수정" class="far fa-edit rclick"></i>
+													<i title="수정" class="far fa-edit rclick Rmod" id="${reply.replyNo}"></i>
 													<i title="삭제" class="fas fa-eraser rclick" onclick="deleteReply('${reply.replyNo}', '${reply.replyWriter}')"></i>
 												</div>
 											</c:if> <br />
-											<div style="font-size: 18px;"> <strong>${reply.replyContent}</strong></div>
+											<div class="rplCon" style="font-size: 18px;"> <strong>${reply.replyContent}</strong></div>
+											<div class="rplConM" style="display:none;"><input type="text" value="${reply.replyContent }" style="width:85%;"/><button class="rplModC">취소</button><button onclick="rplModify('${post.boardCode}','${post.postNo}', '${reply.replyNo}', this)">수정</button></div>
 										</td>
 									</tr>
 								</c:forEach>
@@ -153,23 +177,23 @@ body {padding-right: 0px !important;}
 							</tr>
 						</table>
 						<!-- 댓글 페이징 -->
-						<div class="row">
-							<div class="col-md-12" style="text-align:center;">
+						<div class="row page_wrap">
+							<div class="col-md-12 page_nation">
 								<!-- cPage -->
 								<c:if test="${3 ge cPage}">
 									<div class="Pg"><span>&lt;&lt;</span></div>
 									<div class="Pg"><span>&lt;</span></div>
 								</c:if>
 								<c:if test="${3 lt cPage }">
-									<div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=1">&lt;&lt;</a></div>
-									<div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${cPage-3}">&lt;</a></div>
+									<div class="Pg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=1">&lt;&lt;</a></div>
+									<div class="Pg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${cPage-3}">&lt;</a></div>
 								</c:if>
 								
 								<!-- endPage가 5 이하일때 -->
 								<c:if test="${endPage le 5 }">
 									<c:forEach begin="1" end="${endPage}" var="pNo">
-										<c:if test="${pNo != cPage}"><div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${pNo}">${pNo}</a></div></c:if>
-										<c:if test="${pNo == cPage}"><div class="Pg"><span>[${pNo}]</span></div></c:if>
+										<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${pNo}">${pNo}</a></div></c:if>
+										<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
 									</c:forEach>
 								</c:if>
 								
@@ -178,33 +202,32 @@ body {padding-right: 0px !important;}
 									<!-- cPage가 3 이하일때 -->
 									<c:if test="${cPage le 3}">
 										<c:forEach begin="1" end="5" var="pNo">
-											<c:if test="${pNo != cPage}"><div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${pNo}">${pNo}</a></div></c:if>
-											<c:if test="${pNo == cPage}"><div class="Pg"><span>[${pNo}]</span></div></c:if>
+											<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${pNo}">${pNo}</a></div></c:if>
+											<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
 										</c:forEach>
 									</c:if>
 									<!--cPage가 endPage-2 이상일때 -->
 									<c:if test="${cPage ge (endPage-2)}">
 										<c:forEach begin="${endPage-4 }" end="${endPage }" var="pNo">
-											<c:if test="${pNo != cPage}"><div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${pNo}">${pNo}</a></div></c:if>
-											<c:if test="${pNo == cPage}"><div class="Pg"><span>[${pNo}]</span></div></c:if>
+											<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${pNo}">${pNo}</a></div></c:if>
+											<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
 										</c:forEach>
 									</c:if>
 									<!--cPage가 3 초과 endPage-2 미만일때 -->
 									<c:if test="${cPage gt 3 && cPage lt (endPage-2)}">
 										<c:forEach begin="${cPage-2}" end="${cPage+2}" var="pNo">
-											<c:if test="${pNo != cPage}"><div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${pNo}">${pNo}</a></div></c:if>
-											<c:if test="${pNo == cPage}"><div class="Pg"><span>[${pNo}]</span></div></c:if>
+											<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${pNo}">${pNo}</a></div></c:if>
+											<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
 										</c:forEach>
 									</c:if>
 								</c:if>
-								
 								<c:if test="${cPage ge endPage-2}">
 									<div class="Pg"><span>&gt;</span></div>
 									<div class="Pg"><span>&gt;&gt;</span></div>
 								</c:if>
 								<c:if test="${cPage lt endPage-2}">
-									<div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${cPage+3}">&gt;</a></div>
-									<div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${endPage}">&gt;&gt;</a></div>
+									<div class="Pg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${cPage+3}">&gt;</a></div>
+									<div class="Pg"><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}&cPage=${endPage}">&gt;&gt;</a></div>
 								</c:if>
 							</div>
 						</div>
@@ -417,6 +440,18 @@ function deleteReply(replyNo, replyWriter) {
 				.submit();
 }
 $(function() {
+	$(".Rmod").click(function() {
+		$(".rplConM").hide();
+		$(".rplCon").show();
+		$(this).parent().parent().children(".rplCon").hide();
+		$(this).parent().parent().children(".rplConM").show();
+	});
+	$(".rplModC").click(function() {
+		$(this).parent().hide();
+		$(this).parent().parent().children(".rplCon").show();
+	})
+});
+$(function() {
 	var cPage = $("#cPage").val();
 	console.log("cPage=", cPage);
 	if(cPage != undefined && cPage > 1) {
@@ -428,6 +463,31 @@ $(function() {
 function fileDownload(oName, rName){
 	oName = encodeURIComponent(oName);
 	location.href="${pageContext.request.contextPath}/board/fileDownload.do?oName="+oName+"&rName="+rName;
+}
+function rplModify(boardCode, postNo, replyNo, e){
+	var reply = {
+			boardCode : boardCode,
+			postNo : postNo,
+			replyNo : replyNo,
+			replyContent : $(e).parent().children("input").val()
+	}
+	$.ajax({
+		url: "${pageContext.request.contextPath}/board/rplModify.ajax",
+		data: reply,
+		type: "POST",
+		success: function() {
+			location.reload();
+		},
+		error: function(x,s,e) {
+			alert("댓글 수정 중 오류가 발생했습니다.");
+			console.log(x,s,e);
+		}
+	});
+}
+function modPost() {
+	if(!confirm("게시글을 수정하시겠습니까?"))
+		return;
+	$("#postForm").attr("action", "modifyPost.do").submit();
 }
 </script>
 

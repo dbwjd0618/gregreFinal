@@ -346,4 +346,17 @@ public class BoardController {
 		
 		return resource;
 	}
+	
+	@PostMapping("/rplModify.ajax")
+	@ResponseBody
+	public void replyModify(Reply reply) {
+		bs.replyModify(reply);
+	}
+	
+	@PostMapping("/modifyPost.do")
+	public String modifyPost(Post post, Model model) {
+		Post postM = bs.postView(post);
+		model.addAttribute("post", postM);
+		return "board/postModify";
+	}
 }

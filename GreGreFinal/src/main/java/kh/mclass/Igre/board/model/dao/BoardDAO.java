@@ -64,4 +64,8 @@ public interface BoardDAO {
 
 	int postViewCount(Map<String, Object> param);
 
+	void replyModify(Reply reply);
+
+	Post postView(Post post);
+
 }
