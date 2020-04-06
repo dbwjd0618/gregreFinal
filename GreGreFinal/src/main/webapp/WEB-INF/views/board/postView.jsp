@@ -89,6 +89,7 @@ body {padding-right: 0px !important;}
 									<input type="hidden" name="postNo" value="${post.postNo}" />
 									<input type="hidden" name="writer" value="${memberLoggedIn.memberId}" />
 									<input type="hidden" id="delRpl" name="replyNo" />
+									<input type="hidden" id="postPwd" value="${post.postPwd}" />
 								</form>
 							</div>
 						</div>
@@ -136,10 +137,10 @@ body {padding-right: 0px !important;}
 						</table>
 						<br /> <br />
 						<table id="reply" style="width: 100%; text-align: left;">
-							<c:if test="${empty replyList}">
+							<c:if test="${replyCount == 0}">
 								<tr><td>작성된 댓글이 없습니다. 첫 댓글을 작성해주세요!</td></tr>
 							</c:if>
-							<c:if test="${not empty replyList}">
+							<c:if test="${replyCount ge 1}">
 							<input type="hidden" id="cPage" value="${cPage}" />
 								<c:forEach items="${replyList}" var="reply">
 									<tr>
@@ -428,6 +429,12 @@ function decom(replyNo) {
 function deletePost() {
 	if(!confirm("게시글을 삭제하시겠습니까?"))
 		return;
+	var pwd = prompt("게시글 암호를 입력하세요.");
+	if(pwd != $("#postPwd").val()) {
+		alert("암호가 잘못되었습니다.");
+		return;
+	}
+	
 	$("#postForm").attr("action", "deletePost.do")
 				  .submit();
 }
@@ -487,6 +494,11 @@ function rplModify(boardCode, postNo, replyNo, e){
 function modPost() {
 	if(!confirm("게시글을 수정하시겠습니까?"))
 		return;
+	var pwd = prompt("게시글 암호를 입력하세요.");
+	if(pwd != $("#postPwd").val()) {
+		alert("암호가 잘못되었습니다.");
+		return;
+	}
 	$("#postForm").attr("action", "modifyPost.do").submit();
 }
 </script>

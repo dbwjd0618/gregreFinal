@@ -295,30 +295,28 @@ public class BoardController {
 	
 	@PostMapping("/postWrite.do")
 	public String postWriteEnd(Post post, RedirectAttributes rda, HttpServletRequest request,
-							   @RequestParam(value="upFile", required=false) MultipartFile[] upfile) {
+							   @RequestParam(value="upFile", required=false) MultipartFile upfile) {
 		
-		for(MultipartFile f : upfile) {
-			if(!(f.isEmpty())) {
+		if(!(upfile.isEmpty())) {
 
-				String originFileName = f.getOriginalFilename();
-				String renamedFileName = Utils.getRenamedFileName(originFileName);
-				
-				//파일 이동
-				String saveDirectory = request.getServletContext().getRealPath("/resources/upload/board");
-				
-				try {
-					f.transferTo(new File(saveDirectory, renamedFileName));
-				} catch (IllegalStateException | IOException e) {
-					e.printStackTrace();
-				}
-				
-				post.setOriginFilename(originFileName);
-				post.setRenameFilename(renamedFileName);
-				
-			} else {
-				post.setOriginFilename(null);
-				post.setRenameFilename(null);
+			String originFileName = upfile.getOriginalFilename();
+			String renamedFileName = Utils.getRenamedFileName(originFileName);
+			
+			//파일 이동
+			String saveDirectory = request.getServletContext().getRealPath("/resources/upload/board");
+			
+			try {
+				upfile.transferTo(new File(saveDirectory, renamedFileName));
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
 			}
+			
+			post.setOriginFilename(originFileName);
+			post.setRenameFilename(renamedFileName);
+			
+		} else {
+			post.setOriginFilename(null);
+			post.setRenameFilename(null);
 		}
 		int result = bs.postWrite(post);
 		
@@ -358,5 +356,43 @@ public class BoardController {
 		Post postM = bs.postView(post);
 		model.addAttribute("post", postM);
 		return "board/postModify";
+	}
+	
+	@PostMapping("/postModify.do")
+	public String modifyPostEnd(Post post, RedirectAttributes rda, HttpServletRequest request,
+								@RequestParam(value="upFile", required=false) MultipartFile upfile) {
+		log.debug(""+post);
+		if(post.getOriginFilename() != null) {
+			if(post.getOriginFilename().equals("delete")) {
+				post.setOriginFilename(null);
+				post.setRenameFilename(null);
+			}
+			else if(post.getOriginFilename().equals("change")) {
+				if(!(upfile.isEmpty())) {
+
+					String originFileName = upfile.getOriginalFilename();
+					String renamedFileName = Utils.getRenamedFileName(originFileName);
+					
+					//파일 이동
+					String saveDirectory = request.getServletContext().getRealPath("/resources/upload/board");
+					
+					try {
+						upfile.transferTo(new File(saveDirectory, renamedFileName));
+					} catch (IllegalStateException | IOException e) {
+						e.printStackTrace();
+					}
+					
+					post.setOriginFilename(originFileName);
+					post.setRenameFilename(renamedFileName);
+					
+				} else {
+					post.setOriginFilename(null);
+					post.setRenameFilename(null);
+				}
+			}
+		}
+		int result = bs.modifyPost(post);
+		rda.addFlashAttribute("msg", result>0?"수정이 완료되었습니다.":"수정 중 오류가 발생했습니다.");
+		return "redirect:/board/postView?boardCode="+post.getBoardCode()+"&postNo="+post.getPostNo();
 	}
 }
