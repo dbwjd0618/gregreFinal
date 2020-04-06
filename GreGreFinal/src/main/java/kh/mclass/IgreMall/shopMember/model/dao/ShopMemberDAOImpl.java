@@ -34,4 +34,14 @@ public class ShopMemberDAOImpl implements ShopMemberDAO{
 	public List<Cart> selectCartList(String memberId) {
 		return sqlSession.selectList("shopMember.selectCartList", memberId);
 	}
+
+	@Override
+	public Cart selectCartOne(String cartId) {
+		return sqlSession.selectOne("shopMember.selectCartOne", cartId);
+	}
+
+	@Override
+	public int updateCartOne(Cart cart) {
+		return sqlSession.update("shopMember.updateCartOne", cart);
+	}
 }

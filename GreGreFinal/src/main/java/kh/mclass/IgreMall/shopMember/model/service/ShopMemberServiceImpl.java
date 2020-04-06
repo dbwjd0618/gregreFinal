@@ -34,4 +34,14 @@ public class ShopMemberServiceImpl implements ShopMemberService {
 	public List<Cart> selectCartList(String memberId) {
 		return shopMemberDAO.selectCartList(memberId);
 	}
+
+	@Override
+	public Cart selectCartOne(String cartId) {
+		return shopMemberDAO.selectCartOne(cartId);
+	}
+
+	@Override
+	public int updateCartOne(Cart cart) {
+		return shopMemberDAO.updateCartOne(cart);
+	}
 }
