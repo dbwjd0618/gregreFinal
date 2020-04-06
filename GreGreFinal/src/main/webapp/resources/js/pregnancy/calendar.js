@@ -126,6 +126,8 @@
                 
                     fnDiffDay(s_type,s_day,s_day1,""); 
                     result_url = 'http://www.childcare.go.kr/cpin/contents/010204000000_result.jsp?b1='+b1+'&b2='+b2+'&baeranil='+baeranil+'&baeranil2=';
+                    
+      
              
                 } else {
              
@@ -164,6 +166,45 @@
                     result_url = 'http://www.childcare.go.kr/cpin/contents/010204000000_result.jsp?b1='+b1+'&b2='+b2+'&baeranil='+baeranil+'&baeranil2='+baeranil2;
              
                 }
+                
+                
+                
+                var form=document.createElement("form");
+                form.name='tempPost';
+                form.method='post';
+                form.action='./menses.do'; 
+               
+                var input1=document.createElement("input");
+                input1.type="hidden";
+                input1.name='ageStart';
+                input1.value= b1;
+                
+                console.log(form.action);
+                console.log(input1);
+                var input2=document.createElement("input");
+                input2.type="hidden";
+                input2.name='ageEnd';
+                input2.value= b2;
+                console.log(input2);
+                var input3=document.createElement("input");
+                input3.type="hidden";
+                input3.name='cycle';
+                input3.value= s_day1;
+                console.log(input3);
+                var input4=document.createElement("input");
+                input4.type="hidden";
+                input4.name='startDay';
+                input4.value= start_day	;
+                console.log(input4);
+                
+                
+             
+                $(form).append(input1);
+                $(form).append(input2);
+                $(form).append(input3);
+                $(form).append(input4);
+                document.body.appendChild(form);
+                form.submit();
         
         
             //	$("#div_result").show();
