@@ -72,5 +72,5 @@ function lastCheck() {
 	}
 	
 	//전역변수 stompClient를 통해 lastCheck 메세지 전송
-	stompClient.send('/counselor/lastCheck', {}, JSON.stringify(data));
+	stompClient.send('/Igre/lastCheck', {}, JSON.stringify(data));
 }
