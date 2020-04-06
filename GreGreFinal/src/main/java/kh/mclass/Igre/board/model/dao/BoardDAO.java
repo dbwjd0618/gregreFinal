@@ -68,4 +68,6 @@ public interface BoardDAO {
 
 	Post postView(Post post);
 
+	int modifyPost(Post post);
+
 }
