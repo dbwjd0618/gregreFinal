@@ -12,17 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.mclass.Igre.common.Pagebar;
 import kh.mclass.Igre.counselling.model.service.CounselorService;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
-import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.counselling.model.vo.reviewStar;
+import kh.mclass.Igre.member.model.vo.Member;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 
@@ -169,3 +169,4 @@ public class CounsellingController {
 	
 	
 }
+
