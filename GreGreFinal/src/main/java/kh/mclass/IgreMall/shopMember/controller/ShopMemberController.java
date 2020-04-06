@@ -166,11 +166,9 @@ public class ShopMemberController {
 	
 				for(int j=0;j<optionList.size();j++) {
 					int stock = Integer.parseInt(cartList.get(i).getProdCount()[j]);
-					System.out.println("stock="+stock);
 					optionPrice += (optionList.get(j).getOptionPrice() - p.getDiscountPrice())*stock;
-					System.out.println("optionPrice="+optionPrice);
 				}
-				System.out.println("optionPrice="+optionPrice);
+
 				allPriceList.add(Integer.toString(optionPrice));
 				
 			}else {

@@ -458,6 +458,23 @@ function optionDelete(cartId, optionId){
 
 }
 </script>
+<script>
+function cartSubmit(index){
+	//장바구니 구매하기
+	if(index == 1){
+		document.cartFrm.action='${pageContext.request.contextPath }/shop/order/checkOut.do';
+		document.cartFrm.submit();
+	
+	}
+	//바로구매하기 상품하나
+	if(index==2){
+		document.cartFrm.action='${pageContext.request.contextPath }/shop/order/checkOut.do';
+		document.cartFrm.submit();
+		
+	}
+}
+
+</script>
 <!-- Breadcrumb Section Begin -->
 <div class="breacrumb-section">
 	<div class="container">
@@ -492,6 +509,7 @@ function optionDelete(cartId, optionId){
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="cart-table">
+				 <form name="cartFrm" method='POST' enctype="multipart/form-data">
 					<table>
 						<col style="width: 3%;">
 						<col style="width: 10%;">
@@ -647,8 +665,8 @@ function optionDelete(cartId, optionId){
 										</span>
 										<input type="hidden" name="deliveryFee" value="${cart.product.deliveryFee }"/>
 									</c:if>
-										<button type="button" class="btn btn-light"
-											style="margin-top: 10px;">바로구매</button>
+										<input type="button" class="btn btn-light"
+											style="margin-top: 10px;" value="바로구매" onclick="cartSubmit(2);"/>
 								   </td>
 									<!-- 배송비 -->
 								</tr>
@@ -656,6 +674,7 @@ function optionDelete(cartId, optionId){
 
 						</tbody>
 					</table>
+					</form>
 				</div>
 				<div class="row">
 					<div class="col-lg-4">
@@ -708,8 +727,7 @@ function optionDelete(cartId, optionId){
 									</span>
 								</li>
 							</ul>
-							<a href="${pageContext.request.contextPath }/shop/checkOut.do"
-								class="proceed-btn">구매하기</a>
+							<input type="button" class="proceed-btn" onclick="cartSubmit(1);" value="구매하기"/>
 						</div>
 					</div>
 				</div>
