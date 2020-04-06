@@ -147,15 +147,6 @@
                     <input name="childId" class="form-control" id="childId"
                             type="hidden">
                     
-<%--                     
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">자녀 아이디</span>
-                        </div>
-                        <input name="childId" class="form-control" id="childId"
-                            type="text" value="${m.memberId }">
-                    </div> --%>
-                    
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">자녀 이름</span>
