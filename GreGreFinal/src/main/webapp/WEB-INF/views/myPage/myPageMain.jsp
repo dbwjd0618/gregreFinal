@@ -53,7 +53,7 @@
 							<a class="menu__item" href="#">
 								<div class="menu__title">예약현황 조회/취소</div>
 							</a> 
-							<a class="menu__item" href="#">
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/deleteMember.do">
 								<div class="menu__title">회원탈퇴</div>
 							</a>
 						</div>

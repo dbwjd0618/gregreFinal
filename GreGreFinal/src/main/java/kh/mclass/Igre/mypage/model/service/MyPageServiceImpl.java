@@ -41,5 +41,17 @@ public class MyPageServiceImpl implements MyPageService {
 		// TODO Auto-generated method stub
 		return mpd.selectChild(child);
 	}
+
+	@Override
+	public int updatePassword(Member member) {
+		// TODO Auto-generated method stub
+		return mpd.updatePassword(member);
+	}
+
+	@Override
+	public int memberDelete(Member member) {
+		// TODO Auto-generated method stub
+		return mpd.memberDelete(member);
+	}
 }
 
