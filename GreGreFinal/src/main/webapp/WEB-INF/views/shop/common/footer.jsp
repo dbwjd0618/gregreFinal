@@ -65,7 +65,20 @@
    <script src="${pageContext.request.contextPath }/resources/js/shop/main.js"></script>
    <script src="${pageContext.request.contextPath }/resources/js/subMenu/h-subMenu.js"></script>
 
-  
+    <script>
+  //콤마찍기
+    function comma(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    }
+    //콤마풀기
+    function uncomma(str) {
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
+    }
+
+    
+    </script>
     
   
 </body>

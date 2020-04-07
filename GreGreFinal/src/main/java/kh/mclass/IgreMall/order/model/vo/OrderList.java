@@ -39,6 +39,7 @@ public class OrderList implements Serializable{/**
 	private String deliveryState;
 	private Date orderDate;
 	
+	private String productName;
 	
 	private List<Attachment2> attachList;
 	public static long getSerialversionuid() {

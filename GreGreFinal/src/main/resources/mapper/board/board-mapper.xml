@@ -9,7 +9,7 @@
 	</select>
 
 	<select id="postList" resultType="Post">
-		select * from ${table} order by post_no desc
+		select * from TB_post_${boardCode} order by post_no desc
 	</select>
 	
 	<select id="boardName" resultType="String">
@@ -17,7 +17,14 @@
 	</select>
 	
 	<select id="postCount" resultType="_int">
-		select count(*) from ${table}
+		select count(*) from TB_post_${boardCode}
+		<where>
+			<if test="srchCon != null and srchCon != ''">
+				<if test="srchOpt == 'title'">
+					and title like '%$%'
+				</if>
+			</if>
+		</where>
 	</select>
 	
 	<insert id="preferIn">

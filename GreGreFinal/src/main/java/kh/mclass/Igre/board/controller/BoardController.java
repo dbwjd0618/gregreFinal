@@ -59,9 +59,19 @@ public class BoardController {
 	@GetMapping("/postList")
 	public String postList(@RequestParam("boardCode") String boardCode,
 						   @RequestParam(value="cPage", defaultValue="1") int cPage,
+						   @RequestParam(value="srchOpt", required=false) String srchOpt,
+						   @RequestParam(value="srchCon", required=false) String srchCon,
+						   @RequestParam(value="srchFilter", required = false) String srchFilter,
 						   Model model) {
 		param.put("boardCode", boardCode);
 		param.put("cPage", cPage);
+		if(srchCon != null && !srchCon.equals("")) {
+			param.put("srchOpt", srchOpt);
+			param.put("srchCon", srchCon);
+		}
+		if(srchFilter != null && !srchFilter.equals("")) {
+			param.put("srchFilter", srchFilter);
+		}
 		String boardName = bs.boardName(param);
 		if(boardName == null) {
 			boardCode = "B1";

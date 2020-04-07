@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.IgreMall.coupon.model.vo.CouponInfo;
 import kh.mclass.IgreMall.order.model.service.OrderService;
+import kh.mclass.IgreMall.order.model.vo.OrderList;
 import kh.mclass.IgreMall.product.model.service.ProductService;
 import kh.mclass.IgreMall.product.model.vo.Attachment;
 import kh.mclass.IgreMall.product.model.vo.ProdOption;
@@ -36,10 +37,25 @@ public class OrderController {
 	ProductService productService;
 	@Autowired
 	ShopMemberService shopMemberService;
+	
+	@PostMapping("/finishPayment.do")
+	public ModelAndView finishPayment(ModelAndView mav, 
+						OrderList orderList,
+						HttpSession session,
+						@RequestParam(value = "productId", required = false) String productId) {
 
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		orderList.setMemberId(m.getMemberId());
+		String sellerId = productService.selectSellerId(productId);
+		orderList.setSellerId(sellerId);
+		orderList.setProductId(productId);
+		
+		mav.setViewName("shop/checkOut/finishPayment");
+		return mav;
+	}
 	@PostMapping("/checkOut.do")
 	public ModelAndView checkOut(ModelAndView mav, HttpServletRequest request,
-			@RequestParam(value = "cartId", required = false) String[] cartId,
+			@RequestParam(value = "check", required = false) String[] cartId,
 			@RequestParam(value = "cartIdOne", required = false) String cartIdOne,
 			@RequestParam(value = "optionId", required = false) String[] optionId,
 			@RequestParam(value = "optionPrice", required = false) String[] optionPrice,
@@ -112,6 +128,7 @@ public class OrderController {
 						ProdOption prodOption = productService.selectOptionOne(optId);
 						optionList.add(prodOption);
 						int stock = Integer.parseInt(cart.getProdCount()[t]);
+						prodOption.setOptionStock(stock);
 						totalAmount += stock;
 						totalPrice += (optionList.get(t).getOptionPrice() - product.getDiscountPrice()) * stock;
 					}
@@ -141,6 +158,8 @@ public class OrderController {
 						for (int t = 0; t < cartList.get(i).getOptionId().length; t++) {
 							String optId = cartList.get(i).getOptionId()[t];
 							ProdOption prodOption = productService.selectOptionOne(optId);
+							int stock = Integer.parseInt(cartList.get(i).getProdCount()[i]);
+							prodOption.setOptionStock(stock);
 							optionList.add(prodOption);
 						}
 						product.setOptionList(optionList);
