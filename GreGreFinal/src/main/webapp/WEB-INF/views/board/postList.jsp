@@ -15,15 +15,38 @@
 <!--서브메뉴 js-->
 <script src="${pageContext.request.contextPath}/resources/js/subMenu/subMenu.js"></script>
 <style>
-.Pg {
-	display: inline-block;
-	background: lightgray;
-	min-width:30px;
-	width: auto;
-	text-align: center;
-	border : 3px solid gray;
+.page_wrap {text-align:center;}
+.pg{display:inline-block; border:1px solid #ccc; min-width:30px;}
+.page_nation a{
+	display:block;
+	margin:0 3px;
+	float:left;
+	width:28px;
+	height:28px;
+	line-height:28px;
+	text-align:center;
+	background-color:#fff;
+	font-size:13px;
+	color:#999999;
+	text-decoration:none;
 }
-.CPg:hover {cursor: pointer; background: aqua;}
+.page_nation span {
+	display:block;
+	margin:0 3px;
+	float:left;
+	width:28px;
+	height:28px;
+	line-height:28px;
+	text-align:center;
+	font-size:13px;
+	color:#999999;
+	text-decoration:none;
+}
+.active {
+	background-color:#42454c;
+	color:#fff;
+	border:1px solid #42454c;
+}
 </style>
 <%
 	Member m = (Member)session.getAttribute("memberLoggedIn");
@@ -154,23 +177,23 @@ function preferSwitch(it, mi, bc, pn) {
 							</table>
 						</div>
 						<!-- 게시글 페이징 -->
-						<div class="row">
-							<div class="col-md-12" style="text-align:center;">
+						<div class="row page_wrap">
+							<div class="col-md-12 page_nation">
 								<!-- cPage -->
 								<c:if test="${3 ge cPage}">
 									<div class="Pg"><span>&lt;&lt;</span></div>
 									<div class="Pg"><span>&lt;</span></div>
 								</c:if>
 								<c:if test="${3 lt cPage }">
-									<div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=1">&lt;&lt;</a></div>
+									<div class="Pg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=1">&lt;&lt;</a></div>
 									<div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=${cPage-3}">&lt;</a></div>
 								</c:if>
 								
 								<!-- endPage가 5 이하일때 -->
 								<c:if test="${endPage le 5 }">
 									<c:forEach begin="1" end="${endPage}" var="pNo">
-										<c:if test="${pNo != cPage}"><div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=${pNo}">${pNo}</a></div></c:if>
-										<c:if test="${pNo == cPage}"><div class="Pg"><span>[${pNo}]</span></div></c:if>
+										<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=${pNo}">${pNo}</a></div></c:if>
+										<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
 									</c:forEach>
 								</c:if>
 								
@@ -179,22 +202,22 @@ function preferSwitch(it, mi, bc, pn) {
 									<!-- cPage가 3 이하일때 -->
 									<c:if test="${cPage le 3}">
 										<c:forEach begin="1" end="5" var="pNo">
-											<c:if test="${pNo != cPage}"><div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=${pNo}">${pNo}</a></div></c:if>
-											<c:if test="${pNo == cPage}"><div class="Pg"><span>[${pNo}]</span></div></c:if>
+											<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=${pNo}">${pNo}</a></div></c:if>
+											<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
 										</c:forEach>
 									</c:if>
 									<!--cPage가 endPage-2 이상일때 -->
 									<c:if test="${cPage ge (endPage-2)}">
 										<c:forEach begin="${endPage-4 }" end="${endPage }" var="pNo">
-											<c:if test="${pNo != cPage}"><div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=${pNo}">${pNo}</a></div></c:if>
-											<c:if test="${pNo == cPage}"><div class="Pg"><span>[${pNo}]</span></div></c:if>
+											<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=${pNo}">${pNo}</a></div></c:if>
+											<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
 										</c:forEach>
 									</c:if>
 									<!--cPage가 3 초과 endPage-2 미만일때 -->
 									<c:if test="${cPage gt 3 && cPage lt (endPage-2)}">
 										<c:forEach begin="${cPage-2}" end="${cPage+2}" var="pNo">
-											<c:if test="${pNo != cPage}"><div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=${pNo}">${pNo}</a></div></c:if>
-											<c:if test="${pNo == cPage}"><div class="Pg"><span>[${pNo}]</span></div></c:if>
+											<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=${pNo}">${pNo}</a></div></c:if>
+											<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
 										</c:forEach>
 									</c:if>
 								</c:if>
@@ -204,8 +227,8 @@ function preferSwitch(it, mi, bc, pn) {
 									<div class="Pg"><span>&gt;&gt;</span></div>
 								</c:if>
 								<c:if test="${cPage lt endPage-2}">
-									<div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=${cPage+3}">&gt;</a></div>
-									<div class="Pg CPg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=${endPage}">&gt;&gt;</a></div>
+									<div class="Pg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=${cPage+3}">&gt;</a></div>
+									<div class="Pg"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardCode}&cPage=${endPage}">&gt;&gt;</a></div>
 								</c:if>
 							</div>
 						</div>

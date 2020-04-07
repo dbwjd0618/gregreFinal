@@ -60,7 +60,6 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public Post postView(Map<String, Object> param) {
-		param.put("table", "TB_post_"+(String)param.get("boardCode"));
 		return sss.selectOne("board.postView", param);
 	}
 
@@ -75,8 +74,6 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public int replyCount(Map<String, Object> param) {
-		param.put("table", "TB_reply_"+(String)param.get("boardCode"));
-		
 		return sss.selectOne("board.replyCount", param);
 	}
 
@@ -163,6 +160,21 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public int postViewCount(Map<String, Object> param) {
 		return sss.update("board.viewCount", param);
+	}
+
+	@Override
+	public void replyModify(Reply reply) {
+		sss.update("board.replyModify", reply);
+	}
+
+	@Override
+	public Post postView(Post post) {
+		return sss.selectOne("board.postView", post);
+	}
+
+	@Override
+	public int modifyPost(Post post) {
+		return sss.update("board.modifyPost", post);
 	}
 	
 }

@@ -150,5 +150,20 @@ public class BoardServiceImpl implements BoardService{
 		return bd.postViewCount(param);
 	}
 
+	@Override
+	public void replyModify(Reply reply) {
+		bd.replyModify(reply);
+	}
+
+	@Override
+	public Post postView(Post post) {
+		return bd.postView(post);
+	}
+
+	@Override
+	public int modifyPost(Post post) {
+		return bd.modifyPost(post);
+	}
+
 
 }

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import kh.mclass.Igre.member.model.vo.BizMember;
 import kh.mclass.Igre.member.model.vo.Member;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
@@ -20,7 +21,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		
 		HttpSession ss = request.getSession();
 		Member memberLoggedIn = (Member)ss.getAttribute("memberLoggedIn");
+		BizMember bizmemberLoggedIn = (BizMember)ss.getAttribute("bizmemberLoggedIn");
 		logger.debug("memberLoggedIn = " + memberLoggedIn);
+		logger.debug("bizmemberLoggedIn = " + bizmemberLoggedIn);
 		if(memberLoggedIn == null) {
 			ss.setAttribute("msg", "로그인 후 이용해주세요");
 			response.sendRedirect(request.getHeader("referer"));
@@ -29,5 +32,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		
 		return super.preHandle(request, response, handler);
 	}
+	
+
 	
 }
