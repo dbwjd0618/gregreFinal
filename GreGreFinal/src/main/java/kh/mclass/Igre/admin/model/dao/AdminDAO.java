@@ -86,8 +86,6 @@ public interface AdminDAO {
 
 	List<Member> indexMember();
 
-	List<Counselor> indexCounselor();
-
 	List<Admin> indexAdmin();
 
 

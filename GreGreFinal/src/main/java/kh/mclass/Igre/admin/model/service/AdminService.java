@@ -70,8 +70,6 @@ public interface AdminService {
 
 	List<Member> indexMember();
 
-	List<Counselor> indexCounselor();
-
 	List<Admin> indexAdmin();
 
 

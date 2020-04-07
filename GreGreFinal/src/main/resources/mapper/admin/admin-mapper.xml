@@ -345,23 +345,16 @@
 	
 	<select id="indexMember" resultType="Member">
 		select
-			member_id
+			*
 		from
 			tb_member_info
 		where
 			grade = 'M'
 	</select>
 	
-	<select id="indexCounselor" resultType="Counselor">
-		select 
-			advis_id
-		from 
-			tb_adviser
-	</select>
-	
 	<select id="indexAdmin" resultType="Admin">
 		select
-			member_id admin_id
+			member_id admin_id, email, phone
 		from
 			tb_member_info
 		where

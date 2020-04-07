@@ -238,11 +238,6 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	@Override
-	public List<Counselor> indexCounselor() {
-		return sqlSession.selectList("admin.indexCounselor");
-	}
-
-	@Override
 	public List<Admin> indexAdmin() {
 		return sqlSession.selectList("admin.indexAdmin");
 	}
