@@ -1,6 +1,5 @@
 package kh.mclass.IgreMall.order.controller;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,26 +29,25 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/shop/order")
 public class OrderController {
-	
+
 	@Autowired
 	OrderService orderService;
 	@Autowired
 	ProductService productService;
 	@Autowired
 	ShopMemberService shopMemberService;
-	
+
 	@PostMapping("/checkOut.do")
-	public ModelAndView checkOut(ModelAndView mav,
-							HttpServletRequest request,
-							@RequestParam(value = "cartId", required = false) String[] cartId,
-							@RequestParam(value = "optionId", required = false) String[] optionId,
-							@RequestParam(value = "optionPrice", required = false) String[] optionPrice,
-							@RequestParam(value = "count", required = false) String[] count,
-							HttpSession session) {
-		
+	public ModelAndView checkOut(ModelAndView mav, HttpServletRequest request,
+			@RequestParam(value = "cartId", required = false) String[] cartId,
+			@RequestParam(value = "cartIdOne", required = false) String cartIdOne,
+			@RequestParam(value = "optionId", required = false) String[] optionId,
+			@RequestParam(value = "optionPrice", required = false) String[] optionPrice,
+			@RequestParam(value = "count", required = false) String[] count, HttpSession session) {
+
 		Member m = (Member) session.getAttribute("memberLoggedIn");
 		ShopMember sMem = shopMemberService.selectOne(m.getMemberId());
-		for(int i=0; i<sMem.getCouponList().size();i++) {
+		for (int i = 0; i < sMem.getCouponList().size(); i++) {
 			String couponId = sMem.getCouponList().get(i).getCouponId();
 			CouponInfo couInfo = shopMemberService.selectCouponInfoOne(couponId);
 			sMem.getCouponList().get(i).setCouponName(couInfo.getCouponName());
@@ -58,85 +56,123 @@ public class OrderController {
 			sMem.getCouponList().get(i).setDiscountType(couInfo.getDiscountType());
 			sMem.getCouponList().get(i).setMaxValue(couInfo.getMaxValue());
 		}
-		
-		log.debug("sMem={}",sMem);
+
+		log.debug("sMem={}", sMem);
 		List<Product> prodList = new ArrayList<>();
 		List<Integer> totalAmountList = new ArrayList<>();
 		List<Integer> totalPriceList = new ArrayList<>();
-		if(cartId == null) {
-			Product product = (Product)session.getAttribute("p");
+		// 바로구매
+		if (cartId == null) {
+			Product product = (Product) session.getAttribute("p");
 			prodList.add(product);
-			List<Attachment> attachList = (List<Attachment>)session.getAttribute("attachList");
+			List<Attachment> attachList = (List<Attachment>) session.getAttribute("attachList");
 			List<ProdOption> optionList = new ArrayList<>();
 			int totalAmount = 0;
 			int totalPrice = 0;
-			if(optionId !=null) {
-				for(int i=0; i<optionId.length;i++) {
+			if (optionId != null) {
+				for (int i = 0; i < optionId.length; i++) {
 					String optionID = optionId[i];
 					ProdOption option = productService.selectOptionOne(optionID);
 					option.setOptionPrice(Integer.parseInt(optionPrice[i]));
 					option.setOptionStock(Integer.parseInt(count[i]));
-					totalAmount+=Integer.parseInt(count[i]);
-					totalPrice+=Integer.parseInt(optionPrice[i])*Integer.parseInt(count[i]);
+					totalAmount += Integer.parseInt(count[i]);
+					totalPrice += Integer.parseInt(optionPrice[i]) * Integer.parseInt(count[i]);
 					optionList.add(option);
 				}
 				product.setOptionList(optionList);
 				totalAmountList.add(totalAmount);
 				totalPriceList.add(totalPrice);
-			}else {
+			} else {
 				int stock = Integer.parseInt(count[0]);
-				int prodPrice = (product.getPrice()-product.getDiscountPrice())*stock;
+				int prodPrice = (product.getPrice() - product.getDiscountPrice()) * stock;
 				totalPriceList.add(prodPrice);
 				totalAmountList.add(stock);
-				
+
 			}
 			product.setAttachList(attachList);
-		
-			
-		}else {
-			List<Cart> cartList = new ArrayList<>();
-			for(int i=0; i<cartId.length;i++) {
-				Cart cart = shopMemberService.selectCartOne(cartId[i]); 
-				cartList.add(cart);
+
+		}
+		// 장바구니 구매
+		else {
+			// 상품 한개 바로구매
+			if (cartIdOne != null) {
+				Cart cart = shopMemberService.selectCartOne(cartIdOne);
 				Product product = productService.selectProductOne(cart.getProductId());
 				prodList.add(product);
-				
+
 				List<Attachment> attachList = productService.selectAttachList(cart.getProductId());
-				List<ProdOption> optionList = new ArrayList<>();
-			    if(cartList.get(i).getOptionId() != null) {
-			    	for(int t=0; t<cartList.get(i).getOptionId().length;t++) {
-			    		String optId = cartList.get(i).getOptionId()[t];
-			    		ProdOption prodOption = productService.selectOptionOne(optId);
-			    		optionList.add(prodOption);
-			    	}
-			    	product.setOptionList(optionList);
-			    }
-				
 				product.setAttachList(attachList);
-		
-				//옵션이 있는 경우
-				if (cartList.get(i).getOptionId() != null) {
-					int totalPrice=0;
-		
-					for(int j=0;j<optionList.size();j++) {
-						int stock = Integer.parseInt(cartList.get(i).getProdCount()[j]);
-					
-						totalPrice += (optionList.get(j).getOptionPrice() - product.getDiscountPrice())*stock;
+
+				List<ProdOption> optionList = new ArrayList<>();
+				if (cart.getOptionId() != null) {
+					int totalPrice = 0;
+					int totalAmount = 0;
+					for (int t = 0; t < cart.getOptionId().length; t++) {
+						String optId = cart.getOptionId()[t];
+						ProdOption prodOption = productService.selectOptionOne(optId);
+						optionList.add(prodOption);
+						int stock = Integer.parseInt(cart.getProdCount()[t]);
+						totalAmount += stock;
+						totalPrice += (optionList.get(t).getOptionPrice() - product.getDiscountPrice()) * stock;
 					}
+					totalAmountList.add(totalAmount);
 					totalPriceList.add(totalPrice);
-					
-				}else {
-					int stock = Integer.parseInt(cartList.get(i).getProdCount()[0]);
-					int prodPrice = (product.getPrice()-product.getDiscountPrice())*stock;
+					product.setOptionList(optionList);
+				} else {
+					int stock = Integer.parseInt(cart.getProdCount()[0]);
+					int prodPrice = (product.getPrice() - product.getDiscountPrice()) * stock;
 					totalPriceList.add(prodPrice);
 					totalAmountList.add(stock);
 				}
+
 			}
-			
-		
-			
+			// 선택된 장바구니 상품만 구매
+			else {
+				List<Cart> cartList = new ArrayList<>();
+				for (int i = 0; i < cartId.length; i++) {
+					Cart cart = shopMemberService.selectCartOne(cartId[i]);
+					cartList.add(cart);
+					Product product = productService.selectProductOne(cart.getProductId());
+					prodList.add(product);
+
+					List<Attachment> attachList = productService.selectAttachList(cart.getProductId());
+					List<ProdOption> optionList = new ArrayList<>();
+					if (cartList.get(i).getOptionId() != null) {
+						for (int t = 0; t < cartList.get(i).getOptionId().length; t++) {
+							String optId = cartList.get(i).getOptionId()[t];
+							ProdOption prodOption = productService.selectOptionOne(optId);
+							optionList.add(prodOption);
+						}
+						product.setOptionList(optionList);
+					}
+
+					product.setAttachList(attachList);
+
+					// 옵션이 있는 경우
+					if (cartList.get(i).getOptionId() != null) {
+						int totalPrice = 0;
+						int totalAmount = 0;
+						for (int j = 0; j < optionList.size(); j++) {
+							int stock = Integer.parseInt(cartList.get(i).getProdCount()[j]);
+							totalAmount += stock;
+							totalPrice += (optionList.get(j).getOptionPrice() - product.getDiscountPrice()) * stock;
+						}
+						totalAmountList.add(totalAmount);
+						totalPriceList.add(totalPrice);
+						product.setOptionList(optionList);
+
+					} else {
+						int stock = Integer.parseInt(cartList.get(i).getProdCount()[0]);
+						int prodPrice = (product.getPrice() - product.getDiscountPrice()) * stock;
+						totalPriceList.add(prodPrice);
+						totalAmountList.add(stock);
+					}
+				}
+
+			}
+
 		}
-			
+
 		mav.addObject("prodList", prodList);
 		mav.addObject("sMem", sMem);
 		mav.addObject("totalAmountList", totalAmountList);
@@ -144,6 +180,5 @@ public class OrderController {
 		mav.setViewName("shop/checkOut/checkOut");
 		return mav;
 	}
-	
-	
+
 }

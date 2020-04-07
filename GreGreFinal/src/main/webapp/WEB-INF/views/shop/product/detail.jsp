@@ -550,8 +550,6 @@ $(function(){
 										<c:if test="${ empty optionList }">
 										
 											 <div class="option-box">
-                                            <input type="hidden" name="optionId" value="${p.productId }"> 
-                                            <input type="hidden" name="optionPrice" value="${discountedPrice }">
                                             <div class="sel-title">
                                                                                                         선택 : ${p.productName}
                                               
