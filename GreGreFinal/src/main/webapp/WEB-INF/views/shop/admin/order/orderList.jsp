@@ -205,7 +205,7 @@
 					<td class="text-left vertical-middle">
 					 <img src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${l.attachList.get(0).renamedImg}" style="width:200px;" alt=""><br>
 					<strong><a href="location.href='http://localhost:9090/Igre/shop/product/detail.do?productId=${p.productId }">${l.attachList.get(0).productName}</a></strong><br><br>
-					opt : 90/블랙(1개)<br>					</td>
+					opt : 90/블랙(1개)<br></td>
 					<td class="text-right vertical-middle">${l.totalPrice }</td>
 					<td class="text-right vertical-middle">${l.totalDeliveryFee } 원<br>${l.totalPrice+l.totalDeliveryFee } 원</td>
 					<td class="text-right vertical-middle">우체국택배<br>${l.deliveryNo}</td>
@@ -563,6 +563,63 @@
 			return false;
 		}	
 	}
+	
+	
+	//더미
+	        /* 날짜 객체 받아서 문자열로 리턴하는 함수 */
+function getDateStr(myDate){
+	var	mm = String(myDate.getMonth()+1).length === 1 ? '0' + String(myDate.getMonth()+1) : String(myDate.getMonth()+1);
+	var dd = String(myDate.getDate()).length === 1 ? '0' + String(myDate.getDate()) : String(myDate.getDate());
+	return (myDate.getFullYear() + '-'+
+			mm+'-'+dd)
+}
+
+$( "#sdate" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+$( "#edate" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+
+
+
+/* 오늘 날짜를 문자열로 반환 */
+function today() {
+  var d = new Date()
+  return getDateStr(d)
+}
+
+/* 오늘로부터 1주일전 날짜 반환 */
+function lastWeek() {
+  var d = new Date()
+  var dayOfMonth = d.getDate()
+  d.setDate(dayOfMonth - 7)
+  return getDateStr(d)
+}
+
+/* 오늘로부터 1개월전 날짜 반환 */
+function lastMonth() {
+  var d = new Date()
+  var monthOfYear = d.getMonth()
+  d.setMonth(monthOfYear - 1)
+  return getDateStr(d)
+}
+			//오늘 날짜 버튼 클릭시
+            $(".sel_today").on("click",function(){
+                $("#sdate").val(today());
+                $("#edate").val(today());
+            });
+            
+            //일주일 관련 눌리기
+            $(".sel_week").click(function(){
+                $("#sdate").val(lastWeek());
+                $("#edate").val(today());
+            });
+            //한달 날짜 눌리기
+            $(".sel_month").click(function(){
+                $("#sdate").val(lastMonth());
+                $("#edate").val(today());
+            });
+	//더미
+	
+	
+	
 
     $(document).ready(function(){
         $('#sdate').datepicker().on('changeDate', function(e) {

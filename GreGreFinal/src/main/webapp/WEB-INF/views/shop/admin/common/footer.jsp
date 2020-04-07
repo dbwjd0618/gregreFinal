@@ -7,6 +7,8 @@
 
 <!-- 한글깨질때. -->
 <fmt:requestEncoding value="utf-8"/>
+<!-- Js Plugins -->
+    <script src="${pageContext.request.contextPath }/resources/js/shop/jquery-3.3.1.min.js"></script>
     <!-- jQuery 2.1.3 -->
     <script src="${pageContext.request.contextPath}/resources/js/admin/jQuery-2.1.3.min.js"></script>
     <!-- jQuery UI 1.11.2 -->
@@ -25,8 +27,6 @@
     <!-- jvectormap -->
     <script src="${pageContext.request.contextPath}/resources/js/admin/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/resources/js/admin/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="/js/admin/jquery.knob.js" type="text/javascript"></script>
     <!-- daterangepicker -->
     <script src="${pageContext.request.contextPath}/resources/js/admin/daterangepicker.js" type="text/javascript"></script>
     <!-- datepicker -->

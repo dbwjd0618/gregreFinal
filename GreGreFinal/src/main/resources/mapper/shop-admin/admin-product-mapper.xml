@@ -3,16 +3,94 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminProduct">
-<select  id="productEdit" resultMap="productCollection">
+
+<update  id="editProduct">
+update 
+		TB_product
+set
+		seller_id= #{sellerId},
+		category_id =#{categoryId},
+		product_name= #{productName},
+		brand_name=#{brandName},
+		price=#{price},
+		supply_value=#{supplyValue},
+		delivery_fee=#{deliveryFee},
+		point_rate=#{pointRate},
+		discount_price=#{discountPrice},
+		product_stock=#{productStock},
+		product_detail=#{productDetail},
+		product_state=#{productState},
+		payment_method_code=#{paymentMethodCode, typeHandler=strArrTypeHandler}
+where
+	product_id= #{productId}
+		<!-- <selectKey keyProperty="productId" resultType="string" order="AFTER">
+			select 'p'||to_char(seq_product_no.currval, 'fm0000000') from dual
+		</selectKey> -->
+</update>
+<update  id="editAttach">
+update
+	TB_prod_img
+set
+	product_id=#{productId},
+	<if test="originalImg !=''">
+	orginal_img=#{originalImg},
+	</if>
+	renamed_Img=#{renamedImg}
+where
+	product_id= #{productId}
+</update>
+<update  id="editProdOption">
+update
+	TB_prod_option
+set
+	product_id=#{productId},
+	option_name=#{optionName},
+	option_value=#{optionValue},
+	option_stock=#{optionStock},
+	option_supply_value=#{optionSupplyValue},
+	option_price=#{optionPrice},
+	option_State=#{optionState}
+where
+	product_id= #{productId}
+</update>
+
+
+<select id="productOption" resultType="ProdOption">
 select 
 	*
 from
-	tb_product A left join tb_prod_option B
-		on A.product_id = B.product_id
+	tb_prod_option
+where
+	product_id = #{productId}
+</select>
+
+<select  id="productEdit" resultMap="productMap">
+select 
+	*
+from
+	tb_product 
 where 
-	A.product_id= #{productId}
+	product_id= #{productId}
 
 </select>
+<resultMap type="Product" id="productMap" >
+<id column="product_no" property="orderNo"/>
+<result column="category_id" property="categoryId"/>
+<result column="product_name" property="productName"/>
+<result column="brand_name" property="brandName"/>
+<result column="price" property="price"/>
+<result column="supply_value" property="supplyValue"/>
+<result column="delivery_fee" property="deliveryFee"/>
+<result column="point_rate" property="pointRate"/>
+<result column="discount_price" property="discountPrice"/>
+<result column="product_stock" property="productStock"/>
+<result column="product_detail" property="productDetail"/>
+<result column="enroll_date" property="enrollDate"/>
+<result column="product_state" property="productState"/>
+<result property="paymentMethodCode" column="payment_method_code" typeHandler="strArrTypeHandler"/>		
+</resultMap>
+
+
 <resultMap type="Product" id="productCollection">
 <id column="product_no" property="orderNo"/>
 <result column="category_id" property="categoryId"/>
@@ -27,7 +105,6 @@ where
 <result column="product_detail" property="productDetail"/>
 <result column="enroll_date" property="enrollDate"/>
 <result column="product_state" property="productState"/>
-
 <result column="payment_method_code" property="paymentMethodCode" typeHandler="strArrTypeHandler"/>
 
 <collection property="optionList" ofType="ProdOption">
@@ -60,7 +137,7 @@ where
 	    </if>	    
 </select>
 
-<select id="searchProduct" resultType="Product">
+<select id="searchProduct" resultMap="productMap">
 select 
 	* 
 from 
@@ -80,6 +157,7 @@ and
 	enrollDate between(#{endDate}and#{startDate})
 </if> 
 </select>
+
 
 <delete id="deleteProduct">
 delete from 
@@ -149,11 +227,12 @@ where
 		#{optionState}
 	)
 </insert>
-<select id="productList" resultType="kh.mclass.IgreMall.product.model.vo.Product">
+<select id="productList" resultMap="productList">
 select 
 	*
 from
-	tb_product
+	tb_product A left join tb_prod_img B
+	on A.product_id = B.product_id
 where
 	1=1
 </select>

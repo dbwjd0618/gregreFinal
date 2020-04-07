@@ -26,8 +26,10 @@ public interface AdminProductService {
 
 	List<Product> productListSeller(Product p);
 
-	List<Product> productEdit(String productId);
+	Product productEdit(String productId);
 
+	List<ProdOption> productOption(String productId);
 
+	int editProduct(Product product, List<Attachment> attachList, List<ProdOption> prodOptionList);
 
 }

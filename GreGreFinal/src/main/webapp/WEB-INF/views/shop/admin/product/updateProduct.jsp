@@ -1,34 +1,26 @@
+<%@page import="kh.mclass.IgreMall.product.model.vo.ProdOption"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="kh.mclass.IgreMall.product.model.vo.Product"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!-- taglib는 매 jsp 마다 필요함 -->
-
+<%
+	Product product = (Product)request.getAttribute("p");
+	System.out.println("뭐가 찍히는ㄱ"+product);
+	List<String> prodPayList = null;
+	if(product.getPaymentMethodCode()!=null){
+		prodPayList= Arrays.asList(product.getPaymentMethodCode());
+	}
+	pageContext.setAttribute("prodPayList",	prodPayList);
+	
+	
+%>
 <!-- 한글깨질때. -->
-<fmt:requestEncoding value="utf-8" />
-<!-- summernotes -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-	crossorigin="anonymous"></script>
-
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-	crossorigin="anonymous"></script>
-<link
-	href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
-<!-- 헤더 선언!!-->
+<fmt:requestEncoding value="utf-8"/>
 <%@ include file="/WEB-INF/views/shop/admin/common/header.jsp"%>
 <style>
 .modal-backdrop.show {
@@ -89,6 +81,7 @@ span.mr5.font-size16 {
 
 span.form-inline {
 	float: left;
+	d
 }
 
 a#optListUpdate {
@@ -104,14 +97,14 @@ input[name="paymentMethodCode"] {
     margin-left: 10px;
 }
 </style>
-
+<c:if test="${ not empty p}">
 <div class="content-wrapper">
 	<!-- Right side column. Contains the navbar and content of the page -->
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 		<ol class="breadcrumb">
 			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="#">상품관리ggg</a></li>
+			<li><a href="#">상품관리</a></li>
 			<li class="active">상품등록</li>
 		</ol>
 	</section>
@@ -120,12 +113,13 @@ input[name="paymentMethodCode"] {
 	<!-- MAIN -->
 	<div class="main-content">
 		<div class="col-lg-12">
-			<h2>상품등록</h2>
+			<h2>상품수정</h2>
 		</div>
 		<form
-			action="${pageContext.request.contextPath}/shop/admin/product/insert.do"
+			action="${pageContext.request.contextPath}/shop/admin/product/editProduct.do"
 			method="post" enctype="multipart/form-data">
-			<input type="hidden" name="sellerId" value="igre_mall_test" />
+			<input type="hidden" name="sellerId" value="igre_mall_test" /
+			>
 			<!-- 			<div class="form-group row">
 				<label for="productId" class="col-sm-2 col-form-label">제품번호</label>
 				<div class="col-sm-4">
@@ -134,48 +128,50 @@ input[name="paymentMethodCode"] {
 				</div>
 			</div> -->
 			<div class="form-group row">
+				<input type="hidden" name="productId" value="${p.productId}" />
 				<label for="payment" class="col-sm-2 col-form-label">결제방식</label>
 				<div class="col-sm-10">
-					<input type="checkbox" name="paymentMethodCode" value="cr" checked >신용카드
-					<input type="checkbox" name="paymentMethodCode" value="ph" checked>휴대전화
-					<input type="checkbox" name="paymentMethodCode" value="ac" checked>무통장입금
-				<!-- 	<input type="checkbox" name="paymentMethodCode" value="va" >가상계좌 -->
-					<input type="checkbox" name="paymentMethodCode" value="ra" checked>실시간계좌이체
-					<input type="checkbox" name="paymentMethodCode" value="ka" checked>카카오페이
-					<input type="checkbox" name="paymentMethodCode" value="to" checked>토스
-					<input type="checkbox" name="paymentMethodCode" value="na" checked>네이버페이
+					<input type="checkbox" name="paymentMethodCode" value="cr" ${prodPayList.contains('cr')?"checked":""} >신용카드
+					<input type="checkbox" name="paymentMethodCode" value="ph" ${prodPayList.contains('ph')?"checked":""}>휴대전화
+					<input type="checkbox" name="paymentMethodCode" value="ac" ${prodPayList.contains('ac')?"checked":""}>무통장입금
+					<input type="checkbox" name="paymentMethodCode" value="ra" ${prodPayList.contains('ra')?"checked":""}>실시간계좌이체
+					<input type="checkbox" name="paymentMethodCode" value="ka" ${prodPayList.contains('ka')?"checked":""}>카카오페이
+					<input type="checkbox" name="paymentMethodCode" value="to" ${prodPayList.contains('to')?"checked":""}>토스
+					<input type="checkbox" name="paymentMethodCode" value="na" ${prodPayList.contains('na')?"checked":""}>네이버페이
 				</div>
+				</div>
+				<div class="form-group row">
 				<label for="categoryId" class="col-sm-2 col-form-label">카테고리</label>
 				<div class="col-sm-10">
 					<select name="categoryId" class="form-control" id="categoryId"
 						style="width: 25%; display: inline-block;">
 						<option value="">선택</option>
-						<option value="CA1">분유</option>
-						<option value="CA2">이유식</option>
-						<option value="CA3">기저귀</option>
-						<option value="CA4">물티슈</option>
-						<option value="CA5">수유용품</option>
-						<option value="CA6">이유용품</option>
-						<option value="CA7">목욕용품</option>
+						<option value="CA1"${p.categoryId eq'CA1'?"selected":"" }>분유</option>
+						<option value="CA2"${p.categoryId eq'CA2'?"selected":"" }>이유식</option>
+						<option value="CA3"${p.categoryId eq'CA3'?"selected":"" }>기저귀</option>
+						<option value="CA4"${p.categoryId eq'CA4'?"selected":"" }>물티슈</option>
+						<option value="CA5"${p.categoryId eq'CA5'?"selected":"" }>수유용품</option>
+						<option value="CA6"${p.categoryId eq'CA6'?"selected":"" }>이유용품</option>
+						<option value="CA7"${p.categoryId eq'CA7'?"selected":"" }>목욕용품</option>
 					</select>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="productName" class="col-sm-2 col-form-label">상품명</label>
 				<div class="col-sm-10">
-					<input type="text" name="productName" class="form-control" id="">
+					<input type="text" name="productName" class="form-control" id=""value="${p.productName }">
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="brandName" class="col-sm-2 col-form-label">브랜드명</label>
 				<div class="col-sm-4">
-					<input type="text" name="brandName" class="form-control" id="">
+					<input type="text" name="brandName" class="form-control" id=""value="${p.brandName }">
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="supplyValue" class="col-sm-2 col-form-label">공급가</label>
 				<div class="col-sm-3">
-					<input type="number" name="supplyValue" class="form-control" value="0">
+					<input type="number" name="supplyValue" class="form-control" value="${p.supplyValue }">
 				</div>
 				<div class="col-form-label">
 					<span>원</span>
@@ -184,7 +180,7 @@ input[name="paymentMethodCode"] {
 			<div class="form-group row">
 				<label for="price" class="col-sm-2 col-form-label">판매가</label>
 				<div class="col-sm-3">
-					<input type="number" name="price" class="form-control" value="0">
+					<input type="number" name="price" class="form-control" value="${p.price }">
 				</div>
 				<div class="col-form-label">
 					<span>원</span>
@@ -194,7 +190,7 @@ input[name="paymentMethodCode"] {
 				<label for="pointRate" class="col-sm-2 col-form-label">포인트적립비율</label>
 				<div class="col-sm-3">
 					<input type="number" name="pointRate" class="form-control"
-						value="0">
+						value="${p.pointRate }">
 				</div>
 				<div class="col-form-label">
 					<span>%</span>
@@ -204,7 +200,7 @@ input[name="paymentMethodCode"] {
 				<label for="discountPrice" class="col-sm-2 col-form-label">할인금액</label>
 				<div class="col-sm-3">
 					<input type="number" name="discountPrice" class="form-control"
-						value="0">
+						value="${p.discountPrice }">
 				</div>
 				<div class="col-form-label">
 					<span>원</span>
@@ -214,7 +210,7 @@ input[name="paymentMethodCode"] {
 				<label for="productStock" class="col-sm-2 col-form-label">재고수량</label>
 				<div class="col-sm-3">
 					<input type="number" name="productStock" class="form-control"
-						value="999">
+						value="${p.productStock }">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -241,7 +237,7 @@ input[name="paymentMethodCode"] {
 			<div class="form-group row">
 				<label for="productState" class="col-sm-2 col-form-label">상품노출</label>
 				<div class="col-sm-10">
-					<input type="checkbox" name="productState" value="Y" checked>
+					<input type="checkbox" name="productState" value="Y" ${p.productState eq "Y"?"checked":"" }>
 					상품을 노출합니다.
 				</div>
 			</div>
@@ -268,7 +264,7 @@ input[name="paymentMethodCode"] {
 				<label for="productDetail" class="col-sm-2 col-form-label">상품설명</label>
 				<div class="col-sm-10">
 					<textarea class="form-control" id="summernote" name="productDetail"
-						maxlength="140" rows="7"></textarea>
+						maxlength="140" rows="7">${p.productDetail }</textarea>
 				</div>
 			</div>
 
@@ -321,7 +317,7 @@ input[name="paymentMethodCode"] {
 																		class="form-control input_st4"></td>
 																	<th class="text-center"></th>
 																</tr>
-
+																
 															</tbody>
 														</table>
 
@@ -330,14 +326,11 @@ input[name="paymentMethodCode"] {
 															<a class="btn btn-info btn-sm" id="optionSetting">옵션
 																적용</a>
 														</div>
-<!-- 수정 -->
 														<!-- 일반옵션 리스트 -->
-														<div id="generalDiv">
 															<div class="clearfix mb5">
 																<div class="float_l mt10">
 																	<span class="mr5 font-size16">옵션목록 : <strong>
-																		<span class="red" id="totalOptList">0</span></span></strong>개
-																	</span> 
+																		<span class="red" id="totalOptList">0</span></strong>개</span>
 																	<span class="form-inline m1 " style="padding-left: 15px;"> 사용여부 
 																	<select
 																		name="optView" id="optView"
@@ -350,28 +343,66 @@ input[name="paymentMethodCode"] {
 																	<a class="btn btn-primary btn-sm ml5" id="optListUpdate2" style="float:right;">선택목록 일괄수정</a>
 																</div>
 															</div>
-														</div>
 														<!-- 일반옵션 리스트 끝-->
 														<div style="overflow:scroll; overflow-x:hidden; width:100%; height:250px; border:1px solid #cfcfcf;">
-													<table id="optListTable" class="table table-bordered" style="border-left:none;">
+														
+															
+															<table id="optListTable" class="table table-bordered" style="border-left:none;">
 														<tbody>
 														<tr>
 															<th style="width:3%" class="text-center" rowspan="2">
 																<input type="checkbox" id="optListAll2" name="optListAll2" value="Y">
 															</th>
-															<th style="width:50%;" class="text-center" id="optNameTd" colspan="1">옵션명</th>
+															<th style="width:50%;" class="text-center" id="optNameTd" colspan="${fn:length(optName)>=2?'2':''}">옵션명</th>
 															<th style="width:10%" class="text-center" rowspan="2"> 재고</th>
 															<th style="width:10%" class="text-center" rowspan="2">공급가</th>
 															<th style="width:10%" class="text-center" rowspan="2">판매가</th>
 															<th style="width:10%" class="text-center" rowspan="2">사용여부</th>
 															<th style="width:10%" class="text-center" rowspan="2">삭제</th>
+														
 														</tr>
-														<tr id="optNameTd2">
-								
+															<tr id="optNameTd2" >
+														<c:forEach items="${optName}" var="optt" >
+														<c:forTokens items="${optt}" delims="," var="opt" begin="0" end="${fn:length(optName) }">
+														<input type="hidden" name="optionName" value="${optt }">
+														<th class="text-center">${opt } </th>
+														</c:forTokens>
+														</c:forEach>
+														</tr>
+														
+														<!-- 옵션 들어가는 곳. -->
+														<input type="hidden" name="optionName" value="${opt }">
+														<c:forEach items="${optValue }" var="optt" varStatus="v">
+														
+														<c:forEach items="${fn:split(optValue[v.index],',') }" var="opts" varStatus="vvs">
+														
+														<c:if test="${vvs.index%2 eq 0 }">
+														<tr>
+														<td class="text-center" style="border-left:none;">
+														<input type="checkbox" name="optCeck2[]" value="1" >
+														<input type="hidden" name="oListNum[]" value=""></td>
+														<td><input type="text" name="optionValue1" id="optVal${v.index }" value="${fn:split(optValue[v.index],',')[vvs.index*2]}" class="form-control input_st4" readonly=""></td>
+														<c:if test="${fn:length(optName) >=2}"> 
+														<td><input type="text" name="optionValue2" id="optVal${v.index+1 }" value="${fn:split(optValue[v.index],',')[vvs.count] }" class="form-control input_st4" readonly=""></td>
+														 </c:if> 
+														
+														<td><input type="text" name="optionStock" value="${o[v.index].optionStock }" class="form-control number-coma input_st4" idx="1"></td>
+														<td><input type="text" name="optionSupplyValue" value="${o[v.index].optionSupplyValue }" class="form-control number-coma input_st4" idx="1"></td>
+														<td><input type="text" name="optionPrice" value="${o[v.index].optionPrice }" class="form-control number-coma input_st4" idx="1"></td>
+														<td><select name="optionState" class="form-control number-coma input_st4">
+														
+														<option value="Y" ${o[v.index].optionState eq "Y"?"selected":"" }>Y</option>
+														<option value="N"${o[v.index].optionState eq "N"?"selected":"" }>N</option></select>
+														</td>
+														<td class="text-center"><a class="btn btn-danger btn-sm optListMinus">삭제</a>
+														</td>
+														</tr>
+														</c:if>
+														</c:forEach>
+														</c:forEach>
 														</tbody>
 													</table>
-												</div>
-													</div>
+														
 													<!-- 옵션사항 끝 -->
 												</div>
 											</td>
@@ -485,15 +516,13 @@ input[name="paymentMethodCode"] {
 
 			<div class=" text-center" style="padding-bottom: 50px">
 				<input type="submit" class="btn btn-primary btn-lg" id=""
-					value="상품등록" />
+					value="상품수정" />
 			</div>
-
-
 		</form>
 	</div>
 </div>
-<!-- 폼 끝  -->
-<script type="text/javascript">
+</c:if>
+		<script type="text/javascript">
 	$('#summernote').summernote({
 		placeholder : '제품설명을 입력해주세요.',
 		tabsize : 2,
@@ -537,9 +566,6 @@ input[name="paymentMethodCode"] {
 				});
 	}
 </script>
-
-
-
 <script>
 	/* <!--글쓰기 js -->
 	 $('#summernote').summernote({
@@ -586,7 +612,6 @@ input[name="paymentMethodCode"] {
 							$("#optTable").append(html)
 							optPlusIdx++;
 						});
-
 		//일반 옵션 추가된것 삭제해주는 것	 
 		$(document).on('click', '.optMinus', function(e) {
 			$(this).parent().parent().remove();
@@ -596,10 +621,10 @@ input[name="paymentMethodCode"] {
 		$(document).on('click', '.optListMinus', function(e) {
 			$(this).parent().parent().remove();
 		});
-
 	});
 	$(function(){
-		$("#optionSetting").click( function() {
+		//옵션 적용클릭시
+		$("#optionSetting").click( function() {//옵션 한개일때
 			var optNameHtml='';
 			for( tidx ; tidx <optPlusIdx; tidx++){
 				var optionName  = 'noTitle'+tidx;
@@ -619,7 +644,7 @@ input[name="paymentMethodCode"] {
 					
 					}
 					$("#optListTable").append(optHtml);				
-				}else{
+				}else{//옵션추가 2개 되었을 경우
 					var optHtml ='';
 					var oIdex = 0;
 					for(var opt=0; opt < index ;opt++){
@@ -637,20 +662,14 @@ input[name="paymentMethodCode"] {
 						}
 					}
 					$("tr").remove(".first-made"); 
-											
 				}
-					
-
 				optNameHtml +='<th class="text-center">'+optName+'</th>';
 				var test = '<input type="hidden" name="optionName" value="'+optName+'" >';
 				$('#optNameTd2').append(test);
 				console.log("뭐야=="+optNameHtml);
 				$('#optNameTd2').append(optNameHtml);
 				$('#optNameTd').attr('colspan',optPlusIdx);
-				
 			}
-			
-
 			console.log('optPlusIdx++ =='+optPlusIdx);
 });
 	});
@@ -684,8 +703,6 @@ input[name="paymentMethodCode"] {
 <script
 	src="${pageContext.request.contextPath}/resources/js/admin/demo.js"
 	type="text/javascript"></script>
-
-
 
 </body>
 </html>
