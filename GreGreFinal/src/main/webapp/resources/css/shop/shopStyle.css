@@ -3062,6 +3062,8 @@ em{
 	   padding: 15px 25px 14px 25px;
 	   display: block;
 	   text-align: center;
+	   width: 100%;
+	   border-radius:0;
    }
    
    /*---------------------

@@ -48,4 +48,9 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.selectOptionOne(optionId);
 	}
 
+	@Override
+	public String selectSellerId(String productId) {
+		return productDAO.selectSellerId(productId);
+	}
+
 }
