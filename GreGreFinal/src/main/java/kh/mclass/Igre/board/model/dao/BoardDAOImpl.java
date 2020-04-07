@@ -33,7 +33,6 @@ public class BoardDAOImpl implements BoardDAO {
 		int limit = 10;
 		RowBounds rbn = new RowBounds(offset, limit);
 		
-		param.put("table", "TB_post_"+(String)param.get("boardCode"));
 		return sss.selectList("board.postList", param, rbn);
 	}
 
@@ -44,7 +43,6 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public int postCount(Map<String, Object> param) {
-		param.put("table", "tb_post_"+(String)param.get("boardCode"));
 		return sss.selectOne("board.postCount", param);
 	}
 
