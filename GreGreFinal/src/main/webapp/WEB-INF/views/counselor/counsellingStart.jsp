@@ -113,7 +113,7 @@ table.table th, table.table td {text-align: center;}
       <th scope="row">${vs.count}</th>
       <td><a href="javascript:goChat('${m.CHAT_ID}')">${m.MEMBER_ID }</a></td>
       <td>${m.MSG }</td>
-      <td><span class="badge badge-light">${m.CNT }</span></td>
+      <td><span class="badge badge-light">${readCountResult}</span></td>
     </tr>
   </c:forEach>
   </tbody>

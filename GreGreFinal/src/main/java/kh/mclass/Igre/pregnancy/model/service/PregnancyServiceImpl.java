@@ -1,5 +1,7 @@
 package kh.mclass.Igre.pregnancy.model.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +17,10 @@ public class PregnancyServiceImpl implements PregnancyService {
 	@Override
 	public int findTable(Member memberLoggedIn) {
 		return pregnancyDAO.findTable(memberLoggedIn);
+	}
+
+	@Override
+	public int insertMenses(Map<String, Object> menses) {
+		return pregnancyDAO.insertMenses(menses);
 	}
 }
