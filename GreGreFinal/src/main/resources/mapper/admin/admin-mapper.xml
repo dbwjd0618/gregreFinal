@@ -318,25 +318,55 @@
 		    tb_post_${boardCode}
 	</select>
 	
-	<select id="adminList" resultType="Admin">
+	<select id="selectAdmember" resultType="Member">
+		select
+			*
+		from
+			tb_member_info
+	</select>
+	
+	<select id="athorityView" resultType="Member">
+		select
+			*
+		from
+			tb_member_info
+		where
+			member_id = #{memberId}
+	</select>
+	
+	<update id="athorityUpdate">
+ 		update
+ 			tb_member_info
+ 		set
+ 			grade = #{grade}
+ 		where
+ 			member_id = #{memberId}
+	</update>
+	
+	<select id="indexMember" resultType="Member">
+		select
+			member_id
+		from
+			tb_member_info
+		where
+			grade = 'M'
+	</select>
+	
+	<select id="indexCounselor" resultType="Counselor">
 		select 
-		    member_id admin_Id, member_name admin_Name, 
-		    nickname, birthday, phone, address, email, grade, gender, enroll_date
+			advis_id
 		from 
+			tb_adviser
+	</select>
+	
+	<select id="indexAdmin" resultType="Admin">
+		select
+			member_id admin_id
+		from
 			tb_member_info
 		where
 			grade = 'A'
 	</select>
-	
-	<select id="amemberList" resultType="Amember">
-		select
-		    *
-		from
-		    tb_member_info
-		where
-		    grade = 'M'
-	</select>
-	
  </mapper>
  
  
