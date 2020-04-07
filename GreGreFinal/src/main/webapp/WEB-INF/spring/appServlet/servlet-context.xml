@@ -26,9 +26,19 @@
 		<interceptors>
 		<interceptor>
 			<mapping path="/myPage/**"/>
-			<!-- board 시작 비 로그인시 싸그리다가 입구컷  = spring 3.2부터-->
+			<mapping path="/board/*.ajax"/>
+			<mapping path="/board/delete*.do"/>
+			<mapping path="/board/*Write.do"/>
 			<beans:bean id="loginCheckIntercepotr" class="kh.mclass.Igre.common.interceptor.LoginInterceptor"/>
 		</interceptor>
+		
+		<!-- 유정구역!! -->
+		<interceptor>
+			<mapping path="/admin/**"/>	
+			<exclude-mapping path="/admin/login.do"/>	
+			<beans:bean id="adminLoginCheckInterceptor" class="kh.mclass.Igre.common.interceptor.AdminLoginInterceptor"/>
+		</interceptor>
+		<!-- 유정구역 끝!! -->
 	</interceptors>
 	
 	<!-- #11.1 파일업로드를 처리할 Resolver클래스 빈등록(빈이름 주의) -->

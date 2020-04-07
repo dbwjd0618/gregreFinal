@@ -1,3 +1,4 @@
+<%@page import="kh.mclass.Igre.counselling.model.vo.BookingInfo"%>
 <%@page import="kh.mclass.Igre.counselling.model.vo.Counselor"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -13,12 +14,17 @@ $(function(){
     $(".price").click(function(e){
         $(".price").attr('checked', true);
         $('#total-price').text($(this).attr('value'));
+        $("[name=payPrice]").val($('#total-price').text());
+        $("[name=coin]").val($(this).attr("id"));
     });
 });
+
+$('input:radio[name=options]').is(':checked');
 
 </script>
 <%
 	Counselor C = (Counselor)request.getAttribute("counselor");
+	BookingInfo book = (BookingInfo)request.getAttribute("bookingInfo");
 	pageContext.setAttribute("price1", Integer.parseInt(C.getAdvisPrice())*2);
 	pageContext.setAttribute("price2", Integer.parseInt(C.getAdvisPrice())*4);
 %>
@@ -32,7 +38,7 @@ $(function(){
 					<div class="col-md-5 mt-5 pt-5">
 						<h1 class="mb-3 font-weight-bold text-teal">상담 결제</h1>
 						<p>
-							<a href="index.html" class="text-white">Home</a> <span
+							<a href="${pageContext.request.contextPath}/" class="text-white">Home</a> <span
 								class="mx-3">/</span> <strong>상담센터</strong>
 						</p>
 					</div>
@@ -63,12 +69,14 @@ $(function(){
     }
 </style>
 	<!-- 여기부터 container -->
+<form id="bookingFrm" method="POST">
 	<div class="site-section">
         <div class="container">
             <div class="row">
                 <div class="col-sm-2 col-md-offset-2 col-md-3">
                     <img src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}" class="align-self-center mr-3" alt="...">
                     <h4>${counselor.advisName }&nbsp;${counselor.advisGrade }상담사</h4>
+                    <input type="hidden" name="counselor_name" value="${counselor.advisName }" />
                 </div>
                 <div class="col-md-5">
                     <table class="table table-hover">
@@ -78,17 +86,17 @@ $(function(){
                         	</tr>
                         </thead>
                         <tbody>
-                        	<tr class="price" value="${price1}">
+                        	<tr class="price"  id="14" value="${price1}">
                             	<th scope="row">2주 프로그램</th>
                             	<td>${price1}원</td>   
                           	</tr>
-                          	<tr class="price" value="${price2 }">
+                          	<tr class="price" id="28" value="${price2 }">
                             	<th scope="row">4주 프로그램</th>
                             	<td>${price2}원</td>
                           	</tr>
-                          	<tr class="price" value="${counselor.advisPrice}">
+                          	<tr class="price" id="0" value="${counselor.advisPrice}">
                             	<th scope="row">1회 상담권</th>
-                            	<td >${counselor.advisPrice}원</td>
+                            	<td>${counselor.advisPrice}원</td>
                           	</tr>
                         </tbody>
                 	</table>
@@ -107,16 +115,16 @@ $(function(){
                     <h5>결제 수단 선택</h5>
                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                         <label class="btn btn-secondary active">
-                            <input type="radio" name="options" id="option1"> 카드 결제
+                            <input type="radio" name="payInfo" id="option1" value="무통장입금" required="required"> 무통장입금
                         </label>
                         <label class="btn btn-secondary">
-                            <input type="radio" name="options" id="option2"> 카카오페이
+                            <input type="radio" name="payInfo" id="option2" value="카카오페이"> 카카오페이
                         </label>
                         <label class="btn btn-secondary">
-                            <input type="radio" name="options" id="option3"> 네이버페이
+                            <input type="radio" name="payInfo" id="option3" value="네이버페이"> 네이버페이
                         </label>
                         <label class="btn btn-secondary">
-                            <input type="radio" name="options" id="option4"> 그레페이
+                            <input type="radio" name="payInfo" id="option4" value="그레페이"> 그레페이
                         </label>
                       </div> 
                 </div>
@@ -124,43 +132,21 @@ $(function(){
             <br><br>
             <div class="row">
                 <div class="col-md-offset-2 col-md-8">
-                    <button type="button" class="btn btn-secondary btn-lg btn-block">결제하기</button>
+                    <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="insert();">결제하기</button>
                 </div>
+                <input type="hidden" name="memberId" value="${memberLoggedIn.memberId}" />
+                <input type="hidden" name="advisId" value="${counselor.advisId }" />
+                <input type="hidden" name="payPrice" value="" />
+                <input type="hidden" name="coin" />
             </div>
         </div>
     </div>
+</form>
 
-
-
-
-	<!-- container 끝  -->
-	<script src="../js/jquery-migrate-3.0.0.js"></script>
-	<script src="../js/popper.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
-	<script src="../js/owl.carousel.min.js"></script>
-	<script src="../js/jquery.sticky.js"></script>
-	<script src="../js/jquery.waypoints.min.js"></script>
-	<script src="../js/jquery.animateNumber.min.js"></script>
-	<script src="../js/jquery.fancybox.min.js"></script>
-	<script src="../js/jquery.stellar.min.js"></script>
-	<script src="../js/jquery.easing.1.3.js"></script>
-	<script src="../js/bootstrap-datepicker.min.js"></script>
-	<script src="../js/aos.js"></script>
-
-	<script src="../js/main.js"></script>
-
-
-
-
-	<!-- Js Plugins -->
-
-	<script src="js/shop/jquery-ui.min.js"></script>
-	<script src="js/shop/jquery.countdown.min.js"></script>
-	<script src="js/shop/jquery.nice-select.min.js"></script>
-	<script src="js/shop/jquery.zoom.min.js"></script>
-	<script src="js/shop/jquery.dd.min.js"></script>
-	<script src="js/shop/jquery.slicknav.js"></script>
-	<!-- <script src="js/shop/owl.carousel.min.js"></script> -->
-	<script src="js/shop/main.js"></script>
+<script>
+	function insert(){
+		$("#bookingFrm").attr('action', "${pageContext.request.contextPath}/counselling/bookingEnd.do").attr("method", "post").submit();
+	}
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

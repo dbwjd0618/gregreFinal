@@ -18,7 +18,7 @@
           <div class="row align-items-center ">
             <div class="col-md-5 mt-5 pt-5">
               <h1 class="mb-3 font-weight-bold text-teal">마이페이지</h1>
-              <p><a href="index.html" class="text-white">Home</a> <span class="mx-3">/</span> <strong>MyPage</strong></p>
+              <p><a href="${pageContext.request.contextPath}/" class="text-white">Home</a> <span class="mx-3">/</span> <strong>MyPage</strong></p>
             </div> 
           </div>
         </div>
@@ -50,12 +50,13 @@
 							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/myPeriodCalculatorView.do">
 								<div class="menu__title">월경캘린더</div>
 							</a> 
-							<a class="menu__item" href="#">
-								<div class="menu__title">예약현황 조회/취소</div>
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/counsellingInfo.do">
+								<div class="menu__title">상담정보/리뷰</div>
 							</a> 
-							<a class="menu__item" href="#">
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/deleteMember.do">
 								<div class="menu__title">회원탈퇴</div>
 							</a>
+							
 						</div>
 					</div>
 				</div>

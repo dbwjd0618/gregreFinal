@@ -1,5 +1,7 @@
 package kh.mclass.IgreMall.shopMember.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +28,20 @@ public class ShopMemberServiceImpl implements ShopMemberService {
 	@Override
 	public int insertCart(Cart cart) {
 		return shopMemberDAO.insertCart(cart);
+	}
+
+	@Override
+	public List<Cart> selectCartList(String memberId) {
+		return shopMemberDAO.selectCartList(memberId);
+	}
+
+	@Override
+	public Cart selectCartOne(String cartId) {
+		return shopMemberDAO.selectCartOne(cartId);
+	}
+
+	@Override
+	public int updateCartOne(Cart cart) {
+		return shopMemberDAO.updateCartOne(cart);
 	}
 }

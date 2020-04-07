@@ -52,8 +52,6 @@
   </head>
   
   <body class="skin-blue">
-    <div class="wrapper">
-      
       <header class="main-header">
         <!-- Logo -->
         <a href="${pageContext.request.contextPath }/admin/index.do" class="logo" 
@@ -84,7 +82,7 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left info">
-              <p>관리자
+              <p>${adminLoggedIn.adminName }
                   <button class="logbtn" type="button" onclick="location.href='${pageContext.request.contextPath}/admin/logout.do'">로그아웃</button>
               </p>
             </div>
@@ -150,7 +148,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="mailbox.html"><i class="fa fa-circle-o"></i>단체 이메일</a></li>
+                <li><a href="${pageContext.request.contextPath }/admin/email.do"><i class="fa fa-circle-o"></i>단체 이메일</a></li>
                 <li><a href="message.html"><i class="fa fa-circle-o"></i> 단체 문자</a></li>
               </ul>
             </li>

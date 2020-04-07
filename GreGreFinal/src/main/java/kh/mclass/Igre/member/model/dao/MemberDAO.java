@@ -34,6 +34,10 @@ public interface MemberDAO {
 
 	Object selectOneSomp(String cmemberId);
 
+	int createMenses(Member member);
+
+	int createTbMenses(Member member);
+
 
 
 

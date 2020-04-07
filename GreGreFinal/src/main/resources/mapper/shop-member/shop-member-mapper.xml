@@ -3,6 +3,33 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shopMember">
+	<update id="updateCartOne">
+		update
+			tb_consumer_cart
+		set
+			option_id=#{optionId, typeHandler=strArrTypeHandler},
+			prod_count=#{prodCount, typeHandler=strArrTypeHandler}
+		where
+			cart_id = #{cartId}		
+	</update>
+	<select id="selectCartOne" resultMap="cartMap">
+	select 
+		*
+	from 
+		tb_consumer_cart
+	where 
+		cart_id = #{cartId}
+	</select>
+	<select id="selectCartList" resultMap="cartMap">
+	select 
+		*
+	from 
+		tb_consumer_cart
+	where 
+		member_id = #{memberId}
+	order by 
+		cart_date desc
+	</select>
 	<insert id="insertCart">
 	insert into
 		TB_consumer_cart
@@ -10,8 +37,8 @@
 		'ict'||to_char(sysdate,'yymmdd')||to_char(seq_TB_cart_id.nextval, 'fm0000'),
 		#{memberId},
 		#{productId},
-		#{optionId},
-		#{prodCount},
+		#{optionId, typeHandler=strArrTypeHandler},
+		#{prodCount, typeHandler=strArrTypeHandler},
 		default
 	)
 	</insert>
@@ -34,6 +61,17 @@
 	where 
 		coupon_id = #{couponId}
 	</select>
+	
+	<resultMap type="cart" id="cartMap">
+		<id column ='cart_Id' property="cartId"/>
+		<result column ='member_id' property="memberId"/>
+		<result column ='product_id' property="productId"/>
+		<result column ='option_id' property="optionId"  typeHandler="strArrTypeHandler"/>
+		<result column ='prod_count' property="prodCount"  typeHandler="strArrTypeHandler"/>
+		<result column ='cart_date' property="cartDate"/>
+	</resultMap>
+	
+	
 	<resultMap type="shopMember" id="shopMemberCollection">
 		<id column ='member_Id' property="memberId"/>
 		<result column ='member_pwd' property="memberPwd"/>

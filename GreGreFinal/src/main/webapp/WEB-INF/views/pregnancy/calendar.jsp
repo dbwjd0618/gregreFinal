@@ -35,7 +35,7 @@ margin-bottom: 30px;
 				<div class="col-md-5 mt-5 pt-5">
 					<h1 class="mb-3 font-weight-bold text-teal">임신</h1>
 					<p>
-						<a href="index.html" class="text-white">Home</a> <span
+						<a href="${pageContext.request.contextPath}/" class="text-white">Home</a> <span
 							class="mx-3">/</span> <strong>월경캘린더</strong>
 					</p>
 				</div>
@@ -133,8 +133,15 @@ margin-bottom: 30px;
 						</div>
 
 						<div class="text_c mar_b40">
-							<a href="javascript:;" class="sub003_001"><img
-								src="${pageContext.request.contextPath }/resources/images/pregnancy/btn_cal.gif" alt="캘린더 만들기 버튼"></a>
+						<c:choose>
+							<c:when test="${!empty memberLoggedIn }">
+							<a href="javascript:;" class="sub003_001"><img src="${pageContext.request.contextPath }/resources/images/pregnancy/btn_member.gif" alt="캘린더 저장 버튼"></a>
+							</c:when>
+							<c:when test="${empty memberLoggedIn }">
+							<a href="javascript:;"  class="sub003_001"><img src="${pageContext.request.contextPath }/resources/images/pregnancy/btn_cal.gif" alt="캘린더 만들기 버튼"></a>
+							</c:when>
+						</c:choose>
+						
 						</div>
 					</form>
 
@@ -170,7 +177,10 @@ margin-bottom: 30px;
 		</div>
 	</div>
 </div>
+<script>
 
+
+</script>
 
 <!-- 풋터 선언!!-->
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

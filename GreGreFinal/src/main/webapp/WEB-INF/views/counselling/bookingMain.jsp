@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<fmt:requestEncoding value="utf-8" />
+<fmt:requestEncoding value="utf-8"/>
 
 <!-- 헤더 선언!!-->
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -114,7 +114,7 @@ $(()=>{
 					<div class="col-md-5 mt-5 pt-5">
 						<h1 class="mb-3 font-weight-bold text-teal">상담 예약</h1>
 						<p>
-							<a href="index.html" class="text-white">Home</a> <span
+							<a href="${pageContext.request.contextPath}/" class="text-white">Home</a> <span
 								class="mx-3">/</span> <strong>상담센터</strong>
 						</p>
 					</div>

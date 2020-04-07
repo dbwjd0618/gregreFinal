@@ -27,8 +27,8 @@ public class Cart implements Serializable {
 	private String cartId;
 	private String memberId;
 	private String productId;
-	private String optionId;
-	private int prodCount;
+	private String optionId[];
+	private String prodCount[];
 	private Date cartDate;
 	
 	
@@ -36,7 +36,9 @@ public class Cart implements Serializable {
 	private Product product;
 	// 옵션정보
 	private List<ProdOption> optionList;
-	public Cart(String cartId, String memberId, String productId, String optionId, int prodCount, Date cartDate) {
+	
+	public Cart(String cartId, String memberId, String productId, String[] optionId, String[] prodCount,
+			Date cartDate) {
 		super();
 		this.cartId = cartId;
 		this.memberId = memberId;
@@ -45,6 +47,8 @@ public class Cart implements Serializable {
 		this.prodCount = prodCount;
 		this.cartDate = cartDate;
 	}
+	
+	
 	
 	
 }

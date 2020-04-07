@@ -6,7 +6,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.member.model.vo.Member;
+import kh.mclass.Igre.mypage.model.vo.Child;
 
 @Repository
 public class MyPageDAOImpl implements MyPageDAO {
@@ -25,4 +27,42 @@ public class MyPageDAOImpl implements MyPageDAO {
 		// TODO Auto-generated method stub
 		return sss.update("mypage.updateMember",member);
 	}
+
+	@Override
+	public int enroll(Child child) {
+		// TODO Auto-generated method stub
+		return sss.insert("mypage.enroll",child);
+	}
+
+	@Override
+	public int updateChildNumber(Member member) {
+		// TODO Auto-generated method stub
+		return sss.update("mypage.updateChildNumber",member);
+	}
+
+	@Override
+	public List<Child> selectChild(Child child) {
+		// TODO Auto-generated method stub
+		return sss.selectList("mypage.selectChild",child);
+	}
+
+	@Override
+	public List<BookingInfo> selectBookingInfoList(BookingInfo book) {
+		// TODO Auto-generated method stub
+		return sss.selectList("mypage.selectBookingInfoList", book);
+	}
+
+	public int updatePassword(Member member) {
+		// TODO Auto-generated method stub
+		return sss.update("mypage.updatePassword",member);
+	}
+
+	@Override
+	public int memberDelete(Member member) {
+		// TODO Auto-generated method stub
+		return sss.delete("mypage.memberDelete",member);
+
+	}
+
+
 }

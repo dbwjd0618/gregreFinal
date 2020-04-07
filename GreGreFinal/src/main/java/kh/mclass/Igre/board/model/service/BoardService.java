@@ -1,6 +1,7 @@
 package kh.mclass.Igre.board.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
@@ -13,23 +14,23 @@ public interface BoardService {
 
 	List<Board> boardList();
 
-	List<Post> postList(String boardCode, int cPage, int nPP);
+	List<Post> postList(Map<String, Object> param);
 
-	String boardName(String boardCode);
+	String boardName(Map<String, Object> param);
 
-	int postCount(String boardCode);
+	int postCount(Map<String, Object> param);
 
 	int preferIn(PreferList pf);
 
 	int preferOut(PreferList pf);
 
-	Post postView(String boardCode, int postNo);
+	Post postView(Map<String, Object> param);
 
-	List<Reply> replyList(String boardCode, int postNo, int i);
+	List<Reply> replyList(Map<String, Object> param);
 
-	int replyCount(String boardCode, int postNo);
+	int replyCount(Map<String, Object> param);
 
-	int preferCount(String boardCode, int postNo);
+	int preferCount(Map<String, Object> param);
 
 	int replyWrite(Reply reply);
 
@@ -54,6 +55,16 @@ public interface BoardService {
 	int checkReport(Report report);
 
 	int submitReport(Report report);
+
+	int postWrite(Post post);
+
+	int postViewCount(Map<String, Object> param);
+
+	void replyModify(Reply reply);
+
+	Post postView(Post post);
+
+	int modifyPost(Post post);
 
 
 }

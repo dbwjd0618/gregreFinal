@@ -189,11 +189,51 @@
 		)
 	</insert>
 	
+	<delete id="boardDelete">
+		delete 
+		
+		from 
+			tb_board 
+		where 
+			board_code = #{boardCode}
+	</delete>
+
+	<update id="dropReply">
+		drop
+		
+		table
+		
+		tb_reply_${boardCode}
+	</update>
+	
+	<update id="dropBoard">
+		drop 
+		
+		table 
+		
+		tb_post_${boardCode}
+	</update>
+	
+	<update id="dropSeqPost">
+		drop 
+			sequence seq_${boardCode}_post
+	</update>
+	
+	<update id="dropSeqReply">
+		drop 
+			sequence seq_${boardCode}_reply
+	</update>
+	
 	<select id="boardList" resultType="Post">
 		select
 			*
 		from
 			tb_post_${boardCode}
+		<where>
+			<if test='search != null and search != ""'>
+			title||' '||writer||' '||to_char(post_write_time,'yyyymmdd')||' '||lower(notice) like '%'||lower(#{search})||'%'
+			</if>		
+		</where>
 		order by
 			post_no asc
 	</select>
@@ -227,30 +267,106 @@
 			post_no = #{postNo}
 	</update>
 	
-	<select id="adminList" resultType="Admin">
+	<select id="postView" resultType="Post">
+		select
+			*
+		from
+			tb_post_${boardCode}
+		where
+			board_code = #{boardCode}
+			and
+			post_no = #{postNo}	
+	</select>
+	
+	<select id="replyView" resultType="Reply">
+		select
+			*
+		from
+			tb_reply_${boardCode}
+		where
+			board_code = #{boardCode}
+			and
+			post_no = #{postNo}
+	</select>
+	
+	<select id="replyCount" resultType="_int">
 		select 
-		    member_id admin_Id, member_name admin_Name, 
-		    nickname, birthday, phone, address, email, grade, gender, enroll_date
+			count(*) 
 		from 
+			tb_reply_${boardCode}
+		where 
+			board_code = #{boardCode}
+			and
+			post_no = #{postNo}
+	</select>
+	
+	<select id="prefCount" resultType="_int">
+		select 
+			count(*) 
+		from 
+			tb_prefer 
+		where 
+			board_code = #{boardCode} 
+			and 
+			post_no = #{postNo}
+	</select>
+	
+	<select id="postCount" resultType="_int">
+		select 
+		    count(*)
+		from 
+		    tb_post_${boardCode}
+	</select>
+	
+	<select id="selectAdmember" resultType="Member">
+		select
+			*
+		from
+			tb_member_info
+	</select>
+	
+	<select id="athorityView" resultType="Member">
+		select
+			*
+		from
+			tb_member_info
+		where
+			member_id = #{memberId}
+	</select>
+	
+	<update id="athorityUpdate">
+ 		update
+ 			tb_member_info
+ 		set
+ 			grade = #{grade}
+ 		where
+ 			member_id = #{memberId}
+	</update>
+	
+	<select id="indexMember" resultType="Member">
+		select
+			member_id
+		from
+			tb_member_info
+		where
+			grade = 'M'
+	</select>
+	
+	<select id="indexCounselor" resultType="Counselor">
+		select 
+			advis_id
+		from 
+			tb_adviser
+	</select>
+	
+	<select id="indexAdmin" resultType="Admin">
+		select
+			member_id admin_id
+		from
 			tb_member_info
 		where
 			grade = 'A'
 	</select>
-	
-	<select id="amemberList" resultType="Amember">
-		select
-		    *
-		from
-		    tb_member_info
-		where
-		    grade = 'M'
-	</select>
-	
-	
-	
-
-	
- 
  </mapper>
  
  

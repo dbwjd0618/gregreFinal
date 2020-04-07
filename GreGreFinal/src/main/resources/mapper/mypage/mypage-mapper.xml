@@ -4,7 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mypage">
 
-
 	<select id="memberList" resultType="Member">
 		select
 			*
@@ -13,8 +12,24 @@
 		where 
 			member_id = #{memberId}
 	</select>
+	<update id="updatePassword">
+	update
+		TB_MEMBER_INFO
+	set
+		member_pwd = #{memberPwd}
+	where
+		member_id= #{memberId}	
+	</update>
 	
-	<update id="updateMember">
+	<delete id="memberDelete">
+	delete
+		from
+	TB_MEMBER_INFO
+		where
+	member_id= #{memberId}	
+	</delete>
+	
+	<update id="updateMember" >
 	update
 		TB_MEMBER_INFO
 	set
@@ -28,6 +43,47 @@
 		member_id = #{memberId}			
 	</update>
 	
+	<insert id="enroll">
+	insert
+		into
+	TB_child
+		values(
+		#{parentsId},
+		#{childId},
+		#{childName},
+		#{birthday},
+		#{gender},
+		#{phone}
+		) 
+	</insert>
+	
+	<update id="updateChildNumber">		
+	update
+		TB_MEMBER_INFO
+	set
+		child_number = +1
+	where
+		member_id = #{memberId}	
+	</update>
+
+	<select id="selectChild" resultType="Child">
+	select
+		*
+	from
+		TB_child
+	where
+		parents_ID = #{parentsId}
+	</select>
+	
+	<!-- 상담 예약정보 조회  -->
+	<select resultType="BookingInfo" id="selectBookingInfoList">
+		select
+			*
+		from 
+			TB_advis_use
+		where 
+			member_id = #{memberId}
+	</select>
 	
 	
 </mapper>

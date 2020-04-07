@@ -1,5 +1,7 @@
 package kh.mclass.IgreMall.shopMember.model.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,5 +28,20 @@ public class ShopMemberDAOImpl implements ShopMemberDAO{
 	@Override
 	public int insertCart(Cart cart) {
 		return sqlSession.insert("shopMember.insertCart", cart);
+	}
+
+	@Override
+	public List<Cart> selectCartList(String memberId) {
+		return sqlSession.selectList("shopMember.selectCartList", memberId);
+	}
+
+	@Override
+	public Cart selectCartOne(String cartId) {
+		return sqlSession.selectOne("shopMember.selectCartOne", cartId);
+	}
+
+	@Override
+	public int updateCartOne(Cart cart) {
+		return sqlSession.update("shopMember.updateCartOne", cart);
 	}
 }

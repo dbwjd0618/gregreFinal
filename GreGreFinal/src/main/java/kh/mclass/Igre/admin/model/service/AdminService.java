@@ -1,12 +1,16 @@
 package kh.mclass.Igre.admin.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import kh.mclass.Igre.admin.model.vo.Admin;
 import kh.mclass.Igre.admin.model.vo.Amember;
 import kh.mclass.Igre.admin.model.vo.AdminReport;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
+import kh.mclass.Igre.board.model.vo.Reply;
+import kh.mclass.Igre.counselling.model.vo.Counselor;
+import kh.mclass.Igre.member.model.vo.Member;
 
 public interface AdminService {
 
@@ -38,7 +42,7 @@ public interface AdminService {
 
 	int insertboard(Board board);
 
-	List<Post> boardList(String boardCode);
+	List<Post> boardList(Map<String, String> param);
 
 	Board boardName(String boardCode);
 
@@ -46,9 +50,30 @@ public interface AdminService {
 
 	int noticeUpdate(String boardCode, Integer postNo);
 
-	List<Admin> adminList();
+	int boardDelete(String boardCode);
 
-	List<Amember> amemberList();
+	Post postView(Map<String, Object> param);
+
+	List<Reply> replyView(Map<String, Object> param);
+
+	int replyCount(Map<String, Object> param);
+
+	int prefCount(Map<String, Object> param);
+
+	int postCount(Map<String, String> param);
+
+	List<Member> selectAdmember();
+
+	Member athorityView(String memberId);
+
+	int athorityUpdate(Member member);
+
+	List<Member> indexMember();
+
+	List<Counselor> indexCounselor();
+
+	List<Admin> indexAdmin();
+
 
 
 
