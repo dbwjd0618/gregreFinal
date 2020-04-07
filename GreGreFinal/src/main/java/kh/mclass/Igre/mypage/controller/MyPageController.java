@@ -15,6 +15,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.service.MyPageService;
@@ -95,10 +96,17 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/counsellingInfo.do")
-	public ModelAndView selectCounsellingInfo(ModelAndView mav, Counselor counselor, HttpSession session) {
+	public ModelAndView selectCounsellingInfo(ModelAndView mav, BookingInfo book, HttpSession session) {
 		
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		book.setMemberId(m.getMemberId());
+		//예약정보 불러오기
+		List<BookingInfo> list = mps.selectBookingInfoList(book);
 		
+		mav.addObject("m",m);
+		mav.addObject("list",list);
 		return mav;
 	}
+	
 	
 }

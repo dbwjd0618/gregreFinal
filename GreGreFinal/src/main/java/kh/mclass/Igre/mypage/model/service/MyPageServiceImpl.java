@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.dao.MyPageDAO;
 import kh.mclass.Igre.mypage.model.vo.Child;
@@ -40,6 +41,11 @@ public class MyPageServiceImpl implements MyPageService {
 	public List<Child> selectChild(Child child) {
 		// TODO Auto-generated method stub
 		return mpd.selectChild(child);
+	}
+
+	@Override
+	public List<BookingInfo> selectBookingInfoList(BookingInfo book) {
+		return mpd.selectBookingInfoList(book);
 	}
 }
 
