@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
-import kh.mclass.Igre.counselling.model.vo.bookingInfo;
+import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.reviewStar;
 import kh.mclass.Igre.member.model.vo.Member;
 
@@ -104,7 +104,7 @@ public class CounselorDAOImpl implements CounselorDAO {
 	}
 
 	@Override
-	public int bookingInsert(bookingInfo info) {
+	public int bookingInsert(BookingInfo info) {
 		return sqlSession.insert("counselor.bookingInfo", info);
 	}
 
