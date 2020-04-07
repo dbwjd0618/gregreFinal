@@ -2,6 +2,7 @@ package kh.mclass.Igre.pregnancy.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,27 +63,35 @@ public class PregnancyController {
 	}
 	
 	@PostMapping("/menses.do")
-	public String InputMenses(@RequestParam(value = "ageStart") Date ageStart, @RequestParam(value="ageEnd") Date ageEnd,
+	public Model InputMenses(@RequestParam(value = "ageStart") Date ageStart, @RequestParam(value="ageEnd") Date ageEnd,
 							@RequestParam(value="cycle") int cycle, @RequestParam(value="startDay") Date startDay,
-							@SessionAttribute(value="memberLoggedIn", required=false) Member memberLoggedIn) {
-		System.out.println(ageStart);
-		System.out.println(ageEnd);
-		System.out.println(cycle);
-		System.out.println(startDay);
+							@SessionAttribute(value="memberLoggedIn", required=false) Member memberLoggedIn, Model model) {
+
 		
 		Map<String, Object> menses = new HashMap<String, Object>();
+		menses.put("memberId",memberLoggedIn.getMemberId());
 		menses.put("ageStart", ageStart);
 		menses.put("ageEnd", ageEnd);
 		menses.put("cycle", cycle);
 		menses.put("startDay", startDay);
 		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(startDay);
+		calendar.add(Calendar.DATE,25);
 		
+		Date nextMenses = new Date(calendar.getTimeInMillis());
+		System.out.println(nextMenses);
+		
+		menses.put("nextMemses", nextMenses);
 		
 		int resultTable = pregnancyService.findTable(memberLoggedIn);
 		
-		System.out.println(resultTable);
+		if(resultTable != 0 ) {
+			int result = pregnancyService.insertMenses(menses);
+		}
 		
-		return "redirect:/pregnancy/calendar.do";
+		model.addAttribute("result",resultTable );
+		return model;
 	}
 	
 }

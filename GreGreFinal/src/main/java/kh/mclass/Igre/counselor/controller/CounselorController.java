@@ -1,5 +1,6 @@
 package kh.mclass.Igre.counselor.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -56,7 +57,16 @@ public class CounselorController {
 		
 		//최근 사용자 채팅메세지 목록
 		List<Map<String, String>> recentList = chatService.counselorFindRecentList(counselorId);
+		int chatRoom = Integer.parseInt(String.valueOf(recentList.get(0).get("CR_ID")));
+				
+		String memberId = String.valueOf(recentList.get(0).get("MEMBER_ID"));
+
+		Map<String, Object> readCount = new HashMap<String, Object>();
+		readCount.put("chatRoom", chatRoom);
+		readCount.put("memberId", memberId);
+		int readCountResult = chatService.counselorReadCountC(readCount);
 		
+		model.addAttribute("readCountResult",readCountResult);
 		log.debug("recentList={}",recentList);		
 		model.addAttribute("recentList", recentList);
 
@@ -66,10 +76,14 @@ public class CounselorController {
 	
 	@GetMapping("/chat/{chatId}")
 	public String adminChat(@PathVariable("chatId") String chatId, Model model, @ModelAttribute("counselorId")String counselorId){
+		//회원 아이디 조회
+		String memberId = chatService.memberIdFindChatListByChatId(counselorId);
 		
+		log.debug(memberId+"con");
 		List<Msg> chatList = chatService.counselorFindChatListByChatId(chatId);
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("counselorId",counselorId);
+		model.addAttribute("memberId",memberId);
 		
 		log.debug("chatList={}",chatList);
 		return "counselor/counselorChat";

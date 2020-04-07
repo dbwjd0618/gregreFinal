@@ -23,9 +23,21 @@ public interface ChatDAO {
 
 	List<Msg> counselorFindChatListByChatId(String chatId);
 
-	int counselorUpdateLastCheck(Msg fromMessage);
+	int counselorUpdateLastCheckC(Msg fromMessage);
 
 	String counselorFindId(String memberId);
+
+	int counselorRoomNum(String chatId);
+
+	int counselorReadCountM(Map<String, Object> readCount);
+
+	int counselorUpdateLastCheckM(Msg fromMessage);
+
+	String memberFindId(String counselorId);
+
+	int counselorReadCountC(Map<String, Object> readCount);
+
+	String memberIdFindChatListByChatId(String counselorId);
 
 
 
