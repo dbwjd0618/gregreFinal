@@ -54,7 +54,7 @@ public class ChatDAOImpl implements ChatDAO {
 
 	@Override
 	public int counselorUpdateLastCheck(Msg fromMessage) {
-		return sqlSession.update("counselor.updateLastCheck");
+		return sqlSession.update("counselor.updateLastCheck",fromMessage);
 	}
 
 	@Override

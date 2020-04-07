@@ -52,5 +52,17 @@ public class MyPageDAOImpl implements MyPageDAO {
 		return sss.selectList("mypage.selectBookingInfoList", book);
 	}
 
+	public int updatePassword(Member member) {
+		// TODO Auto-generated method stub
+		return sss.update("mypage.updatePassword",member);
+	}
+
+	@Override
+	public int memberDelete(Member member) {
+		// TODO Auto-generated method stub
+		return sss.delete("mypage.memberDelete",member);
+
+	}
+
 
 }

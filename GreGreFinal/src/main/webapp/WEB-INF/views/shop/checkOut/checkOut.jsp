@@ -53,8 +53,19 @@ input.site-btn.place-btn {
     width: 170px;
     height: auto;
 }
-td.p-price.first-row {
-    border-right: 1px solid #ebebeb;
+td.first-row {
+    border-right: 0 !important;
+} 
+td.qua-col.first-row {
+    text-align: center;
+}
+.torder-info-t tr {
+    border-bottom: 1px solid #ebebeb;
+}
+img.delivery-icon {
+    width: 26px;
+    margin-right: 2px;
+    margin-bottom: 4px;
 }
 </style>
 
@@ -79,12 +90,12 @@ td.p-price.first-row {
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="cart-table">
-						<table>
+						<table class="order-info-t">
 							<colgroup>
 								<col style="width: 15%;">
-								<col style="width: 35%;">
+								<col style="width: 32%;">
 								<col style="width: 15%;">
-								<col style="width: 5%;">
+								<col style="width: 7%;">
 								<col style="width: 15%;">
 								<col style="width: 15%;">
 							</colgroup>
@@ -114,10 +125,11 @@ td.p-price.first-row {
 										</h5>
 										<h3 class="product-name">${prod.productName}</h3>
 										<div class="option">
+										<c:if test="${ prod.optionList.get(0).optionId !=null }">
 											<span class="ico_option"><span class="">옵션</span></span>
-
 											<ul class="option_list">
 												<c:forEach items="${prod.optionList}" var="optList">
+													<c:if test="${ optList.optionId !=null }">
 													<c:set var="optName"
 														value="${fn:split(optList.optionName,',') }" />
 													<c:set var="optValue"
@@ -126,15 +138,26 @@ td.p-price.first-row {
 														${optName[0]}:${optValue[0]}/${optName[1]}:${optValue[1]}/${optList.optionStock}개
 
 													</li>
+												</c:if>
 												</c:forEach>
-
+									
 											</ul>
+										</c:if>
 										</div>
 									</td>
 
-									<td class="p-price first-row">
-										<fmt:formatNumber type="number" maxFractionDigits="3" value="${prod.deliveryFee}" />
-										  원
+									<td class="first-row">
+										<c:if test="${ prod.deliveryFee eq 0}">
+												<span class="deli-fee">
+												<img class="delivery-icon" src="${pageContext.request.contextPath }/resources/images/shop/icon/delivery-icon.png"/>
+												무료
+												</span>
+											</c:if> 
+											<c:if test="${prod.deliveryFee> 0}">
+											<span class="deli-fee">
+											<img class="delivery-icon" src="${pageContext.request.contextPath }/resources/images/shop/icon/delivery-icon.png">
+										<fmt:formatNumber type="number" maxFractionDigits="3" value="${prod.deliveryFee}" />원</span>
+											</c:if> 
 									</td>
 									<td class="qua-col first-row">${totalAmountList.get(vs.index)}</td>
 									<td class="qua-col first-row">
@@ -369,9 +392,7 @@ td.p-price.first-row {
 							<input type="radio" value="ra"
 								name="payMethod" id="order_payment_method_smilepay">
 							<label class=" top" for="order_payment_method_smilepay">
-								<img class="img" width="64"
-								src="https://bucketplace-v2-development.s3.amazonaws.com/pg/smilepay.png"
-								alt="Smilepay">
+							   
 								<div class="title">실시간계좌이체</div>
 							</label>
 							<!-- 휴대폰 결제 -->
@@ -562,7 +583,7 @@ td.p-price.first-row {
 								</colgroup>
 									<thead>
 										<tr>
-											<th>선택</th>
+											<th></th>
 											<th>쿠폰번호</th>
 											<th>쿠폰명</th>
 											<th>할인액(율)</th>
@@ -571,8 +592,7 @@ td.p-price.first-row {
 										</tr>
 									</thead>
 									<tbody style="border-bottom: 2px solid #dee2e6;">
-									 <c:forEach items="${sMem.couponList}" var="cList">
-									 
+									 <c:forEach items="${sMem.couponList}" var="cList">			 
 										<tr>
 											<td>
 												<input type="radio" name="coupon-radio"  style="height:auto; margin:0px"/>

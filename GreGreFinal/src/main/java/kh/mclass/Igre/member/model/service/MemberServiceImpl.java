@@ -32,7 +32,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int enroll(Member member) {
 		// TODO Auto-generated method stub
-		return md.enroll(member);
+		int result =0;
+		result= md.enroll(member);
+		result=md.createTbMenses(member);
+		result=md.createMenses(member);
+		
+		return result;
 	}
 	
 

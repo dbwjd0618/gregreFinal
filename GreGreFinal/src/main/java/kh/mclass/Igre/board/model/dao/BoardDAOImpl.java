@@ -171,5 +171,10 @@ public class BoardDAOImpl implements BoardDAO {
 	public Post postView(Post post) {
 		return sss.selectOne("board.postView", post);
 	}
+
+	@Override
+	public int modifyPost(Post post) {
+		return sss.update("board.modifyPost", post);
+	}
 	
 }

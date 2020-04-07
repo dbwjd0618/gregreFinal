@@ -64,5 +64,7 @@ public interface BoardService {
 
 	Post postView(Post post);
 
+	int modifyPost(Post post);
+
 
 }

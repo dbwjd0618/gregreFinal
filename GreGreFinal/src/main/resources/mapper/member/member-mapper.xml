@@ -39,6 +39,16 @@
 		default 
 		) 
 		</insert>
+		
+	<update id="createMenses">
+	create 
+		sequence seq_${memberId}_menses
+	</update>
+	
+	<update id="createTbMenses">
+	create
+		table TB_menses_${memberId}(menses_no number, menses_start date, menses_end date, menses_cycle number, menses_next date, childbearing_age_start date, childbearing_age_end date, sex_date1 date, sex_date2 date, sex_date3 date, sex_date4 date, sex_date5 date, sex_date6 date, sex_date7 date, sex_date8 date, sex_date9 date, sex_date10 date, sex_date11 date, sex_date12 date, sex_date13 date, sex_date14 date, sex_date15 date, sex_date16 date, sex_date17 date, sex_date18 date, sex_date19 date, sex_date20 date, pregnancy_date date)
+	</update>
 
 	<select id="selectOne" resultType="kh.mclass.Igre.member.model.vo.Member"> 
 	select 

@@ -18,4 +18,8 @@ public interface MyPageService {
 
 	List<BookingInfo> selectBookingInfoList(BookingInfo book);
 
+	int updatePassword(Member member);
+
+	int memberDelete(Member member);
+
 }

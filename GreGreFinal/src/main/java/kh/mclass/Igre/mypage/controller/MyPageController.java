@@ -41,6 +41,16 @@ public class MyPageController {
 		return mav;
 	}
 	
+	@GetMapping("/deleteMember")
+	public ModelAndView deleteMember(ModelAndView mav,HttpSession session) {
+			
+			Member m = (Member) session.getAttribute("memberLoggedIn");
+			mav.addObject("m",m);
+			mav.setViewName("myPage/deleteMember");
+
+		return mav;
+	}
+	
 //	@GetMapping("memberChildUpdate")
 //	public ModelAndView mypagechildview(ModelAndView mav,HttpSession session) {
 //		
@@ -60,11 +70,22 @@ public class MyPageController {
 
 		return mav;
 	}
+	
 	@PostMapping("updateMember.do")
 	public String updateMember(SessionStatus ss,HttpSession session,Member member,RedirectAttributes rda,String addr1,String addr2,String addr3) {
 		String address = addr1 +"+"+ addr2 +"+"+ addr3;
 		member.setAddress(address);
 		int result = mps.updateMember(member);
+		ss.setComplete();
+		String msg = result > 0 ? "수정 완료 다시 로그인 하세요" : "누락된 항목이 있습니다";
+		rda.addFlashAttribute("msg", msg);
+
+		return "redirect:/member/login.do";
+	}
+	
+	@PostMapping("updatePassword")
+	public String updatePassword(SessionStatus ss,HttpSession session,Member member,RedirectAttributes rda) {
+		int result = mps.updatePassword(member);
 		ss.setComplete();
 		String msg = result > 0 ? "수정 완료 다시 로그인 하세요" : "누락된 항목이 있습니다";
 		rda.addFlashAttribute("msg", msg);
@@ -93,6 +114,15 @@ public class MyPageController {
 		mav.addObject("list",list);
 		mav.setViewName("myPage/memberChildUpdate");
 		return mav;
+	}
+	@PostMapping("memberDelete.do")
+	public String memberDelete(SessionStatus ss,HttpSession session,Member member,RedirectAttributes rda) {
+		int result = mps.memberDelete(member);
+		ss.setComplete();
+		String msg = result > 0 ? "탈퇴 완료" : "아 오류다~";
+		rda.addFlashAttribute("msg", msg);
+
+		return "redirect:/";
 	}
 	
 	@GetMapping("/counsellingInfo.do")

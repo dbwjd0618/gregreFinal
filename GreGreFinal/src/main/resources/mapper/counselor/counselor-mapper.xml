@@ -181,7 +181,32 @@
 		</insert>
 	
 		<select id="findRecentList" resultType="map">
-select 
+	select 
+		    *
+		from (
+		    select 
+		        id,
+		        cv.cr_id,
+		        cv.chat_id,
+		        (select member_id from counselor_chat_view where cr_id = cl.chat_room_id and member_id != #{memberId}) member_id,
+		        cl.msg,
+		        cl.time,
+		        count(*) over(partition by cl.chat_room_id,cl.member_id) cnt,
+		        rank() over(partition by cl.chat_room_id order by time desc) rank 
+		    from 
+		        counselor_chat_log cl
+		      left join
+		        counselor_chat_view cv
+		          on cl.chat_room_id = cv.cr_id and cl.member_id = cv.member_id
+		    where 
+		        time > (select last_check from counselor_chat_view where cr_id = cl.chat_room_id and member_id = #{memberId})
+		    order by
+		        time desc
+		    )
+		where 
+		    rank = 1
+		union all 
+		select 
 		    *
 		from (
 		    select 
@@ -198,13 +223,13 @@ select
 		      left join
 		        counselor_chat_view cv
 		          on cl.chat_room_id = cv.cr_id and cl.member_id = cv.member_id
-		    order by
+		    order by 
 		        time desc
-		    )
+		    ) A
 		where 
-		    rank = 1
-	    order by
-    		time desc
+		    rank = 1 
+		  and 
+		    time <![CDATA[ <= ]]> (select last_check from counselor_chat_view where cr_id = A.cr_id and member_id = #{memberId})
 	</select>
 
 	<select id="findChatListByChatId" resultType="msg">
@@ -226,7 +251,7 @@ select
 	where 
 	    chat_room_id = (select id from counselor_chat_room where chat_id = #{chatId})
 	  and 
-	    member_id = #{memberId}
+	    member_id = #{counselorId}
 </update>
 
 <select id="counselorFindId" resultType="string">
