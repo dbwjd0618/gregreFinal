@@ -409,16 +409,6 @@ $(function(){
 
 	}
 
-//콤마찍기
-function comma(str) {
-    str = String(str);
-    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-}
-//콤마풀기
-function uncomma(str) {
-    str = String(str);
-    return str.replace(/[^\d]+/g, '');
-}
 
 </script>
 <script>
@@ -547,7 +537,7 @@ function cartSubmit(index, cartId){
 													<div class="bc-item">
 														<label for="bc-calvin"> 
 														<input type="checkbox"
-															name="cartId" class="bc-calvin" value="${cart.cartId }"> 
+															name="check" class="bc-calvin" value="${cart.cartId }"> 
 															<span class="checkmark one-chk"></span>
 														</label>
 													</div>
@@ -713,7 +703,7 @@ function cartSubmit(index, cartId){
 								</span>
 								</li>
 							</ul>
-							<input type="button" class="proceed-btn" onclick="cartSubmit(1);"
+							<input type="button" class="btn proceed-btn" onclick="cartSubmit(1);"
 								value="구매하기" />
 						</div>
 					</div>
