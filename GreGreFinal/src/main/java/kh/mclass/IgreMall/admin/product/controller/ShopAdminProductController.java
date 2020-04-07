@@ -5,9 +5,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +47,188 @@ public class ShopAdminProductController {
 	@Autowired
 	ResourceLoader resourceLoader;
 
+	@RequestMapping("editProduct.do") 
+	public String editProduct(@ModelAttribute Product product, 
+							  @RequestParam(value="optionName", required=false)String[] optionName, 
+							  @RequestParam(value="optionValue1", required=false)String[] optionValue1, 
+							  @RequestParam(value="optionValue2", required=false)String[] optionValue2, 
+							  @RequestParam(value="optionStock", required=false)String[] optionStock,
+							  @RequestParam(value="optionSupplyValue", required=false)String[] optionSupplyValue,
+							  @RequestParam(value="optionPrice", required=false)String[] optionPrice, 
+							  @RequestParam(value="optionState", required=false)String[] optionState, 
+							  MultipartHttpServletRequest mtfRequest,
+							  RedirectAttributes redirectAttributes, 
+							  HttpServletRequest request,
+							  HttpServletResponse response) throws Exception{
+		log.debug("product={}", product);
+		product.setDeliveryFee(product.getDeliveryFee().replaceAll(",", ""));
+		
+		List<ProdOption> prodOptionList = new ArrayList<>();
+		if(optionName != null) {
+			for(int i=0; i< optionValue1.length;i++) {
+				ProdOption prodOption = new ProdOption();
+				String optValue = optionValue1[i];
+					if(optionValue2 !=null) {
+						optValue +=","+optionValue2[i];
+					}
+					String optionNameRe ="";
+					optionNameRe =optionName[0];    			
+					if(optionName.length>1) {
+						optionNameRe = optionName[1]+ ","+optionName[0];
+					}
+					prodOption.setOptionName(optionNameRe);
+					prodOption.setOptionValue(optValue);
+					prodOption.setOptionSupplyValue(Integer.parseInt(optionSupplyValue[i]));
+					prodOption.setOptionPrice(Integer.parseInt(optionPrice[i]));
+					prodOption.setOptionStock(Integer.parseInt(optionStock[i]));
+					prodOption.setOptionState(optionState[i]);
+					prodOption.setProductId(product.getProductId());
+					prodOptionList.add(prodOption);	
+			}
+		}
+		log.debug("prodOption={}", prodOptionList);
+
+		response.setContentType("text/html;charset=utf-8");
+
+		try {
+			List<Attachment> attachList = new ArrayList<>();
+			// 메인 이미지파일
+			MultipartFile mainImgFile = mtfRequest.getFile("mainImg");
+			String mainOriginalFileName = mainImgFile.getOriginalFilename(); // 원본 파일 명
+			String mainRenamedFileName = Utils.getRenamedFileName(mainOriginalFileName);
+			Attachment attach1 = new Attachment();
+			attach1.setOriginalImg(mainOriginalFileName);
+			attach1.setRenamedImg(mainRenamedFileName);
+			attach1.setProductId(product.getProductId());
+			attach1.setImgType("R");
+			attachList.add(attach1);
+			// 	파일이동
+			String saveDirectory1 = request.getServletContext().getRealPath("/resources/upload/shop/productMainImg");
+			try {
+				mainImgFile.transferTo(new File(saveDirectory1, mainRenamedFileName));
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+			/* sub 이미지 */
+			// 	sub이미지파일
+			List<MultipartFile> fileList = mtfRequest.getFiles("subImg");
+			for (MultipartFile f : fileList) {
+				// 	비어있는 MultipartFile객체가 전달된 경우(파일 하나만 업로드)
+				// 	파일이 없다면 밑에는 실행하지 말아라
+				if (f.isEmpty())
+					continue;
+				// 	파일 재생성 renamedFileName으로 저장하기
+				String subOriginalFileName = f.getOriginalFilename();
+				String subRenamedFileName = Utils.getRenamedFileName(subOriginalFileName);
+				// 파일이동
+				String saveDirectory2 = request.getServletContext().getRealPath("/resources/upload/shop/productSubImg");
+				try {
+					f.transferTo(new File(saveDirectory2, subRenamedFileName));
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
+				// 	실제 파일데이터 originalFileName, renamedFileName을 db에 저장
+				// 	Attachment객체
+				Attachment attach2 = new Attachment();
+				attach2.setOriginalImg(subOriginalFileName);
+				attach2.setRenamedImg(subRenamedFileName);
+				attach2.setProductId(product.getProductId());
+				attach2.setImgType("D");
+				attachList.add(attach2);
+			}
+			log.debug("attachList={}", attachList);
+			int result = adminProductService.editProduct(product, attachList, prodOptionList);
+			
+			redirectAttributes.addFlashAttribute("msg", result > 0 ? "등록성공!" : "등록실패");
+		} catch (Exception e) {
+			log.error("상품 수정 오류!", e);
+			throw new ProductException("상품 수정 오류! 관리자에게 문의하세요");
+		}
+		return "redirect:/shop/admin/product/list.do";
+	}
+	
+	/*
+	 * @RequestMapping("editProduct.do") public ModelAndView
+	 * productUpdate(ModelAndView mav,Product product,
+	 * 
+	 * @RequestParam(value="optionName", required=false)String[] optionName,
+	 * 
+	 * @RequestParam(value="optionValue1", required=false)String[] optionValue1,
+	 * 
+	 * @RequestParam(value="optionValue2", required=false)String[] optionValue2,
+	 * 
+	 * @RequestParam(value="optionStock", required=false)String[] optionStock,
+	 * 
+	 * @RequestParam(value="optionSupplyValue", required=false)String[]
+	 * optionSupplyValue,
+	 * 
+	 * @RequestParam(value="optionPrice", required=false)String[] optionPrice,
+	 * 
+	 * @RequestParam(value="optionState", required=false)String[] optionState) {
+	 * System.out.println("mav 업데이트 돌아가냐"); log.debug("product={}", product);
+	 * 
+	 * List<ProdOption> prodOptionList = new ArrayList<>(); if(optionName != null) {
+	 * 
+	 * 
+	 * for(int i=0; i< optionValue1.length;i++) {
+	 * 
+	 * ProdOption prodOption = new ProdOption(); String optValue = optionValue1[i];
+	 * if(optionValue2 !=null) { optValue +=","+optionValue2[i]; } String
+	 * optionNameRe ="";
+	 * 
+	 * optionNameRe =optionName[0];
+	 * 
+	 * if(optionName.length>1) { optionNameRe = optionName[1]+ ","+optionName[0]; }
+	 * 
+	 * 
+	 * prodOption.setOptionName(optionNameRe); prodOption.setOptionValue(optValue);
+	 * prodOption.setOptionSupplyValue(Integer.parseInt(optionSupplyValue[i]));
+	 * prodOption.setOptionPrice(Integer.parseInt(optionPrice[i]));
+	 * prodOption.setOptionStock(Integer.parseInt(optionStock[i]));
+	 * prodOption.setOptionState(optionState[i]);
+	 * prodOption.setProductId(product.getProductId());
+	 * prodOptionList.add(prodOption);
+	 * 
+	 * }
+	 * 
+	 * 
+	 * } int result = adminProductService.editProduct(product);
+	 * log.debug("prodOption={}", prodOptionList);
+	 * 
+	 * 
+	 * mav.setViewName("redirect:/shop/admin/product/edit.do"); return mav; }
+	 */
+	
+	
+	
+	@RequestMapping("edit.do")
+	public ModelAndView productEdit(ModelAndView mav,String productId) {
+		Product p = adminProductService.productEdit(productId);
+		List<ProdOption> o = adminProductService.productOption(productId);
+		String optionName="";
+		String optionValue="";
+		for(int i=0;i<o.size();i++) {
+			System.out.println(o.get(i).getOptionName());
+		optionName = o.get(i).getOptionName();
+		optionValue += o.get(i).getOptionValue()+" ";
+		}
+		System.out.println("optionName"+optionName);
+		System.err.println("optionValue"+optionValue);
+		String[] optName=optionName.split(",");
+		 String[] optValue = optionValue.split(" "); 
+		System.out.println("결과 optionName="+Arrays.toString(optName));
+		System.out.println("결과 optionValue="+Arrays.toString(optValue));
+		//수정 한 부분 여기만 지워
+		//수정끝
+		mav.addObject("p",p);
+		mav.addObject("o",o);
+		mav.addObject("optName",optName);
+		mav.addObject("optValue",optValue);
+		
+		mav.setViewName("shop/admin/product/updateProduct");
+		return mav;
+
+	}
 	@RequestMapping("/search.do")
 	public ModelAndView searchProduct(ModelAndView mav, @RequestParam("sellerId") String sellerId,
 			@RequestParam(value = "productName", required = false) String productName,
@@ -315,12 +496,14 @@ public class ShopAdminProductController {
 
 		List<Product> list = adminProductService.productList(p);
 		log.debug("list={}",list);
-		/*
-		 * List<Attachment> attachList = new ArrayList<>(); for (int
-		 * i=0;i<list.size();i++) { Attachment a =
-		 * adminProductService.selectAttachOne(list.get(i).getProductId());
-		 * attachList.add(a); }
-		 */		
+		
+		System.out.println(list.get(0).getAttachList());
+		
+//		  List<Attachment> attachList = new ArrayList<>(); for (int
+//		  i=0;i<list.size();i++) {
+//		 Attachment a = adminProductService.selectAttachOne(list.get(i).getProductId());
+//		  attachList.add(a); }
+		 		
 		if (p.getProductName() == null) {
 			p.setProductName("");
 		}
@@ -331,6 +514,7 @@ public class ShopAdminProductController {
 		// 아래 ProductId 는 객체 P를 의미함	.
 		int totalProducts = adminProductService.totalProducts(p);
 //		mav.addObject("attachList",attachList);
+		
 		mav.addObject("totalProducts", totalProducts);
 		mav.addObject("list", list);
 		mav.setViewName("shop/admin/product/list");

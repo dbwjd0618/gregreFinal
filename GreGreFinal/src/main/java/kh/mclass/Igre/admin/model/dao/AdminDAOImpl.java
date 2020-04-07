@@ -14,6 +14,8 @@ import kh.mclass.Igre.admin.model.vo.AdminReport;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
 import kh.mclass.Igre.board.model.vo.Reply;
+import kh.mclass.Igre.counselling.model.vo.Counselor;
+import kh.mclass.Igre.member.model.vo.Member;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO {
@@ -214,18 +216,37 @@ public class AdminDAOImpl implements AdminDAO {
 	public int postCount(Map<String, String> param) {
 		return sqlSession.selectOne("admin.postCount", param);
 	}
+
+	@Override
+	public List<Member> selectAdmember() {
+		return sqlSession.selectList("admin.selectAdmember");
+	}
+
+	@Override
+	public Member athorityView(String memberId) {
+		return sqlSession.selectOne("admin.athorityView", memberId);
+	}
+
+	@Override
+	public int athorityUpdate(Member member) {
+		return sqlSession.update("admin.athorityUpdate", member);
+	}
+
+	@Override
+	public List<Member> indexMember() {
+		return sqlSession.selectList("admin.indexMember");
+	}
+
+	@Override
+	public List<Counselor> indexCounselor() {
+		return sqlSession.selectList("admin.indexCounselor");
+	}
+
+	@Override
+	public List<Admin> indexAdmin() {
+		return sqlSession.selectList("admin.indexAdmin");
+	}
 	
-	@Override
-	public List<Admin> adminList() {
-		return sqlSession.selectList("admin.adminList");
-	}
-
-	@Override
-	public List<Amember> amemberList() {
-		return sqlSession.selectList("admin.amemberList");
-	}
-
-
 
 
 

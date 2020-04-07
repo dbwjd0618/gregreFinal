@@ -103,7 +103,7 @@
                                 </a>
                             </li>
                             <li class="cart-icon">
-                                <a href="shoppingCart.html">
+                                <a href="${pageContext.request.contextPath }/shop/myShopping/cart.do">
                                     <img src="https://img.icons8.com/ios/50/000000/shopping-bag.png" width="20px">
                                     <span>3</span>
                                 </a>

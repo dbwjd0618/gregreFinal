@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminAccount">
+
+<select id="pList" resultType="PayMethod">
+select 
+	pay_method,count(*)count,sum(total_price)totalPrice
+from
+	orderlist
+group by pay_method
+order by pay_method asc
+</select>
+
+<select  id="accountList" resultType="Account">
+select 
+	*
+from
+	orderlist A left join tb_product B
+	on A.product_id = B.product_id 
+</select>
+
+<resultMap type="Account" id="AccountCollection">
+<id column="order_no" property="orderNo"/>
+<result column="member_id" property="memberId"/>
+<result column="seller_id" property="sellerId"/>
+<result column="product_id" property="productId"/>
+<result column="pay_method" property="payMethod"/>
+<result column="total_price" property="totalPrice"/>
+<result column="total_delivery_fee" property="totalDeliveryFee"/>
+<result column="recpt_name" property="recptName"/>
+<result column="recpt_phone" property="recptPhone"/>
+<result column="recpt_email" property="recptEmail"/>
+<result column="recpt_zipcode" property="recptZipcode"/>
+<result column="recpt_detail_addr" property="recptDetailAddr"/>
+<result column="delivery_text" property="deliveryText"/>
+<result column="delivery_no" property="deliveryNo"/>
+<result column="pay_state" property="payState"/>
+<result column="delivery_state" property="deliveryState"/>
+<result column="order_date" property="orderDate"/>
+<!-- <collection property="attachList" ofType="Attachment2">
+		<id column="attachment_no" property="attachmentNo"/>	
+		<result column="product_Id" property="productId"/>
+		<result column="product_name" property="productName"/>
+		<result column="original_img" property="originalImg"/>	
+		<result column="img_type" property="imgType"/>
+		<result column="renamed_img" property="renamedImg"/>	
+</collection> -->
+</resultMap>
+
+</mapper>
