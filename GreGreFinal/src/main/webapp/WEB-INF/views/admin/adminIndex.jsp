@@ -243,20 +243,17 @@ $(function(){
 							</div>
 						</div>
 
-						<!-- /.chat -->
-						<div class="box-footer">
+						<div>
 							<div>
 								<textarea class="message" placeholder="내용"
 									style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
 							</div>
 						</div>
+						<div class="box-footer clearfix">
+							<input type="button" class="pull-right btn btn-default" id="sendEmail"
+									onclick="sendSMS('sendSms')" value="보내기">
+						</div>
 					</form>
-
-					<div class="box-footer clearfix">
-						<button class="pull-right btn btn-default" id="sendEmail">
-							보내기 <i class="fa fa-arrow-circle-right"></i>
-						</button>
-					</div>
 				</div>
 				<!-- message end -->
 

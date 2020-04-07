@@ -53,16 +53,14 @@
 	<!-- #12.2. @Transactional이 붙은 메소드를 대상으로 Transaction Advice를 적용함. -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
-	
 	<context:property-placeholder location="classpath:/mail-credential.properties"/>
 	
+	<!-- email 사용관련 등록 -->
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
       <property name="host" value="smtp.gmail.com" />
       <property name="port" value="587" />
-      <!-- <property name="username" value="${mail.userEmail}" />
-      <property name="password" value="${mail.userPwd}" /> -->
-      <property name="username" value="yj22480095@gmail.com" />
-      <property name="password" value="dmswjd0506" />
+      <property name="username" value="${mail.userEmail}" />
+      <property name="password" value="${mail.userPwd}" />
       <property name="javaMailProperties">
          <props>
                <prop key="mail.transport.protocol">smtp</prop>
