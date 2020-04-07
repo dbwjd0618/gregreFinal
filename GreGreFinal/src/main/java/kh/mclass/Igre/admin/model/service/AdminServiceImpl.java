@@ -174,11 +174,6 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<Counselor> indexCounselor() {
-		return adminDAO.indexCounselor();
-	}
-
-	@Override
 	public List<Admin> indexAdmin() {
 		return adminDAO.indexAdmin();
 	}
