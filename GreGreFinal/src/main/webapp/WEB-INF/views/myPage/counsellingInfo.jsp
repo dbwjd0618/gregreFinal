@@ -77,12 +77,12 @@
 			<div class="col-md-9">
                 <div class="row mb-4">
                     <div class="col-md-12">
-                        <h4 style="text-align: center;"><strong>자녀정보</strong></h4>
+                        <h4 style="text-align: center;"><strong>상담정보/리뷰쓰기</strong></h4>
                     </div>
                 </div>
                 
                 
-                <c:if test="${m.childNumber !=0 }">
+                
                 <c:forEach items="${list }" var="c">
                 <div class="row mb-3">
                     <div class="col-md-12">
@@ -93,9 +93,9 @@
                                        <img src="../images/myPage/pic2.PNG" class="imgmini">
                                     </div>
                                     <div class="col-md-7">
-                                        <p>1</p>
-                                        <p>자녀이름 : ${c.childName }</p>
-                                        <p>2020.02.01(15개월 2주)</p>
+                                        <p>예약한 상담사명 : ${c.advisId} </p>
+                                        <p>결제정보 : ${c.payInfo } </p>
+                                        <p>결제일 : ${c.startDay} </p>
                                     </div>
                                     <div class="col-md-2">
                                         <button type="button" class="btn btn-outline bg-gray" >정보수정</button>
@@ -107,14 +107,10 @@
                     </div>
                 </div>	
                 </c:forEach>
-                </c:if>
-     
-
+    
                  <div class="row mb-3">
                     <div class="col-md-12">
-                        <button class="btn btn-primary" style="margin: 0 auto; display:block;"  data-toggle="modal" data-target="#myChildAddModal">
-                            자녀 추가하기
-                        </button>
+                        
                     </div>
                 </div> 
                     
