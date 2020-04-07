@@ -59,8 +59,8 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public int counselorUpdateLastCheck(Msg fromMessage) {
-		return chatDAO.counselorUpdateLastCheck(fromMessage);
+	public int counselorUpdateLastCheckC(Msg fromMessage) {
+		return chatDAO.counselorUpdateLastCheckC(fromMessage);
 	}
 
 	//구매 상담사 아이디 조회
@@ -68,6 +68,40 @@ public class ChatServiceImpl implements ChatService {
 	public String counselorFindId(String memberId) {
 		return chatDAO.counselorFindId(memberId);
 	}
+
+	@Override
+	public int counselorRoomNum(String chatId) {
+		return chatDAO.counselorRoomNum(chatId);
+	}
+
+	@Override
+	public int counselorReadCountM(Map<String, Object> readCount) {
+		
+		return chatDAO.counselorReadCountM(readCount);
+	}
+
+	@Override
+	public int counselorUpdateLastCheckM(Msg fromMessage) {
+		
+		return chatDAO.counselorUpdateLastCheckM(fromMessage);
+	}
+
+	@Override
+	public String memberFindId(String counselorId) {
+		return chatDAO.memberFindId(counselorId);
+	}
+
+	@Override
+	public int counselorReadCountC(Map<String, Object> readCount) {
+		
+		return chatDAO.counselorReadCountC(readCount);
+	}
+
+	@Override
+	public String memberIdFindChatListByChatId(String counselorId) {
+		return chatDAO.memberIdFindChatListByChatId(counselorId);
+	}
+
 
 	
 }

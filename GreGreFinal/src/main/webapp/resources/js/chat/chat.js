@@ -41,7 +41,7 @@ function sendMessage() {
 	}
 	
 	//전역변수 stompClient를 통해 메세지 전송 
-	stompClient.send(`/Igre/chattt/counselor/${chatId}`, {}, JSON.stringify(data));
+	stompClient.send(`/Igre/chattt/counselor/${chatId}/${counselorId}`, {}, JSON.stringify(data));
 
 	//message창 초기화
 	$('#message').val('');
@@ -66,11 +66,11 @@ function lastCheck() {
 	
 	let data = {
 		chatId : chatId,
-		memberId : memberId,
+		memberId : counselorId,
 		time : Date.now(),
 		type: "LASTCHECK"
 	}
 	
 	//전역변수 stompClient를 통해 lastCheck 메세지 전송
-	stompClient.send('/Igre/lastCheck', {}, JSON.stringify(data));
+	stompClient.send('/Igre/lastCheck/counselor/'+counselorId, {}, JSON.stringify(data));
 }
