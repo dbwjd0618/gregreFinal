@@ -2,13 +2,21 @@ package kh.mclass.Igre.board.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,12 +47,22 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService bs;
+	
+	@Autowired
+	ServletContext sc;
+	
+	@Autowired
+	ResourceLoader rl;
+	
+	private Map<String, Object> param = new HashMap<>();
 
 	@GetMapping("/postList")
 	public String postList(@RequestParam("boardCode") String boardCode,
 						   @RequestParam(value="cPage", defaultValue="1") int cPage,
 						   Model model) {
-		String boardName = bs.boardName(boardCode);
+		param.put("boardCode", boardCode);
+		param.put("cPage", cPage);
+		String boardName = bs.boardName(param);
 		if(boardName == null) {
 			boardCode = "B1";
 			boardName = "공지사항";
@@ -55,12 +73,23 @@ public class BoardController {
 		List<Board> boardList = bs.boardList();
 		model.addAttribute("boardList", boardList);
 		
-		int postCount = bs.postCount(boardCode);
+		int postCount = bs.postCount(param);
 		model.addAttribute("postCount", postCount);
 		
-		final int NPP = 10;
-		List<Post> postList = bs.postList(boardCode, cPage, NPP);
+		int endPage = ((postCount-1)/10)+1;
+		if(cPage>endPage) {
+			cPage = endPage;
+			param.put("cPage", cPage);
+		}
+		if(cPage<1) {
+			cPage = 1;
+			param.put("cPage", cPage);
+		}
+		
+		List<Post> postList = bs.postList(param);
 		model.addAttribute("postList", postList);
+		model.addAttribute("cPage", cPage);
+		model.addAttribute("endPage", endPage);
 		return "board/postList";
 	}
 	
@@ -102,29 +131,71 @@ public class BoardController {
 	public String postView(@RequestParam("boardCode") String boardCode,
 						   @RequestParam("postNo") int postNo,
 						   @RequestParam(value="cPage", defaultValue = "1") int cPage,
-						   Model model,
+						   Model model, HttpServletRequest request, HttpServletResponse response,
 						   RedirectAttributes rda) {
 		
-		Post post = bs.postView(boardCode, postNo);
+		param.put("boardCode", boardCode);
+		param.put("postNo", postNo);
+		param.put("cPage", cPage);
+		
+		Post post = bs.postView(param);
 		if(post == null) {
 			rda.addAttribute("msg", "게시글이 존재하지 않습니다.");
 			return "redirect:/board/postList?boardCode="+boardCode;
 		}
+		
+//		게시글 조회수 증가
+		Cookie[] c = request.getCookies();
+		String readValue = "";
+		boolean read = false;
+		
+		if(c != null) {
+			for(Cookie pc : c) {
+				String name = pc.getName();
+				String value = pc.getValue();
+				
+				if("viewCookie".equals(name)) {
+					readValue = value;
+					if(value.contains("|"+boardCode+"_"+postNo+"|")) {
+						read = true;
+						break;
+					}
+				}
+			}
+		}
+		
+		if(!read) {
+			readValue += "|"+boardCode+"_"+postNo+"|";
+			Cookie postCookie = new Cookie("viewCookie", readValue);
+			postCookie.setMaxAge(31*24*60*60);
+			postCookie.setPath(request.getContextPath()+"/board");
+			response.addCookie(postCookie);
+			
+			int result = bs.postViewCount(param);
+			if(result>0) {
+				post = bs.postView(param);
+			}
+		}
+		
 		model.addAttribute("post", post);
 				
-		int rpCount = bs.replyCount(boardCode, postNo);
+		int rpCount = bs.replyCount(param);
 		model.addAttribute("replyCount", rpCount);
 		
 		int endPage = ((rpCount-1)/10)+1;
-		if(cPage>endPage)
+		if(cPage>endPage) {
 			cPage = endPage;
-		if(cPage<1)
+			param.put("cPage", cPage);
+		}
+		if(cPage<1) {
 			cPage = 1;
+			param.put("cPage", cPage);
+		}
 		
-		List<Reply> rpList = bs.replyList(boardCode, postNo, cPage);
+		List<Reply> rpList = bs.replyList(param);
 		model.addAttribute("replyList", rpList);
 		
-		int prefCount = bs.preferCount(boardCode, postNo);
+		int prefCount = bs.preferCount(param);
 		model.addAttribute("prefCount", prefCount);
 		model.addAttribute("cPage", cPage);
 		model.addAttribute("endPage", endPage);
@@ -209,7 +280,8 @@ public class BoardController {
 	@GetMapping("/postWrite.do")
 	public void postWrite(Model model, @RequestParam("boardCode") String boardCode) {
 		
-		String boardName = bs.boardName(boardCode);
+		param.put("boardCode", boardCode);
+		String boardName = bs.boardName(param);
 		if(boardName == null) {
 			boardCode = "B1";
 			boardName = "공지사항";
@@ -223,18 +295,18 @@ public class BoardController {
 	
 	@PostMapping("/postWrite.do")
 	public String postWriteEnd(Post post, RedirectAttributes rda, HttpServletRequest request,
-							   @RequestParam(value="originFilename", required=false) MultipartFile f) {
+							   @RequestParam(value="upFile", required=false) MultipartFile upfile) {
 		
-		if(f != null) {
-			
-			String originFileName = f.getOriginalFilename();
+		if(!(upfile.isEmpty())) {
+
+			String originFileName = upfile.getOriginalFilename();
 			String renamedFileName = Utils.getRenamedFileName(originFileName);
 			
 			//파일 이동
 			String saveDirectory = request.getServletContext().getRealPath("/resources/upload/board");
 			
 			try {
-				f.transferTo(new File(saveDirectory, renamedFileName));
+				upfile.transferTo(new File(saveDirectory, renamedFileName));
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
 			}
@@ -251,5 +323,76 @@ public class BoardController {
 		rda.addFlashAttribute("msg", result>0?"게시글이 등록되었습니다.":"게시글 등록 중 오류가 발생했습니다.");
 		
 		return "redirect:/board/postList?boardCode="+post.getBoardCode();
+	}
+	
+	@GetMapping("/fileDownload.do")
+	@ResponseBody
+	public Resource fileDownload(@RequestParam("oName") String oName, @RequestParam("rName") String rName, HttpServletResponse response) {
+		
+		String saveDirectory = sc.getRealPath("/resources/upload/board");
+		File downFile = new File(saveDirectory, rName);
+		Resource resource = rl.getResource("file:"+downFile);
+		
+		String downFileName = null;
+		try {
+			downFileName = new String(oName.getBytes("utf-8"), "ISO-8859-1");
+		} catch(UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		response.setContentType("application/octet-stream; charset=utf-8");
+		response.addHeader("Content-Disposition", "attachment; filename=\""+downFileName+"\"");
+		
+		return resource;
+	}
+	
+	@PostMapping("/rplModify.ajax")
+	@ResponseBody
+	public void replyModify(Reply reply) {
+		bs.replyModify(reply);
+	}
+	
+	@PostMapping("/modifyPost.do")
+	public String modifyPost(Post post, Model model) {
+		Post postM = bs.postView(post);
+		model.addAttribute("post", postM);
+		return "board/postModify";
+	}
+	
+	@PostMapping("/postModify.do")
+	public String modifyPostEnd(Post post, RedirectAttributes rda, HttpServletRequest request,
+								@RequestParam(value="upFile", required=false) MultipartFile upfile) {
+		log.debug(""+post);
+		if(post.getOriginFilename() != null) {
+			if(post.getOriginFilename().equals("delete")) {
+				post.setOriginFilename(null);
+				post.setRenameFilename(null);
+			}
+			else if(post.getOriginFilename().equals("change")) {
+				if(!(upfile.isEmpty())) {
+
+					String originFileName = upfile.getOriginalFilename();
+					String renamedFileName = Utils.getRenamedFileName(originFileName);
+					
+					//파일 이동
+					String saveDirectory = request.getServletContext().getRealPath("/resources/upload/board");
+					
+					try {
+						upfile.transferTo(new File(saveDirectory, renamedFileName));
+					} catch (IllegalStateException | IOException e) {
+						e.printStackTrace();
+					}
+					
+					post.setOriginFilename(originFileName);
+					post.setRenameFilename(renamedFileName);
+					
+				} else {
+					post.setOriginFilename(null);
+					post.setRenameFilename(null);
+				}
+			}
+		}
+		int result = bs.modifyPost(post);
+		rda.addFlashAttribute("msg", result>0?"수정이 완료되었습니다.":"수정 중 오류가 발생했습니다.");
+		return "redirect:/board/postView?boardCode="+post.getBoardCode()+"&postNo="+post.getPostNo();
 	}
 }

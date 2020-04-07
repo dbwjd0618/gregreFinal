@@ -11,6 +11,7 @@
 
   <link href="https://fonts.googleapis.com/css?family=DM+Sans:300,400,700|Indie+Flower" rel="stylesheet">
 
+
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fonts/icomoon/style.css">
 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
@@ -179,7 +180,12 @@
           <ul class="depth-2">
             <!-- 상담센터 여기서부터 링크 이동 -->
             <li><a href="${pageContext.request.contextPath }/counselling/counselorFind.do">상담사 찾기</a></li>
-            <li><a href="offlineCounselling/offlineCounsellingView.html">상담하기</a></li>
+            <c:if test="${memberLoggedIn != null }">
+	            <li><a href="${pageContext.request.contextPath }/chat/counsellingStart.do">상담하기</a></li>
+            </c:if>
+            <c:if test="${bizmemberLoggedIn != null }">
+	            <li><a href="${pageContext.request.contextPath }/counselor/counsellingStart.do">상담관리</a></li>
+            </c:if>
           </ul>
         </div>
       </div>

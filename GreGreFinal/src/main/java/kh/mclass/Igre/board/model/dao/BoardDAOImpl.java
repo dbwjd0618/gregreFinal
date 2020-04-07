@@ -1,7 +1,7 @@
 package kh.mclass.Igre.board.model.dao;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -27,28 +27,25 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public List<Post> postList(String boardCode, int cPage, int nPP) {
+	public List<Post> postList(Map<String, Object> param) {
 		
-		int offset = (cPage-1)*nPP;
-		int limit = nPP;
+		int offset = ((int)param.get("cPage")-1)*10;
+		int limit = 10;
 		RowBounds rbn = new RowBounds(offset, limit);
 		
-		HashMap<String, String> map = new HashMap<>();
-		map.put("table", "TB_post_"+boardCode);
-		return sss.selectList("board.postList", map, rbn);
+		param.put("table", "TB_post_"+(String)param.get("boardCode"));
+		return sss.selectList("board.postList", param, rbn);
 	}
 
 	@Override
-	public String boardName(String boardCode) {
-		return sss.selectOne("board.boardName",boardCode);
+	public String boardName(Map<String, Object> param) {
+		return sss.selectOne("board.boardName",param);
 	}
 
 	@Override
-	public int postCount(String boardCode) {
-		boardCode = "TB_post_"+boardCode;
-		HashMap<String, String> map = new HashMap<>();
-		map.put("boardCode", boardCode);
-		return sss.selectOne("board.postCount", map);
+	public int postCount(Map<String, Object> param) {
+		param.put("table", "tb_post_"+(String)param.get("boardCode"));
+		return sss.selectOne("board.postCount", param);
 	}
 
 	@Override
@@ -62,42 +59,27 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public Post postView(String boardCode, int postNo) {
-		HashMap<String, String> map = new HashMap<>();
-		map.put("table", "TB_post_"+boardCode);
-		map.put("postNo", ""+postNo);
-		return sss.selectOne("board.postView", map);
+	public Post postView(Map<String, Object> param) {
+		return sss.selectOne("board.postView", param);
 	}
 
 	@Override
-	public List<Reply> replyList(String boardCode, int postNo, int cPage) {
-		HashMap<String, String> map = new HashMap<>();
-		map.put("table", "TB_reply_"+boardCode);
-		map.put("postNo", ""+postNo);
-		
+	public List<Reply> replyList(Map<String, Object> param) {
 		int limit = 10;
-		int offset = (cPage-1)*limit;
+		int offset = ((Integer)param.get("cPage")-1)*limit;
 		RowBounds rbd = new RowBounds(offset, limit);
 		
-		return sss.selectList("board.replyList", map, rbd);
+		return sss.selectList("board.replyList", param, rbd);
 	}
 
 	@Override
-	public int replyCount(String boardCode, int postNo) {
-		HashMap<String, String> map = new HashMap<>();
-		map.put("table", "TB_reply_"+boardCode);
-		map.put("postNo", ""+postNo);
-		
-		return sss.selectOne("board.replyCount", map);
+	public int replyCount(Map<String, Object> param) {
+		return sss.selectOne("board.replyCount", param);
 	}
 
 	@Override
-	public int preferCount(String boardCode, int postNo) {
-		HashMap<String, String> map = new HashMap<>();
-		map.put("boardCode", boardCode);
-		map.put("postNo", ""+postNo);
-		
-		return sss.selectOne("board.preferCount", map);
+	public int preferCount(Map<String, Object> param) {
+		return sss.selectOne("board.preferCount", param);
 	}
 
 	@Override
@@ -174,6 +156,25 @@ public class BoardDAOImpl implements BoardDAO {
 	public int postWrite(Post post) {
 		return sss.insert("board.postWrite", post);
 	}
-	
+
+	@Override
+	public int postViewCount(Map<String, Object> param) {
+		return sss.update("board.viewCount", param);
+	}
+
+	@Override
+	public void replyModify(Reply reply) {
+		sss.update("board.replyModify", reply);
+	}
+
+	@Override
+	public Post postView(Post post) {
+		return sss.selectOne("board.postView", post);
+	}
+
+	@Override
+	public int modifyPost(Post post) {
+		return sss.update("board.modifyPost", post);
+	}
 	
 }

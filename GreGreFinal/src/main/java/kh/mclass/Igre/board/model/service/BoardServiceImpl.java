@@ -1,6 +1,7 @@
 package kh.mclass.Igre.board.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,18 +26,18 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<Post> postList(String boardCode, int cPage, int nPP) {
-		return bd.postList(boardCode, cPage, nPP);
+	public List<Post> postList(Map<String, Object> param) {
+		return bd.postList(param);
 	}
 
 	@Override
-	public String boardName(String boardCode) {
-		return bd.boardName(boardCode);
+	public String boardName(Map<String, Object> param) {
+		return bd.boardName(param);
 	}
 
 	@Override
-	public int postCount(String boardCode) {
-		return bd.postCount(boardCode);
+	public int postCount(Map<String, Object> param) {
+		return bd.postCount(param);
 	}
 
 	@Override
@@ -50,23 +51,23 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public Post postView(String boardCode, int postNo) {
-		return bd.postView(boardCode, postNo);
+	public Post postView(Map<String, Object> param) {
+		return bd.postView(param);
 	}
 
 	@Override
-	public List<Reply> replyList(String boardCode, int postNo, int cPage) {
-		return bd.replyList(boardCode, postNo, cPage);
+	public List<Reply> replyList(Map<String, Object> param) {
+		return bd.replyList(param);
 	}
 
 	@Override
-	public int replyCount(String boardCode, int postNo) {
-		return bd.replyCount(boardCode, postNo);
+	public int replyCount(Map<String, Object> param) {
+		return bd.replyCount(param);
 	}
 
 	@Override
-	public int preferCount(String boardCode, int postNo) {
-		return bd.preferCount(boardCode, postNo);
+	public int preferCount(Map<String, Object> param) {
+		return bd.preferCount(param);
 	}
 
 	@Override
@@ -142,6 +143,26 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int postWrite(Post post) {
 		return bd.postWrite(post);
+	}
+
+	@Override
+	public int postViewCount(Map<String, Object> param) {
+		return bd.postViewCount(param);
+	}
+
+	@Override
+	public void replyModify(Reply reply) {
+		bd.replyModify(reply);
+	}
+
+	@Override
+	public Post postView(Post post) {
+		return bd.postView(post);
+	}
+
+	@Override
+	public int modifyPost(Post post) {
+		return bd.modifyPost(post);
 	}
 
 

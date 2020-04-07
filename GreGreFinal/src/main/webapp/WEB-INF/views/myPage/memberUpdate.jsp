@@ -12,14 +12,22 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
     <!--서브메뉴 js-->
     <script src="${pageContext.request.contextPath}/resources/js/subMenu/subMenu.js"></script>
-
+	<style>
+	sapn.pguide {display:none;font-size: 12px;position:absolute; top:12px; right:10px ; }
+span.ok1{display:none;color:green;}
+span.error2{display:none;color:red ;}
+	</style>
 
    
    
    <script>
    var result = '${m.address}';
-   var addArr = result.split(',');
+   var addArr = result.split('+');
    console.log(addArr);
+   
+   function updatePassword() {
+		$("#updatePassword").modal();
+	}
    
    </script>
  <div class="ftco-blocks-cover-1">
@@ -28,7 +36,9 @@
           <div class="row align-items-center ">
             <div class="col-md-5 mt-5 pt-5">
               <h1 class="mb-3 font-weight-bold text-teal">마이페이지</h1>
+
               <p><a href="${pageContext.request.contextPath}/" class="text-white">Home</a> <span class="mx-3">/</span> <strong>MyPage</strong></p>
+
             </div> 
           </div>
         </div>
@@ -64,7 +74,7 @@
 							<a class="menu__item" href="#">
 								<div class="menu__title">예약현황 조회/취소</div>
 							</a> 
-							<a class="menu__item" href="#">
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/deleteMember.do">
 								<div class="menu__title">회원탈퇴</div>
 							</a>
 						</div>
@@ -194,7 +204,7 @@
 				</div>	
 							
 				<div class="form-group">
-					<input  type="button" class="btn btn-primary btn-block" value="비밀번호 변경">
+					<input  type="button" data-toggle="modal" data-target="#updatePassword" class="btn btn-primary btn-block" value="비밀번호 변경" >
 				</div>
 									
 				</form>
@@ -211,8 +221,74 @@
 		</div>
 	</div>
 </div>
+
+
+
+<div class="modal fade" id="updatePassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="updatePassword">비밀번호 변경</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="${pageContext.request.contextPath}/myPage/updatePassword.do" method="post">
+                    <div class="form-group input-group">
+                    <input type="hidden" name="memberId" id="memberId_" class="form-control" value="${m.memberId }" readonly>
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">패스워드 </span>
+                                  </div>
+                                  <input name="memberPwd" class="form-control" id="memberPwd"
+                                      placeholder="" type="password" required>
+                              </div>
+                              <div class="form-group input-group">
+                                  <div class="input-group-prepend">
+                                      <span class="input-group-text">패스확인</span>
+                                  </div>
+                                  <input name="memberPwd2"class="form-control" placeholder="" id="memberPwd2"
+                                      type="password" required>
+                              </div>
+                              
+                              <span class="pguide ok1" id="alert-success">비밀번호가 일치합니다.</span> 
+                              <span class="pguide error2" id="alert-danger">비밀번호가 일치하지 않습니다.</span>
+                    
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">확인</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+            </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
 <script src="${pageContext.request.contextPath}/resources/js/mypage/mypage.js"></script>
 <script>
+
+$(function(){
+	  $("#alert-success").hide(); 
+	  $("#alert-danger").hide(); 
+	  $("input").keyup(function(){
+		  var pwd1=$("#memberPwd").val(); 
+		  var pwd2=$("#memberPwd2").val(); 
+		  if(pwd1 != "" || pwd2 != ""){ 
+			  if(pwd1 == pwd2){ 
+				  $("#alert-success").show(); 
+				  $("#alert-danger").hide(); 
+				  $("#submit").removeAttr("disabled"); 
+				  }else{ 
+					  $("#alert-success").hide(); 
+					  $("#alert-danger").show(); 
+					  $("#submit").attr("disabled", "disabled"); 
+					  } 
+			  } 
+		  }); 
+	  });
+
 
 $("#addr1").val(addArr[0]);
 $("#addr2").val(addArr[1]);

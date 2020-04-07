@@ -16,4 +16,8 @@ public interface ShopMemberDAO {
 
 	List<Cart> selectCartList(String memberId);
 
+	Cart selectCartOne(String cartId);
+
+	int updateCartOne(Cart cart);
+
 }

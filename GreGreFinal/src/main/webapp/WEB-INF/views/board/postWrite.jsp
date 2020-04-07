@@ -13,7 +13,13 @@
 <!--서브메뉴 js-->
 <script src="${pageContext.request.contextPath }/resources/js/subMenu/subMenu.js"></script>
 
-
+<script>
+$(function() {
+	$("#originFilename").on("change", function() {
+		$("#UFlabel").hide();
+	});
+});
+</script>
 
 <div class="ftco-blocks-cover-1">
 	<div class="site-section-cover overlay" data-stellar-background-ratio="0.5" style="background-image: url('${pageContext.request.contextPath}/resources/img/hero-1.jpg')">
@@ -53,15 +59,15 @@
 								<span style="font-size: x-large">게시글 작성</span>
 							</div>
 						</div>
-						<form action="postWrite.do" method="POST">
+						<form action="postWrite.do" method="POST" enctype="multipart/form-data">
 							<input type="hidden" name="boardCode" value="${boardCode}"/>
 							<input type="hidden" name="postNo" value="0" />
 							<input type="hidden" name="writer" value="${memberLoggedIn.memberId}" />
 							<table id="content" style="width: 100%;">
 								<tr>
-									<td>
+									<td style="text-align:left;">
 										<input type="text" name="title" placeholder="제목을 입력하세요." style="width: 80%;" />
-										<input type="text" name="postPwd" placeholder="게시글 암호" style="width:15%;" maxlength="4"/>
+										<input type="text" name="postPwd" placeholder="게시글 암호" style="width:19%;" maxlength="4"/>
 									</td>
 								</tr>
 								<tr>
@@ -70,8 +76,9 @@
 									</td>
 								</tr>
 								<tr>
-									<td>
-										<input type="file" name="originFilename" />
+									<td style="text-align:left;">
+										<input type="file" name="upFile" id="originFilename"/>
+										<label for="originFilename" id="UFlabel" style="left: -241px; position: relative; background: white;">파일을 선택하세요.</label>
 									</td>
 								</tr>
 								<tr style="border-bottom: unset;">

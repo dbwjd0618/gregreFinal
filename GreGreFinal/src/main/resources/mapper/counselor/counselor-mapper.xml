@@ -3,6 +3,22 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="counselor">
+	<!-- 결제  -->
+	<insert id="bookingInfo">
+	insert into
+		TB_advis_use
+	values (
+		#{memberId},
+		#{advisId},
+		#{coin},
+		sysdate,
+		#{endDay},
+		#{payPrice},
+		#{payInfo}
+	)
+	</insert>
+	
+	
 	<!-- 상담사 리스트 출력  -->
 	<select resultType="counselor" id="selectCounselorList" resultMap="counselorCollection">
 		select 
@@ -128,6 +144,151 @@
 		<result column="advis_license_file" property="advisLicenseFile"/>	
 		<result column="advis_img" property="advisImg"/>		
 	</resultMap>
+	
+	<select id="findChatIdByMemberId" resultType="string">
+	select 
+	    chat_id
+	from 
+	    counselor_chat_view
+	where
+	    cr_enabled = 'Y'
+	  and 
+	    cm_enabled = 'Y'
+	  and
+	    member_id = #{memberId}
+	</select>
+	
+		<select id="selectOneChatId" resultType="string">
+		select 
+			chat_id
+		from
+			counselor_chat_view
+		where
+			chat_id = #{chatId}
+	</select>
+
+	<insert id="insertChatLog">
+		insert into 
+		    counselor_chat_log 
+		        (id, chat_room_id, member_id, msg, time)
+		values(
+		    counselor_seq_chat.nextval, 
+				(select id from counselor_chat_room where chat_id = #{chatId}), 
+				#{memberId}, 
+				#{msg}, 
+				#{time}
+			)
+		</insert>
+	
+		<select id="findRecentList" resultType="map">
+	select 
+		    *
+		from (
+		    select 
+		        id,
+		        cv.cr_id,
+		        cv.chat_id,
+		        (select member_id from counselor_chat_view where cr_id = cl.chat_room_id and member_id != #{memberId}) member_id,
+		        cl.msg,
+		        cl.time,
+		        count(*) over(partition by cl.chat_room_id,cl.member_id) cnt,
+		        rank() over(partition by cl.chat_room_id order by time desc) rank 
+		    from 
+		        counselor_chat_log cl
+		      left join
+		        counselor_chat_view cv
+		          on cl.chat_room_id = cv.cr_id and cl.member_id = cv.member_id
+		    where 
+		        time > (select last_check from counselor_chat_view where cr_id = cl.chat_room_id and member_id = #{memberId})
+		    order by
+		        time desc
+		    )
+		where 
+		    rank = 1
+		union all 
+		select 
+		    *
+		from (
+		    select 
+		        id,
+		        cv.cr_id,
+		        cv.chat_id,
+		        (select member_id from counselor_chat_view where cr_id = cl.chat_room_id and member_id != #{memberId}) member_id,
+		        cl.msg,
+		        cl.time,
+		        0 cnt,
+		        rank() over(partition by cl.chat_room_id order by time desc) rank 
+		    from 
+		        counselor_chat_log cl
+		      left join
+		        counselor_chat_view cv
+		          on cl.chat_room_id = cv.cr_id and cl.member_id = cv.member_id
+		    order by 
+		        time desc
+		    ) A
+		where 
+		    rank = 1 
+		  and 
+		    time <![CDATA[ <= ]]> (select last_check from counselor_chat_view where cr_id = A.cr_id and member_id = #{memberId})
+	</select>
+
+	<select id="findChatListByChatId" resultType="msg">
+		select
+		    * 
+		from 
+		    counselor_chat_log
+		where 
+		    chat_room_id = (select id from counselor_chat_room where chat_id = #{chatId})
+		order by 
+		    id
+	</select>
+	
+	<update id="updateLastCheck">
+	update 
+	    counselor_chat_member
+	set 
+	    last_check =  #{time}
+	where 
+	    chat_room_id = (select id from counselor_chat_room where chat_id = #{chatId})
+	  and 
+	    member_id = #{counselorId}
+</update>
+
+<select id="counselorFindId" resultType="string">
+	select advis_ID
+	from TB_advis_use
+	where member_ID = #{memberId}
+	</select>
+	
+	<insert id="insertChatRoom">
+		insert into
+		    counselor_chat_room 
+		        (id, chat_id)
+		values(
+		    counselor_seq_chat.nextval, 
+		    #{chatId}
+		)
+		<selectKey order="AFTER" keyProperty="id" resultType="_long">
+			select 
+				counselor_seq_chat.currval
+			from
+				dual
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="insertChatMember">
+		insert into
+		    counselor_chat_member
+		        (id, chat_room_id, member_id)
+		
+		values(
+		    counselor_seq_chat.nextval,
+		    #{chatRoom.id},
+		    #{memberId}
+		)
+	</insert>
+	
 
 	
 </mapper>
