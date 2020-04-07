@@ -55,6 +55,7 @@ public class ChatController {
 		
 		log.debug("recentList={}",recentList);		
 		model.addAttribute("recentList", recentList);
+		
 
 		return "counselling/counsellingStart";
 	}
@@ -144,8 +145,8 @@ public class ChatController {
 	 * @param fromMessage
 	 * @return
 	 */
-	@MessageMapping("/counselorLastCheck")
-	@SendTo(value={"/chat/{counselorId}/push"})
+	@MessageMapping("/lastCheck")
+	@SendTo(value={"/chat/counselor/{counselorId}/push"})
 	public Msg lastCheck(@RequestBody Msg fromMessage){
 		log.debug("lastCheck={}",fromMessage);
 		
