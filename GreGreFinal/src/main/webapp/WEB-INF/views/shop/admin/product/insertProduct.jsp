@@ -28,8 +28,6 @@
 	rel="stylesheet">
 <script
 	src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
-
-
 <!-- 헤더 선언!!-->
 <%@ include file="/WEB-INF/views/shop/admin/common/header.jsp"%>
 <style>
@@ -91,7 +89,6 @@ span.mr5.font-size16 {
 
 span.form-inline {
 	float: left;
-	d
 }
 
 a#optListUpdate {
@@ -114,7 +111,7 @@ input[name="paymentMethodCode"] {
 	<section class="content-header">
 		<ol class="breadcrumb">
 			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="#">상품관리</a></li>
+			<li><a href="#">상품관리ggg</a></li>
 			<li class="active">상품등록</li>
 		</ol>
 	</section>
@@ -495,7 +492,6 @@ input[name="paymentMethodCode"] {
 		</form>
 	</div>
 </div>
-
 <!-- 폼 끝  -->
 <script type="text/javascript">
 	$('#summernote').summernote({

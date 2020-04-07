@@ -1,4 +1,4 @@
-<%@page import="kh.mclass.Igre.counselling.model.vo.bookingInfo"%>
+<%@page import="kh.mclass.Igre.counselling.model.vo.BookingInfo"%>
 <%@page import="kh.mclass.Igre.counselling.model.vo.Counselor"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -24,7 +24,7 @@ $('input:radio[name=options]').is(':checked');
 </script>
 <%
 	Counselor C = (Counselor)request.getAttribute("counselor");
-	bookingInfo book = (bookingInfo)request.getAttribute("bookingInfo");
+	BookingInfo book = (BookingInfo)request.getAttribute("bookingInfo");
 	pageContext.setAttribute("price1", Integer.parseInt(C.getAdvisPrice())*2);
 	pageContext.setAttribute("price2", Integer.parseInt(C.getAdvisPrice())*4);
 %>

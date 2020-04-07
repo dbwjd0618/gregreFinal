@@ -31,5 +31,16 @@ public interface AdminProductDAO {
 
 	List<Product> productListSeller(Product p);
 
+	Product productEdit(String productId);
+
+	List<ProdOption> productOption(String productId);
+
+	int editProduct(Product product);
+
+	int editAttach(Attachment attach);
+
+	int editProdOption(ProdOption prodOption);
+
+
 
 }

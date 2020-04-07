@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kh.mclass.Igre.common.Pagebar;
 import kh.mclass.Igre.counselling.model.service.CounselorService;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
-import kh.mclass.Igre.counselling.model.vo.bookingInfo;
+import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.reviewStar;
 import kh.mclass.Igre.member.model.vo.Member;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,6 @@ public class CounsellingController {
 	public ModelAndView counselorFind(@RequestParam(value = "cPage", defaultValue = "1")int cPage,
 										HttpServletRequest request, HttpServletResponse response) {
 		
-		log.debug("상담사 목록 페이지!");
 		ModelAndView mav = new ModelAndView();
 		
 		final int numPerPage =10;
@@ -69,9 +68,6 @@ public class CounsellingController {
 		}
 		
 		int totalContents = counselorService.selectCounselorTotalContents();
-		
-		System.out.println(list);
-		
 		
 		JSONArray jsonArray = new JSONArray();
 	
@@ -101,7 +97,6 @@ public class CounsellingController {
 		int totalReviewContents = counselorService.selectReviewTotalContents();
 		
 		//상담사 1명의 리뷰 게시글 count
-		System.out.println("==========================reviewCountSelectOne==========================");
 		int reviewCountSelectOne = counselorService.selectReviewCounselorOne(advisId);
 		
 		//리뷰 리스트
@@ -118,7 +113,6 @@ public class CounsellingController {
 		
 		Double reviewRating = counselorService.selectReviewRating(advisId);
 
-		System.err.println("reviewRating=="+reviewRating);
 		mav.addObject("reviewRating",reviewRating);
 		mav.addObject("counselor",counselor);
 		mav.addObject("list", list);
@@ -138,12 +132,11 @@ public class CounsellingController {
 		Counselor counselor = counselorService.selectOne(advisId);
 		Member m = new Member();
 		model.addAttribute("counselor", counselor);
-		System.out.println("bookingPage@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@="+m.getMemberId());
 		
 	}
 	
 	@PostMapping(value = "/bookingEnd.do")
-	public String bookingInsert(@ModelAttribute bookingInfo info, Model model, RedirectAttributes redirectAttributes ) {
+	public String bookingInsert(@ModelAttribute BookingInfo info, Model model, RedirectAttributes redirectAttributes ) {
 		
 		log.debug("예약상태"+info);
 		
@@ -162,10 +155,6 @@ public class CounsellingController {
 	@ResponseBody
 	public List<Counselor> filter(@RequestParam(value = "category-check" ,defaultValue = "") String[] category, @RequestParam(value = "type-level",defaultValue = "") String[] level,
 									@RequestParam("gender-check") String[] gender, @RequestParam("day-check") String[] day){
-		System.out.println(category);
-		System.out.println(gender);
-		System.out.println(level);
-		System.out.println(day);
 		
 		Map<String,String[]> param = new HashMap<>();
 		param.put("category", category);
@@ -185,7 +174,6 @@ public class CounsellingController {
 		for(int i=0; i< list.size(); i++) {
 			list.get(i).setStarPoint(counselorService.selectStarPoint(list.get(i).getAdvisId())); 			
 		}
-		log.debug(list.toString());
 		return list;
 	}
 		

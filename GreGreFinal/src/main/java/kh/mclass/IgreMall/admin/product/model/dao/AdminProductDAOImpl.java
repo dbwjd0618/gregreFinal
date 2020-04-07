@@ -59,4 +59,29 @@ public class AdminProductDAOImpl implements AdminProductDAO{
 	public List<Product> productListSeller(Product p) {
 		return sqlSession.selectList("adminProduct.productListSeller", p);
 	}
+	@Override
+	public Product productEdit(String productId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("adminProduct.productEdit", productId);
+	}
+	@Override
+	public List<ProdOption> productOption(String productId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("adminProduct.productOption", productId);
+	}
+	@Override
+	public int editProduct(Product product) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("adminProduct.editProduct", product);
+	}
+	@Override
+	public int editAttach(Attachment attach) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("adminProduct.editAttach", attach);
+	}
+	@Override
+	public int editProdOption(ProdOption prodOption) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("adminProduct.editProdOption", prodOption);
+	}
 }

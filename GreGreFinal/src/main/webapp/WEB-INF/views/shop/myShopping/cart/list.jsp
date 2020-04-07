@@ -9,48 +9,47 @@
 <fmt:requestEncoding value="utf-8" />
 <jsp:include page="/WEB-INF/views/shop/common/header.jsp" />
 <%
-	List<Cart> cartList = (List<Cart>)request.getAttribute("cartList");
-    List<String> imgList= new ArrayList<>();
-	if(cartList != null){
-		for(int i=0;i<cartList.size();i++){
-			for(int j=0; j<cartList.get(i).getProduct().getAttachList().size();j++){
-				 if("R".equals(cartList.get(i).getProduct().getAttachList().get(j).getImgType())){
-					imgList.add(cartList.get(i).getProduct().getAttachList().get(j).getRenamedImg());	
+	List<Cart> cartList = (List<Cart>) request.getAttribute("cartList");
+	List<String> imgList = new ArrayList<>();
+	if (cartList != null) {
+		for (int i = 0; i < cartList.size(); i++) {
+			for (int j = 0; j < cartList.get(i).getProduct().getAttachList().size(); j++) {
+				if ("R".equals(cartList.get(i).getProduct().getAttachList().get(j).getImgType())) {
+					imgList.add(cartList.get(i).getProduct().getAttachList().get(j).getRenamedImg());
 				}
 			}
 		}
 	}
-	
-	List<String> allPriceList = (List<String>)request.getAttribute("allPriceList");
-    int totalProdPrice = 0;
-    int totalDeliPrice=0;
-    int totalDisPrice=0;
-    for(int i=0;i<allPriceList.size();i++){
-    	totalProdPrice += Integer.parseInt(allPriceList.get(i));
-    	totalDeliPrice += Integer.parseInt(cartList.get(i).getProduct().getDeliveryFee());
-    	
-    	
-	    int discountPrice = cartList.get(i).getProduct().getDiscountPrice();
-	    for( int j=0; j<cartList.get(i).getProdCount().length;j++){
-	    	int count = Integer.parseInt(cartList.get(i).getProdCount()[j]);
-	    	totalDisPrice += discountPrice*count;
-	     }    		
-    	
-    }	
-    
-    totalProdPrice +=totalDisPrice;
-    int totalOrderPrice = totalProdPrice + totalDeliPrice - totalDisPrice;
-    
-    //총 상품금액
-    pageContext.setAttribute("totalProdPrice", totalProdPrice );
-    //총 배송비
-    pageContext.setAttribute("totalDeliPrice", totalDeliPrice);
-    //총 할인금액
-    pageContext.setAttribute("totalDisPrice", totalDisPrice );
-    //결제금액
-    pageContext.setAttribute("totalOrderPrice", totalOrderPrice );
+
+	List<String> allPriceList = (List<String>) request.getAttribute("allPriceList");
+	int totalProdPrice = 0;
+	int totalDeliPrice = 0;
+	int totalDisPrice = 0;
+	for (int i = 0; i < allPriceList.size(); i++) {
+		totalProdPrice += Integer.parseInt(allPriceList.get(i));
+		totalDeliPrice += Integer.parseInt(cartList.get(i).getProduct().getDeliveryFee());
+
+		int discountPrice = cartList.get(i).getProduct().getDiscountPrice();
+		for (int j = 0; j < cartList.get(i).getProdCount().length; j++) {
+			int count = Integer.parseInt(cartList.get(i).getProdCount()[j]);
+			totalDisPrice += discountPrice * count;
+		}
+
+	}
+
+	totalProdPrice += totalDisPrice;
+	int totalOrderPrice = totalProdPrice + totalDeliPrice - totalDisPrice;
+
+	//총 상품금액
+	pageContext.setAttribute("totalProdPrice", totalProdPrice);
+	//총 배송비
+	pageContext.setAttribute("totalDeliPrice", totalDeliPrice);
+	//총 할인금액
+	pageContext.setAttribute("totalDisPrice", totalDisPrice);
+	//결제금액
+	pageContext.setAttribute("totalOrderPrice", totalOrderPrice);
 	//이미지 리스트
-	pageContext.setAttribute("imgList", imgList); 
+	pageContext.setAttribute("imgList", imgList);
 %>
 
 <style>
@@ -102,8 +101,8 @@ span.opt-info {
 	padding: 0 8px;
 	margin-left: auto;
 	margin-right: 10%;
-    margin-bottom: 10px;
-    margin-top: 15px;
+	margin-bottom: 10px;
+	margin-top: 15px;
 }
 
 .cart-table table tr td.qua-col .pro-qty .qtybtn {
@@ -123,24 +122,26 @@ span.opt-info {
 button.button_delete--3w1UpShPvn.del-opt {
 	float: right;
 }
+
 span.deli-fee {
-    color: black;
-    font-weight: 400;
-    font-size: 0.9em;
+	color: black;
+	font-weight: 400;
+	font-size: 0.9em;
 }
+
 .filter-widget {
-    margin-bottom: 15px
+	margin-bottom: 15px
 }
+
 .filter-widget .fw-brand-check .bc-item label .checkmark {
-
-    border: 2px solid #cbcbcb;
-    height: 17px;
-    width: 17px;
+	border: 2px solid #cbcbcb;
+	height: 17px;
+	width: 17px;
 }
+
 .filter-widget .fw-brand-check .bc-item label .checkmark:after {
-    left: 1.3px;
+	left: 1.3px;
 }
-
 </style>
 <script>
 //체크박스
@@ -459,7 +460,7 @@ function optionDelete(cartId, optionId){
 }
 </script>
 <script>
-function cartSubmit(index){
+function cartSubmit(index, cartId){
 	//장바구니 구매하기
 	if(index == 1){
 		document.cartFrm.action='${pageContext.request.contextPath }/shop/order/checkOut.do';
@@ -468,7 +469,9 @@ function cartSubmit(index){
 	}
 	//바로구매하기 상품하나
 	if(index==2){
-		document.cartFrm.action='${pageContext.request.contextPath }/shop/order/checkOut.do';
+		var a = '${pageContext.request.contextPath }/shop/order/checkOut.do?cartIdOne='+cartId;
+		console.log("cartId"+cartId)
+ 		document.cartFrm.action= a;
 		document.cartFrm.submit();
 		
 	}
@@ -509,225 +512,209 @@ function cartSubmit(index){
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="cart-table">
-				 <form name="cartFrm" method='POST' enctype="multipart/form-data">
-					<table>
-						<col style="width: 3%;">
-						<col style="width: 10%;">
-						<col style="width: 27%;">
-						<col style="width: 35%;">
-						<col style="width: 15%;">
-						<thead>
-							<tr>
-								<th class="title-col">
-									<div class="filter-widget">
-										<div class="fw-brand-check">
-											<div class="bc-item">
-												<label for="bc-calvin">
-													<input type="checkbox" id="input-all" class="bc-calvin"/> 
-													<span id="allCheck"  class="checkmark"></span>
-												</label>
-											</div>
-										</div>
-									</div>
-									</th>
-								<th class="title-col" colspan="2">상품정보</th>
-								<th class="title-col">옵션</th>
-								<th class="title-col">상품금액</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="cart" items="${cartList}" varStatus="vs">
-								<input type="hidden" name="cartId" value="${cart.cartId }"/>
+					<form name="cartFrm" method='POST' enctype="multipart/form-data">
+						<table>
+							<col style="width: 3%;">
+							<col style="width: 10%;">
+							<col style="width: 27%;">
+							<col style="width: 35%;">
+							<col style="width: 15%;">
+							<thead>
 								<tr>
-									<td class="chk-col">
+									<th class="title-col">
 										<div class="filter-widget">
 											<div class="fw-brand-check">
 												<div class="bc-item">
-													<label for="bc-calvin">
-														<input type="checkbox" name="check" class="bc-calvin"> 
-														<span class="checkmark one-chk"></span>
+													<label for="bc-calvin"> <input type="checkbox"
+														id="input-all" class="bc-calvin" /> <span id="allCheck"
+														class="checkmark"></span>
 													</label>
 												</div>
 											</div>
 										</div>
-									</td>
-									<td class=" first-row prod-img"><img class="prod-main-img"
-										src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${imgList.get(vs.index)}"
-										alt=""></td>
-									<!-- 상품정보 -->
-									<td class="cart-title first-row">
-										<div class="product_button_area--2QEjZg27nU">
-											<button type="button" class="button_delete--3w1UpShPvn">
-												<span class="blind">상품삭제버튼</span>
-											</button>
-										</div>
-										<div class="prod-info-container">
-											<h5>
-												[<span>${ cart.product.brandName}</span>]
-											</h5>
-											<h3 class="product-name">${ cart.product.productName}</h3>
-											<c:set var="discountedPrice"
-												value="${cart.product.price - cart.product.discountPrice}" />
-											<span class="orgn_price "><em><fmt:formatNumber
-														type="number" maxFractionDigits="3"
-														value="${cart.product.price}" /></em>원</span> <span
-												class="product_price_"><fmt:formatNumber
-													type="number" maxFractionDigits="3"
-													value="${discountedPrice}" />원</span>
-										</div>
-									</td>
-									<!-- 옵션 -->
-									<td class="qua-col first-row">
-										<div class="option">
-											<c:forEach items="${cart.optionList}" var="optList" varStatus="optVs">
-											<input type="hidden" name="optionId" value="${optList.optionId}">
-												<button type="button"
-													class="button_delete--3w1UpShPvn del-opt" onclick="optionDelete('${cart.cartId }','${optList.optionId}');">
-													<span class="blind">옵션삭제버튼</span>
-												</button>
-												<c:set var="optName"
-													value="${fn:split(optList.optionName,',') }" />
-												<c:set var="optValue"
-													value="${fn:split(optList.optionValue,',') }" />
-												<div class="number-count fn-count">
-													<ul class="option_list">
-														<li>
-														<span class="opt-info">
-														<c:forEach items="${optName }" var="optNm" varStatus="nmVs">
-																${optNm} : ${optValue[nmVs.index]} / 
-														</c:forEach> 
-														 <em class="opt-count">${cart.prodCount[optVs.index] }</em>개	
-														 </span>
-														</li>
-														<li>
-														<span class="plus-price">(+ <em> <fmt:formatNumber
-																		type="number" maxFractionDigits="3"
-																		value="${(optList.optionPrice - cart.product.price)*cart.prodCount[optVs.index]}" />
-															</em> )
-																	
-														</span>
-													
-														</li>
-													</ul>
-															<div class="quantity">
-																<div class="pro-qty">
-																	<span class="dec qtybtn" id="dec-button"
-																		onclick="dec(this,'${optList.optionPrice - cart.product.discountPrice}', '${optList.optionPrice - cart.product.price}', '${cart.cartId}');">-</span> 
-																	<input type="text"
-																		name="count" value="${cart.prodCount[optVs.index] }" min="1" max="${optList.optionStock }"> 
-																	<span
-																		class="inc qtybtn" id="inc-button"
-																		onclick="inc(this, '${optList.optionPrice - cart.product.discountPrice}','${optList.optionPrice - cart.product.price}','${cart.cartId}');">+</span>
-																	<input type="hidden" class="notDisP" value='${optList.optionPrice }'/>
-																</div>
-															</div>
-												</div>
-											</c:forEach>
-											<c:if test="${ empty cart.optionId }">
-												<div class="number-count fn-count">
-													<ul class="option_list">
-														<li>
-														<span class="opt-info">
-															상품 주문 수량 : <em class="opt-count">${cart.prodCount[0]}</em>개	
-														 </span>
-														</li>
-													</ul>
-															<div class="quantity">
-																<div class="pro-qty">
-																	<span class="dec qtybtn" id="dec-button"
-																		onclick="dec(this,${discountedPrice}, ${cart.product.discountPrice });">-</span> 
-																	<input type="text"
-																		name="count" value="${cart.prodCount[0]}" min="1" max="${cart.product.productStock }"> 
-																	<span class="inc qtybtn" id="inc-button"
-																		onclick="inc(this,${discountedPrice}, ${cart.product.discountPrice });">+</span>
-																	<input type="hidden" class="notDisP" value='${cart.product.price}'/>
-																</div>
-															</div>
-												</div>
-											</c:if>
-										</div>
-									</td>
-									<!-- 주문금액 -->
-									<td class="total-price first-row">
-									<span class="allPrice"><fmt:formatNumber
-												type="number" maxFractionDigits="3"
-												value="${allPriceList.get(vs.index) }" />
-									</span>원
-									<br>
-									<c:if test="${ cart.product.deliveryFee eq 0}">
-										<span class="deli-fee">(배송비 무료)</span>
-										<input type="hidden" name="deliveryFee" value="${cart.product.deliveryFee }"/>
-									</c:if>
-									<c:if test="${ cart.product.deliveryFee > 0}">
-										<span class="deli-fee">(배송비 <em><fmt:formatNumber
-												type="number" maxFractionDigits="3"
-												value="${cart.product.deliveryFee }" /></em>원)
-										</span>
-										<input type="hidden" name="deliveryFee" value="${cart.product.deliveryFee }"/>
-									</c:if>
-										<input type="button" class="btn btn-light"
-											style="margin-top: 10px;" value="바로구매" onclick="cartSubmit(2);"/>
-								   </td>
-									<!-- 배송비 -->
+									</th>
+									<th class="title-col" colspan="2">상품정보</th>
+									<th class="title-col">옵션</th>
+									<th class="title-col">상품금액</th>
 								</tr>
-							</c:forEach>
+							</thead>
+							<tbody>
+								<c:forEach var="cart" items="${cartList}" varStatus="vs">
+									<tr>
+										<td class="chk-col">
+											<div class="filter-widget">
+												<div class="fw-brand-check">
+													<div class="bc-item">
+														<label for="bc-calvin"> 
+														<input type="checkbox"
+															name="cartId" class="bc-calvin" value="${cart.cartId }"> 
+															<span class="checkmark one-chk"></span>
+														</label>
+													</div>
+												</div>
+											</div>
+										</td>
+										<td class=" first-row prod-img"><img
+											class="prod-main-img"
+											src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${imgList.get(vs.index)}"
+											alt=""></td>
+										<!-- 상품정보 -->
+										<td class="cart-title first-row">
+											<div class="product_button_area--2QEjZg27nU">
+												<button type="button" class="button_delete--3w1UpShPvn">
+													<span class="blind">상품삭제버튼</span>
+												</button>
+											</div>
+											<div class="prod-info-container">
+												<h5>
+													[<span>${ cart.product.brandName}</span>]
+												</h5>
+												<h3 class="product-name">${ cart.product.productName}</h3>
+												<c:set var="discountedPrice"
+													value="${cart.product.price - cart.product.discountPrice}" />
+												<span class="orgn_price "><em><fmt:formatNumber
+															type="number" maxFractionDigits="3"
+															value="${cart.product.price}" /></em>원</span> <span
+													class="product_price_"><fmt:formatNumber
+														type="number" maxFractionDigits="3"
+														value="${discountedPrice}" />원</span>
+											</div>
+										</td>
+										<!-- 옵션 -->
+										<td class="qua-col first-row">
+											<div class="option">
+												<c:forEach items="${cart.optionList}" var="optList"
+													varStatus="optVs">
+													<input type="hidden" name="optionId"
+														value="${optList.optionId}">
+													<button type="button"
+														class="button_delete--3w1UpShPvn del-opt"
+														onclick="optionDelete('${cart.cartId }','${optList.optionId}');">
+														<span class="blind">옵션삭제버튼</span>
+													</button>
+													<c:set var="optName"
+														value="${fn:split(optList.optionName,',') }" />
+													<c:set var="optValue"
+														value="${fn:split(optList.optionValue,',') }" />
+													<div class="number-count fn-count">
+														<ul class="option_list">
+															<li><span class="opt-info"> <c:forEach
+																		items="${optName }" var="optNm" varStatus="nmVs">
+																${optNm} : ${optValue[nmVs.index]} / 
+														</c:forEach> <em class="opt-count">${cart.prodCount[optVs.index] }</em>개
+															</span></li>
+															<li><span class="plus-price">(+ <em> <fmt:formatNumber
+																			type="number" maxFractionDigits="3"
+																			value="${(optList.optionPrice - cart.product.price)*cart.prodCount[optVs.index]}" />
+																</em> )
 
-						</tbody>
-					</table>
+															</span></li>
+														</ul>
+														<div class="quantity">
+															<div class="pro-qty">
+																<span class="dec qtybtn" id="dec-button"
+																	onclick="dec(this,'${optList.optionPrice - cart.product.discountPrice}', '${optList.optionPrice - cart.product.price}', '${cart.cartId}');">-</span>
+																<input type="text" name="count"
+																	value="${cart.prodCount[optVs.index] }" min="1"
+																	max="${optList.optionStock }"> <span
+																	class="inc qtybtn" id="inc-button"
+																	onclick="inc(this, '${optList.optionPrice - cart.product.discountPrice}','${optList.optionPrice - cart.product.price}','${cart.cartId}');">+</span>
+																<input type="hidden" class="notDisP"
+																	value='${optList.optionPrice }' />
+															</div>
+														</div>
+													</div>
+												</c:forEach>
+												<c:if test="${ empty cart.optionId }">
+													<div class="number-count fn-count">
+														<ul class="option_list">
+															<li><span class="opt-info"> 상품 주문 수량 : <em
+																	class="opt-count">${cart.prodCount[0]}</em>개
+															</span></li>
+														</ul>
+														<div class="quantity">
+															<div class="pro-qty">
+																<span class="dec qtybtn" id="dec-button"
+																	onclick="dec(this,${discountedPrice}, ${cart.product.discountPrice });">-</span>
+																<input type="text" name="count"
+																	value="${cart.prodCount[0]}" min="1"
+																	max="${cart.product.productStock }"> <span
+																	class="inc qtybtn" id="inc-button"
+																	onclick="inc(this,${discountedPrice}, ${cart.product.discountPrice });">+</span>
+																<input type="hidden" class="notDisP"
+																	value='${cart.product.price}' />
+															</div>
+														</div>
+													</div>
+												</c:if>
+											</div>
+										</td>
+										<!-- 주문금액 -->
+										<td class="total-price first-row"><span class="allPrice"><fmt:formatNumber
+													type="number" maxFractionDigits="3"
+													value="${allPriceList.get(vs.index) }" /> </span>원 <br> 
+											<c:if
+												test="${ cart.product.deliveryFee eq 0}">
+												<span class="deli-fee">(배송비 무료)</span>
+												<input type="hidden" name="deliveryFee"
+													value="${cart.product.deliveryFee }" />
+											</c:if> 
+											<c:if test="${ cart.product.deliveryFee > 0}">
+												<span class="deli-fee">(배송비 <em><fmt:formatNumber
+															type="number" maxFractionDigits="3"
+															value="${cart.product.deliveryFee }" /></em>원)
+												</span>
+												<input type="hidden" name="deliveryFee"
+													value="${cart.product.deliveryFee }" />
+											</c:if> 
+											<input type="button" class="btn btn-light"
+											style="margin-top: 10px;" value="바로구매"
+											onclick="cartSubmit(2, '${cart.cartId}');" /></td>
+										<!-- 배송비 -->
+									</tr>
+								</c:forEach>
+
+							</tbody>
+						</table>
 					</form>
 				</div>
 				<div class="row">
 					<div class="col-lg-4">
 						<div class="cart-buttons">
-							<a href="#" class="primary-btn continue-shop">선택 삭제</a> <a href="#"
-								class="primary-btn continue-shop">계속 쇼핑하기</a>
+							<a href="#" class="primary-btn continue-shop">선택 삭제</a> <a
+								href="#" class="primary-btn continue-shop">계속 쇼핑하기</a>
 						</div>
 					</div>
 					<div class="col-lg-4 offset-lg-4">
 						<div class="proceed-checkout">
 							<ul>
-								<li class="subtotal">총 상품금액 
-									<span>
-										<em id="totalProdPrice">
-											<fmt:formatNumber type="number" 
-											maxFractionDigits="3" 
-											value="${totalProdPrice}" />
-										</em>
-										원
-								  </span>
+								<li class="subtotal">총 상품금액 <span> <em
+										id="totalProdPrice"> <fmt:formatNumber type="number"
+												maxFractionDigits="3" value="${totalProdPrice}" />
+									</em> 원
+								</span>
 								</li>
-								<li class="subtotal">총 배송비 
-									<span>
-										<em id="totalDeliPrice">
-											<fmt:formatNumber type="number" 
-											maxFractionDigits="3" 
-											value="${totalDeliPrice}" />
-										</em>
-										원
-									</span>
+								<li class="subtotal">총 배송비 <span> <em
+										id="totalDeliPrice"> <fmt:formatNumber type="number"
+												maxFractionDigits="3" value="${totalDeliPrice}" />
+									</em> 원
+								</span>
 								</li>
-								<li class="subtotal">총 할인금액 
-									<span>(-)
-									  <em id="totalDisPrice">
-									  		<fmt:formatNumber type="number" 
-											maxFractionDigits="3" 
-											value="${totalDisPrice}" />
-									  </em>
-									원
-									</span>
+								<li class="subtotal">총 할인금액 <span>(-) <em
+										id="totalDisPrice"> <fmt:formatNumber type="number"
+												maxFractionDigits="3" value="${totalDisPrice}" />
+									</em> 원
+								</span>
 								</li>
-								<li class="cart-total">결제금액 
-									<span>
-									<em id="totalOrderPrice">
-									  		<fmt:formatNumber type="number" 
-											maxFractionDigits="3" 
-											value="${totalOrderPrice}" />
-									  </em>
-										원
-									</span>
+								<li class="cart-total">결제금액 <span> <em
+										id="totalOrderPrice"> <fmt:formatNumber type="number"
+												maxFractionDigits="3" value="${totalOrderPrice}" />
+									</em> 원
+								</span>
 								</li>
 							</ul>
-							<input type="button" class="proceed-btn" onclick="cartSubmit(1);" value="구매하기"/>
+							<input type="button" class="proceed-btn" onclick="cartSubmit(1);"
+								value="구매하기" />
 						</div>
 					</div>
 				</div>
