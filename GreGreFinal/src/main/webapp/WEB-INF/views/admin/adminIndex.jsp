@@ -29,7 +29,7 @@
 
 <!-- alert 메세지 띄우기! -->
 <c:if test="${not empty msg }">
-	<script>
+<script>
 	$(()=>{
 		alert("${msg}");
 	});
@@ -38,6 +38,14 @@
 <%
 	session.removeAttribute("msg");
 %>
+
+<script>
+function sendSMS(pageName){
+	console.log("문자전송");
+	$("#smsForm").attr("action", "${pageContext.request.contextPath}/"+pageName + ".do");
+	$("#smsForm").submit();
+}
+</script>
 
 <script>
 $(function(){
@@ -107,8 +115,9 @@ $(function(){
 	})
 	
 });
-
 </script>
+
+
 
 <!-- admin index 선언 -->
 
@@ -191,7 +200,6 @@ $(function(){
 			<!-- Left col -->
 			<section class="col-lg-6 connectedSortable">
 				<!-- Custom tabs (Charts with tabs)-->
-
 				<!-- quick email widget -->
 				<div class="box box-info">
 					<div class="box-header">
@@ -229,34 +237,29 @@ $(function(){
 
 				<!-- message -->
 				<div class="box box-success">
-
 					<div class="box-header">
 						<i class="fas fa-sms fa-2x"></i>
 						<h3 class="box-title">단체 문자</h3>
 					</div>
-
-					<form action="#" method="post">
+					<form method="post" id="smsForm">
 						<div class="box-body chat">
 							<div class="form-group">
 								<input type="text" class="form-control" name="messageto"
 									placeholder="전화번호(문자받을 연락처를 입력하세요)" />
 							</div>
 						</div>
-
 						<div>
 							<div>
-								<textarea class="message" placeholder="내용"
+								<textarea class="message" placeholder="내용" name="message"
 									style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
 							</div>
 						</div>
 						<div class="box-footer clearfix">
-							<input type="button" class="pull-right btn btn-default" id="sendEmail"
-									onclick="sendSMS('sendSms')" value="보내기">
+							<input type="button" class="pull-right btn btn-default" onclick="sendSMS('sendSms')" value="보내기">
 						</div>
 					</form>
 				</div>
 				<!-- message end -->
-
 			</section>
 			<!-- /.Left col -->
 			<!-- right col (We are only adding the ID to make the widgets sortable)-->
