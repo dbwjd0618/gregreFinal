@@ -60,6 +60,7 @@ public class ShopAdminController {
 	//게시판관련
 	@GetMapping("/board.do")
 	public ModelAndView boardList(ModelAndView mav) {
+		System.err.println("게시판으로 넘어갑니다.");
 		mav.setViewName("shop/admin/board/board");
 		return mav; 
 	}
