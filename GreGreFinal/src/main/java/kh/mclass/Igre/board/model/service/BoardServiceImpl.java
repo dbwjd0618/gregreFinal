@@ -165,5 +165,25 @@ public class BoardServiceImpl implements BoardService{
 		return bd.modifyPost(post);
 	}
 
+	@Override
+	public int postCountR(Map<String, Object> param) {
+		return bd.postCountR(param);
+	}
+
+	@Override
+	public int postCountP(Map<String, Object> param) {
+		return bd.postCountP(param);
+	}
+
+	@Override
+	public List<Post> postListR(Map<String, Object> param) {
+		return bd.postListR(param);
+	}
+
+	@Override
+	public List<Post> postListP(Map<String, Object> param) {
+		return bd.postListP(param);
+	}
+
 
 }
