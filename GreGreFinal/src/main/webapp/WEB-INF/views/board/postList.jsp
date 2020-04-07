@@ -233,21 +233,30 @@ function preferSwitch(it, mi, bc, pn) {
 							</div>
 						</div>
 						<br /><br />
-						<div class="row">
-							<div class="col-md-2">
-								<select>
-									<option value="title">제목</option>
-									<option value="content">내용</option>
-									<option value="writer">작성자</option>
-								</select>
+						<form action="postList" id="SnF" method="get">
+							<input type="hidden" name="boardCode" value="${boardCode}" />
+							<input type="hidden" name="cPage" value="${cPage}" />
+							<div class="row">
+								<div>
+									<select name="srchOpt">
+										<option value="title" ${srchOpt == 'title'?'selected':''}>제목</option>
+										<option value="content" ${srchOpt == 'content'?'selected':''}>내용</option>
+										<option value="writer" ${srchOpt == 'writer'?'selected':''}>작성자</option>
+									</select>
+								</div>
+								<div>
+									<input type="text" name="srchCon" style="width: 500px;" value="${srchCon}"/>
+								</div>
+								<div>
+									<button style="width: 80px;">검색</button>
+									<input type="hidden" name="srchFilter" value="${filter}"/>
+									<button type="button" id="Fclr" onclick="Filt(this);">전체글 보기</button>
+									<button type="button" id="Fpost" onclick="Filt(this);">작성글</button>
+									<button type="button" id="Frepl" onclick="Filt(this);">댓글</button>
+									<button type="button" id="Fpref" onclick="Filt(this);">선호</button>
+								</div>
 							</div>
-							<div class="col-md-7">
-								<input type="text" style="width: 500px;" />
-							</div>
-							<div class="col-md-2">
-								<button style="width: 80px;">검색</button>
-							</div>
-						</div>
+						</form>
 					</div>
 				</div>
 				<!-- contents end-->
@@ -256,5 +265,16 @@ function preferSwitch(it, mi, bc, pn) {
 	</div>
 </div>
 <!-- contents end-->
+
+<script>
+function Filt(e) {
+	if(e.id == "Fclr") {
+		$("[name=srchFilter]").val("");
+	} else {
+		$("[name=srchFilter]").val(e.id);
+	}
+	$("#SnF").submit();
+}
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
