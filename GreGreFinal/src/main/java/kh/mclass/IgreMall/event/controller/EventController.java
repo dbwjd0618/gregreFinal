@@ -10,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/shop/event")
 public class EventController {
 	
-	
 	@GetMapping("/list.do")
 	public ModelAndView eventList(ModelAndView mav) {
 		mav.setViewName("shop/event/list");

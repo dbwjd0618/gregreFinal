@@ -198,6 +198,7 @@
                     <div class="box-body">
                         <button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='./review.html'">리뷰목록</button>
                         <button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='./q&a.html'">문의게시판</button>
+                         <button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='${pageContext.request.contextPath}/shop/admin/event/event.do'">이벤트게시판</button>
                     </div><!-- /.box-body -->
                   </div><!-- /.box -->
                 </div><!-- /.col -->
