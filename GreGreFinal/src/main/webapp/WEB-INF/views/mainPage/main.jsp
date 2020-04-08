@@ -1,5 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+<!-- WebSocket:sock.js CDN -->	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>
+<!-- WebSocket: stomp.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+​
+<link href="${pageContext.request.contextPath}/resources/css/index/inqChat.css" rel="stylesheet" type="text/css" />
+<script src="${pageContext.request.contextPath}/resources/js/index/inqChat.js"></script>
+​
+<style>
+#inqToAdmin{
+	position : fixed;
+	bottom : 30px;
+	right : 30px;
+	color: #4e4ecf54;
+	font-size: 60px;
+}
+#inqToAdmin:hover {color: #4e4ecf; cursor: pointer;}
+body {padding-right: 0px !important;}
+</style>
+<script>
+
+const chatId = '${chatId}';
+
+</script>
 
     <div class="ftco-blocks-cover-1">
 
@@ -194,6 +219,8 @@
   </div>
   <!--index contents end -->
   
+  <i id="inqToAdmin" class="far fa-comments" title="관리자에게 문의하기" onclick="inqShow();"></i>
+  
    <!-- 추천상품 Section Begin -->
    <div class="">
     <section class="women-banner spad" >
@@ -309,6 +336,57 @@
     </section>
   </div>
     <!--추천상품 Section End -->
+
+<!-- 모달 영역 -->
+<div id="modalBox" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="margin-top: 170px;">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+<!-- 			<div class="modal-header"> -->
+<!-- 				<span style="font-size: 28px;"><strong>관리자에게 문의하기</strong></span> -->
+<!-- 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+<!-- 					<span aria-hidden="true" style="color: lightGray;">X</span> -->
+<!-- 				</button> -->
+<!-- 			</div> -->
+<!-- 			<div class="modal-body"> -->
+				<div class="chat_window">
+				    <div class="top_menu">
+				        <div class="buttons">
+				            <div class="button close"></div>
+				            <div class="button minimize"></div>
+				            <div class="button maximize"></div>
+				        </div>
+				        <div class="title">Chat</div>
+				    </div>
+				    <ul class="messages"></ul>
+				    <div class="bottom_wrapper clearfix">
+				        <div class="message_input_wrapper">
+				        	<input type="text" class="message_input" placeholder="메세지를 입력하세요." />
+				        </div>
+				        <div class="send_message">
+				            <div class="icon"></div>
+				            <div class="text">Send</div>
+				        </div>
+				    </div>
+				</div>
+				
+				<div class="message_template">
+					<ul>
+					    <li class="message">
+					        <div class="avatar"></div>
+					        <div class="text_wrapper">
+					            <div class="text"></div>
+					        </div>
+					    </li>
+					</ul>
+				</div>
+<!-- 			</div> -->
+<!-- 			<div class="modal-footer"> -->
+<!-- 				<button type="button" class="btn btn-primary" onclick="reportSubmit();">확인</button> -->
+<!-- 				<button type="button" class="btn btn-default" id="closeModalBtn">취소</button> -->
+<!-- 			</div> -->
+		</div>
+	</div>
+</div>
   
   
 
