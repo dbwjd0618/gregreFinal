@@ -16,7 +16,9 @@
 		sysdate,
 		#{endDay},
 		#{payPrice},
-		#{payInfo}
+		#{payInfo},
+		#{advisName},
+		#{advisImg}
 	)
 	</insert>
 	

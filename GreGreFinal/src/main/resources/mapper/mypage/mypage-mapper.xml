@@ -89,12 +89,20 @@
 	
 	<!-- 상담 예약정보 조회  -->
 	<select resultType="BookingInfo" id="selectBookingInfoList">
-		select
-			*
-		from 
-			TB_appointment
-		where 
-			member_id = #{memberId}
+		select 
+			C.advis_id, 
+			C.advis_name, 
+			C.advis_img, 
+			A.member_id,
+			A.appoint_no, 
+			A.coin, 
+			A.start_day, 
+			A.end_day, 
+			A.pay_price, 
+			A.payinfo 
+		from TB_adviser C join TB_appointment A
+    		on C.advis_id = A.advis_id
+    	where member_id = #{memberId}
 	</select>
 	
 	
