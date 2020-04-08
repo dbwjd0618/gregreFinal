@@ -6,6 +6,7 @@ import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.vo.Child;
+import kh.mclass.Igre.mypage.model.vo.Vaccination;
 
 public interface MyPageDAO {
 
@@ -25,9 +26,8 @@ public interface MyPageDAO {
 
 	int memberDelete(Member member);
 
+	int insertVaccion(Vaccination vaccination);
+  
 	int reviewWrite(Review review);
-
-
-
 
 }

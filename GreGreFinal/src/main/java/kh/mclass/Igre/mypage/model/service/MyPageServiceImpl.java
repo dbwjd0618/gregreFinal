@@ -10,6 +10,7 @@ import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.dao.MyPageDAO;
 import kh.mclass.Igre.mypage.model.vo.Child;
+import kh.mclass.Igre.mypage.model.vo.Vaccination;
 
 @Service
 public class MyPageServiceImpl implements MyPageService {
@@ -30,9 +31,12 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 
 	@Override
-	public int enroll(Child child,Member member) {
+	public int enroll(Child child,Member member,Vaccination vaccination) {
 		int result=0;
 		result= mpd.enroll(child);
+		vaccination.setParentsId(child.getParentsId());
+		vaccination.setChildId(child.getChildId());
+		result=mpd.insertVaccion(vaccination);
 		member.setMemberId(child.getParentsId());
 		result= mpd.updateChildNumber(member);
 		return result;

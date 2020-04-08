@@ -6,6 +6,7 @@ import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.vo.Child;
+import kh.mclass.Igre.mypage.model.vo.Vaccination;
 
 public interface MyPageService {
 
@@ -13,7 +14,7 @@ public interface MyPageService {
 
 	int updateMember(Member member);
 
-	int enroll(Child child,Member member);
+	int enroll(Child child,Member member,Vaccination vaccination);
 
 	List<Child> selectChild(Child child);
 
