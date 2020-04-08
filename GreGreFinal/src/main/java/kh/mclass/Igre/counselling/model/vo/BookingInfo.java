@@ -35,3 +35,4 @@ public class BookingInfo implements Serializable {
 	}	
 	
 }
+

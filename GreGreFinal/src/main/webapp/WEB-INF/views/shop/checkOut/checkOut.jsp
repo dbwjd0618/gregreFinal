@@ -12,11 +12,19 @@
 
   List<Product> prodList = (List<Product>)request.getAttribute("prodList");
   List<Integer> totalPriceList = (List<Integer>)request.getAttribute("totalPriceList");
+  List<Integer> totalAmountList = (List<Integer>)request.getAttribute("totalAmountList");
+  int totalAmount = 0;
+  for( int i=0; i<totalAmountList.size();i++){
+	  totalAmount += totalAmountList.get(i); 
+   }
+  //총 수량
+  pageContext.setAttribute("totalAmount",  totalAmount );
+  
   int totalPoint=0;
- for( int i=0; i<prodList.size();i++){
+  for( int i=0; i<prodList.size();i++){
 	 totalPoint += prodList.get(i).getPointRate()*0.01*totalPriceList.get(i); 
- }
-//총 적림 예상금액
+  }
+ //총 적림 예상금액
  pageContext.setAttribute("totalPoint", totalPoint );
 %>
 <!--checkOut css-->
@@ -68,7 +76,132 @@ img.delivery-icon {
     margin-bottom: 4px;
 }
 </style>
+<script>
+$(function(){
+	//총상품금액
+	var totalOriginPrice =0;
+	$('.origin-price').each(function(index, item){
+		totalOriginPrice+=Number(uncomma($(item).text()));
+	});
+	$('#total-prod').text(comma(totalOriginPrice));
+	
+	//총 배송비
+	var totalDeliFee = 0;
+	<c:forEach var="p" items="${prodList}" >
+	 totalDeliFee += Number('${p.deliveryFee}');
+	</c:forEach>
+	$('#total-del').text(comma( totalDeliFee));
+	
+	//총 할인 금액
+	var totalDis=0;
+	$('._discountAmountText').each(function(index, item){
+		totalDis+=Number(uncomma($(item).text()));
+	});
+	$('#total-dis').text(comma(totalDis));
+});
+</script>
 
+<!-- 최종 금액 -->
+<script>
+$(function(){
+	var totalProd = Number(uncomma($('#total-prod').text()));
+	var totalDel = Number(uncomma($('#total-del')));
+	var totalDis = Number(uncomma($('#total-dis').text()));
+	var totalPay = totalProd+totalDel - totalDis;
+	
+	$("#total-pay").text(comma(totalPay));
+});
+</script>
+<!-- 포인트 사용 -->
+<script>
+ $(function(){
+	$("input[name=payAmounts]").on("propertychange change keyup paste ",function(){
+		var totalProd = Number(uncomma($('#total-prod').text()));
+		var totalDel = Number(uncomma($('#total-del')));
+		var totalDis = Number(uncomma($('#total-dis').text()));
+		var usedCoupon = Number(uncomma($('#used-coupon').text()));
+		var totalPay = totalProd+totalDel - totalDis - usedCoupon;
+		
+		var usingPoint = $(this).val();
+		var hasPoint = Number(uncomma($("#has-point").text()));
+
+		if(Number(usingPoint)>hasPoint){
+			alert("보유하신 포인트보다 많습니다. ");
+			$(this).val(hasPoint);
+			return;
+		}
+		if(hasPoint>0){
+			$('#used-point').text(usingPoint);	
+			console.log("using="+usingPoint);
+		 	totalPay -= Number(usingPoint);
+		 	console.log("totalPay="+totalPay);
+			$("#total-pay").text(comma(totalPay));
+		}
+
+		return;
+	}); 
+	
+}); 
+</script>
+<!--쿠폰 사용 -->
+<script>
+function goCoupon(){
+ 	var couponValue = $("input[name=coupon-radio]:checked").next().next().val();
+ 	
+ 	var totalProd = Number(uncomma($('#total-prod').text()));
+	var totalDel = Number(uncomma($('#total-del')));
+	var totalDis = Number(uncomma($('#total-dis').text()));
+	var usedPoint = Number(uncomma($('#used-point').text()));
+	var usedCoupon = Number(uncomma($('#used-coupon').text()));
+	var totalPay = totalProd+totalDel - totalDis - usedPoint-usedCoupon;
+	
+	var discountedPrice = totalProd-totalDis;
+ 	if(couponValue != null){
+		if(couponValue.match(".")){ // mycontent에 @가 포함됐는지 확인
+			var usingCoupon = Number(couponValue)*discountedPrice;
+			totalPay -= usingCoupon;
+			$("#total-pay").text(comma(totalPay));
+			
+			$("#pro_coupon").val(comma(usingCoupon));
+			$('#used-coupon').text(comma(usingCoupon));
+		 	$('#couponModal').modal('hide');
+		} else {
+			
+			totalPay -= Number(uncomma(couponValue));
+			
+			$("#total-pay").text(comma(totalPay));
+			$("#pro_coupon").val(comma(couponValue));
+			$('#used-coupon').text(comma(couponValue));
+		}
+ 		
+ 	}else{
+		console.log("toPay"+couponVal)
+		console.log("toPay"+totalPay)
+		var couponVal = Number(uncomma($("#pro_coupon").val()));
+		totalPay+=couponVal;
+		$("#total-pay").text(comma(totalPay));
+		
+		$('#used-coupon').text(0);
+		$('#pro_coupon').val(0);
+ 	}
+
+ 	$('#couponModal').modal('hide');
+ 	alert("쿠폰할인이 적용되었습니다.");
+}
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+    //라디오 요소처럼 동작시킬 체크박스 그룹 셀렉터
+    $('input[type="checkbox"][name="coupon-radio"]').click(function(){
+        //클릭 이벤트 발생한 요소가 체크 상태인 경우
+        if ($(this).prop('checked')) {
+            //체크박스 그룹의 요소 전체를 체크 해제후 클릭한 요소 체크 상태지정
+            $('input[type="checkbox"][name="coupon-radio"]').prop('checked', false);
+            $(this).prop('checked', true);
+        }
+    });
+});
+</script>
 <!-- Breadcrumb Section Begin -->
 <div class="breacrumb-section">
 	<div class="container">
@@ -85,7 +218,7 @@ img.delivery-icon {
 
 <!-- Shopping Cart Section Begin -->
 <section class="checkout-section spad">
-	<form class="checkout-form">
+	<form class="checkout-form" name="checkOutFrm" method='POST' enctype="multipart/form-data">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
@@ -129,15 +262,23 @@ img.delivery-icon {
 											<span class="ico_option"><span class="">옵션</span></span>
 											<ul class="option_list">
 												<c:forEach items="${prod.optionList}" var="optList">
-													<c:if test="${ optList.optionId !=null }">
+												<c:if test="${ optList.optionId !=null }">
 													<c:set var="optName"
 														value="${fn:split(optList.optionName,',') }" />
 													<c:set var="optValue"
 														value="${fn:split(optList.optionValue,',') }" />
+													<c:if test="${ not empty optName[1] }">
 													<li>
-														${optName[0]}:${optValue[0]}/${optName[1]}:${optValue[1]}/${optList.optionStock}개
+														${optName[0]} : ${optValue[0]} / ${optName[1]} : ${optValue[1]} / ${optList.optionStock}개
 
 													</li>
+													</c:if>
+													<c:if test="${  empty optName[1] }">
+													<li>
+														${optName[0]} : ${optValue[0]} / ${optList.optionStock}개
+
+													</li>
+													</c:if>
 												</c:if>
 												</c:forEach>
 									
@@ -162,22 +303,24 @@ img.delivery-icon {
 									<td class="qua-col first-row">${totalAmountList.get(vs.index)}</td>
 									<td class="qua-col first-row">
 									<span class="discount">
-											<c:set var="totalDiscount" value="${fn:length(prod.optionList)*prod.discountPrice }" /> <span
-											class="_discountAmount">(-) </span> <span
+											<c:set var="totalDiscount" value="${fn:length(prod.optionList)*prod.discountPrice }" /> 
+											<span
+											class="_discountAmount">(-) </span> 
+											<span><em
 											class="_discountAmountText"> 
 											<fmt:formatNumber
 													type="number" maxFractionDigits="3"
-													value="${totalDiscount}" /> 원
-										</span>
+													value="${totalDiscount}" /></em>원
+											</span>
 									</span></td>
 									<td class="total-price first-row"><span
-										class="orgn_price "><em><fmt:formatNumber
-													type="number" maxFractionDigits="3"
-													value="${totalPriceList.get(vs.index)+totalDiscount}" /></em>원</span> <strong><em
-											class=""><fmt:formatNumber type="number"
+										class="orgn_price "><em class="origin-price">
+										<fmt:formatNumber type="number" maxFractionDigits="3"
+													value="${totalPriceList.get(vs.index)+totalDiscount}" /></em>원
+										</span> 
+										<strong>
+										<em><fmt:formatNumber type="number"
 													maxFractionDigits="3" value="${totalPriceList.get(vs.index)}" /></em>원</strong></td>
-
-
 								</tr>
 								</c:forEach>
 							</tbody>
@@ -313,7 +456,9 @@ img.delivery-icon {
 									<th>보유 포인트</th>
 									<td>
 										<div class="input_area no_underline">
-											 <span class="value" id="has-point">${sMem.point }</span>  
+											 <span class="value" id="has-point">
+											 <fmt:formatNumber type="number" maxFractionDigits="3" value="${sMem.point }" />
+											 </span>  
 											<span class="measure" style="position: relative; top: -24px;">원</span>				
 										</div>
 									</td>
@@ -329,7 +474,7 @@ img.delivery-icon {
 											</c:if> 
 											<c:if test="${sMem.point!= 0 }">
 												<input type="text" id="mileage" title="포인트" name="payAmounts"
-													value="0" class="value"> 
+													value="0" class="value" > 
 													<span class="measure" style="position: relative; top: -24px;">원</span>
 											</c:if>
 
@@ -361,10 +506,10 @@ img.delivery-icon {
 								<li class="total-price" style="border: 0; margin-bottom: 20px;"><span
 									style="font-size: 30px; padding-top: 5px; float: left;"><em id="total-pay"></em>원</span></li>
 								<li class="fw-normal">총 상품금액 <span><em id="total-prod"></em>원</span></li>
-								<li class="fw-normal">배송비 <span>(+)<em id="total-del"><fmt:formatNumber type="number" maxFractionDigits="3" value="" /></em>원</span></li>
-								<li class="fw-normal">할인금액<span>(-)<em id="total-dis">${totalDiscount}</em>원</span></li>
-								<li class="fw-normal">포인트 사용금액<span>(-)<em id="used-point"></em>원</span></li>
+								<li class="fw-normal">배송비 <span>(+)<em id="total-del"></em>원</span></li>
+								<li class="fw-normal">할인금액<span>(-)<em id="total-dis"></em>원</span></li>
 								<li class="fw-normal">쿠폰 사용금액<span>(-)<em id="used-coupon"></em>원</span></li>
+								<li class="fw-normal">포인트 사용금액<span>(-)<em id="used-point"></em>원</span></li>
 							</ul>
 						</div>
 					</div>
@@ -544,6 +689,7 @@ img.delivery-icon {
 				</div>
 			</div>
 			</div>
+			<input type="hidden" name="test" value="안녕">
 		</form>
 
 </section>
@@ -595,15 +741,17 @@ img.delivery-icon {
 									 <c:forEach items="${sMem.couponList}" var="cList">			 
 										<tr>
 											<td>
-												<input type="radio" name="coupon-radio"  style="height:auto; margin:0px"/>
+												<div class="form-check">
+												 <input name="coupon-radio"class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
 												<input type="hidden" name="couponId"  value="${cList.couponId }"/>
 												<c:if test="${cList.discountType eq 'P'}">
-													<fmt:parseNumber var="discountVal" integerOnly="true" value="${totalPrice*cList.discountValue*0.01} " />  													
+													<fmt:parseNumber var="discountVal" value="${cList.discountValue*0.01} " />  													
 													<input type="hidden" name="discountValue" value="<fmt:formatNumber type="number" maxFractionDigits="3" value="${discountVal}" />"/>
 												</c:if>
 												<c:if test="${cList.discountType eq 'C'}">
 													<input type="hidden" name="discountValue" value="${cList.discountValue }"/>
 												</c:if>
+												</div>
 											
 											</td>
 											<td>${cList.couponId}</td>
@@ -647,8 +795,17 @@ img.delivery-icon {
 <script>
 function goPay(){
 	var payMethod = $("input[name=payMethod]:checked").val();
-	console.log("payMe"+payMethod);
-	//무통장입금
+    
+	var name="아이그레페이";
+    var qyt ="${totalAmount}";
+    var payPrice= uncomma($('#total-pay').text());
+    var buyerEmail = '${sMem.email}';
+    var buyerName = '${sMem.memberName}';
+    var buyerTel = '${sMem.phone}';
+    var buyerAddr = $('#address1').val()+" "+$('#address2').val();
+    var buyerPostCode = $('#zipcode').val();
+    
+	//카카오페이
 	if(payMethod=='ka'){
 		BootPay.request({
 			price: '1000', //실제 결제되는 가격
@@ -711,6 +868,7 @@ function goPay(){
 			console.log(data);
 		});
 	}
+	//무통장입금
 	if(payMethod=='ac'){
 		BootPay.request({
 			price: '1000', //실제 결제되는 가격
@@ -919,6 +1077,7 @@ function goPay(){
 		
 	}
 	//신용카드결제
+	
 	if(payMethod =='cr'){
 		var IMP = window.IMP; // 생략가능
         IMP.init('iamport');
@@ -927,21 +1086,25 @@ function goPay(){
 	            pg : 'inicis', // version 1.1.0부터 지원.
 	            pay_method : 'card',
 	            merchant_uid : 'merchant_' + new Date().getTime(),
-	            name : '주문명:결제테스트',
-	            amount : 14000,
-	            buyer_email : 'iamport@siot.do',
-	            buyer_name : '구매자이름',
-	            buyer_tel : '010-1234-5678',
-	            buyer_addr : '서울특별시 강남구 삼성동',
-	            buyer_postcode : '123-456',
+	            name : name,
+	            amount : payPrice,
+	            buyer_email : buyerEmail,
+	            buyer_name :  buyerName,
+	            buyer_tel : buyerTel,
+	            buyer_addr : buyerAddr,
+	            buyer_postcode : buyerPostCode ,
 	            m_redirect_url : 'https://www.yourdomain.com/payments/complete'
 	        }, function(rsp) {
 	            if ( rsp.success ) {
 	                var msg = '결제가 완료되었습니다.';
-	                msg += '고유ID : ' + rsp.imp_uid;
+/* 	                msg += '고유ID : ' + rsp.imp_uid;
 	                msg += '상점 거래ID : ' + rsp.merchant_uid;
 	                msg += '결제 금액 : ' + rsp.paid_amount;
-	                msg += '카드 승인번호 : ' + rsp.apply_num;
+	                msg += '카드 승인번호 : ' + rsp.apply_num; */  
+	                
+	                document.checkOutFrm.action="${pageContext.request.contextPath}/shop/order/finishPayment.do";
+	        		document.checkOutFrm.submit();
+	                
 	            } else {
 	                var msg = '결제에 실패하였습니다.';
 	                msg += '에러내용 : ' + rsp.error_msg;
@@ -957,194 +1120,11 @@ function goPay(){
 </script>
 
 
-<!-- 최종 금액 -->
-<script>
-$(function(){
-	var totalProd = Number($('#total-prod').text());
-	var totalDel = Number($('#total-del').text().replace(",",""));
-	var totalDis = Number($('#total-dis').text());
-	var totalPay = totalProd+totalDel - totalDis;
-	
-	$("#total-pay").text(totalPay);
-});
-</script>
-<!-- 포인트 사용 -->
-<script>
-$(function(){
-	$("input[name=payAmounts]").on("propertychange change keyup paste input",function(){
-		var usingPoint = $(this).val();
-		var hasPoint = Number($("#has-point").text());
-		var totalPay = Number($("#total-pay").text());
-		if(Number(usingPoint)>hasPoint){
-			alert("보유하신 포인트보다 많습니다. ");
-			$(this).val(hasPoint);
-			return;
-		}
-		if(hasPoint>0){
-		$('#used-point').text(usingPoint);	
-		 	totalPay -= Number(usingPoint);
-			$("#total-pay").text(totalPay);
-		}
-		
-		return;
-	});
 
-});
-</script>
-<!--쿠폰 사용 -->
-<script>
-function goCoupon(){
- 	var couponValue = $("input[name=coupon-radio]:checked").next().next().val();
-	var totalPay = Number($("#total-pay").text());
-	
-	totalPay -= Number(couponValue.replace(",",""));
-	$("#total-pay").text(totalPay);
-	
-	$("#pro_coupon").val(couponValue);
-	$('#used-coupon').text(couponValue);
- 	$('#couponModal').modal('hide');
-	
-}
-</script>
+
+
 <!-- bootpay 테스트  -->
 <!--  <input type="button" id="phoneBtn" value="핸드폰 결제 버튼">  -->
-<script>
-
-$(function(){
-	$("#phoneBtn").click(function(){
-		console.log("폰");
-	BootPay.request({
-		price: '1000', //실제 결제되는 가격
-		application_id: "5e8580d902f57e0036d63afd",
-		name: '블링블링 마스카라', //결제창에서 보여질 이름
-		pg: 'mobilians',
-		method: 'phone', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
-		show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
-		items: [
-			{
-				item_name: '나는 아이템', //상품명
-				qty: 1, //수량
-				unique: '123', //해당 상품을 구분짓는 primary key
-				price: 1000, //상품 단가
-				cat1: 'TOP', // 대표 상품의 카테고리 상, 50글자 이내
-				cat2: '티셔츠', // 대표 상품의 카테고리 중, 50글자 이내
-				cat3: '라운드 티', // 대표상품의 카테고리 하, 50글자 이내
-			}
-		],
-		user_info: {
-			username: '사용자 이름',
-			email: '사용자 이메일',
-			addr: '사용자 주소',
-			phone: '010-1234-4567'
-		},
-		order_id: '고유order_id_1234', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
-		params: {callback1: '그대로 콜백받을 변수 1', callback2: '그대로 콜백받을 변수 2', customvar1234: '변수명도 마음대로'},
-		account_expire_at: '2018-05-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
-		extra: {
-		    start_at: '2019-05-10', // 정기 결제 시작일 - 시작일을 지정하지 않으면 그 날 당일로부터 결제가 가능한 Billing key 지급
-			end_at: '2022-05-10', // 정기결제 만료일 -  기간 없음 - 무제한
-	        vbank_result: 1, // 가상계좌 사용시 사용, 가상계좌 결과창을 볼지(1), 말지(0), 미설정시 봄(1)
-	        quota: '0,2,3' // 결제금액이 5만원 이상시 할부개월 허용범위를 설정할 수 있음, [0(일시불), 2개월, 3개월] 허용, 미설정시 12개월까지 허용
-		}
-	}).error(function (data) {
-		//결제 진행시 에러가 발생하면 수행됩니다.
-		console.log(data);
-	}).cancel(function (data) {
-		//결제가 취소되면 수행됩니다.
-		console.log(data);
-	}).ready(function (data) {
-		// 가상계좌 입금 계좌번호가 발급되면 호출되는 함수입니다.
-		console.log(data);
-	}).confirm(function (data) {
-		//결제가 실행되기 전에 수행되며, 주로 재고를 확인하는 로직이 들어갑니다.
-		//주의 - 카드 수기결제일 경우 이 부분이 실행되지 않습니다.
-		console.log(data);
-		var enable = true; // 재고 수량 관리 로직 혹은 다른 처리
-		if (enable) {
-			BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
-		} else {
-			BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
-		}
-	}).close(function (data) {
-	    // 결제창이 닫힐때 수행됩니다. (성공,실패,취소에 상관없이 모두 수행됨)
-	    console.log(data);
-	}).done(function (data) {
-		//결제가 정상적으로 완료되면 수행됩니다
-		//비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
-		console.log(data);
-	});
-	});
-});
-</script>
-<!-- 네이버페이 결제 테스트  -->
-<!--// mode : development or production-->
-<!-- <input type="button" id="naverPayBtn" value="네이버페이 결제 버튼"> -->
-<script src="https://nsp.pay.naver.com/sdk/js/naverpay.min.js"></script>
-<script>
-    var oPay = Naver.Pay.create({
-          "mode" : "production", // development or production
-          "clientId": "u86j4ripEt8LRfPGzQ8" // clientId
-    });
-
-    //직접 만드신 네이버페이 결제버튼에 click Event를 할당하세요
-    var elNaverPayBtn = document.getElementById("naverPayBtn");
-
-    elNaverPayBtn.addEventListener("click", function() {
-        oPay.open({
-          "merchantUserKey": "bbbbb",
-          "merchantPayKey": "aaaa",
-          "productName": "물티슈테스트1",
-          "totalPayAmount": "1000",
-          "taxScopeAmount": "1000",
-          "taxExScopeAmount": "0",
-          "returnUrl": "사용자 결제 완료 후 결제 결과를 받을 URL"
-        });
-    });
-
-</script>
-
-<!-- 네이버페이 -->
-
-
-
- <!-- 아임포트 결제하기 테스트 -->
-<script>
-    $(function(){
-    	$(".impPay").click(function(){
-    		var IMP = window.IMP; // 생략가능
-            IMP.init('iamport');
-    		
-		        IMP.request_pay({
-		            pg : 'inicis', // version 1.1.0부터 지원.
-		            pay_method : 'card',
-		            merchant_uid : 'merchant_' + new Date().getTime(),
-		            name : '주문명:결제테스트',
-		            amount : 14000,
-		            buyer_email : 'iamport@siot.do',
-		            buyer_name : '구매자이름',
-		            buyer_tel : '010-1234-5678',
-		            buyer_addr : '서울특별시 강남구 삼성동',
-		            buyer_postcode : '123-456',
-		            m_redirect_url : 'https://www.yourdomain.com/payments/complete'
-		        }, function(rsp) {
-		            if ( rsp.success ) {
-		                var msg = '결제가 완료되었습니다.';
-		                msg += '고유ID : ' + rsp.imp_uid;
-		                msg += '상점 거래ID : ' + rsp.merchant_uid;
-		                msg += '결제 금액 : ' + rsp.paid_amount;
-		                msg += '카드 승인번호 : ' + rsp.apply_num;
-		            } else {
-		                var msg = '결제에 실패하였습니다.';
-		                msg += '에러내용 : ' + rsp.error_msg;
-		            }
-		            alert(msg);
-	        });
-    	});
-    }); 
-    
-    </script>
-<!-- 카카오페이 -->
-<!-- <input type="button" id="kakaoPayBtn" value="카카오페이결제 버튼"> -->
 
 <!-- Shopping Cart Section End -->
 

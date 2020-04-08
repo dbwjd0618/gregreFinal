@@ -165,7 +165,7 @@
 			board_code varchar2(5) constraint fk_reply_${boardCode} references TB_board(board_code) on delete cascade not null, 
 			post_no number constraint fk_reply_post_${boardCode} references TB_post_${boardCode}(post_no) on delete cascade not null, 
 			reply_no number constraint pk_${boardCode}_reply primary key, 
-			reply_writer varchar2(30) constraint fk_reply_writer_${boardCode} references TB_member_info(member_ID) on delete set null not null,
+			reply_writer varchar2(30) constraint fk_reply_writer_${boardCode} references TB_member_info(member_ID) on delete cascade not null,
 			reply_content varchar2(50) not null, 
 			reply_write_time date default sysdate, 
 			recommen_count number default 0, 
@@ -345,23 +345,16 @@
 	
 	<select id="indexMember" resultType="Member">
 		select
-			member_id
+			*
 		from
 			tb_member_info
 		where
 			grade = 'M'
 	</select>
 	
-	<select id="indexCounselor" resultType="Counselor">
-		select 
-			advis_id
-		from 
-			tb_adviser
-	</select>
-	
 	<select id="indexAdmin" resultType="Admin">
 		select
-			member_id admin_id
+			member_id admin_id, email, phone
 		from
 			tb_member_info
 		where

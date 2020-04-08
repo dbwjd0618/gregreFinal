@@ -14,8 +14,7 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-              <h1>
-                수익
+              <h1>수익
                 <small>판매현황</small>
               </h1>
               <ol class="breadcrumb">
@@ -48,14 +47,15 @@
                               <button class="btn btn-default btn-xs sel_today" type="button">오늘</button> 
                               <button class="btn btn-default btn-xs sel_week" type="button">일주일</button> 
                               <button class="btn btn-default btn-xs sel_month" type="button">한달</button></td>
-                            <th class="text-center active" style="vertical-align:middle;">회원타입</th>
+                              <th class="text-center active" style="vertical-align:middle;">결재상태</th>
                             <td class="text-center" style="background-color:#fff;">
-                              <select name="mem_type" class="form-control" id="mem_type" style="width:200px;">
+                              <select name="stat_pay_rst" class="form-control" id="stat_pay_rst" style="width:200px;">
                                 <option value=""> -- 선택 -- </option>
-                                <option value="1"> 회원 </option>
-                                <option value="0"> 비회원 </option>
+                                <option value="1"> 입금완료 </option>
+                                <option value="2"> 미입금 </option>
                               </select>
                             </td>
+                            
                             <td class="text-center" rowspan="2" style="background-color:#fff;vertical-align:middle;"><button type="submit" class="btn btn-primary btn-lg" id="service_pay"> 검 색 </button></td>
                           </tr>
                           <tr>
@@ -70,53 +70,117 @@
                                 <option value="5"> 실시간계좌이체 </option>
                               </select>
                             </td>
-                            <th class="text-center active" style="vertical-align:middle;">결재상태</th>
-                            <td class="text-center" style="background-color:#fff;">
-                              <select name="stat_pay_rst" class="form-control" id="stat_pay_rst" style="width:200px;">
-                                <option value=""> -- 선택 -- </option>
-                                <option value="1"> 입금완료 </option>
-                                <option value="2"> 미입금 </option>
-                              </select>
-                            </td>
+                            <th class="text-center active" style="vertical-align:middle;">?</th>
+                            <td class="text-center" style="background-color:#fff;">?</td>
                           </tr>						
                         </tbody></table>
                       </form>
+                      <!-- 카운트 및 가격에 대한 값 정의 -->
+
+                      <c:set var="totalCount" value="0"/>
+                      
+                      <c:set var="totalPrice" value="0"/>
+                      <c:set var="totalSupPrice" value="0"/>
+                      
+                      
+                      
+                      <c:set var="crCount" value="0"/>
+                      <c:set var="crPrice" value="0"/>
+                      <c:set var="acCount" value="0"/>
+                      <c:set var="acPrice" value="0"/>
+                      <c:set var="phCount" value="0"/>
+                      <c:set var="phPrice" value="0"/>
+                      <c:set var="kaCount" value="0"/>
+                      <c:set var="kaPrice" value="0"/>
+                      <c:set var="toCount" value="0"/>
+                      <c:set var="toPrice" value="0"/>
+                      <c:set var="naCount" value="0"/>
+                      <c:set var="naPrice" value="0"/>                      
+                      <c:set var="raCount" value="0"/>
+                      <c:set var="raPrice" value="0"/>
+                      <c:forEach items="${list}" var="l">
+                      <c:set var="totalSupPrice" value="${totalSupPrice +l.supplyValue}"/>
+                      </c:forEach>
+                      <c:forEach items="${plist}" var="p">
+                      <c:set var="totalCount" value="${totalCount + p.count}"/>
+                      <c:set var="totalPrice" value="${totalPrice + p.totalPrice}"/>
+                      <c:if test="${p.payMethod eq 'cr'}">
+                      <c:set var="crCount" value="${p.count}"></c:set>
+                      <c:set var="crPrice" value="${p.totalPrice}"/>
+                      </c:if>
+                      <c:if test="${p.payMethod eq 'ac'}">
+                      <c:set var="acCount" value="${p.count}"></c:set>
+                      <c:set var="acPrice" value="${p.totalPrice}"/>
+                      </c:if>
+                      <c:if test="${p.payMethod eq 'ph'}">
+                      <c:set var="phCount" value="${p.count}"></c:set>
+                      <c:set var="phPrice" value="${p.totalPrice}"/>
+                      </c:if>
+                      <c:if test="${p.payMethod eq 'ka'}">
+                      <c:set var="kaCount" value="${p.count}"></c:set>
+                      <c:set var="kaPrice" value="${p.totalPrice}"/>
+                      </c:if>
+                      <c:if test="${p.payMethod eq 'to'}">
+                      <c:set var="toCount" value="${p.count}"></c:set>
+                      <c:set var="toPrice" value="${p.totalPrice}"/>
+                      </c:if>
+                      <c:if test="${p.payMethod eq 'na'}">
+                      <c:set var="naCount" value="${p.count}"></c:set>
+                      <c:set var="naPrice" value="${p.totalPrice}"/>
+                      </c:if>
+                      <c:if test="${p.payMethod eq 'ra'}">
+                      <c:set var="raCount" value="${p.count}"></c:set>
+                      <c:set var="raPrice" value="${p.totalPrice}"/>
+                      </c:if>
+                      
+                      </c:forEach>
                       <table class="table table-bordered">
                         <tbody><tr>
-                          <th class="text-center active vertical-middle">분류</th>
+                          <th class="text-center active vertical-middle">분류<c:out value="${totalSupPrice}"></c:out></th>
                           <th class="text-center active vertical-middle">건수</th>
                           <th class="text-center active vertical-middle">금액</th>
                         </tr>
-                   
                         <tr style="background-color:#ffffff;">
                           <td class="text-center vertical-middle">신용카드</td>
-                          <td class="text-right vertical-middle">0 건</td>
-                          <td class="text-right vertical-middle">0 원</td>
-                        </tr>
-                        <tr style="background-color:#ffffff;">
-                          <td class="text-center vertical-middle">휴대전화</td>
-                          <td class="text-right vertical-middle">0 건</td>
-                          <td class="text-right vertical-middle">0 원</td>
+                          <td class="text-right vertical-middle"><c:out value="${crCount}"></c:out>건</td>
+                          <td class="text-right vertical-middle"><c:out value="${crPrice}"></c:out>원</td>
                         </tr>
                         <tr style="background-color:#ffffff;">
                           <td class="text-center vertical-middle">계좌이체</td>
-                          <td class="text-right vertical-middle">0 건</td>
-                          <td class="text-right vertical-middle">0 원</td>
+                          <td class="text-right vertical-middle"><c:out value="${acCount}"></c:out>건</td>
+                          <td class="text-right vertical-middle"><c:out value="${acPrice}"></c:out>원</td>
                         </tr>
                         <tr style="background-color:#ffffff;">
-                          <td class="text-center vertical-middle">가상계좌</td>
-                          <td class="text-right vertical-middle">0 건</td>
-                          <td class="text-right vertical-middle">0 원</td>
+                          <td class="text-center vertical-middle">휴대전화</td>
+                          <td class="text-right vertical-middle"><c:out value="${phCount}"></c:out>건</td>
+                          <td class="text-right vertical-middle"><c:out value="${phPrice}"></c:out>원</td>
+                        </tr>
+                        
+                        <tr style="background-color:#ffffff;">
+                          <td class="text-center vertical-middle">카카오톡</td>
+						  <td class="text-right vertical-middle"><c:out value="${kaCount}"></c:out>건</td>
+                          <td class="text-right vertical-middle"><c:out value="${kaPrice}"></c:out>원</td>
                         </tr>
                         <tr style="background-color:#ffffff;">
-                          <td class="text-center vertical-middle">무통장</td>
-                          <td class="text-right vertical-middle">0 건</td>
-                          <td class="text-right vertical-middle">0 원</td>
+                          <td class="text-center vertical-middle">토스</td>
+                          <td class="text-right vertical-middle"><c:out value="${toCount}"></c:out>건</td>
+                          <td class="text-right vertical-middle"><c:out value="${toPrice}"></c:out>원</td>
                         </tr>
+                        <tr style="background-color:#ffffff;">
+                          <td class="text-center vertical-middle">네이버페이</td>
+                          <td class="text-right vertical-middle"><c:out value="${naCount}"></c:out>건</td>
+                          <td class="text-right vertical-middle"><c:out value="${naPrice}"></c:out>원</td>
+                        </tr>
+                        <tr style="background-color:#ffffff;">
+                          <td class="text-center vertical-middle">실시간계좌이체</td>
+                          <td class="text-right vertical-middle"><c:out value="${raCount}"></c:out>건</td>
+                          <td class="text-right vertical-middle"><c:out value="${raPrice}"></c:out>원</td>
+                        </tr>
+                        
                         <tr style="background-color:#ffffff;">
                           <td class="text-center vertical-middle">합계</td>
-                          <td class="text-right vertical-middle">0 건</td>
-                          <td class="text-right vertical-middle">0 원</td>
+                          <td class="text-right vertical-middle"><c:out value="${totalCount}"></c:out> 건</td>
+                          <td class="text-right vertical-middle"><c:out value="${totalPrice}"></c:out> 원</td>
                         </tr>
                   
                       </tbody></table>
@@ -129,20 +193,20 @@
                                <div class="col-lg-3 bordered " style="width:23%;">
                                 <div class="value-block text-center">
                                   <div class="value-sub"><strong class="text-danger">총 결재 금액</strong></div>
-                                  <div class="value-self"> 0 원</div>
+                                  <div class="value-self"> ${totalPrice}원</div>
                                 </div>
                                </div>
                               <div class="row">
                                <div class="col-lg-3 bordered  " style="width:23%;">
                                 <div class="value-block text-center">
                                   <div class="value-sub"><strong class="text-danger">총 판매 이익</strong></div>
-                                  <div class="value-self"> 0 원</div>
+                                  <div class="value-self"> ${totalPrice-totalSupPrice} 원</div>
                                 </div>
                                </div>
                                <div class="col-lg-3 bordered " style="width:23%;">
                                 <div class="value-block text-center">
                                   <div class="value-sub"><strong class="text-danger">총 구매건수</strong></div>
-                                  <div class="value-self">0 건</div>
+                                  <div class="value-self">${totalCount} 건</div>
                                 </div>
                                </div>
                                <div class="col-lg-3 " style="width:23%;">
@@ -152,11 +216,49 @@
                                 </div>
                                </div>
                               </div>
-                              <div id="areachart" style="height: 250px; position: relative;"><svg height="250" version="1.1" width="1013" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative;"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.1.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs></svg><div class="morris-hover morris-default-style" style="display: none;"></div></div>
+                              
+                              <div id="areachart" style="height: 500px; position: relative;">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ["Element", "거래 건수", { role: "style" } ],
+        ["실시간계좌", ${acCount}, "silver"],
+        ["신용카드", ${crCount}, "color: #e5e4e2"],
+        ["휴대폰", ${phCount}, "color: #e5e4e2"],
+        ["토스", ${toCount}, "gold"],
+        ["카카오페이", ${kaCount}, "#b87333"],
+        ["네이버페이", ${naCount}, "color: #e5e4e2"]
+        
+      ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+
+      var options = {
+        title: "결제유형",
+        width: 1800,
+        height: 500,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+      chart.draw(view, options);
+  }
+  </script>
+ <div id="columnchart_values"></div>
                             </div>
                           </div></td>
                         </tr>
                       </tbody></table>
+                      <%--
                       <table class="table table-bordered">
                         <colgroup>
                           <col style=""><col style=""><col style=""><col style=""><col style=""><col style=""><col style="">
@@ -171,7 +273,7 @@
                           <th class="text-center active vertical-middle">배송액</th>
                         </tr>
                               <tr style="background-color:#ffffff;">
-                          <th class="text-center active vertical-middle">합계</th>
+                          <th class="text-center active vertical-middle">합계</teh>
                           <th class="text-center active vertical-middle">0</th>
                           <th class="text-center active vertical-middle">0</th>
                           <th class="text-center active vertical-middle">0</th>
@@ -179,20 +281,12 @@
                           <th class="text-center active vertical-middle">0</th>
                           <th class="text-center active vertical-middle">0</th>
                         </tr>			
-
                       </tbody></table>
+                           --%>                 
                     </div>
-                    </div>
-
-
-
+                    </div> 
           </div><!-- /.content-wrapper -->
 
-          <footer class="main-footer">
-            <p class="">서울특별시 그래구 그레로 123 </p>
-            <p class="">TEL : 육아종합지원센터 02-123-1234 &nbsp;&nbsp;|&nbsp;&nbsp; FAX : 02-456-4567 &nbsp;&nbsp;|&nbsp;&nbsp;Mail : i_gre@gmail.com</p>
-            <p>Copyright(c) 2020 아이그레. All rights reserved.</p>
-          </footer>
         </div><!-- ./wrapper -->
         <!-- jQuery 2.1.3 -->
         <script src="${pageContext.request.contextPath}/resources/js/admin/jQuery-2.1.3.min.js"></script>

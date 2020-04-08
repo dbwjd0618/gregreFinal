@@ -16,27 +16,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<!--
-        <link rel='stylesheet' href='/sales_manager/css/plugins/fullcalendar.css'>
-        <link rel='stylesheet' href='/sales_manager/css/plugins/datatables/datatables.css'>
-        <link rel='stylesheet' href='/sales_manager/css/plugins/datatables/bootstrap.datatables.css'>
-        <link rel='stylesheet' href='/sales_manager/css/plugins/chosen.css'>
-        <link rel='stylesheet' href='/sales_manager/css/plugins/jquery.timepicker.css'>
-        <link rel='stylesheet' href='/sales_manager/css/plugins/daterangepicker-bs3.css'>
-        <link rel='stylesheet' href='/sales_manager/css/plugins/colpick.css'>
-        <link rel='stylesheet' href='/sales_manager/css/plugins/dropzone.css'>
-        <link rel='stylesheet' href='/sales_manager/css/plugins/jquery.handsontable.full.css'>
-        <link rel='stylesheet' href='/sales_manager/css/plugins/jscrollpane.css'>
-        <link rel='stylesheet' href='/sales_manager/css/plugins/jquery.pnotify.default.css'>
-        <link rel='stylesheet' href='/sales_manager/css/plugins/jquery.pnotify.default.icons.css'>
-        -->
-<link rel="stylesheet" href="/sales_manager/css/app.css?v=0.4">
+
+<!-- <link rel="stylesheet" href="/sales_manager/css/app.css?v=0.4"> -->
 <link href="/favicon.ico" rel="shortcut icon">
 <link href="/apple-touch-icon.png" rel="apple-touch-icon">
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-            @javascript html5shiv respond.min
-        <![endif]-->
+
 <title>E-smart장터 판매관리자</title>
 <style>
 tbody {
@@ -417,7 +401,8 @@ table {
 									<td class="text-left vertical-middle">
 									<a href="javascript:void(0)"
 										onclick="javascript:location.href='./detail.php?c=${p.productId}';">${p.productName }</a></td>
-									<td class="text-center vertical-middle"><img src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attachList.get(0).renamedImg}" alt=""></td>
+									<td class="text-center vertical-middle">
+									<img src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${p.attachList.get(0).renamedImg}" style="width:200px;" alt=""><br></td>
 									<td class="text-left vertical-middle">${p.categoryId }</td>
 									<td class="text-center vertical-middle">${p.price }</td>
 									<td class="text-center vertical-middle"><input type="text"
@@ -440,11 +425,11 @@ table {
 										<%-- <button class="btn btn-detail btn-noradpdd" type="button"
 											onclick="javascript:selUp( ${p.productId} , 1 );">변경</button> --%>
 											<button type="button" class="btn btn-detail btn-noradpdd" 
-											onclick="javascript:edit( ${vs.index},${p.productId});">수정</button> 
+											onclick="edit( '${vs.index}','${p.productId}');">변경</button> 
 										<button class="btn btn-info btn-noradpdd" type="button"
-											onclick="javascript:location.href='./detail.php?c=${p.productId}';">수정</button>
+											onclick="javascript:location.href='edit.do?productId=${p.productId}';">수정</button>
 										<button class="btn btn-danger btn-noradpdd" type="button"
-											onclick="javascript:deleteProduct(${p.productId});">삭제</button>
+											onclick="deleteProduct('${p.productId}');">삭제</button>
 									</td>
 								</tr>
 							</c:forEach>
@@ -481,50 +466,95 @@ table {
 	</form>
 
 </div>
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-<!-- <script src="/sales_manager/js/plugins/jquery.pnotify.js"></script>
-<script src="/sales_manager/js/plugins/jquery.sparkline.min.js"></script>
-<script src="/sales_manager/js/plugins/mwheelIntent.js"></script>
-<script src="/sales_manager/js/plugins/mousewheel.js"></script>
-<script src="/sales_manager/js/bootstrap/tab.js"></script>
-<script src="/sales_manager/js/bootstrap/dropdown.js"></script>
-<script src="/sales_manager/js/bootstrap/tooltip.js"></script>
-<script src="/sales_manager/js/bootstrap/collapse.js"></script>
-<script src="/sales_manager/js/bootstrap/scrollspy.js"></script>
-<script src="/sales_manager/js/plugins/bootstrap-datepicker.js"></script>
-<script src="/sales_manager/js/bootstrap/transition.js"></script>
-<script src="/sales_manager/js/plugins/jquery.knob.js"></script>
-<script src="/sales_manager/js/plugins/jquery.flot.min.js"></script>
-<script src="/sales_manager/js/plugins/fullcalendar.js"></script>
-<script src="/sales_manager/js/plugins/datatables/datatables.min.js"></script>
-<script src="/sales_manager/js/plugins/chosen.jquery.min.js"></script>
-<script src="/sales_manager/js/plugins/jquery.timepicker.min.js"></script>
-<script src="/sales_manager/js/plugins/daterangepicker.js"></script>
-<script src="/sales_manager/js/plugins/colpick.js"></script>
-<script src="/sales_manager/js/plugins/moment.min.js"></script> -->
-<script
-	src="/sales_manager/js/plugins/datatables/bootstrap.datatables.js"></script>
-<!-- <script src="/sales_manager/js/bootstrap/modal.js"></script>
-<script src="/sales_manager/js/plugins/raphael-min.js"></script>
-<script src="/sales_manager/js/plugins/morris-0.4.3.min.js"></script>
-<script src="/sales_manager/js/plugins/jquery.maskedinput.min.js"></script>
-<script src="/sales_manager/js/plugins/jquery.maskmoney.js"></script>
-<script src="/sales_manager/js/plugins/summernote.js"></script>
-<script src="/sales_manager/js/plugins/dropzone-amd-module.js"></script>
-<script src="/sales_manager/js/plugins/jquery.validate.min.js"></script>
-<script src="/sales_manager/js/plugins/jquery.bootstrap.wizard.min.js"></script>
-<script src="/sales_manager/js/plugins/jscrollpane.min.js"></script>
-<script src="/sales_manager/js/application.js"></script> -->
+
 
 
 <div class="col-md-4">
 					<a data-advis-id="${counselor.advisId}" class="btn btn-primary btn-lg" role="button">상담권 선택하기</a>
 				</div>
 
+
+
+<!-- Js Plugins -->
+    <script src="${pageContext.request.contextPath }/resources/js/shop/jquery-3.3.1.min.js"></script>
+    <!-- jQuery 2.1.3 -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/jQuery-2.1.3.min.js"></script>
+    <!-- jQuery UI 1.11.2 -->
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <!-- Bootstrap 3.3.2 JS -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/bootstrap.min.js" type="text/javascript"></script>    
+    <!-- Morris.js charts -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/morris.min.js" type="text/javascript"></script>
+    <!-- Sparkline -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/jquery.sparkline.min.js" type="text/javascript"></script>
+    <!-- jvectormap -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
+    <!-- daterangepicker -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/daterangepicker.js" type="text/javascript"></script>
+    <!-- datepicker -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/bootstrap-datepicker.js" type="text/javascript"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
+    <!-- iCheck -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/icheck.min.js" type="text/javascript"></script>
+    <!-- Slimscroll -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <!-- FastClick -->
+    <script src='${pageContext.request.contextPath}/resources/js/admin/fastclick.min.js'></script>
+    <!-- AdminLTE App -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/app.min.js" type="text/javascript"></script>
+
+
+
+    <!-- AdminLTE for demo purposes -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/demo.js" type="text/javascript"></script>
+
 <script type="text/javascript">
+function edit(val,m) {
+	alert("뭐에요 ?.");
+	//할인가격 받아오는곳.
+	var vs = val;
+	var discountPrice = "discount_"+vs;
+	var discount1 = discountPrice;	
+	var resDiscount=document.getElementById(discount1);
+	var discountPrice=resDiscount.value
+	console.log(resDiscount.value);
+	
+	//재고 수량 변경
+	var stockvalue = "stock_"+vs;
+	var stock =stockvalue; 
+	var resStock=document.getElementById(stock);
+	console.log(resStock.value);
+	var productStock=resStock.value
+	
+	//프로덕트아이디 
+	var productId=m;
+	
+	//프로덕트 상태
+	var state = "state_"+vs;
+	var state1= state
+	var resState = document.getElementById(state1);
+	/* var productState = resState.value */
+	console.log(state1);
+	var size = document.getElementsByName(state1).length;
+    for(var i = 0; i < size; i++){
+        if(document.getElementsByName(state1)[i].checked == true){
+            productState=document.getElementsByName(state1)[i].value;
+        }
+    }
+    console.log(productState);
+	//호출문
+	   location.href="${pageContext.request.contextPath }/shop/admin/product/update.do?productId="+productId+"&discountPrice="+discountPrice+"&productStock="+productStock+"&productState="+productState; 
+	
+    
+}	
+
 
 function edit11(){
 if (m == "1" ) {
@@ -562,17 +592,8 @@ $(()=>{
 });
 </script>
 
-<script type="text/javascript">
-    <!--
-      $(document).ready(function () {  
-        $("#main_page").click(function(){
-            location.href="/sales_manager/main/main.php";
-        });
-      });
-      //-->
-    </script>
 
-<script src="./js/clipboard.min.js"></script>
+
 
 <script type="text/javascript">
 
@@ -586,47 +607,8 @@ function deleteProduct(val){
 	        }else {
 	            return false;
 	        }
-
 }
 
-function edit(val,m) {
-
-	//할인가격 받아오는곳.
-	var vs = val;
-	var discountPrice = "discount_"+vs;
-	var discount1 = discountPrice;	
-	var resDiscount=document.getElementById(discount1);
-	var discountPrice=resDiscount.value
-	console.log(resDiscount.value);
-	
-	//재고 수량 변경
-	var stockvalue = "stock_"+vs;
-	var stock =stockvalue; 
-	var resStock=document.getElementById(stock);
-	console.log(resStock.value);
-	var productStock=resStock.value
-	
-	//프로덕트아이디 
-	var productId=m;
-	
-	//프로덕트 상태
-	var state = "state_"+vs;
-	var state1= state
-	var resState = document.getElementById(state1);
-	/* var productState = resState.value */
-	console.log(state1);
-	var size = document.getElementsByName(state1).length;
-    for(var i = 0; i < size; i++){
-        if(document.getElementsByName(state1)[i].checked == true){
-            productState=document.getElementsByName(state1)[i].value;
-        }
-    }
-    console.log(productState);
-	//호출문
-	   location.href="${pageContext.request.contextPath }/shop/admin/product/update.do?productId="+productId+"&discountPrice="+discountPrice+"&productStock="+productStock+"&productState="+productState; 
-	
-    
-}
         function selall(chekboxall,checkboxsub){
            var ischeck="";
             if (chekboxall.checked) {
@@ -691,6 +673,70 @@ function edit(val,m) {
             document.regi_form.submit();
         }
         
+        
+        
+        
+        //더미 값
+        
+        
+        /* 날짜 객체 받아서 문자열로 리턴하는 함수 */
+function getDateStr(myDate){
+	var	mm = String(myDate.getMonth()+1).length === 1 ? '0' + String(myDate.getMonth()+1) : String(myDate.getMonth()+1);
+	var dd = String(myDate.getDate()).length === 1 ? '0' + String(myDate.getDate()) : String(myDate.getDate());
+	return (myDate.getFullYear() + '-'+
+			mm+'-'+dd)
+}
+
+$( "#sdate" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+$( "#edate" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+
+
+
+/* 오늘 날짜를 문자열로 반환 */
+function today() {
+  var d = new Date()
+  return getDateStr(d)
+}
+
+/* 오늘로부터 1주일전 날짜 반환 */
+function lastWeek() {
+  var d = new Date()
+  var dayOfMonth = d.getDate()
+  d.setDate(dayOfMonth - 7)
+  return getDateStr(d)
+}
+
+/* 오늘로부터 1개월전 날짜 반환 */
+function lastMonth() {
+  var d = new Date()
+  var monthOfYear = d.getMonth()
+  d.setMonth(monthOfYear - 1)
+  return getDateStr(d)
+}
+			//오늘 날짜 버튼 클릭시
+            $(".sel_today").on("click",function(){
+                $("#sdate").val(today());
+                $("#edate").val(today());
+            });
+            
+            //일주일 관련 눌리기
+            $(".sel_week").click(function(){
+                $("#sdate").val(lastWeek());
+                $("#edate").val(today());
+            });
+            //한달 날짜 눌리기
+            $(".sel_month").click(function(){
+                $("#sdate").val(lastMonth());
+                $("#edate").val(today());
+            });
+        
+        
+        
+        
+        //더미값 종료
+        
+        
+        //달력 위젯 사용되는 것임.
         $(document).ready(function(){
             $('#sdate').datepicker().on('changeDate', function(e) {
                 $("#sdate").datepicker('hide');
@@ -698,75 +744,13 @@ function edit(val,m) {
             $('#edate').datepicker().on('changeDate', function(e) {
                 $("#edate").datepicker('hide');
             });
-            
-            var date = new Date(); //현재 날짜. 
-            var year = date.getFullYear();//년도 빼오기 
-            var month = new String(date.getMonth()+1);
-            var monthone = new String(date.getMonth());
-            var day = new String(date.getDate()); 
-            var alterday = new String(date.getDate()-7); 
 
-            // 한자리수일 경우 0을 채워준다. 
-            if(month.length == 1){ 
-              month = "0" + month; 
-            }
-            if(monthone.length == 1){ 
-                monthone = "0" + monthone; 
-              } 
-            if(day.length == 1){ 
-              day = "0" + day; 
-            }
-            if(alterday.length == 1){ 
-            	alterday = "0" + alterday; 
-            }  
-
-            /* $("#sdate").val(year + "-" + month + "-" + day); */
-            var today= year + "-" + month + "-" + day
-            var tomonth= year + "-" + monthone + "-" + day
-            var weekday=year + "-" + month + "-" + alterday 
-            
-            console.log(weekday)
-            
-            //현재 년월일 뽑아내는것.
-            var today_val = new Date().toISOString().substring(0, 10);
-            console.log(today_val)
-            
-            
-            /* var today = new Date(); */
-            console.log("today"+today)
-            /* var week_val  = today_val; */
-            /* week_val.setMonth(today_val.getMonth() - 1); */
-            
-            
-            /* var week_val= today.getMonth(); //현재 기준에서 -한달 한것. */
-            
-            /* console.log(week_val) */
-            
-            
-            /* var today_val = "2020-03-29"; */
-            /*  var week_val = "2020-03-19"; */  
-            var mon_val = "2020-02-26";
-    
-            //오늘 날짜 버튼 클릭시
-            $(".sel_today").on("click",function(){
-                $("#sdate").val(today);
-                $("#edate").val(today);
-            });
-            
-            //일주일 관련 눌리기
-            $(".sel_week").click(function(){
-                $("#sdate").val(weekday);
-                $("#edate").val(today);
-            });
-            //한달 날짜 눌리기
-            $(".sel_month").click(function(){
-                $("#sdate").val(tomonth);
-                $("#edate").val(today_val);
-            });
         });
     
     </script>
 <!-- <div class="datepicker dropdown-menu"><div class="datepicker-days" style="display: block;"><table class=" table-condensed"><thead><tr><th class="prev">‹</th><th colspan="5" class="switch">3월 2020</th><th class="next">›</th></tr><tr><th class="dow">일</th><th class="dow">월</th><th class="dow">화</th><th class="dow">수</th><th class="dow">목</th><th class="dow">금</th><th class="dow">토</th></tr></thead><tbody><tr><td class="day  old">23</td><td class="day  old">24</td><td class="day  old">25</td><td class="day  old">26</td><td class="day  old">27</td><td class="day  old">28</td><td class="day  old">29</td></tr><tr><td class="day ">1</td><td class="day ">2</td><td class="day ">3</td><td class="day ">4</td><td class="day ">5</td><td class="day ">6</td><td class="day ">7</td></tr><tr><td class="day ">8</td><td class="day ">9</td><td class="day ">10</td><td class="day ">11</td><td class="day ">12</td><td class="day ">13</td><td class="day ">14</td></tr><tr><td class="day ">15</td><td class="day ">16</td><td class="day ">17</td><td class="day ">18</td><td class="day ">19</td><td class="day ">20</td><td class="day ">21</td></tr><tr><td class="day ">22</td><td class="day ">23</td><td class="day ">24</td><td class="day ">25</td><td class="day  active">26</td><td class="day ">27</td><td class="day ">28</td></tr><tr><td class="day ">29</td><td class="day ">30</td><td class="day ">31</td><td class="day  new">1</td><td class="day  new">2</td><td class="day  new">3</td><td class="day  new">4</td></tr></tbody></table></div><div class="datepicker-months" style="display: none;"><table class="table-condensed"><thead><tr><th class="prev">‹</th><th colspan="5" class="switch">2020</th><th class="next">›</th></tr></thead><tbody><tr><td colspan="7"><span class="month">1</span><span class="month">2</span><span class="month active">3</span><span class="month">4</span><span class="month">5</span><span class="month">6</span><span class="month">7</span><span class="month">8</span><span class="month">9</span><span class="month">10</span><span class="month">11</span><span class="month">12</span></td></tr></tbody></table></div><div class="datepicker-years" style="display: none;"><table class="table-condensed"><thead><tr><th class="prev">‹</th><th colspan="5" class="switch">2020-2029</th><th class="next">›</th></tr></thead><tbody><tr><td colspan="7"><span class="year old">2019</span><span class="year active">2020</span><span class="year">2021</span><span class="year">2022</span><span class="year">2023</span><span class="year">2024</span><span class="year">2025</span><span class="year">2026</span><span class="year">2027</span><span class="year">2028</span><span class="year">2029</span><span class="year old">2030</span></td></tr></tbody></table></div></div><div class="datepicker dropdown-menu"><div class="datepicker-days" style="display: block;"><table class=" table-condensed"><thead><tr><th class="prev">‹</th><th colspan="5" class="switch">3월 2020</th><th class="next">›</th></tr><tr><th class="dow">일</th><th class="dow">월</th><th class="dow">화</th><th class="dow">수</th><th class="dow">목</th><th class="dow">금</th><th class="dow">토</th></tr></thead><tbody><tr><td class="day  old">23</td><td class="day  old">24</td><td class="day  old">25</td><td class="day  old">26</td><td class="day  old">27</td><td class="day  old">28</td><td class="day  old">29</td></tr><tr><td class="day ">1</td><td class="day ">2</td><td class="day ">3</td><td class="day ">4</td><td class="day ">5</td><td class="day ">6</td><td class="day ">7</td></tr><tr><td class="day ">8</td><td class="day ">9</td><td class="day ">10</td><td class="day ">11</td><td class="day ">12</td><td class="day ">13</td><td class="day ">14</td></tr><tr><td class="day ">15</td><td class="day ">16</td><td class="day ">17</td><td class="day ">18</td><td class="day ">19</td><td class="day ">20</td><td class="day ">21</td></tr><tr><td class="day ">22</td><td class="day ">23</td><td class="day ">24</td><td class="day ">25</td><td class="day  active">26</td><td class="day ">27</td><td class="day ">28</td></tr><tr><td class="day ">29</td><td class="day ">30</td><td class="day ">31</td><td class="day  new">1</td><td class="day  new">2</td><td class="day  new">3</td><td class="day  new">4</td></tr></tbody></table></div><div class="datepicker-months" style="display: none;"><table class="table-condensed"><thead><tr><th class="prev">‹</th><th colspan="5" class="switch">2020</th><th class="next">›</th></tr></thead><tbody><tr><td colspan="7"><span class="month">1</span><span class="month">2</span><span class="month active">3</span><span class="month">4</span><span class="month">5</span><span class="month">6</span><span class="month">7</span><span class="month">8</span><span class="month">9</span><span class="month">10</span><span class="month">11</span><span class="month">12</span></td></tr></tbody></table></div><div class="datepicker-years" style="display: none;"><table class="table-condensed"><thead><tr><th class="prev">‹</th><th colspan="5" class="switch">2020-2029</th><th class="next">›</th></tr></thead><tbody><tr><td colspan="7"><span class="year old">2019</span><span class="year active">2020</span><span class="year">2021</span><span class="year">2022</span><span class="year">2023</span><span class="year">2024</span><span class="year">2025</span><span class="year">2026</span><span class="year">2027</span><span class="year">2028</span><span class="year">2029</span><span class="year old">2030</span></td></tr></tbody></table></div></div> -->
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 </body>
 </html>
 
