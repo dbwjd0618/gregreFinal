@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kh.mclass.Igre.counselling.model.vo.BookingInfo;
+import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.dao.MyPageDAO;
 import kh.mclass.Igre.mypage.model.vo.Child;
@@ -47,6 +49,11 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 
 	@Override
+	public List<BookingInfo> selectBookingInfoList(BookingInfo book) {
+		return mpd.selectBookingInfoList(book);
+	}
+
+	@Override
 	public int updatePassword(Member member) {
 		// TODO Auto-generated method stub
 		return mpd.updatePassword(member);
@@ -56,6 +63,12 @@ public class MyPageServiceImpl implements MyPageService {
 	public int memberDelete(Member member) {
 		// TODO Auto-generated method stub
 		return mpd.memberDelete(member);
+	}
+
+	@Override
+	public int reviewWrite(Review review) {
+		// TODO Auto-generated method stub
+		return mpd.reviewWrite(review);
 	}
 }
 

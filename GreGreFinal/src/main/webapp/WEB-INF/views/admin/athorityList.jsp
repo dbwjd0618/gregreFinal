@@ -8,8 +8,7 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-              <h1>
-                관리자 관리
+              <h1>관리자 관리
                 <small>관리자 권한 수정</small>
               </h1>
               <ol class="breadcrumb">
@@ -43,27 +42,30 @@
                             <th>권한 부여</th>
                           </tr>
                           
-                          <c:if test="${empty admin }">
+                          <c:if test="${empty member }">
                           	<tr >
                           		<td colspan="11">조회된 관리자 목록이 없습니다.</td>
                           	</tr>
                           </c:if>
                           
-                          <c:if test="${not empty admin }">
-                          	<c:forEach items="${admin }" var="admin">
-	                          <tr>
-	                            <td>${admin.adminId }</td>
-	                            <td>${admin.adminName }</td>
-	                            <td>${admin.nickname }</td>
-	                            <td>${admin.birthday }</td>
-	                            <td>${admin.phone }</td>
-	                            <td>${admin.address }</td>
-	                            <td>${admin.email }</td>
-	                            <td>${admin.grade }</td>
-	                            <td>${admin.gender }</td>
-	                            <td>${admin.enrollDate }</td>
-	                            <td><input type="button" value="수정" onclick="location.href='${pageContext.request.contextPath}/admin/athorityUpdate.do'"></td>
-	                          </tr>
+                          <c:if test="${not empty member }">
+                          	<c:forEach items="${member }" var="member">
+                          		<c:if test="${member.grade eq 'A'}">
+		                          <tr>
+		                            <td>${member.memberId }</td>
+		                            <td>${member.memberName }</td>
+		                            <td>${member.nickname }</td>
+		                            <td>${member.birthday }</td>
+		                            <td>${member.phone }</td>
+		                            <td>${member.address }</td>
+		                            <td>${member.email }</td>
+		                            <td>${member.grade }</td>
+		                            <td>${member.gender }</td>
+		                            <td>${member.enrollDate }</td>
+		                            <td><input type="button" value="수정"
+		                            	 onclick="location.href='${pageContext.request.contextPath}/admin/athorityView.do?memberId='+'${member.memberId}'"></td>
+		                          </tr>
+                          		</c:if>
                           	</c:forEach>
                           </c:if>
                       </table>
@@ -94,26 +96,29 @@
                             <th>권한 부여</th>
                           </tr>
                           
-                          <c:if test="${empty amember }">
+                          <c:if test="${empty member }">
                           	<tr>
                           		<td colspan="11">조회된 회원 목록이 없습니다.</td>
                           	</tr>
                           </c:if>
-                          <c:if test="${not empty amember }">
-                          	<c:forEach items="${amember }" var="amember">
-                          <tr>
-                            <td>${amember.memberId }</td>
-                            <td>${amember.memberName }</td>
-                            <td>${amember.nickname }</td>
-                            <td>${amember.birthday }</td>
-                            <td>${amember.phone }</td>
-                            <td>${amember.address }</td>
-                            <td>${amember.email }</td>
-                            <td>${amember.grade }</td>
-                            <td>${amember.gender }</td>
-                            <td>${amember.enrollDate }</td>
-                            <td><input type="button" value="수정" onclick="location.href='${pageContext.request.contextPath}/admin/athorityUpdate.do'"></td>
-                          </tr>
+                          <c:if test="${not empty member }">
+                          	<c:forEach items="${member }" var="member">
+                          		<c:if test="${member.grade eq 'M' }">
+		                          <tr>
+		                            <td>${member.memberId }</td>
+		                            <td>${member.memberName }</td>
+		                            <td>${member.nickname }</td>
+		                            <td>${member.birthday }</td>
+		                            <td>${member.phone }</td>
+		                            <td>${member.address }</td>
+		                            <td>${member.email }</td>
+		                            <td>${member.grade }</td>
+		                            <td>${member.gender }</td>
+		                            <td>${member.enrollDate }</td>
+		                            <td><input type="button" value="수정" 
+		                            onclick="location.href='${pageContext.request.contextPath}/admin/athorityView.do?memberId='+'${member.memberId}'"></td>
+		                          </tr>
+                          		</c:if>
                           	</c:forEach>
                           </c:if>
                       </table>
@@ -123,10 +128,6 @@
               </div><!-- /.row -->
             </section><!-- /.content -->
           </div><!-- /.content-wrapper -->
-
-
-
-
 
 <!-- admin footer 선언 -->
 <%@ include file="/WEB-INF/views/admin/common/footer.jsp"%>

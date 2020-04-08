@@ -9,6 +9,8 @@ import kh.mclass.Igre.admin.model.vo.AdminReport;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
 import kh.mclass.Igre.board.model.vo.Reply;
+import kh.mclass.Igre.counselling.model.vo.Counselor;
+import kh.mclass.Igre.member.model.vo.Member;
 
 public interface AdminService {
 
@@ -48,10 +50,6 @@ public interface AdminService {
 
 	int noticeUpdate(String boardCode, Integer postNo);
 
-	List<Admin> adminList();
-
-	List<Amember> amemberList();
-
 	int boardDelete(String boardCode);
 
 	Post postView(Map<String, Object> param);
@@ -63,6 +61,16 @@ public interface AdminService {
 	int prefCount(Map<String, Object> param);
 
 	int postCount(Map<String, String> param);
+
+	List<Member> selectAdmember();
+
+	Member athorityView(String memberId);
+
+	int athorityUpdate(Member member);
+
+	List<Member> indexMember();
+
+	List<Admin> indexAdmin();
 
 
 

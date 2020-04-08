@@ -25,4 +25,7 @@ public interface ProductService {
 
 	ProdOption selectOptionOne(String optionId);
 
+
+	String selectSellerId(String productId);
+
 }

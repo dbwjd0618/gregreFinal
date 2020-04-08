@@ -9,7 +9,63 @@
 	</select>
 
 	<select id="postList" resultType="Post">
-		select * from ${table} order by post_no desc
+		select * from TB_post_${boardCode}
+		<where>
+			<if test="srchCon != null and srchCon != ''">
+				<if test="srchOpt == 'title'">
+					and title
+				</if>
+				<if test="srchOpt == 'content'">
+					and content
+				</if>
+				<if test="srchOpt == 'writer'">
+					and writer
+				</if>
+				like '%${srchCon}%'
+			</if>
+			<if test="srchFilter == 'Fpost'">
+				and writer = #{memberId}
+			</if>
+		</where>
+		 order by post_no DESC
+	</select>
+	
+	<select id="postListR" resultType="Post">
+		select * from TB_post_${boardCode} join (select post_no from TB_reply_${boardCode} where reply_writer = #{memberId} group by post_no) using(post_no)
+		<where>
+			<if test="srchCon != null and srchCon != ''">
+				<if test="srchOpt == 'title'">
+					and title
+				</if>
+				<if test="srchOpt == 'content'">
+					and content
+				</if>
+				<if test="srchOpt == 'writer'">
+					and writer
+				</if>
+				like '%${srchCon}%'
+			</if>
+		</where>
+		order by post_no DESC
+	</select>
+	
+	<select id="postListP" resultType="Post">
+		select * from TB_post_${boardCode} join (select post_no from TB_prefer where member_id = #{memberId} and board_code = #{boardCode} group by post_no) using(post_no)
+		<where>
+			<if test="srchCon != null and srchCon != ''">
+				<if test="srchOpt == 'title'">
+					and title
+				</if>
+				<if test="srchOpt == 'content'">
+					and content
+				</if>
+				<if test="srchOpt == 'writer'">
+					and writer
+				</if>
+				like '%${srchCon}%'
+			</if>
+		</where>
+		order by post_no DESC
 	</select>
 	
 	<select id="boardName" resultType="String">
@@ -17,7 +73,64 @@
 	</select>
 	
 	<select id="postCount" resultType="_int">
-		select count(*) from ${table}
+		select count(*) from TB_post_${boardCode}
+		<where>
+			<if test="srchCon != null and srchCon != ''">
+				<if test="srchOpt == 'title'">
+					and title
+				</if>
+				<if test="srchOpt == 'content'">
+					and content
+				</if>
+				<if test="srchOpt == 'writer'">
+					and writer
+				</if>
+				like '%${srchCon}%'
+			</if>
+			<if test="srchFilter == 'Fpost'">
+				and writer = #{memberId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="postCountR" resultType="_int">
+		select count(*) from (select PR.post_no, count(*) from (select * from TB_post_${boardCode} P left join TB_reply_${boardCode} R using(post_no)
+		<where>
+			<if test="srchCon != null and srchCon != ''">
+				<if test="srchOpt == 'title'">
+					and title
+				</if>
+				<if test="srchOpt == 'content'">
+					and content
+				</if>
+				<if test="srchOpt == 'writer'">
+					and writer
+				</if>
+				like '%${srchCon}%'
+			</if>
+			and R.reply_writer = #{memberId}
+		</where>
+		
+		 ) PR group by PR.post_no)
+	</select>
+	
+	<select id="postCountP" resultType="_int">
+		select count(*) from TB_post_${boardCode} join (select * from TB_prefer where member_id = #{memberId} and board_code = #{boardCode}) using(post_no)
+		<where>
+			<if test="srchCon != null and srchCon != ''">
+				<if test="srchOpt == 'title'">
+					and title
+				</if>
+				<if test="srchOpt == 'content'">
+					and content
+				</if>
+				<if test="srchOpt == 'writer'">
+					and writer
+				</if>
+				like '%${srchCon}%'
+			</if>
+			and R.reply_writer = #{memberId}
+		</where>
 	</select>
 	
 	<insert id="preferIn">
@@ -33,7 +146,7 @@
 	</select>
 	
 	<select id="replyList" resultType="Reply">
-		select * from ${table} where post_no = #{postNo}
+		select * from TB_reply_${boardCode} where post_no = #{postNo}
 	</select>
 	
 	<select id="replyCount" resultType="_int">
@@ -110,7 +223,11 @@
 			#{boardCode}, seq_${boardCode}_post.nextval, #{writer}, default,
 			<if test="postPwd == null or postPwd == ''">default, </if>
 			<if test="postPwd != null and postPwd != ''">#{postPwd},</if>
-			#{title}, #{content}, default, 0, 0, 0, 0,
+			<if test="title == null or title == ''">default, </if>
+			<if test="title != null and title != ''">#{title}, </if>
+			<if test="content == null or content == ''">default, </if>
+			<if test="content != null and content != ''">#{content}, </if>
+			default, 0, 0, 0, 0,
 			<if test="originFilename == null">null, null</if>
 			<if test="originFilename != null">#{originFilename}, #{renameFilename}</if>
 		)
@@ -122,6 +239,17 @@
 	
 	<update id="replyModify">
 		update TB_reply_${boardCode} set reply_content = #{replyContent} where post_no = #{postNo} and reply_no = #{replyNo}
+	</update>
+	
+	<update id="modifyPost">
+		update TB_post_${boardCode} set
+			title = <if test="title == null or title == ''">default, </if>
+					<if test="title != null and title != ''">#{title}, </if>
+			content = <if test="content == null or content == ''">default, </if>
+				      <if test="content != null and content != ''">#{content}, </if>
+			origin_filename = #{originFilename},
+			rename_filename = #{renameFilename}
+		where post_no = #{postNo}
 	</update>
 	
 </mapper>

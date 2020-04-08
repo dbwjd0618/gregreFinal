@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
+import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.reviewStar;
+import kh.mclass.Igre.member.model.vo.Member;
 
 @Repository
 public class CounselorDAOImpl implements CounselorDAO {
@@ -99,6 +101,11 @@ public class CounselorDAOImpl implements CounselorDAO {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		return sqlSession.selectList("counselor.selectCounselorList",null,rowBounds);
+	}
+
+	@Override
+	public int bookingInsert(BookingInfo info) {
+		return sqlSession.insert("counselor.bookingInfo", info);
 	}
 
 

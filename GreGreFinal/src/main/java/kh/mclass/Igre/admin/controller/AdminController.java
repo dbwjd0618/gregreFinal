@@ -25,6 +25,8 @@ import kh.mclass.Igre.admin.model.vo.Amember;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
 import kh.mclass.Igre.board.model.vo.Reply;
+import kh.mclass.Igre.counselling.model.vo.Counselor;
+import kh.mclass.Igre.member.model.vo.Member;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -46,7 +48,13 @@ public class AdminController {
 	
 	//Admin 인덱스 불러오기
 	@GetMapping("/index.do")
-	public String index() {
+	public String index(Model model) {
+		
+		List<Member> member = adminService.indexMember();
+		List<Admin> admin = adminService.indexAdmin();
+		
+		model.addAttribute("member", member);
+		model.addAttribute("admin", admin);
 		
 		return "admin/adminIndex";
 	}
@@ -58,34 +66,34 @@ public class AdminController {
 						Model model,
 						RedirectAttributes redirectAttributes) {
 		
-	try {
-		//로그인 처리
-		//1. adminId로 admin 객체조회
-		Admin admin = adminService.selectOne(adminId);
-//		log.debug("admin={}"+admin);
-		
-		//2.사용자가 입력한 password와 저장된 password 비교해서 로그인처리
-		if(admin != null && adminPwd.equals(admin.getAdminPwd())) {
-			//로그인성공
-			model.addAttribute("adminLoggedIn", admin);
+		try {
+			//로그인 처리
+			//1. adminId로 admin 객체조회
+			Admin admin = adminService.selectOne(adminId);
+	//		log.debug("admin={}"+admin);
 			
-			return "admin/adminIndex";
-		}
-		
-		else {
-			//로그인실패
-			String msg = "입력하신 아이디 혹은 비밀번호가 일치하지 않습니다.";
-
-			redirectAttributes.addFlashAttribute("msg", msg);
-				/* log.debug(msg); */
-		}
-	}
+			//2.사용자가 입력한 password와 저장된 password 비교해서 로그인처리
+			if(admin != null && adminPwd.equals(admin.getAdminPwd())) {
+				//로그인성공
+				model.addAttribute("adminLoggedIn", admin);
+				
+				return "redirect:/admin/index.do";
+			}
+			
+			else {
+				//로그인실패
+				String msg = "입력하신 아이디 혹은 비밀번호가 일치하지 않습니다.";
 	
-	catch(Exception e) {
-		log.error("로그인 처리 예외", e);
+				redirectAttributes.addFlashAttribute("msg", msg);
+					/* log.debug(msg); */
+			}
+		}
+	
+		catch(Exception e) {
+			log.error("로그인 처리 예외", e);
 		
-		throw new AdminException("로그인 처리 도중 오류가 발생하였습니다.", e);
-	}
+			throw new AdminException("로그인 처리 도중 오류가 발생하였습니다.", e);
+		}
 		
 		return "redirect:/admin/login.do";
 	}
@@ -173,8 +181,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/memberDeleteList.do")
-	public String deleteList(Model model,
-							 RedirectAttributes redirectAttributes) {
+	public String deleteList(Model model) {
 		
 		List<Amember> list = adminService.deleteList();
 		
@@ -357,22 +364,36 @@ public class AdminController {
 	@GetMapping("/athorityList.do")
 	public String athorityList(Model model) {
 		
-		List<Admin> admin = adminService.adminList();
-		 List<Amember> amember = adminService.amemberList(); 
+		List<Member> member = adminService.selectAdmember();
 		
-		model.addAttribute("admin", admin);
-		 model.addAttribute("amember",amember); 
+		model.addAttribute("member", member);
 		
 		return "admin/athorityList";
 	}
 	
-	@GetMapping("/athorityUpdate.do")
-	public String athorityUpdate() {
+	@GetMapping("/athorityView.do")
+	public String athorityView(Model model,
+							   @RequestParam("memberId") String memberId) {
+		
+		Member member = adminService.athorityView(memberId);
+		model.addAttribute("member", member);
 		
 		return "admin/athorityUpdate";
 	}
 	
+	@PostMapping("/athorityUpdate.do")
+	public String athorityUpdate(Member member) {
+		log.debug("member={}", member);
+		int result = adminService.athorityUpdate(member);
+		
+		return "redirect:/admin/athorityList.do";
+	}
 
+	@GetMapping("/email.do")
+	public String email() {
+		
+		return "admin/email";
+	}
 }
 
 

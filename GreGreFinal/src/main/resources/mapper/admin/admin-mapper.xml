@@ -165,7 +165,7 @@
 			board_code varchar2(5) constraint fk_reply_${boardCode} references TB_board(board_code) on delete cascade not null, 
 			post_no number constraint fk_reply_post_${boardCode} references TB_post_${boardCode}(post_no) on delete cascade not null, 
 			reply_no number constraint pk_${boardCode}_reply primary key, 
-			reply_writer varchar2(30) constraint fk_reply_writer_${boardCode} references TB_member_info(member_ID) on delete set null not null,
+			reply_writer varchar2(30) constraint fk_reply_writer_${boardCode} references TB_member_info(member_ID) on delete cascade not null,
 			reply_content varchar2(50) not null, 
 			reply_write_time date default sysdate, 
 			recommen_count number default 0, 
@@ -318,25 +318,48 @@
 		    tb_post_${boardCode}
 	</select>
 	
-	<select id="adminList" resultType="Admin">
-		select 
-		    member_id admin_Id, member_name admin_Name, 
-		    nickname, birthday, phone, address, email, grade, gender, enroll_date
-		from 
+	<select id="selectAdmember" resultType="Member">
+		select
+			*
+		from
+			tb_member_info
+	</select>
+	
+	<select id="athorityView" resultType="Member">
+		select
+			*
+		from
+			tb_member_info
+		where
+			member_id = #{memberId}
+	</select>
+	
+	<update id="athorityUpdate">
+ 		update
+ 			tb_member_info
+ 		set
+ 			grade = #{grade}
+ 		where
+ 			member_id = #{memberId}
+	</update>
+	
+	<select id="indexMember" resultType="Member">
+		select
+			*
+		from
+			tb_member_info
+		where
+			grade = 'M'
+	</select>
+	
+	<select id="indexAdmin" resultType="Admin">
+		select
+			member_id admin_id, email, phone
+		from
 			tb_member_info
 		where
 			grade = 'A'
 	</select>
-	
-	<select id="amemberList" resultType="Amember">
-		select
-		    *
-		from
-		    tb_member_info
-		where
-		    grade = 'M'
-	</select>
-	
  </mapper>
  
  

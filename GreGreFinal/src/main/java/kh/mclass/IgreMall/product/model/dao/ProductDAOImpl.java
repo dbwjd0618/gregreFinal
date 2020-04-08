@@ -50,4 +50,9 @@ public class ProductDAOImpl implements ProductDAO{
 	public ProdOption selectOptionOne(String optionId) {
 		return sqlSession.selectOne("product.selectOptionOne",optionId);
 	}
+
+	@Override
+	public String selectSellerId(String productId) {
+		return sqlSession.selectOne("product.selectSellerId", productId);
+	}
 }

@@ -12,15 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.mclass.Igre.common.Pagebar;
 import kh.mclass.Igre.counselling.model.service.CounselorService;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
+import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.reviewStar;
 import kh.mclass.Igre.member.model.vo.Member;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +41,6 @@ public class CounsellingController {
 	public ModelAndView counselorFind(@RequestParam(value = "cPage", defaultValue = "1")int cPage,
 										HttpServletRequest request, HttpServletResponse response) {
 		
-		log.debug("상담사 목록 페이지!");
 		ModelAndView mav = new ModelAndView();
 		
 		final int numPerPage =10;
@@ -67,9 +69,6 @@ public class CounsellingController {
 		
 		int totalContents = counselorService.selectCounselorTotalContents();
 		
-		System.out.println(list);
-		
-		
 		JSONArray jsonArray = new JSONArray();
 	
 		mav.addObject("list", jsonArray.fromObject(list));
@@ -84,7 +83,7 @@ public class CounsellingController {
 	public ModelAndView bookingMain(@RequestParam(value = "cPage", defaultValue = "1")int cPage,
 									@RequestParam("advisId") String advisId,
 									Model model) {
-		System.out.println("===================================bookingMain=======================================");
+		
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage =5;
 		
@@ -98,24 +97,22 @@ public class CounsellingController {
 		int totalReviewContents = counselorService.selectReviewTotalContents();
 		
 		//상담사 1명의 리뷰 게시글 count
-		System.out.println("==========================reviewCountSelectOne==========================");
 		int reviewCountSelectOne = counselorService.selectReviewCounselorOne(advisId);
 		
 		//리뷰 리스트
 		List<Map<String,String>> list = counselorService.selectReviewList(c, cPage, numPerPage);
 		mav.addObject("pageBar",Pagebar.getPageBar(reviewCountSelectOne, cPage, numPerPage,"/Igre/counselling/bookingMain.do?advisId="+advisId));
 		
-		//특정상담사에 관한 리뷰중 특정평점을 받은 글의 총 개수
+		
 		List<reviewStar> list1 = new ArrayList<>();
 		list1.add(new reviewStar(5, counselorService.countReview(advisId, 5)));
 		list1.add(new reviewStar(4, counselorService.countReview(advisId, 4)));
 		list1.add(new reviewStar(3, counselorService.countReview(advisId, 3)));
 		list1.add(new reviewStar(2, counselorService.countReview(advisId, 2)));
 		list1.add(new reviewStar(1, counselorService.countReview(advisId, 1)));
-		
+				
 		Double reviewRating = counselorService.selectReviewRating(advisId);
 
-		System.err.println("reviewRating=="+reviewRating);
 		mav.addObject("reviewRating",reviewRating);
 		mav.addObject("counselor",counselor);
 		mav.addObject("list", list);
@@ -128,22 +125,36 @@ public class CounsellingController {
 	}
 	
 	@GetMapping("/bookingPage.do")
-	public void bookingPage(@RequestParam("advisId") String advisId, Model model) {
+	public void bookingPage(@RequestParam("advisId") String advisId,
+							
+							Model model) {
 		//상담사 정보
 		Counselor counselor = counselorService.selectOne(advisId);
-
+		Member m = new Member();
 		model.addAttribute("counselor", counselor);
 		
 	}
+	
+	@PostMapping(value = "/bookingEnd.do")
+	public String bookingInsert(@ModelAttribute BookingInfo info, Model model, RedirectAttributes redirectAttributes ) {
+		
+		log.debug("예약상태"+info);
+		
+		int result = counselorService.bookingInsert(info);
+		String msg = result>0?"예약성공":"예약실패";
+		
+		redirectAttributes.addFlashAttribute("msg",msg);
+		
+		model.addAttribute("info", info);
+		
+		return "counselling/bookingEnd";
+	}
+	
 	
 	@GetMapping("/filter.do")
 	@ResponseBody
 	public List<Counselor> filter(@RequestParam(value = "category-check" ,defaultValue = "") String[] category, @RequestParam(value = "type-level",defaultValue = "") String[] level,
 									@RequestParam("gender-check") String[] gender, @RequestParam("day-check") String[] day){
-		System.out.println(category);
-		System.out.println(gender);
-		System.out.println(level);
-		System.out.println(day);
 		
 		Map<String,String[]> param = new HashMap<>();
 		param.put("category", category);
@@ -163,10 +174,8 @@ public class CounsellingController {
 		for(int i=0; i< list.size(); i++) {
 			list.get(i).setStarPoint(counselorService.selectStarPoint(list.get(i).getAdvisId())); 			
 		}
-		log.debug(list.toString());
 		return list;
 	}
-	
+		
 	
 }
-

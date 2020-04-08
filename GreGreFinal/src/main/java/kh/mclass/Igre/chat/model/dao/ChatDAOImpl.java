@@ -53,12 +53,42 @@ public class ChatDAOImpl implements ChatDAO {
 	}
 
 	@Override
-	public int counselorUpdateLastCheck(Msg fromMessage) {
-		return sqlSession.update("counselor.updateLastCheck");
+	public int counselorUpdateLastCheckC(Msg fromMessage) {
+		return sqlSession.update("counselor.updateLastCheckC",fromMessage);
 	}
 
 	@Override
 	public String counselorFindId(String memberId) {
 		return sqlSession.selectOne("counselor.counselorFindId",memberId);
+	}
+
+	@Override
+	public int counselorRoomNum(String chatId) {
+		return sqlSession.selectOne("counselor.counselorRoomNum",chatId);
+	}
+
+	@Override
+	public int counselorReadCountM(Map<String, Object> readCount) {
+		return sqlSession.selectOne("counselor.counselorReadCountM",readCount);
+	}
+
+	@Override
+	public int counselorUpdateLastCheckM(Msg fromMessage) {
+		return sqlSession.update("counselor.updateLastCheckM", fromMessage);
+	}
+
+	@Override
+	public String memberFindId(String counselorId) {
+		return sqlSession.selectOne("counselor.memberFindId",counselorId);
+	}
+
+	@Override
+	public int counselorReadCountC(Map<String, Object> readCount) {
+		return sqlSession.selectOne("counselor.counselorReadCountC",readCount);
+	}
+
+	@Override
+	public String memberIdFindChatListByChatId(String counselorId) {
+		return sqlSession.selectOne("counselor.memberIdFindChatListByChatId",counselorId);
 	}
 }

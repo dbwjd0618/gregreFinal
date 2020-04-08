@@ -53,6 +53,7 @@
 <script>
 const memberId = '${memberId}';
 const chatId = '${chatId}';
+const counselorId = '${counselorId}';
 
 //웹소켓 선언 및 연결
 //1.최초 웹소켓 생성 url: /stomp

@@ -59,9 +59,25 @@ public class BoardController {
 	@GetMapping("/postList")
 	public String postList(@RequestParam("boardCode") String boardCode,
 						   @RequestParam(value="cPage", defaultValue="1") int cPage,
-						   Model model) {
+						   @RequestParam(value="srchOpt", required=false) String srchOpt,
+						   @RequestParam(value="srchCon", required=false) String srchCon,
+						   @RequestParam(value="srchFilter", required = false) String srchFilter,
+						   Model model, HttpSession hs) {
 		param.put("boardCode", boardCode);
 		param.put("cPage", cPage);
+		if(srchCon != null && !srchCon.equals("")) {
+			param.put("srchOpt", srchOpt);
+			param.put("srchCon", srchCon);
+		}
+		if(srchFilter != null && !srchFilter.equals("")) {
+			log.debug("filter == "+srchFilter);
+			if(!srchFilter.equals("Fclr")) {
+				param.put("srchFilter", srchFilter);
+				param.put("memberId", ((Member)hs.getAttribute("memberLoggedIn")).getMemberId());
+			} else {
+				srchFilter = null;
+			}
+		}
 		String boardName = bs.boardName(param);
 		if(boardName == null) {
 			boardCode = "B1";
@@ -73,23 +89,59 @@ public class BoardController {
 		List<Board> boardList = bs.boardList();
 		model.addAttribute("boardList", boardList);
 		
-		int postCount = bs.postCount(param);
+		int postCount = 0;
+		if(srchFilter != null && !srchFilter.equals("")) {
+			switch(srchFilter) {
+			case "Fpost" :
+				postCount = bs.postCount(param); break;
+			case "Frepl" :
+				postCount = bs.postCountR(param); break;
+			case "Fpref" :
+				postCount = bs.postCountP(param); break;
+			}
+			log.debug("필터 접근?");
+		} else postCount = bs.postCount(param);
+		log.debug("필터 아웃");
 		model.addAttribute("postCount", postCount);
 		
 		int endPage = ((postCount-1)/10)+1;
-		if(cPage>endPage) {
-			cPage = endPage;
-			param.put("cPage", cPage);
-		}
-		if(cPage<1) {
-			cPage = 1;
-			param.put("cPage", cPage);
-		}
 		
-		List<Post> postList = bs.postList(param);
+		if(cPage>endPage)
+			cPage = endPage;
+		
+		if(cPage<1)
+			cPage = 1;
+		
+		param.put("cPage", cPage);
+		
+		List<Post> postList = null;
+		
+		if(srchFilter != null && !srchFilter.equals("")) {
+			switch(srchFilter) {
+			case "Fpost" : 
+				postList = bs.postList(param); break;
+			case "Frepl" :
+				postList = bs.postListR(param); break;
+			case "Fpref" :
+				postList = bs.postListP(param); break;
+			}
+		} else postList = bs.postList(param);
+		log.debug(""+postList);
 		model.addAttribute("postList", postList);
 		model.addAttribute("cPage", cPage);
 		model.addAttribute("endPage", endPage);
+		if(param.containsKey("srchOpt")) {
+			model.addAttribute("srchOpt", srchOpt);
+			param.remove("srchOpt");
+		}
+		if(param.containsKey("srchCon")) {
+			model.addAttribute("srchCon", srchCon);
+			param.remove("srchCon");
+		}
+		if(param.containsKey("srchFilter")) {
+			model.addAttribute("srchFilter", srchFilter);
+			param.remove("srchFilter");
+		}
 		return "board/postList";
 	}
 	
@@ -295,30 +347,28 @@ public class BoardController {
 	
 	@PostMapping("/postWrite.do")
 	public String postWriteEnd(Post post, RedirectAttributes rda, HttpServletRequest request,
-							   @RequestParam(value="upFile", required=false) MultipartFile[] upfile) {
+							   @RequestParam(value="upFile", required=false) MultipartFile upfile) {
 		
-		for(MultipartFile f : upfile) {
-			if(!(f.isEmpty())) {
+		if(!(upfile.isEmpty())) {
 
-				String originFileName = f.getOriginalFilename();
-				String renamedFileName = Utils.getRenamedFileName(originFileName);
-				
-				//파일 이동
-				String saveDirectory = request.getServletContext().getRealPath("/resources/upload/board");
-				
-				try {
-					f.transferTo(new File(saveDirectory, renamedFileName));
-				} catch (IllegalStateException | IOException e) {
-					e.printStackTrace();
-				}
-				
-				post.setOriginFilename(originFileName);
-				post.setRenameFilename(renamedFileName);
-				
-			} else {
-				post.setOriginFilename(null);
-				post.setRenameFilename(null);
+			String originFileName = upfile.getOriginalFilename();
+			String renamedFileName = Utils.getRenamedFileName(originFileName);
+			
+			//파일 이동
+			String saveDirectory = request.getServletContext().getRealPath("/resources/upload/board");
+			
+			try {
+				upfile.transferTo(new File(saveDirectory, renamedFileName));
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
 			}
+			
+			post.setOriginFilename(originFileName);
+			post.setRenameFilename(renamedFileName);
+			
+		} else {
+			post.setOriginFilename(null);
+			post.setRenameFilename(null);
 		}
 		int result = bs.postWrite(post);
 		
@@ -358,5 +408,43 @@ public class BoardController {
 		Post postM = bs.postView(post);
 		model.addAttribute("post", postM);
 		return "board/postModify";
+	}
+	
+	@PostMapping("/postModify.do")
+	public String modifyPostEnd(Post post, RedirectAttributes rda, HttpServletRequest request,
+								@RequestParam(value="upFile", required=false) MultipartFile upfile) {
+		log.debug(""+post);
+		if(post.getOriginFilename() != null) {
+			if(post.getOriginFilename().equals("delete")) {
+				post.setOriginFilename(null);
+				post.setRenameFilename(null);
+			}
+			else if(post.getOriginFilename().equals("change")) {
+				if(!(upfile.isEmpty())) {
+
+					String originFileName = upfile.getOriginalFilename();
+					String renamedFileName = Utils.getRenamedFileName(originFileName);
+					
+					//파일 이동
+					String saveDirectory = request.getServletContext().getRealPath("/resources/upload/board");
+					
+					try {
+						upfile.transferTo(new File(saveDirectory, renamedFileName));
+					} catch (IllegalStateException | IOException e) {
+						e.printStackTrace();
+					}
+					
+					post.setOriginFilename(originFileName);
+					post.setRenameFilename(renamedFileName);
+					
+				} else {
+					post.setOriginFilename(null);
+					post.setRenameFilename(null);
+				}
+			}
+		}
+		int result = bs.modifyPost(post);
+		rda.addFlashAttribute("msg", result>0?"수정이 완료되었습니다.":"수정 중 오류가 발생했습니다.");
+		return "redirect:/board/postView?boardCode="+post.getBoardCode()+"&postNo="+post.getPostNo();
 	}
 }

@@ -1,6 +1,7 @@
 package kh.mclass.Igre.chat.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -53,8 +54,24 @@ public class ChatController {
 		//최근 사용자 채팅메세지 목록
 		List<Map<String, String>> recentList = chatService.counselorFindRecentList(memberId);
 		
+		
+		//상담사 ID 검색
+		String counselorId = chatService.counselorFindId(memberId);
+		
+		//채팅 방 번호 검색
+		int roomNum = chatService.counselorRoomNum(chatId);
+		
+		Map<String, Object> readCount = new HashMap<String, Object>();
+		readCount.put("roomNum", roomNum);
+		readCount.put("counselorId", counselorId);
+		int readCountResult = chatService.counselorReadCountM(readCount);
+		
+		
+		//안 읽은 메세지 수
+		model.addAttribute("readCountResult",readCountResult);
 		log.debug("recentList={}",recentList);		
 		model.addAttribute("recentList", recentList);
+		
 
 		return "counselling/counsellingStart";
 	}
@@ -83,13 +100,17 @@ public class ChatController {
 			list.add(new ChatMember(counselorId, chatRoom));
 			
 			//chat_room, chat_member테이블에 데이터 생성
-			chatService.counselorCreateChatRoom(list);
+			 chatService.counselorCreateChatRoom(list);
+		
 
 		}
 		//chatId가 존재하는 경우, 채팅내역 조회
 		else{
+			
 			List<Msg> chatList = chatService.counselorFindChatListByChatId(chatId);
+			
 			model.addAttribute("chatList", chatList);
+
 		}
 		
 		log.debug("memberId=[{}], chatId=[{}]",memberId, chatId);
@@ -123,10 +144,11 @@ public class ChatController {
 	}
 	
 	//채팅 실행
-	@MessageMapping("/chattt/counselor/{chatId}")
+	@MessageMapping("/chattt/counselor/{chatId}/{counselorId}")
 	@SendTo(value={"/chat/counselor/{chatId}", "/chat/counselor/{counselorId}/push"})
-	public Msg sendEcho(Msg fromMessage, @DestinationVariable String chatId){
+	public Msg sendEcho(Msg fromMessage, @DestinationVariable String chatId,@DestinationVariable String counselorId){
 		System.out.println("실행");
+		System.out.println(counselorId);
 		log.debug("fromMessage={}",fromMessage);
 		
 		//db에 메세지로그
@@ -144,12 +166,21 @@ public class ChatController {
 	 * @param fromMessage
 	 * @return
 	 */
-	@MessageMapping("/counselorLastCheck")
-	@SendTo(value={"/chat/{counselorId}/push"})
-	public Msg lastCheck(@RequestBody Msg fromMessage){
-		log.debug("lastCheck={}",fromMessage);
+	@MessageMapping("/lastCheck/counselor/{counselorId}")
+	@SendTo(value={"/chat/counselor/{counselorId}/push"})
+	public Msg lastCheckC(@RequestBody Msg fromMessage){
+		log.debug("lastCheckC={}",fromMessage);
+		chatService.counselorUpdateLastCheckC(fromMessage);
 		
-		chatService.counselorUpdateLastCheck(fromMessage);
+		return fromMessage; 
+	}
+	
+	
+	@MessageMapping("/lastCheck/member/{chatId}")
+	@SendTo(value={"/chat/counselor/{chatId}"})
+	public Msg lastCheckM(@RequestBody Msg fromMessage){
+		log.debug("lastCheckM={}",fromMessage);
+		chatService.counselorUpdateLastCheckM(fromMessage);
 		
 		return fromMessage; 
 	}

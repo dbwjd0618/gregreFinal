@@ -89,6 +89,7 @@ body {padding-right: 0px !important;}
 									<input type="hidden" name="postNo" value="${post.postNo}" />
 									<input type="hidden" name="writer" value="${memberLoggedIn.memberId}" />
 									<input type="hidden" id="delRpl" name="replyNo" />
+									<input type="hidden" id="postPwd" value="${post.postPwd}" />
 								</form>
 							</div>
 						</div>
@@ -124,7 +125,7 @@ body {padding-right: 0px !important;}
 								<td colspan="2" style="text-align: left;">
 									<i title="목록으로" class="fas fa-clipboard-list clickable" onclick="location.href='${pageContext.request.contextPath}/board/postList?boardCode=${post.boardCode }'"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									<c:if test="${memberLoggedIn != null && memberLoggedIn.memberId != post.writer}">
-										<i title="신고하기" class="fas fa-exclamation-triangle clickable" onclick="reportShow(0, ${post.writer})"></i>
+										<i title="신고하기" class="fas fa-exclamation-triangle clickable" onclick="reportShow(0, '${post.writer}')"></i>
 									</c:if>
 								</td>
 								<c:if test="${memberLoggedIn.memberId == post.writer}">
@@ -136,10 +137,10 @@ body {padding-right: 0px !important;}
 						</table>
 						<br /> <br />
 						<table id="reply" style="width: 100%; text-align: left;">
-							<c:if test="${empty replyList}">
+							<c:if test="${replyCount == 0}">
 								<tr><td>작성된 댓글이 없습니다. 첫 댓글을 작성해주세요!</td></tr>
 							</c:if>
-							<c:if test="${not empty replyList}">
+							<c:if test="${replyCount ge 1}">
 							<input type="hidden" id="cPage" value="${cPage}" />
 								<c:forEach items="${replyList}" var="reply">
 									<tr>
@@ -260,7 +261,7 @@ body {padding-right: 0px !important;}
 					<input type="radio" name="reportContent" id="sub5" value="반사회적인 내용" /><label for="sub5">&nbsp;반사회적인 내용</label><br />
 					<input type="radio" name="reportContent" id="sub6" value="아동학대" /><label for="sub6">&nbsp;아동학대</label><br />
 					<input type="radio" name="reportContent" id="sub7" value="스팸/도배" /><label for="sub7">&nbsp;스팸/도배</label>
-					<input type="hidden" name="reporterId" value="${memberLoggerId.memberId }" />
+					<input type="hidden" name="reporterId" value="${memberLoggedIn.memberId }" />
 					<input type="hidden" name="boardCode" value="${post.boardCode}" />
 					<input type="hidden" name="postNo" value="${post.postNo}" />
 				</form>
@@ -428,6 +429,12 @@ function decom(replyNo) {
 function deletePost() {
 	if(!confirm("게시글을 삭제하시겠습니까?"))
 		return;
+	var pwd = prompt("게시글 암호를 입력하세요.");
+	if(pwd != $("#postPwd").val()) {
+		alert("암호가 잘못되었습니다.");
+		return;
+	}
+	
 	$("#postForm").attr("action", "deletePost.do")
 				  .submit();
 }
@@ -487,6 +494,11 @@ function rplModify(boardCode, postNo, replyNo, e){
 function modPost() {
 	if(!confirm("게시글을 수정하시겠습니까?"))
 		return;
+	var pwd = prompt("게시글 암호를 입력하세요.");
+	if(pwd != $("#postPwd").val()) {
+		alert("암호가 잘못되었습니다.");
+		return;
+	}
 	$("#postForm").attr("action", "modifyPost.do").submit();
 }
 </script>
