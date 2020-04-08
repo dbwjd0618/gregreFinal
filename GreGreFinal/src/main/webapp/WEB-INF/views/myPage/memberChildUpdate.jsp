@@ -421,6 +421,7 @@ function categoryChange(e) {
 	else if(e.next().next().value== "japEncep2") var d = nth_japEncep2;
 	else if(e.next().next().value == "influ") var d = nth_influ;
 	else if(e.next().next().value == "typhoid") var d = nth_typhoid;
+
 	target.options.length = 0;
 
 	for (x in d) {

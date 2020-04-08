@@ -26,12 +26,8 @@ public interface MyPageDAO {
 
 	int memberDelete(Member member);
 
-
 	int insertVaccion(Vaccination vaccination);
 
 	int reviewWrite(Review review);
-
-
-
 
 }
