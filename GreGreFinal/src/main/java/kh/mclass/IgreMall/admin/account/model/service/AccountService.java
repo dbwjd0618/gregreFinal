@@ -11,4 +11,8 @@ public interface AccountService {
 
 	List<PayMethod> plist();
 
+	List<Account> searchList(Account a);
+
+	List<PayMethod> searchplist(Account a);
+
 }

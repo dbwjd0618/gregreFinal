@@ -41,9 +41,9 @@ public class ShopAdminController {
 	}
 	
 	//유저항목들
-	@GetMapping("/list.do")
+	@GetMapping("/adminInfo.do")
 	public ModelAndView memberList(ModelAndView mav) {
-		mav.setViewName("shop/admin/member/list");
+		mav.setViewName("shop/admin/member/adminInfo");
 		return mav; 
 	}
 	@GetMapping("/ban.do")
