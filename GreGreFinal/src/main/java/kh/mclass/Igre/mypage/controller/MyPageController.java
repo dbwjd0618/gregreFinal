@@ -2,6 +2,8 @@
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,10 +20,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
+import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.service.MyPageService;
 import kh.mclass.Igre.mypage.model.vo.Child;
 import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @Slf4j
@@ -126,7 +131,9 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/counsellingInfo.do")
-	public ModelAndView selectCounsellingInfo(ModelAndView mav, BookingInfo book, HttpSession session) {
+	public ModelAndView selectCounsellingInfo(@RequestParam(value = "cPage", defaultValue = "1")int cPage,  ModelAndView mav, BookingInfo book, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		
+		final int numPerPage =5;
 		
 		Member m = (Member)session.getAttribute("memberLoggedIn");
 		book.setMemberId(m.getMemberId());
@@ -136,6 +143,15 @@ public class MyPageController {
 		mav.addObject("m",m);
 		mav.addObject("list",list);
 		return mav;
+	}
+	
+	@PostMapping("/counsellingInfo.do")
+	public String reviewWrite(Review review, RedirectAttributes redirectAttributes) {
+		
+		int result = mps.reviewWrite(review);
+		String msg = result>0?"리뷰등록 성공!":"리뷰 등록 실패!";
+		
+		return "redirect:/myPage/counsellingInfo.do";
 	}
 	
 	

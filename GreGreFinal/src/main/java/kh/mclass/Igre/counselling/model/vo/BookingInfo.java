@@ -22,6 +22,7 @@ public class BookingInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String memberId;
+	private String appointNo;
 	private String advisId;
 	private String coin;
 	private Date startDay;

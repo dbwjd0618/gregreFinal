@@ -3,6 +3,7 @@ package kh.mclass.Igre.mypage.model.service;
 import java.util.List;
 
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
+import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.vo.Child;
 
@@ -21,5 +22,7 @@ public interface MyPageService {
 	int updatePassword(Member member);
 
 	int memberDelete(Member member);
+
+	int reviewWrite(Review review);
 
 }
