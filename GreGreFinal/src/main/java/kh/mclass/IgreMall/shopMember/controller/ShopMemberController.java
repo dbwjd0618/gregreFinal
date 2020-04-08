@@ -20,6 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.mclass.Igre.member.model.vo.Member;
+import kh.mclass.IgreMall.order.model.service.OrderService;
+import kh.mclass.IgreMall.order.model.vo.OrderList;
+import kh.mclass.IgreMall.order.model.vo.OrderProduct;
+import kh.mclass.IgreMall.order.model.vo.PayAccountInfo;
+import kh.mclass.IgreMall.order.model.vo.PaymentInfo;
 import kh.mclass.IgreMall.product.model.service.ProductService;
 import kh.mclass.IgreMall.product.model.vo.Attachment;
 import kh.mclass.IgreMall.product.model.vo.ProdOption;
@@ -37,6 +42,8 @@ public class ShopMemberController {
 	ShopMemberService shopMemberService;
 	@Autowired
 	ProductService productService;
+	@Autowired
+	OrderService orderService;
 	/**
 	 * 0405 이진희
 	 * 
@@ -187,10 +194,86 @@ public class ShopMemberController {
 		return mav;
 	}
 	
-	
+	/**
+	 * 0408 이진희
+	 * 
+	 * 주문확인
+	 * @return
+	 */
 	@GetMapping("/order/list.do")
-	public ModelAndView orderList(ModelAndView mav) {
+	public ModelAndView orderList(ModelAndView mav, HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String memberId = m.getMemberId();
+		List<OrderList> orderList = orderService.selectListOrder(memberId);
+		
+		for(int i=0;i<orderList.size();i++) {
+			String orderNo = orderList.get(i).getOrderNo();
+			List<OrderProduct> orderProdList = orderService.selectOrderProdList(orderNo);
+			
+			for(int j=0; j<orderProdList.size();j++) {
+				Product product = productService.selectProductOne(orderProdList.get(j).getProductId());
+				orderProdList.get(j).setProductName(product.getProductName());
+				orderProdList.get(j).setProductBrand(product.getBrandName());
+				
+				List<Attachment> attachList = productService.selectAttachList(product.getProductId());
+				
+				for(int k=0;k<attachList.size();k++) {
+					if(attachList.get(k).getImgType().equals("R")) {
+						orderProdList.get(j).setRenamedImg(attachList.get(i).getRenamedImg());
+					}
+				}
+				
+				if(orderProdList.get(j).getOptionId()!=null ) {
+					String[] optionName= new String[orderProdList.get(j).getOptionId().length];
+					String[] optionPrice= new String[orderProdList.get(j).getOptionId().length];
+					String[] optionValue= new String[orderProdList.get(j).getOptionId().length];
+					for(int t=0;t<orderProdList.get(j).getOptionId().length;t++) {
+						String optionId = orderProdList.get(j).getOptionId()[t];
+						ProdOption opt = productService.selectOptionOne(optionId);
+						optionName[t] = opt.getOptionName();
+						optionValue[t] = opt.getOptionValue();
+						int stock = Integer.parseInt(orderProdList.get(j).getProdCount()[t]);
+						int optPrice = (opt.getOptionPrice() - product.getDiscountPrice())*stock;
+						optionPrice[t] = Integer.toString(optPrice);
+					}
+					orderProdList.get(j).setOptionValue(optionValue);
+					orderProdList.get(j).setOptionName(optionName);
+					orderProdList.get(j).setOptionPrice(optionPrice);
+					
+				}
+				
+			}
+			
+			orderList.get(i).setOrderProdList(orderProdList);			
+			
+			PaymentInfo paymentInfo = orderService.selectPaymentInfo(orderNo);
+			orderList.get(i).setPaymentInfo(paymentInfo);
+		}
+		
+		System.out.println("orderList"+orderList);
+		mav.addObject("orderList", orderList);
 		mav.setViewName("shop/myShopping/order/list");
+		return mav;
+	}
+	/**
+	 * 0408 이진희
+	 * 
+	 * 주문상세정보 
+	 * @return
+	 */
+	@GetMapping("/order/detail.do")
+	public ModelAndView orderDetail(ModelAndView mav,
+				@RequestParam(value = "orderNo", required = false)String orderNo) {
+		
+		OrderList orderList = orderService.selectOrderList(orderNo);
+		List<OrderProduct> orderProdList = orderService.selectOrderProdList(orderNo);
+		PaymentInfo paymentInfo = orderService.selectPaymentInfo(orderNo);
+		/* PayAccountInfo payAccInfo = orderService.selectPayAccInfo(orderNo); */
+		System.out.println("orderList="+orderList);
+		System.out.println("orderProdList ="+orderProdList );
+		System.out.println("paymentInfo="+paymentInfo);
+		
+		mav.setViewName("shop/myShopping/order/detail");
 		return mav;
 	}
 	@GetMapping("/wish/list.do")

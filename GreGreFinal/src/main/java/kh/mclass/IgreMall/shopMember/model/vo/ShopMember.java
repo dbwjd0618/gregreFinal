@@ -34,7 +34,7 @@ public class ShopMember implements Serializable{
 	private int point;
 	
 	private List<Coupon> couponList;
-	private List<Coupon> cartList;
+	private List<Cart> cartList;
 	private List<Wish> wishList;
 
 	public ShopMember(String memberId, String memberPwd, String memberName, String nickname, Date birthday,

@@ -1,6 +1,7 @@
 package kh.mclass.IgreMall.order.model.vo;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,13 +14,16 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class orderProduct implements Serializable{/**
+public class PayAccountInfo implements Serializable{/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
 	private String orderNo;
-	private String productId;
-	private String[] optionId;
-	private String[] prodId;
+	private String bankName;
+	private String accountNo;
+	private String accountHolder;
+	private Date expireDate;
+	
+
 }
