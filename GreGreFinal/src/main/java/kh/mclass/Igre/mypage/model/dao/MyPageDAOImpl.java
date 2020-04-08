@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.vo.Child;
+import kh.mclass.Igre.mypage.model.vo.Vaccination;
 
 @Repository
 public class MyPageDAOImpl implements MyPageDAO {
@@ -55,6 +56,12 @@ public class MyPageDAOImpl implements MyPageDAO {
 	public int memberDelete(Member member) {
 		// TODO Auto-generated method stub
 		return sss.delete("mypage.memberDelete",member);
+	}
+
+	@Override
+	public int insertVaccion(Vaccination vaccination) {
+		// TODO Auto-generated method stub
+		return sss.insert("mypage.insertVaccion",vaccination);
 	}
 
 

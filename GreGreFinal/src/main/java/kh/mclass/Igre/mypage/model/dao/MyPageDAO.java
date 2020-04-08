@@ -4,6 +4,7 @@ import java.util.List;
 
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.vo.Child;
+import kh.mclass.Igre.mypage.model.vo.Vaccination;
 
 public interface MyPageDAO {
 
@@ -20,6 +21,8 @@ public interface MyPageDAO {
 	int updatePassword(Member member);
 
 	int memberDelete(Member member);
+
+	int insertVaccion(Vaccination vaccination);
 
 
 

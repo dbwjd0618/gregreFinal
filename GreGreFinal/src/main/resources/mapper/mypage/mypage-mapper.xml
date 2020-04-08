@@ -43,6 +43,18 @@
 		member_id = #{memberId}			
 	</update>
 	
+	<insert id="insertVaccion">
+	insert
+		into
+	TB_vaccination
+		values(
+		#{parentsId},
+		#{childId},
+		#{vaccinCode},
+		#{vaccinDate},
+		#{nth}
+		)
+	</insert>
 	<insert id="enroll">
 	insert
 		into
