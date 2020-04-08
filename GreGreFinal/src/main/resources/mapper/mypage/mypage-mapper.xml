@@ -43,6 +43,18 @@
 		member_id = #{memberId}			
 	</update>
 	
+	<insert id="insertVaccion">
+	insert
+		into
+	TB_vaccination
+		values(
+		#{parentsId},
+		#{childId},
+		#{vaccinCode},
+		#{vaccinDate},
+		#{nth}
+		)
+	</insert>
 	<insert id="enroll">
 	insert
 		into
@@ -80,7 +92,7 @@
 		select
 			*
 		from 
-			TB_advis_use
+			TB_appointment
 		where 
 			member_id = #{memberId}
 	</select>

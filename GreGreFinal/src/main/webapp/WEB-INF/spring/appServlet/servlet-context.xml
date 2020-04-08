@@ -29,6 +29,7 @@
 			<mapping path="/board/*.ajax"/>
 			<mapping path="/board/delete*.do"/>
 			<mapping path="/board/*Write.do"/>
+			<mapping path="/shop/**"/>
 			<beans:bean id="loginCheckIntercepotr" class="kh.mclass.Igre.common.interceptor.LoginInterceptor"/>
 		</interceptor>
 		

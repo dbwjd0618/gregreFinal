@@ -3,11 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="counselor">
+
 	<!-- 결제  -->
 	<insert id="bookingInfo">
 	insert into
-		TB_advis_use
+		TB_appointment
 	values (
+		seq_appoint_no.nextval,
 		#{memberId},
 		#{advisId},
 		#{coin},
@@ -256,8 +258,14 @@
 
 <select id="counselorFindId" resultType="string">
 	select advis_ID
-	from TB_advis_use
+	from TB_appointment
 	where member_ID = #{memberId}
+	</select>
+	
+	<select id="memberFindId" resultType="string">
+	select advis_ID
+	from TB_advis_use
+	where member_ID = #{counselorId}
 	</select>
 	
 	<insert id="insertChatRoom">
@@ -288,6 +296,58 @@
 		    #{memberId}
 		)
 	</insert>
+	
+	<select id="counselorRoomNum" resultType="_int">
+	select
+	 ID
+	 from counselor_chat_room
+	 where chat_id = #{chatId}
+	</select>
+	
+	<select id="counselorReadCountM" resultType="_int">
+	select
+		    count(*)
+		from 
+		    counselor_chat_log
+		where 
+		    chat_room_id = #{roomNum}
+		    and member_id = #{counselorId}
+		    and enabled = 'Y'
+	</select>
+	
+	<select id="counselorReadCountC" resultType="_int">
+	select
+		    count(*)
+		from 
+		    counselor_chat_log
+		where 
+		    chat_room_id = #{chatRoom}
+		    and member_id = #{memberId}
+		    and enabled = 'Y'
+	</select>
+	
+	<update id="updateLastCheckM">
+	update
+		counselor_chat_log
+	set 
+		enabled = 'N'
+	where 
+		member_Id = #{memberId}
+	</update>
+	<update id="updateLastCheckC">
+	update
+		counselor_chat_log
+	set 
+		enabled = 'N'
+	where 
+		member_Id = #{memberId}
+	</update>
+	
+	<select id="memberIdFindChatListByChatId" resultType="string">
+	select member_id
+	from TB_advis_use
+	where advis_id = #{counselorId}
+	</select>
 	
 
 	

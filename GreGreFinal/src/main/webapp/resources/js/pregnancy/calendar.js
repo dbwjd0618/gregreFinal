@@ -63,6 +63,197 @@
             }
             
             $(".sub003_001").click(function () {
+            	console.log("채팅");
+                var y = $("#s_year").val();
+                var m = $("#s_month").val();
+                var d = $("#s_day").val();
+                var s_type = $(':radio[name="s_type"]:checked').val();
+                var s_day1 = $("#s_day1").val();
+                var s_day2 = $("#s_day2").val();
+                
+                var frm = document.sfrm;
+                var g_date = '';
+                var g_year = '';
+                var g_month = '';
+                var g_Day = '';
+        
+                y = parseInt(y, 10);
+                m = parseInt(m, 10);
+                d = parseInt(d, 10);
+                
+        
+                if (isDate(y, m, d) == false) {
+                    alert("날짜오류입니다.");
+                    return false;
+                }
+                
+                if(m >= 1 &&  m <= 3){
+                    g_month = m + 9;
+                    g_year = y;
+                }else{
+                    g_month = m - 3;
+                    g_year = y + 1; 
+                }
+                
+                g_Day = d + 7;
+                g_date = g_year + "-" + g_month + "-" + g_Day;
+                
+        
+                if(m < 10) m = "0" + m;
+                if(d < 10) d = "0" + d;
+                
+                var s_day = y + "-" + m + "-" + d;				
+                g_day = year + "-" + month + "-" + daym;
+        
+                if (s_day > g_day) {
+                    alert("생리시작일자는 현재일자부터 이전일로 선택하세요.");
+                    return false;
+                }
+        
+                 
+        
+                if (s_type == "A") {
+                    if (s_day1 =="") {
+                        alert("주기 일자를 입력하세요.");
+                        frm.s_day1.focus();
+                        return false;
+                    }
+        
+                    if (s_day1.length > 2) {
+                        alert("주기 일자를 확인하세요.(최대 2자리)");
+                        frm.s_day1.focus();
+                        return false;
+                    }
+                
+                    fnDiffDay(s_type,s_day,s_day1,""); 
+                    result_url = 'http://www.childcare.go.kr/cpin/contents/010204000000_result.jsp?b1='+b1+'&b2='+b2+'&baeranil='+baeranil+'&baeranil2=';
+                    
+      
+             
+                } else {
+             
+                    if (s_day1=="") {
+                        alert("주기 일자를 입력하세요.");
+                        frm.s_day1.focus();
+                        return false;
+                    }
+                    
+                    if (s_day2=="") {
+                        alert("주기 일자를 입력하세요.");
+                        frm.s_day2.focus();
+                        return false;
+                    }
+                    
+                    if (s_day1.length > 2) {
+                        alert("주기 일자를 확인하세요.(최대 2자리)");
+                        frm.s_day1.focus();
+                        return false;
+                    }
+                    
+                    if (s_day2.length > 2) {
+                        alert("주기 일자를 확인하세요.(최대 2자리)");
+                        frm.s_day2.focus();
+                        return false;
+                    }
+             
+             
+                    if (eval(frm.s_day1.value) >= eval(frm.s_day2.value)) {
+                        alert("주기 일자를 확인하세요.(시작 주기일자가 종료 주기일자보다 작아야 합니다)");
+                        frm.s_day1.focus();
+                        return false;
+                    }
+                    
+                    fnDiffDay(s_type,s_day,s_day1,s_day2); 
+                    result_url = 'http://www.childcare.go.kr/cpin/contents/010204000000_result.jsp?b1='+b1+'&b2='+b2+'&baeranil='+baeranil+'&baeranil2='+baeranil2;
+             
+                }
+                
+                
+                
+                var form=document.createElement("form");
+                form.name='tempPost';
+                form.id="menseForm"
+                form.method='post';
+                form.action='./menses.do'; 
+               
+                var input1=document.createElement("input");
+                input1.type="hidden";
+                input1.name='ageStart';
+                input1.value= b1;
+                
+                console.log(form.action);
+                console.log(input1);
+                var input2=document.createElement("input");
+                input2.type="hidden";
+                input2.name='ageEnd';
+                input2.value= b2;
+                console.log(input2);
+                var input3=document.createElement("input");
+                input3.type="hidden";
+                input3.name='cycle';
+                input3.value= s_day1;
+                console.log(input3);
+                var input4=document.createElement("input");
+                input4.type="hidden";
+                input4.name='startDay';
+                input4.value= start_day	;
+                console.log(input4);
+                
+                
+             
+                $(form).append(input1);
+                $(form).append(input2);
+                $(form).append(input3);
+                $(form).append(input4);
+                document.body.appendChild(form);
+                
+                
+                
+                $.ajax({
+    				url:"${pageContext.request.contextPath}/pregnancy/menses.do",
+    				type:"post",
+    				data: $("#menseForm").serialize(),
+    				success: data =>{
+    					console.log(data);
+    				
+    				},
+    					error: (x,s,e) => {
+    						console.log(x,s,e);
+    					}
+    			});
+        
+        
+            //	$("#div_result").show();
+                //result_url = '/cpin/contents/100500000000_1_result1.jsp';//?g_month='+g_month+'&g_Day='+g_Day+'&diffDt='+diffDt;
+                //frm.flag.value = 'SlL';
+                //frm.diffDt.value = diffDt;
+            //	frm.g_month.value = g_month;
+            //	frm.g_Day.value = g_Day;
+            //	frm.target = 'i_result_area';
+            //	frm.action = result_url;
+              //  frm.submit();
+                $("#i_result_area").attr("src", result_url);
+                //window.showModalDialog(encodeURI(openpage), "result", "dialogWidth:600px;dialogHeight:580px;center:yes;help:no;status:no;scroll:no;resizable:no");
+                //window.open(url);
+            });
+         
+            $('input[name="s_type"]').change(function(){
+                var chk_opt = $(this).val();
+                
+                jugi_info.innerHTML = "";
+                    
+                   var str = "";
+                if(chk_opt == "A"){
+                    str = "<input name='s_day1' id='s_day1'  type='text' class='input numchk' style='width:50px;height:19px;font-size:9pt; color:#555555;' onKeyDown='fnOnlyNumber();'>&nbsp;&nbsp;<label for='s_day1'>일</label>"; 
+                }else{
+                    str = "<input name='s_day1' id='s_day1' type='text' class='input numchk' style='width:50px;height:19px;font-size:9pt; color:#555555;' onKeyDown='fnOnlyNumber();'>&nbsp;&nbsp;<label for='s_day1'>일</label> ~ <input name='s_day2' id='s_day2' type='text' class='input numchk' style='width:50px;height:19px;font-size:9pt; color:#555555;' onKeyDown='fnOnlyNumber();'>&nbsp;&nbsp;<label for='s_day2'>일</label>"; 
+                }
+                
+                   jugi_info.innerHTML += str;
+            });
+            
+            //회원 캘린더 저장
+            $(".sub003_002").click(function () {
                 var y = $("#s_year").val();
                 var m = $("#s_month").val();
                 var d = $("#s_day").val();
