@@ -27,6 +27,7 @@ public class Review implements Serializable {
 	private int starPoint;
 	private String reviewContent;
 	private Date reviewDate;
+	private String advisKeyword;
 	
 	
 	

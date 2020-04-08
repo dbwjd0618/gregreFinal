@@ -75,7 +75,9 @@ $(function() {
 ///////////////////////////// ONLOAD END/////////////////////////////
 
 ///////////////////////////// FUNCTION START/////////////////////////////
-
+const memberId = '${memberId}';
+const chatId = '${chatId}';
+const counselorId = '${counselorId}';
 /**
  * 지정한 url로 stomp 메세지 전송
  * @returns
@@ -91,7 +93,7 @@ function sendMessage() {
 	}
 	
 	//전역변수 stompClient를 통해 메세지 전송 
-	stompClient.send(`/Igre/chattt/counselor/${chatId}`, {}, JSON.stringify(data));
+	stompClient.send(`/Igre/chattt/counselor/${chatId}/${counselorId}`, {}, JSON.stringify(data));
 
 	//message창 초기화
 	$('#message').val('');
@@ -116,13 +118,13 @@ function lastCheck() {
 	
 	let data = {
 		chatId : chatId,
-		memberId : counselorId,
+		memberId : memberId,
 		time : Date.now(),
 		type: "LASTCHECK"
 	}
 	
 	//전역변수 stompClient를 통해 lastCheck 메세지 전송
-	stompClient.send('/Igre/lastCheck', {}, JSON.stringify(data));
+	stompClient.send('/Igre/lastCheck/member/'+memberId	, {}, JSON.stringify(data));
 }
 
 
@@ -131,9 +133,10 @@ function lastCheck() {
 <%-- <!-- 사용자 chat관련 script -->
 <script src="${pageContext.request.contextPath }/resources/js/chat/chat.js"></script> --%>
 <script>
-const memberId = '${memberId}';
-const chatId = '${chatId}';
-const counselorId = '${counselorId}';
+
+
+
+
 //웹소켓 선언 및 연결
 //1.최초 웹소켓 생성 url: /stomp
 let socket = new SockJS('<c:url value="/stomp"/>');
@@ -160,7 +163,6 @@ function chatSubscribe(){
 			clearInterval(intervalId);
 		
 		if(conntionDone==false && stompClient.connected){
-			
 			//stomp에서는 구독개념으로 세션을 관리한다. 핸들러 메소드의 @SendTo어노테이션과 상응한다.
 			stompClient.subscribe('/chat/counselor/'+counselorId+'/push', function(message) {
 				console.log("receive from subscribe /chat/counselor/"+counselorId+"/push:", message);

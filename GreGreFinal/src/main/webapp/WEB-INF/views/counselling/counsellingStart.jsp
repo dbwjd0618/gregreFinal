@@ -62,7 +62,7 @@
 										<img src="https://trost-asset-images.s3-accelerate.amazonaws.com/partner/15551464323_.png" alt="상담사 프로필 이미지">
 										<p>${m.MSG }<br><br>
 											<span class="recently_message">${m.MEMBER_ID }</span><br>
-											<span class="recently_time">안 읽은 글 :  ${m.CNT }</span>
+											<span class="recently_time">안 읽은 글 :  ${readCountResult }</span>
 										</p>
 									</li>
 								</ul>

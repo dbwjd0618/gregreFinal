@@ -135,7 +135,9 @@ function preferSwitch(it, mi, bc, pn) {
 								<span>총 ${postCount}건</span>
 							</div>
 							<div class="col-md-6" style="text-align: right; padding-right: 3px;">
-								<i class="fas fa-pencil-alt" style="color:blue; cursor:pointer;" onclick="location.href='postWrite.do?boardCode=${boardCode}'"></i>
+								<c:if test="${boardCode != 'B1' || memberLoggedIn.grade == 'A'}">
+									<i class="fas fa-pencil-alt" style="color:blue; cursor:pointer;" onclick="location.href='postWrite.do?boardCode=${boardCode}'"></i>
+								</c:if>
 							</div>
 						</div>
 						<div class="row" style="display: grid; margin-bottom: 20px;">
@@ -250,10 +252,12 @@ function preferSwitch(it, mi, bc, pn) {
 								<div>
 									<button style="width: 80px;">검색</button>
 									<input type="hidden" name="srchFilter" value="${filter}"/>
-									<button type="button" id="Fclr" onclick="Filt(this);">전체글 보기</button>
-									<button type="button" id="Fpost" onclick="Filt(this);">작성글</button>
-									<button type="button" id="Frepl" onclick="Filt(this);">댓글</button>
-									<button type="button" id="Fpref" onclick="Filt(this);">선호</button>
+									<c:if test="${not empty memberLoggedIn}">
+										<button type="button" id="Fclr" onclick="Filt(this);">전체글 보기</button>
+										<button type="button" id="Fpost" onclick="Filt(this);">작성글</button>
+										<button type="button" id="Frepl" onclick="Filt(this);">댓글</button>
+										<button type="button" id="Fpref" onclick="Filt(this);">선호</button>
+									</c:if>
 								</div>
 							</div>
 						</form>

@@ -54,6 +54,21 @@
 		where 
 			advis_id = #{advisId} and star_point = #{starPoint}
 	</select>
-
+	
+	<!-- 리뷰작성  -->
+	<insert id="reviewWrite">
+		insert into
+			TB_adviser_review
+			values(
+				seq_adv_review_no.nextval,
+				#{appointNo},
+				#{advisId},
+				#{reviewerId},
+				#{starPoint},
+				#{reviewContent},
+				sysdate,
+				#{advisKeyword}
+				)
+	</insert>
 	
 </mapper>
