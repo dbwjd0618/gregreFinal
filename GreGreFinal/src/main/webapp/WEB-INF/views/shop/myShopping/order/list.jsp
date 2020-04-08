@@ -7,8 +7,15 @@
 <jsp:include page="/WEB-INF/views/shop/common/header.jsp"/>
     <!-- 마이쇼핑 주문확인/배송조회 css -->
     <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/shop/orderList.css">
+
+
 <!-- order list -->
 <!-- Breadcrumb Section Begin -->
+<style>
+.order-container {
+    width: 100%;
+}
+</style>
    <div class="breacrumb-section">
         <div class="container">
             <div class="row">
@@ -138,7 +145,6 @@
                                     <dl>
                                         <dt class="offscreen">검색기간</dt>
                                         <dd>
-
                                             <div class="select-option sort-list">
                                                 <select class="sorting">
                                                     <option value="" selected>주문상태 전체</option>
@@ -171,31 +177,47 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="">
+                	<c:forEach var="order" items="${orderList}" varStatus="vs">
+                    <div class="order-container">
                         <div class="order-list__item">
                             <div class="order-list__item__title">
-                                <div class="order-list__item__title__order">14394638 | 2020.02.06</div>
+                                <div class="order-list__item__title__order">${order.orderNo} | ${order.orderDate }</div>
                                 <a class="order-list__item__title__link" href="orderListChenck.html">상세보기</a>
                             </div>
+                            <c:forEach var="prodList" items="${order.orderProdList}" varStatus="prodVs">
                             <div class="order-list__item__production">
                                 <div class="order-list__item__production__wrap">
                                     <div class="order-list__item__production__item">
                                         <div class="order-list__item__production__item__wrap">
                                             <img class="order-list__item__production__item__img"
-                                                src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/157890869684910257.jpg?gif=1&amp;w=144&amp;h=144&amp;c=c&amp;webp=1"
-                                                srcset="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/157890869684910257.jpg?gif=1&amp;w=240&amp;h=240&amp;c=c&amp;webp=1 1.5x,https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/157890869684910257.jpg?gif=1&amp;w=320&amp;h=320&amp;c=c&amp;webp=1 2x,https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/157890869684910257.jpg?gif=1&amp;w=480&amp;h=480&amp;c=c&amp;webp=1 3x">
+                                                src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${prodList.renamedImg}">
                                             <div class="order-list__item__production__item__info">
                                                 <div class="order-list__item__production__item__info__wrap order-list__item-container">
-                                                    <div class="order-list__item__production__item__info__brand" >까사미아</div>
+                                                    <div class="order-list__item__production__item__info__brand" >[${prodList.productBrand }]</div>
                                                     <a class="order-list__item__production__item__info__name"
-                                                        href="/productions/229566/selling">[주말특가] (쿠폰가 241,150원) 오브B
-                                                        원목책상 120cm/160cm</a>
+                                                        href="/productions/229566/selling">${prodList.productName }</a>
                                                 </div>
                                                 <div class="order-list__item__production__item__info__wrap order-list_option-container">
-                                                    <div class="order-list__item__production__item__info__option">선택1)
-                                                        오브B 원목책상 120cm</div>
-                                                    <div class="order-list__item__production__item__info__price">
-                                                        265,000원 | 1개</div>
+                                                    <c:forEach var="optionName" items="${prodList.optionName}" varStatus="optVs">
+                                                    <c:if test="${ optionName !=null }">
+													<c:set var="optName"
+														value="${fn:split(optionName,',') }" />
+													<c:set var="optValue"
+														value="${fn:split(prodList.optionValue[optVs.index],',') }" />
+													<c:if test="${ not empty optName[1] }">
+	                                                    <div class="order-list__item__production__item__info__option">${optName[0]} : ${optValue[0]} / ${optName[1]} : ${optValue[1]}</div>
+
+													</c:if>
+													<c:if test="${  empty optName[1] }">
+													<div class="order-list__item__production__item__info__option">
+														${optName[0]} : ${optValue[0]} 
+
+													</div>
+													</c:if>
+												</c:if>
+	                                                    <div class="order-list__item__production__item__info__price">
+	                                                        265,000원 | 1개</div>                                         
+                                                    </c:forEach>
                                                     <div class="order-list__item__production__item__info__status">구매확정</div>
                                                 </div>
                                             </div>
@@ -214,78 +236,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="order-list__item__production__wrap">
-                                    <div class="order-list__item__production__item">
-                                        <div class="order-list__item__production__item__wrap"><img
-                                                class="order-list__item__production__item__img"
-                                                src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/1533198816209_Q.jpg?gif=1&amp;w=144&amp;h=144&amp;c=c&amp;webp=1"
-                                                srcset="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/1533198816209_Q.jpg?gif=1&amp;w=240&amp;h=240&amp;c=c&amp;webp=1 1.5x,https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/1533198816209_Q.jpg?gif=1&amp;w=320&amp;h=320&amp;c=c&amp;webp=1 2x,https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/1533198816209_Q.jpg?gif=1&amp;w=480&amp;h=480&amp;c=c&amp;webp=1 3x">
-                                            <div class="order-list__item__production__item__info">
-                                                <div class="order-list__item__production__item__info__wrap order-list__item-container">
-                                                    <div class="order-list__item__production__item__info__brand">레드캣</div>
-                                                    <a class="order-list__item__production__item__info__name"
-                                                        href="/productions/55380/selling">분리가 되는 모던 대용량 메이크업 박스</a>
-                                                </div>
-                                                <div class="order-list__item__production__item__info__wrap order-list_option-container">
-                                                    <div class="order-list__item__production__item__info__option">화이트
-                                                    </div>
-                                                    <div class="order-list__item__production__item__info__price">16,300원
-                                                        | 1개</div>
-                                                    <div class="order-list__item__production__item__info__status">배송중</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="order-list__item__production__item__delivery"><button
-                                                class="button button--color-blue-inverted button--size-50 button--shape-4 order-list__item__production__item__delivery__btn">배송추적</button><button
-                                                class="button button--color-blue button--size-50 button--shape-4 order-list__item__production__item__delivery__btn">리뷰작성</button>
-                                        </div>
-                                    </div>
-                                    <div class="order-list__item__production__item__seller">
-                                        <div class="order-list__item__production__item__seller__delivery-pay">배송비
-                                            2,500원</div>
-                                        <div class="order-list__item__production__item__seller__brand">레드캣(REDCAT)
-                                            <a class="order-list__item__production__item__seller__brand__phone">070-7098-3801</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="order-list__item__production__wrap">
-                                    <div class="order-list__item__production__item">
-                                        <div class="order-list__item__production__item__wrap"><img
-                                                class="order-list__item__production__item__img"
-                                                src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/1504164433766_qMa9s8TAuc.jpg?gif=1&amp;w=144&amp;h=144&amp;c=c&amp;webp=1"
-                                                srcset="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/1504164433766_qMa9s8TAuc.jpg?gif=1&amp;w=240&amp;h=240&amp;c=c&amp;webp=1 1.5x,https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/1504164433766_qMa9s8TAuc.jpg?gif=1&amp;w=320&amp;h=320&amp;c=c&amp;webp=1 2x,https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/1504164433766_qMa9s8TAuc.jpg?gif=1&amp;w=480&amp;h=480&amp;c=c&amp;webp=1 3x">
-                                            <div class="order-list__item__production__item__info">
-                                                <div class="order-list__item__production__item__info__wrap order-list__item-container">
-                                                    <div class="order-list__item__production__item__info__brand">시디즈</div>
-                                                    <a class="order-list__item__production__item__info__name"
-                                                        href="/productions/29029/selling">[기간한정] T603FW EGA 인테리어의자(팔걸이형)
-                                                        4colors</a></div>
-                                                <div class="order-list__item__production__item__info__wrap order-list_option-container">
-                                                    <div class="order-list__item__production__item__info__option">라이트그레이
-                                                    </div>
-                                                    <div class="order-list__item__production__item__info__price">
-                                                        139,000원 | 1개</div>
-                                                    <div class="order-list__item__production__item__info__status">구매확정</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="order-list__item__production__item__delivery"><button
-                                                class="button button--color-blue-inverted button--size-50 button--shape-4 order-list__item__production__item__delivery__btn">재구매</button><button
-                                                class="button button--color-blue button--size-50 button--shape-4 order-list__item__production__item__delivery__btn">리뷰작성</button>
-                                        </div>
-                                    </div>
-                                    <div class="order-list__item__production__item__seller">
-                                        <div class="order-list__item__production__item__seller__delivery-pay">무료배송</div>
-                                        <div class="order-list__item__production__item__seller__brand">시디즈
-                                            <a class="order-list__item__production__item__seller__brand__phone">1577-5674</a>
-                                        </div>
-                                    </div>
-                                </div>
+                              
                             </div>
+                            </c:forEach>
                         </div>
 
                     </div>
-
+					</c:forEach>
                 </div>
 
 
