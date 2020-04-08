@@ -141,6 +141,7 @@ public class CounsellingController {
 		log.debug("예약상태"+info);
 		
 		int result = counselorService.bookingInsert(info);
+		
 		String msg = result>0?"예약성공":"예약실패";
 		
 		redirectAttributes.addFlashAttribute("msg",msg);

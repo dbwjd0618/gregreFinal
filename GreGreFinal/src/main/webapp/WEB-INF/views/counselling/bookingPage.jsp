@@ -15,7 +15,7 @@
 	$(function() {
 		$(".price").click(function(e) {
 			$(".price").attr('checked', true);
-			$('#total-price').text($(this).attr('value'));
+			$('#total-price').text(comma($(this).attr('value')));
 			$("[name=payPrice]").val($('#total-price').text());
 			$("[name=coin]").val($(this).attr("id"));
 		});
@@ -27,6 +27,54 @@
 img.kakao-img {
 	padding-top: 29px;
 	padding-bottom: 6px;
+}
+
+input.site-btn.place-btn {
+    width: 170px;
+    height: auto;
+}
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+}
+.checkout-form input {
+    width: 100%;
+    height: 40px;
+    border: 2px solid #ebebeb;
+    margin-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.site-btn {
+    color: #ffffff;
+    background: #4CA4ED;
+    border: 1px solid #4CA4ED;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 13px 45px 11px;
+    cursor: pointer;
+    margin-left: 70%;
+}
+
+
+
+.col-md-8 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 66.66667%;
+    flex: 0 0 66.66667%;
+    max-width: 66.66667%;
+    padding-top: 20px;
+}
+
+.col-lg-12 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+    border: 1px solid lightgray;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
 }
 </style>
 <%
@@ -67,6 +115,8 @@ img.kakao-img {
 h4 {
 	text-align: center;
 	margin-top: 10%;
+	margin-left: -70px;
+	margin-bottom: 20px;
 }
 
 .c-title {
@@ -76,6 +126,10 @@ h4 {
 
 table {
 	cursor: pointer;
+}
+
+span#total-price{
+	color: red;
 }
 </style>
 <!-- 여기부터 container -->
@@ -102,15 +156,15 @@ table {
 						<tbody>
 							<tr class="price" id="14" value="${price1}">
 								<th scope="row">2주 프로그램</th>
-								<td>${price1}원</td>
+								<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${price1}" />원</td>
 							</tr>
 							<tr class="price" id="28" value="${price2 }">
 								<th scope="row">4주 프로그램</th>
-								<td>${price2}원</td>
+								<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${price2}" />원</td>
 							</tr>
 							<tr class="price" id="0" value="${counselor.advisPrice}">
 								<th scope="row">1회 상담권</th>
-								<td>${counselor.advisPrice}원</td>
+								<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${counselor.advisPrice}" />원</td>
 							</tr>
 						</tbody>
 					</table>
@@ -121,7 +175,7 @@ table {
 				<div class="col-md-offset-2 col-md-8">
 					<h5>최종 결제 금액</h5>
 					<h4>
-						<strong><span id="total-price"></span> 원</strong>
+						<strong><span id="total-price">0</span>원</strong>
 					</h4>
 				</div>
 			</div>
@@ -203,16 +257,16 @@ table {
 			<br> <br>
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
-					<button type="button" class="btn btn-secondary btn-lg btn-block"
-						onclick="goPay();">결제하기</button>
+					<input type="button" class="site-btn place-btn" onclick="goPay();" value="결제하기">
 				</div>
 				<input type="hidden" name="memberId"
 					value="${memberLoggedIn.memberId}" /> <input type="hidden"
-					name="advisId" value="${counselor.advisId }" /> <input
-					type="hidden" name="payPrice" value="" /> <input type="hidden"
+					name="advisId" value="${counselor.advisId }" /> 
+					<input
+					type="hidden" name="payPrice" value="" /> 
+					<input type="hidden"
 					name="coin" />
-					
-				<input type="hidden" name="payPrice" value=""/>
+				
 			</div>
 		</div>
 	</div>
@@ -254,7 +308,7 @@ return str.replace(/[^\d]+/g, '');
 		var payMethod = $("input[name=payMethod]:checked").val();
 		 var nowDate = new Date();
 		var accExprieDate = nowDate.getFullYear()+"-"+(nowDate.getMonth()+1)+"-"+(nowDate.getDate()+5);
-		var totalPrice = $("#total-price").text();
+		var totalPrice = uncomma($("#total-price").text());
 		$("[name=payPrice]").val(totalPrice);
 		
 		console.log("payMe" + payMethod);
@@ -263,7 +317,7 @@ return str.replace(/[^\d]+/g, '');
 			BootPay.request({
 				price : totalPrice, //실제 결제되는 가격
 				application_id : "5e8580d902f57e0036d63afd",
-				name : '블링블링 마스카라', //결제창에서 보여질 이름
+				name : '상담 이용권', //결제창에서 보여질 이름
 				pg : 'kakao',
 				method : 'easy', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
 				show_agree_window : 0, // 부트페이 정보 동의 창 보이기 여부
@@ -321,7 +375,7 @@ return str.replace(/[^\d]+/g, '');
 				//비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
 				console.log(data);
 				
-				 var finishPayment = "${pageContext.request.contextPath}/shop/order/finishPayment.do";
+				 var finishPayment = "${pageContext.request.contextPath}/counselling/bookingEnd.do";
 	             document.bookingFrm.action= finishPayment;
 	        	 document.bookingFrm.submit();
 	                
@@ -332,7 +386,7 @@ return str.replace(/[^\d]+/g, '');
 			BootPay.request({
 				price : totalPrice, //실제 결제되는 가격
 				application_id : "5e8580d902f57e0036d63afd",
-				name : '블링블링 마스카라', //결제창에서 보여질 이름
+				name : '상담 이용권', //결제창에서 보여질 이름
 				pg : 'kcp',
 				method : 'vbank', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
 				show_agree_window : 0, // 부트페이 정보 동의 창 보이기 여부
@@ -398,7 +452,7 @@ return str.replace(/[^\d]+/g, '');
 			BootPay.request({
 				price : totalPrice, //실제 결제되는 가격
 				application_id : "5e8580d902f57e0036d63afd",
-				name : '블링블링 마스카라', //결제창에서 보여질 이름
+				name : '상담 이용권', //결제창에서 보여질 이름
 				pg : 'nicepay',
 				method : 'bank', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
 				show_agree_window : 0, // 부트페이 정보 동의 창 보이기 여부
@@ -463,7 +517,7 @@ return str.replace(/[^\d]+/g, '');
 			BootPay.request({
 				price : totalPrice, //실제 결제되는 가격
 				application_id : "5e8580d902f57e0036d63afd",
-				name : '블링블링 마스카라', //결제창에서 보여질 이름
+				name : '상담 이용권', //결제창에서 보여질 이름
 				pg : 'mobilians',
 				method : 'phone', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
 				show_agree_window : 0, // 부트페이 정보 동의 창 보이기 여부

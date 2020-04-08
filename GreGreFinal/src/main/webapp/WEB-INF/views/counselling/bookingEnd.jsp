@@ -28,7 +28,7 @@
         border: 0.5px solid rgba(218,218,218);
     }
     .booking{
-        margin: 10% auto;
+        margin: 13% auto;
         max-width: 800px;
         min-width: 800px;
         max-height: 550px;
