@@ -83,7 +83,7 @@ public class CounsellingController {
 	public ModelAndView bookingMain(@RequestParam(value = "cPage", defaultValue = "1")int cPage,
 									@RequestParam("advisId") String advisId,
 									Model model) {
-		System.out.println("===================================bookingMain=======================================");
+		
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage =5;
 		
@@ -110,7 +110,7 @@ public class CounsellingController {
 		list1.add(new reviewStar(3, counselorService.countReview(advisId, 3)));
 		list1.add(new reviewStar(2, counselorService.countReview(advisId, 2)));
 		list1.add(new reviewStar(1, counselorService.countReview(advisId, 1)));
-		
+				
 		Double reviewRating = counselorService.selectReviewRating(advisId);
 
 		mav.addObject("reviewRating",reviewRating);

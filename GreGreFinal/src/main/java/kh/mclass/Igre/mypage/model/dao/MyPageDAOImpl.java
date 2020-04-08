@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
+import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.vo.Child;
 
@@ -62,6 +63,12 @@ public class MyPageDAOImpl implements MyPageDAO {
 		// TODO Auto-generated method stub
 		return sss.delete("mypage.memberDelete",member);
 
+	}
+
+	@Override
+	public int reviewWrite(Review review) {
+		// TODO Auto-generated method stub
+		return sss.insert("review.reviewWrite", review);
 	}
 
 

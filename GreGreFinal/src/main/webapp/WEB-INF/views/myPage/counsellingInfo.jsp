@@ -90,7 +90,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                       <img src="../images/myPage/pic2.PNG" class="imgmini">
+                                       <img src="${pageContext.request.contextPath}/resources/images/counselling/" class="imgmini">
                                     </div>
                                     <div class="col-md-7">
                                         <p>예약한 상담사명 : ${c.advisId} </p>
@@ -98,7 +98,7 @@
                                         <p>결제일 : ${c.startDay} </p>
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="button" class="btn btn-outline bg-gray" >정보수정</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="innerModal('${c.appointNo}','${c.advisId }','${memberLoggedIn.memberId }');">작성</button>
                                     </div>
                                 </div>
                                 
@@ -121,84 +121,44 @@
 </div>
 <!-- contents end-->
 
-<!--자녀추가히가 modal 폼-->
-<div class="modal fade" id="myChildAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="myChildAddModalLabel">자녀 정보 입력</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form action="${pageContext.request.contextPath}/myPage/memberChildUpdate.do" method="post">
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"> 부모 아이디</span>
-                        </div>
-                        <input name="parentsId" class="form-control" id="parentsId" value="${m.memberId }" readonly="readonly"
-                            type="text">
-                    </div>
-                    <input name="childId" class="form-control" id="childId"
-                            type="hidden">
-                    
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">자녀 이름</span>
-                        </div>
-                        <input name="childName" class="form-control" id="childName"
-                            type="text">
-                    </div>
-
-
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">생년월일 </span>
-                        </div>
-                        <input name="birthday" class="form-control" id="birthday"
-                            placeholder="생년월일" type="date">
-                    </div>
-
-                    <div class="form-group input-group">
-                        <div class="input-group-prepend" id="gender">
-                            <span class="input-group-text"> 성별 </span>
-                        </div>
-                            <div id="gender1">
-                                    <label for="gender0">&nbsp;&nbsp; 남</label>
-                                <input type="radio" name="gender" id="gender0" value="M" checked>
-                            </div>
-                            
-                            <div id="gender2">
-                                    <label for="gender1">&nbsp;&nbsp;여</label>
-                                <input type="radio" name="gender" id="gender1" value="F">
-                            </div>
-                    </div>
-                    
-                    <div class="form-group input-group">
-								<div class="input-group-prepend">
-									<span class="input-group-text">자녀 연락처 </span>
-								</div>
-								<input name="phone" class="form-control" id="phone"
-									type="text">
-							</div>
-					<input type="hidden" name="childNumber" value="1"/>
-                    
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">확인</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-            </div>
-                </form>
-            </div>
-          </div>
+<!-- modal 폼-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">리뷰 등록하기</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-      </div>
-
-<script src="${pageContext.request.contextPath}/resources/js/mypage/mypage.js"></script>
-<script>
-
-</script>
+<form action="${pageContext.request.contextPath}/myPage/counsellingInfo.do" method="post">
+        <div class="modal-body">
+                <div class="form-group">
+                  <label for="recipient-name" class="col-form-label">평점 선택(1~5)</label>
+                  <input type="number" class="form-control" id="recipient-name" min="1" max="5" name="starPoint">
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">리뷰(500자 이내)</label>
+                  <textarea class="form-control" id="message-text" maxlength="500" name="reviewContent"></textarea>
+                </div>
+                <input type="hidden" name="reviewerId">
+                <input type="hidden" name="advisId">
+                <input type="hidden" name="appointNo"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+          <button type="submit" class="btn btn-primary">등록</button>
+      	</div>
+</form>
 <!-- contents end-->
+
+<script>
+function innerModal(appointNo, advisId, reviewerId) {
+	$("[name=appointNo]").val(appointNo);
+	$("[name=advisId]").val(advisId);
+	$("[name=reviewerId]").val(reviewerId);
+}
+</script>
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
