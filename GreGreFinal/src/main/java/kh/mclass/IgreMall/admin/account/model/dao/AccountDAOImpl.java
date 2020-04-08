@@ -25,6 +25,17 @@ public class AccountDAOImpl implements AccountDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("adminAccount.pList");
 	}
+
+	@Override
+	public List<Account> searchList(Account a) {
+		return sqlSession.selectList("adminAccount.searchList",a);
+	}
+
+	@Override
+	public List<PayMethod> searchPList(Account a) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("adminAccount.searchPList",a);
+	}
 	
 	
 	

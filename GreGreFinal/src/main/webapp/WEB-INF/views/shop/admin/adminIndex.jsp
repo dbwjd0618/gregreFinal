@@ -5,6 +5,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!-- taglib는 매 jsp 마다 필요함 -->
 
+
+
 <!-- 한글깨질때. -->
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/shop/admin/common/header.jsp"/>

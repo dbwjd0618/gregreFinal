@@ -2,6 +2,8 @@
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,10 +20,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
+import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.service.MyPageService;
 import kh.mclass.Igre.mypage.model.vo.Child;
+import kh.mclass.Igre.mypage.model.vo.Vaccination;
 import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @Slf4j
@@ -48,6 +54,16 @@ public class MyPageController {
 			mav.addObject("m",m);
 			mav.setViewName("myPage/deleteMember");
 
+		return mav;
+	}
+	@GetMapping("vaccinAdd")
+	public ModelAndView vaccinAdd(Child child,ModelAndView mav,HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+//		mav childSelect = mps.childSelect(child);
+//		mav.addObject("childSelect",childSelect);
+		mav.addObject("m",m);
+		mav.setViewName("myPage/vaccinAdd");
+		
 		return mav;
 	}
 	
@@ -94,10 +110,10 @@ public class MyPageController {
 	}
 	
 	@PostMapping("/memberChildUpdate.do")
-	public String memberChildUpdate(Member member,Child child,RedirectAttributes ras,String parentsId,String childName) {
+	public String memberChildUpdate(Vaccination vaccination ,Member member,Child child,RedirectAttributes ras,String parentsId,String childName) {
 		String childId = parentsId+"_"+childName;
 		child.setChildId(childId);
-		int result = mps.enroll(child,member);
+		int result = mps.enroll(child,member,vaccination);
 		String msg = result > 0 ? "자녀추가 완료!" : "누락된 항목이 있습니다";
 		ras.addFlashAttribute("msg", msg);
 		
@@ -126,7 +142,9 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/counsellingInfo.do")
-	public ModelAndView selectCounsellingInfo(ModelAndView mav, BookingInfo book, HttpSession session) {
+	public ModelAndView selectCounsellingInfo(@RequestParam(value = "cPage", defaultValue = "1")int cPage,  ModelAndView mav, BookingInfo book, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		
+		final int numPerPage =5;
 		
 		Member m = (Member)session.getAttribute("memberLoggedIn");
 		book.setMemberId(m.getMemberId());
@@ -136,6 +154,15 @@ public class MyPageController {
 		mav.addObject("m",m);
 		mav.addObject("list",list);
 		return mav;
+	}
+	
+	@PostMapping("/counsellingInfo.do")
+	public String reviewWrite(Review review, RedirectAttributes redirectAttributes) {
+		
+		int result = mps.reviewWrite(review);
+		String msg = result>0?"리뷰등록 성공!":"리뷰 등록 실패!";
+		
+		return "redirect:/myPage/counsellingInfo.do";
 	}
 	
 	

@@ -26,6 +26,18 @@ public class AccountServiceImpl implements AccountService {
 		// TODO Auto-generated method stub
 		return accountDao.pList();
 	}
+
+	@Override
+	public List<Account> searchList(Account a) {
+		// TODO Auto-generated method stub
+		return accountDao.searchList(a);
+	}
+
+	@Override
+	public List<PayMethod> searchplist(Account a) {
+		// TODO Auto-generated method stub
+		return accountDao.searchPList(a);
+	}
 	
 	
 	
