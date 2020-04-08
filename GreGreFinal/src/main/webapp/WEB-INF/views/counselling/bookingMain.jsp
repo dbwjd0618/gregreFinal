@@ -266,8 +266,7 @@ $(()=>{
             					${review.reviewContent}
         						<div class="review-list-category">
                 					<ul class="review-list-category">
-                    					<li>#카테고리1&nbsp;</li>
-                    					<li>#카테고리2&nbsp;</li>
+                    					<li>카테고리 : ${review.advisKeyword }</li>
                 					</ul>
             					</div>
         					</div>
