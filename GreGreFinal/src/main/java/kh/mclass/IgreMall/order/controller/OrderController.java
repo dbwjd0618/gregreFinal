@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.IgreMall.coupon.model.vo.Coupon;
 import kh.mclass.IgreMall.coupon.model.vo.CouponInfo;
@@ -47,10 +48,9 @@ public class OrderController {
 	@Autowired
 	ShopMemberService shopMemberService;
 
-	//네이버페이일 경우만
+	// 네이버페이일 경우만
 	@GetMapping("/finishPayment.do")
-	public ModelAndView getFinish(ModelAndView mav, OrderList orderList, 
-			HttpSession session,
+	public ModelAndView getFinish(ModelAndView mav, OrderList orderList, HttpSession session,
 			@RequestParam(value = "totalPrice", required = false) String totalPrice,
 			@RequestParam(value = "prodPrice", required = false) String prodPrice,
 			@RequestParam(value = "totalDiscount", required = false) String totalDiscount,
@@ -58,7 +58,7 @@ public class OrderController {
 			@RequestParam(value = "usedCoupon", required = false) String usedCoupon,
 			@RequestParam(value = "couponId", required = false) String couponId,
 			RedirectAttributes redirectAttributes) {
-		
+
 		Member m = (Member) session.getAttribute("memberLoggedIn");
 		List<OrderProduct> orderProdList = (ArrayList<OrderProduct>) session.getAttribute("orderProdList");
 		orderList.setMemberId(m.getMemberId());
@@ -66,11 +66,11 @@ public class OrderController {
 		String recptPhone = orderList.getRecptPhone();
 		orderList.setRecptPhone(recptPhone.replaceAll("-", ""));
 		orderList.setSellerId(sellerId);
-	
+
 		orderList.setDeliveryNo("deliTest1");
 		orderList.setPayState("Y");
 		orderList.setDeliveryState("B");
-		
+
 		PaymentInfo paymentInfo = new PaymentInfo();
 		paymentInfo.setProdPrice(Integer.parseInt(prodPrice));
 		paymentInfo.setTotalDiscount(Integer.parseInt(totalDiscount));
@@ -149,18 +149,18 @@ public class OrderController {
 	 */
 	@PostMapping("/finishPayment.do")
 	public ModelAndView finishPayment(ModelAndView mav, OrderList orderList, HttpSession session,
-		 	@RequestParam(value = "bankName", required = false) String bankName,
-		 	@RequestParam(value = "accountHolder", required = false) String accountHolder,
-		 	@RequestParam(value = "account", required = false) String account,
-		 	@RequestParam(value = "expireDate", required = false) String expireDate,
-		 	@RequestParam(value = "totalPrice", required = false) String totalPrice,
+			@RequestParam(value = "bankName", required = false) String bankName,
+			@RequestParam(value = "accountHolder", required = false) String accountHolder,
+			@RequestParam(value = "account", required = false) String account,
+			@RequestParam(value = "expireDate", required = false) String expireDate,
+			@RequestParam(value = "totalPrice", required = false) String totalPrice,
 			@RequestParam(value = "prodPrice", required = false) String prodPrice,
 			@RequestParam(value = "totalDiscount", required = false) String totalDiscount,
 			@RequestParam(value = "usedPoint", required = false) String usedPoint,
 			@RequestParam(value = "usedCoupon", required = false) String usedCoupon,
 			@RequestParam(value = "couponId", required = false) String couponId,
+			@RequestParam(value = "addPoint", required = false) String addPoint,
 			RedirectAttributes redirectAttributes) {
-	    
 
 		Member m = (Member) session.getAttribute("memberLoggedIn");
 		List<OrderProduct> orderProdList = (ArrayList<OrderProduct>) session.getAttribute("orderProdList");
@@ -169,11 +169,11 @@ public class OrderController {
 		String recptPhone = orderList.getRecptPhone();
 		orderList.setRecptPhone(recptPhone.replaceAll("-", ""));
 		orderList.setSellerId(sellerId);
-	
+
 		orderList.setDeliveryNo("deliTest1");
 		orderList.setPayState("Y");
 		orderList.setDeliveryState("B");
-		
+
 		PaymentInfo paymentInfo = new PaymentInfo();
 		paymentInfo.setProdPrice(Integer.parseInt(prodPrice));
 		paymentInfo.setTotalDiscount(Integer.parseInt(totalDiscount));
@@ -195,9 +195,9 @@ public class OrderController {
 			int couponResult = shopMemberService.updateCoupon(coupon);
 			redirectAttributes.addFlashAttribute("msg", couponResult > 0 ? "쿠폰 사용 성공!" : "쿠폰 사용 실패");
 		}
-		// 포인트사용
+		// 포인트사용 및 포인트 적립
 		if (paymentInfo.getUsedPoint() > 0 && paymentInfo.getUsedPoint() <= sMem.getPoint()) {
-			int afterPoint = sMem.getPoint() - paymentInfo.getUsedPoint();
+			int afterPoint = sMem.getPoint() - paymentInfo.getUsedPoint() + Integer.parseInt(addPoint);
 			sMem.setPoint(afterPoint);
 			int pointResult = shopMemberService.updateConsumerInfo(sMem);
 			redirectAttributes.addFlashAttribute("msg", pointResult > 0 ? "포인트 사용 성공!" : "포인트 사용 실패");
@@ -206,13 +206,16 @@ public class OrderController {
 		// 주문하기
 		int result = orderService.insertOrder(orderList, orderProdList, paymentInfo);
 		redirectAttributes.addFlashAttribute("msg", result > 0 ? "주문성공!" : "주문실패");
-		
-		if(!bankName.equals("")) {
+
+		// 가상계좌입금일 경우
+		if (!bankName.equals("")) {
+			orderList.setPayState("N");
+			orderList.setDeliveryState("A");
 			PayAccountInfo payAccInfo = new PayAccountInfo();
 			payAccInfo.setAccountHolder(accountHolder);
 			payAccInfo.setBankName(bankName);
-			payAccInfo.setAccountNo(account);
-			payAccInfo.setOrderNo(orderList.getOrderNo());	
+			payAccInfo.setAccount(account);
+			payAccInfo.setOrderNo(orderList.getOrderNo());
 
 			try {
 				String strDate = expireDate;
@@ -226,7 +229,7 @@ public class OrderController {
 			}
 			int payAccResult = orderService.insertPayAccInfo(payAccInfo);
 		}
-		
+
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 		Date time = new Date();
 		String orderDate = dateFormat.format(time);
@@ -238,7 +241,7 @@ public class OrderController {
 			payMethod = "신용카드 결제";
 			break;
 		case "ac":
-			payMethod = "무통장입금";
+			payMethod = "가상계좌 입금";
 			break;
 		case "ph":
 			payMethod = "휴대폰 결제";
@@ -292,6 +295,7 @@ public class OrderController {
 		List<Product> prodList = new ArrayList<>();
 		List<Integer> totalAmountList = new ArrayList<>();
 		List<Integer> totalPriceList = new ArrayList<>();
+
 		// 바로구매
 		if (cartId == null) {
 			Product product = (Product) session.getAttribute("p");
@@ -303,33 +307,38 @@ public class OrderController {
 			orderProdList.add(orderProd);
 			session.setAttribute("orderProdList", orderProdList);
 
-			prodList.add(product);
 			List<Attachment> attachList = (List<Attachment>) session.getAttribute("attachList");
 			List<ProdOption> optionList = new ArrayList<>();
 			int totalAmount = 0;
 			int totalPrice = 0;
+			// 옵션이 있는경우
 			if (optionId != null) {
 
 				for (int i = 0; i < optionId.length; i++) {
 					String optionID = optionId[i];
 					ProdOption option = productService.selectOptionOne(optionID);
+					System.out.println("option" + option);
 					option.setOptionPrice(Integer.parseInt(optionPrice[i]));
 					option.setOptionStock(Integer.parseInt(count[i]));
 					totalAmount += Integer.parseInt(count[i]);
-
+					totalPrice += option.getOptionPrice() * Integer.parseInt(count[i]);
+					optionList.add(option);
 				}
 				product.setOptionList(optionList);
 				totalAmountList.add(totalAmount);
 				totalPriceList.add(totalPrice);
-			} else {
+			}
+			// 옵션없는경우
+			else {
 				int stock = Integer.parseInt(count[0]);
 				int prodPrice = (product.getPrice() - product.getDiscountPrice()) * stock;
 				totalPriceList.add(prodPrice);
 				totalAmountList.add(stock);
 
 			}
-			product.setAttachList(attachList);
 
+			product.setAttachList(attachList);
+			prodList.add(product);
 		}
 		// 장바구니 구매
 		else {
@@ -397,7 +406,7 @@ public class OrderController {
 						for (int t = 0; t < cartList.get(i).getOptionId().length; t++) {
 							String optId = cartList.get(i).getOptionId()[t];
 							ProdOption prodOption = productService.selectOptionOne(optId);
-							int stock = Integer.parseInt(cartList.get(i).getProdCount()[i]);
+							int stock = Integer.parseInt(cartList.get(i).getProdCount()[t]);
 							prodOption.setOptionStock(stock);
 							optionList.add(prodOption);
 						}

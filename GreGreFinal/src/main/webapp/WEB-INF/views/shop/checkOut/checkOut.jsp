@@ -331,7 +331,7 @@ function noCoupon(){
 									<td class="qua-col first-row">${totalAmountList.get(vs.index)}</td>
 									<td class="qua-col first-row">
 									<span class="discount">
-											<c:set var="totalDiscount" value="${fn:length(prod.optionList)*prod.discountPrice }" /> 
+											<c:set var="totalDiscount" value="${totalAmountList.get(vs.index)*prod.discountPrice }" /> 
 											<span
 											class="_discountAmount">(-) </span> 
 											<span><em
@@ -586,7 +586,7 @@ function noCoupon(){
 								<div class="title">핸드폰</div>
 
 							</label> 
-							<!-- 무통장입금 -->
+							<!-- 가상계좌입금 -->
 							<input type="radio" value="ac"
 								name="payMethod"
 								id="order_payment_method_without_bankbook"> <label
@@ -594,7 +594,7 @@ function noCoupon(){
 								<img class="img" width="64"
 								src="https://bucketplace-v2-development.s3.amazonaws.com/pg/vbank.png"
 								alt="Vbank">
-								<div class="title">무통장입금</div>
+								<div class="title">가상계좌입금</div>
 							</label> 
 							<!-- 네이버페이 -->
 							<input type="radio" value="na"
@@ -737,6 +737,8 @@ function noCoupon(){
 			<input type="hidden"  name="usedPoint" value="">
 			<input type="hidden"  name="usedCoupon" value="">
 			<input type="hidden" name="totalPrice" value="">
+			
+			<input type="hidden" name="addPoint" value="${totalPoint }">
 		</form>
 
 </section>

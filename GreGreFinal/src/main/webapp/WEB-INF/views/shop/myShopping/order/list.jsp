@@ -15,6 +15,18 @@
 .order-container {
     width: 100%;
 }
+.order-list__item__production__item__info__brand, .order-list__item__production__item__info__brand--placeholder{
+ margin-bottom:2px;
+}
+
+.order-list__item__production__item__info__price {
+    margin-bottom: 10px;
+}
+
+.order-list__item__production__item__info__option, .order-list__item__production__item__info__option--placeholder, .order-list__item__production__item__info__price, .order-list__item__production__item__info__price--placeholder,  .order-list__item__production__item__info__status--placeholder {
+    font-size: 15px;
+    line-height: 20px;
+}
 </style>
    <div class="breacrumb-section">
         <div class="container">
@@ -44,7 +56,7 @@
 					<div class="sidebar__header">
 						<div class="profile sidebar__profile">
 							<img class="profile__avatar" src="${pageContext.request.contextPath }/resources/images/myPage/user.png" />
-							<div class="profile__name">user123</div>
+							<div class="profile__name">${memberLoggedIn.memberId }</div>
 						</div>
 					</div>
 					<div class="sidebar__middle">
@@ -99,38 +111,32 @@
                             <a class="order-list__menu__list" href="">
                                 <div class="order-list__menu__list__wrap">
                                     <div class="order-list__menu__list__title">입금대기</div>
-                                    <div class="order-list__menu__list__value">0</div>
+                                    <div class="order-list__menu__list__value">${deliStateCount[0] }</div>
                                 </div>
                             </a>
                             <a class="order-list__menu__list" href="">
                                 <div class="order-list__menu__list__wrap">
                                     <div class="order-list__menu__list__title">결제완료</div>
-                                    <div class="order-list__menu__list__value">0</div>
+                                    <div class="order-list__menu__list__value">${deliStateCount[1] }</div>
                                 </div>
                             </a>
                             <a class="order-list__menu__list" href="">
                                 <div class="order-list__menu__list__wrap">
                                     <div class="order-list__menu__list__title">배송준비</div>
-                                    <div class="order-list__menu__list__value">0</div>
+                                    <div class="order-list__menu__list__value">${deliStateCount[2] }</div>
                                 </div>
                             </a>
                             <a class="order-list__menu__list" href="">
                                 <div class="order-list__menu__list__wrap">
                                     <div class="order-list__menu__list__title order-list__menu__list__title--focus">배송중
                                     </div>
-                                    <div class="order-list__menu__list__value">0</div>
+                                    <div class="order-list__menu__list__value">${deliStateCount[3] }</div>
                                 </div>
                             </a>
                             <a class="order-list__menu__list" href="">
                                 <div class="order-list__menu__list__wrap">
                                     <div class="order-list__menu__list__title">배송완료</div>
-                                    <div class="order-list__menu__list__value">0</div>
-                                </div>
-                            </a>
-                            <a class="order-list__menu__list" href="">
-                                <div class="order-list__menu__list__wrap">
-                                    <div class="order-list__menu__list__title">구매확정</div>
-                                    <div class="order-list__menu__list__value">0</div>
+                                    <div class="order-list__menu__list__value">${deliStateCount[4] }</div>
                                 </div>
                             </a>
                         </div>
@@ -153,7 +159,6 @@
                                                     <option value="">배송준비</option>
                                                     <option value="">베송중</option>
                                                     <option value="">배송완료</option>
-                                                    <option value="">구매확정</option>
                                                 </select>
                                             </div>
                                             <div class="select-option sort-list">
@@ -182,7 +187,7 @@
                         <div class="order-list__item">
                             <div class="order-list__item__title">
                                 <div class="order-list__item__title__order">${order.orderNo} | ${order.orderDate }</div>
-                                <a class="order-list__item__title__link" href="orderListChenck.html">상세보기</a>
+                               	 <a class="order-list__item__title__link" href="${pageContext.request.contextPath }/shop/myShopping/order/detail.do?orderNo=${order.orderNo}">상세보기</a>
                             </div>
                             <c:forEach var="prodList" items="${order.orderProdList}" varStatus="prodVs">
                             <div class="order-list__item__production">
@@ -198,6 +203,7 @@
                                                         href="/productions/229566/selling">${prodList.productName }</a>
                                                 </div>
                                                 <div class="order-list__item__production__item__info__wrap order-list_option-container">
+                                                    <c:if test="${prodList.optionName != null}">
                                                     <c:forEach var="optionName" items="${prodList.optionName}" varStatus="optVs">
                                                     <c:if test="${ optionName !=null }">
 													<c:set var="optName"
@@ -205,34 +211,49 @@
 													<c:set var="optValue"
 														value="${fn:split(prodList.optionValue[optVs.index],',') }" />
 													<c:if test="${ not empty optName[1] }">
-	                                                    <div class="order-list__item__production__item__info__option">${optName[0]} : ${optValue[0]} / ${optName[1]} : ${optValue[1]}</div>
+	                                                    <div class="order-list__item__production__item__info__option"> ${optValue[0]} / ${optValue[1]}</div>
 
 													</c:if>
 													<c:if test="${  empty optName[1] }">
 													<div class="order-list__item__production__item__info__option">
-														${optName[0]} : ${optValue[0]} 
+														 ${optValue[0]} 
 
 													</div>
 													</c:if>
-												</c:if>
+													</c:if>
 	                                                    <div class="order-list__item__production__item__info__price">
-	                                                        265,000원 | 1개</div>                                         
+	                                                        <fmt:formatNumber type="number" maxFractionDigits="3" value="${prodList.optionPrice[optVs.index] }" />원 | ${prodList.prodCount[optVs.index] }개</div>                                         
                                                     </c:forEach>
-                                                    <div class="order-list__item__production__item__info__status">구매확정</div>
+                                                    
+                                                    </c:if>
+                                                    <c:if test="${prodList.optionName ==null }">
+                                                    <div class="order-list__item__production__item__info__option">
+														 ${prodList.productName} 
+
+													</div>
+                                                      <div class="order-list__item__production__item__info__price">
+                                                       <fmt:formatNumber type="number" maxFractionDigits="3" value="${prodList.optionPrice[0] }" />원 | ${prodList.prodCount[0]}개
+                                                    	</div>
+                                                    </c:if>
+                                                    <div class="order-list__item__production__item__info__status">${order.deliveryState}</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="order-list__item__production__item__delivery">
                                             <button
-                                                class="button button--color-blue-inverted button--size-50 button--shape-4 order-list__item__production__item__delivery__btn">재구매</button>
-                                            <button
-                                                class="button button--color-blue button--size-50 button--shape-4 order-list__item__production__item__delivery__btn">리뷰작성</button>
+                                                class="button button--color-blue-inverted button--size-50 button--shape-4 order-list__item__production__item__delivery__btn">리뷰작성</button>
+         
                                         </div>
                                     </div>
                                     <div class="order-list__item__production__item__seller">
+                                        <c:if test="${ prodList.deliveryFee ==0 }">
                                         <div class="order-list__item__production__item__seller__delivery-pay">무료배송</div>
-                                        <div class="order-list__item__production__item__seller__brand">casamia_본사운영
-                                            <a class="order-list__item__production__item__seller__brand__phone">02-1588-3408</a>
+                                        </c:if>
+                                        <c:if test="${ prodList.deliveryFee > 0 }">
+                                        <div class="order-list__item__production__item__seller__delivery-pay">배송비 <fmt:formatNumber type="number" maxFractionDigits="3" value="${prodList.deliveryFee}"/>원</div>
+                                        </c:if>
+                                        <div class="order-list__item__production__item__seller__brand">아이그레몰
+                                            <a class="order-list__item__production__item__seller__brand__phone">031-567-5678</a>
                                         </div>
                                     </div>
                                 </div>
