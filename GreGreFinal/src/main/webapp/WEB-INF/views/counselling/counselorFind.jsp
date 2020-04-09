@@ -38,7 +38,7 @@ $(function(){
 		for(var j=0; j<counselorR[i].advisKeyword.length; j++){
 			result += (j!=counselorR[i].advisKeyword.length-1)?counselorR[i].advisKeyword[j]+",":counselorR[i].advisKeyword[j];
 		}
-		result += "</li></ul></div><div><p class='counselor-price'>"+counselorR[i].advisPrice+"원~</p></div></div><button class='counselor-selectOne'>상담사 찜하기</button></article>";	
+		result += "</li></ul></div><div><p class='counselor-price'>"+counselorR[i].advisPrice+"원~</p></div></div></article>";	
 	}
 	
 	result += "</div></div>";
@@ -87,7 +87,7 @@ $(function(){
 				for(var j=0; j<nameChk[i].advisKeyword.length; j++){
 					result += (j!=nameChk[i].advisKeyword.length-1)?nameChk[i].advisKeyword[j]+",":nameChk[i].advisKeyword[j];
 				}
-				result += "</li></ul></div><div><p class='counselor-price'>"+nameChk[i].advisPrice+"원~</p></div></div><button class='counselor-selectOne'>상담사 찜하기</button></article>";	
+				result += "</li></ul></div><div><p class='counselor-price'>"+nameChk[i].advisPrice+"원~</p></div></div></article>";	
 			}
 			
 			result += "</div></div>";
@@ -395,7 +395,7 @@ function filter(){
 				for(var j=0; j<resultArr[i].advisKeyword.length; j++){
 					result += (j!=resultArr[i].advisKeyword.length-1)?resultArr[i].advisKeyword[j]+",":resultArr[i].advisKeyword[j];
 				}
-				result += "</li></ul></div><div><p class='counselor-price'>"+resultArr[i].advisPrice+"원~</p></div></div><button class='counselor-selectOne'>상담사 찜하기</button></article>";	
+				result += "</li></ul></div><div><p class='counselor-price'>"+resultArr[i].advisPrice+"원~</p></div></div></article>";	
 			}
 			
 			result += "</div></div>";
