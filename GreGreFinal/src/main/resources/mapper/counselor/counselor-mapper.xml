@@ -14,7 +14,7 @@
 		#{advisId},
 		#{coin},
 		sysdate,
-		#{endDay},
+		sysdate+#{coin}*7,
 		#{payPrice},
 		#{payInfo},
 		#{advisName},
