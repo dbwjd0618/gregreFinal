@@ -29,7 +29,7 @@
 
 	<div class="row text-center">
 		<div class="col-md-12">
-			<form action="/sales_manager/stats/index.php" method="get"
+			<form action="${pageContext.request.contextPath }/shop/admin/account/search.do" method="get"
 				role="form" class="form-horizontal" name="seach_form">
 
 				<table class="table table-bordered">
@@ -41,14 +41,15 @@
 						<col style="width: 10%;">
 					</colgroup>
 					<tbody>
+					
 						<tr>
 							<th class="text-center active" style="vertical-align: middle;">주문일</th>
 							<td class="text-left"
 								style="background-color: #fff; vertical-align: middle;"><input
-								type="text" name="sdate" class="form-control"
+								type="text" name="startDate" class="form-control"
 								style="width: 100px; display: inline-block;" id="sdate" value=""
 								data-date="2020-03-13" data-date-format="yyyy-mm-dd"> ~
-								<input type="text" name="edate" class="form-control"
+								<input type="text" name="endDate" class="form-control"
 								style="width: 100px; display: inline-block;" id="edate" value=""
 								data-date="2020-03-20" data-date-format="yyyy-mm-dd">
 								<button class="btn btn-default btn-xs sel_today" type="button">오늘</button>
@@ -56,11 +57,11 @@
 								<button class="btn btn-default btn-xs sel_month" type="button">한달</button></td>
 							<th class="text-center active" style="vertical-align: middle;">결재상태</th>
 							<td class="text-center" style="background-color: #fff;"><select
-								name="stat_pay_rst" class="form-control" id="stat_pay_rst"
+								name="payState" class="form-control" id="stat_pay_rst"
 								style="width: 200px;">
 									<option value="">-- 선택 --</option>
-									<option value="1">입금완료</option>
-									<option value="2">미입금</option>
+									<option value="Y">입금완료</option>
+									<option value="N">미입금</option>
 							</select></td>
 
 							<td class="text-center" rowspan="2"
@@ -71,14 +72,16 @@
 						<tr>
 							<th class="text-center active" style="vertical-align: middle;">결재방식</th>
 							<td class="text-center" style="background-color: #fff;"><select
-								name="stat_pay" class="form-control" id="stat_pay"
+								name="payMethod" class="form-control" id="stat_pay"
 								style="width: 200px;">
 									<option value="">-- 선택 --</option>
-									<option value="1">신용카드</option>
-									<option value="2">휴대전화</option>
-									<option value="3">무통장입금</option>
-									<option value="4">가상계좌</option>
-									<option value="5">실시간계좌이체</option>
+									<option value="cr">신용카드</option>
+									<option value="ph">휴대전화</option>
+									<option value="ac">무통장입금</option>
+									<option value="ka">카카오페이</option>
+									<option value="to">토스</option>
+									<option value="na">네이버페이</option>
+									<option value="ra">실시간계좌이체</option>
 							</select></td>
 							<th class="text-center active" style="vertical-align: middle;">?</th>
 							<td class="text-center" style="background-color: #fff;">?</td>
@@ -109,7 +112,8 @@
 			<c:set var="naPrice" value="0" />
 			<c:set var="raCount" value="0" />
 			<c:set var="raPrice" value="0" />
-			<c:forEach items="${list}" var="l">
+			
+			<%-- <c:forEach items="${list}" var="l">
 				<c:set var="totalSupPrice" value="${totalSupPrice +l.supplyValue}" />
 			</c:forEach>
 			<c:forEach items="${plist}" var="p">
@@ -144,21 +148,21 @@
 					<c:set var="raPrice" value="${p.totalPrice}" />
 				</c:if>
 
-			</c:forEach>
+			</c:forEach> --%>
 			<table class="table table-bordered">
 				<tbody>
 					<tr>
 						<th class="text-center active vertical-middle">분류<c:out
-								value="${totalSupPrice}"></c:out></th>
+								value=""></c:out></th>
 						<th class="text-center active vertical-middle">건수</th>
 						<th class="text-center active vertical-middle">금액</th>
 					</tr>
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">신용카드</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${crCount}"></c:out>건</td>
+								value="${p.crCount }"></c:out>건</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${crPrice}"></c:out>원</td>
+								value="${p.crPrice}"></c:out>원</td>
 					</tr>
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">계좌이체</td>
@@ -170,31 +174,31 @@
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">휴대전화</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${phCount}"></c:out>건</td>
+								value="${p.phCount}"></c:out>건</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${phPrice}"></c:out>원</td>
+								value="${p.phPrice}"></c:out>원</td>
 					</tr>
 
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">카카오톡</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${kaCount}"></c:out>건</td>
+								value="${p.kaCount}"></c:out>건</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${kaPrice}"></c:out>원</td>
+								value="${p.kaPrice}"></c:out>원</td>
 					</tr>
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">토스</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${toCount}"></c:out>건</td>
+								value="${p.toCount}"></c:out>건</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${toPrice}"></c:out>원</td>
+								value="${p.toPrice}"></c:out>원</td>
 					</tr>
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">네이버페이</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${naCount}"></c:out>건</td>
+								value="${p.naCount}"></c:out>건</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${naPrice}"></c:out>원</td>
+								value="${p.naPrice}"></c:out>원</td>
 					</tr>
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">실시간계좌이체</td>
@@ -207,9 +211,9 @@
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">합계</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${totalCount}"></c:out> 건</td>
+								value="${p.totalCount}"></c:out> 건</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${totalPrice}"></c:out> 원</td>
+								value="${p.totalPrice}"></c:out> 원</td>
 					</tr>
 
 				</tbody>
@@ -226,7 +230,7 @@
 											<div class="value-sub">
 												<strong class="text-danger">총 결재 금액</strong>
 											</div>
-											<div class="value-self">${totalPrice}원</div>
+											<div class="value-self">${p.totalPrice}원</div>
 										</div>
 									</div>
 									<div class="row">
@@ -235,7 +239,7 @@
 												<div class="value-sub">
 													<strong class="text-danger">총 판매 이익</strong>
 												</div>
-												<div class="value-self">${totalPrice-totalSupPrice}원</div>
+												<div class="value-self">${p.totalPrice-p.supplyValue}원</div>
 											</div>
 										</div>
 										<div class="col-lg-3 bordered " style="width: 23%;">
@@ -243,7 +247,7 @@
 												<div class="value-sub">
 													<strong class="text-danger">총 구매건수</strong>
 												</div>
-												<div class="value-self">${totalCount}건</div>
+												<div class="value-self">${p.totalCount}건</div>
 											</div>
 										</div>
 										<div class="col-lg-3 " style="width: 23%;">
@@ -265,12 +269,12 @@
     function drawChart() {
       var data = google.visualization.arrayToDataTable([
         ["Element", "거래 건수", { role: "style" } ],
-        ["실시간계좌", ${acCount}, "silver"],
-        ["신용카드", ${crCount}, "color: #e5e4e2"],
-        ["휴대폰", ${phCount}, "color: #e5e4e2"],
-        ["토스", ${toCount}, "gold"],
-        ["카카오페이", ${kaCount}, "#b87333"],
-        ["네이버페이", ${naCount}, "color: #e5e4e2"]
+        ["실시간계좌", ${p.acCount}, "silver"],
+        ["신용카드", ${p.crCount}, "color: #e5e4e2"],
+        ["휴대폰", ${p.phCount}, "color: #e5e4e2"],
+        ["토스", ${p.toCount}, "gold"],
+        ["카카오페이", ${p.kaCount}, "#b87333"],
+        ["네이버페이", ${p.naCount}, "color: #e5e4e2"]
         
       ]);
 

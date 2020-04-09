@@ -64,7 +64,11 @@
    <script src="${pageContext.request.contextPath }/resources/js/shop/owl.carousel.min.js"></script>
    <script src="${pageContext.request.contextPath }/resources/js/shop/main.js"></script>
    <script src="${pageContext.request.contextPath }/resources/js/subMenu/h-subMenu.js"></script>
-
+	
+	<!-- 주소찾기 API -->
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/shop/postCode.js"></script>
+	
     <script>
   //콤마찍기
     function comma(str) {
@@ -76,7 +80,7 @@
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     }
-
+	
     
     </script>
     

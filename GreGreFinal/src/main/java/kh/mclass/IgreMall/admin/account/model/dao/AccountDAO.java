@@ -12,4 +12,10 @@ public interface AccountDAO {
 
 	List<PayMethod> pList();
 
+
+	List<Account> searchList(Account a);
+
+
+	List<PayMethod> searchPList(Account a);
+
 }

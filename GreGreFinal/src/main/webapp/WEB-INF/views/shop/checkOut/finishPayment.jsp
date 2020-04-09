@@ -75,8 +75,27 @@
 .btn{
     padding: 10px 30px;
 }
+#vbank_info {
+    margin-bottom: 98px !important;
+}
 </style>
+<script>
+function finishSubmit(index){
+	//아이그레몰 메인페이지이동
+	if(index == 1){
+		document.finishFrm.action='${pageContext.request.contextPath }/shop/shop.do';
+		document.finishFrm.submit();
 
+	}
+	//구매내역 상세보기 페이지 이동
+	if(index==2){
+		document.finishFrm.action='${pageContext.request.contextPath }/shop/myShopping/order/detail.do';
+		document.finishFrm.submit();
+		
+	}
+}
+
+</script>
 <div id="body" class="orders show"
 	data-s_id="868ed5fcb7a9578747162306ace05acf"
 	style="padding-bottom: 0px;">
@@ -87,9 +106,12 @@
     </script>
 
 	<div class="contents">
-		<div class="row" style="margin-bottom: 30px; text-align: center;">
+		<form class="checkout-form" name="finishFrm" method='GET' enctype="multipart/form-data">
+			<input type="hidden" name="orderNo" value="${orderNo }"/>
+		</form>
+		<div class="row" style="margin-bottom: 40px; text-align: center;">
 			<div class="col-lg-12">
-				<h2>구매가 정상적으로 완료되었습니다.</h2>
+				<h2>주문이 정상적으로 완료되었습니다.</h2>
 			</div>
 		</div>
 
@@ -100,35 +122,34 @@
 			<div class="wrap_panel">
 				<div class="field">
 					<div class="title">주문번호</div>
-					<div class="content">435943503530</div>
+					<div class="content">${orderNo }</div>
 				</div>
 				<div class="field">
 					<div class="title">주문 접수일</div>
-					<div class="content">2015년 10월 14일</div>
+					<div class="content">${orderDate }</div>
 				</div>
 				<div class="field">
 					<div class="title">결제금액</div>
-					<div class="content">1,000원</div>
+					<div class="content"><fmt:formatNumber type="number" maxFractionDigits="3" value="${payPrice }" />원</div>
 				</div>
 				<div class="field">
 					<div class="title">결제수단</div>
-					<div class="content">카드결제</div>
+					<div class="content">${payMethod }</div>
 				</div>
 			
 			</div>
 		</div>
 		<!-- finish vbank_info -->
-		</div>
 		<!-- finish delivery_info -->
 		<div class="row" style="text-align: center;">
 			<div class="col-lg-12" >
-				<input type="button" class="btn btn-secondary" value="계속 쇼핑하기"  onclick="detailSubmit(2);" /> 
-				<input type="button" class="btn btn-primary" value="주문내역 확인하기"   onclick="detailSubmit(2);" />
+				<input type="button" class="btn btn-secondary" value="계속 쇼핑하기"  onclick="finishSubmit(1);" /> 
+				<input type="button" class="btn btn-primary" value="주문내역 확인하기"   onclick="finishSubmit(2);" />
 			</div>
 		</div>
-	</div>
-
+		</div>
 </div>
+
 
 <jsp:include page="/WEB-INF/views/shop/common/footer.jsp" />
 

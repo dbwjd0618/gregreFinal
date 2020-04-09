@@ -39,11 +39,40 @@ public class OrderList implements Serializable{/**
 	private String deliveryState;
 	private Date orderDate;
 	
+	private List<OrderProduct> orderProdList;
+	private PaymentInfo paymentInfo;
+	
 	private String productName;
 	
 	private List<Attachment2> attachList;
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	
+	public OrderList(String orderNo, String memberId, String sellerId, String productId, String payMethod,
+			int totalPrice, int totalDeliveryFee, String recptName, String recptPhone, String recptEmail,
+			String recptZipcode, String recptAddr, String recptDetailAddr, String deliveryText, String deliveryNo,
+			String payState, String deliveryState, Date orderDate) {
+		super();
+		this.orderNo = orderNo;
+		this.memberId = memberId;
+		this.sellerId = sellerId;
+		this.productId = productId;
+		this.payMethod = payMethod;
+		this.totalPrice = totalPrice;
+		this.totalDeliveryFee = totalDeliveryFee;
+		this.recptName = recptName;
+		this.recptPhone = recptPhone;
+		this.recptEmail = recptEmail;
+		this.recptZipcode = recptZipcode;
+		this.recptAddr = recptAddr;
+		this.recptDetailAddr = recptDetailAddr;
+		this.deliveryText = deliveryText;
+		this.deliveryNo = deliveryNo;
+		this.payState = payState;
+		this.deliveryState = deliveryState;
+		this.orderDate = orderDate;
 	}
 	
 	
