@@ -140,6 +140,7 @@ public class CounsellingController {
 	public String bookingInsert(@ModelAttribute BookingInfo info, Model model, @RequestParam(value="payMethod")String payMethod, RedirectAttributes redirectAttributes ) {
 		
 		log.debug("예약상태"+info);
+		
 		String payInfo="";
 		switch(payMethod) {
 		case "cr": payInfo="신용카드";
