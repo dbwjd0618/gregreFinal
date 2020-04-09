@@ -174,5 +174,25 @@ public class BoardDAOImpl implements BoardDAO {
 	public int modifyPost(Post post) {
 		return sss.update("board.modifyPost", post);
 	}
+
+	@Override
+	public int postCountR(Map<String, Object> param) {
+		return sss.selectOne("board.postCountR", param);
+	}
+
+	@Override
+	public int postCountP(Map<String, Object> param) {
+		return sss.selectOne("board.postCountP", param);
+	}
+
+	@Override
+	public List<Post> postListR(Map<String, Object> param) {
+		return sss.selectList("board.postListR", param);
+	}
+
+	@Override
+	public List<Post> postListP(Map<String, Object> param) {
+		return sss.selectList("board.postListP", param);
+	}
 	
 }

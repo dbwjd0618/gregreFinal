@@ -66,5 +66,13 @@ public interface BoardService {
 
 	int modifyPost(Post post);
 
+	int postCountR(Map<String, Object> param);
+
+	int postCountP(Map<String, Object> param);
+
+	List<Post> postListR(Map<String, Object> param);
+
+	List<Post> postListP(Map<String, Object> param);
+
 
 }

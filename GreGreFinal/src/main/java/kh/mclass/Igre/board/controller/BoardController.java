@@ -62,7 +62,7 @@ public class BoardController {
 						   @RequestParam(value="srchOpt", required=false) String srchOpt,
 						   @RequestParam(value="srchCon", required=false) String srchCon,
 						   @RequestParam(value="srchFilter", required = false) String srchFilter,
-						   Model model) {
+						   Model model, HttpSession hs) {
 		param.put("boardCode", boardCode);
 		param.put("cPage", cPage);
 		if(srchCon != null && !srchCon.equals("")) {
@@ -70,7 +70,13 @@ public class BoardController {
 			param.put("srchCon", srchCon);
 		}
 		if(srchFilter != null && !srchFilter.equals("")) {
-			param.put("srchFilter", srchFilter);
+			log.debug("filter == "+srchFilter);
+			if(!srchFilter.equals("Fclr")) {
+				param.put("srchFilter", srchFilter);
+				param.put("memberId", ((Member)hs.getAttribute("memberLoggedIn")).getMemberId());
+			} else {
+				srchFilter = null;
+			}
 		}
 		String boardName = bs.boardName(param);
 		if(boardName == null) {
@@ -83,23 +89,59 @@ public class BoardController {
 		List<Board> boardList = bs.boardList();
 		model.addAttribute("boardList", boardList);
 		
-		int postCount = bs.postCount(param);
+		int postCount = 0;
+		if(srchFilter != null && !srchFilter.equals("")) {
+			switch(srchFilter) {
+			case "Fpost" :
+				postCount = bs.postCount(param); break;
+			case "Frepl" :
+				postCount = bs.postCountR(param); break;
+			case "Fpref" :
+				postCount = bs.postCountP(param); break;
+			}
+			log.debug("필터 접근?");
+		} else postCount = bs.postCount(param);
+		log.debug("필터 아웃");
 		model.addAttribute("postCount", postCount);
 		
 		int endPage = ((postCount-1)/10)+1;
-		if(cPage>endPage) {
-			cPage = endPage;
-			param.put("cPage", cPage);
-		}
-		if(cPage<1) {
-			cPage = 1;
-			param.put("cPage", cPage);
-		}
 		
-		List<Post> postList = bs.postList(param);
+		if(cPage>endPage)
+			cPage = endPage;
+		
+		if(cPage<1)
+			cPage = 1;
+		
+		param.put("cPage", cPage);
+		
+		List<Post> postList = null;
+		
+		if(srchFilter != null && !srchFilter.equals("")) {
+			switch(srchFilter) {
+			case "Fpost" : 
+				postList = bs.postList(param); break;
+			case "Frepl" :
+				postList = bs.postListR(param); break;
+			case "Fpref" :
+				postList = bs.postListP(param); break;
+			}
+		} else postList = bs.postList(param);
+		log.debug(""+postList);
 		model.addAttribute("postList", postList);
 		model.addAttribute("cPage", cPage);
 		model.addAttribute("endPage", endPage);
+		if(param.containsKey("srchOpt")) {
+			model.addAttribute("srchOpt", srchOpt);
+			param.remove("srchOpt");
+		}
+		if(param.containsKey("srchCon")) {
+			model.addAttribute("srchCon", srchCon);
+			param.remove("srchCon");
+		}
+		if(param.containsKey("srchFilter")) {
+			model.addAttribute("srchFilter", srchFilter);
+			param.remove("srchFilter");
+		}
 		return "board/postList";
 	}
 	

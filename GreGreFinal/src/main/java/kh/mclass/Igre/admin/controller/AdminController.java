@@ -51,16 +51,10 @@ public class AdminController {
 	public String index(Model model) {
 		
 		List<Member> member = adminService.indexMember();
-		List<Counselor> counselor = adminService.indexCounselor();
 		List<Admin> admin = adminService.indexAdmin();
 		
 		model.addAttribute("member", member);
-		model.addAttribute("counselor", counselor);
 		model.addAttribute("admin", admin);
-		
-		log.debug("member={}", member);
-		log.debug("counselor={}", counselor);
-		log.debug("admin={}", admin);
 		
 		return "admin/adminIndex";
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kh.mclass.IgreMall.coupon.model.vo.Coupon;
 import kh.mclass.IgreMall.coupon.model.vo.CouponInfo;
 import kh.mclass.IgreMall.shopMember.model.dao.ShopMemberDAO;
 import kh.mclass.IgreMall.shopMember.model.vo.Cart;
@@ -43,5 +44,15 @@ public class ShopMemberServiceImpl implements ShopMemberService {
 	@Override
 	public int updateCartOne(Cart cart) {
 		return shopMemberDAO.updateCartOne(cart);
+	}
+
+	@Override
+	public int updateConsumerInfo(ShopMember sMem) {
+		return shopMemberDAO.updateConsumerInfo(sMem);
+	}
+
+	@Override
+	public int updateCoupon(Coupon coupon) {
+		return shopMemberDAO.updateCoupon(coupon);
 	}
 }

@@ -9,6 +9,8 @@
 <%@ include file="/WEB-INF/views/admin/common/header.jsp"%>
 
 
+
+
 <style>
 .list {
 	position: relative;
@@ -17,7 +19,7 @@
 	cursor: pointer;
 }
 
-.list:hover {
+.list : hover {
 	text-decoration: none;
 	background-color: #ffb71438;
 }
@@ -27,7 +29,7 @@
 
 <!-- alert 메세지 띄우기! -->
 <c:if test="${not empty msg }">
-	<script>
+<script>
 	$(()=>{
 		alert("${msg}");
 	});
@@ -38,6 +40,14 @@
 %>
 
 <script>
+function sendSMS(pageName){
+	console.log("문자전송");
+	$("#smsForm").attr("action", "${pageContext.request.contextPath}/"+pageName + ".do");
+	$("#smsForm").submit();
+}
+</script>
+
+<script>
 $(function(){
 	$(".list").hide();
 	$(".main").click(function(){
@@ -45,16 +55,69 @@ $(function(){
 		 $("."+$(this).attr("id")).slideDown(500);
 	})
 	
-	
 	$(".mlist").click(function(){
-		$("input[name=emailto]").val("어떻게해야하나요");
+		let memail = $(this).text();
+		$("input[name=emailto]").val(memail);
 	})
 	
+	$(".alist").click(function(){
+		let alist = $(this).text();
+		$("input[name=emailto]").val(alist);
+	})
+
+	//실행과 무관한 오류입니다.
+	let memberList = [
+		<c:forEach items="${member}" var="m" varStatus="vs">
+			"${m.email}"${not vs.last ? ", " : ""}
+		</c:forEach>
+	]
+	$(".list.mlist.ALLM").click(()=>{
+		$("input[name=emailto]").val(memberList.join(", "));
+	})
+	
+	let adminList = [
+		<c:forEach items="${admin}" var="a" varStatus="vs">
+			"${a.email}"${not vs.last ? ", " : ""}
+		</c:forEach>
+	]
+	$(".list.alist.ALLA").click(()=>{
+		$("input[name=emailto]").val(adminList.join(", "));
+	})
+	
+	$(".mphone").click(function(){
+		let mphone = $(this).text();
+		$("input[name=messageto]").val(mphone);
+	});
+	
+	$(".aphone").click(function(){
+		let aphone = $(this).text();
+		$("input[name=messageto]").val(aphone);
+	})
+	
+	let mphoneList = [
+		<c:forEach items="${member}" var="mp" varStatus="vs">
+			"${mp.phone}"${not vs.last ? ", " : ""}
+		</c:forEach>
+	]
+	
+	$(".list.mphone.ALLM").click(()=>{
+		$("input[name=messageto]").val(mphoneList.join(", "));
+	})
+	
+	let aphoneList = [
+		<c:forEach items="${admin}" var="ap" varStatus="vs">
+			"${ap.phone}"${not vs.last ? ", " : ""}
+		</c:forEach>
+	]
+	
+	$(".list.aphone.ALLA").click(()=>{
+		$("input[name=messageto]").val(aphoneList.join(", "));
+	})
 	
 });
-
-
 </script>
+
+
 
 <!-- admin index 선언 -->
 
@@ -137,7 +200,6 @@ $(function(){
 			<!-- Left col -->
 			<section class="col-lg-6 connectedSortable">
 				<!-- Custom tabs (Charts with tabs)-->
-
 				<!-- quick email widget -->
 				<div class="box box-info">
 					<div class="box-header">
@@ -145,63 +207,59 @@ $(function(){
 						<h3 class="box-title">단체 이메일</h3>
 					</div>
 					<div class="box-body">
-						<form action="#" method="post">
+						<form
+							action="${pageContext.request.contextPath }/mail/mailSending"
+							method="post" enctype="multipart/form-data">
 							<div class="form-group">
-								<input type="email" class="form-control" name="emailto" placeholder="받는 이:" />
+								<input type="text" class="form-control" name="emailto"
+									placeholder="받는 이:" />
 							</div>
 							<div class="form-group">
-								<input type="text" class="form-control" name="subject" placeholder="제목" />
+								<input type="text" class="form-control" name="subject"
+									placeholder="제목" />
+							</div>
+							<div class="form-group">
+								<input type="file" class="form-control" name="file" />
 							</div>
 							<div>
-								<textarea class="textarea" placeholder="내용"
+								<textarea class="textarea" placeholder="내용" name="content"
 									style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
 							</div>
+							<div>
+								<input type="submit" class="pull-right btn btn-default"
+									id="sendEmail" value="보내기" />
+							</div>
+							<br />
+							<br />
 						</form>
-					</div>
-					<div class="box-footer clearfix">
-						<button class="pull-right btn btn-default" id="sendEmail">
-							보내기 <i class="fa fa-arrow-circle-right"></i>
-						</button>
 					</div>
 				</div>
 
 				<!-- message -->
 				<div class="box box-success">
-
 					<div class="box-header">
 						<i class="fas fa-sms fa-2x"></i>
 						<h3 class="box-title">단체 문자</h3>
 					</div>
-
-					<div class="box-body chat">
-						<form action="#" method="post">
+					<form method="post" id="smsForm">
+						<div class="box-body chat">
 							<div class="form-group">
 								<input type="text" class="form-control" name="messageto"
 									placeholder="전화번호(문자받을 연락처를 입력하세요)" />
 							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" name="title"
-									placeholder="제목을 입력하세요(생략시 내용만 발송됩니다)" />
-							</div>
-						</form>
-					</div>
-
-					<!-- /.chat -->
-					<div class="box-footer">
-						<div>
-							<textarea class="message" placeholder="내용"
-								style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
 						</div>
-					</div>
-
-					<div class="box-footer clearfix">
-						<button class="pull-right btn btn-default" id="sendEmail">
-							보내기 <i class="fa fa-arrow-circle-right"></i>
-						</button>
-					</div>
+						<div>
+							<div>
+								<textarea class="message" placeholder="내용" name="message"
+									style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+							</div>
+						</div>
+						<div class="box-footer clearfix">
+							<input type="button" class="pull-right btn btn-default" onclick="sendSMS('sendSms')" value="보내기">
+						</div>
+					</form>
 				</div>
 				<!-- message end -->
-
 			</section>
 			<!-- /.Left col -->
 			<!-- right col (We are only adding the ID to make the widgets sortable)-->
@@ -210,29 +268,49 @@ $(function(){
 				<div class="box box-warning">
 					<div class="box-header with-border">
 						<i class="fas fa-user-tag fa-2x"></i>
-						<h3 class="box-title">회원 목록</h3>
+						<h3 class="box-title">회원 목록(이메일)</h3>
 					</div>
 					<div class="box-body no-padding">
 						<ul class="nav nav-pills nav-stacked">
+
 							<li class="main" id="mlist"><a href="#"><i
 									class="fa fa-users"></i>일반회원</a></li>
-							<li class="list mlist">전체회원</li>
-							<c:forEach items="${member }" var="member">
-								<li class="list mlist">${member.memberId}</li>
-							</c:forEach>
-
-							<li class="main" id="clist"><a href="#"><i
-									class="fa fa-heart"></i>상담사</a></li>
-							<li class="list clist">전체회원</li>
-							<c:forEach items="${counselor}" var="counselor">
-								<li class="list clist">${counselor.advisId}</li>
+							<li class="list mlist ALLM">전체회원</li>
+							<c:forEach items="${member}" var="member">
+								<li class="list mlist">${member.email}</li>
 							</c:forEach>
 
 							<li class="main" id="alist"><a href="#"><i
 									class="fa fa-user-secret"></i>관리자</a></li>
-							<li class="list clist">전체회원</li>
+							<li class="list alist ALLA">전체회원</li>
 							<c:forEach items="${admin}" var="admin">
-								<li class="list alist">${admin.adminId}</li>
+								<li class="list alist">${admin.email}</li>
+							</c:forEach>
+						</ul>
+					</div>
+				</div>
+				<!-- 발송시 목록관리 끝!! -->
+				<!-- 발송시 목록관리 -->
+				<div class="box box-danger">
+					<div class="box-header with-border">
+						<i class="fas fa-user-tag fa-2x"></i>
+						<h3 class="box-title">회원 목록(문자)</h3>
+					</div>
+					<div class="box-body no-padding">
+						<ul class="nav nav-pills nav-stacked">
+
+							<li class="main" id="mphone"><a href="#"><i
+									class="fa fa-users"></i>일반회원</a></li>
+							<li class="list mphone ALLM">전체회원</li>
+							<c:forEach items="${member}" var="member">
+								<li class="list mphone">${member.phone}</li>
+							</c:forEach>
+
+							<li class="main" id="aphone"><a href="#"><i
+									class="fa fa-user-secret"></i>관리자</a></li>
+							<li class="list aphone ALLA">전체회원</li>
+							<c:forEach items="${admin}" var="admin">
+								<li class="list aphone">${admin.phone}</li>
 							</c:forEach>
 						</ul>
 					</div>
@@ -245,7 +323,7 @@ $(function(){
 						<h3 class="box-title">달력</h3>
 						<!-- tools box -->
 						<div class="pull-right box-tools">
-							<!-- button with a dropdown -->
+							<!-- button with a drop down -->
 							<div class="btn-group">
 								<button class="btn btn-success btn-sm dropdown-toggle"
 									data-toggle="dropdown">
