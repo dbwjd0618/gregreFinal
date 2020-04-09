@@ -1,6 +1,8 @@
 package kh.mclass.Igre.chat.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kh.mclass.Igre.chat.model.service.ChatService;
+import kh.mclass.Igre.chat.model.vo.ChatInfo;
 import kh.mclass.Igre.chat.model.vo.ChatMember;
 import kh.mclass.Igre.chat.model.vo.ChatRoom;
+import kh.mclass.Igre.chat.model.vo.CheckOK;
 import kh.mclass.Igre.chat.model.vo.Msg;
 import kh.mclass.Igre.member.model.vo.Member;
 import lombok.extern.slf4j.Slf4j;
@@ -49,22 +53,52 @@ public class ChatController {
 	@GetMapping("/counsellingStart.do")
 	public String counsellingStart(Model model, @ModelAttribute("memberId")String memberId) {
 		
+		
+		//채팅방 아이디 조회
 		String chatId = chatService.CounselorFindChatIdByMemberId(memberId);
+		
+		//코인 존재여부 확인후 0일 경우 채팅방 삭제
+		int coinCheck = chatService.counselorCoinCheck(memberId);
+		//코인이 없으면 채팅 표시 x
+		if(coinCheck==0) {
+			int outChatRoom = chatService.counselorOutChatRoom(chatId);
+		}
 		
 		//최근 사용자 채팅메세지 목록
 		List<Map<String, String>> recentList = chatService.counselorFindRecentList(memberId);
 		
-		
 		//상담사 ID 검색
 		String counselorId = chatService.counselorFindId(memberId);
 		
-		//채팅 방 번호 검색
-		int roomNum = chatService.counselorRoomNum(chatId);
+		int roomNum = 0;	//0 채팅방 x, 1 채팅방 o
+		int readCountResult = 0; 
+		if(chatId != null) {
+			//채팅 방 번호 검색
+			roomNum = chatService.counselorRoomNum(chatId);	
+			Map<String, Object> readCount = new HashMap<String, Object>();
+			readCount.put("roomNum", roomNum);
+			readCount.put("counselorId", counselorId);
+			readCountResult = chatService.counselorReadCountM(readCount);
+			log.debug(String.valueOf(readCountResult));
+		}
 		
-		Map<String, Object> readCount = new HashMap<String, Object>();
-		readCount.put("roomNum", roomNum);
-		readCount.put("counselorId", counselorId);
-		int readCountResult = chatService.counselorReadCountM(readCount);
+		model.addAttribute("roomNum",roomNum);
+		
+		//구매 확인 (기간안에 사용 가능 여부 확인)
+		Calendar date =Calendar.getInstance();
+		Date today = new Date(date.getTimeInMillis());
+		
+		Map<String, Object> checkP = new HashMap<String, Object>();
+		checkP.put("today", today);
+		checkP.put("memberId", memberId);
+		
+		//0 현재 상담 가능 x , 1 현재 상담 가능 o 
+		int checkProduct = chatService.counselorCheckProduct(checkP);
+		log.debug(String.valueOf(checkProduct));
+		
+	
+		model.addAttribute("checkProduct",checkProduct);
+	
 		
 		
 		//안 읽은 메세지 수
@@ -88,6 +122,12 @@ public class ChatController {
 		//상담사 ID 검색
 		String counselorId = chatService.counselorFindId(memberId);
 		
+		//상담사, 회원정보 
+		ChatInfo info = chatService.counselorInfo(counselorId);
+		
+		log.debug(info.toString());
+		
+		model.addAttribute("info",info);
 		model.addAttribute("counselorId",counselorId);
 		
 		//2.로그인을 하지 않았거나, 로그인을 해도 최초접속인 경우 chatId를 발급하고 db에 저장한다.
@@ -112,10 +152,45 @@ public class ChatController {
 			model.addAttribute("chatList", chatList);
 
 		}
-		
 		log.debug("memberId=[{}], chatId=[{}]",memberId, chatId);
 		
 		model.addAttribute("chatId", chatId);
+		
+		
+		
+		//구매 확인 (기간안에 사용 가능 여부 확인)
+		Calendar date =Calendar.getInstance();
+		Date today = new Date(date.getTimeInMillis());
+		
+		Map<String, Object> checkP = new HashMap<String, Object>();
+		checkP.put("today", today);
+		checkP.put("memberId", memberId);
+		
+		//0 현재 상담 가능 x , 1 현재 상담 가능 o 
+		int checkProduct = chatService.counselorCheckProduct(checkP);
+		log.debug(String.valueOf(checkProduct));
+		
+		int checkToday = 0;
+		if(checkProduct != 0) {
+			model.addAttribute("checkProduct",checkProduct);
+			
+			//주 1회 상담 가능 여부 0 상담 불가능, 1 상담 가능
+			checkToday = chatService.counselorCheckToday(checkP);
+			log.debug(String.valueOf(checkToday) +"주 1회 사용 가능 여부" );
+			if(checkToday == 1) {
+				CheckOK ok = new CheckOK();
+				ok.setChatId(chatId);
+				ok.setToday(today);
+				ok.setMemberId(memberId);
+				//최근 상담 진행 insert
+				log.debug(ok.toString());
+				int checkOK = chatService.counselorCheckOK(ok);
+				//코인 줄이기!
+				int downCoin = chatService.counselorDownCoin(memberId);
+			}
+			model.addAttribute("checkToday",checkToday);
+		}
+		
 		
 		return "chat/counselorChat";
 	}
