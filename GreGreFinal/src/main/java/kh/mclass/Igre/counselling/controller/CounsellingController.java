@@ -126,8 +126,9 @@ public class CounsellingController {
 	
 	@GetMapping("/bookingPage.do")
 	public void bookingPage(@RequestParam("advisId") String advisId,
-							
+			
 							Model model) {
+	
 		//상담사 정보
 		Counselor counselor = counselorService.selectOne(advisId);
 		Member m = new Member();
@@ -136,9 +137,26 @@ public class CounsellingController {
 	}
 	
 	@PostMapping(value = "/bookingEnd.do")
-	public String bookingInsert(@ModelAttribute BookingInfo info, Model model, RedirectAttributes redirectAttributes ) {
+	public String bookingInsert(@ModelAttribute BookingInfo info, Model model, @RequestParam(value="payMethod")String payMethod, RedirectAttributes redirectAttributes ) {
 		
 		log.debug("예약상태"+info);
+		
+		String payInfo="";
+		switch(payMethod) {
+		case "cr": payInfo="신용카드";
+			break;
+		case "ra": payInfo="계좌이체";
+			break;
+		case "ph": payInfo="휴대폰";
+			break;
+		case "na": payInfo="네이버페이";
+			break;
+		case "ka": payInfo="카카오페이";
+			break;
+		case "to": payInfo="토스";
+			break;
+		}
+		info.setPayInfo(payInfo);
 		
 		int result = counselorService.bookingInsert(info);
 		

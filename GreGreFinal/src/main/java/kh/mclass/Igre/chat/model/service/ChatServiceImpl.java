@@ -1,5 +1,6 @@
 package kh.mclass.Igre.chat.model.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -7,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kh.mclass.Igre.chat.model.dao.ChatDAO;
+import kh.mclass.Igre.chat.model.vo.ChatInfo;
 import kh.mclass.Igre.chat.model.vo.ChatMember;
 import kh.mclass.Igre.chat.model.vo.ChatRoom;
+import kh.mclass.Igre.chat.model.vo.CheckOK;
 import kh.mclass.Igre.chat.model.vo.Msg;
 
 @Service
@@ -100,6 +103,41 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public String memberIdFindChatListByChatId(String counselorId) {
 		return chatDAO.memberIdFindChatListByChatId(counselorId);
+	}
+
+	@Override
+	public ChatInfo counselorInfo(String counselorId) {
+		return chatDAO.counselorInfo(counselorId);
+	}
+
+	@Override
+	public int counselorCheckProduct(Map<String, Object> check) {
+		return chatDAO.counselorCheckProduct(check);
+	}
+
+	@Override
+	public int counselorCheckToday(Map<String, Object> checkT) {
+		return chatDAO.counselorCheckToday(checkT);
+	}
+
+	@Override
+	public int counselorCheckOK(CheckOK ok) {
+		return chatDAO.counselorCheckOK(ok);
+	}
+
+	@Override
+	public int counselorDownCoin(String memberId) {
+		return chatDAO.counselorDownCoin(memberId);
+	}
+
+	@Override
+	public int counselorCoinCheck(String memberId) {
+		return chatDAO.counselorCoinCheck(memberId);
+	}
+
+	@Override
+	public int counselorOutChatRoom(String chatId) {
+		return chatDAO.counselorOutChatRoom(chatId);
 	}
 
 

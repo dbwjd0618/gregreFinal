@@ -1,4 +1,4 @@
-package kh.mclass.IgreMall.order.model.vo;
+package kh.mclass.Igre.chat.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -8,22 +8,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
-public class PayAccountInfo implements Serializable{/**
+public class CheckOK implements Serializable{
+
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private int id;
+	private String memberId;
+	private String chatId;
+	private Date today;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	
-	private String orderNo;
-	private String bankName;
-	private String account;
-	private String accountHolder;
-	private Date expireDate;
-	
-
 }

@@ -95,7 +95,7 @@
 <resultMap type="payAccountInfo" id="payAccInfoMap">
 		<id column ='order_no' property="orderNo"/>
 		<result column ='bank_name' property="bankName"/>
-		<result column ='account_no' property="accountNo"/>
+		<result column ='account' property="account"/>
 		<result column ='account_holder' property="accountHolder"  />
 		<result column ='expire_date' property="expireDate"  />
 </resultMap>
@@ -106,7 +106,7 @@
 	values (
 	 #{orderNo},
 	 #{bankName},
-	 #{accountNo},
+	 #{account},
 	 #{accountHolder},
 	 #{expireDate}
 	)

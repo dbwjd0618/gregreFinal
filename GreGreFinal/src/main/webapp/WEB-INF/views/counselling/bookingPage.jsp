@@ -115,7 +115,7 @@ input.site-btn.place-btn {
 h4 {
 	text-align: center;
 	margin-top: 10%;
-	margin-left: -70px;
+	margin-left: -80px;
 	margin-bottom: 20px;
 }
 
@@ -131,6 +131,10 @@ table {
 span#total-price{
 	color: red;
 }
+
+.c-grade{
+	color: #48DA91;
+}
 </style>
 <!-- 여기부터 container -->
 <form name="bookingFrm" method="POST">
@@ -142,7 +146,7 @@ span#total-price{
 						src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}"
 						class="align-self-center mr-3" alt="..."> <input
 						type="hidden" name="advisImg" value="${counselor.advisImg}" />
-					<h4>${counselor.advisName }&nbsp;${counselor.advisGrade }상담사</h4>
+					<h4>${counselor.advisName }&nbsp;<span class="c-grade">${counselor.advisGrade }</span>상담사</h4>
 					<input type="hidden" name="advisName"
 						value="${counselor.advisName }" />
 				</div>
@@ -154,15 +158,15 @@ span#total-price{
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="price" id="14" value="${price1}">
+							<tr class="price" id="2" value="${price1}">
 								<th scope="row">2주 프로그램</th>
 								<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${price1}" />원</td>
 							</tr>
-							<tr class="price" id="28" value="${price2 }">
+							<tr class="price" id="4" value="${price2 }">
 								<th scope="row">4주 프로그램</th>
 								<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${price2}" />원</td>
 							</tr>
-							<tr class="price" id="0" value="${counselor.advisPrice}">
+							<tr class="price" id="1" value="${counselor.advisPrice}">
 								<th scope="row">1회 상담권</th>
 								<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${counselor.advisPrice}" />원</td>
 							</tr>
@@ -260,12 +264,10 @@ span#total-price{
 					<input type="button" class="site-btn place-btn" onclick="goPay();" value="결제하기">
 				</div>
 				<input type="hidden" name="memberId"
-					value="${memberLoggedIn.memberId}" /> <input type="hidden"
-					name="advisId" value="${counselor.advisId }" /> 
-					<input
-					type="hidden" name="payPrice" value="" /> 
-					<input type="hidden"
-					name="coin" />
+					value="${memberLoggedIn.memberId}" /> 
+					<input type="hidden" name="advisId" value="${counselor.advisId }" /> 
+					<input type="hidden" name="payPrice" value="" /> 
+					<input type="hidden" name="coin" />
 				
 			</div>
 		</div>

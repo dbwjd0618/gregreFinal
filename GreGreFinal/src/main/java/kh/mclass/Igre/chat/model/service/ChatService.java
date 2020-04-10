@@ -1,9 +1,12 @@
 package kh.mclass.Igre.chat.model.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import kh.mclass.Igre.chat.model.vo.ChatInfo;
 import kh.mclass.Igre.chat.model.vo.ChatMember;
+import kh.mclass.Igre.chat.model.vo.CheckOK;
 import kh.mclass.Igre.chat.model.vo.Msg;
 
 public interface ChatService {
@@ -36,6 +39,20 @@ public interface ChatService {
 	int counselorReadCountC(Map<String, Object> readCount);
 
 	String memberIdFindChatListByChatId(String counselorId);
+
+	ChatInfo counselorInfo(String counselorId);
+
+	int counselorCheckProduct(Map<String, Object> check);
+
+	int counselorCheckToday(Map<String, Object> checkT);
+
+	int counselorCheckOK(CheckOK ok);
+
+	int counselorDownCoin(String memberId);
+
+	int counselorCoinCheck(String memberId);
+
+	int counselorOutChatRoom(String chatId);
 
 
 

@@ -13,7 +13,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class OrderProduct implements Serializable{/**
+public class OrderProduct implements Serializable{
+	
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -28,7 +30,8 @@ public class OrderProduct implements Serializable{/**
 	private String[] optionPrice;
 	private String[] prodCount;
 	private String renamedImg;
-	
+	private int deliveryFee;
+	private String reviewId;
 	public OrderProduct(String orderNo, String productId, String[] optionId, String[] prodCount) {
 		super();
 		this.orderNo = orderNo;
