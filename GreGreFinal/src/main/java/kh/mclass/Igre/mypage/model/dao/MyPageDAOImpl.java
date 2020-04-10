@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Repository;import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.Review;
@@ -76,6 +76,18 @@ public class MyPageDAOImpl implements MyPageDAO {
 	public int insertVaccion(Vaccination vaccination) {
 		// TODO Auto-generated method stub
 		return sss.insert("mypage.insertVaccion",vaccination);
+	}
+
+	@Override
+	public int reviewUpdate(Review review) {
+		// TODO Auto-generated method stub
+		return sss.insert("review.reviewUpdate", review);
+	}
+
+	@Override
+	public int reviewDelete(Review review) {
+		// TODO Auto-generated method stub
+		return sss.delete("review.reviewDelete", review);
 	}
 
 

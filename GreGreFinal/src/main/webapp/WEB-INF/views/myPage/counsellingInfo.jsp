@@ -59,6 +59,33 @@
 	margin-bottom: 1px;
 }
 
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+    margin-bottom: 11px;
+    margin-top: 5px;
+}
+
+input[type=checkbox], input[type=radio]{
+	cursor: pointer;
+}
+
+input[name=starPoint]{
+ position: absolute;
+ opacity: 0;
+ z-index: -10000;
+ font-size: inherit;
+}
+
+.card-body{
+        background-color: white;
+        /* width: 778px; */
+        height: 190px;
+        border: 0.5px solid lightgray;
+        border-top: 0;
+        border-bottom: 0;
+        border-right: 0;
+        margin-bottom: 10px;
+    }
 </style>
 <script
 	src="${pageContext.request.contextPath }/resources/js/shop/productView.js"></script>
@@ -66,7 +93,26 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/css/shop/productView.css"
 	type="text/css"></link>
-
+<script>
+function reviewSubmit(index){
+	//작성
+	if(index == 1){
+		document.reviewFrm.action='${pageContext.request.contextPath}/myPage/counsellingInfo.do';
+		document.reviewFrm.submit();
+	}
+	//수정
+	if(index==2){
+		document.reviewFrm.action='${pageContext.request.contextPath }';
+		document.reviewFrm.submit();
+		
+	}
+	//삭제
+	if(index==3){
+		document.reviewFrm.action='${pageContext.request.contextPath }';
+		document.reviewFrm.submit();
+	}
+}
+</script>
 <div class="site-section">
 	<div class="container">
 		<div class="row">
@@ -89,10 +135,10 @@
 							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/myPeriodCalculatorView.do">
 								<div class="menu__title">월경캘린더</div>
 							</a> 
-							<a class="menu__item" href="#">
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/counsellingInfo.do">
 								<div class="menu__title">상담정보/리뷰</div>
 							</a> 
-							<a class="menu__item" href="#">
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/deleteMember.do">
 								<div class="menu__title">회원탈퇴</div>
 							</a>
 						</div>
@@ -120,12 +166,17 @@
                                        <img src="${pageContext.request.contextPath}/resources/images/counselling/${c.advisImg }" class="imgmini">
                                     </div>
                                     <div class="col-md-7">
-                                        <p>예약한 상담사명 : ${c.advisName} </p>
+                                        <p>예약한 상담사명 : ${c.advisName }</p>
+                                        <p>예약번호 : ${c.appointNo}</p>
                                         <p>결제정보 : ${c.payInfo } </p>
                                         <p>결제일 : ${c.startDay} </p>
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="innerModal('${c.appointNo}','${c.advisId }','${memberLoggedIn.memberId }');">작성</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="innerModal('${c.appointNo}','${c.advisId }','${memberLoggedIn.memberId }');">리뷰작성</button>
+                                    	<br/>
+                                    	<button type="button" class="btn btn-success">리뷰수정</button>
+										<br/>
+										<button type="button" class="btn btn-danger">리뷰삭제</button>
                                     </div>
                                 </div>
                                 
@@ -152,7 +203,7 @@
 <!-- 리뷰쓰기 modal -->
 	<div class="modal fade" id="exampleModal" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<form action="${pageContext.request.contextPath}/myPage/counsellingInfo.do" method="post">
+	<form name="reviewFrm" method="post">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -181,7 +232,7 @@
             			</div>
 						<div class="form-group">
 							<label for="starting" class="col-form-label">별점 평가</label>
-							<div class="at-rating" style="font-size: 30px; color: #FAC451;">
+							<div class="at-rating" style="font-size: 30px; color: red;">
 								<label class="rating-input__star"  aria-label="별점 1점"> 
 									<input type="radio" value="1" name="starPoint"> 
 									<i class="fa fa-star-o"></i>
@@ -211,7 +262,7 @@
 					</div>
         			<div class="modal-footer">
           				<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-          				<button type="submit" class="btn btn-primary">등록</button>
+          				<button type="submit" class="btn btn-primary" onclick="reviewSubmit(1)">등록</button>
       				</div>
       				</div>
                 		<input type="hidden" name="reviewerId">
@@ -230,7 +281,18 @@ function innerModal(appointNo, advisId, reviewerId) {
 	$("[name=appointNo]").val(appointNo);
 	$("[name=advisId]").val(advisId);
 	$("[name=reviewerId]").val(reviewerId);
+	$('#advisName').text(advisId);
 }
+
+$(function(){
+    $("label.rating-input__star").on("click",function(){
+        $(this).parent().children("label").removeClass("selected").children('i').addClass("fa-star-o");
+        $(this).addClass("selected").prevAll("label").addClass("selected").children('i').removeClass("fa-star-o").addClass("fa-star");
+        $(this).children("i").removeClass("fa-star-o").addClass("fa-star");
+        $(this).children("input:radio[name='starPoint']").prop('checked', true);
+        return false;
+    })
+})
 
 </script>
 

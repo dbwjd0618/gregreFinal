@@ -1,14 +1,15 @@
  package kh.mclass.Igre.mypage.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sound.midi.MidiDevice.Info;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,14 +20,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
-import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.service.MyPageService;
 import kh.mclass.Igre.mypage.model.vo.Child;
 import kh.mclass.Igre.mypage.model.vo.Vaccination;
 import lombok.extern.slf4j.Slf4j;
-import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @Slf4j
@@ -156,14 +155,42 @@ public class MyPageController {
 		return mav;
 	}
 	
-//	리뷰 작성
+	//리뷰 작성
 	@PostMapping("/counsellingInfo.do")
-	public String reviewWrite(Review review, RedirectAttributes redirectAttributes) {
-		
+	public String reviewWrite(Review review, RedirectAttributes redirectAttributes, String starPoint) {
+
+		review.setStarPoint(Integer.parseInt(starPoint));  
 		int result = mps.reviewWrite(review);
+		
+		redirectAttributes.addFlashAttribute("msg", result>0?"리뷰등록 성공!":"리뷰등록 실패!");
 		
 		return "redirect:/myPage/counsellingInfo.do";
 	}
+	
+	/*
+	 * //리뷰 수정
+	 * 
+	 * @PostMapping("/counsellingInfo.do") public String reviewUpdate(Review review,
+	 * RedirectAttributes redirectAttributes, String starPoint) {
+	 * 
+	 * review.setStarPoint(Integer.parseInt(starPoint));
+	 * 
+	 * int result = mps.reviewUpdate(review);
+	 * 
+	 * redirectAttributes.addFlashAttribute("msg", result>0?"리뷰수정 성공!":"리뷰수정 실패!");
+	 * 
+	 * return "redirect:/myPage/counsellingInfo.do"; }
+	 */
+	
+	//리뷰삭제
+	@PostMapping("/reviewDelete.do")
+	public String reviewDelete(SessionStatus ss, HttpSession session, Review review,RedirectAttributes redirectAttributes) {
+		int result = mps.reviewDelete(review);
+
+		redirectAttributes.addFlashAttribute("msg", result>0?"리뷰등록 성공!":"리뷰등록 실패!");
+
+		return "redirect:/";
+	} 
 	
 	
 }

@@ -31,13 +31,14 @@
         margin: 13% auto;
         max-width: 800px;
         min-width: 800px;
-        max-height: 550px;
-        min-height: 550px;
+        max-height: 600px;
+        min-height: 600px;
         border: 1px solid rgba(218,218,218);
         background-color: white;   
     }
     .booking>h2{
         margin-left: 5%;
+        margin-top: 30px;
         font-size: 24px;
     }
     .booking>p{

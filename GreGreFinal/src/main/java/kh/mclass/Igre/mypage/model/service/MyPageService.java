@@ -26,4 +26,8 @@ public interface MyPageService {
 
 	int reviewWrite(Review review);
 
+	int reviewUpdate(Review review);
+
+	int reviewDelete(Review review);
+
 }

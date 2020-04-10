@@ -204,31 +204,31 @@ $(()=>{
                                     <span style="width:${list1.get(0).getReviewCount()*100/
                                     totalReviewContents}%"></span>
                                 </span>
-                                (${list1.get(0).getReviewCount()})
+                                ${list1.get(0).getReviewCount()} 명
                                 <br>
                                 4
                                 <span class='chart-rating'>
                                     <span style="width:${list1.get(1).getReviewCount()*100/totalReviewContents}%"></span>
                                 </span>
-                                (${list1.get(1).getReviewCount()})
+                                ${list1.get(1).getReviewCount()} 명
                                 <br>
                                 3
                                 <span class='chart-rating'>
                                     <span style="width:${list1.get(2).getReviewCount()*100/totalReviewContents}%"></span>
                                 </span>
-                                (${list1.get(2).getReviewCount()})
+                                ${list1.get(2).getReviewCount()} 명
                                 <br>
                                 2
                                 <span class='chart-rating'>
                                     <span style="width:${list1.get(3).getReviewCount()*100/totalReviewContents}%"></span>
                                 </span>
-                                (${list1.get(3).getReviewCount()})
+                                ${list1.get(3).getReviewCount()} 명
                                 <br>
                                 1
                                 <span class='chart-rating'>
                                     <span style="width:${list1.get(4).getReviewCount()*100/totalReviewContents}%"></span>
                                 </span>
-                                (${list1.get(4).getReviewCount()})
+                                ${list1.get(4).getReviewCount()} 명
                             </div>
                         </div>
 					</div>
@@ -236,7 +236,7 @@ $(()=>{
 			</div>
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
-					
+					<p>상담사 리뷰</p>
 					<!-- 댓글게시판 시작  -->
 					<div class="review-list-wrapper">
 					<c:forEach items="${list }" var="review">
