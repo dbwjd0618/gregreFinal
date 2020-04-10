@@ -21,22 +21,22 @@ public class InquireController {
 	@Autowired
 	private InquireService is;
 	
-	@MessageMapping("/chat/{chatId}")
-	@SendTo(value = {"/chat/{chatId}, /chat/admin/push"})
+	@MessageMapping("/inq/chat/{chatId}")
+	@SendTo(value = {"/inq/chat/{chatId}"})
 	public InqMsg sendEcho(InqMsg fromMessage, @DestinationVariable String chatId) {
 		log.debug("fromMessage = {}", fromMessage);
 		is.insertChatLog(fromMessage);
 		
 		return fromMessage;
 	}
-	
-	@MessageMapping("/lastCheck/{chatId}")
-	@SendTo(value={"/chat/admin/push"})
-	public Msg lastCheckM(@RequestBody Msg fromMessage){
-		log.debug("lastCheckM={}",fromMessage);
-//		is.updateLastCheck(fromMessage);
-		
-		return fromMessage; 
-	}
+//	
+//	@MessageMapping("/lastCheck/{chatId}")
+//	@SendTo(value={"/chat/admin/push"})
+//	public Msg lastCheckM(@RequestBody Msg fromMessage){
+//		log.debug("lastCheckM={}",fromMessage);
+////		is.updateLastCheck(fromMessage);
+//		
+//		return fromMessage; 
+//	}
 
 }

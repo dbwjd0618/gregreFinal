@@ -23,6 +23,7 @@
 #inqToAdmin:hover {color: #4e4ecf; cursor: pointer;}
 body {padding-right: 0px !important;}
 </style>
+<c:if test="${not empty memberLoggedIn}">
 <script>
 const memberId = '${memberId}';
 const chatId = '${chatId}';
@@ -33,7 +34,7 @@ let stompClient = Stomp.over(socket);
 stompClient.connect({}, function(frame) {
 	console.log('connected stomp over sockjs');
 	
-	lastCheck(chatId);
+// 	lastCheck(chatId);
 });
 
 function chatSubscribe(){
@@ -47,18 +48,17 @@ function chatSubscribe(){
 			
 			//stomp에서는 구독개념으로 세션을 관리한다. 핸들러 메소드의 @SendTo어노테이션과 상응한다.
 			stompClient.subscribe('/inq/chat/'+chatId, function(message) {
-				alert(message);
 				console.log("receive from subscribe /inq/chat/"+chatId +":", message);
 				let messsageBody = JSON.parse(message.body);
-				$("#messages").append("<li class=\"message\">"+messsageBody.memberId+" : "+messsageBody.msg+ "</li>");
+				$(".messages").append("<li class='message right appeared'><div class='avatar'></div><div class='text_wrapper'><div class='text'>"+messsageBody.msg+"</div></div></li>");
 				scrollTop();
 			});
 			conntionDone = true;
 		}	
 	},1000);
 }
-
 </script>
+</c:if>
 
     <div class="ftco-blocks-cover-1">
 
@@ -103,28 +103,28 @@ function chatSubscribe(){
             <div class="col-md-5 top-links" style="padding:0 !important">
               <ul>
                 <li class="link1">
-                  <a href="">
+                  <a href="${pageContext.request.contextPath }/pregnancy/prePregnancy.do">
                     <img src="${pageContext.request.contextPath}/resources/images/index/pregnant-icon.png" alt="">
                     <br>
                     임신
                   </a>
                 </li>
                 <li class="link2">
-                  <a href="">
+                  <a href="${pageContext.request.contextPath }/child/childInfo.do">
                     <img src="${pageContext.request.contextPath}/resources/images/index/child-icon.png" alt="">
                     <br>
                     육아
                   </a>
                 </li>
                 <li class="link3">
-                  <a href="">
+                  <a href="${pageContext.request.contextPath }/find/pharmacy.do">
                     <img src="${pageContext.request.contextPath}/resources/images/index/reserve_hospital-icon.png" alt="">
                     <br>
-                    병원예약
+                    마스크구매
                   </a>
                 </li>
                 <li class="link4">
-                  <a href="">
+                  <a href="${pageContext.request.contextPath }/counselling/counselorFind.do">
                     <img src="${pageContext.request.contextPath}/resources/images/index/counseling-icon.png" alt="">
                     <br>
                     온라인상담
@@ -252,8 +252,10 @@ function chatSubscribe(){
   </div>
   <!--index contents end -->
   
-  <i id="inqToAdmin" class="far fa-comments rtnMsg" title="관리자에게 문의하기" onclick="inqShow();"></i>
+  <c:if test="${not empty memberLoggedIn}">
+  <i id="inqToAdmin" class="far fa-comments ${chatList != null ? 'rtnMsg' : ''}" title="관리자에게 문의하기" onclick="inqShow();"></i>
   <input type="hidden" id="loginId" value="${memberLoggedIn.memberId}" />
+  </c:if>
   
    <!-- 추천상품 Section Begin -->
    <div class="">
@@ -385,14 +387,13 @@ function chatSubscribe(){
 			        <div class="title">Chat</div>
 			    </div>
 			    <ul class="messages">
-			    	<li class="message right appeared">
+			    	<c:forEach items="${chatList}" var="msg">
+			    	<li class="message appeared ${msg.memberId == memberId ? 'right' : 'left'}">
 			    		<div class="avatar"></div>
          				<div class="text_wrapper">
-         					<div class="text">aaaa</div>
+         					<div class="text">${msg.msg }</div>
            				</div>
 			    	</li>
-			    	<c:forEach items="${chatList}" var="msg">
-			    	<li class="message">${msg.memberId } : ${msg.msg }</li>
 			    	</c:forEach>
 			    </ul>
 			    <div class="bottom_wrapper clearfix">
@@ -404,17 +405,6 @@ function chatSubscribe(){
 			            <div class="text">Send</div>
 			        </div>
 			    </div>
-			</div>
-			
-			<div class="message_template">
-				<ul>
-				    <li class="message">
-				        <div class="avatar"></div>
-				        <div class="text_wrapper">
-				            <div class="text"></div>
-				        </div>
-				    </li>
-				</ul>
 			</div>
 		</div>
 	</div>

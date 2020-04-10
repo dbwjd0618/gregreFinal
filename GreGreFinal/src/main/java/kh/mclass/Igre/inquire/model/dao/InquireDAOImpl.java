@@ -26,13 +26,15 @@ public class InquireDAOImpl implements InquireDAO {
 	}
 
 	@Override
-	public void createChatRoom(List<InqChatMember> list) {
+	public int createChatRoom(List<InqChatMember> list) {
 		sss.insert("inquire.insertChatRoom", list.get(0));
+		return sss.selectOne("inquire.configRoomId");
 	}
 
 	@Override
 	public void createChatMember(List<InqChatMember> list) {
 		sss.insert("inquire.insertChatMember", list.get(0));
+		sss.insert("inquire.insertChatMember", list.get(1));
 	}
 
 	@Override
