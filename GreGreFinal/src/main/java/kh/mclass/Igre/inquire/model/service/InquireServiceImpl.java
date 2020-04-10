@@ -36,4 +36,9 @@ public class InquireServiceImpl implements InquireService {
 		id.insertChatLog(fromMessage);
 	}
 
+	@Override
+	public List<InqMsg> chatListByChatId(String chatId) {
+		return id.chatListByChatId(chatId);
+	}
+
 }
