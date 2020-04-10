@@ -45,43 +45,38 @@
 					<div class="container" style="margin-top:0px;">
 						<div class="row">
 							<div class="col-md-6">
-								<span>총 ${postCount}건</span>
 							</div>
 							<div class="col-md-6" style="text-align: right; padding-right: 3px;">
 								<i class="fas fa-pencil-alt" style="color:blue; cursor:pointer;"></i>
 							</div>
 						</div>
 						<div class="row" style="display: grid; margin-bottom: 20px;">
-						<button onclick="location.href='${pageContext.request.contextPath}/shop/admin/event/write.do'" style="width:80px ;">글쓰기</button>
 							<table>
 								<tr>
 									<th>번호</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>작성날짜</th>
-									<th>조회수</th>
-									<th></th>
+									<th>쿠폰이름</th>
+									<th>할인가격/율</th>
+									<th>할인금액</th>
+									<th>최대할인가능금액</th>
+									<th>쿠폰등록일자</th>
+									<th>기한</th>
 								</tr>
-								<c:if test="${empty postList}">
+								<c:if test="${empty list}">
 								<tr>
-									<td colspan="5">진행중인 이벤트가 없습니다.</td>
+									<td colspan="5">등록된 쿠폰이 없습니다.</td>
 								</tr>
 								</c:if>
-								<c:if test="${not empty postList}">
-									<c:forEach items="${postList}" var="post">
-										<td>${post.postNo}</td>
-										<td><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}">${post.title}</a></td>
-										<td>${post.writer}</td>
-										<td>${post.postWriteTime}</td>
-										<td>${post.readCount}</td>
-										<td>
-											<c:if test="${memberLoggedIn == null }">
-												<img src="${pageContext.request.contextPath}/resources/img/board/StarGray.png" class="Gray" style="width:21px;"/>
-											</c:if>
-											<c:if test="${memberLoggedIn != null }">
-												<img src="${pageContext.request.contextPath}/resources/img/board/Star${prefList.contains(post.postNo)?'Yellow':'Gray'}.png" class="${prefList.contains(post.postNo)?'Yellow':'Gray'}" style="width:21px;" onclick="preferSwitch(this,'${memberLoggedIn.memberId}', '${post.boardCode}', '${post.postNo}');"/>
-											</c:if>
-										</td>
+								<c:if test="${not empty list}">
+									<c:forEach items="${list}" var="c">
+									<tr onclick="location.href='${pageContext.request.contextPath}/shop/admin/coupon/update.do?couponId='+${c.couponId}">
+										<td>${c.couponId}</td>
+										<td>${c.couponName}</td>
+										<td>${c.discountType }</td>
+										<td>${c.discountValue }</td>
+										<td>${c.maxValue }</td>
+										<td>${c.couponEnrollDate}</td>
+										<td>${c.couponDuration}</td>
+										</tr>
 									</c:forEach>
 								</c:if>
 							</table>
@@ -89,7 +84,7 @@
 						<div class="row">
 							<!-- 페이징바 영역 -->
 						</div>
-						<div class="row">
+						<!-- <div class="row">
 							<div class="col-md-2">
 								<select>
 									<option value="title">제목</option>
@@ -103,7 +98,7 @@
 							<div class="col-md-2">
 								<button style="width: 80px;">검색</button>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<!-- contents end-->
