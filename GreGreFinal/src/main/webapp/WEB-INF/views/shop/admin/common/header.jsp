@@ -142,14 +142,14 @@
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-user"></i>
-                <span>회원관리</span>
+                <span>판매자 정보조회</span>
                 <i class="fa fa-angle-left pull-right"></i>
                 <!-- <span class="label label-primary pull-right">4</span> -->
               </a>
               <ul class="treeview-menu">
-                <li><a href="${pageContext.request.contextPath}/shopadmin/list.do"><i class="fa fa-circle-o"></i> 회원 목록</a></li>
-                <li><a href="${pageContext.request.contextPath}/shopadmin/ban.do"><i class="fa fa-circle-o"></i> 회원 탈퇴</a></li>
-                <li><a href="${pageContext.request.contextPath}/shopadmin/withdrawll.do"><i class="fa fa-circle-o"></i> 탈퇴 회원 관리</a></li>
+                <li><a href="${pageContext.request.contextPath}/shop/admin/adminInfo.do"><i class="fa fa-circle-o"></i> 판매자 정보</a></li>
+                <li><a href="${pageContext.request.contextPath}/shop/admin/ban.do"><i class="fa fa-circle-o"></i> 회원 탈퇴</a></li>
+                <li><a href="${pageContext.request.contextPath}/shop/admin/withdrawll.do"><i class="fa fa-circle-o"></i> 탈퇴 회원 관리</a></li>
               </ul>
             </li>
             <li>

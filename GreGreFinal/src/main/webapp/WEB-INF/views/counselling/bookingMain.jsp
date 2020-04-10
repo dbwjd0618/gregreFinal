@@ -15,9 +15,10 @@
 <script>
 $(()=>{
 	$("a[data-advis-id]").on("click", function(){
-		let advisId = $(this).attr("data-advis-id");
+		let advisId = $(this).attr("data-advis-id")
 		
 		location.href = "${pageContext.request.contextPath}/counselling/bookingPage.do?advisId="+advisId;
+		
 	});
 });
 </script>
@@ -87,6 +88,10 @@ $(()=>{
     .chart-rating-wrapper{
         min-width: 150px;
         max-width: 150px;
+    }
+    
+    .c-grade{
+    	color: #48DA91;
     }
     
     /*페이지바*/
@@ -166,7 +171,7 @@ $(()=>{
 						<img src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}" class="align-self-center mr-3" alt="...">
 						<div class="media-body">
 							<h5 class="mt-0">
-								${counselor.advisName }&nbsp;<strong>${counselor.advisGrade }</strong>&nbsp;상담사
+								${counselor.advisName }&nbsp;<span class="c-grade">${counselor.advisGrade }</span>상담사
 							</h5>
 							<p class="mb-0">
 								${counselor.advisIntro }
@@ -196,7 +201,8 @@ $(()=>{
                             <div class="chart-rating-wrapper">
                                 5
                                 <span class='chart-rating'>
-                                    <span style="width:${list1.get(0).getReviewCount()*100/totalReviewContents}%"></span>
+                                    <span style="width:${list1.get(0).getReviewCount()*100/
+                                    totalReviewContents}%"></span>
                                 </span>
                                 (${list1.get(0).getReviewCount()})
                                 <br>
@@ -236,6 +242,7 @@ $(()=>{
 					<c:forEach items="${list }" var="review">
     					<li class="review-list">
         					<div class="review-list-top">
+        						<!-- 별점  -->
             					<div class="star-score__wrap--small">
             						<c:if test="${review.starPoint eq 1 }">
             							<span class="star-icon-fill">★</span>
@@ -266,8 +273,7 @@ $(()=>{
             					${review.reviewContent}
         						<div class="review-list-category">
                 					<ul class="review-list-category">
-                    					<li>#카테고리1&nbsp;</li>
-                    					<li>#카테고리2&nbsp;</li>
+                    					<li>카테고리 : ${review.advisKeyword }</li>
                 					</ul>
             					</div>
         					</div>

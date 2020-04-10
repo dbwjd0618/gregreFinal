@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shopOrder">
+
+<select id="selectListOrder" resultMap="orderListMap">
+	select 
+		*
+	from
+		orderlist
+	where
+		member_id = #{memberId}
+</select>
+<select id="selectOrderList" resultMap="orderListMap">
+	select 
+		*
+	from
+		orderlist
+	where
+		order_no = #{orderNo}
+</select>
+<select id="selectOrderProdList" resultMap="orderProdMap">
+	select 
+		*
+	from
+		tb_order_product
+	where
+		order_no = #{orderNo}
+</select>
+<select id="selectPaymentInfo" resultMap="paymentInfoMap">
+	select 
+		*
+	from
+		tb_payment_info
+	where
+		order_no = #{orderNo}
+</select>
+<select id="selectPayAccInfo" resultMap="payAccInfoMap">
+	select 
+		*
+	from
+		tb_pay_account_info
+	where
+		order_no = #{orderNo}
+</select>
+
+<resultMap type="orderList" id="orderListMap">
+		<id column ='order_no' property="orderNo"/>
+		<result column ='member_id' property="memberId"/>
+		<result column ='seller_id' property="sellerId"/>
+		<result column ='pay_method' property="payMethod"/>
+		<result column ='total_price' property="totalPrice"/>
+		<result column ='total_delivery_fee' property="totalDeliveryFee"/>
+		<result column ='recpt_name' property="recptName"/>
+		<result column ='recpt_phone' property="recptPhone"/>
+		<result column ='recpt_email' property="recptEmail"/>
+		<result column ='recpt_zipcode' property="recptZipcode"/>
+		<result column ='recpt_addr' property="recptAddr"/>
+		<result column ='recpt_detail_addr' property="recptDetailAddr"/>
+		<result column ='delivery_text' property="deliveryText"/>
+		<result column ='delivery_no' property="deliveryNo"/>
+		<result column ='pay_state' property="payState"/>
+		<result column ='delivery_state' property="deliveryState"/>
+		<result column ='order_date' property="orderDate"/>
+		
+		<collection property="orderProdList" ofType="kh.mclass.IgreMall.order.model.vo.OrderProduct" javaType="java.util.ArrayList">
+			<id column ='order_no' property="orderNo"/>
+			<result column ='product_id' property="productId"/>
+			<result column ='option_id' property="optionId"  typeHandler="strArrTypeHandler"/>
+			<result column ='prod_count' property="prodCount"  typeHandler="strArrTypeHandler"/>
+		</collection>
+		
+		<collection property="paymentInfo" ofType="kh.mclass.IgreMall.order.model.vo.PaymentInfo">
+			<id column ='order_no' property="orderNo"/>
+			<result column ='prod_price' property="prodPrice"/>
+			<result column ='total_discount' property="totalDiscount"/>
+			<result column ='used_point' property="usedPoint"/>
+			<result column ='used_coupon' property="usedCoupon"/>
+		</collection>
+</resultMap>
+<resultMap type="orderProduct" id="orderProdMap">
+		<id column ='order_no' property="orderNo"/>
+		<result column ='product_id' property="productId"/>
+		<result column ='option_id' property="optionId"  typeHandler="strArrTypeHandler"/>
+		<result column ='prod_count' property="prodCount"  typeHandler="strArrTypeHandler"/>
+</resultMap>
+<resultMap type="paymentInfo" id="paymentInfoMap">
+		<id column ='order_no' property="orderNo"/>
+		<result column ='prod_price' property="prodPrice"/>
+		<result column ='total_discount' property="totalDiscount"/>
+		<result column ='used_point' property="usedPoint"/>
+		<result column ='used_coupon' property="usedCoupon"/>
+</resultMap>
+<resultMap type="payAccountInfo" id="payAccInfoMap">
+		<id column ='order_no' property="orderNo"/>
+		<result column ='bank_name' property="bankName"/>
+		<result column ='account' property="account"/>
+		<result column ='account_holder' property="accountHolder"  />
+		<result column ='expire_date' property="expireDate"  />
+</resultMap>
+	
+<insert id="insertPayAccInfo">
+	insert into
+		tb_pay_account_info
+	values (
+	 #{orderNo},
+	 #{bankName},
+	 #{account},
+	 #{accountHolder},
+	 #{expireDate}
+	)
+</insert>
+
+<insert id="insertOrderList">
+	insert into
+		orderlist
+	values (
+		 'i'||to_char(sysdate,'yymmdd')||to_char(seq_orderlist_no.nextval, 'fm00000'),
+		#{memberId},
+		#{sellerId},
+		#{payMethod},
+		#{totalPrice},
+		#{totalDeliveryFee},
+		#{recptName},
+		#{recptPhone},
+		#{recptEmail},
+		#{recptZipcode},
+		#{recptAddr},
+		#{recptDetailAddr},
+		#{deliveryText},
+		#{deliveryNo},
+		#{payState},
+		#{deliveryState},
+		default
+		)
+		<selectKey keyProperty="orderNo" resultType="string" order="AFTER">
+			select  'i'||to_char(sysdate,'yymmdd')||to_char(seq_orderlist_no.currval, 'fm00000') from dual
+		</selectKey>
+</insert>
+
+<insert id="insertOrderProd">
+	insert into
+		tb_order_product
+	values (
+	 #{orderNo},
+	 #{productId},
+	 #{optionId, typeHandler=strArrTypeHandler},
+	 #{prodCount, typeHandler=strArrTypeHandler}
+	)
+</insert>
+
+<insert id="insertPaymentInfo">
+	insert into
+		tb_payment_info
+	values (
+	 #{orderNo},
+	 #{prodPrice},
+	 #{totalDiscount},
+	 #{usedPoint},
+	 #{usedCoupon}
+	)
+</insert>
+
+</mapper>
+
+

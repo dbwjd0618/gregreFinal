@@ -1,3 +1,4 @@
+<%@page import="kh.mclass.IgreMall.shopMember.model.vo.ShopMember"%>
 <%@page import="java.util.List"%>
 <%@page import="kh.mclass.IgreMall.product.model.vo.Product"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -13,6 +14,17 @@
   List<Product> prodList = (List<Product>)request.getAttribute("prodList");
   List<Integer> totalPriceList = (List<Integer>)request.getAttribute("totalPriceList");
   List<Integer> totalAmountList = (List<Integer>)request.getAttribute("totalAmountList");
+  ShopMember sMem = (ShopMember)request.getAttribute("sMem");
+  
+  //보유 쿠폰 개수
+   int totalCoupon = 0;
+   for( int i=0; i<sMem.getCouponList().size();i++){
+	   if(sMem.getCouponList().get(i).getCouponState().equals("Y")){
+		   totalCoupon++;
+	   }
+   }
+   pageContext.setAttribute("totalCoupon",  totalCoupon);
+  //총수량
   int totalAmount = 0;
   for( int i=0; i<totalAmountList.size();i++){
 	  totalAmount += totalAmountList.get(i); 
@@ -21,9 +33,13 @@
   pageContext.setAttribute("totalAmount",  totalAmount );
   
   int totalPoint=0;
+  String allProdName ="";
   for( int i=0; i<prodList.size();i++){
 	 totalPoint += prodList.get(i).getPointRate()*0.01*totalPriceList.get(i); 
+	 allProdName += prodList.get(i).getProductName() + (i==prodList.size()-1?"":",");
   }
+ 
+  pageContext.setAttribute("allProdName",  allProdName);
  //총 적림 예상금액
  pageContext.setAttribute("totalPoint", totalPoint );
 %>
@@ -38,10 +54,8 @@
 	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <!--bootpay api-->
 <script src="https://cdn.bootpay.co.kr/js/bootpay-3.2.1.min.js" type="application/javascript"></script>
-<!-- 주소찾기 API -->
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/js/member/member.js"></script>
+<!-- 네이버페이 -->
+<script src="https://nsp.pay.naver.com/sdk/js/naverpay.min.js"></script>
 <style>
 .member-info-form {
 	background: #f5f5f5;
@@ -91,7 +105,7 @@ $(function(){
 	 totalDeliFee += Number('${p.deliveryFee}');
 	</c:forEach>
 	$('#total-del').text(comma( totalDeliFee));
-	
+
 	//총 할인 금액
 	var totalDis=0;
 	$('._discountAmountText').each(function(index, item){
@@ -147,24 +161,28 @@ $(function(){
 <script>
 function goCoupon(){
  	var couponValue = $("input[name=coupon-radio]:checked").next().next().val();
+ 	var couponId = $("input[name=coupon-radio]:checked").next().next().next().val();
  	
- 	var totalProd = Number(uncomma($('#total-prod').text()));
+ 	console.log("couponID="+couponId); 	var totalProd = Number(uncomma($('#total-prod').text()));
 	var totalDel = Number(uncomma($('#total-del')));
 	var totalDis = Number(uncomma($('#total-dis').text()));
 	var usedPoint = Number(uncomma($('#used-point').text()));
 	var usedCoupon = Number(uncomma($('#used-coupon').text()));
 	var totalPay = totalProd+totalDel - totalDis - usedPoint-usedCoupon;
 	
+	
 	var discountedPrice = totalProd-totalDis;
+	//쿠폰사용
  	if(couponValue != null){
-		if(couponValue.match(".")){ // mycontent에 @가 포함됐는지 확인
+		if(couponValue.match(".")){ // %일경우
 			var usingCoupon = Number(couponValue)*discountedPrice;
 			totalPay -= usingCoupon;
 			$("#total-pay").text(comma(totalPay));
 			
 			$("#pro_coupon").val(comma(usingCoupon));
 			$('#used-coupon').text(comma(usingCoupon));
-		 	$('#couponModal').modal('hide');
+			$('[name=couponId]').val(couponId);
+
 		} else {
 			
 			totalPay -= Number(uncomma(couponValue));
@@ -172,9 +190,13 @@ function goCoupon(){
 			$("#total-pay").text(comma(totalPay));
 			$("#pro_coupon").val(comma(couponValue));
 			$('#used-coupon').text(comma(couponValue));
+			$('[name=couponId]').val(couponId);
+
 		}
  		
- 	}else{
+ 	}
+ 	//쿠폰적용 취소
+ 	else{
 		console.log("toPay"+couponVal)
 		console.log("toPay"+totalPay)
 		var couponVal = Number(uncomma($("#pro_coupon").val()));
@@ -183,6 +205,7 @@ function goCoupon(){
 		
 		$('#used-coupon').text(0);
 		$('#pro_coupon').val(0);
+		$('[name=couponId]').val("");
  	}
 
  	$('#couponModal').modal('hide');
@@ -201,6 +224,11 @@ $(document).ready(function() {
         }
     });
 });
+</script>
+<script>
+function noCoupon(){
+	alert("사용가능한 쿠폰이 없습니다.");
+}
 </script>
 <!-- Breadcrumb Section Begin -->
 <div class="breacrumb-section">
@@ -303,7 +331,7 @@ $(document).ready(function() {
 									<td class="qua-col first-row">${totalAmountList.get(vs.index)}</td>
 									<td class="qua-col first-row">
 									<span class="discount">
-											<c:set var="totalDiscount" value="${fn:length(prod.optionList)*prod.discountPrice }" /> 
+											<c:set var="totalDiscount" value="${totalAmountList.get(vs.index)*prod.discountPrice }" /> 
 											<span
 											class="_discountAmount">(-) </span> 
 											<span><em
@@ -339,13 +367,15 @@ $(document).ready(function() {
 					<div class="chkout-row">
 						<div class="row">
 							<div class="col-lg-3">
-								<label for="fir">수령인<span>*</span></label> <input type="text"
+								<label for="fir">수령인<span>*</span></label> 
+								<input type="text" name="recptName"
 									value="${memberLoggedIn.memberName }">
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-lg-5">
-								<label for="phone">연락처<span>*</span></label> <input type="text"
+								<label for="phone">연락처<span>*</span></label> 
+								<input type="text" name="recptPhone"
 									id="phone" value="${phone }">
 							</div>
 						</div>
@@ -357,7 +387,7 @@ $(document).ready(function() {
 						</div>
 						<div class="row">
 							<div class="col-lg-3" style="float: left;">
-								<input type="text" name="addr1" id="zipcode" class="zipcode"
+								<input type="text" name="recptZipcode" id="zipcode" class="zipcode"
 									value="" readonly>
 							</div>
 							<div class="col-lg-3">
@@ -368,10 +398,10 @@ $(document).ready(function() {
 
 						<div class="row">
 							<div class="col-lg-7" style="float: left;">
-								<input type="text" name="addr2" id="address1" readonly>
+								<input type="text" name="recptAddr" id="address1" readonly>
 							</div>
 							<div class="col-lg-5">
-								<input type="text" name="addr3" id="address2">
+								<input type="text" name="recptDetailAddr" id="address2">
 							</div>
 						</div>
 						<div class="row">
@@ -379,7 +409,7 @@ $(document).ready(function() {
 								<div class="dropdown_wrap">
 									<label for="delivery-memo">배송메모</label> <input type="text"
 										placeholder="요청사항을 직접 입력합니다" title="배송 메세지"
-										name="deliveryMemo" class="deli_msg placeholder">
+										name="deliveryText" class="deli_msg placeholder">
 
 								</div>
 
@@ -397,6 +427,7 @@ $(document).ready(function() {
 						<li class="_telNoHighlight "><span class="_memberTelNumber">${phone }</span>
 						<button class="update-btn">수정</button></li>
 						<li><span class="_memberEmailAddress">${memberLoggedIn.email }</span>
+						<input type="hidden" name="recptEmail" value="${memberLoggedIn.email }">
 						<button class="update-btn">수정</button></li>
 					</ul>
 				</div>
@@ -430,10 +461,15 @@ $(document).ready(function() {
 												value="" class="value" title="상품/주문쿠폰금액"
 												readOnly> <span class="measure">원</span>
 										</div>
+										<c:if test="${totalCoupon == 0}">
+										<button type="button" class="coupon-btn" onclick="noCoupon();">쿠폰사용</button>
+										</c:if>
+										<c:if test="${totalCoupon != 0}">
 										<button type="button" class="coupon-btn" data-toggle="modal"
 											data-target="#couponModal">쿠폰사용</button>
+										</c:if>
 										<ul class="use_list">
-											<li>(보유 쿠폰 : <em>${fn:length(sMem.couponList)}</em>장)
+											<li>(보유 쿠폰 : <em>${totalCoupon}</em>장)
 											</li>
 										</ul>
 									</td>
@@ -550,7 +586,7 @@ $(document).ready(function() {
 								<div class="title">핸드폰</div>
 
 							</label> 
-							<!-- 무통장입금 -->
+							<!-- 가상계좌입금 -->
 							<input type="radio" value="ac"
 								name="payMethod"
 								id="order_payment_method_without_bankbook"> <label
@@ -558,7 +594,7 @@ $(document).ready(function() {
 								<img class="img" width="64"
 								src="https://bucketplace-v2-development.s3.amazonaws.com/pg/vbank.png"
 								alt="Vbank">
-								<div class="title">무통장입금</div>
+								<div class="title">가상계좌입금</div>
 							</label> 
 							<!-- 네이버페이 -->
 							<input type="radio" value="na"
@@ -689,7 +725,20 @@ $(document).ready(function() {
 				</div>
 			</div>
 			</div>
-			<input type="hidden" name="test" value="안녕">
+			<input type="hidden" name="couponId" value="">
+			<input type="hidden" name="bankName" value="">
+			<input type="hidden" name="accountHolder" value="">
+			<input type="hidden" name="account" value="">
+			<input type="hidden" name="expireDate" value="">
+			
+			<input type="hidden"  name="prodPrice" value="">
+			<input type="hidden"  name="totalDeliveryFee" value="">
+			<input type="hidden" name="totalDiscount" value="">
+			<input type="hidden"  name="usedPoint" value="">
+			<input type="hidden"  name="usedCoupon" value="">
+			<input type="hidden" name="totalPrice" value="">
+			
+			<input type="hidden" name="addPoint" value="${totalPoint }">
 		</form>
 
 </section>
@@ -738,7 +787,8 @@ $(document).ready(function() {
 										</tr>
 									</thead>
 									<tbody style="border-bottom: 2px solid #dee2e6;">
-									 <c:forEach items="${sMem.couponList}" var="cList">			 
+									 <c:forEach items="${sMem.couponList}" var="cList">
+									 <c:if test="${cList.couponState eq 'Y'}">			 
 										<tr>
 											<td>
 												<div class="form-check">
@@ -751,6 +801,7 @@ $(document).ready(function() {
 												<c:if test="${cList.discountType eq 'C'}">
 													<input type="hidden" name="discountValue" value="${cList.discountValue }"/>
 												</c:if>
+												   <input type="hidden" id="couponId" value="${cList.couponId}" >
 												</div>
 											
 											</td>
@@ -771,6 +822,7 @@ $(document).ready(function() {
 											</td>
 											<td>${cList.expireDate }일 까지</td>
 										</tr>
+									</c:if>
 									 </c:forEach>
 									</tbody>
 								</table>
@@ -791,55 +843,78 @@ $(document).ready(function() {
 	</div>
 <!-- 모달 끝 -->
 
+
+<!-- 네이버패이 -->
+
+
+
 <!-- 결제하기 -->
 <script>
 function goPay(){
 	var payMethod = $("input[name=payMethod]:checked").val();
     
 	var name="아이그레페이";
-    var qyt ="${totalAmount}";
-    var payPrice= uncomma($('#total-pay').text());
-    var buyerEmail = '${sMem.email}';
+    var qty ="${totalAmount}"; // 총수량
+    var payPrice= uncomma($('#total-pay').text()); //결제금액
+    var buyerEmail = '${sMem.email}'; 
     var buyerName = '${sMem.memberName}';
     var buyerTel = '${sMem.phone}';
     var buyerAddr = $('#address1').val()+" "+$('#address2').val();
     var buyerPostCode = $('#zipcode').val();
+    var allProdName = '${allProdName}';
+    
+    var nowDate = new Date(); 
+    var accExprieDate =  nowDate.getFullYear()+"-"+(nowDate.getMonth()+1)+"-"+(nowDate.getDate()+5);
+	
+    
+    var prodPrice = Number(uncomma($('#total-prod').text()));
+	//배송비
+    var totalDeliveryFee = Number(uncomma($('#total-del').text()));
+	//할인가격
+	var totalDiscount = Number(uncomma($('#total-dis').text()));
+	//포인트
+	var usedPoint = Number(uncomma($('#used-point').text()));
+	//쿠폰
+	var usedCoupon = Number(uncomma($('#used-coupon').text()));
+    //결제금액
+	var totalPrice= Number(uncomma($('#total-pay').text()));
+    
+	$('[name=prodPrice]').val(prodPrice);
+	$('[name=totalDeliveryFee]').val(totalDeliveryFee);
+	$('[name=totalDiscount]').val(totalDiscount);
+	$('[name=usedPoint]').val(usedPoint);
+	$('[name=usedCoupon]').val(usedCoupon);
+	$('[name=totalPrice]').val(totalPrice);
     
 	//카카오페이
 	if(payMethod=='ka'){
 		BootPay.request({
-			price: '1000', //실제 결제되는 가격
+			price: payPrice, //실제 결제되는 가격
 			application_id: "5e8580d902f57e0036d63afd",
-			name: '블링블링 마스카라', //결제창에서 보여질 이름
+			name: name, //결제창에서 보여질 이름
 			pg: 'kakao',
 			method: 'easy', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
 			show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
 			items: [
 				{
-					item_name: '나는 아이템', //상품명
-					qty: 1, //수량
+					item_name: allProdName, //상품명
+					qty: qty, //수량
 					unique: '123', //해당 상품을 구분짓는 primary key
-					price: 1000, //상품 단가
-					cat1: 'TOP', // 대표 상품의 카테고리 상, 50글자 이내
+					price: payPrice //상품 단가
+	/* 				cat1: 'TOP', // 대표 상품의 카테고리 상, 50글자 이내
 					cat2: '티셔츠', // 대표 상품의 카테고리 중, 50글자 이내
-					cat3: '라운드 티', // 대표상품의 카테고리 하, 50글자 이내
+					cat3: '라운드 티', // 대표상품의 카테고리 하, 50글자 이내 */
 				}
 			],
 			user_info: {
-				username: '사용자 이름',
-				email: '사용자 이메일',
-				addr: '사용자 주소',
-				phone: '010-1234-4567'
+				username: buyerName,
+				email: buyerEmail,
+				addr: buyerPostCode+" "+buyerAddr,
+				phone: buyerTel
 			},
-			order_id: '고유order_id_1234', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
+			order_id: 'igrePay_' + new Date().getTime(), //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
 			params: {callback1: '그대로 콜백받을 변수 1', callback2: '그대로 콜백받을 변수 2', customvar1234: '변수명도 마음대로'},
-			account_expire_at: '2018-05-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
-			extra: {
-			    start_at: '2019-05-10', // 정기 결제 시작일 - 시작일을 지정하지 않으면 그 날 당일로부터 결제가 가능한 Billing key 지급
-				end_at: '2022-05-10', // 정기결제 만료일 -  기간 없음 - 무제한
-		        vbank_result: 1, // 가상계좌 사용시 사용, 가상계좌 결과창을 볼지(1), 말지(0), 미설정시 봄(1)
-		        quota: '0,2,3' // 결제금액이 5만원 이상시 할부개월 허용범위를 설정할 수 있음, [0(일시불), 2개월, 3개월] 허용, 미설정시 12개월까지 허용
-			}
+			account_expire_at: '2018-05-25' // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
 		}).error(function (data) {
 			//결제 진행시 에러가 발생하면 수행됩니다.
 			console.log(data);
@@ -866,42 +941,44 @@ function goPay(){
 			//결제가 정상적으로 완료되면 수행됩니다
 			//비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
 			console.log(data);
+            
+            var finishPayment = "${pageContext.request.contextPath}/shop/order/finishPayment.do";
+            document.checkOutFrm.action= finishPayment;
+    		document.checkOutFrm.submit();
 		});
 	}
 	//무통장입금
 	if(payMethod=='ac'){
 		BootPay.request({
-			price: '1000', //실제 결제되는 가격
+			price: payPrice, //실제 결제되는 가격
 			application_id: "5e8580d902f57e0036d63afd",
-			name: '블링블링 마스카라', //결제창에서 보여질 이름
-			pg: 'kcp',
+			name: name, //결제창에서 보여질 이름
+			pg: 'nicepay',
 			method: 'vbank', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
 			show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
 			items: [
 				{
-					item_name: '나는 아이템', //상품명
-					qty: 1, //수량
+					item_name: allProdName, //상품명
+					qty: qty, //수량
 					unique: '123', //해당 상품을 구분짓는 primary key
-					price: 1000, //상품 단가
-					cat1: 'TOP', // 대표 상품의 카테고리 상, 50글자 이내
+					price: payPrice //상품 단가
+	/* 				cat1: 'TOP', // 대표 상품의 카테고리 상, 50글자 이내
 					cat2: '티셔츠', // 대표 상품의 카테고리 중, 50글자 이내
-					cat3: '라운드 티', // 대표상품의 카테고리 하, 50글자 이내
+					cat3: '라운드 티', // 대표상품의 카테고리 하, 50글자 이내 */
 				}
 			],
 			user_info: {
-				username: '사용자 이름',
-				email: '사용자 이메일',
-				addr: '사용자 주소',
-				phone: '010-1234-4567'
+				username: buyerName,
+				email: buyerEmail,
+				addr: buyerPostCode+" "+buyerAddr,
+				phone: buyerTel
 			},
 			order_id: '고유order_id_1234', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
 			params: {callback1: '그대로 콜백받을 변수 1', callback2: '그대로 콜백받을 변수 2', customvar1234: '변수명도 마음대로'},
-			account_expire_at: '2018-05-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
+			account_expire_at: accExprieDate, // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
 			extra: {
-			    start_at: '2019-05-10', // 정기 결제 시작일 - 시작일을 지정하지 않으면 그 날 당일로부터 결제가 가능한 Billing key 지급
-				end_at: '2022-05-10', // 정기결제 만료일 -  기간 없음 - 무제한
-		        vbank_result: 1, // 가상계좌 사용시 사용, 가상계좌 결과창을 볼지(1), 말지(0), 미설정시 봄(1)
-		        quota: '0,2,3' // 결제금액이 5만원 이상시 할부개월 허용범위를 설정할 수 있음, [0(일시불), 2개월, 3개월] 허용, 미설정시 12개월까지 허용
+		        vbank_result: 0 // 가상계좌 사용시 사용, 가상계좌 결과창을 볼지(1), 말지(0), 미설정시 봄(1)
+		        
 			}
 		}).error(function (data) {
 			//결제 진행시 에러가 발생하면 수행됩니다.
@@ -911,61 +988,78 @@ function goPay(){
 			console.log(data);
 		}).ready(function (data) {
 			// 가상계좌 입금 계좌번호가 발급되면 호출되는 함수입니다.
+			
+			
 			console.log(data);
+	
+	
+			$('[name=bankName]').val(data.bankname);
+			$('[name=account]').val(data.account);
+			$('[name=accountHolder]').val(data.accounthodler);
+			$('[name=expireDate]').val(data.expiredate);
+			
+			var finishPayment = "${pageContext.request.contextPath}/shop/order/finishPayment.do";
+	        document.checkOutFrm.action= finishPayment;
+	    	document.checkOutFrm.submit(); 
+
+			
 		}).confirm(function (data) {
+	
 			//결제가 실행되기 전에 수행되며, 주로 재고를 확인하는 로직이 들어갑니다.
 			//주의 - 카드 수기결제일 경우 이 부분이 실행되지 않습니다.
 			console.log(data);
 			var enable = true; // 재고 수량 관리 로직 혹은 다른 처리
 			if (enable) {
-				BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
+	   
+	    		BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
+
 			} else {
 				BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
 			}
 		}).close(function (data) {
 		    // 결제창이 닫힐때 수행됩니다. (성공,실패,취소에 상관없이 모두 수행됨)
 		    console.log(data);
+		    console.log("여기오나2");
+
 		}).done(function (data) {
+			
 			//결제가 정상적으로 완료되면 수행됩니다
 			//비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
 			console.log(data);
+			
+	
+
 		});
 	}
 	//실시간계좌이체
 	if(payMethod=='ra'){
 		BootPay.request({
-			price: '1000', //실제 결제되는 가격
+			price: payPrice, //실제 결제되는 가격
 			application_id: "5e8580d902f57e0036d63afd",
-			name: '블링블링 마스카라', //결제창에서 보여질 이름
+			name: name, //결제창에서 보여질 이름
 			pg: 'nicepay',
 			method: 'bank', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
 			show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
 			items: [
 				{
-					item_name: '나는 아이템', //상품명
-					qty: 1, //수량
+					item_name: allProdName, //상품명
+					qty: qty, //수량
 					unique: '123', //해당 상품을 구분짓는 primary key
-					price: 1000, //상품 단가
-					cat1: 'TOP', // 대표 상품의 카테고리 상, 50글자 이내
+					price: payPrice //상품 단가
+	/* 				cat1: 'TOP', // 대표 상품의 카테고리 상, 50글자 이내
 					cat2: '티셔츠', // 대표 상품의 카테고리 중, 50글자 이내
-					cat3: '라운드 티', // 대표상품의 카테고리 하, 50글자 이내
+					cat3: '라운드 티', // 대표상품의 카테고리 하, 50글자 이내 */
 				}
 			],
 			user_info: {
-				username: '사용자 이름',
-				email: '사용자 이메일',
-				addr: '사용자 주소',
-				phone: '010-1234-4567'
+				username: buyerName,
+				email: buyerEmail,
+				addr: buyerPostCode+" "+buyerAddr,
+				phone: buyerTel
 			},
 			order_id: '고유order_id_1234', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
 			params: {callback1: '그대로 콜백받을 변수 1', callback2: '그대로 콜백받을 변수 2', customvar1234: '변수명도 마음대로'},
-			account_expire_at: '2018-05-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
-			extra: {
-			    start_at: '2019-05-10', // 정기 결제 시작일 - 시작일을 지정하지 않으면 그 날 당일로부터 결제가 가능한 Billing key 지급
-				end_at: '2022-05-10', // 정기결제 만료일 -  기간 없음 - 무제한
-		        vbank_result: 1, // 가상계좌 사용시 사용, 가상계좌 결과창을 볼지(1), 말지(0), 미설정시 봄(1)
-		        quota: '0,2,3' // 결제금액이 5만원 이상시 할부개월 허용범위를 설정할 수 있음, [0(일시불), 2개월, 3개월] 허용, 미설정시 12개월까지 허용
-			}
+			account_expire_at: '2018-05-25'// 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
 		}).error(function (data) {
 			//결제 진행시 에러가 발생하면 수행됩니다.
 			console.log(data);
@@ -992,43 +1086,37 @@ function goPay(){
 			//결제가 정상적으로 완료되면 수행됩니다
 			//비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
 			console.log(data);
+			  var finishPayment = "${pageContext.request.contextPath}/shop/order/finishPayment.do";
+	            document.checkOutFrm.action= finishPayment;
+	    		document.checkOutFrm.submit();
 		});
 	}
 	//핸드폰결제
 	if(payMethod=='ph'){
 		BootPay.request({
-			price: '1000', //실제 결제되는 가격
+			price: payPrice, //실제 결제되는 가격
 			application_id: "5e8580d902f57e0036d63afd",
-			name: '블링블링 마스카라', //결제창에서 보여질 이름
+			name: name, //결제창에서 보여질 이름
 			pg: 'mobilians',
 			method: 'phone', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
 			show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
 			items: [
 				{
-					item_name: '나는 아이템', //상품명
-					qty: 1, //수량
+					item_name: allProdName, //상품명
+					qty: qty, //수량
 					unique: '123', //해당 상품을 구분짓는 primary key
-					price: 1000, //상품 단가
-					cat1: 'TOP', // 대표 상품의 카테고리 상, 50글자 이내
-					cat2: '티셔츠', // 대표 상품의 카테고리 중, 50글자 이내
-					cat3: '라운드 티', // 대표상품의 카테고리 하, 50글자 이내
+					price: payPrice //상품 단가
 				}
 			],
 			user_info: {
-				username: '사용자 이름',
-				email: '사용자 이메일',
-				addr: '사용자 주소',
-				phone: '010-1234-4567'
+				username: buyerName,
+				email: buyerEmail,
+				addr: buyerPostCode+" "+buyerAddr,
+				phone: buyerTel
 			},
 			order_id: '고유order_id_1234', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
 			params: {callback1: '그대로 콜백받을 변수 1', callback2: '그대로 콜백받을 변수 2', customvar1234: '변수명도 마음대로'},
 			account_expire_at: '2018-05-25', // 가상계좌 입금기간 제한 ( yyyy-mm-dd 포멧으로 입력해주세요. 가상계좌만 적용됩니다. )
-			extra: {
-			    start_at: '2019-05-10', // 정기 결제 시작일 - 시작일을 지정하지 않으면 그 날 당일로부터 결제가 가능한 Billing key 지급
-				end_at: '2022-05-10', // 정기결제 만료일 -  기간 없음 - 무제한
-		        vbank_result: 1, // 가상계좌 사용시 사용, 가상계좌 결과창을 볼지(1), 말지(0), 미설정시 봄(1)
-		        quota: '0,2,3' // 결제금액이 5만원 이상시 할부개월 허용범위를 설정할 수 있음, [0(일시불), 2개월, 3개월] 허용, 미설정시 12개월까지 허용
-			}
 		}).error(function (data) {
 			//결제 진행시 에러가 발생하면 수행됩니다.
 			console.log(data);
@@ -1055,26 +1143,57 @@ function goPay(){
 			//결제가 정상적으로 완료되면 수행됩니다
 			//비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
 			console.log(data);
+			
+			  var finishPayment = "${pageContext.request.contextPath}/shop/order/finishPayment.do";
+	            document.checkOutFrm.action= finishPayment;
+	    		document.checkOutFrm.submit();
 		});
 	}
 	//네이버페이
 	if(payMethod=='na'){
 		 var oPay = Naver.Pay.create({
 	          "mode" : "production", // development or production
-	          "clientId": "u86j4ripEt8LRfPGzQ8" // clientId
-	    });
-
+	          "clientId": "u86j4ripEt8LRfPGzQ8", // clientId
+	          "onAuthorize" : function(oData) {
+	        	  
+	        	    if(oData.resultCode === "Success") {
+	        	      // 네이버페이 결제 승인 요청 처리
+	          
+	        	    	  var finishPayment = "${pageContext.request.contextPath}/shop/order/finishPayment.do";
+	        	            document.checkOutFrm.action= finishPayment;
+	        	    		document.checkOutFrm.submit();
+	        	    } else {
+	        	      // 필요 시 oData.resultMessage 에 따라 적절한 사용자 안내 처리
+	        	    }
+	        	}
+		 });
+		
+		  //총 상품 금액
+      	var prodPrice = Number(uncomma($('#total-prod').text()));
+     	//배송비
+         var totalDeliveryFee = Number(uncomma($('#total-del').text()));
+     	//할인가격
+     	var totalDiscount = Number(uncomma($('#total-dis').text()));
+     	//포인트
+     	var usedPoint = Number(uncomma($('#used-point').text()));
+     	//쿠폰
+     	var usedCoupon = Number(uncomma($('#used-coupon').text()));
+         //결제금액
+     	var totalPrice= Number(uncomma($('#total-pay').text()));
+     	var finishPayment = "${pageContext.request.contextPath}/shop/order/finishPayment.do?totalPrice="+totalPrice+"&prodPrice="+prodPrice+"&totalDiscount="+totalDiscount+"&usedPoint="+usedPoint+"&usedCoupon="+usedCoupon+"&totalDeliveryFee="+totalDeliveryFee;
 	 
 	        oPay.open({
 	          "merchantUserKey": "bbbbb",
 	          "merchantPayKey": "aaaa",
-	          "productName": "물티슈테스트1",
-	          "totalPayAmount": "1000",
-	          "taxScopeAmount": "1000",
+	          "productName": name,
+	          "totalPayAmount": payPrice,
+	          "taxScopeAmount": payPrice,
 	          "taxExScopeAmount": "0",
-	          "returnUrl": "사용자 결제 완료 후 결제 결과를 받을 URL"
+	          "returnUrl": finishPayment
 	        });
 		
+	       
+	           
 	}
 	//신용카드결제
 	
@@ -1085,7 +1204,7 @@ function goPay(){
 	        IMP.request_pay({
 	            pg : 'inicis', // version 1.1.0부터 지원.
 	            pay_method : 'card',
-	            merchant_uid : 'merchant_' + new Date().getTime(),
+	            merchant_uid : 'igrePay_' + new Date().getTime(),
 	            name : name,
 	            amount : payPrice,
 	            buyer_email : buyerEmail,
@@ -1100,9 +1219,9 @@ function goPay(){
 /* 	                msg += '고유ID : ' + rsp.imp_uid;
 	                msg += '상점 거래ID : ' + rsp.merchant_uid;
 	                msg += '결제 금액 : ' + rsp.paid_amount;
-	                msg += '카드 승인번호 : ' + rsp.apply_num; */  
-	                
-	                document.checkOutFrm.action="${pageContext.request.contextPath}/shop/order/finishPayment.do";
+	                msg += '카드 승인번호 : ' + rsp.apply_num; */
+	                var finishPayment = "${pageContext.request.contextPath}/shop/order/finishPayment.do";
+	                document.checkOutFrm.action= finishPayment;
 	        		document.checkOutFrm.submit();
 	                
 	            } else {
