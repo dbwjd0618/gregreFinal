@@ -16,14 +16,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.mclass.Igre.member.model.service.MemberService;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.pregnancy.model.service.PregnancyService;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 @RequestMapping("/pregnancy")
 public class PregnancyController {
 	
@@ -62,8 +65,9 @@ public class PregnancyController {
 		return mav;
 	}
 	
-	@PostMapping("/menses.do")
-	public Model InputMenses(@RequestParam(value = "ageStart") Date ageStart, @RequestParam(value="ageEnd") Date ageEnd,
+	@PostMapping("/calendar.do")
+	@ResponseBody
+	public int InputMenses(@RequestParam(value = "ageStart") Date ageStart, @RequestParam(value="ageEnd") Date ageEnd,
 							@RequestParam(value="cycle") int cycle, @RequestParam(value="startDay") Date startDay,
 							@SessionAttribute(value="memberLoggedIn", required=false) Member memberLoggedIn, Model model) {
 
@@ -80,18 +84,18 @@ public class PregnancyController {
 		calendar.add(Calendar.DATE,25);
 		
 		Date nextMenses = new Date(calendar.getTimeInMillis());
-		System.out.println(nextMenses);
 		
 		menses.put("nextMemses", nextMenses);
 		
 		int resultTable = pregnancyService.findTable(memberLoggedIn);
-		
+		int result = 0;
 		if(resultTable != 0 ) {
-			int result = pregnancyService.insertMenses(menses);
+			result = pregnancyService.insertMenses(menses);
 		}
 		
 		model.addAttribute("result",resultTable );
-		return model;
+		
+		return result;
 	}
 	
 }

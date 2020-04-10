@@ -28,7 +28,7 @@
         border: 0.5px solid rgba(218,218,218);
     }
     .booking{
-        margin: 10% auto;
+        margin: 13% auto;
         max-width: 800px;
         min-width: 800px;
         max-height: 550px;
@@ -100,20 +100,20 @@
                 <td>${info.memberId }</td>
             </tr>
             <tr>
-                <th>결제유형</th>
+                <th>결제방식</th>
                 <td>${info.payInfo }</td>
             </tr>
             <tr>
                 <th>예약번호</th>
-                <td>12312312312323</td>
+                <td>${info.appointNo }</td>
             </tr>
             <tr>
                 <th>상담사 이름</th>
-                <td>${info.advisId }</td>
+                <td></td>
             </tr>
             <tr>
                 <th>예약일</th>
-                <td>${info.startDay }</td>
+                <td></td>
             </tr>
             <tr>
                 <th>상담 유형</th>

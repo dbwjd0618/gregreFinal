@@ -83,7 +83,7 @@ public class CounsellingController {
 	public ModelAndView bookingMain(@RequestParam(value = "cPage", defaultValue = "1")int cPage,
 									@RequestParam("advisId") String advisId,
 									Model model) {
-		System.out.println("===================================bookingMain=======================================");
+		
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage =5;
 		
@@ -110,7 +110,7 @@ public class CounsellingController {
 		list1.add(new reviewStar(3, counselorService.countReview(advisId, 3)));
 		list1.add(new reviewStar(2, counselorService.countReview(advisId, 2)));
 		list1.add(new reviewStar(1, counselorService.countReview(advisId, 1)));
-		
+				
 		Double reviewRating = counselorService.selectReviewRating(advisId);
 
 		mav.addObject("reviewRating",reviewRating);
@@ -126,8 +126,9 @@ public class CounsellingController {
 	
 	@GetMapping("/bookingPage.do")
 	public void bookingPage(@RequestParam("advisId") String advisId,
-							
+			
 							Model model) {
+	
 		//상담사 정보
 		Counselor counselor = counselorService.selectOne(advisId);
 		Member m = new Member();
@@ -136,11 +137,29 @@ public class CounsellingController {
 	}
 	
 	@PostMapping(value = "/bookingEnd.do")
-	public String bookingInsert(@ModelAttribute BookingInfo info, Model model, RedirectAttributes redirectAttributes ) {
+	public String bookingInsert(@ModelAttribute BookingInfo info, Model model, @RequestParam(value="payMethod")String payMethod, RedirectAttributes redirectAttributes ) {
 		
 		log.debug("예약상태"+info);
 		
+		String payInfo="";
+		switch(payMethod) {
+		case "cr": payInfo="신용카드";
+			break;
+		case "ra": payInfo="계좌이체";
+			break;
+		case "ph": payInfo="휴대폰";
+			break;
+		case "na": payInfo="네이버페이";
+			break;
+		case "ka": payInfo="카카오페이";
+			break;
+		case "to": payInfo="토스";
+			break;
+		}
+		info.setPayInfo(payInfo);
+		
 		int result = counselorService.bookingInsert(info);
+		
 		String msg = result>0?"예약성공":"예약실패";
 		
 		redirectAttributes.addFlashAttribute("msg",msg);

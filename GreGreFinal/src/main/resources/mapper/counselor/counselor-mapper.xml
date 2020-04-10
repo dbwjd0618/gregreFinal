@@ -3,18 +3,22 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="counselor">
+
 	<!-- 결제  -->
 	<insert id="bookingInfo">
 	insert into
-		TB_advis_use
+		TB_appointment
 	values (
+		seq_appoint_no.nextval,
 		#{memberId},
 		#{advisId},
 		#{coin},
 		sysdate,
-		#{endDay},
+		sysdate+#{coin}*7,
 		#{payPrice},
-		#{payInfo}
+		#{payInfo},
+		#{advisName},
+		#{advisImg}
 	)
 	</insert>
 	
@@ -185,7 +189,7 @@
 		    *
 		from (
 		    select 
-		        id,
+		        cl.id,
 		        cv.cr_id,
 		        cv.chat_id,
 		        (select member_id from counselor_chat_view where cr_id = cl.chat_room_id and member_id != #{memberId}) member_id,
@@ -197,9 +201,10 @@
 		        counselor_chat_log cl
 		      left join
 		        counselor_chat_view cv
-		          on cl.chat_room_id = cv.cr_id and cl.member_id = cv.member_id
+		             on cl.chat_room_id = cv.cr_id and cl.member_id = cv.member_id left join counselor_chat_room ccr on ccr.chat_id =  cv.chat_id
 		    where 
-		        time > (select last_check from counselor_chat_view where cr_id = cl.chat_room_id and member_id = #{memberId})
+            ccr.enabled ='Y'
+		      and time > (select last_check from counselor_chat_view where cr_id = cl.chat_room_id and member_id = #{memberId})
 		    order by
 		        time desc
 		    )
@@ -256,13 +261,13 @@
 
 <select id="counselorFindId" resultType="string">
 	select advis_ID
-	from TB_advis_use
+	from TB_appointment
 	where member_ID = #{memberId}
 	</select>
 	
 	<select id="memberFindId" resultType="string">
-	select advis_ID
-	from TB_advis_use
+	select member_Id
+	from TB_appointment
 	where member_ID = #{counselorId}
 	</select>
 	
@@ -343,9 +348,72 @@
 	
 	<select id="memberIdFindChatListByChatId" resultType="string">
 	select member_id
-	from TB_advis_use
+	from TB_appointment
 	where advis_id = #{counselorId}
 	</select>
+	
+	<select id="counselorInfo" resultType="ChatInfo">
+	select *
+	from TB_appointment p join TB_adviser a
+	using (advis_id)
+	where advis_id = #{counselorId}
+	</select>
+	
+	<select id="counselorCheckProduct" resultType="_int">
+	select count(*)
+	from TB_appointment
+	where member_Id = #{memberId}
+	and start_day <![CDATA[ <= ]]> #{today}
+    and end_day >= #{today}
+	</select>
+	
+	<select id="counselorCheckToday" resultType="_int">
+	select count(*)
+	from   (select today, rank() over(order by today desc) rank
+	            from TB_chatChek
+	            where member_id = #{memberId}
+	            )
+	where rank = 1
+	and today+7 <![CDATA[ <= ]]> #{today} 
+	</select>
+	
+	<insert id="counselorCheckOK">
+	insert into TB_chatChek 
+	values(
+	counselor_seq_chatChek.nextval,
+	#{memberId},
+	#{chatId},
+	#{today}
+	)
+	</insert>
+	
+	<update id="counselorDownCoin">
+	update 
+		TB_appointment
+	set
+		coin = coin -1
+	where
+		member_id = #{memberId}	
+
+	</update>
+	
+	<select id="counselorCoinCheck" resultType="_int">
+	select
+		coin
+	from
+		TB_appointment
+	where
+		member_id = #{memberId}	
+	</select>
+	
+	<update id="counselorOutChatRoom">
+	update
+		counselor_chat_room
+	set
+		enabled = 'N'
+	where
+		chat_id = #{chatId}
+	</update>
 	
 
 	

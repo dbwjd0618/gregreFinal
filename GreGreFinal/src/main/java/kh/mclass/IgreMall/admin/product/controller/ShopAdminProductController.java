@@ -281,12 +281,12 @@ public class ShopAdminProductController {
 		log.debug("list" + list);
 		// 자료형 확인하는 공간
 		// 제품 갯수 구하기
+		
 		int totalProducts = adminProductService.totalProducts(p);
 		mav.addObject("totalProducts", totalProducts);
 //		log.debug("searchList={}",list);
 		mav.addObject("list", list);
 		mav.setViewName("shop/admin/product/list");
-
 		return mav;
 	}
 

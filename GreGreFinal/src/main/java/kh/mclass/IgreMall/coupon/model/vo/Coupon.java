@@ -19,6 +19,7 @@ public class Coupon implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	//tb_coupon_list 테이블
+	private String memberId;
 	private String couponId; 
 	private Date expireDate;
 	private String couponState; //쿠폰 사용여부(사용가능 쿠폰 Y, 사용불가 N)
