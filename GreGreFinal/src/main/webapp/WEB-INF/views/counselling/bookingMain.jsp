@@ -242,6 +242,7 @@ $(()=>{
 					<c:forEach items="${list }" var="review">
     					<li class="review-list">
         					<div class="review-list-top">
+        						<!-- 별점  -->
             					<div class="star-score__wrap--small">
             						<c:if test="${review.starPoint eq 1 }">
             							<span class="star-icon-fill">★</span>

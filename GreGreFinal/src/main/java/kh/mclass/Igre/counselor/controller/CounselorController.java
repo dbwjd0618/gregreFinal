@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kh.mclass.Igre.chat.model.service.ChatService;
+import kh.mclass.Igre.chat.model.vo.ChatInfo;
 import kh.mclass.Igre.chat.model.vo.Msg;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.member.model.vo.BizMember;
@@ -79,9 +80,13 @@ public class CounselorController {
 		//회원 아이디 조회
 		String memberId = chatService.memberIdFindChatListByChatId(counselorId);
 		
+		//상담사, 회원정보 
+		ChatInfo info = chatService.counselorInfo(counselorId);
+		
 		log.debug(memberId+"con");
 		List<Msg> chatList = chatService.counselorFindChatListByChatId(chatId);
 		model.addAttribute("chatList", chatList);
+		model.addAttribute("info",info);
 		model.addAttribute("counselorId",counselorId);
 		model.addAttribute("memberId",memberId);
 		

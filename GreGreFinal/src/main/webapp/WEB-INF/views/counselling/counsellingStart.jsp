@@ -53,22 +53,42 @@
 				<div id='counseling_list'>
 					<div class='eachCounseling H_Y'>
 						<h3>현재 진행 중인 상담</h3>
-						<c:if test="${recentList != null}">
-						
-						 <c:forEach items="${recentList }" var="m" varStatus="vs">
-							<a target="_self" href="${pageContext.request.contextPath}/chat/counselorChat">
-								<ul id="511841" class="eachintro">
-									<li>
-										<img src="https://trost-asset-images.s3-accelerate.amazonaws.com/partner/15551464323_.png" alt="상담사 프로필 이미지">
-										<p>${m.MSG }<br><br>
-											<span class="recently_message">${m.MEMBER_ID }</span><br>
-											<span class="recently_time">안 읽은 글 :  ${readCountResult }</span>
-										</p>
-									</li>
-								</ul>
-							</a>
-						    
-						  </c:forEach>
+						<c:if test="${checkProduct ==0 }">
+							<c:if test="${roomNum == 0 and checkProduct == 1 }">
+								<a target="_self"
+									href="${pageContext.request.contextPath}/chat/counselorChat">
+									<ul id="511841" class="eachintro">
+										<li><img
+											src="https://trost-asset-images.s3-accelerate.amazonaws.com/partner/15551464323_.png"
+											alt="상담사 프로필 이미지">
+											<p>
+												새로운 상담을 시작하세요!<br>
+												<br> <span class="recently_message">당신의 고민을
+													말해보세요!</span><br> <span class="recently_time">아이그레가
+													함께합니다 ♥</span>
+											</p></li>
+									</ul>
+								</a>
+							</c:if>
+							<c:if test="${recentList != null}">
+								<c:forEach items="${recentList }" var="m" varStatus="vs">
+									<a target="_self"
+										href="${pageContext.request.contextPath}/chat/counselorChat">
+										<ul id="511841" class="eachintro">
+											<li><img
+												src="https://trost-asset-images.s3-accelerate.amazonaws.com/partner/15551464323_.png"
+												alt="상담사 프로필 이미지">
+												<p>${m.MSG }<br>
+													<br> <span class="recently_message">상담사 :
+														${m.MEMBER_ID }</span><br> <span class="recently_time">안
+														읽은 글 : ${readCountResult }</span>
+												</p></li>
+										</ul>
+									</a>
+
+								</c:forEach>
+							</c:if>
+
 						</c:if>
 					</div>
 					<div class='eachCounseling H_N'>

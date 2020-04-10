@@ -156,11 +156,11 @@ public class MyPageController {
 		return mav;
 	}
 	
+//	리뷰 작성
 	@PostMapping("/counsellingInfo.do")
 	public String reviewWrite(Review review, RedirectAttributes redirectAttributes) {
 		
 		int result = mps.reviewWrite(review);
-		String msg = result>0?"리뷰등록 성공!":"리뷰 등록 실패!";
 		
 		return "redirect:/myPage/counsellingInfo.do";
 	}
