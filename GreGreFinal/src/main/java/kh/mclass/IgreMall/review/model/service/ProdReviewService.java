@@ -17,6 +17,8 @@ public interface ProdReviewService {
 
 	int updateReview(ProdReview prodReview);
 
+	int deleteReview(String reviewId);
+
 
 
 

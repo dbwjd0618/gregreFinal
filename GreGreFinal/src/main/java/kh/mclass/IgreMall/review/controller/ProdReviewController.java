@@ -27,6 +27,16 @@ public class ProdReviewController {
 	@Autowired
 	ProdReviewService reviewService;
 	
+	
+	@PostMapping("/reviewDelete.do")
+	public ModelAndView reviewDelete(ModelAndView mav, String reviewId) {
+		
+		int result = reviewService.deleteReview(reviewId);
+		
+		mav.setViewName("redirect:/shop/myShopping/review/list.do");
+		return mav;
+		
+	}
 	/**
 	 * 0410 이진희
 	 * 
