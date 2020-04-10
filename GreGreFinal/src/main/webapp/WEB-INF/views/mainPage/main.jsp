@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 	
 <!-- WebSocket:sock.js CDN -->	
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>
@@ -21,8 +24,39 @@
 body {padding-right: 0px !important;}
 </style>
 <script>
-
+const memberId = '${memberId}';
 const chatId = '${chatId}';
+
+let socket = new SockJS('<c:url value="/stomp"/>');
+let stompClient = Stomp.over(socket);
+
+stompClient.connect({}, function(frame) {
+	console.log('connected stomp over sockjs');
+	
+	lastCheck(chatId);
+});
+
+function chatSubscribe(){
+	//페이지별로 구독신청 처리
+	let conntionDone = false;
+	let intervalId = setInterval(function() {
+		if(conntionDone == true)
+			clearInterval(intervalId);
+		
+		if(conntionDone==false && stompClient.connected){
+			
+			//stomp에서는 구독개념으로 세션을 관리한다. 핸들러 메소드의 @SendTo어노테이션과 상응한다.
+			stompClient.subscribe('/inq/chat/'+chatId, function(message) {
+				alert(message);
+				console.log("receive from subscribe /inq/chat/"+chatId +":", message);
+				let messsageBody = JSON.parse(message.body);
+				$("#messages").append("<li class=\"message\">"+messsageBody.memberId+" : "+messsageBody.msg+ "</li>");
+				scrollTop();
+			});
+			conntionDone = true;
+		}	
+	},1000);
+}
 
 </script>
 
@@ -104,7 +138,6 @@ const chatId = '${chatId}';
       </div>
 
     </div>
-  </div>
  
   <!-- index contents begin --> 
   <div class="site-section site-section-pd" >
@@ -219,7 +252,8 @@ const chatId = '${chatId}';
   </div>
   <!--index contents end -->
   
-  <i id="inqToAdmin" class="far fa-comments" title="관리자에게 문의하기" onclick="inqShow();"></i>
+  <i id="inqToAdmin" class="far fa-comments rtnMsg" title="관리자에게 문의하기" onclick="inqShow();"></i>
+  <input type="hidden" id="loginId" value="${memberLoggedIn.memberId}" />
   
    <!-- 추천상품 Section Begin -->
    <div class="">
@@ -340,50 +374,48 @@ const chatId = '${chatId}';
 <!-- 모달 영역 -->
 <div id="modalBox" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="margin-top: 170px;">
 	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-<!-- 			<div class="modal-header"> -->
-<!-- 				<span style="font-size: 28px;"><strong>관리자에게 문의하기</strong></span> -->
-<!-- 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
-<!-- 					<span aria-hidden="true" style="color: lightGray;">X</span> -->
-<!-- 				</button> -->
-<!-- 			</div> -->
-<!-- 			<div class="modal-body"> -->
-				<div class="chat_window">
-				    <div class="top_menu">
-				        <div class="buttons">
-				            <div class="button close"></div>
-				            <div class="button minimize"></div>
-				            <div class="button maximize"></div>
+		<div class="modal-content" style="border:unset;">
+			<div class="chat_window">
+			    <div class="top_menu">
+			        <div class="buttons">
+			            <div class="button close"></div>
+			            <div class="button minimize"></div>
+			            <div class="button maximize"></div>
+			        </div>
+			        <div class="title">Chat</div>
+			    </div>
+			    <ul class="messages">
+			    	<li class="message right appeared">
+			    		<div class="avatar"></div>
+         				<div class="text_wrapper">
+         					<div class="text">aaaa</div>
+           				</div>
+			    	</li>
+			    	<c:forEach items="${chatList}" var="msg">
+			    	<li class="message">${msg.memberId } : ${msg.msg }</li>
+			    	</c:forEach>
+			    </ul>
+			    <div class="bottom_wrapper clearfix">
+			        <div class="message_input_wrapper">
+			        	<input type="text" class="message_input" placeholder="메세지를 입력하세요." />
+			        </div>
+			        <div class="send_message">
+			            <div class="icon"></div>
+			            <div class="text">Send</div>
+			        </div>
+			    </div>
+			</div>
+			
+			<div class="message_template">
+				<ul>
+				    <li class="message">
+				        <div class="avatar"></div>
+				        <div class="text_wrapper">
+				            <div class="text"></div>
 				        </div>
-				        <div class="title">Chat</div>
-				    </div>
-				    <ul class="messages"></ul>
-				    <div class="bottom_wrapper clearfix">
-				        <div class="message_input_wrapper">
-				        	<input type="text" class="message_input" placeholder="메세지를 입력하세요." />
-				        </div>
-				        <div class="send_message">
-				            <div class="icon"></div>
-				            <div class="text">Send</div>
-				        </div>
-				    </div>
-				</div>
-				
-				<div class="message_template">
-					<ul>
-					    <li class="message">
-					        <div class="avatar"></div>
-					        <div class="text_wrapper">
-					            <div class="text"></div>
-					        </div>
-					    </li>
-					</ul>
-				</div>
-<!-- 			</div> -->
-<!-- 			<div class="modal-footer"> -->
-<!-- 				<button type="button" class="btn btn-primary" onclick="reportSubmit();">확인</button> -->
-<!-- 				<button type="button" class="btn btn-default" id="closeModalBtn">취소</button> -->
-<!-- 			</div> -->
+				    </li>
+				</ul>
+			</div>
 		</div>
 	</div>
 </div>
