@@ -42,7 +42,7 @@
 .fa-star:before {
 	content: "";
 	background-image:
-		url('${pageContext.request.contextPath }/resources/images/star/star.png');
+		url('${pageContext.request.contextPath }/resources/images/star/red-star.png');
 	background-size: 20px 20px;
 	width: 20px;
 	height: 20px;
@@ -51,7 +51,7 @@
 .fa-star-o:before {
 	content: "";
 	background-image:
-		url('${pageContext.request.contextPath }/resources/images/star/star-o.png');
+		url('${pageContext.request.contextPath }/resources/images/star/red-star-o.png');
 	background-size: 18px 18px;
 	width: 18px;
 	height: 18px;
@@ -59,33 +59,12 @@
 	margin-bottom: 1px;
 }
 
-.btn:not(:disabled):not(.disabled) {
-    cursor: pointer;
-    margin-bottom: 11px;
-    margin-top: 5px;
+.reviewPoint{
+    position: absolute;
+    opacity: 0;
+    z-index: -10000;
+    font-size: inherit;
 }
-
-input[type=checkbox], input[type=radio]{
-	cursor: pointer;
-}
-
-input[name=starPoint]{
- position: absolute;
- opacity: 0;
- z-index: -10000;
- font-size: inherit;
-}
-
-.card-body{
-        background-color: white;
-        /* width: 778px; */
-        height: 190px;
-        border: 0.5px solid lightgray;
-        border-top: 0;
-        border-bottom: 0;
-        border-right: 0;
-        margin-bottom: 10px;
-    }
 </style>
 <script
 	src="${pageContext.request.contextPath }/resources/js/shop/productView.js"></script>
@@ -93,26 +72,8 @@ input[name=starPoint]{
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/css/shop/productView.css"
 	type="text/css"></link>
-<script>
-function reviewSubmit(index){
-	//작성
-	if(index == 1){
-		document.reviewFrm.action='${pageContext.request.contextPath}/myPage/counsellingInfo.do';
-		document.reviewFrm.submit();
-	}
-	//수정
-	if(index==2){
-		document.reviewFrm.action='${pageContext.request.contextPath }';
-		document.reviewFrm.submit();
-		
-	}
-	//삭제
-	if(index==3){
-		document.reviewFrm.action='${pageContext.request.contextPath}/myPage/reviewDelete.do';
-		document.reviewFrm.submit();
-	}
-}
-</script>
+	
+
 <div class="site-section">
 	<div class="container">
 		<div class="row">
@@ -135,10 +96,10 @@ function reviewSubmit(index){
 							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/myPeriodCalculatorView.do">
 								<div class="menu__title">월경캘린더</div>
 							</a> 
-							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/counsellingInfo.do">
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/">
 								<div class="menu__title">상담정보/리뷰</div>
 							</a> 
-							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/deleteMember.do">
+							<a class="menu__item" href="#">
 								<div class="menu__title">회원탈퇴</div>
 							</a>
 						</div>
@@ -166,17 +127,12 @@ function reviewSubmit(index){
                                        <img src="${pageContext.request.contextPath}/resources/images/counselling/${c.advisImg }" class="imgmini">
                                     </div>
                                     <div class="col-md-7">
-                                        <p>예약한 상담사명 : ${c.advisName }</p>
-                                        <p>예약번호 : ${c.appointNo}</p>
+                                        <p>예약한 상담사명 : ${c.advisName} </p>
                                         <p>결제정보 : ${c.payInfo } </p>
                                         <p>결제일 : ${c.startDay} </p>
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="innerModal('${c.appointNo}','${c.advisId }','${memberLoggedIn.memberId }');">리뷰작성</button>
-                                    	<br/>
-                                    	<button type="button" class="btn btn-success">리뷰수정</button>
-										<br/>
-										<button type="button" class="btn btn-danger">리뷰삭제</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="innerModal('${c.advisImg}','${c.advisName}','${c.appointNo}','${c.startDay }','${c.advisId }','${memberLoggedIn.memberId }');">작성</button>
                                     </div>
                                 </div>
                                 
@@ -203,7 +159,7 @@ function reviewSubmit(index){
 <!-- 리뷰쓰기 modal -->
 	<div class="modal fade" id="exampleModal" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<form name="reviewFrm" method="post">
+	<form action="${pageContext.request.contextPath}/myPage/counsellingInfo.do" method="post">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -215,12 +171,12 @@ function reviewSubmit(index){
 				</div>
 					<div class="modal-body">
 						<div class="form-group review-modal__form__product ">
-							<img class="review-modal__form__product__image"
-								src="${pageContext.request.contextPath}/resources/images/counselling/${advisImg }">
+							<img class="review-modal__form__product__image" id="c-img"
+								src="">
 							<div class="review-modal__form__product__contents">
-								<div class="review-modal__form__product__contents__brand">상담사명 : ${advisName}</div>
-								<div class="review-modal__form__product__contents__name">결제정보 : ${payInfo}</div>
-								<div class="review-modal__form__product__contents__options">결제일 : ${startDay}</div>
+								<div class="review-modal__form__product__contents__name" id="name"></div>
+								<div class="review-modal__form__product__contents__payinfo" id="payinfo"></div>
+								<div class="review-modal__form__product__contents__payday" id="payday"></div>
 							</div>
 						</div>
 						<div class="form-group">
@@ -232,25 +188,25 @@ function reviewSubmit(index){
             			</div>
 						<div class="form-group">
 							<label for="starting" class="col-form-label">별점 평가</label>
-							<div class="at-rating" style="font-size: 30px; color: red;">
+							<div class="at-rating" style="font-size: 30px; color: #FAC451;">
 								<label class="rating-input__star"  aria-label="별점 1점"> 
-									<input type="radio" value="1" name="starPoint"> 
+									<input type="radio" value="1" name="starPoint" class="reviewPoint"> 
 									<i class="fa fa-star-o"></i>
 								</label> 
 								<label class="rating-input__star" aria-label="별점 2점"> 
-									<input type="radio" value="2" name="starPoint"> 
+									<input type="radio" value="2" name="starPoint" class="reviewPoint"> 
 									<i class="fa fa-star-o"></i>
 								</label> 
 								<label class="rating-input__star" aria-label="별점 3점"> 
-									<input type="radio" value="3" name="starPoint"> 
+									<input type="radio" value="3" name="starPoint" class="reviewPoint"> 
 									<i class="fa fa-star-o"></i>
 								</label> 
 								<label class="rating-input__star" aria-label="별점 4점"> 
-									<input type="radio" value="4" name="starPoint"> 
+									<input type="radio" value="4" name="starPoint" class="reviewPoint"> 
 									<i class="fa fa-star-o"></i>
 								</label> 
 								<label class="rating-input__star" aria-label="별점 5점"> 
-									<input type="radio" value="5" name="starPoint"> 
+									<input type="radio" value="5" name="starPoint" class="reviewPoint"> 
 									<i class="fa fa-star-o"></i>
 								</label>
 							</div>
@@ -262,12 +218,12 @@ function reviewSubmit(index){
 					</div>
         			<div class="modal-footer">
           				<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-          				<button type="submit" class="btn btn-primary" onclick="reviewSubmit(1)">등록</button>
+          				<button type="submit" class="btn btn-primary">등록</button>
       				</div>
       				</div>
-                		<input type="hidden" name="reviewerId">
-                		<input type="hidden" name="advisId">
-                		<input type="hidden" name="appointNo"/>
+                		<input type="hidden" name="reviewerId" value="">
+                		<input type="hidden" name="advisId" value="">
+                		<input type="hidden" name="appointNo" value=""/>
                 		<input type="hidden" name="advisReviewNo" value="0"/>
         			</div>
 				</form>
@@ -277,13 +233,6 @@ function reviewSubmit(index){
 <!-- contents end-->
 
 <script>
-function innerModal(appointNo, advisId, reviewerId) {
-	$("[name=appointNo]").val(appointNo);
-	$("[name=advisId]").val(advisId);
-	$("[name=reviewerId]").val(reviewerId);
-	$('#advisName').text(advisId);
-}
-
 $(function(){
     $("label.rating-input__star").on("click",function(){
         $(this).parent().children("label").removeClass("selected").children('i').addClass("fa-star-o");
@@ -294,6 +243,33 @@ $(function(){
     })
 })
 
+function innerModal(advisImg, advisName, appointNo, startDay, advisId, reviewerId) {
+	
+	var name = advisName;
+	var no = appointNo;
+	var id = advisId;
+	var reid = reviewerId;
+	var sday = startDay;
+	var imgg = advisImg;
+	var imgSrc ="${pageContext.request.contextPath}/resources/images/counselling/"+imgg;
+	console.log("name="+name);
+	console.log("no="+no);
+	console.log("sday="+sday);
+	console.log("id="+id);
+	console.log("reid="+reid);
+	console.log("img="+imgg);
+	
+	$("[name=appointNo]").val(appointNo);
+	$("[name=advisId]").val(advisId);
+	$("[name=reviewerId]").val(reviewerId);
+	$("#name").text(name);
+	
+	$(".review-modal__form__product__contents__name").text("상담사명 : "+advisName);
+	$(".review-modal__form__product__contents__payinfo").text("예약번호 : "+appointNo);
+	$(".review-modal__form__product__contents__payday").text("결제일 : "+sday );
+	
+	$('#c-img').attr('src', imgSrc);
+}
 </script>
 
 

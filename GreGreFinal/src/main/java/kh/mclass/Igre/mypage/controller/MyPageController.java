@@ -1,12 +1,10 @@
  package kh.mclass.Igre.mypage.controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.sound.midi.MidiDevice.Info;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.Review;
+import kh.mclass.Igre.member.model.vo.Advis;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.service.MyPageService;
 import kh.mclass.Igre.mypage.model.vo.Child;
@@ -36,6 +35,7 @@ public class MyPageController {
 	@Autowired
 	private MyPageService mps;
 	
+	//일반사용자 마이페이지
 	@GetMapping("/myPageMain")
 	public ModelAndView mypageview(ModelAndView mav,HttpSession session) {
 			
@@ -45,6 +45,18 @@ public class MyPageController {
 
 		return mav;
 	}
+	
+	//기업회원 마이페이지
+	@GetMapping("/bizUpdate")
+	public ModelAndView mypageBizView(ModelAndView mav,HttpSession session) {
+			
+			Advis advis = (Advis) session.getAttribute("bizmemberLoggedIn");
+			mav.addObject("advis",advis);
+			mav.setViewName("myPage/bizUpdate");
+
+		return mav;
+	}
+	
 	
 	@GetMapping("/deleteMember")
 	public ModelAndView deleteMember(ModelAndView mav,HttpSession session) {
@@ -158,7 +170,8 @@ public class MyPageController {
 	//리뷰 작성
 	@PostMapping("/counsellingInfo.do")
 	public String reviewWrite(Review review, RedirectAttributes redirectAttributes, String starPoint) {
-
+		
+		
 		review.setStarPoint(Integer.parseInt(starPoint));  
 		int result = mps.reviewWrite(review);
 		
@@ -181,16 +194,6 @@ public class MyPageController {
 	 * 
 	 * return "redirect:/myPage/counsellingInfo.do"; }
 	 */
-	
-	//리뷰삭제
-	@PostMapping("/reviewDelete.do")
-	public String reviewDelete(SessionStatus ss, HttpSession session, Review review,RedirectAttributes redirectAttributes) {
-		int result = mps.reviewDelete(review);
-
-		redirectAttributes.addFlashAttribute("msg", result>0?"리뷰등록 성공!":"리뷰등록 실패!");
-
-		return "redirect:/";
-	} 
 	
 	
 }

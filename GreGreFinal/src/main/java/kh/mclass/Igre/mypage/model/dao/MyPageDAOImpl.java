@@ -78,17 +78,4 @@ public class MyPageDAOImpl implements MyPageDAO {
 		return sss.insert("mypage.insertVaccion",vaccination);
 	}
 
-	@Override
-	public int reviewUpdate(Review review) {
-		// TODO Auto-generated method stub
-		return sss.insert("review.reviewUpdate", review);
-	}
-
-	@Override
-	public int reviewDelete(Review review) {
-		// TODO Auto-generated method stub
-		return sss.delete("review.reviewDelete", review);
-	}
-
-
 }

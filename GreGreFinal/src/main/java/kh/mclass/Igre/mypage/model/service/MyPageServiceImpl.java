@@ -71,16 +71,5 @@ public class MyPageServiceImpl implements MyPageService {
 		return mpd.reviewWrite(review);
 	}
 
-	@Override
-	public int reviewUpdate(Review review) {
-		// TODO Auto-generated method stub
-		return mpd.reviewUpdate(review);
-	}
-
-	@Override
-	public int reviewDelete(Review review) {
-		// TODO Auto-generated method stub
-		return mpd.reviewDelete(review);
-	}
 }
 
