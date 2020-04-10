@@ -48,7 +48,7 @@ public class StompConfigurer implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		//핸들러메소드의 @SendTo 에 대응함. 여기서 등록된 url을 subscribe하는 client에게 전송.
-		registry.enableSimpleBroker("/notice", "/chat", "/lastCheck");
+		registry.enableSimpleBroker("/notice", "/chat", "/lastCheck", "/inq");
 		
 		//prefix로 contextPath를 달고 @Controller의 핸들러메소드@MessageMapping 를 찾는다.
 		registry.setApplicationDestinationPrefixes(servletContext.getContextPath());//contextPath

@@ -17,4 +17,6 @@ public interface InquireDAO {
 
 	void insertChatLog(InqMsg fromMessage);
 
+	List<InqMsg> chatListByChatId(String chatId);
+
 }

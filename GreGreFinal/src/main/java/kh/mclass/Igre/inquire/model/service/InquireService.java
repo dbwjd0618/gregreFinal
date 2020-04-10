@@ -15,4 +15,6 @@ public interface InquireService {
 
 	void insertChatLog(InqMsg fromMessage);
 
+	List<InqMsg> chatListByChatId(String chatId);
+
 }
