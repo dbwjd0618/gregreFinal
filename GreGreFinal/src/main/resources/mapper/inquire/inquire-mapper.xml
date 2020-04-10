@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inquire">
+
+	<select id="findChatId" resultType="String" parameterType="java.lang.String">
+		select chat_id from admin_chat_view where cr_enabled = 'Y' and cm_enabled = 'Y' and member_id = #{memberId}
+	</select>
+	
+	<select id="selectOneChatId" resultType="String" parameterType="java.lang.String">
+		select chat_id from admin_chat_view where chat_id = #{chatId}
+	</select>
+	
+	<insert id="insertChatRoom">
+		insert into admin_chat_room(id, chat_id) values(seq_admin_chat.nextval, #{chatRoom.chatId})
+	</insert>
+	
+	<insert id="insertChatMember">
+		insert into admin_chat_member(id, chat_room_id, member_id) values(seq_admin_chat.nextval, seq_admin_chat.currval-1, #{memberId})
+	</insert>
+	
+	<insert id="insertChatLog">
+		insert into admin_chat_log (id, chat_room_id, member_id, msg, time)
+		values(
+	    	seq_chat.nextval, 
+			(select id from admin_chat_room where chat_id = #{chatId}), 
+			#{memberId}, 
+			#{msg}, 
+			#{time}
+		)
+	</insert>
+	
+	<select id="chatListByChatId" resultType="InqMsg">
+		select * from admin_chat_log where 
+		    chat_room_id = (select id from admin_chat_room where chat_id = #{chatId})
+		order by id
+	</select>
+	
+</mapper>

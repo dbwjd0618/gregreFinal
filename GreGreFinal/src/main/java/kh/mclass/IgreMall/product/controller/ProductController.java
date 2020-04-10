@@ -29,6 +29,8 @@ import kh.mclass.IgreMall.product.model.vo.Attachment;
 import kh.mclass.IgreMall.product.model.vo.DefaultProduct;
 import kh.mclass.IgreMall.product.model.vo.ProdOption;
 import kh.mclass.IgreMall.product.model.vo.Product;
+import kh.mclass.IgreMall.review.model.service.ProdReviewService;
+import kh.mclass.IgreMall.review.model.vo.ProdReview;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -38,19 +40,35 @@ public class ProductController {
 
 	@Autowired
 	ProductService productService;
-
+	@Autowired
+	ProdReviewService reviewService;
+	/**
+	 * 0409 이진희
+	 * 
+	 *  리뷰보기 
+	 *
+	 */
 	@GetMapping("/detail.do")
 	public ModelAndView product(ModelAndView mav, 
 						@RequestParam("productId") String productId,
 						HttpServletRequest request) throws Exception {
 		log.debug("productId={}", productId);
 		
+		//review 불러오기
+		List<ProdReview> reviewList = reviewService.selectListReview(productId);
+        for(int i=0;i<reviewList.size();i++) {
+        	String[] optionName = new String[reviewList.get(i).getOptionId().length];
+        	for(int j=0;j<reviewList.get(i).getOptionId().length;j++) {
+        		ProdOption option = productService.selectOptionOne(reviewList.get(i).getOptionId()[j]);
+        		optionName[j] = option.getOptionValue().replaceAll(",", "/");
+        	}
+        	reviewList.get(i).setOptionName(optionName);
+        }
+       
 		Product product = productService.selectProductOne(productId);
 		List<Attachment> attachList = productService.selectAttachList(productId);
 		List<ProdOption> optionList = productService.selectOptionList(productId);
 		
-		log.debug("attachList={}",attachList);
-		log.debug("optionList={}",optionList);
 		//옵션이 있는 상품만
 		if(!optionList.isEmpty()) {
 	
@@ -75,7 +93,7 @@ public class ProductController {
 					
 				}
 			}
-			
+		
 			mav.addObject("optionValue1", optionValue1);//옵션1,옵션2
 			mav.addObject("optionValue2", optionValue2);//핑크 ~~
 			mav.addObject("optionName", optionName);//10,20담겨있다.
@@ -88,12 +106,13 @@ public class ProductController {
      
         
         HttpSession session = request.getSession();
-		
+     	log.debug("reviewList={}",reviewList);
         session.setAttribute("p",product);
         session.setAttribute("attachList", attachList);
         mav.addObject("p", product);
 		mav.addObject("attachList", attachList);
 		mav.addObject("optionList", optionList);//가격정보가 담겨있다.
+		mav.addObject("reviewList", reviewList);
 		
 	
 		mav.setViewName("shop/product/detail");

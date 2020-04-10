@@ -1,5 +1,6 @@
 package kh.mclass.Igre.chat.model.dao;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -7,8 +8,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.mclass.Igre.chat.model.vo.ChatInfo;
 import kh.mclass.Igre.chat.model.vo.ChatMember;
 import kh.mclass.Igre.chat.model.vo.ChatRoom;
+import kh.mclass.Igre.chat.model.vo.CheckOK;
 import kh.mclass.Igre.chat.model.vo.Msg;
 
 @Repository
@@ -90,5 +93,40 @@ public class ChatDAOImpl implements ChatDAO {
 	@Override
 	public String memberIdFindChatListByChatId(String counselorId) {
 		return sqlSession.selectOne("counselor.memberIdFindChatListByChatId",counselorId);
+	}
+
+	@Override
+	public ChatInfo counselorInfo(String counselorId) {
+		return sqlSession.selectOne("counselor.counselorInfo",counselorId);
+	}
+
+	@Override
+	public int counselorCheckProduct(Map<String, Object> check) {
+		return sqlSession.selectOne("counselor.counselorCheckProduct",check);
+	}
+
+	@Override
+	public int counselorCheckToday(Map<String, Object> checkT) {
+		return sqlSession.selectOne("counselor.counselorCheckToday",checkT);
+	}
+
+	@Override
+	public int counselorCheckOK(CheckOK ok) {
+		return sqlSession.insert("counselor.counselorCheckOK", ok);
+	}
+
+	@Override
+	public int counselorDownCoin(String memberId) {
+		return sqlSession.update("counselor.counselorDownCoin", memberId);
+	}
+
+	@Override
+	public int counselorCoinCheck(String memberId) {
+		return sqlSession.selectOne("counselor.counselorCoinCheck", memberId);
+	}
+
+	@Override
+	public int counselorOutChatRoom(String chatId) {
+		return sqlSession.update("counselor.counselorOutChatRoom",chatId);
 	}
 }

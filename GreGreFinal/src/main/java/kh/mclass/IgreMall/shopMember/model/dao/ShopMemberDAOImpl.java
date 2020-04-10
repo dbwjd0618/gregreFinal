@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kh.mclass.IgreMall.coupon.model.vo.Coupon;
 import kh.mclass.IgreMall.coupon.model.vo.CouponInfo;
 import kh.mclass.IgreMall.shopMember.model.vo.Cart;
 import kh.mclass.IgreMall.shopMember.model.vo.ShopMember;
@@ -43,5 +44,15 @@ public class ShopMemberDAOImpl implements ShopMemberDAO{
 	@Override
 	public int updateCartOne(Cart cart) {
 		return sqlSession.update("shopMember.updateCartOne", cart);
+	}
+
+	@Override
+	public int updateConsumerInfo(ShopMember sMem) {
+		return sqlSession.update("shopMember.updateConsumerInfo", sMem);
+	}
+
+	@Override
+	public int updateCoupon(Coupon coupon) {
+		return sqlSession.update("shopMember.updateCoupon", coupon);
 	}
 }

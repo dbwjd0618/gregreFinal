@@ -29,6 +29,8 @@ public class BookingInfo implements Serializable {
 	private Date endDay;
 	private String payPrice;
 	private String payInfo;
+	private String advisName;
+	private String advisImg; 
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;

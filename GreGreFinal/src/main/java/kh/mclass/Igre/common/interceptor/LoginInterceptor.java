@@ -24,11 +24,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		BizMember bizmemberLoggedIn = (BizMember)ss.getAttribute("bizmemberLoggedIn");
 		logger.debug("memberLoggedIn = " + memberLoggedIn);
 		logger.debug("bizmemberLoggedIn = " + bizmemberLoggedIn);
-		if(memberLoggedIn == null && bizmemberLoggedIn ==null) {
+		if(memberLoggedIn == null && bizmemberLoggedIn==null) {
 			ss.setAttribute("msg", "로그인 후 이용해주세요");
 			response.sendRedirect(request.getHeader("referer"));
 			return false;
 		}
+		
 		return super.preHandle(request, response, handler);
 	}
 	

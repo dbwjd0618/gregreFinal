@@ -78,6 +78,23 @@
 		member_id = #{memberId}	
 	</update>
 
+	<select id="findPassword" resultType="Member">
+	select
+		*
+	from
+		TB_MEMBER_INFO
+	where member_id = #{memberId} and pwd_hint_code = #{pwdHintCode} and pwd_ans = #{pwdAns}
+		
+	</select>
+
+	<update id="fupdatePassword">
+	update
+		TB_MEMBER_INFO
+	set
+		member_pwd = #{memberPwd}
+	where
+		member_id= #{memberId}	
+	</update>
 	<select id="selectChild" resultType="Child">
 	select
 		*
@@ -89,12 +106,29 @@
 	
 	<!-- 상담 예약정보 조회  -->
 	<select resultType="BookingInfo" id="selectBookingInfoList">
+		select 
+			C.advis_id, 
+			C.advis_name, 
+			C.advis_img, 
+			A.member_id,
+			A.appoint_no, 
+			A.coin, 
+			A.start_day, 
+			A.end_day, 
+			A.pay_price, 
+			A.payinfo 
+		from TB_adviser C join TB_appointment A
+    		on C.advis_id = A.advis_id
+    	where member_id = #{memberId}
+	</select>
+	
+	<select id="selectVaccination" resultType="Vaccination">
 		select
 			*
-		from 
-			TB_appointment
-		where 
-			member_id = #{memberId}
+		from
+			TB_vaccination
+		where
+			parents_ID = #{parentsId}
 	</select>
 	
 	

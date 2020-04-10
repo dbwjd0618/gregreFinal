@@ -38,7 +38,34 @@
 
 <!-- contents begin-->
 <style>
+/* 별점  */
+.fa-star:before {
+	content: "";
+	background-image:
+		url('${pageContext.request.contextPath }/resources/images/star/star.png');
+	background-size: 20px 20px;
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+}
+.fa-star-o:before {
+	content: "";
+	background-image:
+		url('${pageContext.request.contextPath }/resources/images/star/star-o.png');
+	background-size: 18px 18px;
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+	margin-bottom: 1px;
+}
+
 </style>
+<script
+	src="${pageContext.request.contextPath }/resources/js/shop/productView.js"></script>
+<!--product view css-->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/css/shop/productView.css"
+	type="text/css"></link>
 
 <div class="site-section">
 	<div class="container">
@@ -63,7 +90,7 @@
 								<div class="menu__title">월경캘린더</div>
 							</a> 
 							<a class="menu__item" href="#">
-								<div class="menu__title">예약현황 조회/취소</div>
+								<div class="menu__title">상담정보/리뷰</div>
 							</a> 
 							<a class="menu__item" href="#">
 								<div class="menu__title">회원탈퇴</div>
@@ -90,10 +117,10 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                       <img src="${pageContext.request.contextPath}/resources/images/counselling/" class="imgmini">
+                                       <img src="${pageContext.request.contextPath}/resources/images/counselling/${c.advisImg }" class="imgmini">
                                     </div>
                                     <div class="col-md-7">
-                                        <p>예약한 상담사명 : ${c.advisId} </p>
+                                        <p>예약한 상담사명 : ${c.advisName} </p>
                                         <p>결제정보 : ${c.payInfo } </p>
                                         <p>결제일 : ${c.startDay} </p>
                                     </div>
@@ -122,34 +149,80 @@
 <!-- contents end-->
 
 <!-- modal 폼-->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">리뷰 등록하기</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-<form action="${pageContext.request.contextPath}/myPage/counsellingInfo.do" method="post">
-        <div class="modal-body">
-                <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">평점 선택(1~5)</label>
-                  <input type="number" class="form-control" id="recipient-name" min="1" max="5" name="starPoint">
-                </div>
-                <div class="form-group">
-                  <label for="message-text" class="col-form-label">리뷰(500자 이내)</label>
-                  <textarea class="form-control" id="message-text" maxlength="500" name="reviewContent"></textarea>
-                </div>
-                <input type="hidden" name="reviewerId">
-                <input type="hidden" name="advisId">
-                <input type="hidden" name="appointNo"/>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-          <button type="submit" class="btn btn-primary">등록</button>
-      	</div>
-</form>
+<!-- 리뷰쓰기 modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<form action="${pageContext.request.contextPath}/myPage/counsellingInfo.do" method="post">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">리뷰작성</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+					<div class="modal-body">
+						<div class="form-group review-modal__form__product ">
+							<img class="review-modal__form__product__image"
+								src="${pageContext.request.contextPath}/resources/images/counselling/${advisImg }">
+							<div class="review-modal__form__product__contents">
+								<div class="review-modal__form__product__contents__brand">상담사명 : ${advisName}</div>
+								<div class="review-modal__form__product__contents__name">결제정보 : ${payInfo}</div>
+								<div class="review-modal__form__product__contents__options">결제일 : ${startDay}</div>
+							</div>
+						</div>
+						<div class="form-group">
+            			<label for="recipient-name" class="col-form-label">상담 유형 선택<br/>
+            				<input type="checkbox" aria-label="Checkbox for following text input" name="advisKeyword" value="임신"> 임신
+            				&nbsp;&nbsp;
+            				<input type="checkbox" aria-label="Checkbox for following text input" name="advisKeyword" value="육아"> 육아
+            			</label>
+            			</div>
+						<div class="form-group">
+							<label for="starting" class="col-form-label">별점 평가</label>
+							<div class="at-rating" style="font-size: 30px; color: #FAC451;">
+								<label class="rating-input__star"  aria-label="별점 1점"> 
+									<input type="radio" value="1" name="starPoint"> 
+									<i class="fa fa-star-o"></i>
+								</label> 
+								<label class="rating-input__star" aria-label="별점 2점"> 
+									<input type="radio" value="2" name="starPoint"> 
+									<i class="fa fa-star-o"></i>
+								</label> 
+								<label class="rating-input__star" aria-label="별점 3점"> 
+									<input type="radio" value="3" name="starPoint"> 
+									<i class="fa fa-star-o"></i>
+								</label> 
+								<label class="rating-input__star" aria-label="별점 4점"> 
+									<input type="radio" value="4" name="starPoint"> 
+									<i class="fa fa-star-o"></i>
+								</label> 
+								<label class="rating-input__star" aria-label="별점 5점"> 
+									<input type="radio" value="5" name="starPoint"> 
+									<i class="fa fa-star-o"></i>
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="review-text" class="col-form-label">리뷰작성(500자 이내)</label>
+							<textarea class="form-control" id="review-text" maxlength="500" name="reviewContent"></textarea>
+						</div>
+					</div>
+        			<div class="modal-footer">
+          				<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+          				<button type="submit" class="btn btn-primary">등록</button>
+      				</div>
+      				</div>
+                		<input type="hidden" name="reviewerId">
+                		<input type="hidden" name="advisId">
+                		<input type="hidden" name="appointNo"/>
+                		<input type="hidden" name="advisReviewNo" value="0"/>
+        			</div>
+				</form>
+		</div>
+	</div>
+</div>
 <!-- contents end-->
 
 <script>
@@ -158,7 +231,9 @@ function innerModal(appointNo, advisId, reviewerId) {
 	$("[name=advisId]").val(advisId);
 	$("[name=reviewerId]").val(reviewerId);
 }
+
 </script>
+
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

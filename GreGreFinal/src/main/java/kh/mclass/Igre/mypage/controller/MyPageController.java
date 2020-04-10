@@ -1,6 +1,9 @@
  package kh.mclass.Igre.mypage.controller;
 
+import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,15 +20,14 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
-import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.service.MyPageService;
 import kh.mclass.Igre.mypage.model.vo.Child;
 import kh.mclass.Igre.mypage.model.vo.Vaccination;
 import lombok.extern.slf4j.Slf4j;
-import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @Slf4j
@@ -110,10 +111,17 @@ public class MyPageController {
 	}
 	
 	@PostMapping("/memberChildUpdate.do")
-	public String memberChildUpdate(Vaccination vaccination ,Member member,Child child,RedirectAttributes ras,String parentsId,String childName) {
+	public String memberChildUpdate(String[] vaccinCode,Date[] vaccinDate,Integer[] nth,Vaccination vaccination ,Member member,Child child,RedirectAttributes ras,String parentsId,String childName) {
 		String childId = parentsId+"_"+childName;
 		child.setChildId(childId);
-		int result = mps.enroll(child,member,vaccination);
+	
+		System.out.println("배열로"+Arrays.toString(vaccinCode));
+		System.out.println("객체로"+vaccination);
+//		for(int i=0; i<vaccinCode.length; i++) {
+//			
+//		}
+		
+		int result = mps.enroll(child,member,vaccination,vaccinCode,vaccinDate,nth);
 		String msg = result > 0 ? "자녀추가 완료!" : "누락된 항목이 있습니다";
 		ras.addFlashAttribute("msg", msg);
 		
@@ -121,13 +129,22 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/memberChildUpdate.do")
-	public ModelAndView selectChild(ModelAndView mav , Child child,HttpSession session) {
+	public ModelAndView selectChild(ModelAndView mav , Child child,HttpSession session,Vaccination vaccination) {
 		Member m = (Member) session.getAttribute("memberLoggedIn");
 		String parentsId = m.getMemberId();
 		child.setParentsId(parentsId);
+		vaccination.setParentsId(parentsId);
 		List<Child> list = mps.selectChild(child);
-		mav.addObject("m",m);
+		List<Vaccination> list2 = mps.selectVaccination(vaccination);
+		
+
+//		Map<String,List<String>> maplist = new HashMap<String, List<String>>();
+//		maplist.put("list",list);
+//		maplist.put("list2",list2);
+//		Map<Child,Map<Child,List<Vaccination>>> map = mps.selectVaccin(maplist);		
+//		mav.addObject("m",m);
 		mav.addObject("list",list);
+		mav.addObject("list2",list2);
 		mav.setViewName("myPage/memberChildUpdate");
 		return mav;
 	}
@@ -156,14 +173,25 @@ public class MyPageController {
 		return mav;
 	}
 	
+//	리뷰 작성
 	@PostMapping("/counsellingInfo.do")
 	public String reviewWrite(Review review, RedirectAttributes redirectAttributes) {
 		
 		int result = mps.reviewWrite(review);
-		String msg = result>0?"리뷰등록 성공!":"리뷰 등록 실패!";
 		
 		return "redirect:/myPage/counsellingInfo.do";
 	}
+	
+	@PostMapping("findPassword.do")
+	public String findPassword(Member member,RedirectAttributes redirectAttributes) {
+		Member selectMember = mps.findPassword(member);
+		int result = mps.fupdatePassword(member);
+		String msg = selectMember!=null?"초기비밀번호 0000 으로 초기화 되었습니다":"입력정보가 일치하지 않습니다";
+		redirectAttributes.addFlashAttribute("msg", msg);
+
+		return "redirect:/member/login.do";
+	}
+	
 	
 	
 }
