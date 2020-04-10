@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="stomp">
+	<select id="findRecentList" resultType="map">
+		select 
+		    *
+		from (
+		    select 
+		        id,
+		        cv.cr_id,
+		        cv.chat_id,
+		        (select member_id from chat_view where cr_id = cl.chat_room_id and member_id != '${adminId}') member_id,
+		        cl.msg,
+		        cl.time,
+		        0 cnt,
+		        rank() over(partition by cl.chat_room_id order by time desc) rank 
+		    from 
+		        chat_log cl
+		      left join
+		        chat_view cv
+		          on cl.chat_room_id = cv.cr_id and cl.member_id = cv.member_id
+		    order by
+		        time desc
+		    )
+		where 
+		    rank = 1 and member_id is not null
+	    order by
+    		time desc
+	</select>
+	
+	<select id="findChatListByChatId" resultType="AdminMSG" parameterType="String">
+		select
+			*
+		from
+			chat_log
+		where
+			chat_room_id = (select id from chat_room where chat_id = #{chatId})
+		order by 
+		    id
+	
+	</select>
+	
+<!-- 	<select id="findChatListMapByChatId" resultType="map">
+		select
+			*
+		from
+			chat_log
+		where
+			chat_room_id = (select id from chat_room where chat_id = '${chatId}')
+		order by 
+		    id
+	
+	</select> -->
+
+</mapper>
