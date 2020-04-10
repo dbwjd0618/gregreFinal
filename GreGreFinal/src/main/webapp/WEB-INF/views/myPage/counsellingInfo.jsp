@@ -108,7 +108,7 @@ function reviewSubmit(index){
 	}
 	//삭제
 	if(index==3){
-		document.reviewFrm.action='${pageContext.request.contextPath }';
+		document.reviewFrm.action='${pageContext.request.contextPath}/myPage/reviewDelete.do';
 		document.reviewFrm.submit();
 	}
 }
