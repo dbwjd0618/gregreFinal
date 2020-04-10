@@ -12,6 +12,14 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
     <!--서브메뉴 js-->
     <script src="${pageContext.request.contextPath}/resources/js/subMenu/subMenu.js"></script>
+    <link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/pregnancy/basic.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/pregnancy/common.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/pregnancy/layout_sub.css">
+	<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .childvaccin{
 	width: 450px;
@@ -40,7 +48,6 @@
 } 
 
 </style>
-
   
    <script>
    var cnumber ='${m.childNumber}'
@@ -125,13 +132,321 @@
                                         <p>자녀생일 : ${c.birthday }</p>
                                         <p>성별 : ${c.gender eq 'M'? '남':'여'}</p>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <button type="button" class="btn btn-outline bg-gray" data-toggle="modal" data-target="#vaccinAdd">정보수정</button>
                                     	<div><br /></div>
-                                    	<button type="button" class="btn btn-outline bg-gray" onclick="addVaccin();">예방접종</button>
+					<p class="biztoggle2">예방접종 리스트 </p>
+					<p class="biztoggle2" style="display: none;">닫기</p>
+                    <label class="switch"> <input type="checkbox" name="biztoggle2"> <span
+						class="slider round"></span>
+					</label>
+					
+					
+                                    	<!-- <button type="button" class="btn btn-outline bg-gray" onclick="addVaccin();">예방접종</button> -->
                                     </div>
+					<div id="pid2" style="display: none;">
+					<div class="com_table mar_t20"> 
+<br />
+<h3>자녀이름 : ${c.childName }</h3>
+<h3>자녀생일 : ${c.birthday }</h3>
+<br />
+<c:forEach items="${list2}" var="v" varStatus="status">
+<c:if test="${c.childId == v.childId}">
+<h3>테스트:${v.vaccinCode }</h3>
+<h3>테스트:${v.vaccinDate }</h3>
+<h3>테스트:${v.nth }</h3>
+
+<table border="1"> 
+    <caption>
+     <strong>국가필수예방접종</strong>의 대상 전염병, 백신종류및 방법, 0개월, 1개월, 2개월, 4개월, 6개월, 12개월, 15개월, 18개월, 24개월, 36개월, 만4세, 만6세, 만11세, 만12세을 나타내는 표입니다.
+    </caption> 
+    <colgroup> 
+     <col style="width:2%"> 
+     <col style="width:9%"> 
+     <col style="*"> 
+     <col style="width:5%"> 
+     <col style="width:5%"> 
+     <col style="width:5%"> 
+     <col style="width:5%"> 
+     <col style="width:5%"> 
+     <col style="width:6%"> 
+     <col style="width:6%"> 
+     <col style="width:6%"> 
+     <col style="width:6%"> 
+     <col style="width:6%"> 
+     <col style="width:5%"> 
+     <col style="width:5%"> 
+     <col style="width:6%"> 
+     <col style="width:6%"> 
+    </colgroup> 
+    <thead> 
+     <tr> 
+      <th scope="col"></th> 
+      <th scope="col">대상전염병</th> 
+      <th scope="col">백신종류및방법</th> 
+      <th scope="col">0개월</th> 
+      <th scope="col">1개월</th> 
+      <th scope="col">2개월</th> 
+      <th scope="col">4개월</th> 
+      <th scope="col">6개월</th> 
+      <th scope="col">12개월</th> 
+      <th scope="col">15개월</th> 
+      <th scope="col">18개월</th> 
+      <th scope="col">24개월</th> 
+      <th scope="col">36개월</th> 
+      <th scope="col">만4세</th> 
+      <th scope="col">만6세</th> 
+      <th scope="col">만11세</th> 
+      <th scope="col">만12세</th> 
+     </tr> 
+    </thead> 
+    <tbody> 
+     <tr> 
+      <th scope="row" rowspan="15" class="b_r">국<br>가<br>필<br>수<br>예<br>방<br>접<br>종</th> 
+      <td>결핵①</td> 
+      <td>BCG(피내용)</td> 
+      <td class="bg">1차</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+     </tr> 
+     <tr> 
+      <td>B형간염②</td> 
+      <td>HepB</td> 
+      <td class="bg">1차</td> 
+      <td class="bg">2차</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td class="bg">3차</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+      <td>&nbsp;</td> 
+     </tr> 
+     <tr> 
+      <td rowspan="2" class="b_r">디프테리아<br>파상풍<br>백일해</td> 
+      <td>DTaP③</td> 
+      <td></td> 
+      <td></td> 
+      <td class="bg">1차</td> 
+      <td class="bg">2차</td> 
+      <td class="bg">3차</td> 
+      <td></td> 
+      <td colspan="2" class="bg">추4차</td> 
+      <td></td> 
+      <td></td> 
+      <td colspan="2" class="bg">추5차</td> 
+      <td></td> 
+      <td></td> 
+     </tr> 
+     <tr> 
+      <td>Td/Tdap④</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td colspan="2" class="bg">추6차</td> 
+     </tr> 
+     <tr> 
+      <td>폴리오⑤</td> 
+      <td>IPV(사백신)</td> 
+      <td></td> 
+      <td></td> 
+      <td class="bg">1차</td> 
+      <td class="bg">2차</td> 
+      <td class="bg">3차</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td colspan="2" class="bg">추4차</td> 
+      <td></td> 
+      <td></td> 
+     </tr> 
+     <tr> 
+      <td class="b_r">b형헤모필루스<br>인플루엔자⑥</td> 
+      <td>PRP-T/HbOC</td> 
+      <td></td> 
+      <td></td> 
+      <td class="bg">1차</td> 
+      <td class="bg">2차</td> 
+      <td class="bg">3차</td> 
+      <td colspan="2" class="bg">추4차</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+     </tr> 
+     <tr> 
+      <td rowspan="2" class="b_r">폐렴구균</td> 
+      <td>PCV<br>(단백결합)⑦</td> 
+      <td></td> 
+      <td></td> 
+      <td class="bg">1차</td> 
+      <td class="bg">2차</td> 
+      <td class="bg">3차</td> 
+      <td colspan="2" class="bg">추4차</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+     </tr> 
+     <tr> 
+      <td>PPSV<br>(다당질)⑧</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td colspan="6" class="bg">고위험군에 한하여 접종</td> 
+     </tr> 
+     <tr> 
+      <td>홍역<br>유행성이하선염<br>풍진⑨</td> 
+      <td>MMR</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td colspan="2" class="bg ">1차</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td colspan="2" class="bg ">2차</td> 
+      <td></td> 
+      <td></td> 
+     </tr> 
+     <tr> 
+      <td>수두</td> 
+      <td>Var</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td colspan="2" class="bg">1차</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+     </tr> 
+     <tr> 
+      <td>A형간염⑩</td> 
+      <td>HepA</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td colspan="5" class="bg">1~2차</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+     </tr> 
+     <tr> 
+      <td rowspan="2" class="b_r">일본뇌염</td> 
+      <td>JEV<br>(사백신)⑪</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td colspan="5" class="bg">1~3차</td> 
+      <td></td> 
+      <td class="bg">추4차</td> 
+      <td></td> 
+      <td class="bg">추5차</td> 
+     </tr> 
+     <tr> 
+      <td>JE<br>(생백신)⑫</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td colspan="5" class="bg">1~2차</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+     </tr> 
+     <tr> 
+      <td rowspan="2" class="b_r">인플루엔자</td> 
+      <td>Flu<br>(사백신)⑬</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td colspan="7" class="bg">매년접종</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+     </tr> 
+     <tr> 
+      <td>Flu<br>(생백신)⑭</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+      <td colspan="3" class="bg">매년접종</td> 
+      <td></td> 
+      <td></td> 
+      <td></td> 
+     </tr> 
+    </tbody> 
+   </table>
+
+</c:if>
+</c:forEach>
+
+
+      
+
+	</div>
+					</div>
                                 </div>
                                 
                             </div>
@@ -158,48 +473,6 @@
 <!-- contents end-->
 
 <!--자녀추가히가 modal 폼-->
-
-<div class="modal fade" id="vaccinAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document" >
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="vaccinAdd">예방접종 정보</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-                    <div class="imgdiv" style="z-index:200;">
-                    <img  class="childvaccin" src="${pageContext.request.contextPath}/resources/images/myPage/vaccin.PNG" alt="">
-                    </div>
-            <div class="modal-body">
-              <form action="${pageContext.request.contextPath}/myPage/memberChildUpdate.do" method="post">
-                    <h6>이미지 오버시 확대됩니다</h6>
-                    <hr />
-                        
-                    <input name="parentsId" class="form-control" id="parentsId" value="${m.memberId }"type="hidden">
-                    <input name="childId" class="form-control" id="childId" value="${c.childId }" type="hidden">
-                    
-
-                    <div class="form-group input-group" style="z-index:1 ">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">자녀 이름</span>
-                        </div>
-                        <input name="childName" class="form-control" id="childName"
-                            type="text" value="${c.childName }">
-                    </div>
-
-					<input type="hidden" name="childNumber" value="1"/>
-                    
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">확인</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-            </div>
-                </form>
-            </div>
-
-          </div>
-        </div>
-      </div>
 
 <!-- 자녀 추가 -->
 
@@ -278,7 +551,7 @@
                                   <div class="input-group-prepend" >
                                       <span class="input-group-text">예방접종 목록</span>
                                   </div>
-                                  <select onchange="categoryChange(this)" name="vaccinCode" id="vaccinCode" >
+                                  <select name="vaccinCode" id="vaccinCode" class="vaccinList">
                                       <option disabled selected value="">병명</option>
                                       <option disabled>----------</option>
                                       <option value="TB">결핵</option>
@@ -308,6 +581,7 @@
                                   </div>
                                   <input name="vaccinDate" class="form-control" id="vaccinDate" placeholder="접종일 " type="date">
                                   <input type="button" id="optPlus" value="추가"/>
+                                  
                         </div>
                         <div id="optdiv" >
                          </div> 
@@ -344,7 +618,7 @@
 							+'<div class="input-group-prepend" >'
                             +'<span class="input-group-text">예방접종 목록</span>'
                             +'</div>'
-								+'</br><select onchange="categoryChange(this)" name="vaccinCode" id="vaccinCode" ><option disabled selected value="">병명</option><option disabled>----------</option><option value="TB">결핵</option><option value="HepaB">B형 간염</option><option value="cerebro">뇌수막염</option><option value="polio">소아마비</option><option value="diplo">폐렴구군</option>'
+								+'</br><select name="vaccinCode" id="vaccinCode" class="vaccinList"><option disabled selected value="">병명</option><option disabled>----------</option><option value="TB">결핵</option><option value="HepaB">B형 간염</option><option value="cerebro">뇌수막염</option><option value="polio">소아마비</option><option value="diplo">폐렴구군</option>'
                                 +'<option value="DPT">DPT</option>'
                                 +'<option value="combo">콤보</option>'
                                 +'<option value="chick">수두</option>'
@@ -365,13 +639,19 @@
                                 +'<span class="input-group-text">접종일</span>'
                                 +'</div>'
                                 +'<input name="vaccinDate" class="form-control" id="vaccinDate" placeholder="접종일 " type="date">'
-                                //+'<input type="button" id="optPlus" value="추가"/>'
+                                +'<input type="button" id="optMin" value="삭제"/>'
                                 +'</div>'
                                 +'</div>';
                                 $("#optdiv").append(html)
                                 });
 							});
 
+$(document).ready(function(){
+		$(document).on("click","#optMin",function(){
+			
+			$(this).parent().remove()
+		});
+});
 
 
 
@@ -386,6 +666,20 @@ $("input[name='biztoggle']").click(function () {
 
 		 
 	 }
+});
+
+$(document).ready(function() {
+    //라디오 요소처럼 동작시킬 체크박스 그룹 셀렉터
+    $('input[type="checkbox"][name="biztoggle2"]').click(function(){
+        //클릭 이벤트 발생한 요소가 체크 상태인 경우
+        if ($(this).prop('checked')) {
+            //체크박스 그룹의 요소 전체를 체크 해제후 클릭한 요소 체크 상태지정
+            $(this).parent().parent().next().show();
+            }
+            else{
+            	$(this).parent().parent().next().hide();
+            	}
+    });
 });
 
 function categoryChange(e) {
@@ -408,19 +702,19 @@ function categoryChange(e) {
 	var nth_typhoid = ["1"];
 	var target = document.getElementById("nth");
 	
-	if(e.next().next().value == "TB") var d = nth_TB;
-	else if(e.next().next().value == "HepaB") var d = nth_HepaB;
-	else if(e.next().next().value == "cerebro") var d = nth_cerebro;
-	else if(e.next().next().value == "polio") var d = nth_polio;
-	else if(e.next().next().value == "diplo") var d = nth_diplo;
-	else if(e.next().next().value == "DPT") var d = nth_DPT;
-	else if(e.next().next().value == "combo") var d = nth_combo;
-	else if(e.next().next().value == "chick") var d = nth_chick;
-	else if(e.next().next().value == "mmr") var d = nth_mmr;
-	else if(e.next().next().value == "japEncep1") var d = nth_japEncep1;
-	else if(e.next().next().value== "japEncep2") var d = nth_japEncep2;
-	else if(e.next().next().value == "influ") var d = nth_influ;
-	else if(e.next().next().value == "typhoid") var d = nth_typhoid;
+	if(e.value == "TB") var d = nth_TB;
+	else if(e.value == "HepaB") var d = nth_HepaB;
+	else if(e.value == "cerebro") var d = nth_cerebro;
+	else if(e.value == "polio") var d = nth_polio;
+	else if(e.value == "diplo") var d = nth_diplo;
+	else if(e.value == "DPT") var d = nth_DPT;
+	else if(e.value == "combo") var d = nth_combo;
+	else if(e.value == "chick") var d = nth_chick;
+	else if(e.value == "mmr") var d = nth_mmr;
+	else if(e.value == "japEncep1") var d = nth_japEncep1;
+	else if(e.value== "japEncep2") var d = nth_japEncep2;
+	else if(e.value == "influ") var d = nth_influ;
+	else if(e.value == "typhoid") var d = nth_typhoid;
 
 	target.options.length = 0;
 
@@ -431,6 +725,51 @@ function categoryChange(e) {
 		target.appendChild(opt);
 	}	
 }
+
+$(function() {
+	$(document).on("change",".vaccinList",function() {
+		
+		var nth_TB = ["1"];
+		var nth_HepaB = ["1","2","3"];
+		var nth_cerebro = ["1","2","3","4","5"];
+		var nth_polio = ["1","2","3","4"];
+		var nth_diplo = ["1","2","3","4"];
+		var nth_DPT = ["1","2","3","4","5",'6'];
+		var nth_combo = ["1","2","3","4"];
+		var nth_chick = ["1","2"];
+		var nth_mmr = ["1","2"];
+		var nth_japEncep1 = ["1","2"];
+		var nth_japEncep2 = ["1","2","3","4","5"];
+		var nth_influ = ["1"];
+		var nth_typhoid = ["1"];
+		var target = $(this).next().next();
+		
+		if(this.value == "TB") var d = nth_TB;
+		else if(this.value == "HepaB") var d = nth_HepaB;
+		else if(this.value == "cerebro") var d = nth_cerebro;
+		else if(this.value == "polio") var d = nth_polio;
+		else if(this.value == "diplo") var d = nth_diplo;
+		else if(this.value == "DPT") var d = nth_DPT;
+		else if(this.value == "combo") var d = nth_combo;
+		else if(this.value == "chick") var d = nth_chick;
+		else if(this.value == "mmr") var d = nth_mmr;
+		else if(this.value == "japEncep1") var d = nth_japEncep1;
+		else if(this.value== "japEncep2") var d = nth_japEncep2;
+		else if(this.value == "influ") var d = nth_influ;
+		else if(this.value == "typhoid") var d = nth_typhoid;
+		
+		var cho = "<option disabled selected value=''>차수</option><option disabled>----------</option>";
+		target.html(cho);
+
+		for (x in d) {
+			var opt = document.createElement("option");
+			opt.value = d[x];
+			opt.innerHTML = d[x];
+			target.append(opt);
+		}	
+	});
+});
+
 
 </script>
 <!-- contents end-->

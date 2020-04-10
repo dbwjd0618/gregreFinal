@@ -78,6 +78,23 @@
 		member_id = #{memberId}	
 	</update>
 
+	<select id="findPassword" resultType="Member">
+	select
+		*
+	from
+		TB_MEMBER_INFO
+	where member_id = #{memberId} and pwd_hint_code = #{pwdHintCode} and pwd_ans = #{pwdAns}
+		
+	</select>
+
+	<update id="fupdatePassword">
+	update
+		TB_MEMBER_INFO
+	set
+		member_pwd = #{memberPwd}
+	where
+		member_id= #{memberId}	
+	</update>
 	<select id="selectChild" resultType="Child">
 	select
 		*
@@ -95,6 +112,15 @@
 			TB_appointment
 		where 
 			member_id = #{memberId}
+	</select>
+	
+	<select id="selectVaccination" resultType="Vaccination">
+		select
+			*
+		from
+			TB_vaccination
+		where
+			parents_ID = #{parentsId}
 	</select>
 	
 	
