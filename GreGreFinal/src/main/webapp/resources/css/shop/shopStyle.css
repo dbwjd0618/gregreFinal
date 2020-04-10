@@ -138,9 +138,22 @@ em{
 } 
 
 /*myReview css*/
-.my-review-list__list__item.col-lg-12 {
+.my-review-list__list__item
+{
     border-top: 1px solid rgb(184, 181, 181);
+ 
+}
+.my-review-list__list__item.col-lg-3{
+    
     border-bottom: 1px solid rgb(184, 181, 181);
+}
+.my-review-list__list__item.col-lg-9:last-child  {
+  
+    border-bottom: 1px solid rgb(184, 181, 181);
+}
+
+.my-review-list__list.row {
+     border-bottom: 1px solid rgb(184, 181, 181);
 }
 .my-review-list__list__item__wrap {
     padding: 20px;

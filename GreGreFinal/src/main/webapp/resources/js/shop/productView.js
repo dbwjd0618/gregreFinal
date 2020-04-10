@@ -8,14 +8,15 @@ $(function () {
         $(this).toggleClass("open").next(".dropdown-cont").toggleClass("open");
     });
 });
-$(function(){
+/*$(function(){
     $("label.rating-input__star").on("click",function(){
         $(this).parent().children("label").removeClass("selected").children('i').addClass("fa-star-o"); 
         $(this).addClass("selected").prevAll("label").addClass("selected").children('i').removeClass("fa-star-o").addClass("fa-star");
-        $(this).children("i").removeClass("fa-star-o").addClass("fa-star");            
+        $(this).children("i").removeClass("fa-star-o").addClass("fa-star"); 
+        $("input:radio[name='starPoint']").prop('checked', true); 
         return false;
     })
-})
+})*/
 $(function () {
     var proQty = $('.pro-qty');
     proQty.prepend('<span class="dec qtybtn">-</span>');
