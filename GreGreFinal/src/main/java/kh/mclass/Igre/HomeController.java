@@ -54,7 +54,7 @@ public class HomeController {
 				log.debug("cr = " + cr);
 				List<InqChatMember> list = new ArrayList<>();
 				list.add(new InqChatMember(memberId, cr));
-				list.add(new InqChatMember("admin", cr));
+				list.add(new InqChatMember("admin000", cr));
 				
 				is.createChatRoom(list);
 				
