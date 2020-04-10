@@ -3,7 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="prodReview">
-
+<delete id="deleteReview">
+	delete from 
+	 	TB_prod_review
+	where 
+		review_id = #{reviewId}
+</delete>
 <update id="updateReview">
 	update 
 		TB_prod_review

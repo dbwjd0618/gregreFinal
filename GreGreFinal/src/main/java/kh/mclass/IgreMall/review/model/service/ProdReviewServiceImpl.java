@@ -39,6 +39,11 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 		return reviewDAO.updateReview(prodReview);
 	}
 
+	@Override
+	public int deleteReview(String reviewId) {
+		return reviewDAO.deleteReview(reviewId);
+	}
+
 	
 
 	
