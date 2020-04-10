@@ -1,6 +1,7 @@
 package kh.mclass.Igre.mypage.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,31 @@ public class MyPageDAOImpl implements MyPageDAO {
 		// TODO Auto-generated method stub
 		return sss.insert("mypage.insertVaccion",vaccination);
 	}
+
+	@Override
+	public List<Vaccination> selectVaccination(Vaccination vaccination) {
+		// TODO Auto-generated method stub
+		return sss.selectList("mypage.selectVaccination",vaccination);
+	}
+
+	@Override
+	public Member findPassword(Member member) {
+		// TODO Auto-generated method stub
+		return sss.selectOne("mypage.findPassword",member);
+	}
+
+	@Override
+	public int fupdatePassword(Member member) {
+		// TODO Auto-generated method stub
+		return sss.update("mypage.fupdatePassword",member);
+	}
+
+
+
+
+
+
+
 
 
 }
