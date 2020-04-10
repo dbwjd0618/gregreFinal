@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.mclass.IgreMall.admin.account.model.vo.Account;
 import kh.mclass.IgreMall.admin.account.model.vo.PayMethod;
+import kh.mclass.IgreMall.admin.coupon.model.vo.ChartValue;
 
 @Repository
 public class AccountDAOImpl implements AccountDAO {
@@ -35,6 +36,12 @@ public class AccountDAOImpl implements AccountDAO {
 	public List<PayMethod> searchPList(Account a) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("adminAccount.searchPList",a);
+	}
+
+	@Override
+	public List<ChartValue> clist() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("adminAccount.chartList");
 	}
 	
 	

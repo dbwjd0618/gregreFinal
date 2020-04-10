@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import kh.mclass.IgreMall.admin.account.model.dao.AccountDAO;
 import kh.mclass.IgreMall.admin.account.model.vo.Account;
 import kh.mclass.IgreMall.admin.account.model.vo.PayMethod;
+import kh.mclass.IgreMall.admin.coupon.model.vo.ChartValue;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -37,6 +38,12 @@ public class AccountServiceImpl implements AccountService {
 	public List<PayMethod> searchplist(Account a) {
 		// TODO Auto-generated method stub
 		return accountDao.searchPList(a);
+	}
+
+	@Override
+	public List<ChartValue> clist() {
+		// TODO Auto-generated method stub
+		return accountDao.clist();
 	}
 	
 	

@@ -5,7 +5,7 @@
 <%@ taglib prefix="function" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- admin header 선언 -->
-<%@ include file="/WEB-INF/views/admin/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/shop/admin/common/header.jsp"%>
 
 <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -29,56 +29,82 @@
                         <!-- general form elements -->
                         <div class="box box-primary">
                             <div class="box-header">
-                                <h3 class="box-title">정보수정</h3>
+                             
                             </div><!-- /.box-header -->
                             <!-- form start -->
-                            <form action="${pageContext.request.contextPath}/admin/memberUpdate.do" method="post">
+                            <form action="${pageContext.request.contextPath}/shop/admin/update.do" method="get">
+                              <h3 class="box-title">기업정보</h3>
                                 <div class="box-body">
-                                    <div class="form-group">
-                                        <label for="memberid">아이디</label>
-                                        <input type="text" class="form-control" name="memberId" id="memberid" value="${amember.memberId }" readonly>
+                                <div class="form-group">
+                                        <label for="compName">상호명</label>
+                                        <input type="text" class="form-control" name="compName" id="compName" value="${s.compName }"readOnly/>
                                     </div>
                                     <div class="form-group">
-                                        <label for="memberpassword">비밀번호</label>
-                                        <input type="password" class="form-control" name="memberPwd" id="memberpassword" value="${amember.memberPwd }"
-                                            placeholder="변경할 비밀번호를 입력하세요" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="membername">이름</label>
-                                        <input type="text" class="form-control" name="memberName" id="memberName" value="${amember.memberName }" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="memberemail">이메일</label>
-                                        <input type="email" class="form-control" name="email" id="memberemail" value="${amember.email }"
-                                        	placeholder="변경할 이메일을 입력하세요">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="membernickname">닉네임</label>
-                                        <input type="text" class="form-control" name="nickname" id="membernickname" value="${amember.nickname }"
-                                            placeholder="변경할 닉네임을 입력하세요">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="memberbirthday">생년월일</label>
-                                        <input type="date" class="form-control" name="birthday" id="memberbirthday" value="1999-05-03" readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="memberphone">전화번호</label>
-                                        <input type="text" class="form-control" name="phone" id="memberphone" value="${amember.phone }"
+                                        <label for="compId">사업자 번호</label>
+                                        <input type="text" class="form-control" name="compId" id="compId" value="${s.compId }"readOnly
                                             placeholder="변경할 전화번호를 입력하세요">
                                     </div>
                                     <div class="form-group">
-                                        <label for="memberaddress">주소</label>
-                                        <input type="text" class="form-control" name="address" id="memberaddress" value="${amember.address }"
-                                            placeholder="변경할 주소를 입력하세요">
+                                        <label for="compNum">전화번호</label>
+                                        <input type="text" class="form-control" name="compNum" id="compNum" value="${s.compNum }"
+                                            placeholder="변경할 전화번호를 입력하세요">
                                     </div>
                                     <div class="form-group">
-                                        <label for="membergender">성별</label>
-                                        <div>
-                                            <input type="radio" name="gender" value="M" ${amember.gender eq 'M'?'checked':'' }>남
-                                            <input type="radio" name="gender" value="F" ${amember.gender eq 'F'?'checked':'' }>여
-                                        </div>
+                                        <label for="compFax">팩스번호</label>
+                                        <input type="text" class="form-control" name="compFax" id="compFax" value="${s.compFax }"
+                                            placeholder="변경할 전화번호를 입력하세요">
+                                    </div>
+                                    	
+                                    <div class="form-group">
+                                        <label for="compAddress">주소</label>
+                                        <input type="text" class="form-control" name="compAddress" id="compAddress" value="${s.compAddress }"
+                                            placeholder="변경할 전화번호를 입력하세요">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bankName">은행</label>
+                                        <input type="text" class="form-control" name="bankName" id="bankName" value="${s.bankName }"
+                                            placeholder="변경할 전화번호를 입력하세요">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="accountHolder">예금주</label>
+                                        <input type="text" class="form-control" name="accountHolder" id="accountHolder" value="${s.accountHolder }"
+                                            placeholder="변경할 전화번호를 입력하세요">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="accountNo">계좌번호</label>
+                                        <input type="text" class="form-control" name="accountNo" id="accountNo" value="${s.accountNo }"
+                                            placeholder="변경할 전화번호를 입력하세요">
+                                    </div>
+                                    <br />
+                                    <hr />
+                                <h3 class="box-title">정보수정</h3>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="sellerId">아이디</label>
+                                        <input type="text" class="form-control" name="sellerId" id="sellerId" value="${s.sellerId}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sellerPwd">비밀번호</label>
+                                        <input type="password" class="form-control" name="sellerPwd" id="sellerPwd" value="${s.sellerPwd }"
+                                            placeholder="변경할 비밀번호를 입력하세요" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sellerName">이름</label>
+                                        <input type="text" class="form-control" name="sellerName" id="sellerName" value="${s.sellerName }" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sellerEmail">이메일</label>
+                                        <input type="email" class="form-control" name="sellerEmail" id="sellerEmail" value="${s.sellerEmail }"
+                                        	placeholder="변경할 이메일을 입력하세요">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sellerPhone">전화번호</label>
+                                        <input type="text" class="form-control" name="sellerPhone" id="sellerPhone" value="${s.sellerPhone }"
+                                            placeholder="변경할 전화번호를 입력하세요">
                                     </div>
                                 </div><!-- /.box-body -->
+                                
+                                
                                 <div class="box-footer">
                                     <button type="submit" class="btn btn-primary">수정</button>
                                 </div>

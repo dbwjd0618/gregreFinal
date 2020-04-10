@@ -108,50 +108,203 @@ input[name="paymentMethodCode"] {
 <div class="content-wrapper">
 	<!-- Right side column. Contains the navbar and content of the page -->
 	<!-- Content Header (Page header) -->
+	
 	<section class="content-header">
 		<ol class="breadcrumb">
 			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="#">이벤트관리</a></li>
-			<li class="active">이벤트 등록</li>
+			<li><a href="#">쿠폰관리</a></li>
+			<li class="active">쿠폰등록</li>
 		</ol>
 	</section>
 
 	<!-- MAIN -->
 	<div class="main-content">
 		<div class="col-lg-12">
-			<h2>이벤트 등록</h2>
+		<c:if test="${b eq null }">
+			<h2>쿠폰등록</h2>
+		</c:if>
+		<c:if test="${b ne null }">
+			<h2>쿠폰수정</h2>
+		</c:if>
 		</div>
+		<c:if test="${b eq null }">
 		<form
-			action="${pageContext.request.contextPath}/shop/admin/event/insert.do"
-			method="post" enctype="multipart/form-data">
-			<input type="hidden" name="sellerId" value="igre_mall_test" />
-			<div class="form-group row">
-				<label for="eventTitle" class="col-sm-2 col-form-label">이벤트 제목</label>
-				<div class="col-sm-10">
-					<input type="text" name="eventTitle" class="form-control" id="">
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="eventContent" class="col-sm-2 col-form-label">이벤트 내용</label>
-				<div class="col-sm-10">
-					<textarea class="form-control" id="summernote" name="eventContent"
-						maxlength="140" rows="7"></textarea>
-				</div>
-			</div>
+			action="${pageContext.request.contextPath}/shop/admin/coupon/insertEnd.do"
+			method="get" enctype="multipart/form-data">
+		</c:if>
+		<c:if test="${b ne null }">
+		<form
+			action="${pageContext.request.contextPath}/shop/admin/coupon/updateEnd.do"
+			method="get" enctype="multipart/form-data">
+		</c:if>
 		
+			<input type="hidden" name="sellerId" value="igre_mall_test" />
+			<!-- 			<div class="form-group row">
+				<label for="productId" class="col-sm-2 col-form-label">제품번호</label>
+				<div class="col-sm-4">
+					<input type="text" name="productId" class="form-control"
+						id="staticEmail" value="">
+				</div>
+			</div> -->
+			<div class="form-group row">
+				<label for="couponType" class="col-sm-2 col-form-label">쿠폰종류</label>
+				<div class="col-sm-5">
+					<input type="radio" name="couponType" id="couponType" value="N"
+						checked>  신규회원
+						<input type="radio" name="couponType" id="couponType" value="E" >행사쿠폰
+				</div>
+				
+			</div>
+			<div class="form-group row">
+				<label for="couponName" class="col-sm-2 col-form-label">쿠폰명</label>
+				<div class="col-sm-5">
+					<input type="text" name="couponName" class="form-control" placeholder="쿠폰명을 입력하세요" value="${b eq null?'':b.couponName }"/>
+				</div>
+				
+			</div>
+			<div class="form-group row">
+				<label for="discountType" class="col-sm-2 col-form-label">쿠폰종류</label>
+				<div class="col-sm-5">
+						<c:if test="${b ne null }">
+					<select name="discountType" class="form-control" id="discountType"
+						style=" display: inline-block;">
+						<option value="">선택</option>
+						<option value="C" ${b.discountType eq 'C'?'selected':'' }>금액</option>
+						<option value="P" ${b.discountType eq 'P'?'selected':'' }>비율</option>
+					</select>
+					</c:if>
+					<c:if test="${b eq null }">
+					<select name="discountType" class="form-control" id="discountType"
+						style=" display: inline-block;">
+						<option value="">선택</option>
+						<option value="C" ${b.discountType eq 'C'?'selected':'' }>금액</option>
+						<option value="P" ${b.discountType eq 'P'?'selected':'' }>비율</option>
+					</select>		
+						</c:if>
+					<!-- <div id="delivery-2" style="display: none;">
+						조건부무료 배송비 : <input type="text" name="deliveryFee"
+							class="form-control number-coma"
+							style="width: 100px; display: inline-block;" id="fee2" >
+						원 이상시 무료배송
+					</div> -->
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="disCountValue" class="col-sm-2 col-form-label">할인금액/율</label>
+				<div class="col-sm-5">
+					<input type="number" name="disCountValue" class="form-control" value="${b eq null?'0':b.discountValue}">
+				</div>
+				<div class="col-form-label">
+					<c:if test="${b ne null }">
+					<span>${b.discountType eq"C"?'원':'%' }</span>
+					</c:if>
+				</div>
+			</div>
+			<!-- <div class="form-group row">
+				<label for="productName" class="col-sm-2 col-form-label">쿠폰명</label>
+				<div class="col-sm-10">
+					<input type="text" name="productName" class="form-control" id="">
+				</div>
+			</div> -->
+			<!-- <div class="form-group row">
+				<label for="brandName" class="col-sm-2 col-form-label">쿠폰설명</label>
+				<div class="col-sm-4">
+					<input type="text" name="brandName" class="form-control" id="">
+				</div>
+			</div> -->
+			<div class="form-group row">
+				<label for="maxValue" class="col-sm-2 col-form-label">최대할인금액</label>
+				<div class="col-sm-5">
+					<input type="number" name="maxValue" class="form-control" value="${b.maxValue eq null?'':b.maxValue }">
+				</div>
+				<div class="col-form-label">
+					<span>원</span>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="couPonDuration" class="col-sm-2 col-form-label">쿠폰사용기한</label>
+				<div class="col-sm-5">
+					<input type="date" name="couPonDuration"  class="form-control" value="${b.couponDuration eq null?'':b.couponDuration }"/>
+				</div>
+				<div class="col-form-label">
+					<span>일</span>
+				</div>
+				
+			</div>
+			
+<!-- 			<div class="form-group row">
+				<label for="productState" class="col-sm-2 col-form-label">상품노출</label>
+				<div class="col-sm-10">
+					<input type="checkbox" name="productState" value="Y" checked>
+					상품을 노출합니다.
+				</div>
+			</div> -->
+			
+			<div class="form-group row">
+				<label for="couponDetail" class="col-sm-2 col-form-label">쿠폰설명</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" id="" name="couponDetail"
+						maxlength="140" rows="7">${b.couponDetail eq null?'':b.couponDetail }</textarea>
+				</div>
+			</div>
+			<!-- <div class="form-group row">
+				<label for="memberId" class="col-sm-2 col-form-label">쿠폰지급대상자</label>
+				<div class="col-sm-10">
+					<input type="text" name="memberId" class="form-control" placeholder="지급대상 아이디를 입력하세요(,로 구분)" value=""/>
+				</div>
+			</div> -->
+			<c:if test="${b eq null}">
+			
 			<div class=" text-center" style="padding-bottom: 50px">
 				<input type="submit" class="btn btn-primary btn-lg" id=""
-					value="이벤트 등록" />
+					value="쿠폰등록" />
 			</div>
-
-
+			</c:if>
+			<c:if test="${b ne null}">
+			<div class=" text-center" style="padding-bottom: 50px">
+				<input type="submit" class="btn btn-primary btn-lg" id=""
+					value="쿠폰수정" />
+			</div>
+			</c:if>
 		</form>
+		
+		
+		
+		<div class="col-lg-12">
+			<h2>쿠폰지급</h2>
+		</div>
+		<c:if test="${b ne null }">
+		<form
+			action="${pageContext.request.contextPath}/shop/admin/coupon/sendCoupon.do"
+			method="get" enctype="multipart/form-data">
+			<div class="form-group row">
+				<label for="memberId" class="col-sm-2 col-form-label">쿠폰지급대상자</label>
+				<div class="col-sm-10">
+					<input type="text" name="memberId" class="form-control" placeholder="지급대상 아이디를 입력하세요(,로 구분)" value=""/>
+				</div>
+			</div>
+			
+			<input type="hidden" name="couponId" value="${b.couponId }" />
+			<input type="hidden" name="couponType" value="${b.couponType }" />
+			<input type="hidden" name="couponName" value="${b.couponName }" />
+			<input type="hidden" name="discountValue" value="${b.discountValue }" />
+			<input type="hidden" name="maxValue" value="${b.maxValue }" />
+			<input type="hidden" name="couponDuration" value="${b.couponDuration }" />
+			
+			<div class=" text-center" style="padding-bottom: 50px">
+				<input type="submit" class="btn btn-primary btn-lg" id=""
+					value="쿠폰전송" />
+			</div>
+			</form>
+		</c:if>
+		
 	</div>
 </div>
 <!-- 폼 끝  -->
 <script type="text/javascript">
 	$('#summernote').summernote({
-		placeholder : '제품설명을 입력해주세요.',
+		placeholder : '쿠폰설명을 입력해주세요.',
 		tabsize : 2,
 		height : 300,
 		focus : true,

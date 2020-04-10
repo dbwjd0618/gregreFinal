@@ -3,7 +3,26 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminAccount">
-
+<select id="chartList" resultType="ChartValue">
+select 
+    sum(A.tPrice) price ,
+    sum(A.sVal) supValue,
+    A.Adate    
+from
+        (    select
+           L.total_price tPrice,
+           p.supply_value sVal,
+           to_char(L.order_date,'YYYY-MM-DD') Adate
+        from 
+            orderlist L  left join tb_order_product O 
+                                            on L.order_no = O.order_no 
+                            left join tb_product P 
+                                                on O.product_id = P.product_id) A
+group by
+   A.Adate
+order by 
+    A.Adate
+</select>
 <select id="searchList" resultType="Account">
 select 
 	*
@@ -16,11 +35,11 @@ from
        on B.product_id = D.product_id
 where 
 	1=1
-<if test="payState!=null or payState!='' ">
+<if test="payState != ''">
 and
 	pay_state = #{payState}
 </if>	 
-<if test="payMethod != '' ">
+<if test=" payMethod !='' ">
 and
 	pay_method = #{payMethod}
 </if>
@@ -36,7 +55,7 @@ from
             on B.product_id = C.product_id
 where
 	1=1 
-	<if test="payState !='' or payState!= null">
+	<if test="payState!= ''">
 	and
 	    A.pay_state= #{payState}
     </if>
