@@ -56,7 +56,16 @@ button.btn.btn-outline-secondary.review-btn {
 			 
 			alert('리뷰가 수정되었습니다');
 }
-		
+//옵션삭제하기
+ function reviewDelete(){
+	 
+ 	 if (confirm("리뷰를 삭제하시겠습니까?")) {
+ 		document.deleteFrm.action='${pageContext.request.contextPath }/shop/review/reviewDelete.do';
+		document.deleteFrm.submit(); 
+		alert('리뷰가 삭제되었습니다');
+ 	 }
+}
+//리뷰수정 모달 
 $(function(){
     $(".review-btn").click(function(){
     	$('.review-modal__form__product__contents .opt-n').remove();
@@ -268,6 +277,7 @@ $(function(){
 							</div>
 							<div class="my-review-list__list__item col-lg-2"
 								style="border-left: 1px solid rgb(184, 181, 181); text-align:right;">
+								<form name="deleteFrm" method="post">
 								<!-- 수정버튼 -->
 								<button class="btn btn-outline-secondary review-btn">수정</button>
 								<input type="hidden" name="imgName" value="${review.prodImg}" /> 
@@ -276,7 +286,8 @@ $(function(){
 								<input type="hidden" name="prodId" value="${review.productId}" /> 
 								<input type="hidden" name="reviewId" value="${review.reviewId}" />
 								<input type="hidden" name="prod-content" value="${review.reviewContent }" />
-								<div class="btn btn-outline-secondary">삭제</div>
+								</form>
+								<div class="btn btn-outline-secondary" onclick="reviewDelete();">삭제</div>
 							</div>
 						</c:forEach>
 					</c:if>

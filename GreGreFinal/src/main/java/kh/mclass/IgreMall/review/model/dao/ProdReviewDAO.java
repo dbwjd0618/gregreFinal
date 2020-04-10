@@ -17,6 +17,8 @@ public interface ProdReviewDAO {
 
 	int updateReview(ProdReview prodReview);
 
+	int deleteReview(String reviewId);
+
 
 
 

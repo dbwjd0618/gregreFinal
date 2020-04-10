@@ -41,6 +41,11 @@ public class ProdReviewDAOImpl implements ProdReviewDAO {
 		return sqlSession.update("prodReview.updateReview", prodReview);
 	}
 
+	@Override
+	public int deleteReview(String reviewId) {
+		return sqlSession.delete("prodReview.deleteReview", reviewId);
+	}
+
 	
 
 }

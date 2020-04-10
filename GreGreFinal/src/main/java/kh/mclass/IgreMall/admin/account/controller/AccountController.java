@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kh.mclass.IgreMall.admin.account.model.service.AccountService;
 import kh.mclass.IgreMall.admin.account.model.vo.Account;
 import kh.mclass.IgreMall.admin.account.model.vo.PayMethod;
+import kh.mclass.IgreMall.admin.coupon.model.vo.ChartValue;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -26,9 +27,11 @@ public class AccountController {
 	public ModelAndView list(ModelAndView mav) {
 		List<Account> list = accountService.Accountlist();
 		List<PayMethod> plist = accountService.plist();
-		
-		mav.addObject("list	",list);
-		mav.addObject("plist",plist);
+		List<ChartValue> clist= accountService.clist();
+		mav.addObject("clist",clist);
+		System.out.println(clist);
+		mav.addObject("plist",list);
+		/* mav.addObject("plist",plist); */
 		log.debug("하하하{}",plist);
 		mav.setViewName("shop/admin/account/list");
 		return mav;
@@ -43,7 +46,7 @@ public class AccountController {
 			@RequestParam(value = "startDate", defaultValue = "1992-04-14") Date startDate,
 			@RequestParam(value = "endDate", defaultValue = "1994-04-07") Date endDate,
 			@RequestParam(value = "ostatus",defaultValue="") String ostatus,
-			@RequestParam(value = "payMethod", required = true) String payMethod) {
+			@RequestParam(value = "payMethod", required = false) String payMethod) {
 		log.debug("매출정보를 검색합니다");
 		System.err.println(payMethod);
 		Account a = new Account();
@@ -54,12 +57,14 @@ public class AccountController {
 		if (endDate.equals(java.sql.Date.valueOf("1994-04-07"))) {
 			endDate = new Date(new java.util.Date().getTime());
 		}
+//		List<Account> list = accountService.Accountlist();
+		List<Account> list = accountService.searchList(a);
+		System.out.println("리스트 값이 담겨야해"+list);
+		List<PayMethod> pslist = accountService.plist();
 		
+		//데이트값
+		List<PayMethod> plist = accountService.searchplist(a);
 		
-		List<Account>list = accountService.searchList(a);
-		
-		List<PayMethod> plist = accountService.searchplist(a);//데이트값
-
 		List<PayMethod> slist = new ArrayList<PayMethod>(); 
 		List<Account> rlist = new ArrayList<Account>();
 		PayMethod p = new PayMethod();
@@ -83,8 +88,10 @@ public class AccountController {
 					&& !endDate.before(list.get(i).getOrderDate())) {
 				System.out.println(list.get(i).getOrderDate());
 				rlist.add(list.get(i));
-				totalSupValue+=rlist.get(i).getSupplyValue();
+				System.err.println(rlist.get(i).getSupplyValue());
+				totalSupValue+=list.get(i).getSupplyValue();
 			}
+			
 			switch (list.get(i).getPayMethod()) {
 			case "na":
 				naCount+=1;
@@ -113,6 +120,7 @@ public class AccountController {
 			}
 			
 		}
+		System.out.println("여기서찍혀줘"+totalSupValue );
 		if(rlist.size()!=0) {
 		int totalCount= rlist.size();
 		int totalPrice=naPrice+kaPrice+toPrice+acPrice;
@@ -141,13 +149,15 @@ public class AccountController {
 			p.setTotalCount(0);
 		}
 		log.debug("리스트 "+list);
-		mav.addObject("list	",rlist); 
+		mav.addObject("list	",list);
 		
-		log.debug("rList={}",rlist);//리스트로 해당 Account값들이 담겨있다.
+		//리스트로 해당 Account값들이 담겨있다.
+		log.debug("rList={}",rlist);
+		
 		log.debug("pList={}",plist);//리스트로 해당 Account값들이 담겨있다.
 		
-//		mav.addObject("plist",plist);
-		mav.addObject("p",p);
+		mav.addObject("plist",rlist);
+//		/* mav.addObject("p",p); */
 		mav.setViewName("shop/admin/account/list");
 		return mav;
 	}
