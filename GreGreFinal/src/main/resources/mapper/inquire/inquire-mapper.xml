@@ -5,7 +5,7 @@
 <mapper namespace="inquire">
 
 	<select id="findChatId" resultType="String" parameterType="java.lang.String">
-		select chat_id from admin_chat_view where cr_enabled = 'Y' and cm_enabled = 'Y' and member_id = #{memberId};
+		select chat_id from admin_chat_view where cr_enabled = 'Y' and cm_enabled = 'Y' and member_id = #{memberId}
 	</select>
 	
 	<select id="selectOneChatId" resultType="String" parameterType="java.lang.String">
@@ -13,22 +13,32 @@
 	</select>
 	
 	<insert id="insertChatRoom">
-		insert into admin_chat_room(id, chat_id) values(seq_chat.nextval, #{chatRoom.chatId});
+		insert into admin_chat_room(id, chat_id) values(seq_admin_chat.nextval, #{chatRoom.chatId})
 	</insert>
 	
+	<select id="configRoomId" resultType="_int">
+		select seq_admin_chat.currval from dual
+	</select>
+	
 	<insert id="insertChatMember">
-		insert into admin_chat_member(chat_room_id, id, memberId) values(seq_chat.currval, seq_chat.nextval, #{memberId})
+		insert into admin_chat_member(id, chat_room_id, member_id) values(seq_admin_chat.nextval, #{id}, #{memberId})
 	</insert>
 	
 	<insert id="insertChatLog">
 		insert into admin_chat_log (id, chat_room_id, member_id, msg, time)
 		values(
-	    	seq_chat.nextval, 
+	    	seq_admin_chat.nextval, 
 			(select id from admin_chat_room where chat_id = #{chatId}), 
 			#{memberId}, 
 			#{msg}, 
 			#{time}
 		)
 	</insert>
+	
+	<select id="chatListByChatId" resultType="InqMsg">
+		select * from admin_chat_log where 
+		    chat_room_id = (select id from admin_chat_room where chat_id = #{chatId})
+		order by id
+	</select>
 	
 </mapper>

@@ -16,8 +16,8 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
               <h1>
-                게시판
-                <small>게시판 목록</small>
+                이벤트 게시판
+                <small>이벤트 목록</small>
               </h1>
               <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>

@@ -1,4 +1,15 @@
 $(function() {
+	
+	window.setInterval(function() {
+		var time = new Date();
+		var ss = time.getSeconds();
+		if(ss%2 == 0) {
+			$(".rtnMsg").css("color", "red");
+		} else {
+			$(".rtnMsg").css("color", "#4e4ecf54");
+		}
+	}, 500);
+
 	chatSubscribe();
 	
 	$(".send_message").click(function() {
@@ -12,6 +23,11 @@ $(function() {
 	});
 	
 	scrollTop();
+	
+//	$(window).on("focus", function() {
+//		lastCheck();
+//	});
+	
 });
 
 function sendMessage() {
@@ -20,52 +36,35 @@ function sendMessage() {
 			memberId : memberId,
 			msg : $(".message_input").val(),
 			time : Date.now(),
-			type : "Message"
+			type : "MESSAGE"
 	}
 	
-	stompClient.send('/inq/chat/${chatId}', {}, JSON.stringfy(data));
+	stompClient.send('/Igre/inq/chat/'+chatId, {}, JSON.stringify(data));
 	
 	$(".message_input").val('');
 	
-	stompClient.send()
 }
 
 function scrollTop() {
-	$(".messages").scrollTop(".messages").prop('scrollHeight');
+	console.log("!!!!", $(".messages").prop('scrollHeight'));
+	$(".messages").scrollTop($(".messages").prop('scrollHeight'));
+	$('.messages').animate({ scrollTop: $('.messages').prop('scrollHeight') }, 300);
+
 }
 
-$(function() {
-	window.setInterval(function() {
-		var time = new Date();
-		var ss = time.getSeconds();
-		if(ss%2 == 0) {
-			$(".rtnMsg").css("color", "red");
-		} else {
-			$(".rtnMsg").css("color", "#4e4ecf54");
-		}
-	}, 500);
-});
+function lastCheck() {
+	let data = {
+			chtId : chatId,
+			memberId : memberId,
+			time : Date.now(),
+			type: "LASTCHECK"
+	}
+	
+	stompClient.send('/Igre/inq/lastCheck/'+chatId, {}, JSON.stringify(data));
+}
+
 function inqShow() {
 	$('#modalBox').modal('show');
+	$(".rtnMsg").attr("style", "color: #4e4ecf54").removeClass("rtnMsg");
 }
 
-function chatSubscribe(){
-	//페이지별로 구독신청 처리
-	let conntionDone = false;
-	let intervalId = setInterval(function() {
-		if(conntionDone == true)
-			clearInterval(intervalId);
-		
-		if(conntionDone==false && stompClient.connected){
-			
-			//stomp에서는 구독개념으로 세션을 관리한다. 핸들러 메소드의 @SendTo어노테이션과 상응한다.
-			stompClient.subscribe('/inq/chat/'+chatId, function(message) {
-				console.log("receive from subscribe /chat/"+chatId+":", message);
-				let messsageBody = JSON.parse(message.body);
-				$("#messages").append("<li class=\"list-group-item\">"+messsageBody.memberId+" : "+messsageBody.msg+ "</li>");
-				scrollTop();
-			});
-			conntionDone = true;
-		}	
-	},1000);
-}

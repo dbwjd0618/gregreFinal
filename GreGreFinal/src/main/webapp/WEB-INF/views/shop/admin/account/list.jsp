@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+  <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -96,8 +96,6 @@
 			<c:set var="totalPrice" value="0" />
 			<c:set var="totalSupPrice" value="0" />
 
-
-
 			<c:set var="crCount" value="0" />
 			<c:set var="crPrice" value="0" />
 			<c:set var="acCount" value="0" />
@@ -113,42 +111,44 @@
 			<c:set var="raCount" value="0" />
 			<c:set var="raPrice" value="0" />
 			
-			<%-- <c:forEach items="${list}" var="l">
-				<c:set var="totalSupPrice" value="${totalSupPrice +l.supplyValue}" />
-			</c:forEach>
+			
+			
+			
+			
 			<c:forEach items="${plist}" var="p">
-				<c:set var="totalCount" value="${totalCount + p.count}" />
+				<c:set var="totalSupPrice" value="${totalSupPrice +p.supplyValue}" />
+				<c:set var="totalCount" value="${totalCount +1}" />
 				<c:set var="totalPrice" value="${totalPrice + p.totalPrice}" />
 				<c:if test="${p.payMethod eq 'cr'}">
-					<c:set var="crCount" value="${p.count}"></c:set>
+					<c:set var="crCount" value="${crCount +1}"></c:set>
 					<c:set var="crPrice" value="${p.totalPrice}" />
 				</c:if>
 				<c:if test="${p.payMethod eq 'ac'}">
-					<c:set var="acCount" value="${p.count}"></c:set>
-					<c:set var="acPrice" value="${p.totalPrice}" />
+					<c:set var="acCount" value="${acCount+1}"></c:set>
+					<c:set var="acPrice" value="${acPrice+p.totalPrice}" />
 				</c:if>
 				<c:if test="${p.payMethod eq 'ph'}">
-					<c:set var="phCount" value="${p.count}"></c:set>
-					<c:set var="phPrice" value="${p.totalPrice}" />
+					<c:set var="phCount" value="${p.count+1}"></c:set>
+					<c:set var="phPrice" value="${phPrice+p.totalPrice}" />
 				</c:if>
 				<c:if test="${p.payMethod eq 'ka'}">
-					<c:set var="kaCount" value="${p.count}"></c:set>
-					<c:set var="kaPrice" value="${p.totalPrice}" />
+					<c:set var="kaCount" value="${kaCount+1}"></c:set>
+					<c:set var="kaPrice" value="${kaPrice+p.totalPrice}" />
 				</c:if>
 				<c:if test="${p.payMethod eq 'to'}">
-					<c:set var="toCount" value="${p.count}"></c:set>
+					<c:set var="toCount" value="${toCount+1}"></c:set>
 					<c:set var="toPrice" value="${p.totalPrice}" />
 				</c:if>
 				<c:if test="${p.payMethod eq 'na'}">
-					<c:set var="naCount" value="${p.count}"></c:set>
-					<c:set var="naPrice" value="${p.totalPrice}" />
+					<c:set var="naCount" value="${naCount+1}"></c:set>
+					<c:set var="naPrice" value="${naPrice+p.totalPrice}" />
 				</c:if>
 				<c:if test="${p.payMethod eq 'ra'}">
-					<c:set var="raCount" value="${p.count}"></c:set>
-					<c:set var="raPrice" value="${p.totalPrice}" />
+					<c:set var="raCount" value="${p.count+1}"></c:set>
+					<c:set var="raPrice" value="${raPrice+p.totalPrice}" />
 				</c:if>
-
-			</c:forEach> --%>
+			</c:forEach>
+			
 			<table class="table table-bordered">
 				<tbody>
 					<tr>
@@ -160,9 +160,9 @@
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">신용카드</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${p.crCount }"></c:out>건</td>
+								value="${crCount }"></c:out>건</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${p.crPrice}"></c:out>원</td>
+								value="${crPrice}"></c:out>원</td>
 					</tr>
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">계좌이체</td>
@@ -174,31 +174,31 @@
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">휴대전화</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${p.phCount}"></c:out>건</td>
+								value="${phCount}"></c:out>건</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${p.phPrice}"></c:out>원</td>
+								value="${phPrice}"></c:out>원</td>
 					</tr>
 
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">카카오톡</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${p.kaCount}"></c:out>건</td>
-						<td class="text-right vertical-middle"><c:out
-								value="${p.kaPrice}"></c:out>원</td>
+								value="${kaCount}"></c:out>건</td>
+						<td class="text-right vertical-middp.le"><c:out
+								value="${kaPrice}"></c:out>원</td>
 					</tr>
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">토스</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${p.toCount}"></c:out>건</td>
+								value="${toCount}"></c:out>건</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${p.toPrice}"></c:out>원</td>
+								value="${toPrice}"></c:out>원</td>
 					</tr>
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">네이버페이</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${p.naCount}"></c:out>건</td>
+								value="${naCount}"></c:out>건</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${p.naPrice}"></c:out>원</td>
+								value="${naPrice}"></c:out>원</td>
 					</tr>
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">실시간계좌이체</td>
@@ -211,9 +211,9 @@
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">합계</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${p.totalCount}"></c:out> 건</td>
+								value="${totalCount}"></c:out> 건</td>
 						<td class="text-right vertical-middle"><c:out
-								value="${p.totalPrice}"></c:out> 원</td>
+								value="${totalPrice}"></c:out> 원</td>
 					</tr>
 
 				</tbody>
@@ -230,7 +230,7 @@
 											<div class="value-sub">
 												<strong class="text-danger">총 결재 금액</strong>
 											</div>
-											<div class="value-self">${p.totalPrice}원</div>
+											<div class="value-self">${totalPrice}원</div>
 										</div>
 									</div>
 									<div class="row">
@@ -239,7 +239,7 @@
 												<div class="value-sub">
 													<strong class="text-danger">총 판매 이익</strong>
 												</div>
-												<div class="value-self">${p.totalPrice-p.supplyValue}원</div>
+												<div class="value-self">${totalPrice-totalSupPrice}원</div>
 											</div>
 										</div>
 										<div class="col-lg-3 bordered " style="width: 23%;">
@@ -247,7 +247,7 @@
 												<div class="value-sub">
 													<strong class="text-danger">총 구매건수</strong>
 												</div>
-												<div class="value-self">${p.totalCount}건</div>
+												<div class="value-self">${totalCount}건</div>
 											</div>
 										</div>
 										<div class="col-lg-3 " style="width: 23%;">
@@ -260,8 +260,41 @@
 										</div>
 									</div>
 
-									<div id="areachart" style="height: 500px; position: relative;">
-										<script type="text/javascript"
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+										
+										
+									<script>
+	 google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Month', '공급가', '판매가'],
+          
+          <c:forEach items="${clist}" var="cs" varStatus="vs">
+          ['${cs.adate}',${cs.supValue}, ${cs.price} ]
+          ${!vs.last?",":""}
+          </c:forEach>
+          
+        ]);
+
+        var options = {
+          title: '매출현황',
+          curveType: 'function',
+          legend: { position: 'bottom' },
+          hAxis:{
+          format:""
+          }
+          
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+      </script>
+      <div id="curve_chart" style="height: 500px; position: relative;"></div>
+<!-- 										<script type="text/javascript"
 											src="https://www.gstatic.com/charts/loader.js"></script>
 										<script type="text/javascript">
     google.charts.load("current", {packages:['corechart']});
@@ -269,12 +302,12 @@
     function drawChart() {
       var data = google.visualization.arrayToDataTable([
         ["Element", "거래 건수", { role: "style" } ],
-        ["실시간계좌", ${p.acCount}, "silver"],
-        ["신용카드", ${p.crCount}, "color: #e5e4e2"],
-        ["휴대폰", ${p.phCount}, "color: #e5e4e2"],
-        ["토스", ${p.toCount}, "gold"],
-        ["카카오페이", ${p.kaCount}, "#b87333"],
-        ["네이버페이", ${p.naCount}, "color: #e5e4e2"]
+        ["실시간계좌", ${acCount}, "silver"],
+        ["신용카드", ${crCount}, "color: #e5e4e2"],
+        ["휴대폰", ${phCount}, "color: #e5e4e2"],
+        ["토스", ${toCount}, "gold"],
+        ["카카오페이", ${kaCount}, "#b87333"],
+        ["네이버페이", ${naCount}, "color: #e5e4e2"]
         
       ]);
 
@@ -296,9 +329,9 @@
       var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
       chart.draw(view, options);
   }
-  </script>
-										<div id="columnchart_values"></div>
-									</div>
+  </script> -->
+										
+								
 								</div>
 						</td>
 					</tr>

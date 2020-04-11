@@ -18,7 +18,7 @@ public class InqChatMember implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
+	private int id;
 	private InqChatRoom chatRoom;
 	private String memberId;
 	private long lastCheck;

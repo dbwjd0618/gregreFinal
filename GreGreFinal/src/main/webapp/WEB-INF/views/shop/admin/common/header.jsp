@@ -154,12 +154,13 @@
             </li>
             <li>
               <a href="">
-                <i class="fa fa-bell"></i> <span>신고</span> 
+                <i class="fa fa-bell"></i> <span>쿠폰</span> 
                 <i class="fa fa-angle-left pull-right"></i>
                 <!-- <small class="label pull-right bg-green">new</small> -->
               </a>
               <ul class="treeview-menu">
-                <li><a href="declaration.html"><i class="fa fa-circle-o"></i> 신고 내역</a></li>
+                <li><a href="${pageContext.request.contextPath}/shop/admin/coupon/insert.do"><i class="fa fa-circle-o"></i> 쿠폰등록</a></li>
+                <li><a href="${pageContext.request.contextPath}/shop/admin/coupon/list.do"><i class="fa fa-circle-o"></i> 쿠폰내역</a></li>
               </ul>
             </li>
             <li class="treeview">
