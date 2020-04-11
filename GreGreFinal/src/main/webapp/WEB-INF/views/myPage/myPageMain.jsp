@@ -79,7 +79,7 @@
                                     <p>생후 15개월</p>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-outline bg-gray" onclick="location.href='${pageContext.request.contextPath}/member/myPage/memberChildUpdate.do'">자녀 추가하기</button>
+                                    <button type="button" class="btn btn-outline bg-gray" >자녀 추가하기</button>
                                 </div>
                             </div>
                             

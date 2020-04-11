@@ -21,6 +21,16 @@
 		member_id= #{memberId}	
 	</update>
 	
+	<delete id="deleteChild">
+	delete
+		from
+	TB_Child
+		where
+	child_name = #{childName}
+		and
+	parents_Id = #{parentsId} 
+	</delete>
+	
 	<delete id="memberDelete">
 	delete
 		from
@@ -86,7 +96,24 @@
 	where member_id = #{memberId} and pwd_hint_code = #{pwdHintCode} and pwd_ans = #{pwdAns}
 		
 	</select>
-
+	<select id="findId" resultType="Member">
+	select
+		*
+	from
+		TB_MEMBER_INFO
+	where member_name = #{memberName} and phone = #{phone} and pwd_hint_code = #{pwdHintCode} and pwd_ans = #{pwdAns}
+	</select>
+	<update id="childUpdateInfo">
+	update
+		TB_child
+	set
+		birthday = #{birthday},
+		phone = #{phone}
+	where
+		parents_ID = #{parentsId}
+		
+	</update>
+	
 	<update id="fupdatePassword">
 	update
 		TB_MEMBER_INFO
@@ -95,6 +122,9 @@
 	where
 		member_id= #{memberId}	
 	</update>
+	
+
+	
 	<select id="selectChild" resultType="Child">
 	select
 		*

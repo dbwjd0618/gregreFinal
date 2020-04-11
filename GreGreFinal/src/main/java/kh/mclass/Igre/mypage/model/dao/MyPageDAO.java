@@ -37,6 +37,12 @@ public interface MyPageDAO {
 
 	int fupdatePassword(Member member);
 
+	Member findId(Member member);
+
+	int childUpdateInfo(Child child);
+
+	int deleteChild(Child child);
+
 
 
 

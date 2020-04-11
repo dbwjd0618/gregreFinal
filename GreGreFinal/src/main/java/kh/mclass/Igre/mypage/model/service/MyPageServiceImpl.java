@@ -101,6 +101,27 @@ public class MyPageServiceImpl implements MyPageService {
 		return result;
 	}
 
+	@Override
+	public Member findId(Member member) {
+		member=mpd.findId(member);
+		return member;
+	}
+
+	@Override
+	public int childUpdateInfo(Child child) {
+		int result =0;
+		result = mpd.childUpdateInfo(child);
+		return result;
+	}
+
+	@Override
+	public int deleteChild(Child child) {
+		int result =0;
+		result = mpd.deleteChild(child);
+		
+		return result;
+	}
+
 
 
 

@@ -97,6 +97,24 @@ public class MyPageDAOImpl implements MyPageDAO {
 		return sss.update("mypage.fupdatePassword",member);
 	}
 
+	@Override
+	public Member findId(Member member) {
+		// TODO Auto-generated method stub
+		return sss.selectOne("mypage.findId",member);
+	}
+
+	@Override
+	public int childUpdateInfo(Child child) {
+		// TODO Auto-generated method stub
+		return sss.update("mypage.childUpdateInfo",child);
+	}
+
+	@Override
+	public int deleteChild(Child child) {
+		// TODO Auto-generated method stub
+		return sss.delete("mypage.deleteChild",child);
+	}
+
 
 
 

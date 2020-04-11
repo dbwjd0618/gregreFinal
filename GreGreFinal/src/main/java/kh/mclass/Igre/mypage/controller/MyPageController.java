@@ -27,6 +27,7 @@ import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.service.MyPageService;
 import kh.mclass.Igre.mypage.model.vo.Child;
 import kh.mclass.Igre.mypage.model.vo.Vaccination;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -88,6 +89,22 @@ public class MyPageController {
 		return mav;
 	}
 	
+	@PostMapping("childUpdateInfo")
+	public String childUpdateInfo(Child child,RedirectAttributes rda) {
+		int result = mps.childUpdateInfo(child);
+		String msg = result > 0 ? "수정 완료 " : "누락된 항목이 있습니다";
+		rda.addFlashAttribute("msg", msg);
+		return "redirect:/myPage/memberChildUpdate.do";
+	}
+	
+	@PostMapping("deleteChild.do")
+	public String deleteChild(Child child,RedirectAttributes rda) {
+		int result = mps.deleteChild(child);
+		String msg = result > 0 ? "수정 완료 " : "누락된 항목이 있습니다";
+		rda.addFlashAttribute("msg", msg);
+		return "redirect:/myPage/memberChildUpdate.do";
+	}
+	
 	@PostMapping("updateMember.do")
 	public String updateMember(SessionStatus ss,HttpSession session,Member member,RedirectAttributes rda,String addr1,String addr2,String addr3) {
 		String address = addr1 +"+"+ addr2 +"+"+ addr3;
@@ -137,12 +154,13 @@ public class MyPageController {
 		List<Child> list = mps.selectChild(child);
 		List<Vaccination> list2 = mps.selectVaccination(vaccination);
 		
-
+		
+		
 //		Map<String,List<String>> maplist = new HashMap<String, List<String>>();
 //		maplist.put("list",list);
 //		maplist.put("list2",list2);
 //		Map<Child,Map<Child,List<Vaccination>>> map = mps.selectVaccin(maplist);		
-//		mav.addObject("m",m);
+		mav.addObject("m",m);
 		mav.addObject("list",list);
 		mav.addObject("list2",list2);
 		mav.setViewName("myPage/memberChildUpdate");
@@ -191,6 +209,19 @@ public class MyPageController {
 
 		return "redirect:/member/login.do";
 	}
+	
+	@PostMapping("findId")
+	public ModelAndView findId(ModelAndView mav , RedirectAttributes redirectAttributes,Member member) {
+		
+		Member selectmember = mps.findId(member);
+		String msg = selectmember!=null?"회원님의 아이디 : "+selectmember.getMemberId() :"입력정보가 일치하지 않습니다";
+		mav.addObject("selectmember",selectmember);
+		mav.addObject("msg",msg);
+		mav.setViewName("member/login");
+		return mav;
+	}
+	
+	
 	
 	
 	
