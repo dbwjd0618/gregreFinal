@@ -47,6 +47,7 @@
 	color:#fff;
 	border:1px solid #42454c;
 }
+.notice {background-color: #ffff004a;}
 </style>
 <%
 	Member m = (Member)session.getAttribute("memberLoggedIn");
@@ -156,6 +157,27 @@ function preferSwitch(it, mi, bc, pn) {
 								</tr>
 								</c:if>
 								<c:if test="${not empty postList}">
+								<c:if test="${not empty noticeList}">
+									<c:forEach items="${noticeList}" var="post">
+										<tr class="notice">
+											<td>${post.postNo}</td>
+											<td><i class="fas fa-flag-checkered"></i><a href="${pageContext.request.contextPath}/board/postView?boardCode=${post.boardCode}&postNo=${post.postNo}">${post.title}</a>
+												<c:if test="${post.originFilename != null}"><i class="fas fa-paperclip"></i></c:if>
+											</td>
+											<td>${post.writer}</td>
+											<td>${post.postWriteTime}</td>
+											<td>${post.readCount}</td>
+											<td>
+												<c:if test="${memberLoggedIn == null }">
+													<img src="${pageContext.request.contextPath}/resources/img/board/StarGray.png" class="Gray" style="width:21px;"/>
+												</c:if>
+												<c:if test="${memberLoggedIn != null }">
+													<img src="${pageContext.request.contextPath}/resources/img/board/Star${prefList.contains(post.postNo)?'Yellow':'Gray'}.png" class="${prefList.contains(post.postNo)?'Yellow':'Gray'}" style="width:21px;" onclick="preferSwitch(this,'${memberLoggedIn.memberId}', '${post.boardCode}', '${post.postNo}');"/>
+												</c:if>
+											</td>
+										</tr>
+									</c:forEach>
+								</c:if>
 									<c:forEach items="${postList}" var="post">
 										<tr>
 											<td>${post.postNo}</td>
