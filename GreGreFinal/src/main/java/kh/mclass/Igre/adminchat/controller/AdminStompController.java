@@ -6,6 +6,9 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +41,7 @@ public class AdminStompController {
 	}
 	
 	@GetMapping("/chat/list.do")
-	public String chatList(Model model,
+	public String chat(Model model,
 					   @ModelAttribute("adminId") String adminId) {
 		//최근 사용자 채팅메세지 목록
 		List<Map<String, String>> recentList = adminChatService.findRecentList(adminId);
@@ -49,29 +52,28 @@ public class AdminStompController {
 		return "admin/adminChatList";
 	}
 	
-	@GetMapping("/chat/{chatId}")
+	
+	@GetMapping("/chat/{chatId}") 
 	public String chat(@PathVariable("chatId") String chatId, Model model) {
-		
-		log.debug("[{}]",chatId);
-		List<AdminMSG> chatList = adminChatService.findChatListByChatId(chatId);
-		model.addAttribute("chatList", chatList);
-		
-		log.debug("chatList={}",chatList);
-		
-		return "admin/adminChat";
+	  
+	List<Map<String,Object>> chatList = adminChatService.findChatListMapByChatId(chatId);
+	model.addAttribute("chatList", chatList);
+	  
+	log.debug("chatList={}",chatList);
+	  
+	return "admin/adminChat"; 
+	
 	}
 	
-	/*
-	 * @GetMapping("/chat/{chatId}") public String chat(@PathVariable("chatId")
-	 * String chatId, Model model) {
-	 * 
-	 * log.debug("[{}]",chatId); List<Map<String,Object>> chatList =
-	 * adminChatService.findChatListMapByChatId(chatId);
-	 * model.addAttribute("chatList", chatList);
-	 * 
-	 * log.debug("chatList={}",chatList);
-	 * 
-	 * return "admin/adminChat"; }
-	 */
+	@MessageMapping("/admin/chat/{chatId}")
+	@SendTo(value= {"/admin/chat/{chatId}", "/chat/admin/push"})
+	public AdminMSG sendEcho(AdminMSG fromMessage,
+							 @DestinationVariable String chatId) {
+		log.debug("fromMessage={}", fromMessage);
+		
+		adminChatService.insertChatLog(fromMessage);
+		
+		return fromMessage;
+	}
 	
 }

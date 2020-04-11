@@ -30,19 +30,8 @@
     		time desc
 	</select>
 	
-	<select id="findChatListByChatId" resultType="AdminMSG" parameterType="String">
-		select
-			*
-		from
-			chat_log
-		where
-			chat_room_id = (select id from chat_room where chat_id = #{chatId})
-		order by 
-		    id
 	
-	</select>
-	
-<!-- 	<select id="findChatListMapByChatId" resultType="map">
+	<select id="findChatListMapByChatId" resultType="map">
 		select
 			*
 		from
@@ -52,6 +41,19 @@
 		order by 
 		    id
 	
-	</select> -->
+	</select>
+	
+	<insert id="insertChatLog">
+		insert into 
+		    chat_log 
+		        (id, chat_room_id, member_id, msg, time)
+		values(
+		    seq_chat.nextval, 
+				(select id from chat_room where chat_id = #{chatId}), 
+				#{memberId}, 
+				#{msg}, 
+				#{time}
+			)
+	</insert>
 
 </mapper>

@@ -9,9 +9,9 @@ public interface AdminChatDAO {
 
 	List<Map<String, String>> findRecentList(String adminId);
 
-	List<AdminMSG> findChatListByChatId(String chatId);
+	List<Map<String, Object>> findChatListMapByChatId(String chatId);
 
-	/* List<Map<String, Object>> findChatListMapByChatId(String chatId); */
+	void insertChatLog(AdminMSG fromMessage); 
 
 
 }

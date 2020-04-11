@@ -19,6 +19,7 @@ table.table th, table.table td {text-align: center;}
 function goChat(chatId){
 	location.href = "${pageContext.request.contextPath}/admin/chat/"+chatId;
 }
+
 </script>
 
 <div class="content-wrapper">

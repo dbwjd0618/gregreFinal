@@ -23,17 +23,20 @@ public class AdminChatDAOImpl implements AdminChatDAO {
 		return sqlSession.selectList("stomp.findRecentList", map);
 	}
 
-	@Override
-	public List<AdminMSG> findChatListByChatId(String chatId) {
-		return sqlSession.selectList("stomp.findChatListByChatId", chatId);
+
+	 @Override 
+	 public List<Map<String, Object>> findChatListMapByChatId(String chatId) { 
+		 Map<String, String> map = new HashMap<>(); 
+		 map.put("chatId", chatId); 
+		 return sqlSession.selectList("stomp.findChatListMapByChatId", map);
+	
 	}
 
-	/*
-	 * @Override public List<Map<String, Object>> findChatListMapByChatId(String
-	 * chatId) { Map<String, String> map = new HashMap<>(); map.put("chatId",
-	 * chatId); return sqlSession.selectList("stomp.findChatListMapByChatId", map);
-	 * }
-	 */
+	@Override
+	public void insertChatLog(AdminMSG fromMessage) {
+		sqlSession.insert("stomp.insertChatLog", fromMessage);
+	}
+
 	
 
 }
