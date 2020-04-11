@@ -21,7 +21,7 @@ $(function() {
 	//lastCheck 마지막 확인검사용
 	//window focus이벤트핸들러 등록
 	$(window).on("focus", function() {
-		lastCheck();
+		//lastCheck();
 	});
 	
 });

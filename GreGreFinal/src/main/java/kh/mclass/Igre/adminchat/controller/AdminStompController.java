@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,9 @@ public class AdminStompController {
 
 	@Autowired
 	AdminChatService adminChatService;
+	
+	@Autowired
+	SimpMessagingTemplate simpMessagingTemplate;
 	
 	@ModelAttribute
 	public void common(Model model,
@@ -56,24 +60,25 @@ public class AdminStompController {
 	@GetMapping("/chat/{chatId}") 
 	public String chat(@PathVariable("chatId") String chatId, Model model) {
 	  
-	List<Map<String,Object>> chatList = adminChatService.findChatListMapByChatId(chatId);
-	model.addAttribute("chatList", chatList);
-	  
-	log.debug("chatList={}",chatList);
-	  
-	return "admin/adminChat"; 
+		List<Map<String,Object>> chatList = adminChatService.findChatListMapByChatId(chatId);
+		model.addAttribute("chatList", chatList);
+		  
+		log.debug("chatList={}",chatList);
+		  
+		return "admin/adminChat"; 
 	
 	}
 	
-	@MessageMapping("/admin/chat/{chatId}")
-	@SendTo(value= {"/admin/chat/{chatId}", "/chat/admin/push"})
-	public AdminMSG sendEcho(AdminMSG fromMessage,
-							 @DestinationVariable String chatId) {
-		log.debug("fromMessage={}", fromMessage);
-		
-		adminChatService.insertChatLog(fromMessage);
-		
-		return fromMessage;
-	}
+//	@MessageMapping("/admin/chat/{chatId}")
+//	//@SendTo(value= {"/test/{chatId}"})
+//	public AdminMSG sendEcho(AdminMSG fromMessage,
+//							 @DestinationVariable String chatId) {
+//		log.debug("fromMessage={}", fromMessage);
+//		log.debug("chatId={}", chatId);
+//		simpMessagingTemplate.convertAndSend("/test/" + chatId, fromMessage);
+//		adminChatService.insertChatLog(fromMessage);
+//		
+//		return fromMessage;
+//	}
 	
 }

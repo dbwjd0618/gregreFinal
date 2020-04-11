@@ -48,7 +48,7 @@ let stompClient = Stomp.over(socket);
 stompClient.connect({}, function(frame){
 	console.log('connected stomp over sockjs');
 	//사용자 확인
-	lastCheck(chatId, memberId);
+	//lastCheck(chatId, memberId);
 });
 
 /**
@@ -69,7 +69,7 @@ stompClient.connect({}, function(frame){
 			
 			//stomp에서는 구독개념으로 세션을 관리한다. 핸들러 메소드의 @SendTo어노테이션과 상영한다.
 			stompClient.subscribe('/admin/chat/'+chatId, function(message) {
-				console.log("receive from subscribe /chat/"+chatId+":", message);
+				console.log("receive from subscribe /admin/chat/"+chatId+":", message);
 				let messageBody = JSON.parse(message.body);
 				$(".messages").append("<li class=\"message right appeared\">"+
 						"<div class=\"avatar\"></div>"+
