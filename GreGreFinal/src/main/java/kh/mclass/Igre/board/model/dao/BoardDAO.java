@@ -78,4 +78,10 @@ public interface BoardDAO {
 
 	List<Post> postListP(Map<String, Object> param);
 
+	List<Post> noticeList(Map<String, Object> param);
+
+	List<Post> idxNotice();
+
+	List<Post> favList();
+
 }
