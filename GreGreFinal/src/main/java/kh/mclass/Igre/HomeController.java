@@ -1,5 +1,12 @@
 package kh.mclass.Igre;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -74,6 +81,42 @@ public class HomeController {
 			log.debug("chatId = " + chatId);
 			model.addAttribute("chatId", chatId);
 		}
+		
+		LocalDate date = LocalDate.now();
+		String yyyyMMdd = ""+date.getYear()+(date.getMonthValue()<10?"0":"")+date.getMonthValue()+(date.getDayOfMonth()<10?"0":"")+date.getDayOfMonth();
+		log.debug("날짜 : " + yyyyMMdd);
+		
+		LocalTime time = LocalTime.now();
+		String hhmm = ""+(time.getHour()<10?"0":"")+time.getHour()+"00";
+//		(time.getMinute()<10?"0":"")+time.getMinute();
+		log.debug("시간 : " + hhmm);
+		
+		//날씨
+		String url = "http://apis.data.go.kr/1360000/VilageFcstInfoService/getVilageFcst?serviceKey=AB7ypAy1v6VldsoBOUnn2rR5MR0vMg49%2FZ58a4wOKmq1DsRPrhsp%2BSOPYG28WYggqc4%2FZOjOsZTusNDJ8CJR2Q%3D%3D&numOfRows=10&pageNo=1&base_date="+yyyyMMdd+"&base_time="+hhmm+"&nx=61&ny=125";
+		HttpURLConnection urlconnection = null;
+		BufferedReader br = null;
+		String result = "";
+		try{
+            URL urll = new URL(url);
+            urlconnection = (HttpURLConnection)urll.openConnection();
+            urlconnection.setRequestMethod("GET");
+            br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream(),"UTF-8"));
+            String line = "";
+            while((line = br.readLine()) != null) {
+                result += line + "\n";
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        } finally {
+        	urlconnection.disconnect();
+        	try {
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
+		model.addAttribute("weather", result);
+		System.out.println(result);
 		return "index";
 	}
 	
