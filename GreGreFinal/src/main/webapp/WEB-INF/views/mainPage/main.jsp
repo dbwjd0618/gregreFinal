@@ -90,7 +90,7 @@ body {
 		<div class="container">
 			<div class="row main-visual">
 				<div class="col-md-7 mt-5 " style="padding: 0 !important;">
-					<div class="testimonial-3-wrap">
+					<div class="testimonial-3-wrap" style="margin-top: 20px; margin-bottom: 40px;">
 
 
 						<div class="owl-carousel nonloop-block-13">
@@ -127,7 +127,7 @@ body {
 
 					</div>
 				</div>
-				<div class="col-md-5 top-links" style="padding: 0 !important">
+				<div class="col-md-5 top-links" style="padding: 0 !important; margin-top: 68px;">
 					<ul>
 						<li class="link1"><a
 							href="${pageContext.request.contextPath }/pregnancy/prePregnancy.do">
@@ -163,8 +163,8 @@ body {
 </div>
 
 <!-- index contents begin -->
-<div class="site-section site-section-pd">
-	<div class="container">
+<div class="site-section site-section-pd" style="margin-top : 0px; padding-top : 0px;">
+	<div class="container" style="margin-top:0px;">
 		<div class="row">
 			<div class="main-row2">
 				<div class="notice-list">
@@ -204,8 +204,12 @@ body {
 		<div class="row">
 			<div class="main-row3">
 				<div class="toy-link">
-					<h2>아이지킴이 바로가기</h2>
-
+					<h2>아이그레몰 바로가기</h2>
+					<div style="text-align:center;">
+						<a href="${pageContext.request.contextPath }/shop/shop.do">
+							<img src="${pageContext.request.contextPath}/resources/images/logo/igre_mall_logo.png" style="width:200px;">
+						</a>
+					</div>
 				</div>
 				<div class="quick-service">
 					<h2>찾아보기</h2>
@@ -244,7 +248,7 @@ body {
 	<input type="hidden" id="loginId" value="${memberLoggedIn.memberId}" />
 </c:if>
 
-<!-- 추천상품 Section Begin -->
+<%-- <!-- 추천상품 Section Begin -->
 <div class="">
 	<section class="women-banner spad">
 		<div class="container">
@@ -419,7 +423,7 @@ body {
 	</section>
 </div>
 <!--추천상품 Section End -->
-
+ --%>
 <!-- 모달 영역 -->
 <div id="modalBox" class="modal fade" id="myModal" tabindex="-1"
 	role="dialog" aria-labelledby="myModalLabel" style="margin-top: 170px;">
