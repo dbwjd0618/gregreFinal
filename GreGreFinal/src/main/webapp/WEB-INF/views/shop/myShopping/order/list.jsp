@@ -73,8 +73,7 @@
 	}
 
 	$(function() {
-		$(".review-btn")
-				.click(
+		$(".review-btn").click(
 						function() {
 							$('.review-modal__form__product__contents .opt-n')
 									.remove();
@@ -378,11 +377,11 @@
 													</div>
 												</div>
 												<div class="order-list__item__production__item__delivery">
-													<c:if test="${ prodList.reviewId !=''}">
+													<c:if test="${not empty prodList.reviewId}">
 														<button
 															class="button button--color-blue-inverted button--size-50 button--shape-4 order-list__item__production__item__delivery__btn my-review-btn">리뷰보기</button>
 													</c:if>
-													<c:if test="${ prodList.reviewId ==''}">
+													<c:if test="${ empty prodList.reviewId }">
 														<button
 															class="button button--color-blue-inverted button--size-50 button--shape-4 order-list__item__production__item__delivery__btn review-btn">리뷰작성</button>
 													</c:if>

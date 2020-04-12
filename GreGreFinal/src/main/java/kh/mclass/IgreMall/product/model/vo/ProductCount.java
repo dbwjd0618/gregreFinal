@@ -21,11 +21,21 @@ public class ProductCount extends Product implements Serializable {
 	
 	private int productCount;
 
+
+
 	public ProductCount(String sellerId, String productId, String categoryId, String productName, String brandName,
-			int price, String deliveryFee, int pointRate, int discountPrice, int productStock, String productDetail,
-			Date enrollDate, String productState,int productCount) {
-		super(sellerId, productId, categoryId, productName, brandName, price, deliveryFee, pointRate, discountPrice,
-				productStock, productDetail, enrollDate, productState);
+			int price, int supplyValue, String deliveryFee, int pointRate, int discountPrice, int productStock,
+			String productDetail, Date enrollDate, String productState, String[] paymentMethodCode, int productCount) {
+		super(sellerId, productId, categoryId, productName, brandName, price, supplyValue, deliveryFee, pointRate,
+				discountPrice, productStock, productDetail, enrollDate, productState, paymentMethodCode);
 		this.productCount= productCount;
 	}
+
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
 }
