@@ -1,5 +1,6 @@
 package kh.mclass.Igre.board.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -193,6 +194,26 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public List<Post> postListP(Map<String, Object> param) {
 		return sss.selectList("board.postListP", param);
+	}
+
+	@Override
+	public List<Post> noticeList(Map<String, Object> param) {
+		return sss.selectList("board.noticeList", param);
+	}
+
+	@Override
+	public List<Post> idxNotice() {
+		RowBounds rbd = new RowBounds(0, 5);
+		return sss.selectList("board.idxNotice",null, rbd);
+	}
+
+	@Override
+	public List<Post> favList() {
+		List<Board> boardCode = sss.selectList("board.boardList");
+		Map<String, List> param = new HashMap<>();
+		param.put("boardCode", boardCode);
+		RowBounds rbd = new RowBounds(0,5);
+		return sss.selectList("board.favList", param, rbd);
 	}
 	
 }
