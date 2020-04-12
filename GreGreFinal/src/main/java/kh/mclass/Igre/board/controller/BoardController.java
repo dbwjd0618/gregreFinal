@@ -126,8 +126,11 @@ public class BoardController {
 				postList = bs.postListP(param); break;
 			}
 		} else postList = bs.postList(param);
+		
+		List<Post> noticeList = bs.noticeList(param);
 		log.debug(""+postList);
 		model.addAttribute("postList", postList);
+		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("cPage", cPage);
 		model.addAttribute("endPage", endPage);
 		if(param.containsKey("srchOpt")) {

@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.mclass.Igre.member.model.vo.Member;
+import kh.mclass.IgreMall.QnA.model.service.ProdQnAService;
+import kh.mclass.IgreMall.QnA.model.vo.ProdQnA;
+import kh.mclass.IgreMall.coupon.model.service.CouponService;
+import kh.mclass.IgreMall.coupon.model.vo.Coupon;
 import kh.mclass.IgreMall.order.model.service.OrderService;
 import kh.mclass.IgreMall.order.model.vo.OrderList;
 import kh.mclass.IgreMall.order.model.vo.OrderProduct;
@@ -33,6 +37,7 @@ import kh.mclass.IgreMall.review.model.service.ProdReviewService;
 import kh.mclass.IgreMall.review.model.vo.ProdReview;
 import kh.mclass.IgreMall.shopMember.model.service.ShopMemberService;
 import kh.mclass.IgreMall.shopMember.model.vo.Cart;
+import kh.mclass.IgreMall.shopMember.model.vo.ShopMember;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -48,7 +53,81 @@ public class ShopMemberController {
 	OrderService orderService;
 	@Autowired
 	ProdReviewService reviewService;
+	@Autowired
+	ProdQnAService prodQnAService;
+	@Autowired
+	CouponService couponService;
+	
+	/**
+	 * 0405 이진희
+	 * 
+	 * 장바구니 업데이트
+	 * 
+	 * @return
+	 */
+	@PostMapping("/cartUpdate.do")
+	@ResponseBody
+	public Map<String, Object> cartUpdate(@RequestParam(value = "optionId", required = false) String optionId,
+			@RequestParam(value = "cartId", required = false) String cartId, 
+			@RequestParam(value = "num", required = false)String prodCount, 
+			HttpSession session) {
 
+		Cart cart = shopMemberService.selectCartOne(cartId);
+		int result =0;
+		if(optionId!=null) {
+			
+			List<String> optionIdList = new ArrayList<>(Arrays.asList(cart.getOptionId()));
+			List<String> prodCountList = new ArrayList<>(Arrays.asList(cart.getProdCount()));
+			int idx = optionIdList.indexOf(optionId);
+			
+			//수량바꾸기
+			prodCountList.set(idx, prodCount);
+			cart.setProdCount(prodCountList.toArray(new String[prodCountList.size()]));
+		}else {
+			String[] prodCountArr = new String[1];
+			prodCountArr[0] = prodCount;
+			cart.setProdCount(prodCountArr);
+		}
+		
+		result = shopMemberService.updateCartOne(cart);
+			// 옵션 id 삭제
+		/*
+		 * optionIdList.remove(optionId); cart.setOptionId(optionIdList.toArray(new
+		 * String[optionIdList.size()])); // 옵션수량 삭제 prodCountList.remove(idx);
+		 * cart.setProdCount(prodCountList.toArray(new String[prodCountList.size()]));
+		 * 
+		 * result = shopMemberService.updateCartOne(cart);
+		 */
+			
+
+		Map<String, Object> map = new HashMap<>();
+		if (result > 0) {
+			map.put("cartId", cartId);
+			map.put("optionId", optionId);
+		}
+
+		return map;
+	}
+
+	
+	/**
+	 * 0411 이진희
+	 * 
+	 * 장바구니 상품 삭제
+	 */
+	@PostMapping("/cartDelete.do")
+	@ResponseBody
+	public Map<String, Object> cartDelete( @RequestParam(value = "cartId", required = false) String cartId ) {
+		
+		int result = shopMemberService.deleteCart(cartId);
+		
+		Map<String, Object> map = new HashMap<>();
+		if (result > 0) {
+			map.put("cartId", cartId);
+		}
+
+		return map;
+	}
 	/**
 	 * 0405 이진희
 	 * 
@@ -65,15 +144,20 @@ public class ShopMemberController {
 		List<String> optionIdList = new ArrayList<>(Arrays.asList(cart.getOptionId()));
 		List<String> prodCountList = new ArrayList<>(Arrays.asList(cart.getProdCount()));
 		int idx = optionIdList.indexOf(optionId);
-
-		// 옵션 id 삭제
-		optionIdList.remove(optionId);
-		cart.setOptionId(optionIdList.toArray(new String[optionIdList.size()]));
-		// 옵션수량 삭제
-		prodCountList.remove(idx);
-		cart.setProdCount(prodCountList.toArray(new String[prodCountList.size()]));
-
-		int result = shopMemberService.updateCartOne(cart);
+		int result =0;
+		if(optionIdList.size() >1) {
+			// 옵션 id 삭제
+			optionIdList.remove(optionId);
+			cart.setOptionId(optionIdList.toArray(new String[optionIdList.size()]));
+			// 옵션수량 삭제
+			prodCountList.remove(idx);
+			cart.setProdCount(prodCountList.toArray(new String[prodCountList.size()]));
+			
+			result = shopMemberService.updateCartOne(cart);
+			
+		}else {
+			result = shopMemberService.deleteCart(cartId);
+		}
 
 		Map<String, Object> map = new HashMap<>();
 		if (result > 0) {
@@ -318,6 +402,20 @@ public class ShopMemberController {
 			}
 
 		}
+		
+		// coupon 개수
+		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
+		int myCouponCount =0;
+		for(int i=0; i<myCouponList.size();i++) {
+			if("Y".equals(myCouponList.get(i).getCouponState())) {
+				myCouponCount++;
+			}
+		}
+		mav.addObject("myCouponCount",myCouponCount);
+		
+		//Point 
+		ShopMember sMem = shopMemberService.selectOne(memberId);
+		mav.addObject("point", sMem.getPoint());
 
 		mav.addObject("orderList", orderList);
 		mav.addObject("deliStateCount", deliStateCount);
@@ -336,6 +434,7 @@ public class ShopMemberController {
 	public ModelAndView orderDetail(ModelAndView mav,
 			@RequestParam(value = "orderNo", required = false) String orderNo) {
 
+		
 		OrderList orderList = orderService.selectOrderList(orderNo);
 		PaymentInfo paymentInfo = orderService.selectPaymentInfo(orderNo);
 		List<OrderProduct> orderProdList = orderService.selectOrderProdList(orderNo);
@@ -434,9 +533,8 @@ public class ShopMemberController {
 			payMethod = "실시간계좌이체";
 			break;
 		}
-		System.out.println("orderProdList =" + orderProdList);
-		System.out.println("paymentInfo=" + paymentInfo);
-		System.out.println("orderList=" + orderList);
+	
+		
 		mav.addObject("payMethod", payMethod);
 		mav.addObject("orderList", orderList);
 		mav.setViewName("shop/myShopping/order/detail");
@@ -444,14 +542,51 @@ public class ShopMemberController {
 	}
 
 	@GetMapping("/wish/list.do")
-	public ModelAndView wishList(ModelAndView mav) {
-
+	public ModelAndView wishList(ModelAndView mav,  HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String memberId = m.getMemberId();
+		// coupon 불러오기
+		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
+		int myCouponCount =0;
+		for(int i=0; i<myCouponList.size();i++) {
+			if("Y".equals(myCouponList.get(i).getCouponState())) {
+				myCouponCount++;
+			}
+		}
+		
+		mav.addObject("myCouponCount",myCouponCount);
 		mav.setViewName("shop/myShopping/wish/list");
 		return mav;
 	}
-
+	
+	/**
+	 * 0411 이진희
+	 * 
+	 * 마이쇼핑 나의 문의내역보기
+	 *
+	 */
 	@GetMapping("/QnA/list.do")
-	public ModelAndView QnAList(ModelAndView mav) {
+	public ModelAndView QnAList(ModelAndView mav, HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String memberId = m.getMemberId();
+		//문의 불러오기
+		List<ProdQnA> prodQnAList = prodQnAService.selectListMyQnA(memberId);
+	
+		// coupon 불러오기
+		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
+		int myCouponCount =0;
+		for(int i=0; i<myCouponList.size();i++) {
+			if("Y".equals(myCouponList.get(i).getCouponState())) {
+				myCouponCount++;
+			}
+		}
+		
+		mav.addObject("myCouponCount",myCouponCount);
+		//Point 
+		ShopMember sMem = shopMemberService.selectOne(memberId);
+		mav.addObject("point", sMem.getPoint());
+		
+		mav.addObject("prodQnAList", prodQnAList);
 		mav.setViewName("shop/myShopping/QnA/list");
 		return mav;
 	}
@@ -487,19 +622,70 @@ public class ShopMemberController {
 			}
 			myReviewList.get(i).setOptionName(optionName);
 		}
+		// coupon 불러오기
+		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
+		int myCouponCount =0;
+		for(int i=0; i<myCouponList.size();i++) {
+			if("Y".equals(myCouponList.get(i).getCouponState())) {
+				myCouponCount++;
+			}
+		}
+		
+		mav.addObject("myCouponCount",myCouponCount);
+		//Point 
+		ShopMember sMem = shopMemberService.selectOne(memberId);
+		mav.addObject("point", sMem.getPoint());
 		mav.addObject("reviewList", myReviewList);
 		mav.setViewName("shop/myShopping/review/list");
 		return mav;
 	}
 
 	@GetMapping("/event/list.do")
-	public ModelAndView eventList(ModelAndView mav, Model model) {
+	public ModelAndView eventList(ModelAndView mav, Model model, HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String memberId = m.getMemberId();
+		
+		// coupon 불러오기
+		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
+		int myCouponCount =0;
+		for(int i=0; i<myCouponList.size();i++) {
+			if("Y".equals(myCouponList.get(i).getCouponState())) {
+				myCouponCount++;
+			}
+		}
+		
+		mav.addObject("myCouponCount",myCouponCount);
+		//Point 
+		ShopMember sMem = shopMemberService.selectOne(memberId);
+		mav.addObject("point", sMem.getPoint());
 		mav.setViewName("shop/myShopping/event/list");
 		return mav;
 	}
-
+	/**
+	 * 0411 이진희
+	 * 
+	 * 쿠폰리스트 출력
+	 */
 	@GetMapping("/coupon/list.do")
-	public ModelAndView couponList(ModelAndView mav) {
+	public ModelAndView couponList(ModelAndView mav , HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String memberId = m.getMemberId();
+
+		// review 불러오기
+		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
+		
+		int myCouponCount =0;
+		for(int i=0; i<myCouponList.size();i++) {
+			if("Y".equals(myCouponList.get(i).getCouponState())) {
+				myCouponCount++;
+			}
+		}
+		
+		mav.addObject("myCouponCount",myCouponCount);
+		//Point 
+		ShopMember sMem = shopMemberService.selectOne(memberId);
+		mav.addObject("point", sMem.getPoint());
+		mav.addObject("myCouponList",myCouponList);
 		mav.setViewName("shop/myShopping/coupon/list");
 		return mav;
 	}

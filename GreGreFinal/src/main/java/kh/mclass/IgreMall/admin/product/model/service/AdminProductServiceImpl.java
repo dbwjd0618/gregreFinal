@@ -52,8 +52,8 @@ public class AdminProductServiceImpl implements AdminProductService{
 
 
 	@Override
-	public List<Product> productList(Product productId) {
-		return adminProductDAO.productList(productId);
+	public List<Product> productList(int cPage,int numPerPage,Product productId) {
+		return adminProductDAO.productList(cPage,numPerPage,productId);
 	}
 
 

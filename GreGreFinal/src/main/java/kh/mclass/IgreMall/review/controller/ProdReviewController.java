@@ -27,12 +27,16 @@ public class ProdReviewController {
 	@Autowired
 	ProdReviewService reviewService;
 	
-	
-	@PostMapping("/reviewDelete.do")
-	public ModelAndView reviewDelete(ModelAndView mav, String reviewId) {
-		
+	/**
+	 * 0410 이진희
+	 * 
+	 * 리뷰삭제
+	 */
+	@PostMapping("/prodReviewDelete.do")
+	public ModelAndView reviewDelete(ModelAndView mav,@RequestParam(value = "reviewId", required = false) String reviewId) {
+
 		int result = reviewService.deleteReview(reviewId);
-		
+
 		mav.setViewName("redirect:/shop/myShopping/review/list.do");
 		return mav;
 		
@@ -80,6 +84,12 @@ public class ProdReviewController {
 
 		return mav;
 	}
+	
+	/**
+	 * 0410 이진희
+	 * 
+	 * 리뷰등록
+	 */
 		@PostMapping("/review.do")
 		public ModelAndView review(ModelAndView mav, ProdReview prodReview,
 								@RequestParam(value = "starPoint", required = false) String starPoint,

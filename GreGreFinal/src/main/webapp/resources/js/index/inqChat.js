@@ -24,9 +24,9 @@ $(function() {
 	
 	scrollTop();
 	
-	$(window).on("focus", function() {
-		lastCheck();
-	});
+//	$(window).on("focus", function() {
+//		lastCheck();
+//	});
 	
 });
 
@@ -46,7 +46,10 @@ function sendMessage() {
 }
 
 function scrollTop() {
-	$(".messages").scrollTop(".messages").prop('scrollHeight');
+	console.log("!!!!", $(".messages").prop('scrollHeight'));
+	$(".messages").scrollTop($(".messages").prop('scrollHeight'));
+	$('.messages').animate({ scrollTop: $('.messages').prop('scrollHeight') }, 300);
+
 }
 
 function lastCheck() {
@@ -57,10 +60,11 @@ function lastCheck() {
 			type: "LASTCHECK"
 	}
 	
-	stompClient.send('Igre/inq/lastCheck/'+chatId, {}, JSON.stringify(data));
+	stompClient.send('/Igre/inq/lastCheck/'+chatId, {}, JSON.stringify(data));
 }
 
 function inqShow() {
 	$('#modalBox').modal('show');
+	$(".rtnMsg").attr("style", "color: #4e4ecf54").removeClass("rtnMsg");
 }
 

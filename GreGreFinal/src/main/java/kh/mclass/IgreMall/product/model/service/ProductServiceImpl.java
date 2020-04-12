@@ -53,4 +53,10 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.selectSellerId(productId);
 	}
 
+	@Override
+	public void insertProduct(Product product) {
+		productDAO.insertProduct(product);
+		
+	}
+
 }

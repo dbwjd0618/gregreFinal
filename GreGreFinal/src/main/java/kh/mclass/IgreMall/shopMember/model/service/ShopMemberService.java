@@ -25,4 +25,6 @@ public interface ShopMemberService {
 
 	int updateCoupon(Coupon coupon);
 
+	int deleteCart(String cartId);
+
 }

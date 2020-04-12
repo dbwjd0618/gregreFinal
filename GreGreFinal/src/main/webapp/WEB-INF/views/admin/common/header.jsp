@@ -144,12 +144,11 @@
             </li>
              <li class="treeview">
               <a href="#">
-                <i class="fa fa-share"></i> <span>단체안내</span>
+                <i class="fa fa-share"></i> <span>1:1채팅</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="${pageContext.request.contextPath }/admin/email.do"><i class="fa fa-circle-o"></i>단체 이메일</a></li>
-                <li><a href="message.html"><i class="fa fa-circle-o"></i> 단체 문자</a></li>
+                <li><a href="${pageContext.request.contextPath }/admin/chat/list.do"><i class="fa fa-circle-o"></i>채팅리스트</a></li>
               </ul>
             </li>
           </ul>

@@ -282,6 +282,9 @@ public class ShopAdminProductController {
 		// 자료형 확인하는 공간
 		// 제품 갯수 구하기
 		
+		
+		
+		
 		int totalProducts = adminProductService.totalProducts(p);
 		mav.addObject("totalProducts", totalProducts);
 //		log.debug("searchList={}",list);
@@ -304,7 +307,40 @@ public class ShopAdminProductController {
 
 	@RequestMapping("/update.do")
 	public ModelAndView updateProduct(ModelAndView mav, HttpServletRequest request, HttpServletResponse response,
-			String productId, int discountPrice, int productStock, String productState) {
+			 Attachment a,String productId, int discountPrice, int productStock, String productState,
+			@RequestParam(value="upFile", required=false) MultipartFile upfile
+			) {
+		
+		
+		if(a.getOriginalImg() != null) {
+			if(a.getOriginalImg().equals("delete")) {
+				a.setOriginalImg(null);
+				a.setRenamedImg(null);
+			}
+			else if(a.getOriginalImg().equals("change")) {
+				if(!(upfile.isEmpty())) {
+
+					String originFileName = upfile.getOriginalFilename();
+					String renamedFileName = Utils.getRenamedFileName(originFileName);
+					
+					//파일 이동
+					String saveDirectory = request.getServletContext().getRealPath("/resources/upload/board");
+					
+					try {
+						upfile.transferTo(new File(saveDirectory, renamedFileName));
+					} catch (IllegalStateException | IOException e) {
+						e.printStackTrace();
+					}
+					
+					a.setOriginalImg(originFileName);
+					a.setRenamedImg(renamedFileName);
+					
+				} else {
+					a.setOriginalImg(null);
+					a.setRenamedImg(null);
+				}
+			}
+		}
 		System.err.println("왜 ?;");
 		Product p = new Product();
 
@@ -484,17 +520,22 @@ public class ShopAdminProductController {
 			int result = adminProductService.insertProduct(product, attachList, prodOptionList);
 
 			redirectAttributes.addFlashAttribute("msg", result > 0 ? "등록성공!" : "등록실패");
+			return "redirect:/shop/admin/product/insert.do";
 		} catch (Exception e) {
 			log.error("상품 등록 오류!", e);
 			throw new ProductException("상품 등록 오류! 관리자에게 문의하세요");
 		}
-		return "redirect:/shop/admin/product/insert.do";
+		
+//		return "redirect:/shop/admin/product/insert.do";
 	}
 
 	@GetMapping("/list.do")
-	public ModelAndView productList(ModelAndView mav, Product p) {
-
-		List<Product> list = adminProductService.productList(p);
+	public ModelAndView productList(ModelAndView mav, Product p,
+			@RequestParam(value="cPage", defaultValue="1") int cPage) {
+		
+	
+		final int numPerPage = 10;
+		List<Product> list = adminProductService.productList(cPage, numPerPage, p);
 		log.debug("list={}",list);
 		
 		System.out.println(list.get(0).getAttachList());
@@ -513,12 +554,26 @@ public class ShopAdminProductController {
 		System.out.println(p.getProductState());
 		// 아래 ProductId 는 객체 P를 의미함	.
 		int totalProducts = adminProductService.totalProducts(p);
+		
+		
 //		mav.addObject("attachList",attachList);
+		
+		int endPage = ((totalProducts-1)/10)+1; //마지막페이지 번호
+		
+		if(cPage>endPage) { //크면 마지막페이지고
+			cPage = endPage;
+		}
+		if(cPage<1) {
+			cPage = 1;
+		}
 		
 		mav.addObject("totalProducts", totalProducts);
 		mav.addObject("list", list);
 		mav.setViewName("shop/admin/product/list");
+		mav.addObject("cPage",cPage);
+		mav.addObject("endPage",endPage);
 		return mav;
+
 		
 	}
 }

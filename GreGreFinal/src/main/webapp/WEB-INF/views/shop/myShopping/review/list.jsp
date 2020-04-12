@@ -56,14 +56,18 @@ button.btn.btn-outline-secondary.review-btn {
 			 
 			alert('리뷰가 수정되었습니다');
 }
+</script>
+<script>
 //옵션삭제하기
  function reviewDelete(){
-	 
+
  	 if (confirm("리뷰를 삭제하시겠습니까?")) {
- 		document.deleteFrm.action='${pageContext.request.contextPath }/shop/review/reviewDelete.do';
-		document.deleteFrm.submit(); 
+
+ 		$("#deleteFrm").attr("action", "${pageContext.request.contextPath }/shop/review/prodReviewDelete.do").submit();
+
 		alert('리뷰가 삭제되었습니다');
  	 }
+ 	
 }
 //리뷰수정 모달 
 $(function(){
@@ -146,21 +150,19 @@ $(function(){
 						<div class="profile sidebar__profile">
 							<img class="profile__avatar"
 								src="${pageContext.request.contextPath }/resources/images/myPage/user.png" />
-							<div class="profile__name">user123</div>
+							<div class="profile__name">${memberLoggedIn.memberId }</div>
 						</div>
 					</div>
 					<div class="sidebar__middle">
 						<div class="profile side__profile _3fftNQzxHO">
 							<ul>
-								<li>주문·배송<a
-									href="${pageContext.request.contextPath }/shop/myShopping/order/list.do"
-									class="_2XiEZGqw1K"><em>0</em>건</a>
-								</li>
 								<li>보유 쿠폰<a
 									href="${pageContext.request.contextPath }/shop/myShopping/coupon/list.do"
-									class="_2XiEZGqw1K"><em>2</em>장</a>
+									class="_2XiEZGqw1K"><em>${myCouponCount }</em>장</a>
 								</li>
-								<li>포인트<a href="#" class="_2XiEZGqw1K "><em>5000</em>p</a>
+								<li>포인트<a href="#" class="_2XiEZGqw1K "><em>
+								<fmt:formatNumber type="number" maxFractionDigits="3"
+									value="${point }" /></em>p</a>
 								</li>
 							</ul>
 						</div>
@@ -277,17 +279,17 @@ $(function(){
 							</div>
 							<div class="my-review-list__list__item col-lg-2"
 								style="border-left: 1px solid rgb(184, 181, 181); text-align:right;">
-								<form name="deleteFrm" method="post">
+								<button class="btn btn-outline-secondary review-btn" >수정</button>
+								<form id="deleteFrm" method="post" >
 								<!-- 수정버튼 -->
-								<button class="btn btn-outline-secondary review-btn">수정</button>
 								<input type="hidden" name="imgName" value="${review.prodImg}" /> 
 								<input type="hidden" name="brandName" value="${review.brandName}" /> 
 								<input type="hidden" name="prodName" value="${review.productName}" /> 
 								<input type="hidden" name="prodId" value="${review.productId}" /> 
 								<input type="hidden" name="reviewId" value="${review.reviewId}" />
 								<input type="hidden" name="prod-content" value="${review.reviewContent }" />
+								<input type="button" class="btn btn-outline-secondary" onclick="reviewDelete();" value="삭제">
 								</form>
-								<div class="btn btn-outline-secondary" onclick="reviewDelete();">삭제</div>
 							</div>
 						</c:forEach>
 					</c:if>

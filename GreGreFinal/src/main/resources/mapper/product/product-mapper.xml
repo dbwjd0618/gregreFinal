@@ -31,6 +31,9 @@
 		#{productState},
 		#{paymentMethodCode, typeHandler=strArrTypeHandler}
 		)
+		<selectKey keyProperty="productId" resultType="string" order="AFTER">
+			select 'p'||to_char(seq_product_no.currval, 'fm0000000') from dual
+		</selectKey>
 </insert>
 
 <insert id="insertAttachment">
@@ -72,6 +75,24 @@
 	</if>
 </select>
 	
+<select  id="productListAll" resultMap="productList">
+select *
+from (select * 
+        from tb_product A join tb_prod_img B
+            on A.product_id = B.product_id
+        where B.img_type ='R'  order by A.enroll_date desc )
+where 
+	1=1
+<if test="category1 != null">
+	and
+		category_id= #{category1}
+</if>
+<if test="category2 != null">
+	or
+		category_id= #{category2}
+</if>
+</select>
+
 <select  id="productList" resultMap="productList">
 select *
 from (select * 
@@ -122,13 +143,13 @@ where
 </select>
 
 <resultMap type="kh.mclass.IgreMall.product.model.vo.Product" id="productList">
-	<id column="product_no" property="productNo"/>
-	<result column="product_id" property="productId"></result>
+	<id column="product_id" property="productId"/>
 	<result column="seller_id" property="sellerId"></result>	
 	<result column="category_id" property="categoryId"></result>	
 	<result column="product_name" property="productName"></result>	
 	<result column="brand_name" property="brandName"></result>	
 	<result column="price" property="price"></result>	
+	<result column="supply_value" property="supplyValue"></result>
 	<result column="delivery_fee" property="deliveryFee"></result>	
 	<result column="point_rate" property="pointRate"></result>	
 	<result column="discount_price" property="discountPrice"></result>	
@@ -136,6 +157,7 @@ where
 	<result column="product_detail" property="productDetail"></result>	
 	<result column="enroll_date" property="enrollDate"></result>
 	<result column="product_state" property="productState"></result>			
+	<result column="payment_method_code" property="paymentMethodCode" typeHandler="strArrTypeHandler"/>
 	
 	<collection property="attachList" ofType="attachment">
 		<id column="attachment_no" property="attachmentNo"></id>	
@@ -149,7 +171,8 @@ where
 		<result column="product_id" property="productId"/>	
 		<result column="option_name" property="optionName"/>	
 		<result column="option_value" property="optionValue"/>
-		<result column="option_stock" property="optionStock"/>		
+		<result column="option_stock" property="optionStock"/>
+		<result column="option_supply_value" property="optionSupplyValue"/>		
 		<result column="option_price" property="optionPrice"/>	
 		<result column="option_state" property="optionState"/>	
 	</collection>

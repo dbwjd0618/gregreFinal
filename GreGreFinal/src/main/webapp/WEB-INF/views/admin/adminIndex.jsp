@@ -2,14 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="function"
-	uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="function" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!-- admin header 선언 -->
 <%@ include file="/WEB-INF/views/admin/common/header.jsp"%>
-
-
-
 
 <style>
 .list {
@@ -143,7 +139,7 @@ $(function(){
 				<!-- small box -->
 				<div class="small-box bg-aqua">
 					<div class="inner">
-						<h3>150</h3>
+						<h3>150<sup style="font-size: 20px">명</sup></h3>
 						<p>신규회원</p>
 					</div>
 					<div class="icon">
@@ -171,7 +167,7 @@ $(function(){
 				<!-- small box -->
 				<div class="small-box bg-yellow">
 					<div class="inner">
-						<h3>44</h3>
+						<h3>${allMemberCnt}<sup style="font-size: 20px">명</sup></h3>
 						<p>회원수</p>
 					</div>
 					<div class="icon">
@@ -184,7 +180,7 @@ $(function(){
 				<!-- small box -->
 				<div class="small-box bg-red">
 					<div class="inner">
-						<h3>665</h3>
+						<h3>665<sup style="font-size: 20px">명</sup></h3>
 						<p>총 접속자수</p>
 					</div>
 					<div class="icon">

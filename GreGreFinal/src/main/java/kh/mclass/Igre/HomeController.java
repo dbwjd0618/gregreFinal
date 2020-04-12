@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import kh.mclass.Igre.board.model.service.BoardService;
 import kh.mclass.Igre.board.model.vo.Board;
+import kh.mclass.Igre.board.model.vo.Post;
 import kh.mclass.Igre.inquire.model.service.InquireService;
 import kh.mclass.Igre.inquire.model.vo.InqChatMember;
 import kh.mclass.Igre.inquire.model.vo.InqChatRoom;
@@ -38,6 +39,12 @@ public class HomeController {
 		List<Board> boardList = bs.boardList();
 		model.addAttribute("boardList", boardList);
 		
+		List<Post> idxNotice = bs.idxNotice();
+		model.addAttribute("idxNotice", idxNotice);
+		
+		List<Post> favList = bs.favList();
+		model.addAttribute("favList", favList);
+		
 		if(member != null) {
 			String memberId = member.getMemberId();
 			log.debug("memberId = " + memberId);
@@ -54,7 +61,7 @@ public class HomeController {
 				log.debug("cr = " + cr);
 				List<InqChatMember> list = new ArrayList<>();
 				list.add(new InqChatMember(memberId, cr));
-				list.add(new InqChatMember("admin", cr));
+				list.add(new InqChatMember("admin000", cr));
 				
 				is.createChatRoom(list);
 				
