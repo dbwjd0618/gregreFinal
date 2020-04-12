@@ -388,12 +388,6 @@ public class AdminController {
 		
 		return "redirect:/admin/athorityList.do";
 	}
-
-	@GetMapping("/email.do")
-	public String email() {
-		
-		return "admin/email";
-	}
 }
 
 

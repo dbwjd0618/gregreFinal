@@ -1,8 +1,9 @@
-package kh.mclass.Igre.inquire.model.vo;
+package kh.mclass.Igre.adminchat.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
 
+import kh.mclass.Igre.chat.model.vo.ChatRoom;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,22 +14,22 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
-public class InqChatMember implements Serializable{
+@ToString(callSuper=true)
+public class AdminChatMember implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
-	private InqChatRoom chatRoom;
+	private Long id;
+	private AdminChatRoom adminChatRoom;
 	private String memberId;
 	private long lastCheck;
 	private Date regDate;
 	private Date expDate;
 	private boolean enabled;
 	
-	public InqChatMember(String memberId, InqChatRoom chatRoom) {
+	public AdminChatMember(String memberId, AdminChatRoom adminChatRoom) {
 		this.setMemberId(memberId);
-		this.chatRoom = chatRoom;
+		this.adminChatRoom = adminChatRoom;
 	}
 
 }

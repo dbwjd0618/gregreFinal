@@ -1,4 +1,4 @@
-package kh.mclass.Igre.inquire.model.vo;
+package kh.mclass.Igre.adminchat.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -17,14 +17,17 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @ToString
-public class InqChatRoom implements Serializable{
+public class AdminChatRoom implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	private int id;
+
+	private Long id;
 	@NonNull
 	private String chatId;
 	private Date regDate;
 	private boolean enabled;
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 }
