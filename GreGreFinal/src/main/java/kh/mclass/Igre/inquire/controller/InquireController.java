@@ -22,7 +22,7 @@ public class InquireController {
 	private InquireService is;
 	
 	@MessageMapping("/inq/chat/{chatId}")
-	@SendTo(value = {"/inq/chat/{chatId}"})
+	@SendTo(value = {"/inq/chat/{chatId}", "/admin/chat/{chatId}"})
 	public InqMsg sendEcho(InqMsg fromMessage, @DestinationVariable String chatId) {
 		log.debug("fromMessage = {}", fromMessage);
 		is.insertChatLog(fromMessage);

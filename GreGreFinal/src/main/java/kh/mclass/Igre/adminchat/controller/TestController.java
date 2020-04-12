@@ -18,7 +18,7 @@ public class TestController {
 	SimpMessagingTemplate simpMessagingTemplate;
 
 	@MessageMapping("/admin/chat/{chatId}")
-	@SendTo(value= {"/admin/chat/{chatId}"})
+	@SendTo(value= {"/admin/chat/{chatId}", "/inq/chat/{chatId}"})
 	public AdminMSG sendEcho(AdminMSG fromMessage,
 							 @DestinationVariable String chatId) {
 		log.debug("fromMessage={}", fromMessage);
