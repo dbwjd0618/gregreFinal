@@ -19,7 +19,7 @@ public class ProductDAOImpl implements ProductDAO{
 	public void insert(List<Product> productList) {
 		
 		 for(Product product : productList) {
-	            sqlSession.insert("product.insert",product);
+	            sqlSession.insert("product.insertProduct",product);
 		 }
 		 
 	}
@@ -54,5 +54,10 @@ public class ProductDAOImpl implements ProductDAO{
 	@Override
 	public String selectSellerId(String productId) {
 		return sqlSession.selectOne("product.selectSellerId", productId);
+	}
+
+	@Override
+	public Object insertProduct(Product product) {
+		return sqlSession.insert("product.insertProduct", product);
 	}
 }

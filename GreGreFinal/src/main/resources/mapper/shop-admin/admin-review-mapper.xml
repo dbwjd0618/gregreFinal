@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminReview" >
+<delete id="deleteReivew">
+delete from 
+	tb_prod_review
+where review_id=#{reviewId}
+</delete>
+
+<select  id="list" resultMap="adminReviewMap">
+select 
+	* 
+from
+	 TB_prod_review A left join tb_product B
+	 	on A.product_id = B.product_id
+</select>
+
+<resultMap type="AdminProdReview" id="adminReviewMap">
+		<id column ='review_id' property="reviewId"/>
+		<result column ='order_no' property="orderNo"/>
+		<result column ='product_id' property="productId"/>
+		<result column ='option_id' property="optionId" typeHandler="strArrTypeHandler" />
+		<result column ='reviewer_id' property="reviewerId" />
+		<result column ='star_point' property="starPoint"  />
+		<result column ='review_date' property="reviewDate"  />
+		<result column ='review_content' property="reviewContent"  />
+		<result column ='original_img' property="originalImg"  />
+		<result column ='renamed_img' property="renamedImg" />
+		<result column ='review_recommen' property="reviewRecommen"  />
+		<result column ='product_name' property="productName"  />
+</resultMap>
+
+</mapper>

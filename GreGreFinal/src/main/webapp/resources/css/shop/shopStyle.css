@@ -32,6 +32,12 @@
 /*----------------------------------------*/
 /*
 수정 및 추가*/
+
+.secret-icon img{
+    width: 17px;
+    padding-bottom: 5px;
+    margin-right: 4px;
+}
 span#dec-button {
     margin-top: 2px;
 }
@@ -1452,12 +1458,12 @@ em{
    }
    
    .product-item .pi-text .catagory-name {
-	   font-size: 10px;
+	   font-size: 17px;
 	   color: #b2b2b2;
 	   font-weight: 700;
 	   letter-spacing: 2px;
 	   text-transform: uppercase;
-	   margin-bottom: 10px;
+	   margin-bottom: 5px;
    }
    
    .product-item .pi-text a {

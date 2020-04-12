@@ -1,22 +1,25 @@
+.coupon-item__title.coupon-item__title {
+    margin-top: 7px;
+}
 .coupon-item__due-date {
-    margin-top:10px;
+    margin-top:4px;
     font-size: 13px;
  }
     .coupon-item {
     position: relative;
     box-sizing: border-box;
     padding: 18% 10.65% 10.65%;
-    margin-top: 10px;
+    margin-top: 7px;
     background-color: #fff;
     /*border: 1px solid #ededed;*/
-    box-shadow: 0 2px 12px 0 #ededed;
-    border-radius: 10px;
+/*     box-shadow: 0 2px 12px 0 #ededed;
+    border-radius: 10px; */
 }
 .row{
     margin:0 !important;
 }
 .coupon-item__title {
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 2px;
     cursor: pointer;
     font-weight: 700;
@@ -62,7 +65,7 @@
     }
     .coupon-item__info {
    
-        margin-top: 40px;
+        margin-top: 7px;
     
     }
 }

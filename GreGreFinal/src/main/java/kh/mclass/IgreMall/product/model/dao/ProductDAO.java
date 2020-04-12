@@ -22,4 +22,6 @@ public interface ProductDAO {
 
 	String selectSellerId(String productId);
 
+	Object insertProduct(Product product);
+
 }
