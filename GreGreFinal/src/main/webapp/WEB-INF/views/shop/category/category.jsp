@@ -7,7 +7,11 @@
 <jsp:include page="/WEB-INF/views/shop/common/header.jsp"/>
  <!-- 서브메뉴 -->
  <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/subMenu/h-subMenu.css">
- 
+<style>
+.pi-pic {
+    height: 265px;
+}
+</style> 
 
  <!-- Breadcrumb Section Begin -->
 <div class="breacrumb-section">
@@ -224,7 +228,9 @@
 									<a href="#">
 										<h5>${p.productName }</h5>
 									</a>
-									<div class="product-price">${p.price-p.discountPrice }원</div>
+									<div class="product-price">
+									<fmt:formatNumber type="number" maxFractionDigits="3"
+											value="${p.price-p.discountPrice}" />원</div>
 								</div>
 							</div>
 						</div>

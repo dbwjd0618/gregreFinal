@@ -352,12 +352,12 @@ function goCart(){
 }
 </script>
 <script>
-//리뷰작성하기
-function goReview(){
+//상품문의하기
+function goQnA(){
 	
-	document.reviewFrm.action='${pageContext.request.contextPath }/shop/review/review.do';
-	document.reviewFrm.submit();
-	 
+	document.qaFrm.action='${pageContext.request.contextPath }/shop/QnA/writeQnA.do';
+	document.qaFrm.submit();
+	alert("문의가 접수되었습니다. 빠른시일내에 답변드리겠습니다^^");
 	 
 }
 
@@ -855,44 +855,55 @@ $(function(){
 														</tr>
 													</thead>
 													<tbody>
+													<!-- 문의 리스트 시작 -->
+													<c:forEach var="QnA" items="${prodQnAList}" varStatus="qVs">
+										
 														<tr class="view">
-															<td>2</td>
+															<td>${qVs.index+1 }</td>
+															<c:if test="${QnA.qaState eq'N'}">
 															<td>검토중</td>
-															<td>상품 문의입니다.</td>
-															<td>mel****</td>
-															<td>2020.03.13</td>
-															<td></td>
-														</tr>
-														<tr class="fold">
-															<td colspan="6">
-																<div class="fold-content">
-																	<div class="qt">
-																		<span class="ic_qt"><img
-																			src="img/QnA/q-icon.png" alt=""></span>배송이 안되고 있어요 언제
-																		올까요
-																	</div>
-																</div>
-															</td>
-														</tr>
-														<tr class="view">
-															<td>1</td>
+															</c:if>
+															<c:if test="${QnA.qaState eq'Y'}">
 															<td>답변완료</td>
-															<td>언제 배송되나요~~?</td>
-															<td>tes****</td>
-															<td>2020.03.13</td>
+															</c:if>
+															 <c:if test="${QnA.setSecret eq'Y'}">
+															  <c:if test="${QnA.qtnerId eq memberLoggedIn.memberId }">
+															  <td>
+															  	<span class="secret-icon">
+															  	<img src="${pageContext.request.contextPath }/resources/images/shop/icon/secret.png" alt="">
+															  	</span>
+																	${QnA.qtnTitle}
+																</td>
+															  </c:if>
+															  <c:if test="${QnA.qtnerId != memberLoggedIn.memberId }">
+																<td>
+																	<span class="secret-icon">
+															  		<img src="${pageContext.request.contextPath }/resources/images/shop/icon/secret.png" alt="">
+															  		</span>
+																	비밀글입니다
+																</td>
+															  </c:if>
+															</c:if>
+															 <c:if test="${QnA.setSecret eq 'N'}">
+															<td>${QnA.qtnTitle}</td>
+															</c:if>
+															<td>${QnA.qtnerId }</td>
+															<td>${QnA.qtnDate }</td>
 															<td></td>
 														</tr>
+														 <c:if test="${QnA.setSecret == 'N' || (QnA.setSecret=='Y' && QnA.qtnerId eq memberLoggedIn.memberId)}">
 														<tr class="fold">
 															<td colspan="6">
 																<div class="fold-content">
 																	<div class="qt">
 																		<span class="ic_qt"><img
-																			src="img/QnA/q-icon.png" alt=""></span>배송이 안되고 있어요 언제
-																		올까요
+																			src="${pageContext.request.contextPath }/resources/img/QnA/q-icon.png" alt=""></span>
+																			${QnA.qtnContent }
 																	</div>
+																	 <c:if test="${QnA.qaState eq'Y'}">
 																	<div class="as">
 																		<span class="ic_as"><img
-																			src="img/QnA/a-icon.png" alt=""></span>안녕하세요 고객님.
+																			src="${pageContext.request.contextPath }/resources/img/QnA/a-icon.png" alt=""></span>안녕하세요 고객님.
 																		접수해주신 상품문의에 대한 답변드립니다. 주문하신 상품은 어제 출고되었으며, 배송은 1~2일 소요
 																		예상됩니다. 감사합니다. 즐거운 하루 보내세요.
 																	</div>
@@ -901,9 +912,13 @@ $(function(){
 																			: <em>2020-02-28 오후 4:32:44</em>
 																		</span>
 																	</p>
+																	</c:if>
 																</div>
 															</td>
 														</tr>
+														</c:if>
+													</c:forEach>
+													<!-- 문의 리스트 끝-->
 													</tbody>
 												</table>
 
@@ -1069,27 +1084,34 @@ $(function(){
 					</button>
 				</div>
 				<div class="modal-body">
-					<form >
+					<form name="qaFrm" method="post">
 						<div class="form-group">
 							<label for="QnA-title" class="col-form-label">제목</label> <input
-								type="text" class="form-control" id="QnA-title">
+								type="text" class="form-control" name="qtnTitle" id="QnA-title">
+						</div>
+						<div class="bc-item">
+							<label for="bc-calvin"><input type="checkbox"
+								id="bc-calvin" name="setSecret" value="Y"> 비밀글 설정<span class="checkmark"></span>
+							</label>
 						</div>
 						<div class="form-group">
 							<label for="QnA-text" class="col-form-label">문의 내용</label>
-							<textarea class="form-control" id="QnA-text"
+							<textarea class="form-control" name="qtnContent" id="QnA-text"
 								placeholder="문의 내용을 입력하세요"></textarea>
 						</div>
+						<input type="hidden" name="qtnerId" value="${memberLoggedIn.memberId}"/>
+						<input type="hidden" name="productId" value="${p.productId}"/>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary">완료</button>
+					<button type="button" class="btn btn-primary" onclick="goQnA();">완료</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- 모달 끝 -->
+	<!-- 문의하기 모달 끝 -->
 </div>
 
 

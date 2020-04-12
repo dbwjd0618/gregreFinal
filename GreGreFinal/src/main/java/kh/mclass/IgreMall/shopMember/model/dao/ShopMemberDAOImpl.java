@@ -55,4 +55,9 @@ public class ShopMemberDAOImpl implements ShopMemberDAO{
 	public int updateCoupon(Coupon coupon) {
 		return sqlSession.update("shopMember.updateCoupon", coupon);
 	}
+
+	@Override
+	public int deleteCart(String cartId) {
+		return sqlSession.delete("shopMember.deleteCart", cartId);
+	}
 }

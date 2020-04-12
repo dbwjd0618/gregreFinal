@@ -61,69 +61,93 @@
 </style>
 
 <script>
-//리뷰작성하기
- function goReview(){
+	//리뷰작성하기
+	function goReview() {
 
-			window.parent.closeBtn();
+		window.parent.closeBtn();
 
+		document.reviewFrm.action = '${pageContext.request.contextPath }/shop/review/review.do';
+		document.reviewFrm.submit();
 
-		 	document.reviewFrm.action='${pageContext.request.contextPath }/shop/review/review.do';
-			document.reviewFrm.submit(); 
-			 
-			alert('리뷰가 작성되었습니다');
-}
-		
-$(function(){
-    $(".review-btn").click(function(){
-    	$('.review-modal__form__product__contents .opt-n').remove();
-    	var optName = $(this).parent().prev().find('.optName');
-    	var optId = $(this).parent().prev().find('input[name=opt-id]');
-        var t = $(this);
-        
-        var optIdArr = new Array();
-        $(optId).each(function (index, item) {
-         optIdArr[index] = $(item).val();
-        });
-    	$(optName).each(function (index, item) { 	
-    		 var addOpt = '<div class="review-modal__form__product__contents__options opt-n" id="opt-name">'+$(item).text()+'</div>';	
-    		  addOpt += '<input type="hidden" name="optionId" value="'+optIdArr[index]+'" >'; 
-    		 $('.review-modal__form__product__contents').append(addOpt); 
-    	});
-    	
-    	var imgName = $(this).parent().find('input[name=imgName]').val();
-    	var brandName = $(this).parent().find('input[name=brandName]').val();
-    	var prodName = $(this).parent().find('input[name=prodName]').val();
-    	var prodId = $(this).parent().find('input[name=prodId]').val();
-    	var orderId = $(this).parent().find('input[name=orderId]').val();
-        var imgSrc = "${pageContext.request.contextPath}/resources/upload/shop/productMainImg/"+imgName;
-    	$('#prod-id').val(prodId);
-    	$('#order-id').val(orderId);
-    	$('#brand-name').text(brandName);
-    	$('#prod-name').text(prodName);
-    	$("#rv-img").attr("src",imgSrc);
-    	
-    	window.closeBtn = function() {
-    		console.log(t);
-    		$(t).html('리뷰보기');
-    		/* console.log($(this).html()); */
-    	}
-  	$('#writeReviewModal').modal();
+		alert('리뷰가 작성되었습니다');
+	}
 
- 
-    })
-})
+	$(function() {
+		$(".review-btn")
+				.click(
+						function() {
+							$('.review-modal__form__product__contents .opt-n')
+									.remove();
+							var optName = $(this).parent().prev().find(
+									'.optName');
+							var optId = $(this).parent().prev().find(
+									'input[name=opt-id]');
+							var t = $(this);
 
+							var optIdArr = new Array();
+							$(optId).each(function(index, item) {
+								optIdArr[index] = $(item).val();
+							});
+							$(optName)
+									.each(
+											function(index, item) {
+												var addOpt = '<div class="review-modal__form__product__contents__options opt-n" id="opt-name">'
+														+ $(item).text()
+														+ '</div>';
+												addOpt += '<input type="hidden" name="optionId" value="'+optIdArr[index]+'" >';
+												$(
+														'.review-modal__form__product__contents')
+														.append(addOpt);
+											});
+
+							var imgName = $(this).parent().find(
+									'input[name=imgName]').val();
+							var brandName = $(this).parent().find(
+									'input[name=brandName]').val();
+							var prodName = $(this).parent().find(
+									'input[name=prodName]').val();
+							var prodId = $(this).parent().find(
+									'input[name=prodId]').val();
+							var orderId = $(this).parent().find(
+									'input[name=orderId]').val();
+							var imgSrc = "${pageContext.request.contextPath}/resources/upload/shop/productMainImg/"
+									+ imgName;
+							$('#prod-id').val(prodId);
+							$('#order-id').val(orderId);
+							$('#brand-name').text(brandName);
+							$('#prod-name').text(prodName);
+							$("#rv-img").attr("src", imgSrc);
+
+							window.closeBtn = function() {
+								console.log(t);
+								$(t).html('리뷰보기');
+								/* console.log($(this).html()); */
+							}
+							$('#writeReviewModal').modal();
+
+						})
+	})
 </script>
 <script>
-$(function(){
-    $("label.rating-input__star").on("click",function(){
-        $(this).parent().children("label").removeClass("selected").children('i').addClass("fa-star-o"); 
-        $(this).addClass("selected").prevAll("label").addClass("selected").children('i').removeClass("fa-star-o").addClass("fa-star");
-        $(this).children("i").removeClass("fa-star-o").addClass("fa-star"); 
-        $(this).children("input:radio[name='starPoint']").prop('checked', true); 
-        return false;
-    })
-})
+	$(
+			function() {
+				$("label.rating-input__star").on(
+						"click",
+						function() {
+							$(this).parent().children("label").removeClass(
+									"selected").children('i').addClass(
+									"fa-star-o");
+							$(this).addClass("selected").prevAll("label")
+									.addClass("selected").children('i')
+									.removeClass("fa-star-o").addClass(
+											"fa-star");
+							$(this).children("i").removeClass("fa-star-o")
+									.addClass("fa-star");
+							$(this).children("input:radio[name='starPoint']")
+									.prop('checked', true);
+							return false;
+						})
+			})
 </script>
 <div class="breacrumb-section">
 	<div class="container">
@@ -159,15 +183,13 @@ $(function(){
 					<div class="sidebar__middle">
 						<div class="profile side__profile _3fftNQzxHO">
 							<ul>
-								<li>주문·배송<a
-									href="${pageContext.request.contextPath }/shop/myShopping/order/list.do"
-									class="_2XiEZGqw1K"><em>0</em>건</a>
-								</li>
 								<li>보유 쿠폰<a
 									href="${pageContext.request.contextPath }/shop/myShopping/coupon/list.do"
-									class="_2XiEZGqw1K"><em>2</em>장</a>
+									class="_2XiEZGqw1K"><em>${myCouponCount }</em>장</a>
 								</li>
-								<li>포인트<a href="#" class="_2XiEZGqw1K "><em>5000</em>p</a>
+								<li>포인트<a href="#" class="_2XiEZGqw1K "><em>
+								<fmt:formatNumber type="number" maxFractionDigits="3"
+									value="${point }" /></em>p</a>
 								</li>
 							</ul>
 						</div>
@@ -357,10 +379,12 @@ $(function(){
 												</div>
 												<div class="order-list__item__production__item__delivery">
 													<c:if test="${ prodList.reviewId !=''}">
-														<button class="button button--color-blue-inverted button--size-50 button--shape-4 order-list__item__production__item__delivery__btn my-review-btn">리뷰보기</button>
+														<button
+															class="button button--color-blue-inverted button--size-50 button--shape-4 order-list__item__production__item__delivery__btn my-review-btn">리뷰보기</button>
 													</c:if>
 													<c:if test="${ prodList.reviewId ==''}">
-													  <button  class="button button--color-blue-inverted button--size-50 button--shape-4 order-list__item__production__item__delivery__btn review-btn">리뷰작성</button>
+														<button
+															class="button button--color-blue-inverted button--size-50 button--shape-4 order-list__item__production__item__delivery__btn review-btn">리뷰작성</button>
 													</c:if>
 													<input type="hidden" name="imgName"
 														value="${prodList.renamedImg}" /> <input type="hidden"

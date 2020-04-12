@@ -31,6 +31,9 @@
 		#{productState},
 		#{paymentMethodCode, typeHandler=strArrTypeHandler}
 		)
+		<selectKey keyProperty="productId" resultType="string" order="AFTER">
+			select 'p'||to_char(seq_product_no.currval, 'fm0000000') from dual
+		</selectKey>
 </insert>
 
 <insert id="insertAttachment">
