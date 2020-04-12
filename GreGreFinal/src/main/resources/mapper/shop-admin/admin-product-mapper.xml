@@ -68,9 +68,10 @@ where
 select 
 	*
 from
-	tb_product 
+	tb_product A left join tb_prod_img B
+	on A.product_id = B.product_id
 where 
-	product_id= #{productId}
+	A.product_id= #{productId}
 
 </select>
 <resultMap type="Product" id="productMap" >
@@ -87,7 +88,15 @@ where
 <result column="product_detail" property="productDetail"/>
 <result column="enroll_date" property="enrollDate"/>
 <result column="product_state" property="productState"/>
-<result property="paymentMethodCode" column="payment_method_code" typeHandler="strArrTypeHandler"/>		
+<result property="paymentMethodCode" column="payment_method_code" typeHandler="strArrTypeHandler"/>
+
+	<collection property="attachList" ofType="attachment">
+		<id column="attachment_no" property="attachmentNo"></id>	
+		<result column="product_id" property="productId"/>	
+		<result column="original_img" property="originalImg"/>	
+		<result column="renamed_img" property="renamedImg"/>	
+		<result column="img_type" property="imgType"/>	
+	</collection>		
 </resultMap>
 
 

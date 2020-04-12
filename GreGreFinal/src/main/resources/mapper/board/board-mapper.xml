@@ -252,4 +252,32 @@
 		where post_no = #{postNo}
 	</update>
 	
+	<select id="noticeList" resultType="Post">
+		select * from TB_post_${boardCode} where notice = 'Y'
+	</select>
+	
+	<select id="idxNotice" resultType="Post">
+		select post_no, 
+	        case when length(title) > 20 then substr(title, 1, 18)||'...'
+	        else title
+	        end title
+		from TB_post_b1
+		order by post_no desc
+	</select>
+	
+	<select id="favList" resultType="Post">
+		select * from
+		<if test="boardCode != null">
+			<foreach collection="boardCode" item="code" open="(" separator="union" close=")">
+			select board_code, post_no, recommen_count, post_write_time, case when length(title) > 20 then  substr(title, 1, 18)||'...'
+			                                                    else title
+			                                                    end title
+			        from TB_post_${code.boardCode}
+	        </foreach>
+			where recommen_count != 0
+			order by recommen_count desc, post_write_time desc
+		</if>
+		<if test="boardCode == null">TB_post_b1</if>
+	</select>
+	
 </mapper>

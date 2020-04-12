@@ -162,7 +162,7 @@ input[name="paymentMethodCode"] {
 			</div>
 			<div class="form-group row">
 				<label for="productName" class="col-sm-2 col-form-label">상품명</label>
-				<div class="col-sm-10">
+				<div class="col-sm-4">
 					<input type="text" name="productName" class="form-control" id="">
 				</div>
 			</div>
@@ -174,7 +174,7 @@ input[name="paymentMethodCode"] {
 			</div>
 			<div class="form-group row">
 				<label for="supplyValue" class="col-sm-2 col-form-label">공급가</label>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<input type="number" name="supplyValue" class="form-control" value="0">
 				</div>
 				<div class="col-form-label">
@@ -183,7 +183,7 @@ input[name="paymentMethodCode"] {
 			</div>
 			<div class="form-group row">
 				<label for="price" class="col-sm-2 col-form-label">판매가</label>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<input type="number" name="price" class="form-control" value="0">
 				</div>
 				<div class="col-form-label">
@@ -192,7 +192,7 @@ input[name="paymentMethodCode"] {
 			</div>
 			<div class="form-group row">
 				<label for="pointRate" class="col-sm-2 col-form-label">포인트적립비율</label>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<input type="number" name="pointRate" class="form-control"
 						value="0">
 				</div>
@@ -202,7 +202,7 @@ input[name="paymentMethodCode"] {
 			</div>
 			<div class="form-group row">
 				<label for="discountPrice" class="col-sm-2 col-form-label">할인금액</label>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<input type="number" name="discountPrice" class="form-control"
 						value="0">
 				</div>
@@ -212,7 +212,7 @@ input[name="paymentMethodCode"] {
 			</div>
 			<div class="form-group row">
 				<label for="productStock" class="col-sm-2 col-form-label">재고수량</label>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<input type="number" name="productStock" class="form-control"
 						value="999">
 				</div>
