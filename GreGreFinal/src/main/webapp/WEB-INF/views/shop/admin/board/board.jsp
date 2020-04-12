@@ -8,7 +8,7 @@
 <!-- 한글깨질때. -->
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/shop/admin/common/header.jsp"/>
-
+ <!-- 오류수정 -->
 
         <!-- Right side column. Contains the navbar and content of the page -->
         <div class="content-wrapper">
