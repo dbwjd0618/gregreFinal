@@ -25,7 +25,7 @@
 	margin: 7px 0px 0px 6px;
 }
 
-.chatAid {
+.right>.chatMid {
 	margin: 60px 0px 0px 740px;
 }
 

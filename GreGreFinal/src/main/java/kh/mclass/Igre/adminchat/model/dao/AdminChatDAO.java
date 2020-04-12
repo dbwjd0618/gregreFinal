@@ -11,7 +11,10 @@ public interface AdminChatDAO {
 
 	List<Map<String, Object>> findChatListMapByChatId(String chatId);
 
-	void insertChatLog(AdminMSG fromMessage); 
+	int insertChatLog(AdminMSG fromMessage);
+
+	void updateLastCheck(AdminMSG fromMessage);
+
 
 
 }

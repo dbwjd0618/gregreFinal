@@ -20,18 +20,22 @@ public class AdminChatServiceImpl implements AdminChatService {
 		return adminChatDAO.findRecentList(adminId);
 	}
 
-	
 	@Override 
 	public List<Map<String, Object>> findChatListMapByChatId(String chatId) { 
 		return adminChatDAO.findChatListMapByChatId(chatId); 
 		
 	}
 
+	@Override
+	public int insertChatLog(AdminMSG fromMessage) {
+		System.out.println("서비스임플ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ");
+		return adminChatDAO.insertChatLog(fromMessage);
+	}
 
 	@Override
-	public void insertChatLog(AdminMSG fromMessage) {
-		adminChatDAO.insertChatLog(fromMessage);
+	public void updateLastCheck(AdminMSG fromMessage) {
+		adminChatDAO.updateLastCheck(fromMessage);
 	}
-		 
+
 
 }

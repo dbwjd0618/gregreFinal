@@ -17,7 +17,7 @@ table.table th, table.table td {text-align: center;}
 </style>
 <script>
 function goChat(chatId){
-	location.href = "${pageContext.request.contextPath}/admin/chat/"+chatId;
+	location.href = "${pageContext.request.contextPath}/admin/chatt/"+chatId;
 }
 
 </script>

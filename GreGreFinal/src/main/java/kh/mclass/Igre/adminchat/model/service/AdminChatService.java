@@ -11,7 +11,9 @@ public interface AdminChatService {
 
 	List<Map<String, Object>> findChatListMapByChatId(String chatId);
 
-	void insertChatLog(AdminMSG fromMessage); 
+	int insertChatLog(AdminMSG fromMessage);
+
+	void updateLastCheck(AdminMSG fromMessage);
 
 
 }

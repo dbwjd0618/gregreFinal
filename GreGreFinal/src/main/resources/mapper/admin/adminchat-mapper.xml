@@ -49,11 +49,23 @@
 		        (id, chat_room_id, member_id, msg, time)
 		values(
 		    seq_chat.nextval, 
-				(select id from chat_room where chat_id = #{chatId}), 
+				(select id from chat_room where chat_id = '${chatRoomId}'), 
 				#{memberId}, 
 				#{msg}, 
 				#{time}
 			)
 	</insert>
+	
+	<update id="updateLastCheck">
+		update 
+		    chat_member
+		set 
+		    last_check =  #{time}
+		where 
+		    chat_room_id = (select id from chat_room where chat_id = #{chatId})
+		  and 
+		    member_id = #{memberId}
+	
+	</update>
 
 </mapper>
