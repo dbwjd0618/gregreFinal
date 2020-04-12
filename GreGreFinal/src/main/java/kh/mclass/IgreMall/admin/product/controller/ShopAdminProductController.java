@@ -304,7 +304,40 @@ public class ShopAdminProductController {
 
 	@RequestMapping("/update.do")
 	public ModelAndView updateProduct(ModelAndView mav, HttpServletRequest request, HttpServletResponse response,
-			String productId, int discountPrice, int productStock, String productState) {
+			 Attachment a,String productId, int discountPrice, int productStock, String productState,
+			@RequestParam(value="upFile", required=false) MultipartFile upfile
+			) {
+		
+		
+		if(a.getOriginalImg() != null) {
+			if(a.getOriginalImg().equals("delete")) {
+				a.setOriginalImg(null);
+				a.setRenamedImg(null);
+			}
+			else if(a.getOriginalImg().equals("change")) {
+				if(!(upfile.isEmpty())) {
+
+					String originFileName = upfile.getOriginalFilename();
+					String renamedFileName = Utils.getRenamedFileName(originFileName);
+					
+					//파일 이동
+					String saveDirectory = request.getServletContext().getRealPath("/resources/upload/board");
+					
+					try {
+						upfile.transferTo(new File(saveDirectory, renamedFileName));
+					} catch (IllegalStateException | IOException e) {
+						e.printStackTrace();
+					}
+					
+					a.setOriginalImg(originFileName);
+					a.setRenamedImg(renamedFileName);
+					
+				} else {
+					a.setOriginalImg(null);
+					a.setRenamedImg(null);
+				}
+			}
+		}
 		System.err.println("왜 ?;");
 		Product p = new Product();
 

@@ -3,111 +3,145 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shopMember">
+	<delete id="deleteCart">
+		delete from 
+	 	tb_consumer_cart
+		where 
+		cart_id= #{cartId}
+	</delete>
+	<select id="selectListMyCoupon" resultMap="couponMap">
+		select
+		*
+		from 
+			tb_coupon_list C left join tb_coupon_info I
+									on C.coupon_id = I.coupon_id
+		where C.member_id = #{memberId}
+	</select>
 	<update id="updateCoupon">
 		update
-			TB_coupon_list
+		TB_coupon_list
 		set
-			coupon_state=#{couponState}
+		coupon_state=#{couponState}
 		where
-			member_id = #{memberId}	
-			and
-			coupon_id = #{couponId}	
+		member_id = #{memberId}
+		and
+		coupon_id = #{couponId}
 	</update>
 	<update id="updateConsumerInfo">
 		update
-			tb_consumer_info
+		tb_consumer_info
 		set
-			point=#{point}
+		point=#{point}
 		where
-			member_id = #{memberId}		
+		member_id = #{memberId}
 	</update>
 	<update id="updateCartOne">
 		update
-			tb_consumer_cart
+		tb_consumer_cart
 		set
-			option_id=#{optionId, typeHandler=strArrTypeHandler},
-			prod_count=#{prodCount, typeHandler=strArrTypeHandler}
+		option_id=#{optionId, typeHandler=strArrTypeHandler},
+		prod_count=#{prodCount, typeHandler=strArrTypeHandler}
 		where
-			cart_id = #{cartId}		
+		cart_id = #{cartId}
 	</update>
 	<select id="selectCartOne" resultMap="cartMap">
-	select 
+		select
 		*
-	from 
+		from
 		tb_consumer_cart
-	where 
+		where
 		cart_id = #{cartId}
 	</select>
 	<select id="selectCartList" resultMap="cartMap">
-	select 
+		select
 		*
-	from 
+		from
 		tb_consumer_cart
-	where 
+		where
 		member_id = #{memberId}
-	order by 
+		order by
 		cart_date desc
 	</select>
 	<insert id="insertCart">
-	insert into
+		insert into
 		TB_consumer_cart
-	values (
-		'ict'||to_char(sysdate,'yymmdd')||to_char(seq_TB_cart_id.nextval, 'fm0000'),
+		values (
+		'ict'||to_char(sysdate,'yymmdd')||to_char(seq_TB_cart_id.nextval,
+		'fm0000'),
 		#{memberId},
 		#{productId},
-		#{optionId, typeHandler=strArrTypeHandler},
-		#{prodCount, typeHandler=strArrTypeHandler},
+		#{optionId,
+		typeHandler=strArrTypeHandler},
+		#{prodCount,
+		typeHandler=strArrTypeHandler},
 		default
-	)
+		)
 	</insert>
 
-	<select id="selectOne" resultMap="shopMemberCollection"> 
-	select 
-    	* 
-	from  tb_member_info M left join tb_consumer_info S 
-                        on  M.member_id = S.member_id
-                        left join tb_coupon_list C
-                        on M.member_id = C.member_id
-	where 
+	<select id="selectOne" resultMap="shopMemberCollection">
+		select
+		*
+		from tb_member_info M left join tb_consumer_info S
+		on M.member_id = S.member_id
+		left join tb_coupon_list C
+		on M.member_id = C.member_id
+		where
 		M.member_Id = #{memberId}
 	</select>
-	<select id="selectCouponInfoOne" resultType="kh.mclass.IgreMall.coupon.model.vo.CouponInfo"> 
-	select 
-    	* 
-	from  
+	<select id="selectCouponInfoOne"
+		resultType="kh.mclass.IgreMall.coupon.model.vo.CouponInfo">
+		select
+		*
+		from
 		tb_coupon_info
-	where 
+		where
 		coupon_id = #{couponId}
 	</select>
-	
-	<resultMap type="cart" id="cartMap">
-		<id column ='cart_Id' property="cartId"/>
-		<result column ='member_id' property="memberId"/>
-		<result column ='product_id' property="productId"/>
-		<result column ='option_id' property="optionId"  typeHandler="strArrTypeHandler"/>
-		<result column ='prod_count' property="prodCount"  typeHandler="strArrTypeHandler"/>
-		<result column ='cart_date' property="cartDate"/>
+
+	<resultMap type="coupon" id="couponMap">
+		<id column='coupon_Id' property="couponId" />
+		<result column='member_id' property="memberId" />
+		<result column='expire_date' property="expireDate" />
+		<result column='coupon_state' property="couponState" />
+		<result column='coupon_name' property="couponName" />
+		<result column='coupon_detail' property="couponDetail" />
+		<result column='discount_value' property="discountValue" />
+		<result column='discount_type' property="discountType" />
+		<result column='max_value' property="maxValue" />
 	</resultMap>
-	
-	
+
+	<resultMap type="cart" id="cartMap">
+		<id column='cart_Id' property="cartId" />
+		<result column='member_id' property="memberId" />
+		<result column='product_id' property="productId" />
+		<result column='option_id' property="optionId"
+			typeHandler="strArrTypeHandler" />
+		<result column='prod_count' property="prodCount"
+			typeHandler="strArrTypeHandler" />
+		<result column='cart_date' property="cartDate" />
+	</resultMap>
+
+
 	<resultMap type="shopMember" id="shopMemberCollection">
-		<id column ='member_Id' property="memberId"/>
-		<result column ='member_pwd' property="memberPwd"/>
-		<result column ='member_name' property="memberName"/>
-		<result column ='nickname' property="nickname"/>
-		<result column ='birthday' property="birthday"/>
-		<result column ='phone' property="phone"/>
-		<result column ='address' property="address"/>
-		<result column ='email' property="email"/>
-		<result column ='enroll_date' property="enrollDate"/>
-		<result column ='point' property="point"/>
-		
-		<collection property="couponList" ofType="kh.mclass.IgreMall.coupon.model.vo.Coupon" javaType="java.util.ArrayList">
+		<id column='member_Id' property="memberId" />
+		<result column='member_pwd' property="memberPwd" />
+		<result column='member_name' property="memberName" />
+		<result column='nickname' property="nickname" />
+		<result column='birthday' property="birthday" />
+		<result column='phone' property="phone" />
+		<result column='address' property="address" />
+		<result column='email' property="email" />
+		<result column='enroll_date' property="enrollDate" />
+		<result column='point' property="point" />
+
+		<collection property="couponList"
+			ofType="kh.mclass.IgreMall.coupon.model.vo.Coupon"
+			javaType="java.util.ArrayList">
 			<id column="coupon_id" property="couponId" />
 			<result column="expire_date" property="expireDate" />
 			<result column="coupon_state" property="couponState" />
 		</collection>
 	</resultMap>
-	
-	
+
+
 </mapper>

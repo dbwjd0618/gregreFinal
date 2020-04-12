@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="prodQnA">
+ <delete id="deleteQnA">
+	delete from 
+	 	TB_QA
+	where 
+		qa_id = #{qaId}
+</delete>
+<update id="updateQnA">
+	update 
+		TB_QA
+	set
+		qtn_title = #{qtnTitle},
+		qtn_content = #{qtnContent},
+		qtn_date = sysdate,
+		set_secret = #{setSecret}
+	where 
+		qa_id = #{qaId}
+
+</update>
+	
+<insert id="insertQnA">
+	insert into
+		TB_QA
+	values (
+	 'q'||to_char(sysdate,'yyyymmdd')||to_char(seq_QA_id.nextval, 'fm0000'),
+	 #{productId},
+	 #{qtnerId},
+	 #{qtnTitle},
+	 #{qtnContent},
+	 sysdate,
+	 #{setSecret},
+	 'N'
+	)
+</insert>
+
+ <select id="selectListQnA" resultMap="qaMap">
+ 	select 
+ 		*
+ 	from
+ 		TB_QA
+ 	where 
+ 		product_id =#{productId}
+
+</select>
+ <select id="selectListMyQnA" resultMap="qaMap">
+ 	select 
+ 		*
+ 	from
+ 		TB_QA
+ 	where 
+ 		qtner_id =#{memberId}
+
+</select>
+
+
+
+<resultMap type="prodQnA" id="qaMap">
+		<id column ='qa_id' property="qaId"/>
+		<result column ='product_id' property="productId"/>
+		<result column ='qtner_id' property="qtnerId"/>
+		<result column ='qtn_title' property="qtnTitle"/>
+		<result column ='qtn_content' property="qtnContent" />
+		<result column ='qtn_date' property="qtnDate"  />
+		<result column ='set_secret' property="setSecret"  />
+		<result column ='qa_state' property="qaState"  />
+</resultMap> 
+
+</mapper>
+
+

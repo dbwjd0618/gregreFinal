@@ -36,20 +36,19 @@
 					<div class="sidebar__header">
 						<div class="profile sidebar__profile">
 							<img class="profile__avatar" src="${pageContext.request.contextPath }/resources/images/myPage/user.png" />
-							<div class="profile__name">user123</div>
+							<div class="profile__name">${memberLoggedIn.memberId }</div>
 						</div>
 					</div>
 					<div class="sidebar__middle">
 						<div class="profile side__profile _3fftNQzxHO">
 							<ul>
-								<li>
-									주문·배송<a href="${pageContext.request.contextPath }/shop/myShopping/order/list.do" class="_2XiEZGqw1K" ><em>0</em>건</a>
+								<li>보유 쿠폰<a
+									href="${pageContext.request.contextPath }/shop/myShopping/coupon/list.do"
+									class="_2XiEZGqw1K"><em>${myCouponCount }</em>장</a>
 								</li>
-								<li>
-									보유 쿠폰<a href="${pageContext.request.contextPath }/shop/myShopping/coupon/list.do" class="_2XiEZGqw1K" ><em>2</em>장</a>
-								</li>
-								<li>
-									포인트<a href="#" class="_2XiEZGqw1K " ><em>5000</em>p</a>
+								<li>포인트<a href="#" class="_2XiEZGqw1K "><em>
+								<fmt:formatNumber type="number" maxFractionDigits="3"
+									value="${point }" /></em>p</a>
 								</li>
 							</ul>
 						</div>

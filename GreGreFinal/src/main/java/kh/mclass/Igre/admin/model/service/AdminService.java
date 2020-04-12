@@ -72,6 +72,8 @@ public interface AdminService {
 
 	List<Admin> indexAdmin();
 
+	int allMemberCnt();
+
 
 
 
