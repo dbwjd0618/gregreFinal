@@ -62,7 +62,7 @@
 		set 
 		    last_check =  #{time}
 		where 
-		    chat_room_id = (select id from chat_room where chat_id = #{chatId})
+		    chat_room_id = (select id from chat_room where chat_id = '${chatRoomId}')
 		  and 
 		    member_id = #{memberId}
 	

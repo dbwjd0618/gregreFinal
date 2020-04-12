@@ -48,7 +48,7 @@ let stompClient = Stomp.over(socket);
 stompClient.connect({}, function(frame){
 	console.log('connected stomp over sockjs');
 	//사용자 확인
-	//lastCheck(chatId, memberId);
+	lastCheck(chatId, memberId);
 });
 
 /**

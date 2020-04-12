@@ -70,7 +70,7 @@ function scrollTop(){
 function lastCheck(chatId, memberId) {
 	
 	let data = {
-		chatId : chatId,
+		chatRoomId : chatId,
 		memberId : memberId,
 		time : Date.now(),
 		type: "LASTCHECK"

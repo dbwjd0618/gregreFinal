@@ -28,7 +28,7 @@ public class AdminChatServiceImpl implements AdminChatService {
 
 	@Override
 	public int insertChatLog(AdminMSG fromMessage) {
-		System.out.println("서비스임플ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ");
+		updateLastCheck(fromMessage);
 		return adminChatDAO.insertChatLog(fromMessage);
 	}
 

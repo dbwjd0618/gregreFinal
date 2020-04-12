@@ -12,15 +12,62 @@
 <!-- adminchat.js  -->
 <script src="${pageContext.request.contextPath}/resources/js/admin/adminchat.js"></script>
 
+<!-- table css -->
 <style>
 table.table th, table.table td {text-align: center;}
 </style>
+
+<!-- list에서 클릭시 chat으로 이동하는 script -->
 <script>
 function goChat(chatId){
-	location.href = "${pageContext.request.contextPath}/admin/chatt/"+chatId;
+	location.href = "${pageContext.request.contextPath}/admin/chat/"+chatId;
 }
-
 </script>
+
+<!-- lastCheck script -->
+<script>
+
+//웹소켓 선언 및 연결
+//1. 최초 웹소켓 생성 url : /stomp
+let socket = new SockJS('<c:url value="/stomp"/>');
+let stompClient = Stomp.over(socket);
+
+stompClient.connect({}, function(frame){
+	console.log('connected stomp over sockjs');
+	//사용자 확인
+	lastCheck(chatId, memberId);
+});
+
+$(()=>{
+	subscribeByPage();
+});
+
+/**
+ * 페이지별 구독신청 내역을 처리한다.
+ * 사용자가 새 메세지를 작성하거나, 관리자가 메세지를 확인한 경우 알림을 받는다.
+ */
+ 
+ function subscribeByPage(){
+	//페이지별로 구독신청 처리
+	let conntionDone = false;
+	let intervalId = setInterval(()=>{
+		if(conntionDone==true)
+			clearInterval(intervalId);
+		
+		if(conntionDone==false && stompClient.connected){
+			
+			//subscribe message
+			stompClient.subscribe('/admin/chat/push', function(message){
+				console.log("receive from /admin/chat/push :", message);
+				//새로운 메세지가 있을때 목록 갱신을 위해서 reload함.
+				location.reload();
+			});
+			conntionDone = true;
+		}
+	}, 10000);
+}
+</script>
+
 
 <div class="content-wrapper">
 	<section class="content-header">
