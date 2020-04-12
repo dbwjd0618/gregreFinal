@@ -178,6 +178,11 @@ public class AdminServiceImpl implements AdminService{
 		return adminDAO.indexAdmin();
 	}
 
+	@Override
+	public int allMemberCnt() {
+		return adminDAO.allMemberCnt();
+	}
+
 
 
 	

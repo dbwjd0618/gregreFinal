@@ -4,28 +4,22 @@
 <!-- admin header 선언 -->
 <%@ include file="/WEB-INF/views/admin/common/header.jsp"%>
 <!-- WebSocket:sock.js CDN -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>
 <!-- WebSocket: stomp.js CDN -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
 
 <!-- adminchat.css -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/admin/adminchat.css"
-	rel="stylesheet" type="text/css" />
-<%-- <!-- adminchat.js  -->
-<script src="${pageContext.request.contextPath}/resources/js/admin/adminchat.js"></script> --%>
+<link href="${pageContext.request.contextPath}/resources/css/admin/adminchat.css"
+		rel="stylesheet" type="text/css" />
 <!-- 사용자 chat관련 script -->
-<script
-	src="${pageContext.request.contextPath }/resources/js/admin/chat.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/admin/chat.js"></script>
 
 <style>
 .chatMid {
 	margin: 7px 0px 0px 6px;
 }
 
-.chatAid {
+.right>.chatMid {
 	margin: 60px 0px 0px 740px;
 }
 
@@ -36,7 +30,7 @@
 
 <script>
 
-const memberId = '${memberId}';
+const memberId = '${adminId}';
 const adminId = '${adminId}'
 const chatId = '${chatId}';
 
@@ -48,7 +42,7 @@ let stompClient = Stomp.over(socket);
 stompClient.connect({}, function(frame){
 	console.log('connected stomp over sockjs');
 	//사용자 확인
-	//lastCheck(chatId, memberId);
+	lastCheck(chatId, memberId);
 });
 
 /**
@@ -71,12 +65,21 @@ stompClient.connect({}, function(frame){
 			stompClient.subscribe('/admin/chat/'+chatId, function(message) {
 				console.log("receive from subscribe /admin/chat/"+chatId+":", message);
 				let messageBody = JSON.parse(message.body);
-				$(".messages").append("<li class=\"message right appeared\">"+
-						"<div class=\"avatar\"></div>"+
-						"<div class=\"text_wrapper\">"+
-						"<div class=\"text\">"+messageBody.msg+"</div>"+
-						"</div>"+
-						"<div class=\"chatMid\">"+messageBody.memberId+"</div></li>");
+				if(messageBody.memberId == adminId) {
+					$(".messages").append("<li class=\"message right appeared\">"+
+							"<div class=\"avatar\"></div>"+
+							"<div class=\"text_wrapper\">"+
+							"<div class=\"text\">"+messageBody.msg+"</div>"+
+							"</div>"+
+							"<div class=\"chatMid\">"+messageBody.memberId+"</div></li>");
+				} else {
+					$(".messages").append("<li class=\"message left appeared\">"+
+							"<div class=\"avatar\"></div>"+
+							"<div class=\"text_wrapper\">"+
+							"<div class=\"text\">"+messageBody.msg+"</div>"+
+							"</div>"+
+							"<div class=\"chatMid\">"+messageBody.memberId+"</div></li>");
+				}
 				scrollTop();
 			});
 			conntionDone = true;
@@ -96,7 +99,6 @@ stompClient.connect({}, function(frame){
 			<li class="active">채팅하기</li>
 		</ol>
 	</section>
-	<!-- 메시지 출력 영역 -->
 	<div class="chat_window">
 		<div class="top_menu">
 			<div class="buttons">
@@ -106,18 +108,21 @@ stompClient.connect({}, function(frame){
 			</div>
 			<div class="title">Chat</div>
 		</div>
-		<ul class="messages">
-			<c:forEach items="${chatList}" var="chat">
-				<li
-					class="message appeared ${chat.MEMBER_ID == adminId ? 'right' : 'left'}">
-					<div class="avatar"></div>
-					<div class="text_wrapper">
-						<div class="text">${chat.MSG }</div>
-					</div>
-					<div class="chatMid">${chat.MEMBER_ID }</div>
-				</li>
-			</c:forEach>
-		</ul>
+		<!-- 메시지 출력 영역 -->
+		<div id="msg-container">
+			<ul class="messages">
+				<c:forEach items="${chatList}" var="chat">
+					<li
+						class="message appeared ${chat.MEMBER_ID == adminId ? 'right' : 'left'}">
+						<div class="avatar"></div>
+						<div class="text_wrapper">
+							<div class="text">${chat.MSG }</div>
+						</div>
+						<div class="chatMid">${chat.MEMBER_ID }</div>
+					</li>
+				</c:forEach>
+			</ul>
+		</div>
 		<!-- 메시지 입력 영역  -->
 		<div class="bottom_wrapper clearfix">
 			<div class="message_input_wrapper">
