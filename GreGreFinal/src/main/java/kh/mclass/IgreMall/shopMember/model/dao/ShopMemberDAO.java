@@ -25,4 +25,6 @@ public interface ShopMemberDAO {
 
 	int updateCoupon(Coupon coupon);
 
+	int deleteCart(String cartId);
+
 }
