@@ -23,54 +23,7 @@
 
 <title>E-smart장터 판매관리자</title>
 <style>
-tbody {
-	display: table-row-group;
-	vertical-align: middle;
-	border-color: inherit;
-}
 
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-.col-sm-12 {
-	width: 100%;
-}
-
-.pagination {
-	display: inline-block;
-	padding-left: 0;
-	margin: 20px 0;
-	border-radius: 4px;
-}
-
-.pagination>li>a, .pagination>li>span {
-	position: relative;
-	float: left;
-	padding: 8px 20px;
-	line-height: 1.428571429;
-	text-decoration: none;
-	background-color: #ffffff;
-	border: 1px solid #dddddd;
-	margin-left: -1px;
-}
-
-.pagination-sm>li>a, .pagination-sm>li>span {
-	padding: 5px 10px;
-	font-size: 12px;
-}
-
-.pagination>li:first-child>a, .pagination>li:first-child>span {
-	margin-left: 0;
-	border-bottom-left-radius: 4px;
-	border-top-left-radius: 4px;
-}
-
-.pagination-sm>li:first-child>a, .pagination-sm>li:first-child>span {
-	border-bottom-left-radius: 2px;
-	border-top-left-radius: 2px;
-}
 
 body {
 	font-family: "NanumGothic", "Roboto", "Helvetica Neue", Helvetica, Arial,
@@ -402,7 +355,19 @@ table {
 									<a href="javascript:void(0)"
 										onclick="javascript:location.href='./detail.php?c=${p.productId}';">${p.productName }</a></td>
 									<td class="text-center vertical-middle">
-									<img src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${p.attachList.get(0).renamedImg}" style="width:200px;" alt=""><br></td>
+								
+								
+									<c:if
+                                    test="${fn:contains(p.attachList.get(0).originalImg, 'http://')}">
+                                    <img src="${p.attachList.get(0).originalImg}" alt="">
+                                 </c:if>
+                                 
+                                 
+                                 <c:if test="${fn:contains(p.productId, 'p')}">
+                                 <img src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${p.attachList.get(0).renamedImg}" style="width:200px;" alt="">
+                                 </c:if>
+                                 <br></td>
+                                  
 									<td class="text-left vertical-middle">${p.categoryId }</td>
 									<td class="text-center vertical-middle">${p.price }</td>
 									<td class="text-center vertical-middle"><input type="text"
@@ -437,27 +402,85 @@ table {
 					</table>
 				</form>
 			</div>
+			<!-- 페이지 바 시작-->
+				<nav aria-label="Page navigation example">
+				  <ul class="pagination">
+				    <li class="page-item">
+				      <a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=1" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;&laquo;	 </span>
+				        <span class="sr-only">Previous</span>
+				      </a>
+				    </li>
+				    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${cPage }">${cPage }</a></li>
+				    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${cPage+1 }">${cPage+1 }</a></li>
+				    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${cPage+2 }">${cPage+2 }</a></li>
+				    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${cPage+3 }">${cPage+3 }</a></li>
+				    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${cPage+4 }">${cPage+4 }</a></li>
+				    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${endPage}" aria-label="Next">
+				        <span aria-hidden="true">&raquo;&raquo;</span>
+				        <span class="sr-only">Next</span>
+				      </a>
+				    </li>
+				  </ul>
+				</nav>
+				<!-- 페이지 바 끝-->
+			<div class="row page_wrap">
+							<div class="col-md-12 page_nation">
+								<!-- cPage -->
+								<c:if test="${3 ge cPage}">
+									<div class="Pg"><span>&lt;&lt;</span></div>
+									<div class="Pg"><span>&lt;</span></div>
+								</c:if>
+								<c:if test="${3 lt cPage }">
+									<div class="Pg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=1">&lt;&lt;</a></div>
+									<div class="Pg CPg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${cPage-3}">&lt;</a></div>
+								</c:if>
+								
+								<!-- endPage가 5 이하일때 -->
+								<c:if test="${endPage le 5 }">
+									<c:forEach begin="1" end="${endPage}" var="pNo">
+										<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${pNo}">${pNo}</a></div></c:if>
+										<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
+									</c:forEach>
+								</c:if>
+								
+								<!-- endPage가 5 초과일때 -->
+								<c:if test="${endPage gt 5 }">
+									<!-- cPage가 3 이하일때 -->
+									<c:if test="${cPage le 3}">
+										<c:forEach begin="1" end="5" var="pNo">
+											<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${pNo}">${pNo}</a></div></c:if>
+											<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
+										</c:forEach>
+									</c:if>
+									<!--cPage가 endPage-2 이상일때 -->
+									<c:if test="${cPage ge (endPage-2)}">
+										<c:forEach begin="${endPage-4 }" end="${endPage }" var="pNo">
+											<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${pNo}">${pNo}</a></div></c:if>
+											<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
+										</c:forEach>
+									</c:if>
+									<!--cPage가 3 초과 endPage-2 미만일때 -->
+									<c:if test="${cPage gt 3 && cPage lt (endPage-2)}">
+										<c:forEach begin="${cPage-2}" end="${cPage+2}" var="pNo">
+											<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${pNo}">${pNo}</a></div></c:if>
+											<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
+										</c:forEach>
+									</c:if>
+								</c:if>
+								
+								<c:if test="${cPage ge endPage-2}">
+									<div class="Pg"><span>&gt;</span></div>
+									<div class="Pg"><span>&gt;&gt;</span></div>
+								</c:if>
+								<c:if test="${cPage lt endPage-2}">
+									<div class="Pg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${cPage+3}">&gt;</a></div>
+									<div class="Pg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${endPage}">&gt;&gt;</a></div>
+								</c:if>
+							</div>
+						</div>
 		</div>
-		<div class="row text-center">
-			<div class="col-sm-12">
-				<ul class="pagination pagination-sm">
-					<li class="prev"><a href="#"
-						onclick="javascript:return false;"> &lt; &lt; </a></li>
-					<li class="prev"><a href="#"
-						onclick="${pageContext.request.contextPath}/shop/admin/product/search.do">
-							&lt;</a></li>
-					<li class="active">
-						<a href="/sales_manager/goods/index.php?sellerId=&amp;page=1&amp;sdate=&amp;edate=&amp;view_yn=&amp;pname=">1</a></li>
-					<li class="next"><a href="#"
-						onclick="javascript:return false;"> &gt; </a></li>
-					<li class="next"><a href="#"
-						onclick="javascript:return false;"> &gt; &gt; </a></li>
-				</ul>
-				<div class="clearfix"></div>
-			</div>
-		</div>
-
-	</div>
+</div>
  	<form action="xlsdown.php" method="post" name="xlsform">
 		<input type="hidden" name="pname" value=""> <input
 			type="hidden" name="sdate" value=""> <input type="hidden"
@@ -469,9 +492,7 @@ table {
 
 
 
-<div class="col-md-4">
-					<a data-advis-id="${counselor.advisId}" class="btn btn-primary btn-lg" role="button">상담권 선택하기</a>
-				</div>
+
 
 
 
