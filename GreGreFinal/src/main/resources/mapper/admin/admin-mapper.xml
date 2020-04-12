@@ -360,6 +360,15 @@
 		where
 			grade = 'A'
 	</select>
+	
+	<select id="allMemberCnt" resultType="_int">
+		select 
+			count(*) 
+		from 
+			tb_member_info
+	</select>
+	
+	
  </mapper>
  
  

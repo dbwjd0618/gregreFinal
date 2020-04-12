@@ -21,7 +21,7 @@ $(function() {
 	//lastCheck 마지막 확인검사용
 	//window focus이벤트핸들러 등록
 	$(window).on("focus", function() {
-		//lastCheck();
+		lastCheck();
 	});
 	
 });
@@ -57,7 +57,9 @@ function sendMessage() {
  */
 function scrollTop(){
 	//스크롤처리
- 	$('#msg-container').scrollTop($("#msg-container").prop('scrollHeight'));
+// 	$('#msg-container').scrollTop($("#msg-container").prop('scrollHeight'));
+ 	$messages = $('.messages');
+ 	$messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 300);
 }
 
 
@@ -70,7 +72,7 @@ function scrollTop(){
 function lastCheck(chatId, memberId) {
 	
 	let data = {
-		chatId : chatId,
+		chatRoomId : chatId,
 		memberId : memberId,
 		time : Date.now(),
 		type: "LASTCHECK"
