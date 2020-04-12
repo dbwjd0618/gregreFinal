@@ -33,10 +33,18 @@ public class AdminChatDAOImpl implements AdminChatDAO {
 	}
 
 	@Override
-	public void insertChatLog(AdminMSG fromMessage) {
-		sqlSession.insert("stomp.insertChatLog", fromMessage);
+	public int insertChatLog(AdminMSG fromMessage) {
+//		System.out.println("디에이오임플ㅇㅇㅇㅇㅇㅇㅇ");
+		return sqlSession.insert("stomp.insertChatLog", fromMessage);
+//		return 1;
 	}
 
-	
+
+	@Override
+	public void updateLastCheck(AdminMSG fromMessage) {
+		sqlSession.update("stomp.updateLastCheck", fromMessage);
+	}
+
+
 
 }
