@@ -1,6 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!-- taglib는 매 jsp 마다 필요함 -->
@@ -182,37 +182,99 @@
               </h1>
               <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">게시판 관리</a></li>
+                <li><a href="#">게시판</a></li>
                 <li class="active">게시판 목록</li>
               </ol>
             </section>
-    
+            <!-- <style>
+                .infostatus{
+                  border: 1px solid gray;
+                  width: 800px;
+                  margin-left:64px;
+                  height: 150px;
+                }
+                </style> -->
             <!-- Main content -->
+           
             <section class="content">
               <div class="row">
                 <div class="col-xs-12">
                   <div class="box">
                     <div class="box-header">
-                      <h3 class="box-title">게시판 목록</h3>
+                      <h3 class="box-title">문의게시판</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='./review.html'">리뷰목록</button>
-                        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='./q&a.html'">문의게시판</button>
-                         <button type="button" class="btn btn-primary btn-lg btn-block" onclick="location.href='${pageContext.request.contextPath}/shop/admin/event/event.do'">이벤트게시판</button>
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-4"  style="text-align: center;"><img src="../images/admin/q&aImage/send.png" style="width: 120px;"><br><strong>접수: 100건</strong></div>
+                                <div class="col-sm-4" style="text-align: center;"><img src="../images/admin/q&aImage/working.png" style="width: 120px;"><br><strong>처리중: 20건</strong></div>
+                                <div class="col-sm-4"style="text-align: center;"><img src="../images/admin/q&aImage/solustion.png" style="width: 120px;"><br><strong>해결: 10건</strong></div>
+                            </div>
+                        <div class="row" style="display:grid; margin-bottom: 20px;">
+                            <table>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>제목</th>
+                                    <th>이름</th>
+                                    <th>날짜</th>
+                                    <th>상태</th>
+                                </tr>
+                              <c:forEach items="${list }" var="qa">
+                                <tr>
+                                    <td>${qa.qaId }</td>
+                                    <td><a href="${pageContext.request.contextPath }/shop/admin/question/viewQnA.do?qaId=${qa.qaId}">${qa.qtnTitle }</a></td>
+                                    <td>${qa.qtnerId }</td>
+                                    <td>${qa.qtnDate }</td>
+                                    <td>${qa.qaState }</td>
+                                </tr>
+                                </c:forEach>
+                            </table>
+                        </div>
+                        <div class="row">
+                        <!-- 페이징바 영역 -->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <select>
+                                    <option value="title">제목</option>
+                                    <option value="content">내용</option>
+                                    <option value="writer">작성자</option>
+                                </select>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="text" style="width: 500px;"/>
+                            </div>
+                            <div class="col-md-2">
+                                <button style="width:80px;">검색</button>
+                            </div>
+                        </div>
+                      </div>
                     </div><!-- /.box-body -->
                   </div><!-- /.box -->
                 </div><!-- /.col -->
               </div><!-- /.row -->
-            </section><!-- /.content -->
-          </div><!-- /.content-wrapper -->
 
-        <footer class="main-footer">
-          <p class="">서울특별시 그래구 그레로 123 </p>
-          <p class="">TEL : 육아종합지원센터 02-123-1234 &nbsp;&nbsp;|&nbsp;&nbsp; FAX : 02-456-4567 &nbsp;&nbsp;|&nbsp;&nbsp;Mail : i_gre@gmail.com</p>
-          <p>Copyright(c) 2020 아이그레. All rights reserved.</p>
-        </footer>
-    </div><!-- ./wrapper -->
-  <!-- jQuery 2.1.3 -->
+              <div class="row" style="margin-bottom:20px;">
+                <div class=" col-lg-12 production-selling-section__right" style="float: right;">
+                    <button type="button" data-toggle="modal" data-target="#qNaModal">
+                        상품문의하기
+                    </button>
+                </div>
+            </div>
+ 
+            </section><!-- /.content -->
+
+          </div><!-- /.content-wrapper -->
+       
+
+          <footer class="main-footer">
+            <p class="">서울특별시 그래구 그레로 123 </p>
+            <p class="">TEL : 육아종합지원센터 02-123-1234 &nbsp;&nbsp;|&nbsp;&nbsp; FAX : 02-456-4567 &nbsp;&nbsp;|&nbsp;&nbsp;Mail : i_gre@gmail.com</p>
+            <p>Copyright(c) 2020 아이그레. All rights reserved.</p>
+          </footer>
+        </div><!-- ./wrapper -->
+         <!-- jQuery 2.1.3 -->
         <script src="${pageContext.request.contextPath}/resources/js/admin/jQuery-2.1.3.min.js"></script>
         
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>  
@@ -226,7 +288,37 @@
         <script src="${pageContext.request.contextPath}/resources/js/admin/app.min.js" type="text/javascript"></script>
         <!-- AdminLTE for demo purposes -->
         <script src="${pageContext.request.contextPath}/resources/js/admin/demo.js" type="text/javascript"></script>
+
+               <!-- 문의하기 modal -->
     
+               <div class="modal fade" id="qNaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">상품 문의</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+                        <div class="form-group">
+                          <label for="QnA-title" class="col-form-label">제목</label>
+                          <input type="text" class="form-control" id="QnA-title">
+                        </div>
+                        <div class="form-group">
+                          <label for="QnA-text" class="col-form-label" >문의 내용</label>
+                          <textarea class="form-control" id="QnA-text" placeholder="문의 내용을 입력하세요"></textarea>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-primary">완료</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
    <!-- page script -->
    <script type="text/javascript">
     $(function () {
@@ -240,18 +332,6 @@
         "bAutoWidth": false
       });
     });
-    $("#add").click(function(){
-      var div = $("<div style='margin: 20px 0; text-align:center;' ></div>");
-      var form = $("<form action='' method='POST' class='form-inline'></form>");
-      form.append("<div class='form-group'><label for='boardCode'>게시판 코드</label><input type='text' class='form-control' style='margin: 0 10px;'  id='boardCode' placeholder='게시판 코드'></div>")
-      form.append("<div class='form-group'><label for='boardName'>게시판 이름</label><input type='text' class='form-control' style='margin: 0 10px;'  id='boardName' placeholder='게시판 이름'></div>");
-      form.append("<button type='submit' class='btn btn-default'>생성</button>");
-      div.html(form);
-
-      div.insertAfter($(this).slideDown(5000).off('click'));
-      console.log(div);
-
-    })
   </script>
   </body>
 </html>
