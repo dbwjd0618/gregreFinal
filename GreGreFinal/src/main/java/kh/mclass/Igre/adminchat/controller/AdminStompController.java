@@ -34,14 +34,10 @@ public class AdminStompController {
 
 	@ModelAttribute
 	public void common(Model model, HttpSession session,
-			@SessionAttribute(value = "adminLoggedIn", required = false) Admin adminLoggedIn,
-			@SessionAttribute(value = "memberLoggedIn", required = false) Member memberLoggedIn) {
+			@SessionAttribute(value = "adminLoggedIn", required = false) Admin adminLoggedIn) {
 		String adminId = adminLoggedIn.getAdminId();
-		String memberId = memberLoggedIn.getMemberId();
 
 		model.addAttribute("adminId", adminId);
-		model.addAttribute("memberId", memberId);
-		
 		log.debug("adminId 속성값 설정됨 [{}]", adminId);
 	}
 

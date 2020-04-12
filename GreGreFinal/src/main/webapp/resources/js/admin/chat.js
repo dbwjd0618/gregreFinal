@@ -57,7 +57,9 @@ function sendMessage() {
  */
 function scrollTop(){
 	//스크롤처리
- 	$('#msg-container').scrollTop($("#msg-container").prop('scrollHeight'));
+// 	$('#msg-container').scrollTop($("#msg-container").prop('scrollHeight'));
+ 	$messages = $('.messages');
+ 	$messages.animate({ scrollTop: $messages.prop('scrollHeight') }, 300);
 }
 
 

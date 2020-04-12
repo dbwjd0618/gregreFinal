@@ -14,8 +14,8 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/admin/adminchat.css"
 	rel="stylesheet" type="text/css" />
-<%-- <!-- adminchat.js  -->
-<script src="${pageContext.request.contextPath}/resources/js/admin/adminchat.js"></script> --%>
+<!-- adminchat.js  -->
+<%-- <script src="${pageContext.request.contextPath}/resources/js/admin/adminchat.js"></script> --%>
 <!-- 사용자 chat관련 script -->
 <script
 	src="${pageContext.request.contextPath }/resources/js/admin/chat.js"></script>
@@ -36,7 +36,7 @@
 
 <script>
 
-const memberId = '${memberId}';
+const memberId = '${adminId}';
 const adminId = '${adminId}'
 const chatId = '${chatId}';
 
@@ -96,7 +96,6 @@ stompClient.connect({}, function(frame){
 			<li class="active">채팅하기</li>
 		</ol>
 	</section>
-	<!-- 메시지 출력 영역 -->
 	<div class="chat_window">
 		<div class="top_menu">
 			<div class="buttons">
@@ -106,18 +105,21 @@ stompClient.connect({}, function(frame){
 			</div>
 			<div class="title">Chat</div>
 		</div>
-		<ul class="messages">
-			<c:forEach items="${chatList}" var="chat">
-				<li
-					class="message appeared ${chat.MEMBER_ID == adminId ? 'right' : 'left'}">
-					<div class="avatar"></div>
-					<div class="text_wrapper">
-						<div class="text">${chat.MSG }</div>
-					</div>
-					<div class="chatMid">${chat.MEMBER_ID }</div>
-				</li>
-			</c:forEach>
-		</ul>
+		<!-- 메시지 출력 영역 -->
+		<div id="msg-container">
+			<ul class="messages">
+				<c:forEach items="${chatList}" var="chat">
+					<li
+						class="message appeared ${chat.MEMBER_ID == adminId ? 'right' : 'left'}">
+						<div class="avatar"></div>
+						<div class="text_wrapper">
+							<div class="text">${chat.MSG }</div>
+						</div>
+						<div class="chatMid">${chat.MEMBER_ID }</div>
+					</li>
+				</c:forEach>
+			</ul>
+		</div>
 		<!-- 메시지 입력 영역  -->
 		<div class="bottom_wrapper clearfix">
 			<div class="message_input_wrapper">
