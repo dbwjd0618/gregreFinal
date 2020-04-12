@@ -4,21 +4,15 @@
 <!-- admin header 선언 -->
 <%@ include file="/WEB-INF/views/admin/common/header.jsp"%>
 <!-- WebSocket:sock.js CDN -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>
 <!-- WebSocket: stomp.js CDN -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
 
 <!-- adminchat.css -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/admin/adminchat.css"
-	rel="stylesheet" type="text/css" />
-<!-- adminchat.js  -->
-<%-- <script src="${pageContext.request.contextPath}/resources/js/admin/adminchat.js"></script> --%>
+<link href="${pageContext.request.contextPath}/resources/css/admin/adminchat.css"
+		rel="stylesheet" type="text/css" />
 <!-- 사용자 chat관련 script -->
-<script
-	src="${pageContext.request.contextPath }/resources/js/admin/chat.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/admin/chat.js"></script>
 
 <style>
 .chatMid {
