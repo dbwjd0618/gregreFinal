@@ -29,6 +29,8 @@ import kh.mclass.IgreMall.product.model.service.ProductService;
 import kh.mclass.IgreMall.product.model.vo.Attachment;
 import kh.mclass.IgreMall.product.model.vo.ProdOption;
 import kh.mclass.IgreMall.product.model.vo.Product;
+import kh.mclass.IgreMall.review.model.service.ProdReviewService;
+import kh.mclass.IgreMall.review.model.vo.ProdReview;
 import kh.mclass.IgreMall.shopMember.model.service.ShopMemberService;
 import kh.mclass.IgreMall.shopMember.model.vo.Cart;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +46,8 @@ public class ShopMemberController {
 	ProductService productService;
 	@Autowired
 	OrderService orderService;
+	@Autowired
+	ProdReviewService reviewService;
 
 	/**
 	 * 0405 이진희
@@ -210,9 +214,25 @@ public class ShopMemberController {
 			List<OrderProduct> orderProdList = orderService.selectOrderProdList(orderNo);
 
 			for (int j = 0; j < orderProdList.size(); j++) {
-				Product product = productService.selectProductOne(orderProdList.get(j).getProductId());
+				String prodId = orderProdList.get(j).getProductId();
+				Product product = productService.selectProductOne(prodId);
 				orderProdList.get(j).setProductName(product.getProductName());
 				orderProdList.get(j).setProductBrand(product.getBrandName());
+
+				// review 불러오기
+				List<ProdReview> myReviewList = reviewService.selectListMyReview(memberId);
+				for (int mIdx = 0; mIdx < myReviewList.size(); mIdx++) {
+
+					if (prodId.equals(myReviewList.get(mIdx).getProductId())
+							&& orderNo.equals(myReviewList.get(mIdx).getOrderNo())) {
+						String reviewId = myReviewList.get(mIdx).getReviewId();
+						orderProdList.get(j).setReviewId(reviewId);
+					} else {
+						String reviewId = "";
+						orderProdList.get(j).setReviewId(reviewId);
+					}
+				}
+				// 리뷰 아이디 가져오기
 
 				switch (orderList.get(i).getDeliveryState()) {
 
@@ -316,117 +336,116 @@ public class ShopMemberController {
 	public ModelAndView orderDetail(ModelAndView mav,
 			@RequestParam(value = "orderNo", required = false) String orderNo) {
 
-		
-		 OrderList orderList = orderService.selectOrderList(orderNo);
-		 PaymentInfo paymentInfo = orderService.selectPaymentInfo(orderNo);
-		  List<OrderProduct> orderProdList = orderService.selectOrderProdList(orderNo);
-			orderList.setPaymentInfo(paymentInfo);
+		OrderList orderList = orderService.selectOrderList(orderNo);
+		PaymentInfo paymentInfo = orderService.selectPaymentInfo(orderNo);
+		List<OrderProduct> orderProdList = orderService.selectOrderProdList(orderNo);
+		orderList.setPaymentInfo(paymentInfo);
+
+		for (int j = 0; j < orderProdList.size(); j++) {
+			Product product = productService.selectProductOne(orderProdList.get(j).getProductId());
+			orderProdList.get(j).setProductName(product.getProductName());
+			orderProdList.get(j).setProductBrand(product.getBrandName());
 			
-		  for (int j = 0; j < orderProdList.size(); j++) {
-				Product product = productService.selectProductOne(orderProdList.get(j).getProductId());
-				orderProdList.get(j).setProductName(product.getProductName());
-				orderProdList.get(j).setProductBrand(product.getBrandName());
+			List<Attachment> attachList = productService.selectAttachList(product.getProductId());
 
+			for (int k = 0; k < attachList.size(); k++) {
+				if (attachList.get(k).getImgType().equals("R")) {
 
-				List<Attachment> attachList = productService.selectAttachList(product.getProductId());
-
-				for (int k = 0; k < attachList.size(); k++) {
-					if (attachList.get(k).getImgType().equals("R")) {
-
-						orderProdList.get(j).setRenamedImg(attachList.get(k).getRenamedImg());
-					}
+					orderProdList.get(j).setRenamedImg(attachList.get(k).getRenamedImg());
 				}
-
-				if (orderProdList.get(j).getOptionId() != null) {
-					String[] optionName = new String[orderProdList.get(j).getOptionId().length];
-					String[] optionPrice = new String[orderProdList.get(j).getOptionId().length];
-					String[] optionValue = new String[orderProdList.get(j).getOptionId().length];
-					for (int t = 0; t < orderProdList.get(j).getOptionId().length; t++) {
-						String optionId = orderProdList.get(j).getOptionId()[t];
-						ProdOption opt = productService.selectOptionOne(optionId);
-						optionName[t] = opt.getOptionName();
-						optionValue[t] = opt.getOptionValue();
-						int stock = Integer.parseInt(orderProdList.get(j).getProdCount()[t]);
-						int optPrice = (opt.getOptionPrice() - product.getDiscountPrice()) * stock;
-						optionPrice[t] = Integer.toString(optPrice);
-					}
-					orderProdList.get(j).setOptionValue(optionValue);
-					orderProdList.get(j).setOptionName(optionName);
-					orderProdList.get(j).setOptionPrice(optionPrice);
-					orderProdList.get(j).setDeliveryFee(Integer.parseInt(product.getDeliveryFee()));
-
-				} else {
-					String[] optionPrice = new String[1];
-					int price = product.getPrice() - product.getDiscountPrice();
-					optionPrice[0] = Integer.toString(price);
-					orderProdList.get(j).setOptionPrice(optionPrice);
-					orderProdList.get(j).setDeliveryFee(Integer.parseInt(product.getDeliveryFee()));
-
-				}
-		  }
-		  switch (orderList.getDeliveryState()) {
-
-			case "A":
-				orderList.setDeliveryState("입금대기");
-				break;
-			case "B":
-				orderList.setDeliveryState("결제완료");
-				break;
-			case "C":
-				orderList.setDeliveryState("배송준비");
-				break;
-			case "D":
-				orderList.setDeliveryState("배송중");
-				break;
-			case "E":
-				orderList.setDeliveryState("배송완료");
-				break;
-
 			}
 
-		  orderList.setOrderProdList(orderProdList);
-		  
-		  if("ac".equals(orderList.getPayMethod())){
-			 PayAccountInfo payAccInfo = orderService.selectPayAccInfo(orderNo);	 
-			 mav.addObject("payAccInfo",payAccInfo);
-		  }
-		  
-		  String method = orderList.getPayMethod();
-			String payMethod = "";
-			switch (method) {
-			case "cr":
-				payMethod = "신용카드 결제";
-				break;
-			case "ac":
-				payMethod = "가상계좌 입금";
-				break;
-			case "ph":
-				payMethod = "휴대폰 결제";
-				break;
-			case "ka":
-				payMethod = "카카오페이 결제";
-				break;
-			case "to":
-				payMethod = "토스 결제";
-				break;
-			case "na":
-				payMethod = "네이버페이 결제";
-				break;
-			case "ra":
-				payMethod = "실시간계좌이체";
-				break;
+			if (orderProdList.get(j).getOptionId() != null) {
+				String[] optionName = new String[orderProdList.get(j).getOptionId().length];
+				String[] optionPrice = new String[orderProdList.get(j).getOptionId().length];
+				String[] optionValue = new String[orderProdList.get(j).getOptionId().length];
+				for (int t = 0; t < orderProdList.get(j).getOptionId().length; t++) {
+					String optionId = orderProdList.get(j).getOptionId()[t];
+					ProdOption opt = productService.selectOptionOne(optionId);
+					optionName[t] = opt.getOptionName();
+					optionValue[t] = opt.getOptionValue();
+					int stock = Integer.parseInt(orderProdList.get(j).getProdCount()[t]);
+					int optPrice = (opt.getOptionPrice() - product.getDiscountPrice()) * stock;
+					optionPrice[t] = Integer.toString(optPrice);
+				}
+				orderProdList.get(j).setOptionValue(optionValue);
+				orderProdList.get(j).setOptionName(optionName);
+				orderProdList.get(j).setOptionPrice(optionPrice);
+				orderProdList.get(j).setDeliveryFee(Integer.parseInt(product.getDeliveryFee()));
+
+			} else {
+				String[] optionPrice = new String[1];
+				int price = product.getPrice() - product.getDiscountPrice();
+				optionPrice[0] = Integer.toString(price);
+				orderProdList.get(j).setOptionPrice(optionPrice);
+				orderProdList.get(j).setDeliveryFee(Integer.parseInt(product.getDeliveryFee()));
+
 			}
-		System.out.println("orderProdList ="+orderProdList );
-		System.out.println("paymentInfo="+paymentInfo);
+		}
+		switch (orderList.getDeliveryState()) {
+
+		case "A":
+			orderList.setDeliveryState("입금대기");
+			break;
+		case "B":
+			orderList.setDeliveryState("결제완료");
+			break;
+		case "C":
+			orderList.setDeliveryState("배송준비");
+			break;
+		case "D":
+			orderList.setDeliveryState("배송중");
+			break;
+		case "E":
+			orderList.setDeliveryState("배송완료");
+			break;
+
+		}
+
+		orderList.setOrderProdList(orderProdList);
+
+		if ("ac".equals(orderList.getPayMethod())) {
+			PayAccountInfo payAccInfo = orderService.selectPayAccInfo(orderNo);
+			mav.addObject("payAccInfo", payAccInfo);
+		}
+
+		String method = orderList.getPayMethod();
+		String payMethod = "";
+		switch (method) {
+		case "cr":
+			payMethod = "신용카드 결제";
+			break;
+		case "ac":
+			payMethod = "가상계좌 입금";
+			break;
+		case "ph":
+			payMethod = "휴대폰 결제";
+			break;
+		case "ka":
+			payMethod = "카카오페이 결제";
+			break;
+		case "to":
+			payMethod = "토스 결제";
+			break;
+		case "na":
+			payMethod = "네이버페이 결제";
+			break;
+		case "ra":
+			payMethod = "실시간계좌이체";
+			break;
+		}
+		System.out.println("orderProdList =" + orderProdList);
+		System.out.println("paymentInfo=" + paymentInfo);
 		System.out.println("orderList=" + orderList);
 		mav.addObject("payMethod", payMethod);
-		mav.addObject("orderList",orderList);
+		mav.addObject("orderList", orderList);
 		mav.setViewName("shop/myShopping/order/detail");
 		return mav;
 	}
 
 	@GetMapping("/wish/list.do")
 	public ModelAndView wishList(ModelAndView mav) {
+
 		mav.setViewName("shop/myShopping/wish/list");
 		return mav;
 	}
@@ -437,8 +456,38 @@ public class ShopMemberController {
 		return mav;
 	}
 
+	/**
+	 * 0410 이진희
+	 * 
+	 * 마이쇼핑 나의 리뷰보기
+	 */
 	@GetMapping("/review/list.do")
-	public ModelAndView reviewList(ModelAndView mav) {
+	public ModelAndView reviewList(ModelAndView mav, HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String memberId = m.getMemberId();
+
+		// review 불러오기
+		List<ProdReview> myReviewList = reviewService.selectListMyReview(memberId);
+		for (int i = 0; i < myReviewList.size(); i++) {
+			String[] optionName = new String[myReviewList.get(i).getOptionId().length];
+			Product product =productService.selectProductOne(myReviewList.get(i).getProductId());
+			
+			myReviewList.get(i).setBrandName(product.getBrandName());
+			myReviewList.get(i).setProductName(product.getProductName());
+			List<Attachment> attachList = productService.selectAttachList(product.getProductId());
+
+			for (int k = 0; k < attachList.size(); k++) {
+				if (attachList.get(k).getImgType().equals("R")) {
+					myReviewList.get(i).setProdImg(attachList.get(k).getRenamedImg());
+				}
+			}
+			for (int j = 0; j < myReviewList.get(i).getOptionId().length; j++) {
+				ProdOption option = productService.selectOptionOne(myReviewList.get(i).getOptionId()[j]);
+				optionName[j] = option.getOptionValue().replaceAll(",", "/");
+			}
+			myReviewList.get(i).setOptionName(optionName);
+		}
+		mav.addObject("reviewList", myReviewList);
 		mav.setViewName("shop/myShopping/review/list");
 		return mav;
 	}

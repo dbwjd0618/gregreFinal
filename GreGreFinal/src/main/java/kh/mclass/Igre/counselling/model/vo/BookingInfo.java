@@ -3,6 +3,7 @@ package kh.mclass.Igre.counselling.model.vo;
 import java.io.Serializable;
 import java.sql.Date;
 
+import kh.mclass.Igre.member.model.vo.BizMember;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class BookingInfo implements Serializable {
+public class BookingInfo extends BizMember implements Serializable {
 	
 	/**
 	 * 

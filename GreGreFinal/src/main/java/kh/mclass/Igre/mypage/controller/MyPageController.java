@@ -1,5 +1,6 @@
  package kh.mclass.Igre.mypage.controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +18,10 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.Review;
-import kh.mclass.Igre.member.model.vo.Advis;
+import kh.mclass.Igre.member.model.vo.BizMember;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.service.MyPageService;
 import kh.mclass.Igre.mypage.model.vo.Child;
@@ -50,12 +52,37 @@ public class MyPageController {
 	@GetMapping("/bizUpdate")
 	public ModelAndView mypageBizView(ModelAndView mav,HttpSession session) {
 			
-			Advis advis = (Advis) session.getAttribute("bizmemberLoggedIn");
-			mav.addObject("advis",advis);
+			BizMember bz = (BizMember) session.getAttribute("bizmemberLoggedIn");
+			mav.addObject("bz",bz);
 			mav.setViewName("myPage/bizUpdate");
 
 		return mav;
 	}
+	
+	//상담사 정보수정
+
+
+//	(상담사 마이페이지)진행중인 상담 보기
+	@GetMapping("/bookingStatus.do")
+	public ModelAndView selectProgressCounselling(@RequestParam(value = "cPage", defaultValue = "1")int cPage,  
+				ModelAndView mav, BookingInfo book, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		
+		final int numPerPage =5;
+		BizMember bz = (BizMember)session.getAttribute("bizmemberLoggedIn");
+		
+		System.out.println("@@@@@@@@@확인용@@@@@@@@"+bz);
+		book.setCmemberId(bz.getCmemberId());
+
+		//예약정보 불러오기
+		List<BookingInfo> list = mps.selectProgressCounselling(book);
+		System.out.println("@@@@@@@@@@@@@@@@확인용2"+book);
+		
+		mav.addObject("bz",bz);
+		mav.addObject("list",list);
+		
+		return mav;
+	}
+	
 	
 	
 	@GetMapping("/deleteMember")
@@ -121,10 +148,17 @@ public class MyPageController {
 	}
 	
 	@PostMapping("/memberChildUpdate.do")
-	public String memberChildUpdate(Vaccination vaccination ,Member member,Child child,RedirectAttributes ras,String parentsId,String childName) {
+	public String memberChildUpdate(String[] vaccinCode,Date[] vaccinDate,Integer[] nth,Vaccination vaccination ,Member member,Child child,RedirectAttributes ras,String parentsId,String childName) {
 		String childId = parentsId+"_"+childName;
 		child.setChildId(childId);
-		int result = mps.enroll(child,member,vaccination);
+	
+		System.out.println("배열로"+Arrays.toString(vaccinCode));
+		System.out.println("객체로"+vaccination);
+//		for(int i=0; i<vaccinCode.length; i++) {
+//			
+//		}
+		
+		int result = mps.enroll(child,member,vaccination,vaccinCode,vaccinDate,nth);
 		String msg = result > 0 ? "자녀추가 완료!" : "누락된 항목이 있습니다";
 		ras.addFlashAttribute("msg", msg);
 		
@@ -132,13 +166,22 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/memberChildUpdate.do")
-	public ModelAndView selectChild(ModelAndView mav , Child child,HttpSession session) {
+	public ModelAndView selectChild(ModelAndView mav , Child child,HttpSession session,Vaccination vaccination) {
 		Member m = (Member) session.getAttribute("memberLoggedIn");
 		String parentsId = m.getMemberId();
 		child.setParentsId(parentsId);
+		vaccination.setParentsId(parentsId);
 		List<Child> list = mps.selectChild(child);
-		mav.addObject("m",m);
+		List<Vaccination> list2 = mps.selectVaccination(vaccination);
+		
+
+//		Map<String,List<String>> maplist = new HashMap<String, List<String>>();
+//		maplist.put("list",list);
+//		maplist.put("list2",list2);
+//		Map<Child,Map<Child,List<Vaccination>>> map = mps.selectVaccin(maplist);		
+//		mav.addObject("m",m);
 		mav.addObject("list",list);
+		mav.addObject("list2",list2);
 		mav.setViewName("myPage/memberChildUpdate");
 		return mav;
 	}
@@ -152,6 +195,7 @@ public class MyPageController {
 		return "redirect:/";
 	}
 	
+	//상담 예약정보 불러오기
 	@GetMapping("/counsellingInfo.do")
 	public ModelAndView selectCounsellingInfo(@RequestParam(value = "cPage", defaultValue = "1")int cPage,  ModelAndView mav, BookingInfo book, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		
@@ -179,21 +223,16 @@ public class MyPageController {
 		
 		return "redirect:/myPage/counsellingInfo.do";
 	}
-	
-	/*
-	 * //리뷰 수정
-	 * 
-	 * @PostMapping("/counsellingInfo.do") public String reviewUpdate(Review review,
-	 * RedirectAttributes redirectAttributes, String starPoint) {
-	 * 
-	 * review.setStarPoint(Integer.parseInt(starPoint));
-	 * 
-	 * int result = mps.reviewUpdate(review);
-	 * 
-	 * redirectAttributes.addFlashAttribute("msg", result>0?"리뷰수정 성공!":"리뷰수정 실패!");
-	 * 
-	 * return "redirect:/myPage/counsellingInfo.do"; }
-	 */
+
+	@PostMapping("findPassword.do")
+	public String findPassword(Member member,RedirectAttributes redirectAttributes) {
+		Member selectMember = mps.findPassword(member);
+		int result = mps.fupdatePassword(member);
+		String msg = selectMember!=null?"초기비밀번호 0000 으로 초기화 되었습니다":"입력정보가 일치하지 않습니다";
+		redirectAttributes.addFlashAttribute("msg", msg);
+
+		return "redirect:/member/login.do";
+	}
 	
 	
 }

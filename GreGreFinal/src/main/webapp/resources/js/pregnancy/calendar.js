@@ -167,61 +167,9 @@
                     result_url = 'http://www.childcare.go.kr/cpin/contents/010204000000_result.jsp?b1='+b1+'&b2='+b2+'&baeranil='+baeranil+'&baeranil2='+baeranil2;
              
                 }
+          
                 
                 
-                
-                var form=document.createElement("form");
-                form.name='tempPost';
-                form.id="menseForm"
-                form.method='post';
-                form.action='./menses.do'; 
-               
-                var input1=document.createElement("input");
-                input1.type="hidden";
-                input1.name='ageStart';
-                input1.value= b1;
-                
-                console.log(form.action);
-                console.log(input1);
-                var input2=document.createElement("input");
-                input2.type="hidden";
-                input2.name='ageEnd';
-                input2.value= b2;
-                console.log(input2);
-                var input3=document.createElement("input");
-                input3.type="hidden";
-                input3.name='cycle';
-                input3.value= s_day1;
-                console.log(input3);
-                var input4=document.createElement("input");
-                input4.type="hidden";
-                input4.name='startDay';
-                input4.value= start_day	;
-                console.log(input4);
-                
-                
-             
-                $(form).append(input1);
-                $(form).append(input2);
-                $(form).append(input3);
-                $(form).append(input4);
-                document.body.appendChild(form);
-                
-                
-                
-                $.ajax({
-    				url:"${pageContext.request.contextPath}/pregnancy/menses.do",
-    				type:"post",
-    				data: $("#menseForm").serialize(),
-    				success: data =>{
-    					console.log(data);
-    				
-    				},
-    					error: (x,s,e) => {
-    						console.log(x,s,e);
-    					}
-    			});
-        
         
             //	$("#div_result").show();
                 //result_url = '/cpin/contents/100500000000_1_result1.jsp';//?g_month='+g_month+'&g_Day='+g_Day+'&diffDt='+diffDt;
@@ -363,7 +311,8 @@
                 var form=document.createElement("form");
                 form.name='tempPost';
                 form.method='post';
-                form.action='./menses.do'; 
+                form.id="menseForm";
+                form.action='./calendar.do'; 
                
                 var input1=document.createElement("input");
                 input1.type="hidden";
@@ -395,7 +344,22 @@
                 $(form).append(input3);
                 $(form).append(input4);
                 document.body.appendChild(form);
-                form.submit();
+   
+                
+                
+                $.ajax({
+    				url:"calendar.do",
+    				type:"POST",
+    				data: $("#menseForm").serialize(),
+    				success: data =>{
+    					console.log(data);
+    					alert("월경 캘린더에 저장되었습니다.");
+    				
+    				},
+    					error: (x,s,e) => {
+    						console.log(x,s,e);
+    					}
+    			});
         
         
             //	$("#div_result").show();

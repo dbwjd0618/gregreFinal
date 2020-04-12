@@ -230,7 +230,8 @@ p.at-reply {
 }
 
 .co-item.row {
-    border-bottom: 1px solid #ededed;
+    border-bottom: 1px solid #958e8e;
+
 }
 
 .review-img img {
@@ -272,7 +273,7 @@ button.production-review-item__help__btn.btn.btn-outline-success.my-2.my-sm-0 {
     -webkit-align-items: center;
     -moz-align-items: center;
     align-items: center;
-    border: solid #ededed;
+    border: solid #958e8e;
     border-width: 1px 0;
     padding: 7px 0;
     margin-bottom: 20px;
@@ -379,14 +380,14 @@ label.rating-input__star .fa-star-o:before{
 }
 .review-modal__form__product__contents__name {
     margin-bottom: 6px;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.2;
  
 }
 .review-modal__form__product__contents__brand {
-    font-size: 11px;
+    font-size: 13px;
     color: #757575;
-    margin-bottom: 6px;
+
  
 }
 .review-modal__form__product__contents__options {

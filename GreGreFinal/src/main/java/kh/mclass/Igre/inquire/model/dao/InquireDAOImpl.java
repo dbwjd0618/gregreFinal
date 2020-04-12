@@ -40,4 +40,9 @@ public class InquireDAOImpl implements InquireDAO {
 		sss.insert("inquire.insertChatLog", fromMessage);
 	}
 
+	@Override
+	public List<InqMsg> chatListByChatId(String chatId) {
+		return sss.selectList("chatListByChatId", chatId);
+	}
+
 }

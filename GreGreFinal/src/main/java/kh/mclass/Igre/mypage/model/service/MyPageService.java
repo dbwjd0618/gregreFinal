@@ -1,6 +1,8 @@
 package kh.mclass.Igre.mypage.model.service;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.Review;
@@ -14,7 +16,7 @@ public interface MyPageService {
 
 	int updateMember(Member member);
 
-	int enroll(Child child,Member member,Vaccination vaccination);
+	int enroll(Child child,Member member,Vaccination vaccination ,String[] vaccinCode,Date[] vaccinDate,Integer[] nth);
 
 	List<Child> selectChild(Child child);
 
@@ -25,6 +27,13 @@ public interface MyPageService {
 	int memberDelete(Member member);
 
 	int reviewWrite(Review review);
+	
+	List<Vaccination> selectVaccination(Vaccination vaccination);
 
+	Member findPassword(Member member);
+
+	int fupdatePassword(Member member);
+
+	List<BookingInfo> selectProgressCounselling(BookingInfo book);
 
 }

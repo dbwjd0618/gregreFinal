@@ -56,27 +56,24 @@ span.error2{display:none;color:red ;}
 				<div class="sidebar">
 					<div class="sidebar__header">
 						<div class="profile sidebar__profile">
-							<img class="profile__avatar" src="${pageContext.request.contextPath}/resources/images/myPage/user.png" />
-							<div class="profile__name">${m.memberId }</div>
+							<img class="profile__avatar" src="${pageContext.request.contextPath}/resources/images/counsellor/"+${advisImg } />
+							<div class="profile__name">${cmemberId }</div>
 						</div>
 					</div>
 					<div class="sidebar__body">
 						<div class="menu sidebar__menu">
 							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/memberUpdate.do"> 
-								<div class="menu__title">개인정보</div>
+								<div class="menu__title">상담사 정보수정</div>
 							</a>
-							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/memberChildUpdate.do"> 
-								<div class="menu__title">자녀정보</div>
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/bookingStatus.do"> 
+								<div class="menu__title">진행중인 상담 보기</div>
 							</a>   
 							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/myPeriodCalculatorView.do">
-								<div class="menu__title">월경캘린더</div>
-							</a> 
-							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/counsellingInfo.do">
-								<div class="menu__title">상담정보/리뷰</div>
-							</a> 
-							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/deleteMember.do">
-								<div class="menu__title">회원탈퇴</div>
+								<div class="menu__title">종료된 상담 보기</div>
 							</a>
+							<%-- <a class="menu__item" href="${pageContext.request.contextPath}/myPage/deleteMember.do">
+								<div class="menu__title">회원탈퇴</div>
+							</a> --%>
 						</div>
 					</div>
 				</div>

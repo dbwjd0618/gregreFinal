@@ -1,6 +1,8 @@
 package kh.mclass.Igre.mypage.model.service;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,12 +33,20 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 
 	@Override
-	public int enroll(Child child,Member member,Vaccination vaccination) {
+	public int enroll(Child child,Member member,Vaccination vaccination,String[] vaccinCode,Date[] vaccinDate,Integer[] nth) {
 		int result=0;
 		result= mpd.enroll(child);
-		vaccination.setParentsId(child.getParentsId());
-		vaccination.setChildId(child.getChildId());
-		result=mpd.insertVaccion(vaccination);
+		for(int i= 0; i<vaccinCode.length;i++) {
+			vaccination.setVaccinCode(vaccinCode[i]);
+			vaccination.setVaccinDate(vaccinDate[i]);
+			vaccination.setNth(nth[i]);
+			vaccination.setParentsId(child.getParentsId());
+			vaccination.setChildId(child.getChildId());
+			result=mpd.insertVaccion(vaccination);
+		}
+
+		
+		
 		member.setMemberId(child.getParentsId());
 		result= mpd.updateChildNumber(member);
 		return result;
@@ -70,6 +80,33 @@ public class MyPageServiceImpl implements MyPageService {
 		// TODO Auto-generated method stub
 		return mpd.reviewWrite(review);
 	}
+
+	@Override
+	public List<Vaccination> selectVaccination(Vaccination vaccination) {
+		// TODO Auto-generated method stub
+		return mpd.selectVaccination(vaccination);
+	}
+
+	@Override
+	public Member findPassword(Member member) {
+		member= mpd.findPassword(member);
+		return member;
+		
+	}
+
+	@Override
+	public int fupdatePassword(Member member) {
+		int result = 0;
+		result= mpd.fupdatePassword(member);
+		return result;
+	}
+
+	@Override
+	public List<BookingInfo> selectProgressCounselling(BookingInfo book) {
+		// TODO Auto-generated method stub
+		return mpd.selectProgressCounselling(book);
+	}
+
 
 }
 
