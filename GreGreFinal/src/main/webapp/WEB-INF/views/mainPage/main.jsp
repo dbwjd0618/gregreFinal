@@ -52,7 +52,11 @@ body {padding-right: 0px !important;}
 						stompClient.subscribe('/inq/chat/' + chatId, function(message) {
 							console.log("receive from subscribe /inq/chat/" + chatId + ":", message);
 							let messsageBody = JSON.parse(message.body);
-							$(".messages").append("<li class='message right appeared'><div class='avatar'></div><div class='text_wrapper'><div class='text'>" + messsageBody.msg + "</div></div></li>");
+							if(messsageBody.memberId == memberId) {
+								$(".messages").append("<li class='message right appeared'><div class='avatar'></div><div class='text_wrapper'><div class='text'>" + messsageBody.msg + "</div></div></li>");
+							} else {
+								$(".messages").append("<li class='message left appeared'><div class='avatar'></div><div class='text_wrapper'><div class='text'>" + messsageBody.msg + "</div></div></li>");
+							}
 							scrollTop();
 						});
 					conntionDone = true;

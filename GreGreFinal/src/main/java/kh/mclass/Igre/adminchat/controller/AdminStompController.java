@@ -66,7 +66,7 @@ public class AdminStompController {
 
 	// 주석처리 후 TestController 실행
 	@MessageMapping("/admin/chat/{chatId}")
-	@SendTo(value = { "/admin/chat/{chatId}", "/admin/chat/push" })
+	@SendTo(value = { "/admin/chat/{chatId}", "/inq/chat/{chatId}" })
 	public AdminMSG sendEcho(AdminMSG fromMessage, @DestinationVariable String chatId) {
 		log.debug("fromMessage={}", fromMessage);
 //		log.debug("chatId={}", chatId);
