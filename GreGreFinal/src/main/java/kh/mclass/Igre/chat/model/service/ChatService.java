@@ -38,9 +38,9 @@ public interface ChatService {
 
 	int counselorReadCountC(Map<String, Object> readCount);
 
-	String memberIdFindChatListByChatId(String counselorId);
+	String memberIdFindChatListByChatId(Map<String, String> infoFindId);
 
-	ChatInfo counselorInfo(String counselorId);
+	ChatInfo counselorInfo(Map<String, String> infoId);
 
 	int counselorCheckProduct(Map<String, Object> check);
 
@@ -53,6 +53,8 @@ public interface ChatService {
 	int counselorCoinCheck(String memberId);
 
 	int counselorOutChatRoom(String chatId);
+
+	int counselorDeleteCheck(String chatId);
 
 
 

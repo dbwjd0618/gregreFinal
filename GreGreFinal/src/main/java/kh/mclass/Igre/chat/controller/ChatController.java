@@ -1,6 +1,7 @@
 package kh.mclass.Igre.chat.controller;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -53,15 +54,41 @@ public class ChatController {
 	@GetMapping("/counsellingStart.do")
 	public String counsellingStart(Model model, @ModelAttribute("memberId")String memberId) {
 		
+		//구매 확인 (기간안에 사용 가능 여부 확인)
+		Calendar date =Calendar.getInstance();
+		Date today = new Date(date.getTimeInMillis());
+		
+		SimpleDateFormat format1;
+		format1 = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+		String day = format1.format(today);
+		log.debug(day);
+
+		
+		Map<String, Object> checkP = new HashMap<String, Object>();
+		checkP.put("today", day);
+		checkP.put("memberId", memberId);
+		
+		//0 현재 상담 가능 x , 1 현재 상담 가능 o 
+		int checkProduct = chatService.counselorCheckProduct(checkP);
+		log.debug("checkProduct {}",checkProduct);
+		
+	
+		model.addAttribute("checkProduct",checkProduct);
+		
+		
+		
 		
 		//채팅방 아이디 조회
 		String chatId = chatService.CounselorFindChatIdByMemberId(memberId);
-		
-		//코인 존재여부 확인후 0일 경우 채팅방 삭제
-		int coinCheck = chatService.counselorCoinCheck(memberId);
-		//코인이 없으면 채팅 표시 x
-		if(coinCheck==0) {
-			int outChatRoom = chatService.counselorOutChatRoom(chatId);
+		if(!((checkProduct==0) &&(chatId == null))) {
+			//코인 존재여부 확인후 0일 경우 채팅방 삭제
+			int coinCheck = chatService.counselorCoinCheck(memberId);
+			//코인이 없으면 채팅 표시 x
+			if(coinCheck==0) {
+				//chat_room 'N'
+				int outChatRoom = chatService.counselorOutChatRoom(chatId);
+				int deleteCheck = chatService.counselorDeleteCheck(chatId);
+			}
 		}
 		
 		//최근 사용자 채팅메세지 목록
@@ -82,22 +109,10 @@ public class ChatController {
 			log.debug(String.valueOf(readCountResult));
 		}
 		
+		log.debug(roomNum+"채팅 방 번호 검색");
 		model.addAttribute("roomNum",roomNum);
 		
-		//구매 확인 (기간안에 사용 가능 여부 확인)
-		Calendar date =Calendar.getInstance();
-		Date today = new Date(date.getTimeInMillis());
 		
-		Map<String, Object> checkP = new HashMap<String, Object>();
-		checkP.put("today", today);
-		checkP.put("memberId", memberId);
-		
-		//0 현재 상담 가능 x , 1 현재 상담 가능 o 
-		int checkProduct = chatService.counselorCheckProduct(checkP);
-		log.debug(String.valueOf(checkProduct));
-		
-	
-		model.addAttribute("checkProduct",checkProduct);
 	
 		
 		
@@ -122,8 +137,12 @@ public class ChatController {
 		//상담사 ID 검색
 		String counselorId = chatService.counselorFindId(memberId);
 		
+		Map<String, String> infoId = new HashMap<String, String>();
+		infoId.put("memberId", memberId);
+		infoId.put("counselorId", counselorId);
+		
 		//상담사, 회원정보 
-		ChatInfo info = chatService.counselorInfo(counselorId);
+		ChatInfo info = chatService.counselorInfo(infoId);
 		
 		log.debug(info.toString());
 		
@@ -162,8 +181,12 @@ public class ChatController {
 		Calendar date =Calendar.getInstance();
 		Date today = new Date(date.getTimeInMillis());
 		
+		SimpleDateFormat format1;
+		format1 = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+		String day = format1.format(today);
+		
 		Map<String, Object> checkP = new HashMap<String, Object>();
-		checkP.put("today", today);
+		checkP.put("today", day);
 		checkP.put("memberId", memberId);
 		
 		//0 현재 상담 가능 x , 1 현재 상담 가능 o 
@@ -174,10 +197,10 @@ public class ChatController {
 		if(checkProduct != 0) {
 			model.addAttribute("checkProduct",checkProduct);
 			
-			//주 1회 상담 가능 여부 0 상담 불가능, 1 상담 가능
+			//주 1회 상담 가능 여부 0 상담 가능, 1 상담 불가능
 			checkToday = chatService.counselorCheckToday(checkP);
 			log.debug(String.valueOf(checkToday) +"주 1회 사용 가능 여부" );
-			if(checkToday == 1) {
+			if(checkToday == 0) {
 				CheckOK ok = new CheckOK();
 				ok.setChatId(chatId);
 				ok.setToday(today);
@@ -185,6 +208,7 @@ public class ChatController {
 				//최근 상담 진행 insert
 				log.debug(ok.toString());
 				int checkOK = chatService.counselorCheckOK(ok);
+				log.debug("최근 상담 insert"+checkOK);
 				//코인 줄이기!
 				int downCoin = chatService.counselorDownCoin(memberId);
 			}

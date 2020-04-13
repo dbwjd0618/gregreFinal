@@ -91,13 +91,13 @@ public class ChatDAOImpl implements ChatDAO {
 	}
 
 	@Override
-	public String memberIdFindChatListByChatId(String counselorId) {
-		return sqlSession.selectOne("counselor.memberIdFindChatListByChatId",counselorId);
+	public String memberIdFindChatListByChatId(Map<String, String> infoFindId) {
+		return sqlSession.selectOne("counselor.memberIdFindChatListByChatId",infoFindId);
 	}
 
 	@Override
-	public ChatInfo counselorInfo(String counselorId) {
-		return sqlSession.selectOne("counselor.counselorInfo",counselorId);
+	public ChatInfo counselorInfo(Map<String, String> infoId) {
+		return sqlSession.selectOne("counselor.counselorInfo",infoId);
 	}
 
 	@Override
@@ -128,5 +128,10 @@ public class ChatDAOImpl implements ChatDAO {
 	@Override
 	public int counselorOutChatRoom(String chatId) {
 		return sqlSession.update("counselor.counselorOutChatRoom",chatId);
+	}
+
+	@Override
+	public int counselorDeleteCheck(String chatId) {
+		return sqlSession.delete("counselor.counselorDeleteCheck", chatId);
 	}
 }

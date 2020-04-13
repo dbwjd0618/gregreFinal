@@ -30,6 +30,8 @@
 			<mapping path="/board/delete*.do"/>
 			<mapping path="/board/*Write.do"/>
 			<mapping path="/shop/**"/>
+			<mapping path="/chat/counsellingStart*.do"/>
+			<mapping path="/counselling/bookingPage*.do"/>
 			<beans:bean id="loginCheckIntercepotr" class="kh.mclass.Igre.common.interceptor.LoginInterceptor"/>
 		</interceptor>
 		
