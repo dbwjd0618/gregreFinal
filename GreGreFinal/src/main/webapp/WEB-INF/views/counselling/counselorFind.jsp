@@ -30,7 +30,7 @@ $(function(){
 		//<!-- 평점 -->
 		result += "<div class='counselor-list-preview'><div class='star-score__wrap--middle'>";
 		result += "<span class='star-rating-middle'><span style='width:"+counselorR[i].starPoint*20+"%'>&nbsp;</span></span>"
-		result += "<div class='partner-list-box__review-score js-review-star-num'>("+counselorR[i].reviewTotal+")</div></div></div></div>";
+		result += "<div class='partner-list-box__review-score js-review-star-num'>"+counselorR[i].reviewTotal+"개의 리뷰</div></div></div></div>";
 		//상담 이미지
 		result += "<div class='counselor-img'><img src='${pageContext.request.contextPath}/resources/images/counselling/"+counselorR[i].advisImg+"'alt='상담사 사진'></div>";
 		//상담 유형
@@ -79,7 +79,7 @@ $(function(){
 				//<!-- 평점 -->
 				result += "<div class='counselor-list-preview'><div class='star-score__wrap--middle'>";
 				result += "<span class='star-rating-middle'><span style='width:"+nameChk[i].starPoint*20+"%'>&nbsp;</span></span>"
-				result += "<div class='partner-list-box__review-score js-review-star-num'>("+nameChk[i].reviewTotal+")</div></div></div></div>";
+				result += "<div class='partner-list-box__review-score js-review-star-num'>"+nameChk[i].reviewTotal+"개의 리뷰</div></div></div></div>";
 				//상담 이미지
 				result += "<div class='counselor-img'><img src='${pageContext.request.contextPath}/resources/images/counselling/"+nameChk[i].advisImg+"'alt='상담사 사진'></div>";
 				//상담 유형
@@ -387,7 +387,7 @@ function filter(){
 				//<!-- 평점 -->
 				result += "<div class='counselor-list-preview'><div class='star-score__wrap--middle'>";
 				result += "<span class='star-rating-middle'><span style='width:"+resultArr[i].starPoint*20+"%'>&nbsp;</span></span>"
-				result += "<div class='partner-list-box__review-score js-review-star-num'>("+resultArr[i].reviewTotal+")</div></div></div></div>";
+				result += "<div class='partner-list-box__review-score js-review-star-num'>"+resultArr[i].reviewTotal+"개의 리뷰</div></div></div></div>";
 				//상담 이미지
 				result += "<div class='counselor-img'><img src='${pageContext.request.contextPath}/resources/images/counselling/"+resultArr[i].advisImg+"'alt='상담사 사진'></div>";
 				//상담 유형

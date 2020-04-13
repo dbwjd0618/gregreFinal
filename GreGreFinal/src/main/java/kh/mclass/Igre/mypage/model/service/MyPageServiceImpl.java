@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
+import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
+import kh.mclass.Igre.member.model.vo.BizMember;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.dao.MyPageDAO;
 import kh.mclass.Igre.mypage.model.vo.Child;
@@ -101,12 +103,29 @@ public class MyPageServiceImpl implements MyPageService {
 		return result;
 	}
 
+	@Override
+	public List<BookingInfo> selectProgressCounselling(Counselor c) {
+		// TODO Auto-generated method stub
+		return mpd.selectProgressCounselling(c);
+	}
 
+	@Override
+	public List<BookingInfo> selectEndCounselling(Counselor c) {
+		// TODO Auto-generated method stub
+		return mpd.selectEndCounselling(c);
+	}
 
+	@Override
+	public int updateCounselor(BizMember bz) {
+		// TODO Auto-generated method stub
+		return mpd.updateCounselor(bz);
+	}
 
-
-
-
+	@Override
+	public Counselor selectCounselorOne(String cmemberId) {
+		// TODO Auto-generated method stub
+		return mpd.selectCounselorOne(cmemberId);
+	}
 
 
 }
