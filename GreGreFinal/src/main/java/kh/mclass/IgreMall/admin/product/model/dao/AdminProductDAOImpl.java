@@ -3,6 +3,7 @@ package kh.mclass.IgreMall.admin.product.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -29,8 +30,12 @@ public class AdminProductDAOImpl implements AdminProductDAO{
 		return  sqlSession.insert("adminProduct.insertProdOption", prodOption);
 	}
 	@Override
-	public List<Product> productList(Product productId) {
-		return sqlSession.selectList("adminProduct.productList", productId);
+	public List<Product> productList(int cPage,int numPerPage,Product productId) {
+		
+		int offset = (cPage-1)*numPerPage;
+		int limit = numPerPage;
+		RowBounds rbn = new RowBounds(offset, limit);
+		return sqlSession.selectList("adminProduct.productList", productId,rbn);
 	}
 	@Override
 	public int updateProduct(Product p) {

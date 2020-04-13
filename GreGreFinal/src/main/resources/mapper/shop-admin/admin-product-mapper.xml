@@ -146,12 +146,13 @@ where
 	    </if>	    
 </select>
 
-<select id="searchProduct" resultMap="productMap">
+<select id="searchProduct" resultMap="productList">
 select 
-	* 
-from 
-	tb_product
-where 
+	 *
+from
+	tb_product A left join tb_prod_img B
+	on A.product_id = B.product_id
+where
 	1=1
 <if test="productName !=''">
 and
@@ -250,7 +251,8 @@ where
 select 
 	* 
 from 
-	tb_product 
+		tb_product A left join tb_prod_img B
+	on A.product_id = B.product_id
 where 
 	1=1
 	<if test="productState !=''">
