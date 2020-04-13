@@ -15,28 +15,28 @@
     <!--  font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
     <!-- Bootstrap 3.3.2 -->
-    <link href="${pageContext.request.contextPath}/resources/css/councelorAdmin/bootstrap.min.css" rel="stylesheet" type="text/css" />    
+    <link href="${pageContext.request.contextPath}/resources/css/counselorAdmin/bootstrap.min.css" rel="stylesheet" type="text/css" />    
     <!-- FontAwesome 4.3.0 -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons 2.0.0 -->
     <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />    
     <!-- Theme style -->
-    <link href="${pageContext.request.contextPath}/resources/css/councelorAdmin/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/resources/css/counselorAdmin/AdminLTE.min.css" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins 
          folder instead of downloading all of them to reduce the load. -->
-    <link href="${pageContext.request.contextPath}/resources/css/councelorAdmin/_all-skins.min.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/resources/css/counselorAdmin/_all-skins.min.css" rel="stylesheet" type="text/css" />
     <!-- iCheck -->
-    <link href="${pageContext.request.contextPath}/resources/css/councelorAdmin/blue.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/resources/css/counselorAdmin/blue.css" rel="stylesheet" type="text/css" />
     <!-- Morris chart -->
-    <link href="${pageContext.request.contextPath}/resources/css/councelorAdmin/morris.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/resources/css/counselorAdmin/morris.css" rel="stylesheet" type="text/css" />
     <!-- jvectormap -->
-    <link href="${pageContext.request.contextPath}/resources/css/councelorAdmin/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/resources/css/counselorAdmin/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
     <!-- Date Picker -->
-    <link href="${pageContext.request.contextPath}/resources/css/councelorAdmin/datepicker3.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/resources/css/counselorAdmin/datepicker3.css" rel="stylesheet" type="text/css" />
     <!-- Daterange picker -->
-    <link href="${pageContext.request.contextPath}/resources/css/councelorAdmin/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/resources/css/counselorAdmin/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
     <!-- bootstrap wysihtml5 - text editor -->
-    <link href="${pageContext.request.contextPath}/resources/css/councelorAdmin/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/resources/css/counselorAdmin/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
     <!-- jQuery 3.3.1  -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
     
@@ -54,8 +54,8 @@
   <body class="skin-blue">
       <header class="main-header">
         <!-- Logo -->
-        <a href="${pageContext.request.contextPath }/councelorAdmin/index.do" class="logo" 
-        style="background-image: url('${pageContext.request.contextPath}/resources/images/councelorAdmin/logo.png'); 
+        <a href="${pageContext.request.contextPath }/counselorAdmin/index.do" class="logo" 
+        style="background-image: url('${pageContext.request.contextPath}/resources/images/admin/logo.png'); 
         	   background-size:115px auto;
         	   background-repeat: no-repeat;
     		   background-position: center;"></a>
@@ -69,7 +69,7 @@
             <ul class="nav navbar-nav">
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
-                  <a href="${pageContext.request.contextPath}/councelorAdmin/adminUpdate.do"><span class="hidden-xs">${adminLoggedIn.adminId}님 안녕하세요!</span></a>
+                  <a href="${pageContext.request.contextPath}/counselorAdmin/adminUpdate.do"><span class="hidden-xs">${adminLoggedIn.adminId}님 안녕하세요!</span></a>
               </li>
             </ul>
           </div>
@@ -83,43 +83,44 @@
           <div class="user-panel">
             <div class="pull-left info">
               <p>${adminLoggedIn.adminName }
-                  <button class="logbtn" type="button" onclick="location.href='${pageContext.request.contextPath}/councelorAdmin/logout.do'">로그아웃</button>
+                  <button class="logbtn" type="button" onclick="location.href='${pageContext.request.contextPath}/counselorAdmin/logout.do'">로그아웃</button>
               </p>
             </div>
           </div>
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
-            <li class="header">상담사</li>
+           <!--  <li class="header">상담사</li> -->
+           <br /><br />
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-user"></i>
+                <i class="fas fa-users"></i>&nbsp;
                 <span>일반</span>
                 <i class="fa fa-angle-left pull-right"></i>
-                <!-- <span class="label label-primary pull-right">4</span> -->
               </a>
               <ul class="treeview-menu">
-                <li><a href="${pageContext.request.contextPath }/councelorAdmin/memberList.do"><i class="fa fa-circle-o"></i> 회원 목록</a></li>
-                <li><a href="${pageContext.request.contextPath }/councelorAdmin/memberList.do"><i class="fa fa-circle-o"></i> 회원 탈퇴</a></li>
-                <li><a href="${pageContext.request.contextPath }/councelorAdmin/memberDeleteList.do"><i class="fa fa-circle-o"></i> 탈퇴 회원 관리</a></li>
+                <li><a href="#"><i class="far fa-laugh-beam"></i>&nbsp;&nbsp;
+                	회원 목록</a></li>
               </ul>
             </li>
             <li>
               <a href="">
-                <i class="fa fa-bell"></i> <span>전문</span> 
+                <i class="fas fa-user-secret"></i>&nbsp;&nbsp; <span>전문</span> 
                 <i class="fa fa-angle-left pull-right"></i>
-                <!-- <small class="label pull-right bg-green">new</small> -->
               </a>
               <ul class="treeview-menu">
-                <li><a href="${pageContext.request.contextPath }/councelorAdmin/report.do"><i class="fa fa-circle-o"></i>신고 내역</a></li>
+                <li><a href="#"><i class="far fa-laugh-beam"></i>&nbsp;&nbsp;
+               	 신고 내역</a></li>
               </ul>
             </li>
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-edit"></i> <span>마스터</span>
+                <i class="fas fa-user-graduate"></i>&nbsp;&nbsp;
+                <span>마스터</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="${pageContext.request.contextPath }/councelorAdmin/board.do"><i class="fa fa-circle-o"></i> 게시판 목록</a></li>
+                <li><a href="#"><i class="far fa-laugh-beam"></i>&nbsp;&nbsp;
+                	 게시판 목록</a></li>
               </ul>
             </li>
           </ul>

@@ -87,13 +87,15 @@ public class PregnancyController {
 		
 		menses.put("nextMemses", nextMenses);
 		
+		log.debug(menses+"임신 주기 정보");
+		
 		int resultTable = pregnancyService.findTable(memberLoggedIn);
 		int result = 0;
 		if(resultTable != 0 ) {
 			result = pregnancyService.insertMenses(menses);
 		}
 		
-		model.addAttribute("result",resultTable );
+		model.addAttribute("result",result );
 		
 		return result;
 	}

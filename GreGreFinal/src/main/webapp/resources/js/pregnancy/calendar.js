@@ -353,7 +353,9 @@
     				data: $("#menseForm").serialize(),
     				success: data =>{
     					console.log(data);
-    					alert("월경 캘린더에 저장되었습니다.");
+    					if(data == 1){
+    						alert("월경 캘린더에 저장되었습니다.");    						
+    					}
     				
     				},
     					error: (x,s,e) => {
