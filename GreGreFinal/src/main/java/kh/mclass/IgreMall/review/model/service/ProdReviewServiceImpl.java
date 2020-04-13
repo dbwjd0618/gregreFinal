@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kh.mclass.IgreMall.review.model.dao.ProdReviewDAO;
 import kh.mclass.IgreMall.review.model.vo.ProdReview;
+import kh.mclass.IgreMall.review.model.vo.ReviewReco;
 
 @Service
 public class ProdReviewServiceImpl implements ProdReviewService {
@@ -42,6 +43,32 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 	@Override
 	public int deleteReview(String reviewId) {
 		return reviewDAO.deleteReview(reviewId);
+	}
+
+	@Override
+	public int updateReivewReco(ProdReview review) {
+		return reviewDAO.updateReivewReco(review);
+	}
+
+	@Override
+	public ProdReview selectReviewOne(String reviewId) {
+		return reviewDAO.selectReviewOne(reviewId);
+	}
+
+	@Override
+	public ReviewReco selectReviewReco(ReviewReco reviewReco) {
+		return reviewDAO.selectReviewReco(reviewReco);
+
+	}
+
+	@Override
+	public int updateRecoCheck(ReviewReco reviewReco1) {
+		return reviewDAO.updateRecoCheck(reviewReco1);
+	}
+
+	@Override
+	public int insertReviewReco(ReviewReco reviewReco1) {
+		return reviewDAO.insertReviewReco(reviewReco1);
 	}
 
 	

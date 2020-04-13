@@ -3,6 +3,23 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
+<update id="updateProduct" >
+	update 
+		TB_product
+	set
+		product_stock= #{productStock}
+	where 
+		product_id = #{productId}
+</update>	
+<update id="updateOption" >
+	update 
+		tb_prod_option
+	set
+		option_stock= #{optionStock}
+	where 
+		option_id = #{optionId}
+</update>	
+	
 <select id="selectSellerId" resultType="string">
 	    SELECT 
 	    	seller_id
