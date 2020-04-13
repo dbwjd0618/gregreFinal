@@ -58,16 +58,18 @@ public class CounselorController {
 		
 		//최근 사용자 채팅메세지 목록
 		List<Map<String, String>> recentList = chatService.counselorFindRecentList(counselorId);
-		int chatRoom = Integer.parseInt(String.valueOf(recentList.get(0).get("CR_ID")));
-				
-		String memberId = String.valueOf(recentList.get(0).get("MEMBER_ID"));
-
-		Map<String, Object> readCount = new HashMap<String, Object>();
-		readCount.put("chatRoom", chatRoom);
-		readCount.put("memberId", memberId);
-		int readCountResult = chatService.counselorReadCountC(readCount);
-		
-		model.addAttribute("readCountResult",readCountResult);
+		log.debug(recentList.toString());
+		if(!recentList.isEmpty()) {
+			int chatRoom = Integer.parseInt(String.valueOf(recentList.get(0).get("CR_ID")));
+			
+			String memberId = String.valueOf(recentList.get(0).get("MEMBER_ID"));
+			
+			Map<String, Object> readCount = new HashMap<String, Object>();
+			readCount.put("chatRoom", chatRoom);
+			readCount.put("memberId", memberId);
+			int readCountResult = chatService.counselorReadCountC(readCount);
+			model.addAttribute("readCountResult",readCountResult);			
+		}
 		log.debug("recentList={}",recentList);		
 		model.addAttribute("recentList", recentList);
 
@@ -77,11 +79,19 @@ public class CounselorController {
 	
 	@GetMapping("/chat/{chatId}")
 	public String adminChat(@PathVariable("chatId") String chatId, Model model, @ModelAttribute("counselorId")String counselorId){
+		Map<String, String> infoFindId = new HashMap<String, String>();
+		infoFindId.put("chatId", chatId);
+		infoFindId.put("counselorId",counselorId);
+		
 		//회원 아이디 조회
-		String memberId = chatService.memberIdFindChatListByChatId(counselorId);
+		String memberId = chatService.memberIdFindChatListByChatId(infoFindId);
+		
+		Map<String, String> infoId = new HashMap<String, String>();
+		infoId.put("memberId", memberId);
+		infoId.put("counselorId", counselorId);
 		
 		//상담사, 회원정보 
-		ChatInfo info = chatService.counselorInfo(counselorId);
+		ChatInfo info = chatService.counselorInfo(infoId);
 		
 		log.debug(memberId+"con");
 		List<Msg> chatList = chatService.counselorFindChatListByChatId(chatId);
