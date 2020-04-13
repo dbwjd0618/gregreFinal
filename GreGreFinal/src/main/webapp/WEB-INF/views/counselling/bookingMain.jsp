@@ -118,6 +118,9 @@ div#pageBar span.cPage {
 div#pageBar a {
 	margin-right: 5px;
 }
+textarea.reviewContent{
+width: 100%;
+}
 </style>
 
 
@@ -176,6 +179,7 @@ div#pageBar a {
 	color: #EDEDED;
 	margin-left: -4px;
 }
+
 </style>
 <!-- contents begin-->
 <div class="site-section">
@@ -387,6 +391,10 @@ div#pageBar a {
 															${review.starPoint}
 														</div>
 														<div class="review-list-user-info">
+															<c:if test="${review.reviewerId eq member.memberId}">
+															<i class="far fa-trash-alt" onclick="deleteReview('${review.advisReviewNo}','${review.advisId}');"></i>&nbsp;&nbsp;
+															<i class="far fa-edit" data-toggle="modal" data-target="#exampleModal" onClick="modal('${review.reviewContent}','${review.reviewerId}','${review.advisReviewNo}','${review.advisId}');"></i> 
+															</c:if>
 															<span class="review-list__user--ellipsis">${review.reviewerId}</span>
 															님 / ${review.reviewDate}
 														</div>
@@ -415,10 +423,53 @@ div#pageBar a {
 		</div>
 	</div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">리뷰 수정</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      	<form action="${pageContext.request.contextPath}/counselling/editReview" method="POST">
+      <div class="modal-body">
+      		<input type="hidden" name="advisReviewNo" class='reviewNo' value='' />
+      		<input type="hidden" name="advisId" class='advisId' value='' />
+      		<input type="hidden" name="reviewerId" class='reviewerId' value='' />
+      		<span class='memberId'></span>
+      		<br />
+      		<hr />
+      		<label for="reviewContent" class="col-form-label">리뷰작성(500자 이내)</label>
+      		<br />
+      		<textarea class="reviewContent" maxlength="1500" name="reviewContent"></textarea>      	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        <button type="submit" class="btn btn-primary">수정</button>
+      </div>
+      	</form>
+    </div>
+  </div>
+</div>
 <script>
+	function deleteReview(reviewNo, advisId){
+		location.href = "${pageContext.request.contextPath}/counselling/deleteReview.do?advisReviewNo="+reviewNo+"&advisId="+advisId;
+	};
+
+	function modal(content, reviewerId, reviewNo, advisId){
+		console.log("실행");
+		$('.reviewNo').val(reviewNo);
+		$('.reviewerId').val(reviewerId);
+		$('.reviewContent').val(content);
+		$('.advisId').val(advisId);
+		$('.memberId').text(reviewerId);
+	};
+
+	
 	$('.js-contents-tab').click(function(e){
-	    console.log("클릭");
-	    console.log(e);
 	    $('.js-contents-tab').removeClass('is-active');
 	    $(this).addClass("is-active");
 	    if($(this).hasClass('is-active')){
