@@ -162,7 +162,7 @@ input[name="paymentMethodCode"] {
 			</div>
 			<div class="form-group row">
 				<label for="productName" class="col-sm-2 col-form-label">상품명</label>
-				<div class="col-sm-10">
+				<div class="col-sm-4">
 					<input type="text" name="productName" class="form-control" id="">
 				</div>
 			</div>
@@ -174,7 +174,7 @@ input[name="paymentMethodCode"] {
 			</div>
 			<div class="form-group row">
 				<label for="supplyValue" class="col-sm-2 col-form-label">공급가</label>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<input type="number" name="supplyValue" class="form-control" value="0">
 				</div>
 				<div class="col-form-label">
@@ -183,7 +183,7 @@ input[name="paymentMethodCode"] {
 			</div>
 			<div class="form-group row">
 				<label for="price" class="col-sm-2 col-form-label">판매가</label>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<input type="number" name="price" class="form-control" value="0">
 				</div>
 				<div class="col-form-label">
@@ -192,7 +192,7 @@ input[name="paymentMethodCode"] {
 			</div>
 			<div class="form-group row">
 				<label for="pointRate" class="col-sm-2 col-form-label">포인트적립비율</label>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<input type="number" name="pointRate" class="form-control"
 						value="0">
 				</div>
@@ -202,7 +202,7 @@ input[name="paymentMethodCode"] {
 			</div>
 			<div class="form-group row">
 				<label for="discountPrice" class="col-sm-2 col-form-label">할인금액</label>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<input type="number" name="discountPrice" class="form-control"
 						value="0">
 				</div>
@@ -212,7 +212,7 @@ input[name="paymentMethodCode"] {
 			</div>
 			<div class="form-group row">
 				<label for="productStock" class="col-sm-2 col-form-label">재고수량</label>
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<input type="number" name="productStock" class="form-control"
 						value="999">
 				</div>
@@ -359,7 +359,7 @@ input[name="paymentMethodCode"] {
 															<th style="width:3%" class="text-center" rowspan="2">
 																<input type="checkbox" id="optListAll2" name="optListAll2" value="Y">
 															</th>
-															<th style="width:50%;" class="text-center" id="optNameTd" colspan="1">옵션명</th>
+															<th style="width:50%;" class="text-center" id="optNameTd" colspan="2">옵션명</th>
 															<th style="width:10%" class="text-center" rowspan="2"> 재고</th>
 															<th style="width:10%" class="text-center" rowspan="2">공급가</th>
 															<th style="width:10%" class="text-center" rowspan="2">판매가</th>
@@ -367,7 +367,7 @@ input[name="paymentMethodCode"] {
 															<th style="width:10%" class="text-center" rowspan="2">삭제</th>
 														</tr>
 														<tr id="optNameTd2">
-								
+														</tr>
 														</tbody>
 													</table>
 												</div>
@@ -379,108 +379,7 @@ input[name="paymentMethodCode"] {
 									</tbody>
 								</table>
 								<!-- 일반 /재고옵션끝-->
-								<!-- 추가 상품 등록 -->
-								<table class="table table-bordered table-product-s"
-									style="margin-bottom: 0px;">
-									<colgroup>
-										<col style="width: 10%;">
-										<col width="">
-									</colgroup>
-									<tbody>
-										<tr>
-											<th class="bg_mint text-center">추가 상품 등록</th>
-											<td>
-												<div class="clearfix">
-													<div class="buttonset pull-left ui-buttonset">
-														<input type="radio" name="useAddNormalOption"
-															id="useAddNormalOption1" value="1"><label
-															for="useAddNormalOption1"
-															class="table-mb0 ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left ui-state-active"
-															role="button" aria-disabled="false" aria-pressed="true"><span
-															class="ui-button-text"> 사용</span></label> <input type="radio"
-															name="useAddNormalOption" id="useAddNormalOption2"
-															value="0" checked><label
-															for="useAddNormalOption2"
-															class="table-mb0 ui-button ui-widget ui-state-default ui-button-text-only ui-corner-right"
-															role="button" aria-disabled="false" aria-pressed="false"><span
-															class="ui-button-text"> 사용안함</span></label>
-													</div>
-												</div>
-
-												<div id="useAddNormalOption" style="">
-													<div id="goodAddNormalOptionForm" style="width: 100%;">
-														<table class="table table-bordered"
-															style="margin: 10px 0 0 0">
-															<colgroup>
-																<col width="">
-																<col width="">
-																<col width="50px">
-															</colgroup>
-															<tbody>
-																<tr>
-																	<th class="text-center active vertical_50">상품명(ex
-																		: 가방)</th>
-																	<th class="text-center active vertical_50">상품값(ex
-																		: 빨강,노랑) / 상품금액</th>
-																</tr>
-																<tr class="singleRow">
-																	<td style="vertical-align: top;"><span
-																		class="input_inbox"> <input type="text"
-																			name="addnoTitle[0]" index="0" value=""
-																			class="form-control input_st3 fl">
-																	</span>
-																		<div class="fl">
-																			<a class="btn btn-info btn-sm" id="addnoAddLineBtn"
-																				newindex="0" style="cursor: pointer;">추가</a>
-																		</div></td>
-																	<td>
-																		<table class="otin_t addnoItemRow">
-																			<tbody>
-																				<tr>
-																					<th class="text-left active vertical_25">상품값</th>
-																					<th class="text-left active vertical_25">재고</th>
-																					<th class="text-left active vertical_25">공급가</th>
-																					<th class="text-left active vertical_25">상품금액</th>
-																					<th class="text-left active vertical_25"></th>
-																				</tr>
-																				<tr>
-																					<td><span class="input_inbox"><input
-																							type="text" name="addnoValue[0][0]" idx="0"
-																							titlenum="0" value=""
-																							class="form-control input_st4"></span></td>
-																					<td><span class="input_inbox"><input
-																							type="text" name="addnoInven[0][0]" value="0"
-																							idx="0" titlenum="0"
-																							class="form-control number-coma input_st4"></span>
-																					</td>
-																					<td><span class="input_inbox"><input
-																							type="text" name="addnoSourcePrice[0][0]"
-																							value="0" idx="0" titlenum="0"
-																							class="form-control number-coma input_st4"></span>
-																					</td>
-																					<td><span class="input_inbox"><input
-																							type="text" name="addnoPrice[0][0]" value="0"
-																							idx="0" titlenum="0"
-																							class="form-control number-coma input_st4"></span>
-																					</td>
-																					<td><a
-																						class="btn btn-info btn-sm addnoAddValueBtn"
-																						style="cursor: pointer;">추가</a></td>
-																				</tr>
-																			</tbody>
-																		</table>
-																	</td>
-																</tr>
-															</tbody>
-														</table>
-													</div>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-								<!-- 상품 옵션  끝 -->
-			<!-- 추가 상품 등록 끝-->
+								
 			<!-- 등록버튼 -->
 
 			<div class=" text-center" style="padding-bottom: 50px">
@@ -603,7 +502,7 @@ input[name="paymentMethodCode"] {
 			var optNameHtml='';
 			for( tidx ; tidx <optPlusIdx; tidx++){
 				var optionName  = 'noTitle'+tidx;
-				var optionName2 = optionName;
+				 var optionName2 = optionName; 
 				var nameResult = document.getElementById(optionName2);
 				console.log("tidx=="+optionName2);
 				var optName = nameResult.value;
@@ -643,9 +542,9 @@ input[name="paymentMethodCode"] {
 
 				optNameHtml +='<th class="text-center">'+optName+'</th>';
 				var test = '<input type="hidden" name="optionName" value="'+optName+'" >';
-				$('#optNameTd2').append(test);
+				 $('#optNameTd2').append(test);  
 				console.log("뭐야=="+optNameHtml);
-				$('#optNameTd2').append(optNameHtml);
+				 $('#optNameTd2').append(optNameHtml); 
 				$('#optNameTd').attr('colspan',optPlusIdx);
 				
 			}

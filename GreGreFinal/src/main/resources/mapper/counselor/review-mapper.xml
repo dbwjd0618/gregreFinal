@@ -11,6 +11,8 @@
 			TB_adviser_review
 		where 
 			advis_id = #{advisId}
+		order by 
+			advis_review_no desc
 	</select>
 	
 	<!-- 리뷰 게시글 전체 count  -->
@@ -63,12 +65,33 @@
 				seq_adv_review_no.nextval,
 				#{appointNo},
 				#{advisId},
+				#{advisKeyword},
 				#{reviewerId},
 				#{starPoint},
 				#{reviewContent},
-				sysdate,
-				#{advisKeyword}
+				sysdate
 				)
 	</insert>
+	
+	<!-- 리뷰 수정  -->
+	<update id="reviewUpdate">
+	update
+		TB_adviser_review
+	set
+		advis_keyword = #{advisKeyword},
+		star_point = #{starPoint},
+		review_content = {reviewContent}
+	where
+		appoint_no = #{appointNo}
+	</update>
+	
+	<!-- 리뷰 삭제  -->
+	<delete id="reviewDelete">
+		delete
+			from
+		TB_adviser_review
+			where
+		appoint_no= #{appointNo}	
+	</delete>
 	
 </mapper>

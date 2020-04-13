@@ -185,5 +185,19 @@ public class BoardServiceImpl implements BoardService{
 		return bd.postListP(param);
 	}
 
+	@Override
+	public List<Post> noticeList(Map<String, Object> param) {
+		return bd.noticeList(param);
+	}
+
+	@Override
+	public List<Post> idxNotice() {
+		return bd.idxNotice();
+	}
+
+	@Override
+	public List<Post> favList() {
+		return bd.favList();
+	}
 
 }

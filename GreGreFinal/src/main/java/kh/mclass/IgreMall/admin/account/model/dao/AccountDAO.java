@@ -4,6 +4,7 @@ import java.util.List;
 
 import kh.mclass.IgreMall.admin.account.model.vo.Account;
 import kh.mclass.IgreMall.admin.account.model.vo.PayMethod;
+import kh.mclass.IgreMall.admin.coupon.model.vo.ChartValue;
 
 public interface AccountDAO {
 
@@ -17,5 +18,8 @@ public interface AccountDAO {
 
 
 	List<PayMethod> searchPList(Account a);
+
+
+	List<ChartValue> clist();
 
 }

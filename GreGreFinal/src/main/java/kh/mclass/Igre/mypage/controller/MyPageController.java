@@ -216,7 +216,6 @@ public class MyPageController {
 //		period.setMensesEnd(editEnd);
 		System.out.println("달력쉬벌탱 :"+period);
 		Member m = (Member)session.getAttribute("memberLoggedIn");
-		period.setMemberId(m.getMemberId());
 		System.out.println("쉬벌"+m);
 		int result = mps.periodAdd(period);
 

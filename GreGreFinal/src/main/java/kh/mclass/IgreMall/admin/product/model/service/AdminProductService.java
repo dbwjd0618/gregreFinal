@@ -12,7 +12,7 @@ public interface AdminProductService {
 
 	int insertProduct(Product product, List<Attachment> attachList, List<ProdOption> prodOptionList);
 
-	List<Product> productList(Product productId);
+	List<Product> productList(int cPage,int numPerPage,Product productId) ;
 
 	int updateProduct(Product p);
 

@@ -11,7 +11,7 @@ public interface InquireDAO {
 
 	Object selectOneChatId(String chatId);
 
-	void createChatRoom(List<InqChatMember> list);
+	int createChatRoom(List<InqChatMember> list);
 
 	void createChatMember(List<InqChatMember> list);
 

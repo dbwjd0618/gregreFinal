@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +27,6 @@ import kh.mclass.Igre.admin.model.vo.Amember;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
 import kh.mclass.Igre.board.model.vo.Reply;
-import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.member.model.vo.Member;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,9 +53,11 @@ public class AdminController {
 		
 		List<Member> member = adminService.indexMember();
 		List<Admin> admin = adminService.indexAdmin();
+		int allMemberCnt = adminService.allMemberCnt();
 		
 		model.addAttribute("member", member);
 		model.addAttribute("admin", admin);
+		model.addAttribute("allMemberCnt", allMemberCnt);
 		
 		return "admin/adminIndex";
 	}
@@ -170,12 +173,16 @@ public class AdminController {
 	
 	@GetMapping("/logout.do")
 	public String logout(SessionStatus sessionStatus,
-						 @ModelAttribute("adminLoggedIn") Admin admin) {
+						 @ModelAttribute("adminLoggedIn") Admin admin,
+						 HttpSession session) {
 							
 		log.debug("["+admin.getAdminId()+"]이 로그아웃 했습니다.");
 		
 		if(!sessionStatus.isComplete())
 			sessionStatus.setComplete();
+		
+		//현재 session 무효화
+		session.invalidate();
 		
 		return "redirect:/admin/login.do";
 	}
@@ -387,12 +394,6 @@ public class AdminController {
 		int result = adminService.athorityUpdate(member);
 		
 		return "redirect:/admin/athorityList.do";
-	}
-
-	@GetMapping("/email.do")
-	public String email() {
-		
-		return "admin/email";
 	}
 }
 

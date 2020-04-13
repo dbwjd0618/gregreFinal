@@ -9,11 +9,16 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		<!-- 아래코드들이 자바 객체를 만들게 된다... -->
 	<!-- #6.1. myBatis(JDBC)설정 연결 설정하기 -->
-	<bean id="realDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<bean>
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
 		<property name="username" value="gregre"/>
 		<property name="password" value="gregre"/>
+		
+		<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@gregre-final.cdqlyxefnneh.ap-northeast-2.rds.amazonaws.com:1521:orcl"/>
+		<property name="username" value="gregre"/>
+		<property name="password" value="gregregre"/> -->
 	</bean>
 	<!-- #9.1.log4jdbc-remix 관련 dataSource처리  -->
   	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">

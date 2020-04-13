@@ -210,31 +210,6 @@
 		    )
 		where 
 		    rank = 1
-		union all 
-		select 
-		    *
-		from (
-		    select 
-		        id,
-		        cv.cr_id,
-		        cv.chat_id,
-		        (select member_id from counselor_chat_view where cr_id = cl.chat_room_id and member_id != #{memberId}) member_id,
-		        cl.msg,
-		        cl.time,
-		        0 cnt,
-		        rank() over(partition by cl.chat_room_id order by time desc) rank 
-		    from 
-		        counselor_chat_log cl
-		      left join
-		        counselor_chat_view cv
-		          on cl.chat_room_id = cv.cr_id and cl.member_id = cv.member_id
-		    order by 
-		        time desc
-		    ) A
-		where 
-		    rank = 1 
-		  and 
-		    time <![CDATA[ <= ]]> (select last_check from counselor_chat_view where cr_id = A.cr_id and member_id = #{memberId})
 	</select>
 
 	<select id="findChatListByChatId" resultType="msg">
@@ -260,15 +235,29 @@
 </update>
 
 <select id="counselorFindId" resultType="string">
-	select advis_ID
-	from TB_appointment
-	where member_ID = #{memberId}
+	select
+		advis_ID
+	from (
+        select advis_ID, rank() over(order by appoint_no desc) rank
+        from TB_appointment
+        where
+		member_id = #{memberId}
+        )
+	where
+		rank =1
 	</select>
 	
 	<select id="memberFindId" resultType="string">
-	select member_Id
-	from TB_appointment
-	where member_ID = #{counselorId}
+	select
+		member_Id
+	from (
+        select member_Id, rank() over(order by appoint_no desc) rank
+        from TB_appointment
+        where
+		member_id = #{counselorId}
+        )
+	where
+		rank =1
 	</select>
 	
 	<insert id="insertChatRoom">
@@ -347,9 +336,10 @@
 	</update>
 	
 	<select id="memberIdFindChatListByChatId" resultType="string">
-	select member_id
-	from TB_appointment
-	where advis_id = #{counselorId}
+	select member_Id
+	from counselor_chat_view
+	where chat_id =#{chatId}
+	and member_id != #{counselorId}
 	</select>
 	
 	<select id="counselorInfo" resultType="ChatInfo">
@@ -357,14 +347,17 @@
 	from TB_appointment p join TB_adviser a
 	using (advis_id)
 	where advis_id = #{counselorId}
+	and member_id = #{memberId}
+	and coin != 0
 	</select>
 	
 	<select id="counselorCheckProduct" resultType="_int">
 	select count(*)
 	from TB_appointment
 	where member_Id = #{memberId}
-	and start_day <![CDATA[ <= ]]> #{today}
-    and end_day >= #{today}
+	and coin != 0
+	 and start_day <![CDATA[ <= ]]> to_date(#{today},'yyyy/mm/dd/ hh24:mi:ss')  
+    and end_day >= to_date(#{today},'yyyy/mm/dd/ hh24:mi:ss')
 	</select>
 	
 	<select id="counselorCheckToday" resultType="_int">
@@ -374,7 +367,7 @@
 	            where member_id = #{memberId}
 	            )
 	where rank = 1
-	and today+7 <![CDATA[ <= ]]> #{today} 
+	and today+7> to_date(#{today},'yyyy/mm/dd/ hh24:mi:ss') 
 	</select>
 	
 	<insert id="counselorCheckOK">
@@ -394,16 +387,21 @@
 		coin = coin -1
 	where
 		member_id = #{memberId}	
+		and coin != 0
 
 	</update>
 	
 	<select id="counselorCoinCheck" resultType="_int">
-	select
+select
 		coin
-	from
-		TB_appointment
+	from (
+        select coin, rank() over(order by appoint_no desc) rank
+        from TB_appointment
+        where
+		member_id = #{memberId}
+        )
 	where
-		member_id = #{memberId}	
+		rank =1
 	</select>
 	
 	<update id="counselorOutChatRoom">
@@ -414,6 +412,10 @@
 	where
 		chat_id = #{chatId}
 	</update>
+	
+	<delete id="counselorDeleteCheck">
+	delete from TB_chatChek where chat_id = #{chatId}
+	</delete>
 	
 
 	
