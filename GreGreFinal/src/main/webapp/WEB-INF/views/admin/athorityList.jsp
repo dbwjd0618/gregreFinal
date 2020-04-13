@@ -13,7 +13,7 @@
               </h1>
               <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">관리자 관리</a></li>
+                <li><a href="#">관리자 권한 관리</a></li>
                 <li class="active">관리자 권한 수정</li>
               </ol>
             </section>
