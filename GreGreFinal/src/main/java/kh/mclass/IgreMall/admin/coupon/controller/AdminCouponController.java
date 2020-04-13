@@ -77,7 +77,11 @@ public class AdminCouponController {
 	}
 	@RequestMapping("/insertEnd.do")
 	public ModelAndView insertCoupon(ModelAndView mav, AdminCoupon c,String memberId,
-			@RequestParam(value = "couponDuration") Date d) {
+			@RequestParam(value = "couponDuration") Date d,
+			AdminCoupon a
+			) {
+		System.out.println(a);
+		log.debug("쿠폰등록한다.");
 		log.debug("people={}",memberId);
 		System.out.println(d);
 		c.setCouponDuration(d);

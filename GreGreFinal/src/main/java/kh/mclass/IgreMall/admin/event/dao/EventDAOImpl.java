@@ -14,7 +14,7 @@ public class EventDAOImpl implements EventDAO {
 	@Override
 	public int insertEvent(Event e) {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.insert("adminEvent.insertEvent",e);
 	}
 	
 

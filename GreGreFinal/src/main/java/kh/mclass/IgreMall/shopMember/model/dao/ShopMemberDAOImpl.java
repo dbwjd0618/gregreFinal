@@ -60,4 +60,14 @@ public class ShopMemberDAOImpl implements ShopMemberDAO{
 	public int deleteCart(String cartId) {
 		return sqlSession.delete("shopMember.deleteCart", cartId);
 	}
+
+	@Override
+	public ShopMember selectShopMem(String memberId) {
+		return sqlSession.selectOne("shopMember.selectShopMem", memberId);
+	}
+
+	@Override
+	public int insertShopMem(ShopMember sMem) {
+		return sqlSession.insert("shopMember.insertShopMem", sMem);
+	}
 }
