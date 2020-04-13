@@ -20,9 +20,9 @@
 	color: #4e4ecf54;
 	font-size: 60px;
 }
-
 #inqToAdmin:hover {color: #4e4ecf;cursor: pointer;}
-
+.owl-stage-outer{padding-top: 0px;}
+.testimonial-3{min-height:300px;}
 body {padding-right: 0px !important;}
 </style>
 <c:if test="${not empty memberLoggedIn}">
@@ -65,6 +65,12 @@ body {padding-right: 0px !important;}
 		}
 	</script>
 </c:if>
+<script>
+$(function() {
+	let data = ${weather};
+	console.log($(data).root());
+});
+</script>
 
 <div class="ftco-blocks-cover-1">
 
@@ -75,35 +81,11 @@ body {padding-right: 0px !important;}
 					<div class="testimonial-3-wrap" style="margin-top: 20px; margin-bottom: 40px;">
 
 						<div class="owl-carousel nonloop-block-13">
-							<div class="testimonial-3 d-flex">
-								<div class="text">
-									<h3>광고1</h3>
-									<p class="position">Partner</p>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit. Aliquam earum libero rem maxime magnam. Similique esse
-										ab earum, autem consectetur.</p>
-								</div>
-							</div>
+							<div class="testimonial-3 d-flex" style="background: url('${pageContext.request.contextPath}/resources/images/index/idx_fam.png') no-repeat"></div>
 
-							<div class="testimonial-3 d-flex">
-								<div class="text">
-									<h3>광고2</h3>
-									<p class="position">Partner</p>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit. Aliquam earum libero rem maxime magnam. Similique esse
-										ab earum, autem consectetur.</p>
-								</div>
-							</div>
+							<div class="testimonial-3 d-flex" onclick="location.href='${pageContext.request.contextPath }/find/pharmacy.do';" style="cursor:pointer; background: url('${pageContext.request.contextPath}/resources/images/index/idx_mask.png') no-repeat"></div>
 
-							<div class="testimonial-3 d-flex">
-								<div class="text">
-									<h3>광고3</h3>
-									<p class="position">Partner</p>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit. Aliquam earum libero rem maxime magnam. Similique esse
-										ab earum, autem consectetur.</p>
-								</div>
-							</div>
+							<div class="testimonial-3 d-flex" onclick="location.href='http://www.childcare.go.kr/web/board/BD_board.list.do?bbsCd=9091';" style="cursor: pointer; background: url('${pageContext.request.contextPath}/resources/images/index/idx_sup.jpg') no-repeat"></div>
 						</div>
 					</div>
 				</div>
@@ -185,22 +167,22 @@ body {padding-right: 0px !important;}
 					<h2>찾아보기</h2>
 					<ul>
 						<li class="link1">
-							<a href="">
-								<img src="${pageContext.request.contextPath}/resources/images/index/welfare_icon.png" alt=""> <br> 복지센터
-							</a>
-						</li>
-						<li class="link2">
-							<a href="">
+							<a href="${pageContext.request.contextPath }/find/careCenter.do">
 								<img src="${pageContext.request.contextPath}/resources/images/index/daycare_icon.png" alt=""> <br> 어린이집
 							</a>
 						</li>
+						<li class="link2">
+							<a href="${pageContext.request.contextPath }/find/serviceCenter.do">
+								<img src="${pageContext.request.contextPath}/resources/images/index/welfare_icon.png" alt=""> <br> 복지센터
+							</a>
+						</li>
 						<li class="link3">
-							<a href="">
-								<img src="${pageContext.request.contextPath}/resources/images/index/pharmacy_icon.png" alt=""> <br> 약국
+							<a href="${pageContext.request.contextPath }/find/hospital.do">
+								<img src="${pageContext.request.contextPath}/resources/images/index/pharmacy_icon.png" alt=""> <br> 병원
 							</a>
 						</li>
 						<li class="link4">
-							<a href="http://cafe.daum.net/gwanak-dreampartner/">
+							<a href="${pageContext.request.contextPath }/child/childCare">
 								<img src="${pageContext.request.contextPath}/resources/images/index/schoolzone_icon.png" alt=""> <br> 어린이보호구역
 							</a>
 						</li>
