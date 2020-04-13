@@ -1,12 +1,27 @@
+<%@page import="kh.mclass.Igre.counselling.model.vo.BookingInfo"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="java.util.List"%>
+<%@page import="kh.mclass.Igre.counselling.model.vo.Counselor"%>
 <%@page import="kh.mclass.Igre.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-   
-  
-  <%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%
+	BookingInfo bookingInfo  = (BookingInfo)request.getAttribute("bookingInfo");
+	List<BookingInfo> list = (List<BookingInfo>)request.getAttribute("list");
+	
+	
+
+	System.out.println("bookingInfo@@@@@@@@@@@@+"+bookingInfo);
+	List<String> keywordList = null;
+	if(bookingInfo.getAdvisKeyword() != null)
+		keywordList = Arrays.asList(bookingInfo.getAdvisKeyword());
+	
+	pageContext.setAttribute("keywordList", keywordList);
+%>
   
    <!-- 마이페이지 서브메뉴 CSS -->
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
@@ -29,7 +44,7 @@
           <div class="row align-items-center ">
             <div class="col-md-5 mt-5 pt-5">
               <h1 class="mb-3 font-weight-bold text-teal">마이페이지</h1>
-              <p><a href="index.html" class="text-white">Home</a> <span class="mx-3">/</span> <strong>자녀정보</strong></p>
+              <p><a href="index.html" class="text-white">Home</a> <span class="mx-3">/</span> <strong>상담정보</strong></p>
             </div> 
           </div>
         </div>
@@ -117,7 +132,7 @@
                 
                 
                 
-                <c:forEach items="${list }" var="c">
+                <c:forEach items="${list }" var="c" varStatus="vs">
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <div class="card">
@@ -132,7 +147,7 @@
                                         <p>결제일 : ${c.startDay} </p>
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="innerModal('${c.advisImg}','${c.advisName}','${c.appointNo}','${c.startDay }','${c.advisId }','${memberLoggedIn.memberId }');">작성</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="innerModal('${c.advisImg}','${c.advisName}','${c.appointNo}','${c.startDay }','${c.advisId }','${memberLoggedIn.memberId }','${c.advisKeyList}');">작성</button>
                                     </div>
                                 </div>
                                 
@@ -159,7 +174,7 @@
 <!-- 리뷰쓰기 modal -->
 	<div class="modal fade" id="exampleModal" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<form action="${pageContext.request.contextPath}/myPage/counsellingInfo.do" method="post">
+	<form action="${pageContext.request.contextPath}/myPage/reviewWrite.do" method="post">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -181,9 +196,11 @@
 						</div>
 						<div class="form-group">
             			<label for="recipient-name" class="col-form-label">상담 유형 선택<br/>
-            				<input type="checkbox" aria-label="Checkbox for following text input" name="advisKeyword" value="임신"> 임신
+            			
+            				<input type="checkbox" aria-label="Checkbox for following text input" name="advisKeyword" id="modalIm" value="임신"> 임신
             				&nbsp;&nbsp;
-            				<input type="checkbox" aria-label="Checkbox for following text input" name="advisKeyword" value="육아"> 육아
+            				<input type="checkbox" aria-label="Checkbox for following text input" name="advisKeyword" id="modal6" value="육아"> 육아
+            			 
             			</label>
             			</div>
 						<div class="form-group">
@@ -243,7 +260,7 @@ $(function(){
     })
 })
 
-function innerModal(advisImg, advisName, appointNo, startDay, advisId, reviewerId) {
+function innerModal(advisImg, advisName, appointNo, startDay, advisId, reviewerId, adviskeyList) {
 	
 	var name = advisName;
 	var no = appointNo;
@@ -251,6 +268,8 @@ function innerModal(advisImg, advisName, appointNo, startDay, advisId, reviewerI
 	var reid = reviewerId;
 	var sday = startDay;
 	var imgg = advisImg;
+	var keyword = adviskeyList;
+	
 	var imgSrc ="${pageContext.request.contextPath}/resources/images/counselling/"+imgg;
 	console.log("name="+name);
 	console.log("no="+no);
@@ -258,6 +277,20 @@ function innerModal(advisImg, advisName, appointNo, startDay, advisId, reviewerI
 	console.log("id="+id);
 	console.log("reid="+reid);
 	console.log("img="+imgg);
+	console.log("keyword="+keyword);
+	if(keyword.indexOf("임신") != -1){
+	$("#modalIm").prop("checked", true);
+		
+	} else {
+	$("#modalIm").prop("checked", false);
+		
+	}
+	if(keyword.indexOf('육아') != -1){
+		$('#modal6').prop("checked", true);
+	}else {
+		$('#modal6').prop("checked", false);
+		
+	}
 	
 	$("[name=appointNo]").val(appointNo);
 	$("[name=advisId]").val(advisId);

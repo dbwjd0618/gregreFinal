@@ -43,6 +43,27 @@
 		member_id = #{memberId}			
 	</update>
 	
+	<!-- 마이페이지 상담사 정보보기  -->
+	<select id="selectCounselorOne" resultType="Counselor">
+	select
+		*
+	from
+		TB_adviser
+	where
+		advis_id = #{cmemberId}
+	</select>
+	
+	
+	<!-- 상담사 정보 업데이트  -->
+	<update id="updateCounselor" >
+	update
+		TB_adviser
+	set
+		advis_name = #{advisName}
+	where
+		advis_id = #{advisId}			
+	</update>
+	
 	<insert id="insertVaccion">
 	insert
 		into
@@ -105,42 +126,42 @@
 	</select>
 	
 	<!-- 상담 예약정보 조회  -->
-	<select resultType="BookingInfo" id="selectBookingInfoList">
-		select 
-			C.advis_id, 
-			C.advis_name, 
-			C.advis_img, 
-			A.member_id,
-			A.appoint_no, 
-			A.coin, 
-			A.start_day, 
-			A.end_day, 
-			A.pay_price, 
-			A.payinfo 
-		from TB_adviser C join TB_appointment A
-    		on C.advis_id = A.advis_id
-    	where member_id = #{memberId}
+	<select resultMap="keywordMap" id="selectBookingInfoList">
+		select a.*, c.advis_keyword from TB_adviser C join TB_appointment A
+    on C.advis_id = A.advis_id
+    where member_id = #{memberId}
 	</select>
+	
+	<resultMap type="bookingInfo" id="keywordMap">
+		<result column="advis_keyword" property="advisKeyword" typeHandler="strArrTypeHandler"/>
+	</resultMap>
 	
 	<!-- (상담사) 본인에게 신청된 예약정보 조회  -->
 	<select resultType="BookingInfo" id="selectProgressCounselling">
-		select 
-    C.cmember_id, 
-    A.advis_name, 
-    A.advis_day, 
-    A.advis_price,
-    A.advis_img,
-    B.appoint_no,
-    B.member_id,
-    B.coin,
-    B.start_day,
-    B.end_day
-from 
-    TB_adviser A join TB_comp_member C
-        on A.advis_id = C.cmember_id
-    join TB_appointment B
-        on A.advis_id = B.advis_id
-    where C.cmember_id = #{cmemberId} and B.coin >0
+	select 
+		* 
+	from 
+		TB_appointment 
+	where 
+		advis_id = #{advisId} 
+	and 
+		coin >0 
+	order by 
+		end_day
+	</select>
+	
+	<!--(상담사) 종료된 상담정보 확인  -->
+	<select resultType="BookingInfo" id="selectEndCounselling">
+	select 
+		* 
+	from 
+		TB_appointment 
+	where 
+		advis_id = #{advisId} 
+	and 
+		coin = 0 
+	order by 
+		end_day
 	</select>
 	
 	<select id="selectVaccination" resultType="Vaccination">
@@ -151,6 +172,7 @@ from
 		where
 			parents_ID = #{parentsId}
 	</select>
+	
 	
 	
 </mapper>

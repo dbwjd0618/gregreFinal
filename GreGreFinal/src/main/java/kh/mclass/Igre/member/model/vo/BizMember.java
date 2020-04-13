@@ -17,7 +17,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class BizMember extends Counselor implements Serializable{
+public class BizMember implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

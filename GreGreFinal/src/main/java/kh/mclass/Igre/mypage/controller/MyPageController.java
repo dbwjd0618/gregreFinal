@@ -1,6 +1,7 @@
  package kh.mclass.Igre.mypage.controller;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
+import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.BizMember;
 import kh.mclass.Igre.member.model.vo.Member;
@@ -53,36 +55,73 @@ public class MyPageController {
 	public ModelAndView mypageBizView(ModelAndView mav,HttpSession session) {
 			
 			BizMember bz = (BizMember) session.getAttribute("bizmemberLoggedIn");
+			
+			Counselor c = mps.selectCounselorOne(bz.getCmemberId());
+			
 			mav.addObject("bz",bz);
+			mav.addObject("c", c);
 			mav.setViewName("myPage/bizUpdate");
 
 		return mav;
 	}
 	
 	//상담사 정보수정
-
-
-//	(상담사 마이페이지)진행중인 상담 보기
-	@GetMapping("/bookingStatus.do")
-	public ModelAndView selectProgressCounselling(@RequestParam(value = "cPage", defaultValue = "1")int cPage,  
-				ModelAndView mav, BookingInfo book, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+	@PostMapping("/updateCounselor.do") 
+	public String updateCounselor(SessionStatus sessionStatus, HttpSession session, BizMember bz, RedirectAttributes redirectAttributes) {
+	  
+		bz = (BizMember) session.getAttribute("bizmemberLoggedIn");
+	  
+		int result = mps.updateCounselor(bz); sessionStatus.setComplete(); 
+		String msg = result > 0 ? "수정 완료! 다시 로그인 하세요" : "수정 실패! 누락된 항목이 있습니다";
+		redirectAttributes.addFlashAttribute("msg", msg);
+	  
+		return "redirect:/member/login.do"; 
 		
-		final int numPerPage =5;
-		BizMember bz = (BizMember)session.getAttribute("bizmemberLoggedIn");
-		
-		System.out.println("@@@@@@@@@확인용@@@@@@@@"+bz);
-		book.setCmemberId(bz.getCmemberId());
-
-		//예약정보 불러오기
-		List<BookingInfo> list = mps.selectProgressCounselling(book);
-		System.out.println("@@@@@@@@@@@@@@@@확인용2"+book);
-		
-		mav.addObject("bz",bz);
-		mav.addObject("list",list);
-		
-		return mav;
 	}
+	  
+	  
+	//(상담사 마이페이지)진행중인 상담 보기  
+	@GetMapping("/bookingStatus.do") public ModelAndView
+		selectProgressCounselling(@RequestParam(value = "cPage", defaultValue ="1")int cPage, ModelAndView mav, BookingInfo book, HttpSession session,
+				HttpServletRequest request, HttpServletResponse response) {
+	  
+		final int numPerPage =5; 
+		
+		BizMember bz = (BizMember) session.getAttribute("bizmemberLoggedIn");		
+		Counselor c = mps.selectCounselorOne(bz.getCmemberId());
+ 
+		//예약정보 불러오기 
+		List<BookingInfo> list = mps.selectProgressCounselling(c);
+			  
+		mav.addObject("bz",bz);
+		mav.addObject("c",c);
+		mav.addObject("list",list);
+	  
+		return mav; 
+	  
+	  }
+	 
 	
+	//(상담사 마이페이지)종료된 상담 보기
+	@GetMapping("/bookingEndStatus.do") public ModelAndView
+		selectEndCounselling(@RequestParam(value = "cPage", defaultValue = "1")int
+				cPage, ModelAndView mav, BookingInfo book, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+	  
+		final int numPerPage =5;
+	  
+		BizMember bz = (BizMember) session.getAttribute("bizmemberLoggedIn");		
+		Counselor c = mps.selectCounselorOne(bz.getCmemberId());
+ 
+		//예약정보 불러오기 
+		List<BookingInfo> list = mps.selectEndCounselling(c);
+			  
+		mav.addObject("bz",bz);
+		mav.addObject("c",c);
+		mav.addObject("list",list);
+	    
+		return mav; 
+	  
+	  }
 	
 	
 	@GetMapping("/deleteMember")
@@ -203,8 +242,22 @@ public class MyPageController {
 		
 		Member m = (Member)session.getAttribute("memberLoggedIn");
 		book.setMemberId(m.getMemberId());
+		
+
 		//예약정보 불러오기
 		List<BookingInfo> list = mps.selectBookingInfoList(book);
+		System.out.println("list@@@@@@@@@@@@="+list);
+		
+		for(int i = 0; i<list.size(); i++) {
+			String str = "";
+			ArrayList<String> alist = new ArrayList<>();
+			for(int j = 0; j<list.get(i).getAdvisKeyword().length; j++) {
+				str+=list.get(i).getAdvisKeyword()[j];
+				alist.add(list.get(i).getAdvisKeyword()[j]);
+			}
+			list.get(i).setAdvisKeyStr(str);
+			list.get(i).setAdvisKeyList(alist);	
+		}
 		
 		mav.addObject("m",m);
 		mav.addObject("list",list);
@@ -212,11 +265,10 @@ public class MyPageController {
 	}
 	
 	//리뷰 작성
-	@PostMapping("/counsellingInfo.do")
+	@PostMapping("/reviewWrite.do")
 	public String reviewWrite(Review review, RedirectAttributes redirectAttributes, String starPoint) {
 		
-		
-		review.setStarPoint(Integer.parseInt(starPoint));  
+		review.setStarPoint(Integer.parseInt(starPoint));
 		int result = mps.reviewWrite(review);
 		
 		redirectAttributes.addFlashAttribute("msg", result>0?"리뷰등록 성공!":"리뷰등록 실패!");

@@ -35,9 +35,9 @@ span.error2{display:none;color:red ;}
         <div class="container">
           <div class="row align-items-center ">
             <div class="col-md-5 mt-5 pt-5">
-              <h1 class="mb-3 font-weight-bold text-teal">마이페이지</h1>
+              <h1 class="mb-3 font-weight-bold text-teal">상담사 정보 페이지</h1>
 
-              <p><a href="${pageContext.request.contextPath}/" class="text-white">Home</a> <span class="mx-3">/</span> <strong>MyPage</strong></p>
+              <p><a href="${pageContext.request.contextPath}/counselling/images/cinfo.jpg" class="text-white">Home</a> <span class="mx-3">/</span> <strong>상담사 정보 수정</strong></p>
 
             </div> 
           </div>
@@ -56,19 +56,19 @@ span.error2{display:none;color:red ;}
 				<div class="sidebar">
 					<div class="sidebar__header">
 						<div class="profile sidebar__profile">
-							<img class="profile__avatar" src="${pageContext.request.contextPath}/resources/images/counsellor/"+${advisImg } />
-							<div class="profile__name">${cmemberId }</div>
+							<img class="profile__avatar" src="${pageContext.request.contextPath}/resources/images/counselling/${c.advisImg }"/>
+							<div class="profile__name">${c.advisName}</div>
 						</div>
 					</div>
 					<div class="sidebar__body">
 						<div class="menu sidebar__menu">
-							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/memberUpdate.do"> 
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/bizUpdate.do"> 
 								<div class="menu__title">상담사 정보수정</div>
 							</a>
 							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/bookingStatus.do"> 
 								<div class="menu__title">진행중인 상담 보기</div>
 							</a>   
-							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/myPeriodCalculatorView.do">
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/bookingEndStatus.do">
 								<div class="menu__title">종료된 상담 보기</div>
 							</a>
 							<%-- <a class="menu__item" href="${pageContext.request.contextPath}/myPage/deleteMember.do">
@@ -81,33 +81,31 @@ span.error2{display:none;color:red ;}
 			
 
 			<div class="col-md-9">
-
 						<div class="row mb-4">
                             <div class="col-md-12">
-                                <h4 style="text-align: center;"><strong>개인정보 수정</strong></h4>
+                                <h4 style="text-align: center;"><strong>상담사 정보 수정</strong></h4>
                             </div>
                         </div>
-
 				<div class="card bg-light">
 		<article class="card-body mx-auto" style="max-width: 635px;">
-	<form class="card-body mx-auto" action="${pageContext.request.contextPath}/myPage/updateMember.do" id="memberFrm" method="post">
+	<form class="card-body mx-auto" action="${pageContext.request.contextPath}/myPage/updateCounselor.do" id="memberFrm" method="post">
 
 
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text">아이디</span>
 					</div>
-					<input type="text" name="memberId" id="memberId_" class="form-control" value="${m.memberId }" readonly>
+					<input type="text" name="memberId" id="memberId_" class="form-control" value="${c.advisId}" readonly>
 				</div>
 
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text">이름</span>
 					</div>
-					<input type="text"  name="memberName" id="memberName" class="form-control" value="${m.memberName }"  readonly><br>
+					<input type="text"  name="memberName" id="memberName" class="form-control" value="${c.advisName }" readonly><br>
 				</div>
 				
-				<div class="form-group input-group">
+				<%-- <div class="form-group input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text">닉네임</span>
 					</div>
@@ -136,7 +134,7 @@ span.error2{display:none;color:red ;}
 								</div>
 								
 								   <select name="pwdHintCode" id="pwdHintCode" class="custom-select">
-                                      <%-- <option disabled selected value="">${m.pwdHintCode }</option> --%> 
+                                      <option disabled selected value="">${m.pwdHintCode }</option> 
                                       <option disabled>----------</option>
                                       <option value="H1"${m.pwdHintCode eq 'H1'? 'selected':''}>당신의 첫 사랑 이름은?</option>
                                       <option value="H2"${m.pwdHintCode eq 'H2'? 'selected':''}>당신이 좋아하는 색은?</option>
@@ -192,7 +190,7 @@ span.error2{display:none;color:red ;}
                                   </div>
                                   <input name="email" class="form-control" id="email"
                                       placeholder="abc@xyz.com" type="email" value="${m.email }">
-                              </div>
+                              </div> --%>
   	
 
 				
