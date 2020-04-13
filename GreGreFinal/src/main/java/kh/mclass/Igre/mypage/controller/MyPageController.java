@@ -1,14 +1,15 @@
  package kh.mclass.Igre.mypage.controller;
 
 import java.sql.Date;
-import java.util.HashMap;
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpRequest;
+import org.apache.struts.action.ForwardingActionForward;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +27,8 @@ import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.service.MyPageService;
 import kh.mclass.Igre.mypage.model.vo.Child;
+import kh.mclass.Igre.mypage.model.vo.Period;
 import kh.mclass.Igre.mypage.model.vo.Vaccination;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -46,6 +47,21 @@ public class MyPageController {
 			mav.addObject("m",m);
 			mav.setViewName("myPage/myPageMain");
 
+		return mav;
+	}
+	@GetMapping("periodCalendar.do")
+	public ModelAndView periodCalendar(ModelAndView mav,HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		mav.addObject("m",m);
+		mav.setViewName("myPage/periodCalendar");
+		return mav;
+	}
+	@GetMapping("myPeriod.do")
+	public ModelAndView myPeriod(ModelAndView mav,HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		mav.addObject("m",m);
+		mav.setViewName("myPage/myPeriod");
+		
 		return mav;
 	}
 	
@@ -189,6 +205,21 @@ public class MyPageController {
 		mav.addObject("m",m);
 		mav.addObject("list",list);
 		return mav;
+	}
+	
+	@PostMapping("periodAdd.do")
+	public void periodAdd(ModelAndView mav,Period period,Member memer,HttpSession session) {
+
+		
+//		log.debug("editStart {}", editStart);
+//		period.setMensesStart(editStart);
+//		period.setMensesEnd(editEnd);
+		System.out.println("달력쉬벌탱 :"+period);
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		period.setMemberId(m.getMemberId());
+		System.out.println("쉬벌"+m);
+		int result = mps.periodAdd(period);
+
 	}
 	
 //	리뷰 작성

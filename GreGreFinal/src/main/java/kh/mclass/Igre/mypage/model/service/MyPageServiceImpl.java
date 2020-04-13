@@ -12,6 +12,7 @@ import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.dao.MyPageDAO;
 import kh.mclass.Igre.mypage.model.vo.Child;
+import kh.mclass.Igre.mypage.model.vo.Period;
 import kh.mclass.Igre.mypage.model.vo.Vaccination;
 
 @Service
@@ -119,6 +120,17 @@ public class MyPageServiceImpl implements MyPageService {
 		int result =0;
 		result = mpd.deleteChild(child);
 		
+		return result;
+	}
+
+	@Override
+	public int periodAdd(Period period) {
+		int result = 0;
+		period.setMensesNext(period.getMensesEnd());
+		period.setChildbearingAgeEnd(period.getMensesEnd());
+		period.setChildbearingAgeStart(period.getMensesStart());
+		period.setPregnancyDate(period.getMensesEnd());
+		result = mpd.periodAdd(period);
 		return result;
 	}
 
