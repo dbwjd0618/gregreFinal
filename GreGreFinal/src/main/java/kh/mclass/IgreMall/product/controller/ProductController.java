@@ -24,6 +24,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import kh.mclass.Igre.common.util.Utils;
+import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.IgreMall.QnA.model.service.ProdQnAService;
 import kh.mclass.IgreMall.QnA.model.vo.ProdQnA;
 import kh.mclass.IgreMall.product.model.service.ProductService;
@@ -33,6 +34,9 @@ import kh.mclass.IgreMall.product.model.vo.ProdOption;
 import kh.mclass.IgreMall.product.model.vo.Product;
 import kh.mclass.IgreMall.review.model.service.ProdReviewService;
 import kh.mclass.IgreMall.review.model.vo.ProdReview;
+import kh.mclass.IgreMall.review.model.vo.ReviewReco;
+import kh.mclass.IgreMall.wish.model.service.WishService;
+import kh.mclass.IgreMall.wish.model.vo.Wish;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -46,31 +50,71 @@ public class ProductController {
 	ProdReviewService reviewService;
 	@Autowired
 	ProdQnAService prodQnAService;
+	@Autowired
+	WishService wishService;
 	/**
 	 * 0409 이진희
 	 * 
-	 *  상품 상세보기 & 리뷰보기 & 문의보기 
+	 *  상품 상세보기 & 리뷰보기 & 문의보기  & 리뷰 추천
 	 *
 	 */
 	@GetMapping("/detail.do")
 	public ModelAndView product(ModelAndView mav, 
 						@RequestParam("productId") String productId,
-						HttpServletRequest request) throws Exception {
-		log.debug("productId={}", productId);
+						HttpServletRequest request,
+						HttpSession session) throws Exception {
+
 		//문의 불러오기
 		List<ProdQnA> prodQnAList = prodQnAService.selectListQnA(productId);
 		
+		
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String memberId = "";
+		if(m!=null) {
+			memberId = m.getMemberId();			
+		}
+		
+		//찜하기
+		Wish wish1 = new Wish();
+		wish1.setMemberId(memberId);
+		wish1.setProductId(productId);
+		
+		Wish wish2 = wishService.selectWishOne(wish1);
+		
+		//리뷰추천
+		List<ReviewReco> recoList = new ArrayList<>();
+		
 		//review 불러오기
 		List<ProdReview> reviewList = reviewService.selectListReview(productId);
-        for(int i=0;i<reviewList.size();i++) {
-        	String[] optionName = new String[reviewList.get(i).getOptionId().length];
-        	for(int j=0;j<reviewList.get(i).getOptionId().length;j++) {
-        		ProdOption option = productService.selectOptionOne(reviewList.get(i).getOptionId()[j]);
-        		optionName[j] = option.getOptionValue().replaceAll(",", "/");
-        	}
-        	reviewList.get(i).setOptionName(optionName);
-        }
-         
+		double avgStar = 0.0;
+		int totalStar=0;
+		if(reviewList.size()> 0) {
+			for(int i=0;i<reviewList.size();i++) {
+				String[] optionName = new String[reviewList.get(i).getOptionId().length];
+				totalStar+=reviewList.get(i).getStarPoint();
+				//리뷰추천
+				ReviewReco reviewReco1 = new ReviewReco();
+				String reviewId = reviewList.get(i).getReviewId();
+				reviewReco1.setMemberId(memberId);
+				reviewReco1.setReviewId(reviewId);
+				ReviewReco reviewReco2 = reviewService.selectReviewReco(reviewReco1);
+				if(reviewReco2 ==null) {
+					recoList.add(reviewReco1);								
+				}else {
+					recoList.add(reviewReco2);					
+				}
+				
+				for(int j=0;j<reviewList.get(i).getOptionId().length;j++) {
+					ProdOption option = productService.selectOptionOne(reviewList.get(i).getOptionId()[j]);
+					optionName[j] = option.getOptionValue().replaceAll(",", "/");
+				}
+				reviewList.get(i).setOptionName(optionName);
+			}
+			//사용자 총 평점
+			avgStar = (double)totalStar/(double)reviewList.size();
+			
+		}
+        
 		Product product = productService.selectProductOne(productId);
 		List<Attachment> attachList = productService.selectAttachList(productId);
 		List<ProdOption> optionList = productService.selectOptionList(productId);
@@ -109,19 +153,22 @@ public class ProductController {
 
         
         
-     
+		int tStar = (int) avgStar;
         
-        HttpSession session = request.getSession();
-     	log.debug("reviewList={}",reviewList);
+     
+		log.debug("wish={}", wish2);
         session.setAttribute("p",product);
         session.setAttribute("attachList", attachList);
         mav.addObject("p", product);
 		mav.addObject("attachList", attachList);
 		mav.addObject("optionList", optionList);//가격정보가 담겨있다.
 		mav.addObject("reviewList", reviewList);
+		mav.addObject("recoList", recoList);
+		mav.addObject("avgStar", avgStar );
+		mav.addObject("tStar", tStar );
 		mav.addObject("prodQnAList", prodQnAList);
-		System.out.println("prodQnAList="+prodQnAList);
-	
+		mav.addObject("wish", wish2);
+		
 		mav.setViewName("shop/product/detail");
 		return mav;
 	}
