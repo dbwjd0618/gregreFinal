@@ -55,4 +55,9 @@ public class ShopMemberServiceImpl implements ShopMemberService {
 	public int updateCoupon(Coupon coupon) {
 		return shopMemberDAO.updateCoupon(coupon);
 	}
+
+	@Override
+	public int deleteCart(String cartId) {
+		return shopMemberDAO.deleteCart(cartId);
+	}
 }

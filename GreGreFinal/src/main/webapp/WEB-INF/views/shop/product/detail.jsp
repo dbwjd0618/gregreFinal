@@ -16,6 +16,10 @@
 	href="${pageContext.request.contextPath }/resources/css/shop/productView.css"
 	type="text/css"></link>
 <style>
+img.review-modal__form__product__image {
+    border: 2px solid #cbc4c4;
+    padding: 5px;
+}
 .dropdown-wrap.select .btn-sel-option {
 	width: 100%;
 	height: 38px;
@@ -75,6 +79,10 @@ span.optNm2 {
 }
 #cart-modal h5{
     padding-bottom: 34px;
+}
+.avatar-text.col-lg-8 {
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 </style>
 
@@ -343,8 +351,28 @@ function goCart(){
 	location.href="${pageContext.request.contextPath }/shop/myShopping/cart.do";
 }
 </script>
+<script>
+//상품문의하기
+function goQnA(){
+	
+	document.qaFrm.action='${pageContext.request.contextPath }/shop/QnA/writeQnA.do';
+	document.qaFrm.submit();
+	alert("문의가 접수되었습니다. 빠른시일내에 답변드리겠습니다^^");
+	 
+}
 
-
+</script>
+<script>
+$(function(){
+    $("label.rating-input__star").on("click",function(){
+        $(this).parent().children("label").removeClass("selected").children('i').addClass("fa-star-o"); 
+        $(this).addClass("selected").prevAll("label").addClass("selected").children('i').removeClass("fa-star-o").addClass("fa-star");
+        $(this).children("i").removeClass("fa-star-o").addClass("fa-star"); 
+        $(this).children("input:radio[name='starPoint']").prop('checked', true); 
+        return false;
+    })
+})
+</script>
 <script>
 $(function(){
 	$("#dec-button").prev().hide();
@@ -687,75 +715,81 @@ $(function(){
                                                             </svg>
 															사진리뷰
 														</button>
-														<div class="btn production-selling-section__right">
+													<!-- 	<div class="btn production-selling-section__right">
 															<button type="button" data-toggle="modal"
 																data-target="#writeReviewModal">리뷰쓰기</button>
-														</div>
+														</div> -->
 													</div>
 												</div>
 											</div>
 										</div>
 										<div class="comment-option">
+										<c:forEach var="review" items="${reviewList}" varStatus="reVs" >
 											<div class="co-item row">
 
 												<div class="col-lg-2 comment-user-info">
+												<h5 style="margin-bottom: 15px;">${review.reviewerId }</h5>
 													<div class="at-rating">
-														<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-															class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-															class="fa fa-star-o"></i>
+														<c:if test="${review.starPoint == 1}">
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star-o"></i> 
+														<i class="fa fa-star-o"></i> 
+														<i class="fa fa-star-o"></i> 
+														<i class="fa fa-star-o"></i> 
+														</c:if>
+															<c:if test="${review.starPoint == 2}">
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star-o"></i> 
+														<i class="fa fa-star-o"></i> 
+														<i class="fa fa-star-o"></i> 
+														</c:if>
+															<c:if test="${review.starPoint == 3}">
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star-o"></i> 
+														<i class="fa fa-star-o"></i> 
+														</c:if>
+														<c:if test="${review.starPoint == 4}">
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star-o"></i> 
+														</c:if>
+														<c:if test="${review.starPoint == 5}">
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+														<i class="fa fa-star"></i> 
+														</c:if>
 													</div>
-													<h5>허희원</h5>
-													<span>2020/03/12</span>
+													
+													<c:forEach var="optName" items="${review.optionName}" varStatus="opN" >
+													<div><span>${optName}</span></div>
+													</c:forEach>
+													<span>${review.reviewDate }</span>
 												</div>
 												<div class="avatar-text col-lg-8">
-													<p class="at-reply">Lorem ipsum dolor sit amet
-														consectetur!</p>
+													<p class="at-reply">${review.reviewContent }</p>
 													<div class="production-review-item__help">
 														<button type="button"
 															class="production-review-item__help__btn btn btn-outline-success my-2 my-sm-0">
 															도움이 돼요</button>
 														<div class="production-review-item__help__text">
-															<span class="production-review-item__help__text__number">64</span>명에게
+															<span class="production-review-item__help__text__number">${review.reviewRecommen}</span>명에게
 															도움이 되었습니다.
 														</div>
 													</div>
 												</div>
 												<div class="review-img col-lg-2 mb-2">
-													<a href="#"><img src="img/products/product-1.jpg"
-														alt=""></a>
+													<img src="${pageContext.request.contextPath}/resources/upload/shop/memberProdReview/${review.renamedImg}"
+														alt="">
 												</div>
 											</div>
-											<div class="co-item row ">
-												<div class="col-lg-2 comment-user-info">
-													<div class="at-rating">
-														<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-															class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-															class="fa fa-star-o"></i>
-														<h5>김유정</h5>
-														<span>2020/03/11</span>
-													</div>
-												</div>
-												<div class="avatar-text col-lg-8">
-													<p class="at-reply">Lorem ipsum dolor sit amet
-														consectetur adipisicing elit. Labore atque alias provident
-														reprehenderit ullam, possimus autem non obcaecati totam
-														similique, placeat accusantium! Quam itaque id nostrum?
-														Velit alias unde quaerat!</p>
-													<div class="production-review-item__help">
-														<button type="button"
-															class="production-review-item__help__btn btn btn-outline-success my-2 my-sm-0">
-															도움이 돼요</button>
-														<div class="production-review-item__help__text">
-															<span class="production-review-item__help__text__number">64</span>명에게
-															도움이 되었습니다.
-														</div>
-													</div>
-												</div>
-												<div class="review-img col-lg-2 mb-2">
-													<a href="#"><img src="img/products/product-2.jpg"
-														alt=""></a>
-												</div>
-											</div>
+										</c:forEach>
 										</div>
 										<div class="modal fade" id="exampleModal" tabindex="-1"
 											role="dialog" aria-labelledby="exampleModalLabel"
@@ -821,46 +855,55 @@ $(function(){
 														</tr>
 													</thead>
 													<tbody>
+													<!-- 문의 리스트 시작 -->
+													<c:forEach var="QnA" items="${prodQnAList}" varStatus="qVs">
+										
 														<tr class="view">
-															<td>2</td>
+															<td>${qVs.index+1 }</td>
+															<c:if test="${QnA.qaState eq'N'}">
 															<td>검토중</td>
-															<td>상품 문의입니다.</td>
-															<td>mel****</td>
-															<td>2020.03.13</td>
-															<td></td>
-														</tr>
-														<tr class="fold">
-															<td colspan="6">
-																<div class="fold-content">
-																	<div class="qt">
-																		<span class="ic_qt"><img
-																			src="img/QnA/q-icon.png" alt=""></span>배송이 안되고 있어요 언제
-																		올까요
-																	</div>
-
-
-																</div>
-															</td>
-														</tr>
-														<tr class="view">
-															<td>1</td>
+															</c:if>
+															<c:if test="${QnA.qaState eq'Y'}">
 															<td>답변완료</td>
-															<td>언제 배송되나요~~?</td>
-															<td>tes****</td>
-															<td>2020.03.13</td>
+															</c:if>
+															 <c:if test="${QnA.setSecret eq'Y'}">
+															  <c:if test="${QnA.qtnerId eq memberLoggedIn.memberId }">
+															  <td>
+															  	<span class="secret-icon">
+															  	<img src="${pageContext.request.contextPath }/resources/images/shop/icon/secret.png" alt="">
+															  	</span>
+																	${QnA.qtnTitle}
+																</td>
+															  </c:if>
+															  <c:if test="${QnA.qtnerId != memberLoggedIn.memberId }">
+																<td>
+																	<span class="secret-icon">
+															  		<img src="${pageContext.request.contextPath }/resources/images/shop/icon/secret.png" alt="">
+															  		</span>
+																	비밀글입니다
+																</td>
+															  </c:if>
+															</c:if>
+															 <c:if test="${QnA.setSecret eq 'N'}">
+															<td>${QnA.qtnTitle}</td>
+															</c:if>
+															<td>${QnA.qtnerId }</td>
+															<td>${QnA.qtnDate }</td>
 															<td></td>
 														</tr>
+														 <c:if test="${QnA.setSecret == 'N' || (QnA.setSecret=='Y' && QnA.qtnerId eq memberLoggedIn.memberId)}">
 														<tr class="fold">
 															<td colspan="6">
 																<div class="fold-content">
 																	<div class="qt">
 																		<span class="ic_qt"><img
-																			src="img/QnA/q-icon.png" alt=""></span>배송이 안되고 있어요 언제
-																		올까요
+																			src="${pageContext.request.contextPath }/resources/img/QnA/q-icon.png" alt=""></span>
+																			${QnA.qtnContent }
 																	</div>
+																	 <c:if test="${QnA.qaState eq'Y'}">
 																	<div class="as">
 																		<span class="ic_as"><img
-																			src="img/QnA/a-icon.png" alt=""></span>안녕하세요 고객님.
+																			src="${pageContext.request.contextPath }/resources/img/QnA/a-icon.png" alt=""></span>안녕하세요 고객님.
 																		접수해주신 상품문의에 대한 답변드립니다. 주문하신 상품은 어제 출고되었으며, 배송은 1~2일 소요
 																		예상됩니다. 감사합니다. 즐거운 하루 보내세요.
 																	</div>
@@ -869,9 +912,13 @@ $(function(){
 																			: <em>2020-02-28 오후 4:32:44</em>
 																		</span>
 																	</p>
+																	</c:if>
 																</div>
 															</td>
 														</tr>
+														</c:if>
+													</c:forEach>
+													<!-- 문의 리스트 끝-->
 													</tbody>
 												</table>
 
@@ -1004,7 +1051,7 @@ $(function(){
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	        <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
@@ -1021,68 +1068,7 @@ $(function(){
 	  </div>
 	</div>
 	
-	<!-- 리뷰쓰기 modal -->
-	<div class="modal fade" id="writeReviewModal" tabindex="-1"
-		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">리뷰쓰기</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form>
-						<div class="form-group review-modal__form__product ">
-							<img class="review-modal__form__product__image"
-								src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/1533198816209_Q.jpg?gif=1&amp;w=144&amp;h=144&amp;c=c&amp;webp=1">
-							<div class="review-modal__form__product__contents">
-								<div class="review-modal__form__product__contents__brand">레드캣</div>
-								<div class="review-modal__form__product__contents__name">분리가
-									되는 모던 대용량 메이크업 박스</div>
-								<div class="review-modal__form__product__contents__options">화이트</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="starting" class="col-form-label">별점 평가</label>
-							<div class="at-rating" style="font-size: 30px; color: #FAC451;">
-								<label class="rating-input__star " aria-label="별점 1점"> <input
-									type="radio" value="1"> <i class="fa fa-star-o"></i>
-								</label> <label class="rating-input__star" aria-label="별점 2점"> <input
-									type="radio" value="2"> <i class="fa fa-star-o"></i>
-								</label> <label class="rating-input__star" aria-label="별점 3점"> <input
-									type="radio" value="3"> <i class="fa fa-star-o"></i>
-								</label> <label class="rating-input__star" aria-label="별점 4점"> <input
-									type="radio" value="4"> <i class="fa fa-star-o"></i>
-								</label> <label class="rating-input__star" aria-label="별점 5점"> <input
-									type="radio" value="5"> <i class="fa fa-star-o"></i>
-								</label>
-
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="add-pic" class="col-form-label">사진첨부(선택)</label>
-							<div class="review-modal__section__explain">사진을 첨부해주세요. (최대
-								1장)</div>
-							<input type="file" name="file" id="file" class="inputfile"
-								value="사진 첨부하기">
-						</div>
-						<div class="form-group">
-							<label for="review-text" class="col-form-label">리뷰작성</label>
-							<textarea class="form-control" id="review-text"></textarea>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary">완료</button>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 
 	<!-- 문의하기 modal -->
 
@@ -1098,27 +1084,34 @@ $(function(){
 					</button>
 				</div>
 				<div class="modal-body">
-					<form>
+					<form name="qaFrm" method="post">
 						<div class="form-group">
 							<label for="QnA-title" class="col-form-label">제목</label> <input
-								type="text" class="form-control" id="QnA-title">
+								type="text" class="form-control" name="qtnTitle" id="QnA-title">
+						</div>
+						<div class="bc-item">
+							<label for="bc-calvin"><input type="checkbox"
+								id="bc-calvin" name="setSecret" value="Y"> 비밀글 설정<span class="checkmark"></span>
+							</label>
 						</div>
 						<div class="form-group">
 							<label for="QnA-text" class="col-form-label">문의 내용</label>
-							<textarea class="form-control" id="QnA-text"
+							<textarea class="form-control" name="qtnContent" id="QnA-text"
 								placeholder="문의 내용을 입력하세요"></textarea>
 						</div>
+						<input type="hidden" name="qtnerId" value="${memberLoggedIn.memberId}"/>
+						<input type="hidden" name="productId" value="${p.productId}"/>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-primary">완료</button>
+					<button type="button" class="btn btn-primary" onclick="goQnA();">완료</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- 모달 끝 -->
+	<!-- 문의하기 모달 끝 -->
 </div>
 
 

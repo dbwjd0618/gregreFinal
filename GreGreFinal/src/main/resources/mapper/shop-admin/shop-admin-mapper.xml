@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shopAdmin">
+<select id="selectSeller" resultType="ShopAdmin">
+select
+	*
+from 
+	tb_seller
+</select>
+<update id="updateAdmin" >
+update
+	tb_seller
+set
+	seller_id = #{sellerId},
+	seller_pwd=#{sellerPwd},
+	
+	comp_name=#{compName},
+	comp_id=#{compId},
+	comp_num=#{compNum},
+	
+	comp_fax=#{compFax},
+	
+	comp_address=#{compAddress},
+	
+	seller_name=#{sellerName},
+	
+	seller_phone=#{sellerPhone},
+	
+	seller_email=#{sellerEmail},
+	
+	bank_name=#{bankName},
+	
+	account_no=#{accountNo},
+	
+	account_holder=#{accountHolder}
+where
+	seller_id = #{sellerId}
+</update>
+
+</mapper>

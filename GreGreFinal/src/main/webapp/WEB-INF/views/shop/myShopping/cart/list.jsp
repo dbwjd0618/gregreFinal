@@ -309,7 +309,7 @@ $(function(){
 });
 
 //수량체크
-	function dec(t, optPrice, plusPrice, cartId) {
+	function dec(t, optPrice, plusPrice, cartId,optionId) {
 		
 		var num = Number($(t).parent('div').find('[name=count]').val());
 		if (num == 1) {
@@ -320,6 +320,27 @@ $(function(){
 			var resultOptPrice  = Number(uncomma($(t).parent().parent().parent().parent().parent().parent().find('.allPrice').text()));
 			resultOptPrice -= Number(optPrice); 
 			$(t).parent().parent().parent().parent().parent().parent().find('.allPrice').text(comma(resultOptPrice));
+			
+			//수량 업뎅이트
+			var objParams = {
+					"cartId" : cartId,
+					"optionId" : optionId,
+					"num" : num
+			} 
+			$.ajax({
+				url: "${pageContext.request.contextPath}/shop/myShopping/cartUpdate.do",
+				type: "POST",
+				dataType : "json",
+				data: objParams,
+				success: function (data) {
+					
+						
+				},
+				error:(x,s,e)=>{
+					console.log(x,s,e);
+				}
+			}); 
+		
 		}
 		$(t).parent('div').find('[name=count]').val(comma(num));
 		$(t).parent().parent().parent().find('.opt-count').text(comma(num));
@@ -358,7 +379,7 @@ $(function(){
 		
 
 	}
-	function inc(t, optPrice, plusPrice, cartId) {
+	function inc(t, optPrice, plusPrice, cartId, optionId) {
 
 		var num = Number($(t).parent('div').find('[name=count]').val());
 	
@@ -370,6 +391,26 @@ $(function(){
 			var resultOptPrice  = Number(uncomma($(t).parent().parent().parent().parent().parent().parent().find('.allPrice').text()));
 			resultOptPrice += Number(optPrice); 
 			$(t).parent().parent().parent().parent().parent().parent().find('.allPrice').text(comma(resultOptPrice));
+			
+			//수량 업뎅이트
+			var objParams = {
+					"cartId" : cartId,
+					"optionId" : optionId,
+					"num" : num
+			} 
+			$.ajax({
+				url: "${pageContext.request.contextPath}/shop/myShopping/cartUpdate.do",
+				type: "POST",
+				dataType : "json",
+				data: objParams,
+				success: function (data) {
+					
+						
+				},
+				error:(x,s,e)=>{
+					console.log(x,s,e);
+				}
+			}); 
 			
 		}
 		$(t).parent('div').find('[name=count]').val(comma(num));
@@ -412,6 +453,35 @@ $(function(){
 
 </script>
 <script>
+//카트 상품 삭제
+function cartDelete(cartId){
+	 if (confirm("해당 상품을 장바구니에서 삭제하시겠습니까?")) {
+		
+			var objParams = {
+					"cartId" : cartId
+			} 
+
+			$.ajax({
+				url: "${pageContext.request.contextPath}/shop/myShopping/cartDelete.do",
+				type: "POST",
+				dataType : "json",
+				data: objParams,
+				success: function (data) {
+	
+					location.reload();
+					alert("삭제 되었습니다.");
+						
+				},
+				error:(x,s,e)=>{
+					console.log(x,s,e);
+				}
+			}); 
+		  
+		} 
+
+}
+</script>
+<script>
 //옵션삭제하기
 function optionDelete(cartId, optionId){
 
@@ -430,13 +500,10 @@ function optionDelete(cartId, optionId){
 			dataType : "json",
 			data: objParams,
 			success: function (data) {
-				var cId = data.cartId;
-				var oId = data.optionId;
 				
-				
-				
+
+				location.reload();
 				alert("삭제 되었습니다.");
-				
 					
 			},
 			error:(x,s,e)=>{
@@ -449,6 +516,7 @@ function optionDelete(cartId, optionId){
 
 }
 </script>
+
 <script>
 function cartSubmit(index, cartId){
 	//장바구니 구매하기
@@ -551,7 +619,7 @@ function cartSubmit(index, cartId){
 										<!-- 상품정보 -->
 										<td class="cart-title first-row">
 											<div class="product_button_area--2QEjZg27nU">
-												<button type="button" class="button_delete--3w1UpShPvn">
+												<button type="button" class="button_delete--3w1UpShPvn" onclick="cartDelete('${cart.cartId }');">
 													<span class="blind">상품삭제버튼</span>
 												</button>
 											</div>
@@ -603,12 +671,12 @@ function cartSubmit(index, cartId){
 														<div class="quantity">
 															<div class="pro-qty">
 																<span class="dec qtybtn" id="dec-button"
-																	onclick="dec(this,'${optList.optionPrice - cart.product.discountPrice}', '${optList.optionPrice - cart.product.price}', '${cart.cartId}');">-</span>
+																	onclick="dec(this,'${optList.optionPrice - cart.product.discountPrice}', '${optList.optionPrice - cart.product.price}', '${cart.cartId}','${optList.optionId }');">-</span>
 																<input type="text" name="count"
 																	value="${cart.prodCount[optVs.index] }" min="1"
 																	max="${optList.optionStock }"> <span
 																	class="inc qtybtn" id="inc-button"
-																	onclick="inc(this, '${optList.optionPrice - cart.product.discountPrice}','${optList.optionPrice - cart.product.price}','${cart.cartId}');">+</span>
+																	onclick="inc(this, '${optList.optionPrice - cart.product.discountPrice}','${optList.optionPrice - cart.product.price}','${cart.cartId}','${optList.optionId }');">+</span>
 																<input type="hidden" class="notDisP"
 																	value='${optList.optionPrice }' />
 															</div>

@@ -72,21 +72,7 @@
     <!-- iCheck -->
     <script src="${pageContext.request.contextPath}/resources/js/admin/icheck.min.js" type="text/javascript"></script>
     
-    
-   <!--  <script>
-      $(function () {
-        $('button').iCheck({ 
-           checkboxClass: 'icheckbox_square-blue', 
-           radioClass: 'iradio_square-blue', 
-           increaseArea: '20%' // optional 
-        });
-      });
-    </script> -->
   </body>
-
-
-
-
 
 
 </html>

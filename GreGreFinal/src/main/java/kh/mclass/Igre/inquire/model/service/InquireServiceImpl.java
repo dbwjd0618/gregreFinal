@@ -27,13 +27,20 @@ public class InquireServiceImpl implements InquireService {
 
 	@Override
 	public void createChatRoom(List<InqChatMember> list) {
-		id.createChatRoom(list);
+		int chatRoomId = id.createChatRoom(list);
+		list.get(0).setId(chatRoomId);
+		list.get(1).setId(chatRoomId);
 		id.createChatMember(list);
 	}
 
 	@Override
 	public void insertChatLog(InqMsg fromMessage) {
 		id.insertChatLog(fromMessage);
+	}
+
+	@Override
+	public List<InqMsg> chatListByChatId(String chatId) {
+		return id.chatListByChatId(chatId);
 	}
 
 }

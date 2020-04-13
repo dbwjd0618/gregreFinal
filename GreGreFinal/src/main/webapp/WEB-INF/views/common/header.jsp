@@ -87,7 +87,7 @@
               	<div class="site-quick-text">
 	            	<!--마이페이지 -->
 	                <a href="${pageContext.request.contextPath}/myPage/myPageMain.do">
-	                  <span style="color: black !important; padding-right:20px;">마이페이지</span>
+	                  <span style="color: black !important; padding-right:20px;">${memberLoggedIn.memberId } </span>
 	                </a>
               	</div>
               	<div class="site-quick-text">
@@ -137,9 +137,9 @@
 
           <nav id="colorNav" class="site-navigation text-left ml-auto d-none d-lg-block" role="navigation">
             <ul class="site-menu main-menu js-clone-nav mr-auto">
-              <li id="sub-title-1"><a href="#none" class="nav-link">임신</a></li>
+              <li id="sub-title-1"><a href="${pageContext.request.contextPath }/pregnancy/prePregnancy.do" class="nav-link">임신</a></li>
               <li id="sub-title-2"><a href="${pageContext.request.contextPath }/child/childInfo.do" class="nav-link">육아</a></li>
-              <li id="sub-title-3"><a href="#none" class="nav-link">상담센터</a></li>
+              <li id="sub-title-3"><a href="${pageContext.request.contextPath }/counselling/counselorFind.do" class="nav-link">상담센터</a></li>
               <li id="sub-title-4"><a href="${pageContext.request.contextPath }/find/careCenter.do" class="nav-link">시설찾기</a></li>
               <li id="sub-title-5"><a href="${pageContext.request.contextPath}/board/postList?boardCode=${boardList[0].boardCode}" class="nav-link">커뮤니티</a></li>
             </ul>

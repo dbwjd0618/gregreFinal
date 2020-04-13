@@ -1,6 +1,7 @@
 package kh.mclass.Igre.mypage.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.Review;
@@ -27,7 +28,22 @@ public interface MyPageDAO {
 	int memberDelete(Member member);
 
 	int insertVaccion(Vaccination vaccination);
-  
+
 	int reviewWrite(Review review);
+
+	List<Vaccination> selectVaccination(Vaccination vaccination);
+
+	Member findPassword(Member member);
+
+	int fupdatePassword(Member member);
+
+
+
+
+
+
+
+
+
 
 }

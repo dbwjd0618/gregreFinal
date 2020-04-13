@@ -26,7 +26,7 @@ public class CouponInfo implements Serializable{/**
 	private int discountValue;
 	private String discountType; //할인 타입 (C: 할인금, P: 할인율)
 	private int maxValue;
-	private int couponDuration;
+	private Date couponDuration;
 	private Date couponEnrollDate;
 	
 }

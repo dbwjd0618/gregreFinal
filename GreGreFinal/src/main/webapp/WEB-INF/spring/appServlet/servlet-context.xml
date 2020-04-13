@@ -32,6 +32,8 @@
 			<mapping path="/shop/**"/>
 			<mapping path="/chat/counsellingStart*.do"/>
 			<mapping path="/counselling/bookingPage*.do"/>
+			<exclude-mapping path="/myPage/findPassword.do"/>
+
 			<beans:bean id="loginCheckIntercepotr" class="kh.mclass.Igre.common.interceptor.LoginInterceptor"/>
 		</interceptor>
 		

@@ -88,5 +88,7 @@ public interface AdminDAO {
 
 	List<Admin> indexAdmin();
 
+	int allMemberCnt();
+
 
 }

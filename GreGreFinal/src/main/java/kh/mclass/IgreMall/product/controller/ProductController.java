@@ -24,11 +24,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import kh.mclass.Igre.common.util.Utils;
+import kh.mclass.IgreMall.QnA.model.service.ProdQnAService;
+import kh.mclass.IgreMall.QnA.model.vo.ProdQnA;
 import kh.mclass.IgreMall.product.model.service.ProductService;
 import kh.mclass.IgreMall.product.model.vo.Attachment;
 import kh.mclass.IgreMall.product.model.vo.DefaultProduct;
 import kh.mclass.IgreMall.product.model.vo.ProdOption;
 import kh.mclass.IgreMall.product.model.vo.Product;
+import kh.mclass.IgreMall.review.model.service.ProdReviewService;
+import kh.mclass.IgreMall.review.model.vo.ProdReview;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -38,19 +42,39 @@ public class ProductController {
 
 	@Autowired
 	ProductService productService;
-
+	@Autowired
+	ProdReviewService reviewService;
+	@Autowired
+	ProdQnAService prodQnAService;
+	/**
+	 * 0409 이진희
+	 * 
+	 *  상품 상세보기 & 리뷰보기 & 문의보기 
+	 *
+	 */
 	@GetMapping("/detail.do")
 	public ModelAndView product(ModelAndView mav, 
 						@RequestParam("productId") String productId,
 						HttpServletRequest request) throws Exception {
 		log.debug("productId={}", productId);
+		//문의 불러오기
+		List<ProdQnA> prodQnAList = prodQnAService.selectListQnA(productId);
 		
+		//review 불러오기
+		List<ProdReview> reviewList = reviewService.selectListReview(productId);
+        for(int i=0;i<reviewList.size();i++) {
+        	String[] optionName = new String[reviewList.get(i).getOptionId().length];
+        	for(int j=0;j<reviewList.get(i).getOptionId().length;j++) {
+        		ProdOption option = productService.selectOptionOne(reviewList.get(i).getOptionId()[j]);
+        		optionName[j] = option.getOptionValue().replaceAll(",", "/");
+        	}
+        	reviewList.get(i).setOptionName(optionName);
+        }
+         
 		Product product = productService.selectProductOne(productId);
 		List<Attachment> attachList = productService.selectAttachList(productId);
 		List<ProdOption> optionList = productService.selectOptionList(productId);
 		
-		log.debug("attachList={}",attachList);
-		log.debug("optionList={}",optionList);
 		//옵션이 있는 상품만
 		if(!optionList.isEmpty()) {
 	
@@ -75,7 +99,7 @@ public class ProductController {
 					
 				}
 			}
-			
+		
 			mav.addObject("optionValue1", optionValue1);//옵션1,옵션2
 			mav.addObject("optionValue2", optionValue2);//핑크 ~~
 			mav.addObject("optionName", optionName);//10,20담겨있다.
@@ -88,13 +112,15 @@ public class ProductController {
      
         
         HttpSession session = request.getSession();
-		
+     	log.debug("reviewList={}",reviewList);
         session.setAttribute("p",product);
         session.setAttribute("attachList", attachList);
         mav.addObject("p", product);
 		mav.addObject("attachList", attachList);
 		mav.addObject("optionList", optionList);//가격정보가 담겨있다.
-		
+		mav.addObject("reviewList", reviewList);
+		mav.addObject("prodQnAList", prodQnAList);
+		System.out.println("prodQnAList="+prodQnAList);
 	
 		mav.setViewName("shop/product/detail");
 		return mav;
@@ -111,17 +137,29 @@ public class ProductController {
 			List<Attachment> attachList=new ArrayList<>();
 			Map<String, String> imgMap = new HashMap<>();
 			for(DefaultProduct dp : defaultProductList ) {
-				Product p = new Product(dp.getSellerId(), dp.getProductId(), dp.getCategoryId(), dp.getProductName(), 
-											dp.getBrandName(), dp.getPrice(), dp.getDeliveryFee(),
-											dp.getPointRate(), dp.getDiscountPrice(), dp.getProductStock(), 
-											dp.getProductDetail(), dp.getEnrollDate(), dp.getProductState());
+				String[] paymentMethodCode= new String[7]; 
+				paymentMethodCode[0]="cr";
+				paymentMethodCode[1]="ph";
+				paymentMethodCode[2]="ac";
+				paymentMethodCode[3]="ra";
+				paymentMethodCode[4]="ka";
+				paymentMethodCode[5]="to";
+				paymentMethodCode[6]="na";
+				
+				int price =dp.getPrice(); 
+				double supplyValue= price*0.8;
+				Product p = new Product(dp.getSellerId(), null, dp.getCategoryId(), dp.getProductName(), dp.getBrandName(), dp.getPrice(), (int)supplyValue , dp.getDeliveryFee(), dp.getPointRate(), dp.getDiscountPrice(), dp.getProductStock(), dp.getProductDetail(), dp.getEnrollDate(), "Y", paymentMethodCode);
+			
+				productService.insertProduct(p);
 				String[] images = new String[5];
 				images = dp.getProductImages();
 				for(int i=0;i<images.length;i++) {
-					imgMap.put(dp.getProductId(),images[i]);		
+					imgMap.put(p.getProductId(),images[i]);		
 				}
 				productList.add(p);
 			}
+			
+			
 			
 			Set<Map.Entry<String, String>> entries = imgMap.entrySet();
 
@@ -153,7 +191,7 @@ public class ProductController {
 			log.debug("attachList={}", attachList);
 			log.debug("productList={}", productList);
 
-			productService.insert(productList);
+			
 			productService.insertAttach(attachList);
 
 		return "redirect:/";

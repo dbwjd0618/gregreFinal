@@ -256,9 +256,6 @@ public class ChatController {
 		return fromMessage; 
 	}
 	
-
-	
-	
 	/**
 	 * 읽음 여부 확인을 위해 최종 focus된 시각정보를 수집한다.
 	 * 

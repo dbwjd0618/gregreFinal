@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="prodReview">
+<delete id="deleteReview">
+	delete from 
+	 	TB_prod_review
+	where 
+		review_id = #{reviewId}
+</delete>
+<update id="updateReview">
+	update 
+		TB_prod_review
+	set
+		star_point= #{starPoint},
+		review_date = sysdate,
+		review_content = #{reviewContent},
+		original_img = #{originalImg},
+		renamed_img = #{renamedImg}
+	where 
+		review_id = #{reviewId}
+
+</update>
+	
+<insert id="insertReview">
+	insert into
+		TB_prod_review
+	values (
+	 'r'||to_char(sysdate,'yyyymmdd')||to_char(seq_TB_coupon_id.nextval, 'fm000'),
+	 #{orderNo},
+	 #{productId},
+	 #{optionId, typeHandler=strArrTypeHandler},
+	 #{reviewerId},
+	 #{starPoint},
+	 default,
+	 #{reviewContent},
+	 #{originalImg},
+	 #{renamedImg},
+	 #{reviewRecommen}
+	)
+</insert>
+
+<select id="selectListReview" resultMap="reviewMap">
+ 	select 
+ 		*
+ 	from
+ 		TB_prod_review
+ 	where 
+ 		product_id =#{productId}
+
+</select>
+<select id="selectReviewId" resultMap="reviewMap">
+ 	select 
+ 		review_id
+ 	from
+ 		TB_prod_review
+ 	where 
+ 		product_id =#{prodId}
+
+</select>
+<select id="selectListMyReview" resultMap="reviewMap">
+ 	select 
+ 		*
+ 	from
+ 		TB_prod_review
+ 	where 
+ 		reviewer_id =#{memberId}
+
+</select>
+
+<resultMap type="prodReview" id="reviewMap">
+		<id column ='review_id' property="reviewId"/>
+		<result column ='order_no' property="orderNo"/>
+		<result column ='product_id' property="productId"/>
+		<result column ='option_id' property="optionId" typeHandler="strArrTypeHandler" />
+		<result column ='reviewer_id' property="reviewerId" />
+		<result column ='star_point' property="starPoint"  />
+		<result column ='review_date' property="reviewDate"  />
+		<result column ='review_content' property="reviewContent"  />
+		<result column ='original_img' property="originalImg"  />
+		<result column ='renamed_img' property="renamedImg" />
+		<result column ='review_recommen' property="reviewRecommen"  />
+</resultMap>
+
+</mapper>
+
+

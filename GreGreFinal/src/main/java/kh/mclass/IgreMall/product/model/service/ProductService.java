@@ -28,4 +28,7 @@ public interface ProductService {
 
 	String selectSellerId(String productId);
 
+
+	void insertProduct(Product p);
+
 }

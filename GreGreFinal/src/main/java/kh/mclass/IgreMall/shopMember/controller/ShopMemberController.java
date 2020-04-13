@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.mclass.Igre.member.model.vo.Member;
+import kh.mclass.IgreMall.QnA.model.service.ProdQnAService;
+import kh.mclass.IgreMall.QnA.model.vo.ProdQnA;
+import kh.mclass.IgreMall.coupon.model.service.CouponService;
+import kh.mclass.IgreMall.coupon.model.vo.Coupon;
 import kh.mclass.IgreMall.order.model.service.OrderService;
 import kh.mclass.IgreMall.order.model.vo.OrderList;
 import kh.mclass.IgreMall.order.model.vo.OrderProduct;
@@ -29,8 +33,11 @@ import kh.mclass.IgreMall.product.model.service.ProductService;
 import kh.mclass.IgreMall.product.model.vo.Attachment;
 import kh.mclass.IgreMall.product.model.vo.ProdOption;
 import kh.mclass.IgreMall.product.model.vo.Product;
+import kh.mclass.IgreMall.review.model.service.ProdReviewService;
+import kh.mclass.IgreMall.review.model.vo.ProdReview;
 import kh.mclass.IgreMall.shopMember.model.service.ShopMemberService;
 import kh.mclass.IgreMall.shopMember.model.vo.Cart;
+import kh.mclass.IgreMall.shopMember.model.vo.ShopMember;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -44,7 +51,83 @@ public class ShopMemberController {
 	ProductService productService;
 	@Autowired
 	OrderService orderService;
+	@Autowired
+	ProdReviewService reviewService;
+	@Autowired
+	ProdQnAService prodQnAService;
+	@Autowired
+	CouponService couponService;
+	
+	/**
+	 * 0405 이진희
+	 * 
+	 * 장바구니 업데이트
+	 * 
+	 * @return
+	 */
+	@PostMapping("/cartUpdate.do")
+	@ResponseBody
+	public Map<String, Object> cartUpdate(@RequestParam(value = "optionId", required = false) String optionId,
+			@RequestParam(value = "cartId", required = false) String cartId, 
+			@RequestParam(value = "num", required = false)String prodCount, 
+			HttpSession session) {
 
+		Cart cart = shopMemberService.selectCartOne(cartId);
+		int result =0;
+		if(optionId!=null) {
+			
+			List<String> optionIdList = new ArrayList<>(Arrays.asList(cart.getOptionId()));
+			List<String> prodCountList = new ArrayList<>(Arrays.asList(cart.getProdCount()));
+			int idx = optionIdList.indexOf(optionId);
+			
+			//수량바꾸기
+			prodCountList.set(idx, prodCount);
+			cart.setProdCount(prodCountList.toArray(new String[prodCountList.size()]));
+		}else {
+			String[] prodCountArr = new String[1];
+			prodCountArr[0] = prodCount;
+			cart.setProdCount(prodCountArr);
+		}
+		
+		result = shopMemberService.updateCartOne(cart);
+			// 옵션 id 삭제
+		/*
+		 * optionIdList.remove(optionId); cart.setOptionId(optionIdList.toArray(new
+		 * String[optionIdList.size()])); // 옵션수량 삭제 prodCountList.remove(idx);
+		 * cart.setProdCount(prodCountList.toArray(new String[prodCountList.size()]));
+		 * 
+		 * result = shopMemberService.updateCartOne(cart);
+		 */
+			
+
+		Map<String, Object> map = new HashMap<>();
+		if (result > 0) {
+			map.put("cartId", cartId);
+			map.put("optionId", optionId);
+		}
+
+		return map;
+	}
+
+	
+	/**
+	 * 0411 이진희
+	 * 
+	 * 장바구니 상품 삭제
+	 */
+	@PostMapping("/cartDelete.do")
+	@ResponseBody
+	public Map<String, Object> cartDelete( @RequestParam(value = "cartId", required = false) String cartId ) {
+		
+		int result = shopMemberService.deleteCart(cartId);
+		
+		Map<String, Object> map = new HashMap<>();
+		if (result > 0) {
+			map.put("cartId", cartId);
+		}
+
+		return map;
+	}
 	/**
 	 * 0405 이진희
 	 * 
@@ -61,15 +144,20 @@ public class ShopMemberController {
 		List<String> optionIdList = new ArrayList<>(Arrays.asList(cart.getOptionId()));
 		List<String> prodCountList = new ArrayList<>(Arrays.asList(cart.getProdCount()));
 		int idx = optionIdList.indexOf(optionId);
-
-		// 옵션 id 삭제
-		optionIdList.remove(optionId);
-		cart.setOptionId(optionIdList.toArray(new String[optionIdList.size()]));
-		// 옵션수량 삭제
-		prodCountList.remove(idx);
-		cart.setProdCount(prodCountList.toArray(new String[prodCountList.size()]));
-
-		int result = shopMemberService.updateCartOne(cart);
+		int result =0;
+		if(optionIdList.size() >1) {
+			// 옵션 id 삭제
+			optionIdList.remove(optionId);
+			cart.setOptionId(optionIdList.toArray(new String[optionIdList.size()]));
+			// 옵션수량 삭제
+			prodCountList.remove(idx);
+			cart.setProdCount(prodCountList.toArray(new String[prodCountList.size()]));
+			
+			result = shopMemberService.updateCartOne(cart);
+			
+		}else {
+			result = shopMemberService.deleteCart(cartId);
+		}
 
 		Map<String, Object> map = new HashMap<>();
 		if (result > 0) {
@@ -210,9 +298,25 @@ public class ShopMemberController {
 			List<OrderProduct> orderProdList = orderService.selectOrderProdList(orderNo);
 
 			for (int j = 0; j < orderProdList.size(); j++) {
-				Product product = productService.selectProductOne(orderProdList.get(j).getProductId());
+				String prodId = orderProdList.get(j).getProductId();
+				Product product = productService.selectProductOne(prodId);
 				orderProdList.get(j).setProductName(product.getProductName());
 				orderProdList.get(j).setProductBrand(product.getBrandName());
+
+				// review 불러오기
+				List<ProdReview> myReviewList = reviewService.selectListMyReview(memberId);
+				for (int mIdx = 0; mIdx < myReviewList.size(); mIdx++) {
+
+					if (prodId.equals(myReviewList.get(mIdx).getProductId())
+							&& orderNo.equals(myReviewList.get(mIdx).getOrderNo())) {
+						String reviewId = myReviewList.get(mIdx).getReviewId();
+						orderProdList.get(j).setReviewId(reviewId);
+					} else {
+						String reviewId = "";
+						orderProdList.get(j).setReviewId(reviewId);
+					}
+				}
+				// 리뷰 아이디 가져오기
 
 				switch (orderList.get(i).getDeliveryState()) {
 
@@ -298,6 +402,20 @@ public class ShopMemberController {
 			}
 
 		}
+		
+		// coupon 개수
+		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
+		int myCouponCount =0;
+		for(int i=0; i<myCouponList.size();i++) {
+			if("Y".equals(myCouponList.get(i).getCouponState())) {
+				myCouponCount++;
+			}
+		}
+		mav.addObject("myCouponCount",myCouponCount);
+		
+		//Point 
+		ShopMember sMem = shopMemberService.selectOne(memberId);
+		mav.addObject("point", sMem.getPoint());
 
 		mav.addObject("orderList", orderList);
 		mav.addObject("deliStateCount", deliStateCount);
@@ -317,140 +435,257 @@ public class ShopMemberController {
 			@RequestParam(value = "orderNo", required = false) String orderNo) {
 
 		
-		 OrderList orderList = orderService.selectOrderList(orderNo);
-		 PaymentInfo paymentInfo = orderService.selectPaymentInfo(orderNo);
-		  List<OrderProduct> orderProdList = orderService.selectOrderProdList(orderNo);
-			orderList.setPaymentInfo(paymentInfo);
+		OrderList orderList = orderService.selectOrderList(orderNo);
+		PaymentInfo paymentInfo = orderService.selectPaymentInfo(orderNo);
+		List<OrderProduct> orderProdList = orderService.selectOrderProdList(orderNo);
+		orderList.setPaymentInfo(paymentInfo);
+
+		for (int j = 0; j < orderProdList.size(); j++) {
+			Product product = productService.selectProductOne(orderProdList.get(j).getProductId());
+			orderProdList.get(j).setProductName(product.getProductName());
+			orderProdList.get(j).setProductBrand(product.getBrandName());
 			
-		  for (int j = 0; j < orderProdList.size(); j++) {
-				Product product = productService.selectProductOne(orderProdList.get(j).getProductId());
-				orderProdList.get(j).setProductName(product.getProductName());
-				orderProdList.get(j).setProductBrand(product.getBrandName());
+			List<Attachment> attachList = productService.selectAttachList(product.getProductId());
 
+			for (int k = 0; k < attachList.size(); k++) {
+				if (attachList.get(k).getImgType().equals("R")) {
 
-				List<Attachment> attachList = productService.selectAttachList(product.getProductId());
-
-				for (int k = 0; k < attachList.size(); k++) {
-					if (attachList.get(k).getImgType().equals("R")) {
-
-						orderProdList.get(j).setRenamedImg(attachList.get(k).getRenamedImg());
-					}
+					orderProdList.get(j).setRenamedImg(attachList.get(k).getRenamedImg());
 				}
-
-				if (orderProdList.get(j).getOptionId() != null) {
-					String[] optionName = new String[orderProdList.get(j).getOptionId().length];
-					String[] optionPrice = new String[orderProdList.get(j).getOptionId().length];
-					String[] optionValue = new String[orderProdList.get(j).getOptionId().length];
-					for (int t = 0; t < orderProdList.get(j).getOptionId().length; t++) {
-						String optionId = orderProdList.get(j).getOptionId()[t];
-						ProdOption opt = productService.selectOptionOne(optionId);
-						optionName[t] = opt.getOptionName();
-						optionValue[t] = opt.getOptionValue();
-						int stock = Integer.parseInt(orderProdList.get(j).getProdCount()[t]);
-						int optPrice = (opt.getOptionPrice() - product.getDiscountPrice()) * stock;
-						optionPrice[t] = Integer.toString(optPrice);
-					}
-					orderProdList.get(j).setOptionValue(optionValue);
-					orderProdList.get(j).setOptionName(optionName);
-					orderProdList.get(j).setOptionPrice(optionPrice);
-					orderProdList.get(j).setDeliveryFee(Integer.parseInt(product.getDeliveryFee()));
-
-				} else {
-					String[] optionPrice = new String[1];
-					int price = product.getPrice() - product.getDiscountPrice();
-					optionPrice[0] = Integer.toString(price);
-					orderProdList.get(j).setOptionPrice(optionPrice);
-					orderProdList.get(j).setDeliveryFee(Integer.parseInt(product.getDeliveryFee()));
-
-				}
-		  }
-		  switch (orderList.getDeliveryState()) {
-
-			case "A":
-				orderList.setDeliveryState("입금대기");
-				break;
-			case "B":
-				orderList.setDeliveryState("결제완료");
-				break;
-			case "C":
-				orderList.setDeliveryState("배송준비");
-				break;
-			case "D":
-				orderList.setDeliveryState("배송중");
-				break;
-			case "E":
-				orderList.setDeliveryState("배송완료");
-				break;
-
 			}
 
-		  orderList.setOrderProdList(orderProdList);
-		  
-		  if("ac".equals(orderList.getPayMethod())){
-			 PayAccountInfo payAccInfo = orderService.selectPayAccInfo(orderNo);	 
-			 mav.addObject("payAccInfo",payAccInfo);
-		  }
-		  
-		  String method = orderList.getPayMethod();
-			String payMethod = "";
-			switch (method) {
-			case "cr":
-				payMethod = "신용카드 결제";
-				break;
-			case "ac":
-				payMethod = "가상계좌 입금";
-				break;
-			case "ph":
-				payMethod = "휴대폰 결제";
-				break;
-			case "ka":
-				payMethod = "카카오페이 결제";
-				break;
-			case "to":
-				payMethod = "토스 결제";
-				break;
-			case "na":
-				payMethod = "네이버페이 결제";
-				break;
-			case "ra":
-				payMethod = "실시간계좌이체";
-				break;
+			if (orderProdList.get(j).getOptionId() != null) {
+				String[] optionName = new String[orderProdList.get(j).getOptionId().length];
+				String[] optionPrice = new String[orderProdList.get(j).getOptionId().length];
+				String[] optionValue = new String[orderProdList.get(j).getOptionId().length];
+				for (int t = 0; t < orderProdList.get(j).getOptionId().length; t++) {
+					String optionId = orderProdList.get(j).getOptionId()[t];
+					ProdOption opt = productService.selectOptionOne(optionId);
+					optionName[t] = opt.getOptionName();
+					optionValue[t] = opt.getOptionValue();
+					int stock = Integer.parseInt(orderProdList.get(j).getProdCount()[t]);
+					int optPrice = (opt.getOptionPrice() - product.getDiscountPrice()) * stock;
+					optionPrice[t] = Integer.toString(optPrice);
+				}
+				orderProdList.get(j).setOptionValue(optionValue);
+				orderProdList.get(j).setOptionName(optionName);
+				orderProdList.get(j).setOptionPrice(optionPrice);
+				orderProdList.get(j).setDeliveryFee(Integer.parseInt(product.getDeliveryFee()));
+
+			} else {
+				String[] optionPrice = new String[1];
+				int price = product.getPrice() - product.getDiscountPrice();
+				optionPrice[0] = Integer.toString(price);
+				orderProdList.get(j).setOptionPrice(optionPrice);
+				orderProdList.get(j).setDeliveryFee(Integer.parseInt(product.getDeliveryFee()));
+
 			}
-		System.out.println("orderProdList ="+orderProdList );
-		System.out.println("paymentInfo="+paymentInfo);
-		System.out.println("orderList=" + orderList);
+		}
+		switch (orderList.getDeliveryState()) {
+
+		case "A":
+			orderList.setDeliveryState("입금대기");
+			break;
+		case "B":
+			orderList.setDeliveryState("결제완료");
+			break;
+		case "C":
+			orderList.setDeliveryState("배송준비");
+			break;
+		case "D":
+			orderList.setDeliveryState("배송중");
+			break;
+		case "E":
+			orderList.setDeliveryState("배송완료");
+			break;
+
+		}
+
+		orderList.setOrderProdList(orderProdList);
+
+		if ("ac".equals(orderList.getPayMethod())) {
+			PayAccountInfo payAccInfo = orderService.selectPayAccInfo(orderNo);
+			mav.addObject("payAccInfo", payAccInfo);
+		}
+
+		String method = orderList.getPayMethod();
+		String payMethod = "";
+		switch (method) {
+		case "cr":
+			payMethod = "신용카드 결제";
+			break;
+		case "ac":
+			payMethod = "가상계좌 입금";
+			break;
+		case "ph":
+			payMethod = "휴대폰 결제";
+			break;
+		case "ka":
+			payMethod = "카카오페이 결제";
+			break;
+		case "to":
+			payMethod = "토스 결제";
+			break;
+		case "na":
+			payMethod = "네이버페이 결제";
+			break;
+		case "ra":
+			payMethod = "실시간계좌이체";
+			break;
+		}
+	
+		
 		mav.addObject("payMethod", payMethod);
-		mav.addObject("orderList",orderList);
+		mav.addObject("orderList", orderList);
 		mav.setViewName("shop/myShopping/order/detail");
 		return mav;
 	}
 
 	@GetMapping("/wish/list.do")
-	public ModelAndView wishList(ModelAndView mav) {
+	public ModelAndView wishList(ModelAndView mav,  HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String memberId = m.getMemberId();
+		// coupon 불러오기
+		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
+		int myCouponCount =0;
+		for(int i=0; i<myCouponList.size();i++) {
+			if("Y".equals(myCouponList.get(i).getCouponState())) {
+				myCouponCount++;
+			}
+		}
+		
+		mav.addObject("myCouponCount",myCouponCount);
 		mav.setViewName("shop/myShopping/wish/list");
 		return mav;
 	}
-
+	
+	/**
+	 * 0411 이진희
+	 * 
+	 * 마이쇼핑 나의 문의내역보기
+	 *
+	 */
 	@GetMapping("/QnA/list.do")
-	public ModelAndView QnAList(ModelAndView mav) {
+	public ModelAndView QnAList(ModelAndView mav, HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String memberId = m.getMemberId();
+		//문의 불러오기
+		List<ProdQnA> prodQnAList = prodQnAService.selectListMyQnA(memberId);
+	
+		// coupon 불러오기
+		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
+		int myCouponCount =0;
+		for(int i=0; i<myCouponList.size();i++) {
+			if("Y".equals(myCouponList.get(i).getCouponState())) {
+				myCouponCount++;
+			}
+		}
+		
+		mav.addObject("myCouponCount",myCouponCount);
+		//Point 
+		ShopMember sMem = shopMemberService.selectOne(memberId);
+		mav.addObject("point", sMem.getPoint());
+		
+		mav.addObject("prodQnAList", prodQnAList);
 		mav.setViewName("shop/myShopping/QnA/list");
 		return mav;
 	}
 
+	/**
+	 * 0410 이진희
+	 * 
+	 * 마이쇼핑 나의 리뷰보기
+	 */
 	@GetMapping("/review/list.do")
-	public ModelAndView reviewList(ModelAndView mav) {
+	public ModelAndView reviewList(ModelAndView mav, HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String memberId = m.getMemberId();
+
+		// review 불러오기
+		List<ProdReview> myReviewList = reviewService.selectListMyReview(memberId);
+		for (int i = 0; i < myReviewList.size(); i++) {
+			String[] optionName = new String[myReviewList.get(i).getOptionId().length];
+			Product product =productService.selectProductOne(myReviewList.get(i).getProductId());
+			
+			myReviewList.get(i).setBrandName(product.getBrandName());
+			myReviewList.get(i).setProductName(product.getProductName());
+			List<Attachment> attachList = productService.selectAttachList(product.getProductId());
+
+			for (int k = 0; k < attachList.size(); k++) {
+				if (attachList.get(k).getImgType().equals("R")) {
+					myReviewList.get(i).setProdImg(attachList.get(k).getRenamedImg());
+				}
+			}
+			for (int j = 0; j < myReviewList.get(i).getOptionId().length; j++) {
+				ProdOption option = productService.selectOptionOne(myReviewList.get(i).getOptionId()[j]);
+				optionName[j] = option.getOptionValue().replaceAll(",", "/");
+			}
+			myReviewList.get(i).setOptionName(optionName);
+		}
+		// coupon 불러오기
+		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
+		int myCouponCount =0;
+		for(int i=0; i<myCouponList.size();i++) {
+			if("Y".equals(myCouponList.get(i).getCouponState())) {
+				myCouponCount++;
+			}
+		}
+		
+		mav.addObject("myCouponCount",myCouponCount);
+		//Point 
+		ShopMember sMem = shopMemberService.selectOne(memberId);
+		mav.addObject("point", sMem.getPoint());
+		mav.addObject("reviewList", myReviewList);
 		mav.setViewName("shop/myShopping/review/list");
 		return mav;
 	}
 
 	@GetMapping("/event/list.do")
-	public ModelAndView eventList(ModelAndView mav, Model model) {
+	public ModelAndView eventList(ModelAndView mav, Model model, HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String memberId = m.getMemberId();
+		
+		// coupon 불러오기
+		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
+		int myCouponCount =0;
+		for(int i=0; i<myCouponList.size();i++) {
+			if("Y".equals(myCouponList.get(i).getCouponState())) {
+				myCouponCount++;
+			}
+		}
+		
+		mav.addObject("myCouponCount",myCouponCount);
+		//Point 
+		ShopMember sMem = shopMemberService.selectOne(memberId);
+		mav.addObject("point", sMem.getPoint());
 		mav.setViewName("shop/myShopping/event/list");
 		return mav;
 	}
-
+	/**
+	 * 0411 이진희
+	 * 
+	 * 쿠폰리스트 출력
+	 */
 	@GetMapping("/coupon/list.do")
-	public ModelAndView couponList(ModelAndView mav) {
+	public ModelAndView couponList(ModelAndView mav , HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		String memberId = m.getMemberId();
+
+		// review 불러오기
+		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
+		
+		int myCouponCount =0;
+		for(int i=0; i<myCouponList.size();i++) {
+			if("Y".equals(myCouponList.get(i).getCouponState())) {
+				myCouponCount++;
+			}
+		}
+		
+		mav.addObject("myCouponCount",myCouponCount);
+		//Point 
+		ShopMember sMem = shopMemberService.selectOne(memberId);
+		mav.addObject("point", sMem.getPoint());
+		mav.addObject("myCouponList",myCouponList);
 		mav.setViewName("shop/myShopping/coupon/list");
 		return mav;
 	}
