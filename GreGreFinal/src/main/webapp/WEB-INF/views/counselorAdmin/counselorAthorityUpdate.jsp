@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <!-- admin header 선언 -->
-<%@ include file="/WEB-INF/views/admin/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/counselorAdmin/common/header.jsp"%>
 
 <script>
 function athorityUpdate(){
@@ -16,7 +16,7 @@ function athorityUpdate(){
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 		<h1>
-			관리자 권한 관리 <small>관리자 권한</small>
+			관리자 관리 <small>관리자 권한</small>
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
@@ -36,7 +36,7 @@ function athorityUpdate(){
 					</div>
 					<!-- /.box-header -->
 					<!-- form start -->
-					<form action="${pageContext.request.contextPath}/admin/athorityUpdate.do" method="POST" onsubmit="return athorityUpdate();">
+					<form action="${pageContext.request.contextPath}/counselorAdmin/athorityUpdate.do" method="POST" onsubmit="return athorityUpdate();">
 						<div class="box-body">
 							<div class="form-group">
 								<label for="memberid">아이디</label> <input type="text"
@@ -75,4 +75,4 @@ function athorityUpdate(){
 <!-- /.content-wrapper -->
 
 <!-- admin footer 선언 -->
-<%@ include file="/WEB-INF/views/admin/common/footer.jsp"%>
+<%@ include file="/WEB-INF/views/counselorAdmin/common/footer.jsp"%>

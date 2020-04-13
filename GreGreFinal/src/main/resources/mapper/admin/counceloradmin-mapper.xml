@@ -2,4 +2,28 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cadmin"></mapper>
+<mapper namespace="cadmin">
+	<select id="selectOne" resultMap="cadminMap">
+		select 
+		    member_id admin_Id, member_pwd admin_Pwd, member_name admin_Name,
+		    grade, nickname, birthday, phone, address, email, gender
+		from 
+			tb_member_info
+		where
+			member_id = #{adminId} and grade = 'A'
+	</select>
+	
+	<resultMap type="admin" id="cadminMap"></resultMap>
+	
+	<select id="list" resultMap="counselorMap">
+		select 
+			* 
+		from 
+			tb_adviser
+	</select>
+	
+	<resultMap type="counselor" id="counselorMap">
+ 		<result column="advis_keyword" property="advisKeyword" typeHandler="strArrTypeHandler"></result>
+ 	</resultMap>
+
+</mapper>

@@ -14,7 +14,6 @@ import kh.mclass.Igre.admin.model.vo.AdminReport;
 import kh.mclass.Igre.board.model.vo.Board;
 import kh.mclass.Igre.board.model.vo.Post;
 import kh.mclass.Igre.board.model.vo.Reply;
-import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.member.model.vo.Member;
 
 @Repository
