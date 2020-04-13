@@ -2,7 +2,6 @@ package kh.mclass.IgreMall.admin.orderList.controller;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -16,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.mclass.IgreMall.admin.orderList.model.service.OrderListService;
-import kh.mclass.IgreMall.order.model.vo.Attachment2;
-import kh.mclass.IgreMall.order.model.vo.OrderList;
+import kh.mclass.IgreMall.admin.orderList.model.vo.AdminOrderList;
 import kh.mclass.IgreMall.product.model.vo.Product;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,7 +32,13 @@ public class OrderListController {
 	@Autowired
 	OrderListService orderListService;
 
-	
+	@RequestMapping("/delete.do")
+	public ModelAndView deleteOrder(ModelAndView mav,
+									String orderNo) {
+		int result = orderListService.deleteOrder(orderNo);
+		mav.setViewName("redirect:/shop/admin/order/orderList.do");
+		return mav;
+	}
 	
 	@RequestMapping("/search.do")
 	public ModelAndView searchProduct(ModelAndView mav,
@@ -50,14 +54,14 @@ public class OrderListController {
 		String[] orderStatus= null;//--주문상태(입금대기A, 결제완료B, 배송준비C, 배송중D, 배송완료E)
 	//검색 필요한 사항들 -> 날짜, 결제방식, 주문상태, 상품명, 입금확인.
 
-		OrderList o = new OrderList();
+		AdminOrderList o = new AdminOrderList();
 		o.setPayState(payState);
 		o.setPayMethod(payMethod);
 		o.setProductName(productName);
 		
 //		o.setDeliveryState(ostatus);
 		
-		List<OrderList> allOrderList = new ArrayList<OrderList>();
+		List<AdminOrderList> allOrderList = new ArrayList<AdminOrderList>();
 		//전체 다 뽑아내는 것이야..
 		allOrderList = orderListService.orderListSearch(o);
 		
@@ -67,7 +71,7 @@ public class OrderListController {
 		//A,B,.....
 		orderStatus = ostatus.split(",");
 		//대입되어야하는 list 
-		List<OrderList> list=new ArrayList<OrderList>();
+		List<AdminOrderList> list=new ArrayList<AdminOrderList>();
 //		orderStatusList
 	
 		if (endDate.equals(java.sql.Date.valueOf("1994-04-07"))) {
@@ -282,11 +286,15 @@ public class OrderListController {
 			break;
 		case "ka":
 			list.get(i).setPayMethod("카카오페이");
+			break;
 		case "to":
 			list.get(i).setPayMethod("토스");
 			break;
 		case "na":
 			list.get(i).setPayMethod("네이버페이");
+			break;
+		case "ra":
+			list.get(i).setPayMethod("실시간 계좌이체");
 			break;
 		}
 	}
@@ -308,14 +316,14 @@ public class OrderListController {
 		log.debug("오더리스트들어가기");
 		String ellerId = "ekfcjd2";
 
-		List<OrderList> list = orderListService.orderList(sellerId);
+		List<AdminOrderList> list = orderListService.orderList(sellerId);
 		/*
 		 * List<Attachment> attachList = new ArrayList<>(); for (int
 		 * i=0;i<list.size();i++) { Attachment a =
 		 * orderListService.selectAttachOne(list.get(i).getProductId());
 		 * attachList.add(a); }
 		 */
-		OrderList o = new OrderList();
+		AdminOrderList o = new AdminOrderList();
 		for (int i = 0; i < list.size(); i++) {
 			switch (list.get(i).getDeliveryState()) {
 			case "A":

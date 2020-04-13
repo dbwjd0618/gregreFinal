@@ -46,7 +46,7 @@ public class ShopAdminProductController {
 
 	@Autowired
 	ResourceLoader resourceLoader;
-
+	
 	@RequestMapping("editProduct.do") 
 	public String editProduct(@ModelAttribute Product product, 
 							  @RequestParam(value="optionName", required=false)String[] optionName, 
@@ -566,7 +566,18 @@ public class ShopAdminProductController {
 		if(cPage<1) {
 			cPage = 1;
 		}
-		
+		  final int pageStart = ((cPage-1)/numPerPage)*numPerPage+1;             
+	      final int pageEnd = pageStart+numPerPage-1;
+
+	      final int totalPage= (int)Math.ceil((double)totalProducts/numPerPage); 
+	      int pageNo = pageStart;
+	      
+	      mav.addObject("pageNo",pageNo);
+	      mav.addObject("pageEnd", pageEnd);
+	      mav.addObject("pageBarSize", numPerPage );
+	      mav.addObject("pageStart", pageStart);
+	      mav.addObject("totalPage",totalPage);
+
 		mav.addObject("totalProducts", totalProducts);
 		mav.addObject("list", list);
 		mav.setViewName("shop/admin/product/list");

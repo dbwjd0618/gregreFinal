@@ -2,17 +2,20 @@ package kh.mclass.IgreMall.admin.orderList.model.dao;
 
 import java.util.List;
 
+import kh.mclass.IgreMall.admin.orderList.model.vo.AdminOrderList;
 import kh.mclass.IgreMall.order.model.vo.OrderList;
 import kh.mclass.IgreMall.product.model.vo.Attachment;
 
 public interface OrderListDAO {
 
-	List<OrderList> orederList(String sellerId);
+	List<AdminOrderList> orederList(String sellerId);
 
 	Attachment selectAttachOne(String productId);
 
-	List<OrderList> orderListSearch(OrderList o);
+	List<AdminOrderList> orderListSearch(AdminOrderList o);
 
-	int totalOrders(OrderList o);
+	int totalOrders(AdminOrderList o);
+
+	int deleteOrder(String orderNo);
 
 }

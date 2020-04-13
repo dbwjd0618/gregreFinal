@@ -23,5 +23,7 @@ public class AdminQnA {
 	private String qtnContent;
 	private Date qtnDate;
 	private String qaState;
+	private String productName;
+	private String categoryId;
 	
 }

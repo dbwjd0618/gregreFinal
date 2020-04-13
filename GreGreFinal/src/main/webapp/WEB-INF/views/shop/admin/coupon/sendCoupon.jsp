@@ -271,36 +271,7 @@ input[name="paymentMethodCode"] {
 		
 		
 		
-		<div class="col-lg-12">
-			<h2>쿠폰지급</h2>
-		</div>
-		<c:if test="${b ne null }">
-		<form
-			action="${pageContext.request.contextPath}/shop/admin/coupon/sendCoupon.do"
-			method="get" enctype="multipart/form-data">
-			<div class="form-group row">
-				<label for="memberId" class="col-sm-2 col-form-label">쿠폰지급대상자</label>
-				<div class="col-sm-10">
-					<input type="text" name="memberId" class="form-control" placeholder="지급대상 아이디를 입력하세요(,로 구분)" value=""/>
-				</div>
-			</div>
-			
-			<input type="hidden" name="couponId" value="${b.couponId }" />
-			<input type="hidden" name="couponType" value="${b.couponType }" />
-			<input type="hidden" name="couponName" value="${b.couponName }" />
-			<input type="hidden" name="discountValue" value="${b.discountValue }" />
-			<input type="hidden" name="maxValue" value="${b.maxValue }" />
-			<input type="hidden" name="couponDuration" value="${b.couponDuration }" />
-			
-			<div class=" text-center" style="padding-bottom: 50px">
-				<input type="submit" class="btn btn-primary btn-lg" id=""
-					value="쿠폰전송" />
-			</div>
-			</form>
-		</c:if>
 		
-	</div>
-</div>
 <!-- 폼 끝  -->
 <script type="text/javascript">
 	$('#summernote').summernote({

@@ -8,8 +8,6 @@
 <!-- 한글깨질때. -->
 <fmt:requestEncoding value="utf-8" />
 <jsp:include page="/WEB-INF/views/shop/admin/common/header.jsp" />
-
-
 <!-- Right side column. Contains the navbar and content of the page -->
 <div class="content-wrapper">
 	<!-- Content Header (Page header) -->
@@ -165,7 +163,7 @@
 								value="${crPrice}"></c:out>원</td>
 					</tr>
 					<tr style="background-color: #ffffff;">
-						<td class="text-center vertical-middle">계좌이체</td>
+						<td class="text-center vertical-middle">무통장입금</td>
 						<td class="text-right vertical-middle"><c:out
 								value="${acCount}"></c:out>건</td>
 						<td class="text-right vertical-middle"><c:out
@@ -180,7 +178,7 @@
 					</tr>
 
 					<tr style="background-color: #ffffff;">
-						<td class="text-center vertical-middle">카카오톡</td>
+						<td class="text-center vertical-middle">카카오페이</td>
 						<td class="text-right vertical-middle"><c:out
 								value="${kaCount}"></c:out>건</td>
 						<td class="text-right vertical-middp.le"><c:out
@@ -255,45 +253,48 @@
 												<div class="value-sub">
 													<strong class="text-danger">선택날짜</strong>
 												</div>
-												<div class="value-self">2020-03-13 ~ 2020-03-20</div>
+												<div class="value-self">${sdate } ~ ${edate }</div>
 											</div>
 										</div>
 									</div>
 
  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-										
-										
-									<script>
-	 google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+<script>
+	
+      <c:if test="${fn:length(clist) >0 }">									
+ 	 google.charts.load('current', {'packages':['corechart']});
+       google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Month', '공급가', '판매가'],
-          
-          <c:forEach items="${clist}" var="cs" varStatus="vs">
-          ['${cs.adate}',${cs.supValue}, ${cs.price} ]
-          ${!vs.last?",":""}
-          </c:forEach>
-          
-        ]);
+       function drawChart() {
+         var data = google.visualization.arrayToDataTable([
+           ['Month', '공급가', '판매가'],
+           
+           <c:forEach items="${clist}" var="cs" varStatus="vs">
+           ['${cs.adate}',${cs.supValue}, ${cs.price} ]
+           ${!vs.last?",":""}
+           </c:forEach>
+           
+         ]);
 
-        var options = {
-          title: '매출현황',
-          curveType: 'function',
-          legend: { position: 'bottom' },
-          hAxis:{
-          format:""
-          }
-          
-        };
+         var options = {
+           title: '총 매출현황',
+           curveType: 'function',
+           legend: { position: 'bottom' },
+           hAxis:{
+           format:""
+           }
+           
+         };
 
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+         var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 
-        chart.draw(data, options);
-      }
+         chart.draw(data, options);
+       }
+       </c:if>
       </script>
-      <div id="curve_chart" style="height: 500px; position: relative;"></div>
+      <div id="curve_chart" style="height: 500px; position: relative;">
+     	<div><br /> <h2>매출이 없습니다..</h2></div>
+      </div>
 <!-- 										<script type="text/javascript"
 											src="https://www.gstatic.com/charts/loader.js"></script>
 										<script type="text/javascript">

@@ -269,8 +269,7 @@ table {
 								</td>
 								<td class="text-center" rowspan="2"
 									style="background-color: #fff; vertical-align: middle;">
-									<button type="submit" class="btn btn-primary btn-lg" id="service_pay"> 검 색1 </button>
-								<button type="button" class="btn btn-primary btn-lg" onclick="javascript:search();">검 색</button>
+									<button type="submit" class="btn btn-primary btn-lg" id="service_pay"> 검 색 </button>
 								</td>
 							</tr>
 							<tr>
@@ -353,7 +352,7 @@ table {
 									<td class="text-center vertical-middle">${p.productId }</td>
 									<td class="text-left vertical-middle">
 									<a href="javascript:void(0)"
-										onclick="javascript:location.href='./detail.php?c=${p.productId}';">${p.productName }</a></td>
+										onclick="location.href='${pageContext.request.contextPath }/shop/product/detail.do?productId=${p.productId}';">${p.productName }</a></td>
 									<td class="text-center vertical-middle">
 								
 								
@@ -402,83 +401,83 @@ table {
 					</table>
 				</form>
 			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			<!-- 페이지 바 시작-->
-				<nav aria-label="Page navigation example">
-				  <ul class="pagination">
-				    <li class="page-item">
-				      <a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=1" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;&laquo;	 </span>
-				        <span class="sr-only">Previous</span>
-				      </a>
-				    </li>
-				    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${cPage }">${cPage }</a></li>
-				    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${cPage+1 }">${cPage+1 }</a></li>
-				    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${cPage+2 }">${cPage+2 }</a></li>
-				    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${cPage+3 }">${cPage+3 }</a></li>
-				    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${cPage+4 }">${cPage+4 }</a></li>
-				    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${endPage}" aria-label="Next">
-				        <span aria-hidden="true">&raquo;&raquo;</span>
-				        <span class="sr-only">Next</span>
-				      </a>
-				    </li>
-				  </ul>
-				</nav>
-				<!-- 페이지 바 끝-->
-			<div class="row page_wrap">
-							<div class="col-md-12 page_nation">
-								<!-- cPage -->
-								<c:if test="${3 ge cPage}">
-									<div class="Pg"><span>&lt;&lt;</span></div>
-									<div class="Pg"><span>&lt;</span></div>
-								</c:if>
-								<c:if test="${3 lt cPage }">
-									<div class="Pg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=1">&lt;&lt;</a></div>
-									<div class="Pg CPg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${cPage-3}">&lt;</a></div>
-								</c:if>
-								
-								<!-- endPage가 5 이하일때 -->
-								<c:if test="${endPage le 5 }">
-									<c:forEach begin="1" end="${endPage}" var="pNo">
-										<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${pNo}">${pNo}</a></div></c:if>
-										<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
-									</c:forEach>
-								</c:if>
-								
-								<!-- endPage가 5 초과일때 -->
-								<c:if test="${endPage gt 5 }">
-									<!-- cPage가 3 이하일때 -->
-									<c:if test="${cPage le 3}">
-										<c:forEach begin="1" end="5" var="pNo">
-											<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${pNo}">${pNo}</a></div></c:if>
-											<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
-										</c:forEach>
-									</c:if>
-									<!--cPage가 endPage-2 이상일때 -->
-									<c:if test="${cPage ge (endPage-2)}">
-										<c:forEach begin="${endPage-4 }" end="${endPage }" var="pNo">
-											<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${pNo}">${pNo}</a></div></c:if>
-											<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
-										</c:forEach>
-									</c:if>
-									<!--cPage가 3 초과 endPage-2 미만일때 -->
-									<c:if test="${cPage gt 3 && cPage lt (endPage-2)}">
-										<c:forEach begin="${cPage-2}" end="${cPage+2}" var="pNo">
-											<c:if test="${pNo != cPage}"><div class="Pg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${pNo}">${pNo}</a></div></c:if>
-											<c:if test="${pNo == cPage}"><div class="Pg active"><span>${pNo}</span></div></c:if>
-										</c:forEach>
-									</c:if>
-								</c:if>
-								
-								<c:if test="${cPage ge endPage-2}">
-									<div class="Pg"><span>&gt;</span></div>
-									<div class="Pg"><span>&gt;&gt;</span></div>
-								</c:if>
-								<c:if test="${cPage lt endPage-2}">
-									<div class="Pg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${cPage+3}">&gt;</a></div>
-									<div class="Pg"><a href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${endPage}">&gt;&gt;</a></div>
-								</c:if>
-							</div>
-						</div>
+            <nav aria-label="Page navigation example">
+               <ul class="pagination">
+               <!-- 이전 페이지 -->
+                  <c:if test="${pageNo ==1 }">
+                     <li class="page-item"><a class="page-link" href="#"
+                        aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+                           <span class="sr-only">Previous</span>
+                     </a></li>
+                  </c:if>
+                  
+                  
+                  
+                  <c:if test="${pageNo >1 }">
+                  <li class="page-item">
+                          
+                       
+                        <a class="page-link" href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${pageStart-1}" aria-label="Previous"> 
+                           <span aria-hidden="true">&laquo;</span>
+                           <span class="sr-only">Previous</span>
+                        </a>   
+                     </li>
+                  </c:if>
+                  
+                  <!-- 넘버 -->
+                     <c:if test="${pageEnd >totalPage }">
+                         <c:set var="pageEnd" value="${totalPage }"/>
+                     </c:if>
+                     <c:forEach begin="${pageStart }" end="${pageEnd}"
+                        varStatus="countVs">
+                          
+                          
+                           <li class="page-item">
+                           <li class="page-item"><a class="page-link"
+                              href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${countVs.index}">${countVs.index }</a></li>
+                           <li class="page-item">
+            
+                        <c:set var="pageNo" value="${countVs.index }" />
+                     </c:forEach>
+   
+                  <!-- 다음 페이지 -->
+                  <c:if test="${pageNo >totalPage }">
+                     <li><a class="page-link" href="#" aria-label="Next"> <span
+                           aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
+                     </a></li>
+                  </c:if>
+                  <c:if test="${pageNo <=totalPage }">
+                        <a class="page-link"
+                           href="${pageContext.request.contextPath}/shop/admin/product/list.do?cPage=${pageEnd+1}"
+                           aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+                           <span class="sr-only">Next</span>
+                        </a>
+                  </c:if>
+               </ul>
+            </nav>
+            <!-- 페이지 바 끝-->
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+	
 		</div>
 </div>
  	<form action="xlsdown.php" method="post" name="xlsform">

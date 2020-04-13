@@ -105,6 +105,32 @@ input[name="paymentMethodCode"] {
     margin-left: 10px;
 }
 </style>
+<%@ include file="/WEB-INF/views/shop/admin/common/header.jsp"%>
+
+<c:set value="cate" var="하하"/>
+
+<c:if test="${qa.categoryId eq 'CA1'}">
+<c:set var="cate" value="분유"/>
+</c:if>
+<c:if test="${qa.categoryId eq 'CA2'}">
+<c:set var="cate" value="이유식"/>
+</c:if>
+<c:if test="${qa.categoryId eq 'CA3'}">
+<c:set var="cate" value="기저귀"/>
+</c:if>
+<c:if test="${qa.categoryId eq 'CA4'}">
+<c:set var="cate" value="물티슈"/>
+</c:if>
+<c:if test="${qa.categoryId eq 'CA5'}">
+<c:set var="cate" value="수유용품"/>
+</c:if>
+<c:if test="${qa.categoryId eq 'CA6'}">
+<c:set var="cate" value="이유용품"/>
+</c:if>
+<c:if test="${qa.categoryId eq 'CA5'}">
+<c:set var="cate" value="목욕용품"/>
+</c:if>
+
 
 <div class="content-wrapper">
 	<!-- Right side column. Contains the navbar and content of the page -->
@@ -124,35 +150,55 @@ input[name="paymentMethodCode"] {
 		<div class="col-lg-12">
 			<h2>상품문의</h2>
 		</div>
-		
-		<form
-			action="${pageContext.request.contextPath}/shop/admin/board/question/answer.do"
-			method="get" enctype="multipart/form-data">
-			<input type="hidden" name="sellerId" value="igre_mall_test" />
+
+			<!-- <input type="hidden" name="sellerId" value="igre_mall_test" /> -->
 			<div class="form-group row">
-				<label for="couponName" class="col-sm-2 col-form-label">제목</label>
+				<label for="qnaTitle" class="col-sm-2 col-form-label">제목</label>
 				<div class="col-sm-5">
-					<input type="text" name="couponName" class="form-control" placeholder="쿠폰명을 입력하세요" value="${qa.qtnTitle}"/>
+					<input type="text" name="qnaTitle" class="form-control" placeholder="쿠폰명을 입력하세요" value="${qa.qtnTitle}"/>
 				</div>
 				
 			</div>
 			<div class="form-group row">
-				<label for="disCountValue" class="col-sm-2 col-form-label">제품명</label>
+				<label for="productName" class="col-sm-2 col-form-label">카테고리</label>
+				
 				<div class="col-sm-5">
-					<input type="text" name="disCountValue" class="form-control" value="${qa.productId }">
+					<input type="text" name="productName" class="form-control" value="${cate }">
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="maxValue" class="col-sm-2 col-form-label">작성일</label>
+				<label for="productName" class="col-sm-2 col-form-label">제품명</label>
 				<div class="col-sm-5">
-					<input type="date" name="maxValue" class="form-control" value="${qa.qtnDate}">
+					<input type="text" name="productName" class="form-control" value="${qa.productName }">
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="couponDetail" class="col-sm-2 col-form-label">쿠폰설명</label>
+				<label for="questionDate" class="col-sm-2 col-form-label">작성일</label>
+				<div class="col-sm-5">
+					<input type="date" name="questionDate" class="form-control" value="${qa.qtnDate}">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="question" class="col-sm-2 col-form-label">문의내용</label>
 				<div class="col-sm-10">
-					<textarea class="form-control" id="" name="couponDetail"
+					<textarea class="form-control" id="" name="question"
 						maxlength="140" rows="7">${qa.qtnContent }</textarea>
+				</div>
+			</div>
+			<hr />
+				<div class="col-lg-12">
+			<h2>답변하기</h2>
+		</div>
+				<form
+			action="${pageContext.request.contextPath}/shop/admin/question/answer.do"
+			name="regi_form" id="regi_form" method="get" enctype="multipart/form-data">
+			<input type="hidden" name="sellerId" value="igre_mall_test" /> 
+			<input type="hidden" name="qaId" value="${qa.qaId }"/>		
+			<div class="form-group row">
+				<label for="AnswerQna" class="col-sm-2 col-form-label">답변내용</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" id="" name="answer"
+						maxlength="140" rows="7"></textarea>
 				</div>
 			</div>
 			<div class=" text-center" style="padding-bottom: 50px">
@@ -162,51 +208,200 @@ input[name="paymentMethodCode"] {
 			</form>
 	</div>
 	</div>
-<!-- 폼 끝  -->
-<script type="text/javascript">
-	$('#summernote').summernote({
-		placeholder : '쿠폰설명을 입력해주세요.',
-		tabsize : 2,
-		height : 300,
-		focus : true,
-		lang : 'ko-KR',
-		callbacks : {
-			onImageUpload : function(files, editor, welEditable) {
-				for (var i = files.length - 1; i >= 0; i--) {
-					sendFile(files[i], this);
-				}
+	
+	
+	<!-- 정우 모달 창 연습 -->
+<div class="modal fade" id="sendSMSFormtoOrder" tabindex="-1"
+	role="dialog" aria-labelledby="sendSMSFormtoOrder" aria-hidden="true"
+	alreadyLoad="0">
+	<div class="modal-dialog">
+		<div class="modal-content" id="sendSMSFormContentOrder">
+			<div class="sms_wrap message clearfix">
+				<h2 style="margin-top: 0px;">SMS 보내기</h2>
+
+				<div class="sms-box">
+					<form id="smsFormtoOrder">
+						<h3 style="margin-top: 0px;">여러건은 번호마다 콤마(,) 구분</h3>
+						<p>
+							<textarea class="form-control" rows="12" name="smschkMessage"
+								id="smschkMessage"></textarea>
+						</p>
+						<div class="sms_number">
+							<ul>
+								<li class="clearfix" style="display: none;"><span
+									class="cname">주문 번호</span> <span class="cphone"><input
+										type="text" name="smsOrderNum" id="smsOrderNum"
+										class="form-control input-sm" value="" readonly></span></li>
+								<li class="clearfix"><span class="cname">받는 사람</span> <span
+									class="cphone"><input type="text"
+										name="smsReceivetoOrder" id="smsReceivetoOrder"
+										class="form-control input-sm" value="" readonly></span></li>
+								<li class="clearfix"><span class="cname">보내는사람</span> <span
+									class="cphone"><input type="text"
+										name="smsSendertoOrder" id="smsSendertoOrder"
+										class="form-control input-sm" value="01089671359" readonly></span>
+								</li>
+							</ul>
+						</div>
+						<div class="text-center">
+							<a href="javascript:;" class="btn btn-info btn-sm"
+								id="smschksand">발송하기</a> <a href="javascript:;"
+								id="closebtnOrder" class="btn btn-default btn-sm"
+								data-dismiss="modal">닫기</a>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<button class="btn btn-primary btn-sm" type="button" id="ChkSms" style="margin-left:20px;">선택 SMS발송</button>
+
+
+<!-- 정우 더미 -->
+<script>
+$('.sendSMSForm').on('click', function () {
+	 var sendSMSForm = $('#sendSMSForm');
+
+	 sendSMSForm.modal('show');
+	 var row = $(this), smsForm = $('form#smsForm');
+	 var recvphone = row.attr('recvphone');
+
+	 if (recvphone != '') {
+		  $('#smsReceive', smsForm).val(recvphone);
+		  $('#smsReceive', smsForm).parent().parent().show();
+	 } else {
+		  $('#smsReceive', smsForm).val('');
+		  $('#smsReceive', smsForm).parent().parent().hide();
+	 }
+});
+
+$('#sendSMSForm').on('click', '#smsSendBtn', function () {
+	var smsForm = $('form#smsForm');
+	var searchTarget = $('input[name=searchtarget]', smsForm).val();
+	if ($('#smsMessage', smsForm).val() == '') {
+		alert('내용을 입력하세요.');
+		return;
+	}
+	if (searchTarget == '' && $('#smsReceive', smsForm).val() == '') {
+		alert('받는 사람 휴대전화번호를 입력하세요.');
+		return;
+	}
+	if ($('#smsSender', smsForm).val() == '') {
+		alert('보내는 사람 휴대전화번호를 입력하세요.');
+		return;
+	}
+
+	var mode = 'smssender';
+	var smsMessage = $('#smsMessage', smsForm).val();
+	var smsReceive = $('#smsReceive', smsForm).val();
+	var smsSender = $('#smsSender', smsForm).val();
+
+	$.ajax({
+		url		: 	"smsSand.php",
+		type		: 	"POST",
+		dataType	: 	"json",
+		data		: 	{
+			"mode"	:   mode,
+			"smsmsg"	:   smsMessage,
+			"smsrec"	:   smsReceive,
+			"smssen"	:   smsSender,
+			"shopid"	:   'ekfcjd2'
+		},
+		success		: 	function (result) {
+
+			if (result.msg =="SUCCESS")
+			{
+				alert("발송 되었습니다.");
+				$('#sendSMSForm').modal('hide');
+			}
+			else {
+				alert('잠시 후 다시 시도하세요.');
+				$(location).get(0).reload();
 			}
 		}
 	});
+
+});
+
+
+$('#ChkSms').css('cursor','pointer').click(function(){
+	var f = $(document.forms["regi_form"]);
+	/* if ($('input:checkbox:checked',f).length<=0) { alert('발송하실 주문건을 선택하세요.'); return; } */
+	var phone = [];
+	var orderNum = [];
+
+	$(':checkbox[name^=chkDel]').each(function(i) {
+		if (this.checked) {
+			phone.push($("input[name='phone[]']").eq(i).val());
+			orderNum.push($(this).val());
+		}
+
+	}); 
+	var sendSMSForms = $('#sendSMSFormtoOrder');
+	var smsReceive = $("#smsReceivetoOrder").val(phone);
+	var smsOrderNum = $("#smsOrderNum").val(orderNum);
+
+	sendSMSForms.modal('show');
+});
+
+$('#smschksand').click(function() {
+	var sendMessage = $('#smschkMessage').val();
+	var smsReceive = $('#smsReceivetoOrder').val();
+	var smsSender = $('#smsSendertoOrder').val();
+	var smsOrderNum = $('#smsOrderNum').val();
+	var sendSMSForms = $('#sendSMSFormtoOrder');
+	var msgonum = $('#smschkMessage').attr("msgnum");
+	var mode = 'smsSendToOrder';
+
+	$.ajax({
+		url		: 	"smsSand.php",
+		type		: 	"POST",
+		dataType	: 	"json",
+		data		: 	{
+			"mode"	:   mode,
+			"smsmsg"	:   sendMessage,
+			"smsrec"	:   smsReceive,
+			"smssen"	:   smsSender,
+			'smsOrderNum' : smsOrderNum,
+			'msgonums' : msgonum,
+			"shopid"	:   'test'
+		},
+		success		: 	function (result) {
+
+			if (result.msg =="SUCCESS")
+			{
+				alert("발송 되었습니다.");
+				$('#sendSMSFormtoOrder').modal('hide');
+			}
+			else {
+				alert('잠시 후 다시 시도하세요.');
+				$(location).get(0).reload();
+			}
+		}
+	});
+});
 </script>
-<script>
-	function sendFile(file, el) {
-		var form_data = new FormData();
-		form_data.append('file', file);
-		$.ajax({
-					data : form_data,
-					type : "POST",
-					url : '${pageContext.request.contextPath}/shop/admin/product/insertImg.do',
-					cache : false,
-					contentType : false,
-					enctype : 'multipart/form-data',
-					processData : false,
-					success : function(data) {
+<!-- 정우 더미 -->
 
-						console.log("img up load success");
 
-						var url = '${pageContext.request.contextPath}/resources/upload/shop/productDetail/'
-								+ data[1];
 
-						console.log("url=" + url);
-						$(el).summernote('editor.insertImage', url);
-						$('summernote')
-								.append(
-										'<img src="'+url+'" width = "400", height = "auto" />');
-					}
-				});
-	}
-</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

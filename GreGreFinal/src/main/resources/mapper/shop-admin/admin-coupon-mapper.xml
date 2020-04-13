@@ -41,9 +41,11 @@ insert into
 			#{couponName},
 			#{couponDetail},
 			#{discountValue},
+			#{discountRate},
 			#{discountType},
 			#{maxValue},
 			#{couponDuration},
+			#{couponDurationDay},
 			default
 		)
 
