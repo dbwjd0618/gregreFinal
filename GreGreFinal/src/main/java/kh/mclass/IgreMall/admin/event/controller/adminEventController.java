@@ -44,7 +44,7 @@ public class adminEventController {
 		return mav;
 	}
 	
-	
+	//
 	@GetMapping("event.do")
 	public ModelAndView eventList(ModelAndView mav){
 		/* List<Event> eventList= eventService.eventList(); */
