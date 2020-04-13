@@ -47,7 +47,7 @@
 	
 	<update id="createTbMenses">
 	create
-		table TB_menses_${memberId}(menses_no number, menses_start date, menses_end date, menses_cycle number, menses_next date, childbearing_age_start date, childbearing_age_end date, pregnancy_date date)
+		table TB_menses_${memberId}(menses_no number, menses_start date DEFAULT SYSDATE, menses_end date DEFAULT SYSDATE, menses_cycle number, menses_next date DEFAULT SYSDATE, childbearing_age_start date DEFAULT SYSDATE, childbearing_age_end date DEFAULT SYSDATE, pregnancy_date date DEFAULT SYSDATE)
 	</update>
 
 	<select id="selectOne" resultType="kh.mclass.Igre.member.model.vo.Member"> 
