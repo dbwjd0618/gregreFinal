@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,12 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.mclass.Igre.common.Pagebar;
 import kh.mclass.Igre.counselling.model.service.CounselorService;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
+import kh.mclass.Igre.counselling.model.vo.EditReview;
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.reviewStar;
 import kh.mclass.Igre.member.model.vo.Member;
@@ -31,6 +34,7 @@ import net.sf.json.JSONArray;
 
 @Controller
 @Slf4j
+@SessionAttributes(value= {"memberLoggedIn"})
 @RequestMapping("/counselling")
 public class CounsellingController {
 	
@@ -82,10 +86,13 @@ public class CounsellingController {
 	@GetMapping("/bookingMain.do")
 	public ModelAndView bookingMain(@RequestParam(value = "cPage", defaultValue = "1")int cPage,
 									@RequestParam("advisId") String advisId,
-									Model model) {
+									Model model, HttpSession session) {
 		
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage =5;
+		
+		Member member = (Member) session.getAttribute("memberLoggedIn");
+		mav.addObject("member",member);
 		
 		Counselor counselor = counselorService.selectOne(advisId);
 		
@@ -195,6 +202,28 @@ public class CounsellingController {
 		}
 		return list;
 	}
+	
+	//리뷰 수정
+		@PostMapping("/editReview")
+		public String editReview(EditReview edit, RedirectAttributes redirect) {
+			
+			log.debug(edit+"수정 리뷰");
+			
+			int result = counselorService.editReview(edit);
+			
+			log.debug(result+"수정되었으면 1입니다.");
+			
+			return "redirect:/counselling/bookingMain.do?advisId="+edit.getAdvisId();
+		}
+		
+		//리뷰 삭제
+		@GetMapping("/deleteReview.do")
+		public String deleteReview(@RequestParam(value="advisReviewNo") int num, @RequestParam(value="advisId") String id, RedirectAttributes redirect) {
+			
+			int result = counselorService.deleteReview(num);
+			
+			return "redirect:/counselling/bookingMain.do?advisId="+id;
+		}
 		
 	
 }

@@ -74,6 +74,8 @@ public class HomeController {
 			log.debug("chatId = " + chatId);
 			model.addAttribute("chatId", chatId);
 		}
+		
+		
 		return "index";
 	}
 	

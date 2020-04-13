@@ -51,9 +51,11 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<!--시설찾기 서브메뉴-->
-				<h2>임신</h2>
+				<h2>육아</h2>
 				<ul class="menu">
-					<li class="list"><a href="${pageContext.request.contextPath }/child/childInfo.do">육아정보</a></li>
+					<li class="list active"><a href="${pageContext.request.contextPath }/child/childInfo.do">육아정보</a>
+					 
+					</li>
 					<li class="list"><a href="${pageContext.request.contextPath }/child/childCare.do">아이지킴이</a></li>
 					<li class="list"><a href="#">육아상담</a></li>
 				</ul>

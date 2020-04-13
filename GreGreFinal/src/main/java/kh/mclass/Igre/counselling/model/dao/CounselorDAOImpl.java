@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kh.mclass.Igre.counselling.model.vo.Counselor;
+import kh.mclass.Igre.counselling.model.vo.EditReview;
 import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.reviewStar;
@@ -107,6 +108,17 @@ public class CounselorDAOImpl implements CounselorDAO {
 	public int bookingInsert(BookingInfo info) {
 		return sqlSession.insert("counselor.bookingInfo", info);
 	}
+
+	@Override
+	public int editReview(EditReview edit) {
+		return sqlSession.update("review.editReview", edit);
+	}
+
+	@Override
+	public int deleteReview(int num) {
+		return sqlSession.delete("review.deleteReview", num);
+	}
+
 
 
 

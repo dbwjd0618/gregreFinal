@@ -92,7 +92,7 @@
 
 .skin-blue .sidebar-menu>li>.treeview-menu {
 	margin: 0 1px;
-	background: #2c3b41
+	background: #f7f3d9
 }
 
 .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {
@@ -113,7 +113,7 @@
 
 .skin-blue .treeview-menu>li.active>a, .skin-blue .treeview-menu>li>a:hover
 	{
-	color: #fff
+	color: #0c0a0a
 }
 
 .skin-blue .sidebar-form {
