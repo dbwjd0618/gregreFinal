@@ -135,7 +135,7 @@
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-user-secret"></i>
-                <span>관리자 관리</span>
+                <span>관리자 권한 관리</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">

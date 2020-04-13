@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wish">
+
+<update id="updateWishCheck">
+	update 
+		tb_wishlist
+	set
+		wish_check = #{wishCheck},
+		wish_date = sysdate
+	where 
+		product_id = #{productId}
+ 		and
+ 		member_id = #{memberId}
+</update>
+
+
+<insert id="insertWish">
+	insert into
+		tb_wishlist
+	values (
+	 'w'||to_char(sysdate,'yyyymmdd')||to_char(seq_TB_wish_id.nextval, 'fm0000'),
+	 #{memberId},
+	 #{productId},
+	 #{wishCheck},
+	 sysdate
+	)
+</insert>
+
+<select id="selectWishOne" resultMap="wishMap">
+ 	select 
+ 		*
+ 	from
+ 		tb_wishlist
+ 	where 
+ 		product_id =#{productId}
+ 		and
+ 		member_id = #{memberId}
+
+</select>
+<select id="selectWishList" resultMap="wishMap">
+ 	select 
+ 		*
+ 	from
+ 		tb_wishlist
+ 	where 
+ 		member_id = #{memberId}
+</select>
+
+
+<resultMap type="wish" id="wishMap">
+		<id column='wish_Id' property="wishId" />
+		<result column ='member_id' property="memberId"/>
+		<result column ='product_id' property="productId"/>
+		<result column ='wish_check' property="wishCheck"/>		
+		<result column ='wish_date' property="wishDate"/>		
+</resultMap>
+
+</mapper>
+
+

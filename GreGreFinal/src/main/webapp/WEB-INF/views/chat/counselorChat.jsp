@@ -231,7 +231,7 @@ margin:0 auto;
 $(function() {
 	
 	var result = '${checkToday}';
-	if(result == 0){
+	if(result == 1){
 		alert("이미 상담을 진행 하셨습니다");
 		$('#sendBtn').attr('id', 'sendBtnn');
 		$('.message_input').attr('value','상담을 진행 할 수 없습니다.').attr('readOnly', true);

@@ -60,4 +60,14 @@ public class ProductDAOImpl implements ProductDAO{
 	public Object insertProduct(Product product) {
 		return sqlSession.insert("product.insertProduct", product);
 	}
+
+	@Override
+	public int updateOption(ProdOption option) {
+		return sqlSession.update("product.updateOption", option);
+	}
+
+	@Override
+	public int updateProduct(Product product) {
+		return sqlSession.update("product.updateProduct", product);
+	}
 }

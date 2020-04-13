@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.IgreMall.coupon.model.vo.Coupon;
 import kh.mclass.IgreMall.coupon.model.vo.CouponInfo;
@@ -57,6 +56,7 @@ public class OrderController {
 			@RequestParam(value = "usedPoint", required = false) String usedPoint,
 			@RequestParam(value = "usedCoupon", required = false) String usedCoupon,
 			@RequestParam(value = "couponId", required = false) String couponId,
+			@RequestParam(value = "addPoint", required = false) String addPoint,
 			RedirectAttributes redirectAttributes) {
 
 		Member m = (Member) session.getAttribute("memberLoggedIn");
@@ -68,8 +68,14 @@ public class OrderController {
 		orderList.setSellerId(sellerId);
 
 		orderList.setDeliveryNo("deliTest1");
-		orderList.setPayState("Y");
-		orderList.setDeliveryState("B");
+		if ("ac".equals(orderList.getPayMethod())) {
+			orderList.setPayState("N");// 미입금
+			orderList.setDeliveryState("A");// 입금대기
+		} else {
+			orderList.setPayState("Y");
+			orderList.setDeliveryState("B");
+
+		}
 
 		PaymentInfo paymentInfo = new PaymentInfo();
 		paymentInfo.setProdPrice(Integer.parseInt(prodPrice));
@@ -78,6 +84,15 @@ public class OrderController {
 		paymentInfo.setUsedCoupon(Integer.parseInt(usedCoupon));
 
 		ShopMember sMem = shopMemberService.selectOne(m.getMemberId());
+
+		ShopMember memVal = shopMemberService.selectShopMem(m.getMemberId());
+
+		if (memVal == null) {
+			System.out.println("여기오나");
+			int shopMemResult = shopMemberService.insertShopMem(sMem);
+			System.out.println("shopMEmeRE=" + shopMemResult);
+		}
+
 		// 쿠폰사용
 		if (paymentInfo.getUsedCoupon() > 0) {
 			Coupon coupon = new Coupon();
@@ -92,17 +107,61 @@ public class OrderController {
 			int couponResult = shopMemberService.updateCoupon(coupon);
 			redirectAttributes.addFlashAttribute("msg", couponResult > 0 ? "쿠폰 사용 성공!" : "쿠폰 사용 실패");
 		}
-		// 포인트사용
+		// 포인트사용 및 포인트 적립
 		if (paymentInfo.getUsedPoint() > 0 && paymentInfo.getUsedPoint() <= sMem.getPoint()) {
-			int afterPoint = sMem.getPoint() - paymentInfo.getUsedPoint();
+			int afterPoint = sMem.getPoint() - paymentInfo.getUsedPoint() + Integer.parseInt(addPoint);
 			sMem.setPoint(afterPoint);
 			int pointResult = shopMemberService.updateConsumerInfo(sMem);
 			redirectAttributes.addFlashAttribute("msg", pointResult > 0 ? "포인트 사용 성공!" : "포인트 사용 실패");
+		} else {
+			// 포인트 적립만
+			int afterPoint = sMem.getPoint() + Integer.parseInt(addPoint);
+			sMem.setPoint(afterPoint);
+			int pointResult = shopMemberService.updateConsumerInfo(sMem);
+			redirectAttributes.addFlashAttribute("msg", pointResult > 0 ? "포인트 적립 성공!" : "포인트 적립 실패");
 		}
 
 		// 주문하기
 		int result = orderService.insertOrder(orderList, orderProdList, paymentInfo);
 		redirectAttributes.addFlashAttribute("msg", result > 0 ? "주문성공!" : "주문실패");
+
+		// 수량 감소
+		if (result > 0) {
+			for (int i = 0; i < orderProdList.size(); i++) {
+				// 옵션이 있을 경우
+				if (orderProdList.get(i).getOptionId() != null) {
+					for (int j = 0; j < orderProdList.get(i).getProdCount().length; j++) {
+						String optionId = orderProdList.get(i).getOptionId()[j];
+						String productId = orderProdList.get(i).getProductId();
+
+						ProdOption option = productService.selectOptionOne(optionId);
+						Product product = productService.selectProductOne(productId);
+
+						// 옵션 재고 줄이기
+						int optionStock = option.getOptionStock()
+								- Integer.parseInt(orderProdList.get(i).getProdCount()[j]);
+						option.setOptionStock(optionStock);
+						int optResult = productService.updateOption(option);
+
+						// 제품 재고 줄이기
+						int productStock = product.getProductStock()
+								- Integer.parseInt(orderProdList.get(i).getProdCount()[j]);
+						product.setProductStock(productStock);
+						int prodResult = productService.updateProduct(product);
+
+					}
+				} else {
+					String productId = orderProdList.get(i).getProductId();
+					Product product = productService.selectProductOne(productId);
+					// 제품 재고 줄이기
+					int productStock = product.getProductStock()
+							- Integer.parseInt(orderProdList.get(i).getProdCount()[0]);
+					product.setProductStock(productStock);
+					int prodResult = productService.updateProduct(product);
+
+				}
+			}
+		}
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 		Date time = new Date();
@@ -171,8 +230,14 @@ public class OrderController {
 		orderList.setSellerId(sellerId);
 
 		orderList.setDeliveryNo("deliTest1");
-		orderList.setPayState("Y");
-		orderList.setDeliveryState("B");
+		if ("ac".equals(orderList.getPayMethod())) {
+			orderList.setPayState("N");// 미입금
+			orderList.setDeliveryState("A");// 입금대기
+		} else {
+			orderList.setPayState("Y");
+			orderList.setDeliveryState("B");
+
+		}
 
 		PaymentInfo paymentInfo = new PaymentInfo();
 		paymentInfo.setProdPrice(Integer.parseInt(prodPrice));
@@ -181,6 +246,13 @@ public class OrderController {
 		paymentInfo.setUsedCoupon(Integer.parseInt(usedCoupon));
 
 		ShopMember sMem = shopMemberService.selectOne(m.getMemberId());
+
+		ShopMember memVal = shopMemberService.selectShopMem(m.getMemberId());
+
+		if (memVal == null) {
+			int shopMemResult = shopMemberService.insertShopMem(sMem);
+		}
+
 		// 쿠폰사용
 		if (paymentInfo.getUsedCoupon() > 0) {
 			Coupon coupon = new Coupon();
@@ -192,6 +264,7 @@ public class OrderController {
 					coupon.setCouponState("N");
 				}
 			}
+			System.out.println("coupon=" + coupon);
 			int couponResult = shopMemberService.updateCoupon(coupon);
 			redirectAttributes.addFlashAttribute("msg", couponResult > 0 ? "쿠폰 사용 성공!" : "쿠폰 사용 실패");
 		}
@@ -201,12 +274,58 @@ public class OrderController {
 			sMem.setPoint(afterPoint);
 			int pointResult = shopMemberService.updateConsumerInfo(sMem);
 			redirectAttributes.addFlashAttribute("msg", pointResult > 0 ? "포인트 사용 성공!" : "포인트 사용 실패");
+		} else {
+			// 포인트 적립만
+			int afterPoint = sMem.getPoint() + Integer.parseInt(addPoint);
+			System.out.println("afterPoint=" + afterPoint);
+			sMem.setPoint(afterPoint);
+			System.out.println("sMem=" + sMem);
+			int pointResult = shopMemberService.updateConsumerInfo(sMem);
+			System.out.println("pointRe=" + pointResult);
+			redirectAttributes.addFlashAttribute("msg", pointResult > 0 ? "포인트 적립 성공!" : "포인트 적립 실패");
 		}
 
 		// 주문하기
 		int result = orderService.insertOrder(orderList, orderProdList, paymentInfo);
 		redirectAttributes.addFlashAttribute("msg", result > 0 ? "주문성공!" : "주문실패");
 
+		// 수량 감소
+		if (result > 0) {
+			for (int i = 0; i < orderProdList.size(); i++) {
+				// 옵션이 있을 경우
+				if (orderProdList.get(i).getOptionId() != null) {
+					for (int j = 0; j < orderProdList.get(i).getProdCount().length; j++) {
+						String optionId = orderProdList.get(i).getOptionId()[j];
+						String productId = orderProdList.get(i).getProductId();
+
+						ProdOption option = productService.selectOptionOne(optionId);
+						Product product = productService.selectProductOne(productId);
+
+						// 옵션 재고 줄이기
+						int optionStock = option.getOptionStock()
+								- Integer.parseInt(orderProdList.get(i).getProdCount()[j]);
+						option.setOptionStock(optionStock);
+						int optResult = productService.updateOption(option);
+
+						// 제품 재고 줄이기
+						int productStock = product.getProductStock()
+								- Integer.parseInt(orderProdList.get(i).getProdCount()[j]);
+						product.setProductStock(productStock);
+						int prodResult = productService.updateProduct(product);
+
+					}
+				} else {
+					String productId = orderProdList.get(i).getProductId();
+					Product product = productService.selectProductOne(productId);
+					// 제품 재고 줄이기
+					int productStock = product.getProductStock()
+							- Integer.parseInt(orderProdList.get(i).getProdCount()[0]);
+					product.setProductStock(productStock);
+					int prodResult = productService.updateProduct(product);
+
+				}
+			}
+		}
 		// 가상계좌입금일 경우
 		if (!bankName.equals("")) {
 			orderList.setPayState("N");

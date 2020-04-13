@@ -8,10 +8,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>
 <!-- WebSocket: stomp.js CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
-​
 <link href="${pageContext.request.contextPath}/resources/css/index/inqChat.css" rel="stylesheet" type="text/css" />
 <script src="${pageContext.request.contextPath}/resources/js/index/inqChat.js"></script>
-​
 <style>
 #inqToAdmin {
 	position: fixed;
@@ -20,9 +18,9 @@
 	color: #4e4ecf54;
 	font-size: 60px;
 }
-
 #inqToAdmin:hover {color: #4e4ecf;cursor: pointer;}
-
+.owl-stage-outer{padding-top: 0px;}
+.testimonial-3{min-height:300px;}
 body {padding-right: 0px !important;}
 </style>
 <c:if test="${not empty memberLoggedIn}">
@@ -75,35 +73,11 @@ body {padding-right: 0px !important;}
 					<div class="testimonial-3-wrap" style="margin-top: 20px; margin-bottom: 40px;">
 
 						<div class="owl-carousel nonloop-block-13">
-							<div class="testimonial-3 d-flex">
-								<div class="text">
-									<h3>광고1</h3>
-									<p class="position">Partner</p>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit. Aliquam earum libero rem maxime magnam. Similique esse
-										ab earum, autem consectetur.</p>
-								</div>
-							</div>
+							<div class="testimonial-3 d-flex" style="background: url('${pageContext.request.contextPath}/resources/images/index/idx_fam.png') no-repeat"></div>
 
-							<div class="testimonial-3 d-flex">
-								<div class="text">
-									<h3>광고2</h3>
-									<p class="position">Partner</p>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit. Aliquam earum libero rem maxime magnam. Similique esse
-										ab earum, autem consectetur.</p>
-								</div>
-							</div>
+							<div class="testimonial-3 d-flex" onclick="location.href='${pageContext.request.contextPath }/find/pharmacy.do';" style="cursor:pointer; background: url('${pageContext.request.contextPath}/resources/images/index/idx_mask.png') no-repeat"></div>
 
-							<div class="testimonial-3 d-flex">
-								<div class="text">
-									<h3>광고3</h3>
-									<p class="position">Partner</p>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-										elit. Aliquam earum libero rem maxime magnam. Similique esse
-										ab earum, autem consectetur.</p>
-								</div>
-							</div>
+							<div class="testimonial-3 d-flex" onclick="location.href='http://www.childcare.go.kr/web/board/BD_board.list.do?bbsCd=9091';" style="cursor: pointer; background: url('${pageContext.request.contextPath}/resources/images/index/idx_sup.jpg') no-repeat"></div>
 						</div>
 					</div>
 				</div>
@@ -161,11 +135,32 @@ body {padding-right: 0px !important;}
 					</ul>
 				</div>
 
-				<div class="photo-list">
-					<h2>시기별 맞춤정보</h2>
-					<a href="">
-						<img src="${pageContext.request.contextPath}/resources/images/index/more.png" class="more" alt=""></a>
-					<div class="photo-visual"></div>
+				<div class="photo-list" style="float:left; width:46.5%">
+					<h2>오늘의 예보</h2>
+					<div style="width:100%;">
+						<div id="div-weather" style="width:45%; display:inline-block;">
+							<span>오늘의 날씨 : </span><img src="" id="weatherImg" alt="" style="width:50px;"/>
+							<br /><br />
+							<span>강수확률  : </span><span id="pop"></span><span> %</span>
+							<br /><br />
+							<span id="tmn" style="color:blue;">최저온도</span>
+							<span>/</span>
+							<span id="tmx" style="color:red;">최고온도</span>
+						</div>
+						<div id="div-dust" style="width:45%; display:inline-block;">
+							<span>오늘의 미세먼지 상태는 </span>
+							<br />
+							<strong><span id="dust10" ></span></strong>
+							<br />
+							<span>입니다.</span>
+							<br /><br />
+							<span>오늘의 초미세먼지 상태는 </span>
+							<br />
+							<strong><span id="dust25"></span></strong>
+							<br />
+							<span>입니다.</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -185,22 +180,22 @@ body {padding-right: 0px !important;}
 					<h2>찾아보기</h2>
 					<ul>
 						<li class="link1">
-							<a href="">
-								<img src="${pageContext.request.contextPath}/resources/images/index/welfare_icon.png" alt=""> <br> 복지센터
-							</a>
-						</li>
-						<li class="link2">
-							<a href="">
+							<a href="${pageContext.request.contextPath }/find/careCenter.do">
 								<img src="${pageContext.request.contextPath}/resources/images/index/daycare_icon.png" alt=""> <br> 어린이집
 							</a>
 						</li>
+						<li class="link2">
+							<a href="${pageContext.request.contextPath }/find/serviceCenter.do">
+								<img src="${pageContext.request.contextPath}/resources/images/index/welfare_icon.png" alt=""> <br> 복지센터
+							</a>
+						</li>
 						<li class="link3">
-							<a href="">
-								<img src="${pageContext.request.contextPath}/resources/images/index/pharmacy_icon.png" alt=""> <br> 약국
+							<a href="${pageContext.request.contextPath }/find/hospital.do">
+								<img src="${pageContext.request.contextPath}/resources/images/index/pharmacy_icon.png" alt=""> <br> 병원
 							</a>
 						</li>
 						<li class="link4">
-							<a href="http://cafe.daum.net/gwanak-dreampartner/">
+							<a href="${pageContext.request.contextPath }/child/childCare">
 								<img src="${pageContext.request.contextPath}/resources/images/index/schoolzone_icon.png" alt=""> <br> 어린이보호구역
 							</a>
 						</li>
@@ -253,4 +248,87 @@ body {padding-right: 0px !important;}
 		</div>
 	</div>
 </div>
+
+<script>
+$(function() {
+	$.ajax({
+		url:"${pageContext.request.contextPath}/api/weather.api",
+		dataType:"XML",
+		method:"GET",
+		success: function(data) {
+			console.log(data);
+			let $item = $(data).find("item");
+			console.log($item);
+			let pop = null;
+			let sky = null;
+			let tmn = null;
+			let tmx = null;
+			$.each($item, function(i, it) {
+				if(pop == null && $(it).find("category").text() == "POP") {
+					pop = $(it).find("fcstValue").text();
+				}
+				if(sky == null && $(it).find("category").text() == "SKY") {
+					sky = $(it).find("fcstValue").text();
+				}
+				if(tmn == null && $(it).find("category").text() == "TMN") {
+					tmn = $(it).find("fcstValue").text();
+				}
+				if(tmx == null && $(it).find("category").text() == "TMX") {
+					tmx = $(it).find("fcstValue").text();
+				}
+				if(pop != null && sky != null && tmn != null && tmx != null) {
+					return false;
+				}
+			});
+			$("#pop").text(pop);
+			$("#tmn").text(tmn+"°C");
+			$("#tmx").text(tmx+"°C");
+			if(sky == 1) {
+				$("#weatherImg").attr('src', "${pageContext.request.contextPath}/resources/images/index/맑음.png");
+			} else if (sky == 3) {
+				$("#weatherImg").attr('src', "${pageContext.request.contextPath}/resources/images/index/구름.png");
+			} else {
+				$("#weatherImg").attr('src', "${pageContext.request.contextPath}/resources/images/index/흐림.png");
+			}
+			console.log("AAAA", pop, sky, tmn, tmx);
+		},
+		error: function(x,s,e) {
+			console.log(x,s,e);
+		}
+	});
+	
+	$.ajax({
+		url:"${pageContext.request.contextPath}/api/dust.api",
+		dataType:"XML",
+		method:"GET",
+		success: function(data) {
+			console.log(data);
+			let pm10 = $(data).find("pm10Grade1h").text();
+			let pm25 = $(data).find("pm25Grade1h").text();
+			
+			if(pm10 == 1) {
+				$("#dust10").text("좋음").attr("style", "color:green");
+			} else if(pm10 == 2) {
+				$("#dust10").text("보통").attr("style", "color:yellowgreen");
+			} else if(pm10 == 3) {
+				$("#dust10").text("나쁨").attr("style", "color:orange");
+			} else {
+				$("#dust10").text("매우나쁨").attr("style", "color:red");
+			}
+			if(pm25 == 1) {
+				$("#dust25").text("좋음").attr("style", "color:green");
+			} else if(pm25 == 2) {
+				$("#dust25").text("보통").attr("style", "color:yellowgreen");
+			} else if(pm25 == 3) {
+				$("#dust25").text("나쁨").attr("style", "color:orange");
+			} else {
+				$("#dust25").text("매우나쁨").attr("style", "color:red");
+			}
+		},
+		error : function(x,s,e) {
+			console.log(x,s,e);
+		}
+	});
+});
+</script>
 
