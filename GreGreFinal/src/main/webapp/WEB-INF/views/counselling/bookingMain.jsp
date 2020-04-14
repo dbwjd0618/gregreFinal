@@ -97,7 +97,6 @@ $(()=>{
 
 .chart-rating-wrapper {
 	min-width: 150px;
-	max-width: 150px;
 }
 
 .c-grade {
@@ -341,19 +340,19 @@ width: 100%;
 											5 <span class='chart-rating'> <span
 												style="width:${list1.get(0).getReviewCount()*100/
                                     totalReviewContents}%"></span>
-											</span> (${list1.get(0).getReviewCount()}) 명<br> 4 <span
+											</span> ${list1.get(0).getReviewCount()}명<br> 4 <span
 												class='chart-rating'> <span
 												style="width:${list1.get(1).getReviewCount()*100/totalReviewContents}%"></span>
-											</span> (${list1.get(1).getReviewCount()}) 명<br> 3 <span
+											</span> ${list1.get(1).getReviewCount()}명<br> 3 <span
 												class='chart-rating'> <span
 												style="width:${list1.get(2).getReviewCount()*100/totalReviewContents}%"></span>
-											</span> (${list1.get(2).getReviewCount()}) 명<br> 2 <span
+											</span> ${list1.get(2).getReviewCount()}명<br> 2 <span
 												class='chart-rating'> <span
 												style="width:${list1.get(3).getReviewCount()*100/totalReviewContents}%"></span>
-											</span> (${list1.get(3).getReviewCount()}) 명<br> 1 <span
+											</span> ${list1.get(3).getReviewCount()}명<br> 1 <span
 												class='chart-rating'> <span
 												style="width:${list1.get(4).getReviewCount()*100/totalReviewContents}%"></span>
-											</span> (${list1.get(4).getReviewCount()}) 명
+											</span> ${list1.get(4).getReviewCount()}명
 										</div>
 									</div>
 								</article>

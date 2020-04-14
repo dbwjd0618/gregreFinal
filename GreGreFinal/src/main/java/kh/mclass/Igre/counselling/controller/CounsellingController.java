@@ -86,7 +86,7 @@ public class CounsellingController {
 	@GetMapping("/bookingMain.do")
 	public ModelAndView bookingMain(@RequestParam(value = "cPage", defaultValue = "1")int cPage,
 									@RequestParam("advisId") String advisId,
-									Model model, HttpSession session) {
+									Model model, HttpSession session, HttpServletRequest request) {
 		
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage =5;
@@ -132,7 +132,7 @@ public class CounsellingController {
 	}
 	
 	@GetMapping("/bookingPage.do")
-	public ModelAndView bookingPage(@RequestParam("advisId") String advisId, HttpSession session) {
+	public ModelAndView bookingPage(@RequestParam("advisId") String advisId, HttpSession session,HttpServletRequest request) {
 		
 		ModelAndView mav = new ModelAndView();
 		
@@ -143,8 +143,11 @@ public class CounsellingController {
 		int result = counselorService.recentSelectOne(member.getMemberId());
 		
 		if(result == 1) {
-			mav.addObject("msg","이미 진행 중인 상담 상품이 존재 합니다.");
-			mav.setViewName("/index");		
+			String referer = request.getHeader("referer");
+			session.setAttribute("referer", referer);
+			session.setAttribute("msg", "이미 진행 중인 상담 상품이 존재 합니다.");
+			log.debug("referer = " + referer);
+			mav.setViewName("redirect:/");		
 		}
 		
 		
@@ -152,9 +155,6 @@ public class CounsellingController {
 		Counselor counselor = counselorService.selectOne(advisId);
 		Member m = new Member();
 		mav.addObject("counselor", counselor);	
-
-		
-		
 		
 		return mav;
 	}
