@@ -161,9 +161,12 @@ $(function(){
 <script>
 function goCoupon(){
  	var couponValue = $("input[name=coupon-radio]:checked").next().next().val();
- 	var couponId = $("input[name=coupon-radio]:checked").next().next().next().val();
+ 	var couponListId = $("input[name=coupon-radio]:checked").next().next().next().val();
+ 	var discountType = $("input[name=coupon-radio]:checked").next().next().next().next().val();
  	
- 	console.log("couponID="+couponId); 	var totalProd = Number(uncomma($('#total-prod').text()));
+ 	console.log("couponValue="+couponValue); 	
+ 	console.log("discountType="+discountType); 	
+ 	var totalProd = Number(uncomma($('#total-prod').text()));
 	var totalDel = Number(uncomma($('#total-del')));
 	var totalDis = Number(uncomma($('#total-dis').text()));
 	var usedPoint = Number(uncomma($('#used-point').text()));
@@ -174,25 +177,25 @@ function goCoupon(){
 	var discountedPrice = totalProd-totalDis;
 	//쿠폰사용
  	if(couponValue != null){
-		if(couponValue.match(".")){ // %일경우
+		if(discountType == 'P'){ // 할인율
 			var usingCoupon = Number(couponValue)*discountedPrice;
 			totalPay -= usingCoupon;
 			$("#total-pay").text(comma(totalPay));
 			
 			$("#pro_coupon").val(comma(usingCoupon));
 			$('#used-coupon').text(comma(usingCoupon));
-			$('[name=couponId]').val(couponId);
-
-		} else {
-			
-			totalPay -= Number(uncomma(couponValue));
-			
-			$("#total-pay").text(comma(totalPay));
-			$("#pro_coupon").val(comma(couponValue));
-			$('#used-coupon').text(comma(couponValue));
-			$('[name=couponId]').val(couponId);
+			$('[name=couponListId]').val(couponListId);	
 
 		}
+		// 할인금액
+		else if(discountType == 'C'){
+			totalPay -= Number(uncomma(couponValue));		
+		 	$("#total-pay").text(comma(totalPay));
+			$("#pro_coupon").val(comma(couponValue));
+			$('#used-coupon').text(comma(couponValue));
+			$('[name=couponListId]').val(couponListId); 
+
+		} 
  		
  	}
  	//쿠폰적용 취소
@@ -205,7 +208,7 @@ function goCoupon(){
 		
 		$('#used-coupon').text(0);
 		$('#pro_coupon').val(0);
-		$('[name=couponId]').val("");
+		$('[name=couponListId]').val("");
  	}
 
  	$('#couponModal').modal('hide');
@@ -725,7 +728,7 @@ function noCoupon(){
 				</div>
 			</div>
 			</div>
-			<input type="hidden" name="couponId" value="">
+			<input type="hidden" name="couponListId" value="">
 			<input type="hidden" name="bankName" value="">
 			<input type="hidden" name="accountHolder" value="">
 			<input type="hidden" name="account" value="">
@@ -792,8 +795,8 @@ function noCoupon(){
 										<tr>
 											<td>
 												<div class="form-check">
-												 <input name="coupon-radio"class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-												<input type="hidden" name="couponId"  value="${cList.couponId }"/>
+												<input name="coupon-radio"class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+												<input type="hidden" name="couponListId"  value="${cList.couponListId }"/>
 												<c:if test="${cList.discountType eq 'P'}">
 													<fmt:parseNumber var="discountVal" value="${cList.discountValue*0.01} " />  													
 													<input type="hidden" name="discountValue" value="<fmt:formatNumber type="number" maxFractionDigits="3" value="${discountVal}" />"/>
@@ -801,11 +804,13 @@ function noCoupon(){
 												<c:if test="${cList.discountType eq 'C'}">
 													<input type="hidden" name="discountValue" value="${cList.discountValue }"/>
 												</c:if>
-												   <input type="hidden" id="couponId" value="${cList.couponId}" >
+												   <input type="hidden" id="couponListId" value="${cList.couponListId}" >
+												   <input type="hidden" id="discountType" value="${cList.discountType}" >
+													
 												</div>
-											
+												
 											</td>
-											<td>${cList.couponId}</td>
+											<td>${cList.couponListId}</td>
 											<td>${cList.couponName}</td>
 											<td>
 												<c:if test="${cList.discountType eq 'P'}">

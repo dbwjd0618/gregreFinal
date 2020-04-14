@@ -25,7 +25,7 @@
 		where
 		member_id = #{memberId}
 		and
-		coupon_id = #{couponId}
+		coupon_list_id = #{couponListId}
 	</update>
 	<update id="updateConsumerInfo">
 		update
@@ -104,7 +104,7 @@
 		member_Id = #{memberId}
 	</select>
 	<select id="selectCouponInfoOne"
-		resultType="kh.mclass.IgreMall.coupon.model.vo.CouponInfo">
+		resultMap="couponInfoMap">
 		select
 		*
 		from
@@ -114,7 +114,8 @@
 	</select>
 
 	<resultMap type="coupon" id="couponMap">
-		<id column='coupon_Id' property="couponId" />
+		<id column='coupon_list_id' property="couponListId" />
+		<result column='coupon_Id' property="couponId" />
 		<result column='member_id' property="memberId" />
 		<result column='expire_date' property="expireDate" />
 		<result column='coupon_state' property="couponState" />
@@ -123,6 +124,18 @@
 		<result column='discount_value' property="discountValue" />
 		<result column='discount_type' property="discountType" />
 		<result column='max_value' property="maxValue" />
+	</resultMap>
+	
+	<resultMap type="couponInfo" id="couponInfoMap">
+		<id column='coupon_Id' property="couponId" />
+		<result column='coupon_type' property="couponType" />
+		<result column='coupon_name' property="couponName" />
+		<result column='coupon_detail' property="couponDetail" />
+		<result column='discount_value' property="discountValue" />
+		<result column='discount_type' property="discountType" />
+		<result column='max_value' property="maxValue" />
+		<result column='coupon_duration' property="couponDuration" />
+		<result column='coupon_enroll_date' property="couponEnrollDate" />
 	</resultMap>
 
 	<resultMap type="cart" id="cartMap">
@@ -152,7 +165,8 @@
 		<collection property="couponList"
 			ofType="kh.mclass.IgreMall.coupon.model.vo.Coupon"
 			javaType="java.util.ArrayList">
-			<id column="coupon_id" property="couponId" />
+			<id column="coupon_list_id" property="couponListId" />			
+			<result column="coupon_id" property="couponId" />
 			<result column="expire_date" property="expireDate" />
 			<result column="coupon_state" property="couponState" />
 		</collection>

@@ -98,7 +98,8 @@ div.option {
 
 						<div class="product_detail">
 							<a class="name" target="_blank"
-								href="/productions/253483/selling">[${prodList.productBrand}]
+								href="${pageContext.request.contextPath }/shop/product/detail.do?productId=${prodList.productId}">
+								[${prodList.productBrand}]
 								${prodList.productName }</a>
 							<c:if test="${prodList.optionName != null}">
 								<c:forEach var="optionName" items="${prodList.optionName}"
@@ -145,8 +146,6 @@ div.option {
 								</div>
 							</c:if>
 							<div class="status">${orderList.deliveryState }</div>
-
-
 						</div>
 
 						<c:if test="${orderList.deliveryState == '입금대기' }">

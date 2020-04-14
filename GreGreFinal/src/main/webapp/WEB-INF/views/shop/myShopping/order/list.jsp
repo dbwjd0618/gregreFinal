@@ -320,8 +320,9 @@
 															class="order-list__item__production__item__info__wrap order-list__item-container">
 															<div
 																class="order-list__item__production__item__info__brand">[${prodList.productBrand }]</div>
+												
 															<a class="order-list__item__production__item__info__name"
-																href="/productions/229566/selling">${prodList.productName }</a>
+																href="${pageContext.request.contextPath }/shop/product/detail.do?productId=${prodList.productId}">${prodList.productName }</a>
 														</div>
 														<div
 															class="order-list__item__production__item__info__wrap order-list_option-container">
