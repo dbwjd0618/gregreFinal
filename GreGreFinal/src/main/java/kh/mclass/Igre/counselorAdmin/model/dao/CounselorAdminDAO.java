@@ -11,4 +11,14 @@ public interface CounselorAdminDAO {
 
 	List<Counselor> list();
 
+	Counselor counselorView(String advisId);
+
+	int athorityUpdate(Counselor counselor);
+
+	int counselorDelete(String advisId);
+
+	Counselor counselorSelectOne(String advisId);
+
+	int counselorUpdate(Counselor counselor);
+
 }

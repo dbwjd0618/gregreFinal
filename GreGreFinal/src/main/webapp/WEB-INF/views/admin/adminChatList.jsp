@@ -10,7 +10,7 @@
 <!-- adminchat.css -->
 <link href="${pageContext.request.contextPath}/resources/css/admin/adminchat.css" rel="stylesheet" type="text/css" />
 <!-- adminchat.js  -->
-<script src="${pageContext.request.contextPath}/resources/js/admin/adminchat.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/admin/chat.js"></script>
 
 <!-- table css -->
 <style>
@@ -26,6 +26,7 @@ function goChat(chatId){
 
 <!-- lastCheck script -->
 <script>
+
 
 //웹소켓 선언 및 연결
 //1. 최초 웹소켓 생성 url : /stomp
@@ -57,14 +58,14 @@ $(()=>{
 		if(conntionDone==false && stompClient.connected){
 			
 			//subscribe message
-			stompClient.subscribe('/admin/chat/push', function(message){
-				console.log("receive from /admin/chat/push :", message);
+				stompClient.subscribe('/inq/chat/{chatId}', function(message){
+				console.log("receive from /inq/chat/{chatId} :", message);
 				//새로운 메세지가 있을때 목록 갱신을 위해서 reload함.
 				location.reload();
 			});
 			conntionDone = true;
 		}
-	}, 10000);
+	}, 1000);
 }
 </script>
 

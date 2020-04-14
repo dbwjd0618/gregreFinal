@@ -122,7 +122,6 @@ public class MyPageDAOImpl implements MyPageDAO {
 
 	@Override
 	public int periodAdd(Period period) {
-		// TODO Auto-generated method stub
 		return sss.insert("mypage.periodAdd",period);
 	}
 

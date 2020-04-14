@@ -23,7 +23,7 @@
 .testimonial-3{min-height:300px;}
 body {padding-right: 0px !important;}
 </style>
-<c:if test="${not empty memberLoggedIn}">
+<c:if test="${not empty memberLoggedIn && memberLoggedIn.grade != 'A'}">
 	<script>
 		const memberId = '${memberId}';
 		const chatId = '${chatId}';
@@ -207,7 +207,7 @@ body {padding-right: 0px !important;}
 </div>
 <!--index contents end -->
 
-<c:if test="${not empty memberLoggedIn}">
+<c:if test="${not empty memberLoggedIn && memberLoggedIn.grade != 'A'}">
 	<i id="inqToAdmin" class="far fa-comments ${chatList != null ? 'rtnMsg' : ''}" title="관리자에게 문의하기" onclick="inqShow();"></i>
 	<input type="hidden" id="loginId" value="${memberLoggedIn.memberId}" />
 </c:if>

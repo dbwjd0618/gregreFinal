@@ -11,14 +11,13 @@
 		values(
 		seq_${memberId}_menses.nextval,
 		to_date(#{mensesStart},'yyyy-MM-dd HH24:mi'),
-		to_date(#{mensesEnd},'yyyy-MM-dd HH24:mi'),	
+		to_date(#{mensesStart},'yyyy-MM-dd HH24:mi')+7,	
 		#{mensesCycle},
-		to_date(#{mensesNext},'yyyy-MM-dd HH24:mi'),
-		to_date(#{childbearingAgeStart},'yyyy-MM-dd HH24:mi'),
-		to_date(#{childbearingAgeEnd},'yyyy-MM-dd HH24:mi'),
-		to_date(#{pregnancyDate},'yyyy-MM-dd HH24:mi')
-		)
-	
+		to_date(#{mensesStart},'yyyy-MM-dd HH24:mi')+28,
+		to_date(#{mensesStart},'yyyy-MM-dd HH24:mi')+14,
+		to_date(#{mensesStart},'yyyy-MM-dd HH24:mi')+21,
+		null
+	)
 	</insert>
 	<select id="memberList" resultType="Member">
 		select

@@ -2297,7 +2297,6 @@ header.texttime_header .t_menu {
 .wrapper {
     width: 80%;
     max-width: 1024px;
-    min-width: 1024px;
     height: auto;
     margin: 20px auto;
     padding-bottom: 104px;
@@ -2382,6 +2381,7 @@ div#client_history table td p.helpInfo {
     font-size: 1.5rem;
     padding: 10px 15px;
     width: 100%;
+    text-align: center;
 }
 
 div#counseling_list {
@@ -2400,7 +2400,7 @@ div#counseling_list a {
 
 div#counseling_list h3 {
     margin: 0px auto;
-    text-align: left;
+    text-align: center;
     padding: 2%;
 }
 

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,9 @@ public class AdminController {
 	
 	@Autowired
 	AdminService adminService;
+	
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	//Admin 로그인 폼 불러오기
 	@GetMapping("/login.do")
@@ -76,7 +80,7 @@ public class AdminController {
 	//		log.debug("admin={}"+admin);
 			
 			//2.사용자가 입력한 password와 저장된 password 비교해서 로그인처리
-			if(admin != null && adminPwd.equals(admin.getAdminPwd())) {
+			if(admin != null && bcryptPasswordEncoder.matches(adminPwd, admin.getAdminPwd())) {
 				//로그인성공
 				model.addAttribute("adminLoggedIn", admin);
 				

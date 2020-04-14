@@ -63,80 +63,117 @@
 			</div>
 			
 			<div class="col-md-9">
+				<div class="row mb-4">
+					<div class="col-md-12">
+						<h4 style="text-align: center;">
+							<strong>자녀정보</strong>
+						</h4>
+					</div>
+				</div>
+
+				<c:if test="${m.childNumber !=0 }">
+					<c:forEach items="${list }" var="c" varStatus="vs">
+
+						<div class="row mb-3">
+							<div class="col-md-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="row">
+											<!--                                     <div class="col-md-3">
+                                       <img src="../images/myPage/pic2.PNG" class="imgmini">
+                                    </div> -->
+											<div class="col-md-4">
+												<p>자녀이름 : ${c.childName }</p>
+												<p>자녀생일 : ${c.birthday }</p>
+												<p>성별 : ${c.gender eq 'M'? '남':'여'}</p>
+											</div>
+											<div class="col-md-5">
+											<p style=" font-weight: bold">최근에 맞은 백신</p>
+											<c:forEach items="${list2}" var="v" varStatus="status">
+												<c:if test="${c.childId == v.childId}">
+												<c:if test="${status.last == true }">
+													<p>백신:${v.vaccinCode }</p>
+													<p>차수:${v.nth }</p>
+													<p>접종일:${v.vaccinDate }</p>
+												</c:if>
+												</c:if>
+											</c:forEach>
+											</div>
+											<div class="col-md-3">
+												<div>
+													<br />
+												</div>
+
+												<!-- <button type="button" class="btn btn-outline bg-gray" onclick="addVaccin();">예방접종</button> -->
+											</div>
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
 
 
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                   <img src="../images/myPage/pic2.PNG" class="imgmini">
+					</c:forEach>
+				</c:if>
+
+				<div class="row mb-4">
+					<div class="col-md-12">
+						<h4 style="text-align: center;">
+							<strong>상담정보</strong>
+						</h4>
+					</div>
+				</div>
+				
+
+				<div class="row mb-3">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+								
+			<c:forEach items="${list }" var="a" varStatus="vs">
+			<c:if test="${c.appoint_no != null }">
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                       <img src="${pageContext.request.contextPath}/resources/images/counselling/${a.advisImg }" class="imgmini">
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p>예약한 상담사명 : ${a.advisName} </p>
+                                        <p>결제정보 : ${a.payInfo } </p>
+                                        <p>결제일 : ${a.startDay} </p>
+                                    </div>
+                                    <div class="col-md-2">
+                                    </div>
                                 </div>
-                                <div class="col-md-7">
-                                    <h5>자녀정보</h5>
-                                    <p>자녀이름 : CSS킹</p>
-                                    <p>생후 15개월</p>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-outline bg-gray" >자녀 추가하기</button>
-                                </div>
+                                
                             </div>
-                            
                         </div>
                     </div>
                 </div>
-            </div>			
+                </c:if>	
+              </c:forEach>
+              
+								
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
 
 
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                   <img src="../images/myPage/pic1.PNG" class="imgmini">
-                                </div>
-                                <div class="col-md-7">
-                                    <h5>현재 당신의 가임기 현황 입니다</h5>
-                                    <mark>현재 상태는 : 주의</mark>
-                                    <p>예정된 관계인지 고려하세요</p>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-outline bg-gray" onclick="location.href='${pageContext.request.contextPath}/member/myPage/periodCalculator.do'">캘린더보기</button>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-                        <div class="row mb-3">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                   <img src="../images/myPage/pic3.PNG" class="imgmini">
-                                </div>
-                                <div class="col-md-7">
-                                    <h5>예약 및 일정</h5>
-                                    <p>2020년05월05일 일정이 있습니다</p>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-outline bg-gray">예약일정 확인하기</button>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
 
 
 			</div>
+			
+			
+			
 		</div>
 	</div>
 </div>

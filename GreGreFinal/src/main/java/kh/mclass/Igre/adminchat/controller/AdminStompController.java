@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import kh.mclass.Igre.admin.model.vo.Admin;
 import kh.mclass.Igre.adminchat.model.service.AdminChatService;
 import kh.mclass.Igre.adminchat.model.vo.AdminMSG;
-import kh.mclass.Igre.member.model.vo.Member;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -64,7 +63,6 @@ public class AdminStompController {
 
 	}
 
-	// 주석처리 후 TestController 실행
 	@MessageMapping("/admin/chat/{chatId}")
 	@SendTo(value = { "/admin/chat/{chatId}", "/inq/chat/{chatId}" })
 	public AdminMSG sendEcho(AdminMSG fromMessage, @DestinationVariable String chatId) {
@@ -77,7 +75,7 @@ public class AdminStompController {
 	}
 
 	@MessageMapping("/lastCheck")
-	@SendTo(value={"/admin/chat/push"})
+	@SendTo(value={"/inq/chat/{chatId}"})
 	public AdminMSG lastCheck(@RequestBody AdminMSG fromMessage){
 		log.debug("lastCheck={}",fromMessage);
 		

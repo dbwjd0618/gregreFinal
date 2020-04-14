@@ -2,18 +2,17 @@ package kh.mclass.Igre.member.controller;
 
 import java.io.File;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,8 +48,8 @@ public class MemberController {
 	@Autowired
 	ResourceLoader resourceLoader;
 
-//	@Autowired
-//	private BCryptPasswordEncoder bcpe;
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 
 	@GetMapping("/login.do")
 	public String login(HttpSession session, HttpServletRequest request) {
@@ -74,51 +73,46 @@ public class MemberController {
 		try {
 			Member m = ms.selectId(memberId);
 			
-			if (m != null && m.getMemberPwd().equals(memberPwd)) {
+			if (m != null && bcryptPasswordEncoder.matches(memberPwd,m.getMemberPwd())) {
 				HashMap<String, ArrayList<Integer>> preferList = ms.preferList(memberId);
 				m.setPrefList(preferList);
 				log.debug("" + m);
 				model.addAttribute("memberLoggedIn", m);
 			} else {
 				rda.addFlashAttribute("msg", "입력 정보가 올바르지 않습니다.");
-				return "redirect:/member/login.do";
+				return "redirect:/";
 			}
 		} catch (Exception e) {
 			rda.addFlashAttribute("msg", "로그인 도중 오류가 발생했습니다.");
 			e.printStackTrace();
-			return "redirect:/member/login.do";
+			return "redirect:/";
 		}
 		return "redirect:/";
 	}
 
-	@GetMapping("bizlogin.do")
-	public String bizlogin(HttpSession session) {
-		try {
-			BizMember bm = (BizMember) session.getAttribute("bizmemberLoggedIn");
-			bm.getCmemberId().equals(null);
-		} catch (NullPointerException e) {
-			return "member/login";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "redirect:/";
-	}
+	/*
+	 * @GetMapping("bizlogin.do") public String bizlogin(HttpSession session) { try
+	 * { BizMember bm = (BizMember) session.getAttribute("bizmemberLoggedIn");
+	 * bm.getCmemberId().equals(null); } catch (NullPointerException e) { return
+	 * "member/login"; } catch (Exception e) { e.printStackTrace(); } return
+	 * "redirect:/"; }
+	 */
 
 	@PostMapping("/bizlogin.do")
 	public String bizlogin(@RequestParam("cmemberId") String cmemberId, @RequestParam("memberPwd") String memberPwd,
 			Model model, RedirectAttributes rda) {
 		BizMember bm = ms.selectBizId(cmemberId);
 		try {
-			if (bm != null && bm.getMemberPwd().equals(memberPwd)) {
+			if (bm != null && bcryptPasswordEncoder.matches(memberPwd,bm.getMemberPwd())) {
 				model.addAttribute("bizmemberLoggedIn", bm);
 			} else {
 			rda.addFlashAttribute("msg", "입력 정보가 올바르지 않습니다.");
-			return "redirect:/member/login.do";
+			return "redirect:/";
 			}
 		} catch (Exception e) {
 			rda.addFlashAttribute("msg", "로그인 도중 오류가 발생했습니다.");
 			e.printStackTrace();
-			return "redirect:/member/login.do";
+			return "redirect:/";
 		}
 		if(bm.getCompDiv().equals("S")) {
 			
@@ -190,6 +184,13 @@ public class MemberController {
 	@PostMapping("/memberEnroll.do")
 	public String memberEnrollP(Member member, RedirectAttributes ras, String addr1, String addr2, String addr3 ,String mateId,String childNumber) {
 
+		String rawPassword = member.getMemberPwd();
+		log.debug("암호화전=",rawPassword);
+		
+		String encryptPassword = bcryptPasswordEncoder.encode(rawPassword);
+		log.debug("암호화후=",encryptPassword);
+		member.setMemberPwd(encryptPassword);
+		System.out.println("암호화 처리 확인 : ");
 		String address = addr1 +"+"+ addr2 +"+"+ addr3;
 
 		member.setAddress(address);
@@ -197,7 +198,7 @@ public class MemberController {
 		String msg = result > 0 ? "회원가입 완료!" : "";
 		ras.addFlashAttribute("msg", msg);
 
-		return "redirect:/member/login.do";
+		return "redirect:/";
 
 	}
 
@@ -209,6 +210,14 @@ public class MemberController {
 		String compId = compId1 + compId2 + compId3;
 		String categorieslist = "";
 
+		
+		String rawPassword =bizmember.getMemberPwd();
+		log.debug("암호화전=",rawPassword);
+		
+		String encryptPassword = bcryptPasswordEncoder.encode(rawPassword);
+		log.debug("암호화후=",encryptPassword);
+		bizmember.setMemberPwd(encryptPassword);
+		
 		for (int i = 0; i < categories.length; i++) {
 			categorieslist += (i == categories.length - 1 ? categories[i] : categories[i] + ",");
 
@@ -230,6 +239,15 @@ public class MemberController {
 			@RequestParam(value = "upFile", required = false) MultipartFile[] upFiles, HttpServletRequest request,
 			RedirectAttributes redirectAttributes, String advisKeyword1, String advisKeyword2, String advisKeyword3) {
 
+		
+		String rawPassword =bizmember.getMemberPwd();
+		log.debug("암호화전=",rawPassword);
+		
+		String encryptPassword = bcryptPasswordEncoder.encode(rawPassword);
+		log.debug("암호화후=",encryptPassword);
+		bizmember.setMemberPwd(encryptPassword);
+		
+		
 		String advisKeywordlist = advisKeyword1 + "," + advisKeyword2 + "," + advisKeyword3;
 		String adimg1 = upFiles[0].getOriginalFilename();
 		String adimg2 = upFiles[1].getOriginalFilename();
