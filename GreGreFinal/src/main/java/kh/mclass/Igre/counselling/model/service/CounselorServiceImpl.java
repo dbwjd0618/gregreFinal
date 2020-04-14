@@ -92,8 +92,11 @@ public class CounselorServiceImpl implements CounselorService {
 	}
 
 	@Override
-	public int bookingInsert(BookingInfo info) {
-		return counselorDAO.bookingInsert(info);
+	public BookingInfo bookingInsert(BookingInfo info) {
+		counselorDAO.bookingInsert(info);
+		BookingInfo result = counselorDAO.bookingSelect(info.getAppointNo());
+		
+		return result;
 	}
 
 	@Override
@@ -104,6 +107,11 @@ public class CounselorServiceImpl implements CounselorService {
 	@Override
 	public int deleteReview(int num) {
 		return counselorDAO.deleteReview(num);
+	}
+
+	@Override
+	public int recentSelectOne(String memberId) {
+		return counselorDAO.recentSelectOne(memberId);
 	}
 
 
