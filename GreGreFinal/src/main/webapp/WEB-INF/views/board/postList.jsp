@@ -15,6 +15,11 @@
 <!--서브메뉴 js-->
 <script src="${pageContext.request.contextPath}/resources/js/subMenu/subMenu.js"></script>
 <style>
+.site-section-cover.overlay:before {
+	width: 0;
+	background-image: url();
+}
+
 .page_wrap {text-align:center;}
 .pg{display:inline-block; border:1px solid #ccc; min-width:30px;}
 .page_nation a{
@@ -99,7 +104,7 @@ function preferSwitch(it, mi, bc, pn) {
 
 <div class="ftco-blocks-cover-1">
 
-	<div class="site-section-cover overlay" data-stellar-background-ratio="0.5" style="background-image: url('images/hero_1.jpg')">
+	<div class="site-section-cover overlay" data-stellar-background-ratio="0.5" style="background-image: url('${pageContext.request.contextPath}/resources/images/board/board.png'); ">
 		<div class="container">
 			<div class="row align-items-center ">
 				<div class="col-md-5 mt-5 pt-5">
