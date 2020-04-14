@@ -119,6 +119,17 @@ public class CounselorDAOImpl implements CounselorDAO {
 		return sqlSession.delete("review.deleteReview", num);
 	}
 
+	@Override
+	public BookingInfo bookingSelect(String appointNo) {
+		return sqlSession.selectOne("counselor.bookingSelect", appointNo);
+	}
+
+	@Override
+	public int recentSelectOne(String memberId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("counselor.recentSelectOne",memberId);
+	}
+
 
 
 

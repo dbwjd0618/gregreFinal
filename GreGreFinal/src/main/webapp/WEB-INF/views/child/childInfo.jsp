@@ -53,8 +53,11 @@
 				<!--시설찾기 서브메뉴-->
 				<h2>육아</h2>
 				<ul class="menu">
-					<li class="list active"><a href="${pageContext.request.contextPath }/child/childInfo.do">육아정보</a>
-					 
+					<li class="list active"><a href="">육아정보</a>
+					 <ul class="items">
+				         <li><a href="${pageContext.request.contextPath }/child/childInfo.do">예방접종</a></li>
+				         <li><a href="${pageContext.request.contextPath }/child/childWeekInfo.do">임신주기별 정보</a></li>
+				      </ul>
 					</li>
 					<li class="list"><a href="${pageContext.request.contextPath }/child/childCare.do">아이지킴이</a></li>
 					<li class="list"><a href="#">육아상담</a></li>

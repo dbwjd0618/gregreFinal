@@ -44,4 +44,8 @@ public interface CounselorDAO {
 
 	int deleteReview(int num);
 
+	BookingInfo bookingSelect(String appointNo);
+
+	int recentSelectOne(String memberId);
+
 }

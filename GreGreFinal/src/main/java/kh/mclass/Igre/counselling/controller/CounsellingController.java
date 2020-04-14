@@ -132,15 +132,31 @@ public class CounsellingController {
 	}
 	
 	@GetMapping("/bookingPage.do")
-	public void bookingPage(@RequestParam("advisId") String advisId,
-			
-							Model model) {
-	
+	public ModelAndView bookingPage(@RequestParam("advisId") String advisId, HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		//로그인 회원 정보 가져오기
+		Member member = (Member) session.getAttribute("memberLoggedIn");
+		
+		//최근 결제 내역 확인 (1일 경우 중복 불가! 0일 경우 중복 X 구매가능!)
+		int result = counselorService.recentSelectOne(member.getMemberId());
+		
+		if(result == 1) {
+			mav.addObject("msg","이미 진행 중인 상담 상품이 존재 합니다.");
+			mav.setViewName("/index");		
+		}
+		
+		
 		//상담사 정보
 		Counselor counselor = counselorService.selectOne(advisId);
 		Member m = new Member();
-		model.addAttribute("counselor", counselor);
+		mav.addObject("counselor", counselor);	
+
 		
+		
+		
+		return mav;
 	}
 	
 	@PostMapping(value = "/bookingEnd.do")
@@ -165,13 +181,18 @@ public class CounsellingController {
 		}
 		info.setPayInfo(payInfo);
 		
-		int result = counselorService.bookingInsert(info);
+		BookingInfo resultInfo =  counselorService.bookingInsert(info);
 		
-		String msg = result>0?"예약성공":"예약실패";
+		log.debug(resultInfo+"예약정보");
 		
-		redirectAttributes.addFlashAttribute("msg",msg);
+		String msg = resultInfo!=null?"예약성공":"예약실패";
+		model.addAttribute("msg",msg);
+		
+		String today = String.valueOf(resultInfo.getStartDay());
+		
 		
 		model.addAttribute("info", info);
+		model.addAttribute("today", today);
 		
 		return "counselling/bookingEnd";
 	}
@@ -211,8 +232,7 @@ public class CounsellingController {
 			
 			int result = counselorService.editReview(edit);
 			
-			log.debug(result+"수정되었으면 1입니다.");
-			
+
 			return "redirect:/counselling/bookingMain.do?advisId="+edit.getAdvisId();
 		}
 		
