@@ -155,7 +155,7 @@
             <!-- 임신 여기서부터 링크 이동 -->
             <li><a href="${pageContext.request.contextPath }/pregnancy/prePregnancy.do">임신정보</a></li>
             <li><a href="${pageContext.request.contextPath }/pregnancy/calendar.do">월경캘린더</a></li>
-            <li><a href="">임신상담</a></li>
+            <li><a href="${pageContext.request.contextPath }/counselling/counselorFind.do">임신상담</a></li>
           </ul>
         </div>
       </div>
@@ -168,7 +168,7 @@
             <!-- 육아 여기서부터 링크 이동 -->
             <li><a href="${pageContext.request.contextPath }/child/childInfo.do">육아정보</a></li>
             <li><a href="${pageContext.request.contextPath }/child/childCare">아이지킴이</a></li>
-            <li><a href="">육아상담</a></li>
+            <li><a href="${pageContext.request.contextPath }/counselling/counselorFind.do">육아상담</a></li>
           </ul>
         </div>
       </div>
@@ -180,9 +180,7 @@
           <ul class="depth-2">
             <!-- 상담센터 여기서부터 링크 이동 -->
             <li><a href="${pageContext.request.contextPath }/counselling/counselorFind.do">상담사 찾기</a></li>
-            <c:if test="${memberLoggedIn != null }">
 	            <li><a href="${pageContext.request.contextPath }/chat/counsellingStart.do">상담하기</a></li>
-            </c:if>
             <c:if test="${bizmemberLoggedIn != null }">
 	            <li><a href="${pageContext.request.contextPath }/counselor/counsellingStart.do">상담관리</a></li>
             </c:if>

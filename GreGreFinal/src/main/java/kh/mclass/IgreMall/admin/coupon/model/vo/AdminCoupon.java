@@ -24,9 +24,10 @@ public class AdminCoupon implements Serializable{/**
 	private String couponName;
 	private String couponDetail;
 	private int discountValue;
+	
 	private String discountType; //할인 타입 (C: 할인금, P: 할인율)
 	private int maxValue;
-	private Date couponDuration;
+	private int couponDuration;
 	private Date couponEnrollDate;
 	
 }

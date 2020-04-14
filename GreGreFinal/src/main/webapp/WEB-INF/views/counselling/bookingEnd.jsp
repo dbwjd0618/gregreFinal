@@ -110,15 +110,15 @@
             </tr>
             <tr>
                 <th>상담사 이름</th>
-                <td></td>
+                <td>${info.advisId }</td>
             </tr>
             <tr>
                 <th>예약일</th>
-                <td></td>
+                <td>${info.startDay }</td>
             </tr>
             <tr>
-                <th>상담 유형</th>
-                <td></td>
+                <th>상담 가격</th>
+                <td>${info.payPrice }원</td>
             </tr>
         </table>
         <div class="goto-main">

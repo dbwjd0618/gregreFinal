@@ -1388,6 +1388,7 @@ em{
    .product-item .pi-pic {
 	   overflow: hidden;
 	   position: relative;
+	   padding-top: 15px;
    }
    
    .product-item .pi-pic img {

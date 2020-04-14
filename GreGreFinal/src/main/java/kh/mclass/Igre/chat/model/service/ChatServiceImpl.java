@@ -101,13 +101,13 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public String memberIdFindChatListByChatId(String counselorId) {
-		return chatDAO.memberIdFindChatListByChatId(counselorId);
+	public String memberIdFindChatListByChatId(Map<String, String> infoFindId) {
+		return chatDAO.memberIdFindChatListByChatId(infoFindId);
 	}
 
 	@Override
-	public ChatInfo counselorInfo(String counselorId) {
-		return chatDAO.counselorInfo(counselorId);
+	public ChatInfo counselorInfo(Map<String, String> infoId) {
+		return chatDAO.counselorInfo(infoId);
 	}
 
 	@Override
@@ -138,6 +138,11 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public int counselorOutChatRoom(String chatId) {
 		return chatDAO.counselorOutChatRoom(chatId);
+	}
+
+	@Override
+	public int counselorDeleteCheck(String chatId) {
+		return chatDAO.counselorDeleteCheck(chatId);
 	}
 
 

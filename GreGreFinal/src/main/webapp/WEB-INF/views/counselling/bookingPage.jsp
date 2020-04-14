@@ -141,7 +141,7 @@ span#total-price{
 	<div class="site-section">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-2 col-md-offset-2 col-md-3">
+				<div class="col-md-3">
 					<img
 						src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}"
 						class="align-self-center mr-3" alt="..."> <input
@@ -150,7 +150,7 @@ span#total-price{
 					<input type="hidden" name="advisName"
 						value="${counselor.advisName }" />
 				</div>
-				<div class="col-md-5">
+				<div class="col-md-8">
 					<table class="table table-hover">
 						<thead>
 							<tr>
@@ -176,7 +176,7 @@ span#total-price{
 			</div>
 			<br> <br>
 			<div class="row">
-				<div class="col-md-offset-2 col-md-8">
+				<div class="col-md-10">
 					<h5>최종 결제 금액</h5>
 					<h4>
 						<strong><span id="total-price">0</span>원</strong>

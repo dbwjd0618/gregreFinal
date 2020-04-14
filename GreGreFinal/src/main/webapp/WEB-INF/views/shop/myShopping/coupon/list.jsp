@@ -120,7 +120,7 @@ h2.dis-p {
 						* <span>모든 쿠폰은 타 쿠폰과 중복사용이 불가능합니다.</span>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" style="margin-bottom: 90px !important;">
 					<div class="col-md-12 cou-title">
 				    <h5>사용가능 쿠폰</h5>
 				    </div>
@@ -133,12 +133,12 @@ h2.dis-p {
 					<c:if test="${not empty myCouponList }">
 						<!--  쿠폰 시작 -->
 						<c:forEach var="coupon" items="${myCouponList }" varStatus="vs">
-						<c:if test="${coupon.couponState =='N'}">
+						<c:if test="${coupon.couponState eq 'N'}">
 							<div class=" col-md-12">
 								<div style="margin-bottom:120px; margin-top:60px; text-align:center; font-size:30px;">사용가능한 쿠폰이 없습니다.</div>
 							</div>
-						</c:if>
-							<c:if test="${coupon.couponState =='Y' } ">
+						</c:if> 
+							<c:if test="${coupon.couponState eq 'Y' }">
 								<div class="col-6 col-md-6">
 									<div class="coupon-item">
 										<div class="cou-cont">

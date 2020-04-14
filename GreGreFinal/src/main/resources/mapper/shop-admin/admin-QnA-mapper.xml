@@ -3,20 +3,72 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminQnA">
+<select  id="totalCount" resultType="_int">
+select
+	count(*)
+from
+	tb_qa
+</select>
+
+<select  id="nTotalCount" resultType="_int">
+select
+	count(*)
+from
+	tb_qa
+where 
+	qa_state='N'
+	
+</select>
+<select  id="yTotalCount" resultType="_int">
+select
+	count(*)
+from
+	tb_qa
+where 
+	qa_state='Y'
+	
+</select>
+
+
+<update id="updateStatus">
+update tb_qa
+	set
+		qa_state='Y'
+	where
+		qa_id = #{qaId}
+</update>
+<insert id="insertAnswer">
+insert into 
+	tb_shop_QA_answer 
+		values(
+			seq_tb_qa_answer_id.nextval,
+			 #{qaId},
+			#{sellerId},
+			#{answer},
+			default
+		)
+
+</insert>
+
 <select id="selectQA" resultType="AdminQnA">
 select
 	*
 from
-	tb_QA
+	tb_QA A left join tb_product B
+		on A.product_id = B.product_id
 where 
 	qa_id=#{qaId}
+
+
 
 </select>
 <select  id="list" resultType="AdminQnA">
 select
 	*
 from
-	tb_QA
+	tb_QA A left join tb_product B
+		on A.product_id = B.product_id
+
 </select>
 
 </mapper>

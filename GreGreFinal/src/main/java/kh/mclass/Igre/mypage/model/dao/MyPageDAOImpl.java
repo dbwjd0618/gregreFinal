@@ -13,6 +13,7 @@ import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.BizMember;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.vo.Child;
+import kh.mclass.Igre.mypage.model.vo.Period;
 import kh.mclass.Igre.mypage.model.vo.Vaccination;
 
 @Repository
@@ -101,10 +102,36 @@ public class MyPageDAOImpl implements MyPageDAO {
 	}
 
 	@Override
+
+	public Member findId(Member member) {
+		// TODO Auto-generated method stub
+		return sss.selectOne("mypage.findId",member);
+	}
+
+	@Override
+	public int childUpdateInfo(Child child) {
+		// TODO Auto-generated method stub
+		return sss.update("mypage.childUpdateInfo",child);
+	}
+
+	@Override
+	public int deleteChild(Child child) {
+		// TODO Auto-generated method stub
+		return sss.delete("mypage.deleteChild",child);
+	}
+
+	@Override
+	public int periodAdd(Period period) {
+		// TODO Auto-generated method stub
+		return sss.insert("mypage.periodAdd",period);
+	}
+
+
 	public List<BookingInfo> selectProgressCounselling(Counselor c) {
 		// TODO Auto-generated method stub
 		return sss.selectList("mypage.selectProgressCounselling", c);
 	}
+
 
 	@Override
 	public List<BookingInfo> selectEndCounselling(Counselor c) {

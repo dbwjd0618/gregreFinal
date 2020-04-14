@@ -10,6 +10,7 @@ import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.BizMember;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.vo.Child;
+import kh.mclass.Igre.mypage.model.vo.Period;
 import kh.mclass.Igre.mypage.model.vo.Vaccination;
 
 public interface MyPageService {
@@ -36,7 +37,18 @@ public interface MyPageService {
 
 	int fupdatePassword(Member member);
 
+
+	Member findId(Member member);
+
+	int childUpdateInfo(Child child);
+
+	int deleteChild(Child child);
+
+	int periodAdd(Period period);
+
+
 	List<BookingInfo> selectProgressCounselling(Counselor c);
+
 
 	List<BookingInfo> selectEndCounselling(Counselor c);
 

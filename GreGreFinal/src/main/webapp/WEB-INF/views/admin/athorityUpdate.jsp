@@ -16,7 +16,7 @@ function athorityUpdate(){
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 		<h1>
-			관리자 관리 <small>관리자 권한</small>
+			관리자 권한 관리 <small>관리자 권한</small>
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.mclass.IgreMall.product.model.vo.Product;
 import kh.mclass.IgreMall.review.model.vo.ProdReview;
+import kh.mclass.IgreMall.review.model.vo.ReviewReco;
 
 @Repository
 public class ProdReviewDAOImpl implements ProdReviewDAO {
@@ -44,6 +45,31 @@ public class ProdReviewDAOImpl implements ProdReviewDAO {
 	@Override
 	public int deleteReview(String reviewId) {
 		return sqlSession.delete("prodReview.deleteReview", reviewId);
+	}
+
+	@Override
+	public int updateReivewReco(ProdReview review) {
+		return sqlSession.update("prodReview.updateReviewReco", review);
+	}
+
+	@Override
+	public ProdReview selectReviewOne(String reviewId) {
+		return sqlSession.selectOne("prodReview.selectReviewOne", reviewId);
+	}
+
+	@Override
+	public ReviewReco selectReviewReco(ReviewReco reviewReco) {
+		return sqlSession.selectOne("prodReview.selectReviewReco", reviewReco);
+	}
+
+	@Override
+	public int updateRecoCheck(ReviewReco reviewReco) {
+		return sqlSession.update("prodReview.updateRecoCheck", reviewReco);
+	}
+
+	@Override
+	public int insertReviewReco(ReviewReco reviewReco) {
+		return sqlSession.insert("prodReview.insertReviewReco", reviewReco);
 	}
 
 	
