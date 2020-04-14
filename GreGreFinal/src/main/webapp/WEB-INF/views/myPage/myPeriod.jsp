@@ -25,6 +25,19 @@
       </div>
     </div>
 
+<script>
+
+function openCalendar(data)
+{
+	//여기서 팝업된 창의 주소를 변경하자.
+	let url = "${pageContext.request.contextPath}/myPage/periodCalendar.do";
+	let name = "periodCalendar";
+	
+	window.open(url,name,"width=1400,height=1000");
+}
+</script>
+
+
 <!-- contents begin-->
 
 
@@ -79,7 +92,7 @@
                                     <p>생후 15개월</p>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-outline bg-gray" >자녀 추가하기</button>
+                                    <button type="button" class="btn btn-outline bg-gray" onclick="openCalendar();">자녀 추가하기</button>
                                 </div>
                             </div>
                             
@@ -87,53 +100,6 @@
                     </div>
                 </div>
             </div>			
-
-
-
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                   <img src="../images/myPage/pic1.PNG" class="imgmini">
-                                </div>
-                                <div class="col-md-7">
-                                    <h5>현재 당신의 가임기 현황 입니다</h5>
-                                    <mark>현재 상태는 : 주의</mark>
-                                    <p>예정된 관계인지 고려하세요</p>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-outline bg-gray" onclick="location.href='${pageContext.request.contextPath}/member/myPage/periodCalculator.do'">캘린더보기</button>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-                        <div class="row mb-3">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                   <img src="../images/myPage/pic3.PNG" class="imgmini">
-                                </div>
-                                <div class="col-md-7">
-                                    <h5>예약 및 일정</h5>
-                                    <p>2020년05월05일 일정이 있습니다</p>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-outline bg-gray">예약일정 확인하기</button>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
 
 
 			</div>
