@@ -343,6 +343,9 @@ public class MyPageController {
 	@PostMapping("findPassword.do")
 	public String findPassword(Member member,RedirectAttributes redirectAttributes) {
 		Member selectMember = mps.findPassword(member);
+		String rawPassword = member.getMemberPwd();		
+		String encryptPassword = bcryptPasswordEncoder.encode(rawPassword);
+		member.setMemberPwd(encryptPassword);
 		int result = mps.fupdatePassword(member);
 		String msg = selectMember!=null?"초기비밀번호 0000 으로 초기화 되었습니다":"입력정보가 일치하지 않습니다";
 		redirectAttributes.addFlashAttribute("msg", msg);
