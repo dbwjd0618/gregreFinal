@@ -95,7 +95,6 @@
 													<p>백신:${v.vaccinCode }</p>
 													<p>차수:${v.nth }</p>
 													<p>접종일:${v.vaccinDate }</p>
-													<hr />
 												</c:if>
 												</c:if>
 											</c:forEach>
