@@ -20,6 +20,10 @@ counselorR.push(JSON.parse('${counselor}'));
 
 <script>
 $(function(){
+	function numberFormat(inputNumber) {
+		   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	};
+	
 	$(".counselor-list").append("<div class='list-filter-wrapper'><span class='counselor-search-list-num' id=''>검색 결과 <em id='search-result-count'><strong>"+counselorR.length+"</strong></em>건</span></div>");
 	
 	let result = "<div class='counselor-list-wrapper'><div class='counselor-info-list'>";
@@ -38,7 +42,7 @@ $(function(){
 		for(var j=0; j<counselorR[i].advisKeyword.length; j++){
 			result += (j!=counselorR[i].advisKeyword.length-1)?counselorR[i].advisKeyword[j]+",":counselorR[i].advisKeyword[j];
 		}
-		result += "</li></ul></div><div><p class='counselor-price'>"+counselorR[i].advisPrice+"원~</p></div></div></article>";	
+		result += "</li></ul></div><div><p class='counselor-price'>"+numberFormat(counselorR[i].advisPrice)+"원~</p></div></div></article>";	
 	}
 	
 	result += "</div></div>";
@@ -65,6 +69,12 @@ $(function(){
 		}
 		console.log(nameChk);
 		if(nameChk != null){
+			
+			function numberFormat(inputNumber) {
+				   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			};
+			
+			
 			//페이지 동적 처리
 			$(".counselor-list").empty();
 			
@@ -87,13 +97,24 @@ $(function(){
 				for(var j=0; j<nameChk[i].advisKeyword.length; j++){
 					result += (j!=nameChk[i].advisKeyword.length-1)?nameChk[i].advisKeyword[j]+",":nameChk[i].advisKeyword[j];
 				}
-				result += "</li></ul></div><div><p class='counselor-price'>"+nameChk[i].advisPrice+"원~</p></div></div></article>";	
+				result += "</li></ul></div><div><p class='counselor-price'>"+numberFormat(nameChk[i].advisPrice)+"원~</p></div></div></article>";	
 			}
 			
 			result += "</div></div>";
 			
 			$(".counselor-list").after(result);
+			
+			
+			$("article[data-advis-id]").on("click", function(){
+				console.log("클릭함");
+				let advisId = $(this).attr("data-advis-id");
+				console.log(advisId);
+				
+				location.href = "${pageContext.request.contextPath}/counselling/bookingMain.do?advisId="+advisId;
+			});
 		}
+		
+		
 	
 		
 	});
@@ -363,6 +384,11 @@ function filter(){
 		data: dd,
 		type: "GET",
 		success: data =>{
+			
+			function numberFormat(inputNumber) {
+				   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			};
+			
 			console.log(data);
 			
 			var resultArr = [];
@@ -395,12 +421,21 @@ function filter(){
 				for(var j=0; j<resultArr[i].advisKeyword.length; j++){
 					result += (j!=resultArr[i].advisKeyword.length-1)?resultArr[i].advisKeyword[j]+",":resultArr[i].advisKeyword[j];
 				}
-				result += "</li></ul></div><div><p class='counselor-price'>"+resultArr[i].advisPrice+"원~</p></div></div></article>";	
+				result += "</li></ul></div><div><p class='counselor-price'>"+numberFormat(resultArr[i].advisPrice)+"원~</p></div></div></article>";	
 			}
 			
 			result += "</div></div>";
 			
 			$(".counselor-list").after(result);
+			
+			
+			$("article[data-advis-id]").on("click", function(){
+				console.log("클릭함");
+				let advisId = $(this).attr("data-advis-id");
+				console.log(advisId);
+				
+				location.href = "${pageContext.request.contextPath}/counselling/bookingMain.do?advisId="+advisId;
+			});
 		},
 		error:(xhr,status, err) =>{
 			console.log(xhr,status,err);

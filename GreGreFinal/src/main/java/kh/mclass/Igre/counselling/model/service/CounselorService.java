@@ -40,11 +40,13 @@ public interface CounselorService {
 
 	List<Map<String, String>> selectCounselorList1(int cPage, int numPerPage);
 
-	int bookingInsert(BookingInfo info);
+	BookingInfo bookingInsert(BookingInfo info);
 
 	int editReview(EditReview edit);
 
 	int deleteReview(int num);
+
+	int recentSelectOne(String memberId);
 
 
 }
