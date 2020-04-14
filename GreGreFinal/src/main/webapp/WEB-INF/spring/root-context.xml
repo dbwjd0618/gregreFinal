@@ -20,7 +20,7 @@
 		<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@gregre-final.cdqlyxefnneh.ap-northeast-2.rds.amazonaws.com:1521:orcl"/>
 		<property name="username" value="gregre"/>
-		<property name="password" value="gregregre"/>-->
+		<property name="password" value="gregregre"/> -->
 	</bean>
 	<!-- #9.1.log4jdbc-remix 관련 dataSource처리  -->
   	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
