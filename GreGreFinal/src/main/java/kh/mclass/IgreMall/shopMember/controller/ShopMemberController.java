@@ -38,6 +38,8 @@ import kh.mclass.IgreMall.review.model.vo.ProdReview;
 import kh.mclass.IgreMall.shopMember.model.service.ShopMemberService;
 import kh.mclass.IgreMall.shopMember.model.vo.Cart;
 import kh.mclass.IgreMall.shopMember.model.vo.ShopMember;
+import kh.mclass.IgreMall.wish.model.service.WishService;
+import kh.mclass.IgreMall.wish.model.vo.Wish;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -57,6 +59,8 @@ public class ShopMemberController {
 	ProdQnAService prodQnAService;
 	@Autowired
 	CouponService couponService;
+	@Autowired
+	WishService wishService;
 	
 	/**
 	 * 0405 이진희
@@ -105,7 +109,30 @@ public class ShopMemberController {
 	/**
 	 * 0411 이진희
 	 * 
-	 * 장바구니 상품 삭제
+	 * 장바구니 상품 삭제(복수개)
+	 */
+	@PostMapping("/cartListDelete.do")
+	@ResponseBody
+	public Map<String, Object> cartListDelete( @RequestParam(value = "cartIdArr[]", required = false) List<String> cartIdList ) {
+		
+		int result = 0;
+		for(int i=0;i<cartIdList.size();i++) {
+			String cartId = cartIdList.get(i);
+			result= shopMemberService.deleteCart(cartId);		
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		if (result > 0) {
+			map.put("cartIdList", cartIdList);
+		}
+
+		return map;
+	}
+	
+	/**
+	 * 0411 이진희
+	 * 
+	 * 장바구니 상품 삭제(한개)
 	 */
 	@PostMapping("/cartDelete.do")
 	@ResponseBody
@@ -117,7 +144,7 @@ public class ShopMemberController {
 		if (result > 0) {
 			map.put("cartId", cartId);
 		}
-
+		
 		return map;
 	}
 	/**
@@ -230,6 +257,7 @@ public class ShopMemberController {
 			String productId = cartList.get(i).getProductId();
 			Product p = productService.selectProductOne(productId);
 			List<Attachment> attachList = productService.selectAttachList(productId);
+			p.setAttachList(attachList);
 			List<ProdOption> optionList = new ArrayList<>();
 			if (cartList.get(i).getOptionId() != null) {
 				for (int t = 0; t < cartList.get(i).getOptionId().length; t++) {
@@ -245,7 +273,7 @@ public class ShopMemberController {
 
 			cartList.get(i).setOptionList(optionList);
 			cartList.get(i).setProduct(p);
-			System.out.println("optionList=" + optionList);
+		
 			// 옵션이 있는 경우
 			if (cartList.get(i).getOptionId() != null) {
 				int optionPrice = 0;
@@ -534,11 +562,29 @@ public class ShopMemberController {
 		mav.setViewName("shop/myShopping/order/detail");
 		return mav;
 	}
-
-	@GetMapping("/wish/list.do")
+	
+	/**
+	 * 0414 이진희
+	 * 
+	 * 나의 관심상품 목록 출력
+	 */
+	@GetMapping("/wish/list.do") 
 	public ModelAndView wishList(ModelAndView mav,  HttpSession session) {
 		Member m = (Member) session.getAttribute("memberLoggedIn");
 		String memberId = m.getMemberId();
+		
+		//회원 찜하기 목록
+		List<Wish> wishList = wishService.selectWishList(memberId); 
+
+		
+		for(int i=0; i<wishList.size(); i++) {
+			String productId = wishList.get(i).getProductId();
+			Product p = productService.selectProductOne(productId);
+			List<Attachment> attachList = productService.selectAttachList(productId);
+			p.setAttachList(attachList);
+			wishList.get(i).setProduct(p);
+		}
+		
 		// coupon 불러오기
 		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
 		int myCouponCount =0;
@@ -548,7 +594,13 @@ public class ShopMemberController {
 			}
 		}
 		
+		//Point 
+		ShopMember sMem = shopMemberService.selectOne(memberId);
+		mav.addObject("point", sMem.getPoint());
+		
 		mav.addObject("myCouponCount",myCouponCount);
+		mav.addObject("wishList",wishList);
+		log.debug("wishList={}", wishList);
 		mav.setViewName("shop/myShopping/wish/list");
 		return mav;
 	}
@@ -625,6 +677,7 @@ public class ShopMemberController {
 			}
 		}
 		
+
 		mav.addObject("myCouponCount",myCouponCount);
 		//Point 
 		ShopMember sMem = shopMemberService.selectOne(memberId);
@@ -665,7 +718,7 @@ public class ShopMemberController {
 		Member m = (Member) session.getAttribute("memberLoggedIn");
 		String memberId = m.getMemberId();
 
-		// review 불러오기
+		// 나의 쿠폰 불러오기
 		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
 		
 		int myCouponCount =0;
@@ -674,7 +727,7 @@ public class ShopMemberController {
 				myCouponCount++;
 			}
 		}
-		
+		System.out.println("myCoupon="+myCouponCount);
 		mav.addObject("myCouponCount",myCouponCount);
 		//Point 
 		ShopMember sMem = shopMemberService.selectOne(memberId);

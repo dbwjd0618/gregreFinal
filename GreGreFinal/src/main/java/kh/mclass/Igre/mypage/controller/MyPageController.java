@@ -45,7 +45,7 @@ public class MyPageController {
 	private MyPageService mps;
 	
 	@GetMapping("/myPageMain")
-	public ModelAndView mypageview(BookingInfo book,ModelAndView mav,HttpSession session,Child child,Vaccination vaccination) {
+	public ModelAndView mypageview(Member member,Period period,BookingInfo book,ModelAndView mav,HttpSession session,Child child,Vaccination vaccination) {
 			
 			Member m = (Member) session.getAttribute("memberLoggedIn");
 			
@@ -53,13 +53,17 @@ public class MyPageController {
 			child.setParentsId(parentsId);
 			vaccination.setParentsId(parentsId);
 			book.setMemberId(m.getMemberId());
+			period.setMemberId(m.getMemberId());
 			List<Child> list = mps.selectChild(child);
 			List<Vaccination> list2 = mps.selectVaccination(vaccination);
 			List<BookingInfo> list3 = mps.selectBookingInfoList(book);
+			List<Period> list4 = mps.selectPeriod(period);
+			
 			
 			mav.addObject("list",list);
 			mav.addObject("list2",list2);
 			mav.addObject("list3",list3);
+			mav.addObject("list4",list4);
 			mav.addObject("m",m);
 			mav.setViewName("myPage/myPageMain");
 
@@ -148,8 +152,11 @@ public class MyPageController {
 	}
 	
 	@GetMapping("myPeriod.do")
-	public ModelAndView myPeriod(ModelAndView mav,HttpSession session) {
+	public ModelAndView myPeriod(ModelAndView mav,HttpSession session,Period period) {
 		Member m = (Member) session.getAttribute("memberLoggedIn");
+		period.setMemberId(m.getMemberId());
+		List<Period> list = mps.selectPeriod(period);
+		mav.addObject("list",list);
 		mav.addObject("m",m);
 		mav.setViewName("myPage/myPeriod");
 		

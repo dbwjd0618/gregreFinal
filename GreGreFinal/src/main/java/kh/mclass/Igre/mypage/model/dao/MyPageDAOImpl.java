@@ -150,5 +150,11 @@ public class MyPageDAOImpl implements MyPageDAO {
 		return sss.selectOne("mypage.selectCounselorOne", cmemberId);
 	}
 
+	@Override
+	public List<Period> selectPeriod(Period period) {
+		// TODO Auto-generated method stub
+		return sss.selectList("mypage.selectPeriod",period);
+	}
+
 
 }

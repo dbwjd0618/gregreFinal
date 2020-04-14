@@ -18,6 +18,8 @@ public interface WishService {
 
 	List<Wish> selectWishList(String memberId);
 
+	int deleteWishOne(Wish wish);
+
 
 
 }
