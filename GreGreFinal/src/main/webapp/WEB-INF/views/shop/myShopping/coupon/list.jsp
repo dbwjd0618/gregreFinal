@@ -133,11 +133,11 @@ h2.dis-p {
 					<c:if test="${not empty myCouponList }">
 						<!--  쿠폰 시작 -->
 						<c:forEach var="coupon" items="${myCouponList }" varStatus="vs">
-						<c:if test="${coupon.couponState eq 'N'}">
+						<%-- <c:if test="${coupon.couponState eq 'N'}">
 							<div class=" col-md-12">
 								<div style="margin-bottom:120px; margin-top:60px; text-align:center; font-size:30px;">사용가능한 쿠폰이 없습니다.</div>
 							</div>
-						</c:if> 
+						</c:if>  --%>
 							<c:if test="${coupon.couponState eq 'Y' }">
 								<div class="col-6 col-md-6">
 									<div class="coupon-item">

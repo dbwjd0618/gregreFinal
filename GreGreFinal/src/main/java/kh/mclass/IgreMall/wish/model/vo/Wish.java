@@ -3,6 +3,7 @@ package kh.mclass.IgreMall.wish.model.vo;
 import java.io.Serializable;
 import java.sql.Date;
 
+import kh.mclass.IgreMall.product.model.vo.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,8 @@ public class Wish implements Serializable{
 	private String productId; 
 	private String wishCheck; 
 	private Date wishDate; 
+	
+	private Product product;
 
 
 }
