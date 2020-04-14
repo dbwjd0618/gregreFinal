@@ -20,7 +20,7 @@ button.del-btn {
 }
 button.btn.btn-primary.btn-lg.btn-block.board-btn {
     float: left;
-    margin-left: 493px;
+    margin-left: auto;
     margin-bottom: 4px;
 }
 .board-btn-form {
@@ -129,12 +129,13 @@ button#add{
 									
 							</c:forEach>
 						</c:if>
-
+						<div class="board-btn-form">
 						<button type="button" class="btn btn-primary btn-lg btn-block" id="add">
 							<i class="fa fa-plus"></i>
 						</button>
-						
-						<div style='margin: 20px 0; text-align: center;'
+						<button type="button" class="" style="border: 0; background: transparent;"><i class=""></i></button>
+						</div>
+						<div style='margin:0 auto; text-align: center;'
 							id='boardCodeCreate'>
 							<form
 								action='${pageContext.request.contextPath}/admin/insertBoard.do'
@@ -156,8 +157,6 @@ button#add{
 									onclick="location.href='${pageContext.request.contextPath}/admin/board.do'">생성</button>
 							</form>
 						</div>
-
-
 					</div>
 					<!-- /.box-body -->
 				</div>

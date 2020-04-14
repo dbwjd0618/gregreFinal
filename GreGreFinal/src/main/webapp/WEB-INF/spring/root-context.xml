@@ -17,7 +17,6 @@
 		<property name="username" value="gregre"/>
 		<property name="password" value="gregre"/> -->
 		
-
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@gregre-final.cdqlyxefnneh.ap-northeast-2.rds.amazonaws.com:1521:orcl"/>
 		<property name="username" value="gregre"/>

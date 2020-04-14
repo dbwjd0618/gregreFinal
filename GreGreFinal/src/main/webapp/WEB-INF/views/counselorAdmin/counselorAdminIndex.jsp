@@ -18,7 +18,7 @@
 	width:auto;
 	margin-left:269px;
 	position: relative;
-    bottom: -30px;
+    bottom: 43px;
     text-align: center;
 }
 
