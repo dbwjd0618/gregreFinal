@@ -24,6 +24,31 @@ public class CounselorAdminDAOImpl implements CounselorAdminDAO {
 	public List<Counselor> list() {
 		return sqlSession.selectList("cadmin.list");
 	}
+
+	@Override
+	public Counselor counselorView(String advisId) {
+		return sqlSession.selectOne("cadmin.counselorView", advisId);
+	}
+
+	@Override
+	public int athorityUpdate(Counselor counselor) {
+		return sqlSession.update("cadmin.athorityUpdate", counselor);
+	}
+
+	@Override
+	public int counselorDelete(String advisId) {
+		return sqlSession.delete("cadmin.counselorDelete", advisId);
+	}
+
+	@Override
+	public Counselor counselorSelectOne(String advisId) {
+		return sqlSession.selectOne("cadmin.counselorSelectOne", advisId);
+	}
+
+	@Override
+	public int counselorUpdate(Counselor counselor) {
+		return sqlSession.update("cadmin.counselorUpdate", counselor);
+	}
 	
 	
 }

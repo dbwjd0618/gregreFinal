@@ -46,6 +46,14 @@
 			<beans:bean id="adminLoginCheckInterceptor" class="kh.mclass.Igre.common.interceptor.AdminLoginInterceptor"/>
 		</interceptor>
 		<!-- 유정구역 끝!! -->
+		<!-- 제2 유정구역!! -->
+		<interceptor>
+			<mapping path="/counselorAdmin/**"/>	
+			<exclude-mapping path="/counselorAdmin/login.do"/>	
+			<beans:bean id="counselorAdminInterceptor" class="kh.mclass.Igre.common.interceptor.CounselorAdminInterceptor"/>
+		</interceptor>
+		<!-- 제2 유정구역 끝!! -->
+		
 	</interceptors>
 	
 	<!-- #11.1 파일업로드를 처리할 Resolver클래스 빈등록(빈이름 주의) -->

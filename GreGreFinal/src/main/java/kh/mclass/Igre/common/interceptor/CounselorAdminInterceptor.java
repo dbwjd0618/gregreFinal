@@ -10,7 +10,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import kh.mclass.Igre.admin.model.vo.Admin;
 
-public class AdminLoginInterceptor extends HandlerInterceptorAdapter {
+public class CounselorAdminInterceptor extends HandlerInterceptorAdapter {
 
 	private static Logger logger = LoggerFactory.getLogger(LoggerInterceptor.class);
 	
@@ -23,7 +23,7 @@ public class AdminLoginInterceptor extends HandlerInterceptorAdapter {
 		logger.debug("adminLoggedIn = " + adminLoggedIn);
 		if(adminLoggedIn == null) {
 			ss.setAttribute("msg", "로그인 후 이용해주세요");
-			response.sendRedirect(request.getContextPath()+"/admin/login.do");
+			response.sendRedirect(request.getContextPath()+"/counselorAdmin/login.do");
 			return false;
 		}
 		

@@ -25,5 +25,53 @@
 	<resultMap type="counselor" id="counselorMap">
  		<result column="advis_keyword" property="advisKeyword" typeHandler="strArrTypeHandler"></result>
  	</resultMap>
+ 	
+ 	<select id="counselorView" resultMap="counselorMap">
+ 		select
+ 			* 
+ 		from 
+ 			tb_adviser
+ 		where
+ 			advis_id = #{advisId}
+ 	</select>
+ 	
+ 	<update id="athorityUpdate">
+ 		update
+ 			tb_adviser
+ 		set
+ 			advis_grade = #{advisGrade}
+ 		where
+ 			advis_id = #{advisId}
+ 	</update>
+ 	
+ 	<delete id="counselorDelete">
+ 		delete
+ 		
+ 		from
+ 			tb_adviser
+ 		where
+ 			advis_id = #{advisId}
+ 	</delete>
 
+	<select id="counselorSelectOne" resultMap="counselorMap">
+		select
+ 			* 
+ 		from 
+ 			tb_adviser
+ 		where
+ 			advis_id = #{advisId}
+	</select>
+	
+	<update id="counselorUpdate">
+		update
+			tb_adviser
+		set
+			advis_name = #{advisName},
+			advis_career = #{advisCareer},
+			advis_license = #{advisLicense},
+			advis_price = #{advisPrice},
+			advis_gender = #{advisGender}
+		where
+			advis_id = #{advisId}
+	</update>
 </mapper>

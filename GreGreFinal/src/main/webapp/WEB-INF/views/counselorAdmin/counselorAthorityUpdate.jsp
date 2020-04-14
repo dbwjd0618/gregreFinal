@@ -16,7 +16,7 @@ function athorityUpdate(){
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 		<h1>
-			관리자 관리 <small>관리자 권한</small>
+			관리자 권한 관리 <small>관리자 권한</small>
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
@@ -31,30 +31,31 @@ function athorityUpdate(){
 			<div class="col-md-6" style="margin: 0 auto; float: none">
 				<!-- general form elements -->
 				<div class="box box-primary">
-					<div class="box-header">
-						<h3 class="box-title">관리자 권한</h3>
-					</div>
-					<!-- /.box-header -->
 					<!-- form start -->
 					<form action="${pageContext.request.contextPath}/counselorAdmin/athorityUpdate.do" method="POST" onsubmit="return athorityUpdate();">
 						<div class="box-body">
 							<div class="form-group">
 								<label for="memberid">아이디</label> <input type="text"
-									class="form-control" id="memberid" name="memberId" value="${member.memberId }" readonly>
+									class="form-control" id="counselorId" name="advisId" value="${counselor.advisId }" readonly>
 							</div>
 							<div class="form-group">
-								<label for="nickname">닉네임</label> <input type="text"
-									class="form-control" id="memberNickname" name="nickname" value="${member.nickname }" readonly>
+								<label for="nickname">이름</label> <input type="text"
+									class="form-control" id="counselorName" name="advisName" value="${counselor.advisName }" readonly>
 							</div>
 							<div class="form-group">
-								<label for="memberemail">이메일</label> <input type="email"
-									class="form-control" id="memberemail" name="email" value="${member.email }" readonly>
+								<label for="memberemail">경력</label> <input type="email"
+									class="form-control" id="career" name="advisCareer" value="${counselor.advisCareer }" readonly>
+							</div>
+							<div class="form-group">
+								<label for="memberemail">자격증</label> <input type="email"
+									class="form-control" id="license" name="advisLicense" value="${counselor.advisLicense }" readonly>
 							</div>
 							<div class="form-group">
 								<label for="memberAuthor">회원 권한</label>
 								<div>
-									<input type="radio" name="grade" value="A" ${member.grade eq 'A'?"checked":"" }>관리자 
-									<input type="radio" name="grade" value="M" ${member.grade eq 'M'?"checked":"" }>일반 유저
+									<input type="radio" name="advisGrade" value="일반" ${counselor.advisGrade == "일반   "||counselor.advisGrade =="일반"?"checked":"" }>일반&nbsp;
+									<input type="radio" name="advisGrade" value="전문" ${counselor.advisGrade == "전문   "||counselor.advisGrade =="전문"?"checked":"" }>전문&nbsp;
+									<input type="radio" name="advisGrade" value="마스터" ${counselor.advisGrade == "마스터"?"checked":"" }>마스터
 								</div>
 							</div>
 						</div>
