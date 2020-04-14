@@ -108,13 +108,13 @@
 							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/memberChildUpdate.do"> 
 								<div class="menu__title">자녀정보</div>
 							</a>   
-							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/myPeriodCalculatorView.do">
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/myPeriod.do">
 								<div class="menu__title">월경캘린더</div>
 							</a> 
 							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/">
 								<div class="menu__title">상담정보/리뷰</div>
 							</a> 
-							<a class="menu__item" href="#">
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/deleteMember.do">
 								<div class="menu__title">회원탈퇴</div>
 							</a>
 						</div>

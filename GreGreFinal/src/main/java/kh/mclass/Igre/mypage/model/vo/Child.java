@@ -31,6 +31,7 @@ public class Child implements Serializable{
 	private Date birthday;
 	private String gender;
 	private String phone;
+	private String mensesNo;
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

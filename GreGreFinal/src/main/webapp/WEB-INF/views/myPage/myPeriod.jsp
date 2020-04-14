@@ -77,35 +77,60 @@ function openCalendar(data)
 			
 			<div class="col-md-9">
 
-
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                   <img src="../images/myPage/pic2.PNG" class="imgmini">
-                                </div>
-                                <div class="col-md-7">
-                                    <h5>자녀정보</h5>
-                                    <p>자녀이름 : CSS킹</p>
-                                    <p>생후 15개월</p>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-outline bg-gray" onclick="openCalendar();">자녀 추가하기</button>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>			
+				<div class="row mb-4">
+					<div class="col-md-12">
+						<h4 style="text-align: center;">
+							<strong>월경정보</strong>
+						</h4>
+					</div>
+				</div>
 
 
-			</div>
-		</div>
-	</div>
-</div>
+
+
+
+									<div class="row mb-3">
+										<div class="col-md-12">
+											<div class="card">
+												<div class="card-body">
+												<div class="row">
+
+										<div class="col-md-6">
+													<c:forEach items="${list }" var="p" varStatus="vs">
+														<c:if test="${p.mensesNo != null }">
+															<c:if test="${vs.last == true }">
+													<p style="font-weight: bold">마지막 생리 정보</p>
+																<p>생리 시작일 : ${p.mensesStart }</p>
+																<p>종료 예정일 : ${p.mensesEnd}</p>
+																<p>생리주기 : ${p.mensesCycle } 일</p>
+															</c:if>
+														</c:if>
+													</c:forEach>
+															</div>
+															<div class="col-md-3">
+															</div>
+															<div class="col-md-3">
+																<button type="button" class="btn btn-outline bg-gray"
+																	onclick="openCalendar();">달력으로보기</button>
+															</div>
+
+
+
+											</div>
+											</div>
+										</div>
+									</div>
+
+												</div>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
 
 <!-- contents end-->
 

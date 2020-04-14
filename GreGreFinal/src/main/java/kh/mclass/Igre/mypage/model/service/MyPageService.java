@@ -56,4 +56,6 @@ public interface MyPageService {
 
 	Counselor selectCounselorOne(String cmemberId);
 
+	List<Period> selectPeriod(Period period);
+
 }
