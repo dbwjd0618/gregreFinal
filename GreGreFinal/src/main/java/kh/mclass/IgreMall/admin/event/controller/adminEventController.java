@@ -26,7 +26,13 @@ public class adminEventController {
 	
 	@Autowired
 	ResourceLoader resourceLoader;
-	
+	@RequestMapping("/view.do")
+	public ModelAndView selectEvent(ModelAndView mav,Event e ) {
+		Event e1 = eventService.selectEvent(e);
+		mav.addObject("e",e1);
+		mav.setViewName("shop/admin/event/eventView");
+		return mav;
+	}
 	@RequestMapping("/insert.do")
 	public ModelAndView insertEvent(ModelAndView mav,Event e ) {
 		System.out.println("오냥;;");
@@ -47,9 +53,9 @@ public class adminEventController {
 	//
 	@GetMapping("event.do")
 	public ModelAndView eventList(ModelAndView mav){
-		/* List<Event> eventList= eventService.eventList(); */
+		 List<Event> eventList= eventService.eventList(); 
 		mav.setViewName("shop/admin/event/list");
-		/* mav.addObject("eventList",eventList); */
+		 mav.addObject("el",eventList); 
 		return mav;
 	}
 }

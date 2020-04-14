@@ -21,7 +21,7 @@ public class CouponPeople implements Serializable{
 	private String couponId;
 	private String memberId;
 	//tb_coupon_list 테이블
-	private Date expireDate;
+	private int expireDate;
 	private String couponState;
 	
 }

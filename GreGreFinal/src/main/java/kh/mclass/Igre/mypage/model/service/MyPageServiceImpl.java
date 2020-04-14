@@ -14,6 +14,7 @@ import kh.mclass.Igre.member.model.vo.BizMember;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.dao.MyPageDAO;
 import kh.mclass.Igre.mypage.model.vo.Child;
+import kh.mclass.Igre.mypage.model.vo.Period;
 import kh.mclass.Igre.mypage.model.vo.Vaccination;
 
 @Service
@@ -104,10 +105,44 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 
 	@Override
+
+	public Member findId(Member member) {
+		member=mpd.findId(member);
+		return member;
+	}
+
+	@Override
+	public int childUpdateInfo(Child child) {
+		int result =0;
+		result = mpd.childUpdateInfo(child);
+		return result;
+	}
+
+	@Override
+	public int deleteChild(Child child) {
+		int result =0;
+		result = mpd.deleteChild(child);
+		
+		return result;
+	}
+
+	@Override
+	public int periodAdd(Period period) {
+		int result = 0;
+		period.setMensesNext(period.getMensesEnd());
+		period.setChildbearingAgeEnd(period.getMensesEnd());
+		period.setChildbearingAgeStart(period.getMensesStart());
+		period.setPregnancyDate(period.getMensesEnd());
+		result = mpd.periodAdd(period);
+		return result;
+	}
+
+
 	public List<BookingInfo> selectProgressCounselling(Counselor c) {
 		// TODO Auto-generated method stub
 		return mpd.selectProgressCounselling(c);
 	}
+
 
 	@Override
 	public List<BookingInfo> selectEndCounselling(Counselor c) {

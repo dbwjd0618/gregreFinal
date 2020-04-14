@@ -4,6 +4,22 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mypage">
 
+	<insert id="periodAdd">
+	insert
+		into
+	TB_menses_${memberId}	
+		values(
+		seq_${memberId}_menses.nextval,
+		to_date(#{mensesStart},'yyyy-MM-dd HH24:mi'),
+		to_date(#{mensesEnd},'yyyy-MM-dd HH24:mi'),	
+		#{mensesCycle},
+		to_date(#{mensesNext},'yyyy-MM-dd HH24:mi'),
+		to_date(#{childbearingAgeStart},'yyyy-MM-dd HH24:mi'),
+		to_date(#{childbearingAgeEnd},'yyyy-MM-dd HH24:mi'),
+		to_date(#{pregnancyDate},'yyyy-MM-dd HH24:mi')
+		)
+	
+	</insert>
 	<select id="memberList" resultType="Member">
 		select
 			*
@@ -20,6 +36,16 @@
 	where
 		member_id= #{memberId}	
 	</update>
+	
+	<delete id="deleteChild">
+	delete
+		from
+	TB_Child
+		where
+	child_name = #{childName}
+		and
+	parents_Id = #{parentsId} 
+	</delete>
 	
 	<delete id="memberDelete">
 	delete
@@ -107,7 +133,24 @@
 	where member_id = #{memberId} and pwd_hint_code = #{pwdHintCode} and pwd_ans = #{pwdAns}
 		
 	</select>
-
+	<select id="findId" resultType="Member">
+	select
+		*
+	from
+		TB_MEMBER_INFO
+	where member_name = #{memberName} and phone = #{phone} and pwd_hint_code = #{pwdHintCode} and pwd_ans = #{pwdAns}
+	</select>
+	<update id="childUpdateInfo">
+	update
+		TB_child
+	set
+		birthday = #{birthday},
+		phone = #{phone}
+	where
+		parents_ID = #{parentsId}
+		
+	</update>
+	
 	<update id="fupdatePassword">
 	update
 		TB_MEMBER_INFO
@@ -116,6 +159,9 @@
 	where
 		member_id= #{memberId}	
 	</update>
+	
+
+	
 	<select id="selectChild" resultType="Child">
 	select
 		*
