@@ -239,9 +239,9 @@
 													<br />
 													<c:forEach items="${list2}" var="v" varStatus="status">
 														<c:if test="${c.childId == v.childId}">
-															<h3>테스트:${v.vaccinCode }</h3>
-															<h3>테스트:${v.vaccinDate }</h3>
-															<h3>테스트:${v.nth }</h3>
+															<p>백신:${v.vaccinCode }</p>
+													<p>차수:${v.nth }</p>
+													<p>접종일:${v.vaccinDate }</p>
 
 
 
