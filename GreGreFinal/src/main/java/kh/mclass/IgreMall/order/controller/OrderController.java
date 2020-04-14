@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.mclass.Igre.member.model.vo.Member;
+import kh.mclass.IgreMall.coupon.model.service.CouponService;
 import kh.mclass.IgreMall.coupon.model.vo.Coupon;
 import kh.mclass.IgreMall.coupon.model.vo.CouponInfo;
 import kh.mclass.IgreMall.order.model.service.OrderService;
@@ -46,6 +47,8 @@ public class OrderController {
 	ProductService productService;
 	@Autowired
 	ShopMemberService shopMemberService;
+	@Autowired
+	CouponService couponService;
 
 	// 네이버페이일 경우만
 	@GetMapping("/finishPayment.do")
@@ -55,7 +58,7 @@ public class OrderController {
 			@RequestParam(value = "totalDiscount", required = false) String totalDiscount,
 			@RequestParam(value = "usedPoint", required = false) String usedPoint,
 			@RequestParam(value = "usedCoupon", required = false) String usedCoupon,
-			@RequestParam(value = "couponId", required = false) String couponId,
+			@RequestParam(value = "couponListId", required = false) String couponListId,
 			@RequestParam(value = "addPoint", required = false) String addPoint,
 			RedirectAttributes redirectAttributes) {
 
@@ -88,19 +91,17 @@ public class OrderController {
 		ShopMember memVal = shopMemberService.selectShopMem(m.getMemberId());
 
 		if (memVal == null) {
-			System.out.println("여기오나");
 			int shopMemResult = shopMemberService.insertShopMem(sMem);
-			System.out.println("shopMEmeRE=" + shopMemResult);
 		}
 
 		// 쿠폰사용
 		if (paymentInfo.getUsedCoupon() > 0) {
 			Coupon coupon = new Coupon();
 			for (int i = 0; i < sMem.getCouponList().size(); i++) {
-				if (sMem.getCouponList().get(i).getCouponId().equals(couponId)) {
+				if (sMem.getCouponList().get(i).getCouponListId().equals(couponListId)) {
 					sMem.getCouponList().get(i).setCouponState("N");
 					coupon.setMemberId(m.getMemberId());
-					coupon.setCouponId(couponId);
+					coupon.setCouponListId(couponListId);
 					coupon.setCouponState("N");
 				}
 			}
@@ -217,7 +218,7 @@ public class OrderController {
 			@RequestParam(value = "totalDiscount", required = false) String totalDiscount,
 			@RequestParam(value = "usedPoint", required = false) String usedPoint,
 			@RequestParam(value = "usedCoupon", required = false) String usedCoupon,
-			@RequestParam(value = "couponId", required = false) String couponId,
+			@RequestParam(value = "couponListId", required = false) String couponListId,
 			@RequestParam(value = "addPoint", required = false) String addPoint,
 			RedirectAttributes redirectAttributes) {
 
@@ -257,10 +258,10 @@ public class OrderController {
 		if (paymentInfo.getUsedCoupon() > 0) {
 			Coupon coupon = new Coupon();
 			for (int i = 0; i < sMem.getCouponList().size(); i++) {
-				if (sMem.getCouponList().get(i).getCouponId().equals(couponId)) {
+				if (sMem.getCouponList().get(i).getCouponListId().equals(couponListId)) {
 					sMem.getCouponList().get(i).setCouponState("N");
 					coupon.setMemberId(m.getMemberId());
-					coupon.setCouponId(couponId);
+					coupon.setCouponListId(couponListId);
 					coupon.setCouponState("N");
 				}
 			}
@@ -397,18 +398,10 @@ public class OrderController {
 
 		Member m = (Member) session.getAttribute("memberLoggedIn");
 		ShopMember sMem = shopMemberService.selectOne(m.getMemberId());
-		if (sMem.getCouponList() != null) {
-			for (int i = 0; i < sMem.getCouponList().size(); i++) {
-				String couponId = sMem.getCouponList().get(i).getCouponId();
-				CouponInfo couInfo = shopMemberService.selectCouponInfoOne(couponId);
-				sMem.getCouponList().get(i).setCouponName(couInfo.getCouponName());
-				sMem.getCouponList().get(i).setCouponDetail(couInfo.getCouponDetail());
-				sMem.getCouponList().get(i).setDiscountValue(couInfo.getDiscountValue());
-				sMem.getCouponList().get(i).setDiscountType(couInfo.getDiscountType());
-				sMem.getCouponList().get(i).setMaxValue(couInfo.getMaxValue());
-			}
-
-		}
+		String memberId = m.getMemberId();
+		
+		List<Coupon> myCouponList = couponService.selectListMyCoupon(memberId);
+		sMem.setCouponList(myCouponList);
 
 		List<OrderProduct> orderProdList = new ArrayList<>();
 		List<Product> prodList = new ArrayList<>();

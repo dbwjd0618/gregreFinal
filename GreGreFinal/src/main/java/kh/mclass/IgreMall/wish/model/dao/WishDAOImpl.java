@@ -38,5 +38,10 @@ public class WishDAOImpl implements WishDAO{
 		return sqlSession.selectList("wish.selectWishList", memberId);
 	}
 
+	@Override
+	public int deleteWishOne(Wish wish) {
+		return sqlSession.delete("wish.deleteWishOne", wish);
+	}
+
 	
 }
