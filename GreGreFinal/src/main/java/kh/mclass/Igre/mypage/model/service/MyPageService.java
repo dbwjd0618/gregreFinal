@@ -52,8 +52,11 @@ public interface MyPageService {
 
 	List<BookingInfo> selectEndCounselling(Counselor c);
 
-	int updateCounselor(BizMember bz);
+	int updateCounselor(Counselor c);
 
 	Counselor selectCounselorOne(String cmemberId);
+
+	Counselor selectCounselorOne1(String cmemberId);
+
 
 }

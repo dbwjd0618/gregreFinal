@@ -84,7 +84,10 @@
 	update
 		TB_adviser
 	set
-		advis_name = #{advisName}
+		advis_name = #{advisName},
+		advis_line_intro = #{advisLineIntro},
+		advis_career = #{advisCareer},
+		advis_license = #{advisLicense}
 	where
 		advis_id = #{advisId}			
 	</update>

@@ -139,13 +139,19 @@ public class MyPageDAOImpl implements MyPageDAO {
 	}
 
 	@Override
-	public int updateCounselor(BizMember bz) {
+	public int updateCounselor(Counselor c) {
 		// TODO Auto-generated method stub
-		return sss.update("mypage.updateCounselor", bz);
+		return sss.update("mypage.updateCounselor", c);
 	}
 
 	@Override
 	public Counselor selectCounselorOne(String cmemberId) {
+		// TODO Auto-generated method stub
+		return sss.selectOne("mypage.selectCounselorOne", cmemberId);
+	}
+
+	@Override
+	public Counselor selectCounselorOne1(String cmemberId) {
 		// TODO Auto-generated method stub
 		return sss.selectOne("mypage.selectCounselorOne", cmemberId);
 	}
