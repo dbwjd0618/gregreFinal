@@ -17,6 +17,41 @@
 	width: 0;
 	background-image: url();
 }
+.site-section-cover.overlay:before {
+	width: 0;
+	background-image: url();
+}
+
+.row align-items-center {
+	min-height: 28rem;
+}
+
+.custom-select {
+	height: auto;
+}
+
+#searchResult {
+	font-size: 10px;
+	width: max-content;
+}
+.location-careCenter {
+	margin: 20px 0px;
+	border: 1px solid black;
+	border-radius: 10px 10px 10px 10px;
+}
+.myLocation{
+margin: 10px;
+}
+.custom-select{
+width: max-content;
+}
+#form1{
+    margin: 0 auto;
+    padding: 20px;
+}
+label.input-group-text {
+    margin-left: 20px;
+}
 </style>
 
 
@@ -66,12 +101,14 @@
 						</h5>
 					</div>
 				</div>
-
+				
 				<div class="location-careCenter">
-					<span>&nbsp;&nbsp;스쿨존 지역별 검색</span>
 					<div class="input-group col">
-						<form name="form1" id="form1">
-							<select name="h_area1" onChange="cat1_change(this.value,h_area2)">
+					<form name="form1" id="form1">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="inputGroupSelect01">시/도</label>
+						
+						<select name="h_area1" onChange="cat1_change(this.value,h_area2)">
 								<option>-선택-</option>
 								<option value='11'>서울</option>
 								<option value='26'>부산</option>
@@ -89,7 +126,12 @@
 								<option value='50'>제주</option>
 								<option value='44'>충남</option>
 								<option value='43'>충북</option>
-							</select> <select name="h_area2">
+							</select>
+							
+						
+							<label class="input-group-text" for="inputGroupSelect01">시/군/구</label>
+						
+						<select name="h_area2">
 								<option>-선택-</option>
 								<option value='710' selected>강화군</option>
 								<option value='245' selected>계양구</option>
@@ -101,11 +143,19 @@
 								<option value='185' selected>연수구</option>
 								<option value='720' selected>옹진군</option>
 								<option value='110' selected>중구</option>
-							</select> <input type="button"
-								class="btn btn-block btn-outline-success btn-send" value="검색">
+							</select>
+							</div>
 						</form>
 					</div>
+					<div class="myLocation">
+						<!-- <input type="text" class="text_custom" id="searchKeyword" name="searchKeyword" value="편의점;한의원;">	 -->
+						<input type="button"
+								class="btn btn-block btn-outline-success btn-send" value="검색">
+					</div>
+
 				</div>
+
+				
 				
 				<div id="map" style="width:100%;height:400px;"></div>
 				 <div id="result"></div>

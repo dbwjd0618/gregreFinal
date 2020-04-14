@@ -20,7 +20,36 @@
 		#{advisName},
 		#{advisImg}
 	)
+	 <selectKey keyProperty="appointNo" resultType="string" order="AFTER">
+            SELECT seq_appoint_no.currval
+              FROM dual
+      </selectKey>
 	</insert>
+	
+	<!-- 예약정보 -->
+	<select resultType="BookingInfo" id="bookingSelect">
+		SELECT
+			*
+		FROM
+			TB_appointment
+		where 
+			appoint_no = #{appointNo}
+	</select>
+	
+	<!-- 최근 구매 내역 중복 구매 불가 -->
+	<select id="recentSelectOne" resultType="_int">
+		select
+		count(*)
+	from (
+        select coin, rank() over(order by appoint_no desc) rank
+        from TB_appointment
+        where
+		member_id = #{memberId}
+        )
+	where
+		rank =1
+        and coin != 0
+	</select>
 	
 	
 	<!-- 상담사 리스트 출력  -->
