@@ -73,6 +73,16 @@ public class ShopController {
 		// ex) CA1&CA2 CA3&CA4 CA5&CA6 CA7
 		List<Product> totalCategoryList = shopService.productListAll(cPage, numPerPage, categories);
 
+		//찜하기 추가
+		for(int i=0; i<totalCategoryList.size();i++) {
+			for(int j=0;j<wishList.size();j++) {
+				if(totalCategoryList.get(i).getProductId().equals(wishList.get(j).getProductId())) {
+					totalCategoryList.get(i).setWish(wishList.get(j));
+				}
+				
+			}			
+		}
+		
 //		카테고리1 제품 출력
 		Product category1Prod = new Product();
 		category1Prod.setCategoryId(category1);

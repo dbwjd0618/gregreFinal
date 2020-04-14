@@ -27,6 +27,7 @@ import kh.mclass.Igre.common.util.Utils;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.IgreMall.QnA.model.service.ProdQnAService;
 import kh.mclass.IgreMall.QnA.model.vo.ProdQnA;
+import kh.mclass.IgreMall.admin.question.model.vo.AdminQnA;
 import kh.mclass.IgreMall.product.model.service.ProductService;
 import kh.mclass.IgreMall.product.model.vo.Attachment;
 import kh.mclass.IgreMall.product.model.vo.DefaultProduct;
@@ -64,9 +65,9 @@ public class ProductController {
 						HttpServletRequest request,
 						HttpSession session) throws Exception {
 
-		//문의 불러오기
+		//문의 및 답변 불러오기
 		List<ProdQnA> prodQnAList = prodQnAService.selectListQnA(productId);
-		
+	
 		
 		Member m = (Member) session.getAttribute("memberLoggedIn");
 		String memberId = "";
@@ -156,7 +157,8 @@ public class ProductController {
 		int tStar = (int) avgStar;
         
      
-		log.debug("wish={}", wish2);
+		log.debug("prodQnAList={}", prodQnAList);
+
         session.setAttribute("p",product);
         session.setAttribute("attachList", attachList);
         mav.addObject("p", product);
@@ -195,7 +197,13 @@ public class ProductController {
 				
 				int price =dp.getPrice(); 
 				double supplyValue= price*0.8;
-				Product p = new Product(dp.getSellerId(), null, dp.getCategoryId(), dp.getProductName(), dp.getBrandName(), dp.getPrice(), (int)supplyValue , dp.getDeliveryFee(), dp.getPointRate(), dp.getDiscountPrice(), dp.getProductStock(), dp.getProductDetail(), dp.getEnrollDate(), "Y", paymentMethodCode);
+				String deliveryFee = "";
+				switch( dp.getDeliveryFee()) {
+				case "무료": deliveryFee = "0"; break;
+				case "조건부무료": deliveryFee = "0"; break;
+				case "착불/선결제": deliveryFee = "2500"; break;						
+				}
+				Product p = new Product(dp.getSellerId(), null, dp.getCategoryId(), dp.getProductName(), dp.getBrandName(), dp.getPrice(), (int)supplyValue , deliveryFee, dp.getPointRate(), dp.getDiscountPrice(), dp.getProductStock(), dp.getProductDetail(), dp.getEnrollDate(), "Y", paymentMethodCode);
 			
 				productService.insertProduct(p);
 				String[] images = new String[5];

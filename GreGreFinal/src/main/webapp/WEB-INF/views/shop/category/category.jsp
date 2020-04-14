@@ -12,9 +12,10 @@
 .pi-pic {
 	height: 265px;
 }
+
 button.heart-icon {
-    border: 0;
-    background-color: transparent;
+	border: 0;
+	background-color: transparent;
 }
 </style>
 
@@ -254,29 +255,39 @@ function goWish(productId, t){
 													alt="">
 											</c:if>
 											<div class="icon">
-												<c:if test="${not empty wishList }">
+												<c:if test="${ p.wish !=null }">
 													<c:forEach var="wish" items="${wishList }">
-															<c:if test="${ wish.wishCheck eq 'Y' && wish.productId eq p.productId}">
-																이거2
+														<c:if
+															test="${ wish.wishCheck eq 'Y' && wish.productId eq p.productId}">
 																<button class="heart-icon"
-																	onclick="goWish('${p.productId}',this);">
-																	<img class="heart-img"
-																		src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon-p.png"
-																		style="width: 30px;">
-																</button>
-															</c:if>
-															<c:if test="${ wish.wishCheck eq 'N'  && wish.productId eq p.productId}">
-															  이거1
+																onclick="goWish('${p.productId}',this);">
+																<img class="heart-img"
+																	src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon-p.png"
+																	style="width: 30px;">
+															</button>
+														</c:if>
+														<c:if
+															test="${ wish.wishCheck eq 'N'  && wish.productId eq p.productId}">
 																<button class="heart-icon"
-																	onclick="goWish('${p.productId}',this);">
-																	<img class="heart-img"
-																		src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon.png"
-																		style="width: 30px;">
-																</button>
-															</c:if>													
+																onclick="goWish('${p.productId}',this);">
+																<img class="heart-img"
+																	src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon.png"
+																	style="width: 30px;">
+															</button>
+														</c:if>
+												
 													</c:forEach>
+													<c:if
+														test="${ wish.wishCheck eq 'N'  && wish.productId != p.productId}">
+														<button class="heart-icon"
+															onclick="goWish('${p.productId}',this);">
+															<img class="heart-img"
+																src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon.png"
+																style="width: 30px;">
+														</button>
+													</c:if>
 												</c:if>
-												<c:if test="${empty wishList }">
+												<c:if test="${p.wish ==null }">
 													<button class="heart-icon"
 														onclick="goWish('${p.productId}',this);">
 														<img class="heart-img"
