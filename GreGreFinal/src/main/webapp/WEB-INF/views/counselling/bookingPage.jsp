@@ -203,6 +203,9 @@ span#total-price{
 							<input type="radio" value="ra" name="payMethod"
 								id="order_payment_method_smilepay"> <label class=" top"
 								for="order_payment_method_smilepay">
+								<img class="img" width="64"
+								src="${pageContext.request.contextPath}/resources/images/shop/pay/paycon.png"
+								alt="Account">
 
 								<div class="title">실시간계좌이체</div>
 							</label>
