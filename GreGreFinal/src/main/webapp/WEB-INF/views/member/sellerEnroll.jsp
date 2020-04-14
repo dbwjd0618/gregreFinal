@@ -57,13 +57,13 @@ span.error2{display:none;color:red ;}
             <div class="col">
                   <div class="card-body mx-auto" style="max-width:800px;">
                       <article class="card-body">
-                          <h4 class="card-title text-center mb-4 mt-1">판매자 회원 가입</h4>
+                          <h4 class="card-title text-center mb-4 mt-1">판매사 회원 가입</h4>
                           <form name="sellerEnroll" action="sellerEnroll.do" method="post" onsubmit="return enrollValidate3();">
 
-                             <h5>판매자</h5><br />
+                             <h5>판매사</h5><br />
                               <div class="form-group input-group">
                                   <div class="input-group-prepend">
-                                      <span class="input-group-text"> 판매자 상호명</span>
+                                      <span class="input-group-text"> 판매사 상호명</span>
                                   </div>
                                   <input name="compName" class="form-control" id="compName"
                                       type="text">
@@ -80,7 +80,7 @@ span.error2{display:none;color:red ;}
                              
                                <div class="form-group input-group">
                                   <div class="input-group-prepend">
-                                      <span class="input-group-text"> 판매자 연락처</span>
+                                      <span class="input-group-text"> 판매사 연락처</span>
                                   </div>
                                   <input name="compNum" class="form-control" id="compNum"
                                       placeholder="(-없이)01012345678" type="text">
@@ -89,7 +89,7 @@ span.error2{display:none;color:red ;}
   
                               <div class="form-group input-group">
                                   <div class="input-group-prepend">
-                                      <span class="input-group-text"> 판매자 팩스번호</span>
+                                      <span class="input-group-text"> 판매사 팩스번호</span>
                                   </div>
                                   <input name="compFax" class="form-control" id="compFax"
                                       type="text">
@@ -98,7 +98,7 @@ span.error2{display:none;color:red ;}
                               
                               <div class="form-group input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text"> 판매자 주소</span>
+										<span class="input-group-text"> 판매사 주소</span>
 									</div>
 									<input class="form-control"
 										style="width: 40%; display: inline;" placeholder="우편번호"

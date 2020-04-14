@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import kh.mclass.Igre.admin.model.vo.Admin;
-import kh.mclass.Igre.member.model.vo.Member;
 
 public class AdminLoginInterceptor extends HandlerInterceptorAdapter {
 

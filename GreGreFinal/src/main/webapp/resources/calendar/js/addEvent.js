@@ -108,9 +108,10 @@ var newEvent = function (start, end, eventType) {
         $.ajax({
             type: "post",
             url: "/Igre/myPage/periodAdd.do",
-            data: {"mensesStart":eventData.start,
-		    	"mensesEnd":eventData.end,
-		    	"mensesCycle":eventData.mensescycle,
+            data: {
+            	"mensesStart":eventData.start,
+//		    	"mensesEnd":eventData.end,
+		    	"mensesCycle":eventData.mensescycle, 
             },
             
             success: function (response) {

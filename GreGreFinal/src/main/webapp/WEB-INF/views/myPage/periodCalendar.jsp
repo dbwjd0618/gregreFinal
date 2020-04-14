@@ -29,7 +29,6 @@
             <ul class="dropdown-menu dropNewEvent" role="menu" aria-labelledby="dropdownMenu"
                 style="display:block;position:static;margin-bottom:5px;">
                 <li><a tabindex="-1" href="#">생리</a></li>
-<!--                 <li><a tabindex="-1" href="#">섹스</a></li> -->
                 <li class="divider"></li>
                 <li><a tabindex="-1" href="#" data-role="close">Close</a></li>
             </ul>
@@ -67,11 +66,11 @@
                             </div>
                         </div>
                         
-                            <input type="hidden" name="memberId" value="${memberId }"/>
-                            <input type="hidden" name="mensesNext"/>
-                            <input type="hidden" name="childbearingAgeStart" />
-                            <input type="hidden" name="childbearingAgeEnd" />
-                            <input type="hidden" name="pregnancyDate" />
+                        <input type="hidden" name="memberId" value="${memberLoggedIn.memberId }"/>
+                        <input type="hidden" name="mensesNext"/>
+                        <input type="hidden" name="childbearingAgeStart" />
+                        <input type="hidden" name="childbearingAgeEnd" />
+                        <input type="hidden" name="pregnancyDate" />
                             
                         <div class="row">
                             <div class="col-xs-12">
@@ -79,12 +78,12 @@
                                 <input class="inputModal" type="text" name="edit-start" id="edit-start" />
                             </div>
                         </div>
-                        <div class="row">
+<!--                         <div class="row">
                             <div class="col-xs-12">
                                 <label class="col-xs-4" for="edit-end">끝</label>
                                 <input class="inputModal" type="text" name="edit-end" id="edit-end" />
                             </div>
-                        </div>
+                        </div> -->
                         
                         <div class="row">
                             <div class="col-xs-12">
@@ -153,7 +152,7 @@
                     <div class="input-group">
                         <select class="filter" id="type_filter" multiple="multiple">
                             <option value="카테고리1">생리</option>
-                            <option value="카테고리2">섹스</option>
+                            <option value="카테고리2">성관계</option>
                         </select>
                     </div>
                 </div>

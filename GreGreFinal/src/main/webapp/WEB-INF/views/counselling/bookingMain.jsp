@@ -97,7 +97,6 @@ $(()=>{
 
 .chart-rating-wrapper {
 	min-width: 150px;
-	max-width: 150px;
 }
 
 .c-grade {
@@ -179,256 +178,246 @@ width: 100%;
 	color: #EDEDED;
 	margin-left: -4px;
 }
-
 </style>
 <!-- contents begin-->
 <div class="site-section">
 	<div class="container">
 		<div class="row">
 
-				<div
-					class="partnerSearch-container partnerSearch-container--profile">
-					<div class="partnerSearch-container__top-lnb"></div>
-					<div class="partnerProfile-right-fixed_program-info-wrap">
-						<div class="profile-right-fixed__program-notice"
-							id="topStickyProgramBox">
-							<strong>알려드립니다!</strong>
-							<div id="topStickyProgramBoxContents"
-								class="profile-right-fixed-program-notice-txt">
-								<ul class="profile-right-fixed-program-notice-txt__list">
-									<li>아이그레 상담은 상담권 결제 후 상담이 진행됩니다.</li>
-									<li>반드시 로그인 후 이용하여 주세요.</li>
-								</ul>
-							</div>
-							<a id="topStickyProgramBtnSubmit"
-								data-advis-id="${counselor.advisId}" class="btn btn-primary btn-lg" role="button">상담
-								신청하기</a>
+			<div class="partnerSearch-container partnerSearch-container--profile">
+				<div class="partnerSearch-container__top-lnb"></div>
+				<div class="partnerProfile-right-fixed_program-info-wrap">
+					<div class="profile-right-fixed__program-notice"
+						id="topStickyProgramBox">
+						<strong>알려드립니다!</strong>
+						<div id="topStickyProgramBoxContents"
+							class="profile-right-fixed-program-notice-txt">
+							<ul class="profile-right-fixed-program-notice-txt__list">
+								<li>아이그레 상담은 상담권 결제 후 상담이 진행됩니다.</li>
+								<li>반드시 로그인 후 이용하여 주세요.</li>
+							</ul>
 						</div>
-
-						<div id="programRightFixedVT"
-							class="profile-right-fixed__program-vt"></div>
-
-
-						<div id="programListFixedBox"></div>
+						<a id="topStickyProgramBtnSubmit"
+							data-advis-id="${counselor.advisId}"
+							class="btn btn-primary btn-lg" role="button">상담 신청하기</a>
 					</div>
-					<div class="partnerProfile-main-container">
-						<div class="partnerProfile__partner-top-info">
-							<article class="partner-list-box partner-list-box--profile">
-								<div class="partner-profile__info">
-									<h3 class="partner-list-box__head">
-										<span id="partnerNameEl">${counselor.advisName } </span> <span
-											id="partnerRecently" class="partner-list-box__ico-new">${counselor.advisGrade } 상담사</span>
+
+					<div id="programRightFixedVT"
+						class="profile-right-fixed__program-vt"></div>
+
+
+					<div id="programListFixedBox"></div>
+				</div>
+				<div class="partnerProfile-main-container">
+					<div class="partnerProfile__partner-top-info">
+						<article class="partner-list-box partner-list-box--profile">
+							<div class="partner-profile__info">
+								<h3 class="partner-list-box__head">
+									<span id="partnerNameEl">${counselor.advisName } </span> <span
+										id="partnerRecently" class="partner-list-box__ico-new">${counselor.advisGrade }
+										상담사</span>
+								</h3>
+								<div class="partner-list-box__review-preview">
+									<div class="star1-rating-main">
+										<span class="main-star"> <span class='star-rating'>
+												<span style="width:${reviewRating*20}%"></span>
+										</span>
+										</span> <span class="rating-point"> <strong>${reviewRating}</strong>
+											<span class="ratio-m">/5</span>
+										</span>
+									</div>
+
+									<p class="partner-list-box__history-trost">
+										아이그래 상담 <em id="counselingCountEl">선생님</em> 입니다.
+									</p>
+								</div>
+							</div>
+							<div class="partner-list-box__img" id="partnerProfileImgEl">
+								<img
+									src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}"
+									alt="상담사 프로필 이미지">
+							</div>
+							<div class="partner-list-box__info-bottom">
+								<div></div>
+							</div>
+						</article>
+					</div>
+					<div class="main-contents">
+						<ul class="main-contents__tab is-right-tab" id="tabContents">
+							<li class="js-contents-tab" id="tabBtnContentsInfo">상담사 정보</li>
+							<li class="js-contents-tab is-active" id="tabBtnContentsReview">상담
+								후기</li>
+						</ul>
+						<div
+							class="main-contents__counselling-info js-contents-tab is-hide"
+							id="contentsInfo">
+							<h2 class="hide-text">상담사 정보</h2>
+
+							<div id="youtubeVideoEl"></div>
+
+
+							<article
+								class="profile-content-box content-box content-box-counselling-info">
+								<h3 class="hide-text">상담사가 건내는 말</h3>
+								<div class="content-text">
+									<strong
+										class="profile-content-box__head--quote content-text__strong"
+										id="headIntroduceEl">${counselor.advisLineIntro }</strong>
+									<p class="profile-content-box__txt" id="introduceEl">${counselor.advisIntro }</p>
+								</div>
+							</article>
+							<article
+								class="profile-content-box content-box content-box--counselling-history">
+								<h3 class="profile-content-box__head">주요 자격 및 경력</h3>
+								<ul class="counselling-history-list">
+									<li class="counselling-history-list__qualification">
+										<h4 class="hide-text">자격증 리스트</h4>
+										<ul id="partnerCertificationEl">
+
+											<li>${counselor.advisLicense }</li>
+										</ul>
+									</li>
+									<li class="counselling-history-list__education">
+										<h4 class="hide-text">학력 리스트</h4>
+										<ul id="partnerEducationEl">
+											<!--                                <li><strong>중앙대 심리학과 발달심리학 전공 박사 졸업</strong></li>-->
+											<!--                                <li>중앙대 심리학과 석사 졸업</li>-->
+											<!--                                <li>중앙대 심리학과 학사 졸업</li>-->
+											<li>${counselor.advisCareer }</li>
+										</ul>
+									</li>
+
+								</ul>
+
+							</article>
+						</div>
+						<div class="main-contents__review js-contents-tab"
+							id="contentsReview">
+							<h2 class="review-container_head">상담 후기</h2>
+
+							<div class="review-contents__tab-field" style="display: none;">
+								<div class="review__tab-btn review-online">
+									<div class="online-review__tab is-select-category">텍스트 /
+										전화</div>
+								</div>
+								<div class="review__tab-btn review-offline">
+									<div class="offline-review__tab">대면상담</div>
+								</div>
+							</div>
+
+							<section id="contentsReviewBox" class="profile-content-box"
+								style="border-top: none;">
+								<article class="review-top-info review-top-info--star-score">
+									<h3 class="profile-content-box__head">
+										상담 만족도 평균
+										<div class="review-top-info-num">
+											<span class="review-top-info-num__average"
+												id="reviewAverageNum"><strong>${reviewRating}</strong></span>
+										</div>
 									</h3>
-									<div class="partner-list-box__review-preview">
-										<div class="star1-rating-main">
+									<div class="review-box__content">
+										<div class="star-score__wrap--center">
 											<span class="main-star"> <span class='star-rating'>
 													<span style="width:${reviewRating*20}%"></span>
 											</span>
-											</span> <span class="rating-point"> <strong>${reviewRating}</strong>
-												<span class="ratio-m">/5</span>
 											</span>
 										</div>
-
-										<p class="partner-list-box__history-trost">
-											아이그래 상담 <em id="counselingCountEl">선생님</em> 입니다.
-										</p>
-									</div>
-								</div>
-								<div class="partner-list-box__img" id="partnerProfileImgEl">
-									<img
-										src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}"
-										alt="상담사 프로필 이미지">
-								</div>
-								<div class="partner-list-box__info-bottom">
-									<div></div>
-								</div>
-							</article>
-						</div>
-						<div class="main-contents">
-							<ul class="main-contents__tab is-right-tab" id="tabContents">
-								<li class="js-contents-tab" id="tabBtnContentsInfo">상담사 정보</li>
-								<li class="js-contents-tab is-active" id="tabBtnContentsReview">상담
-									후기</li>
-							</ul>
-							<div
-								class="main-contents__counselling-info js-contents-tab is-hide"
-								id="contentsInfo">
-								<h2 class="hide-text">상담사 정보</h2>
-
-								<div id="youtubeVideoEl"></div>
-
-
-								<article
-									class="profile-content-box content-box content-box-counselling-info">
-									<h3 class="hide-text">상담사가 건내는 말</h3>
-									<div class="content-text">
-										<strong
-											class="profile-content-box__head--quote content-text__strong"
-											id="headIntroduceEl">${counselor.advisLineIntro }</strong>
-										<p class="profile-content-box__txt" id="introduceEl">${counselor.advisIntro }</p>
 									</div>
 								</article>
-								<article
-									class="profile-content-box content-box content-box--counselling-history">
-									<h3 class="profile-content-box__head">주요 자격 및 경력</h3>
-									<ul class="counselling-history-list">
-										<li class="counselling-history-list__qualification">
-											<h4 class="hide-text">자격증 리스트</h4>
-											<ul id="partnerCertificationEl">
-
-												<li>${counselor.advisLicense }</li>
-											</ul>
-										</li>
-										<li class="counselling-history-list__education">
-											<h4 class="hide-text">학력 리스트</h4>
-											<ul id="partnerEducationEl">
-												<!--                                <li><strong>중앙대 심리학과 발달심리학 전공 박사 졸업</strong></li>-->
-												<!--                                <li>중앙대 심리학과 석사 졸업</li>-->
-												<!--                                <li>중앙대 심리학과 학사 졸업</li>-->
-												<li>${counselor.advisCareer }</li>
-											</ul>
-										</li>
-
-									</ul>
-
-								</article>
-							</div>
-							<div class="main-contents__review js-contents-tab"
-								id="contentsReview">
-								<h2 class="review-container_head">상담 후기</h2>
-
-								<div class="review-contents__tab-field" style="display: none;">
-									<div class="review__tab-btn review-online">
-										<div class="online-review__tab is-select-category">텍스트 /
-											전화</div>
-									</div>
-									<div class="review__tab-btn review-offline">
-										<div class="offline-review__tab">대면상담</div>
-									</div>
-								</div>
-
-								<section id="contentsReviewBox" class="profile-content-box"
-									style="border-top: none;">
-									<article class="review-top-info review-top-info--star-score">
-										<h3 class="profile-content-box__head">
-											상담 만족도 평균
-											<div class="review-top-info-num">
-												<span class="review-top-info-num__average"
-													id="reviewAverageNum"><strong>${reviewRating}</strong></span>
+								<article class="review-top-info review-top-info--graph">
+									<h3 class="profile-content-box__head">상담 만족도 비율</h3>
+									<div class="review-box__content">
+										<div class="chartjs-size-monitor">
+											<div class="chartjs-size-monitor-expand">
+												<div class=""></div>
 											</div>
-										</h3>
-										<div class="review-box__content">
-											<div class="star-score__wrap--center">
-												<span class="main-star"> <span class='star-rating'>
-														<span style="width:${reviewRating*20}%"></span>
-												</span>
-												</span>
+											<div class="chartjs-size-monitor-shrink">
+												<div class=""></div>
 											</div>
 										</div>
-									</article>
-									<article class="review-top-info review-top-info--graph">
-										<h3 class="profile-content-box__head">상담 만족도 비율</h3>
-										<div class="review-box__content">
-											<div class="chartjs-size-monitor">
-												<div class="chartjs-size-monitor-expand">
-													<div class=""></div>
-												</div>
-												<div class="chartjs-size-monitor-shrink">
-													<div class=""></div>
-												</div>
-											</div>
 
-                  <div class="chart-rating-wrapper">
-                    5 <span class='chart-rating'> <span
-                      style="width:${list1.get(0).getReviewCount()*100/
-                                totalReviewContents}%"></span>
-                            </span>
-                            ${list1.get(0).getReviewCount()} 명
-                            <br>
-                            4
-                            <span class='chart-rating'>
-                                <span style="width:${list1.get(1).getReviewCount()*100/totalReviewContents}%"></span>
-                            </span>
-                            ${list1.get(1).getReviewCount()} 명
-                            <br>
-                            3
-                            <span class='chart-rating'>
-                                <span style="width:${list1.get(2).getReviewCount()*100/totalReviewContents}%"></span>
-                            </span>
-                            ${list1.get(2).getReviewCount()} 명
-                            <br>
-                            2
-                            <span class='chart-rating'>
-                                <span style="width:${list1.get(3).getReviewCount()*100/totalReviewContents}%"></span>
-                            </span>
-                            ${list1.get(3).getReviewCount()} 명
-                            <br>
-                            1
-                            <span class='chart-rating'>
-                                <span style="width:${list1.get(4).getReviewCount()*100/totalReviewContents}%"></span>
-                            </span>
-                            ${list1.get(4).getReviewCount()} 명
-                        </div>
-                    </div>
+										<div class="chart-rating-wrapper">
+											5 <span class='chart-rating'> <span
+												style="width:${list1.get(0).getReviewCount()*100/
+                                    totalReviewContents}%"></span>
+											</span> ${list1.get(0).getReviewCount()}명<br> 4 <span
+												class='chart-rating'> <span
+												style="width:${list1.get(1).getReviewCount()*100/totalReviewContents}%"></span>
+											</span> ${list1.get(1).getReviewCount()}명<br> 3 <span
+												class='chart-rating'> <span
+												style="width:${list1.get(2).getReviewCount()*100/totalReviewContents}%"></span>
+											</span> ${list1.get(2).getReviewCount()}명<br> 2 <span
+												class='chart-rating'> <span
+												style="width:${list1.get(3).getReviewCount()*100/totalReviewContents}%"></span>
+											</span> ${list1.get(3).getReviewCount()}명<br> 1 <span
+												class='chart-rating'> <span
+												style="width:${list1.get(4).getReviewCount()*100/totalReviewContents}%"></span>
+											</span> ${list1.get(4).getReviewCount()}명
+										</div>
+									</div>
+								</article>
+							</section>
+							<article class="review-box review-box-list-wrap">
+								<h3 class="hide-text">상담후기</h3>
+								<div class="review-list__wrap">
+									<!-- 댓글게시판 시작  -->
+									<div class="review-list-wrapper">
+										<c:forEach items="${list }" var="review">
+											<li class="review-list">
+												<div class="review-list-top">
+													<!-- 별점  -->
+													<div class="star-score__wrap--small">
+														<c:if test="${review.starPoint eq 1 }">
+															<span class="star-icon-fill">★</span>
+															<span class="star-icon-empty">★★★★</span>
+														</c:if>
+														<c:if test="${review.starPoint eq 2 }">
+															<span class="star-icon-fill">★★</span>
+															<span class="star-icon-empty">★★★</span>
+														</c:if>
+														<c:if test="${review.starPoint eq 3 }">
+															<span class="star-icon-fill">★★★</span>
+															<span class="star-icon-empty">★★</span>
+														</c:if>
+														<c:if test="${review.starPoint eq 4 }">
+															<span class="star-icon-fill">★★★★</span>
+															<span class="star-icon-empty">★</span>
+														</c:if>
+														<c:if test="${review.starPoint eq 5 }">
+															<span class="star-icon-fill">★★★★★</span>
+														</c:if>
+														${review.starPoint}
+													</div>
+													<div class="review-list-user-info">
+														<c:if test="${review.reviewerId eq member.memberId}">
+														<i class="far fa-trash-alt" onclick="deleteReview('${review.advisReviewNo}','${review.advisId}');"></i>&nbsp;&nbsp;
+														<i class="far fa-edit" data-toggle="modal" data-target="#exampleModal" onClick="modal('${review.reviewContent}','${review.reviewerId}','${review.advisReviewNo}','${review.advisId}');"></i> 
+														</c:if>
+														<span class="review-list__user--ellipsis">${review.reviewerId}</span>
+														님 / ${review.reviewDate}
+													</div>
+												</div>
+												<div class="review-list-review-contents">
+													${review.reviewContent}
+													<div class="review-list-category">
+														<ul class="review-list-category">
+															<li>카테고리 : ${review.advisKeyword }</li>
+														</ul>
+													</div>
+												</div>
+											</li>
+										</c:forEach>
+									</div>
+									<!-- 페이지바  -->
+									<div id='pageBar'><%=pageBar%></div>
+								</div>
+							</article>
+
+
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-offset-2 col-md-8">
-					<p>상담사 리뷰</p>
-					<!-- 댓글게시판 시작  -->
-					<div class="review-list-wrapper">
-					<c:forEach items="${list }" var="review">
-    					<li class="review-list">
-        					<div class="review-list-top">
-        						<!-- 별점  -->
-            					<div class="star-score__wrap--small">
-            						<c:if test="${review.starPoint eq 1 }">
-            							<span class="star-icon-fill">★</span>
-            							<span class="star-icon-empty">★★★★</span>
-            						</c:if>
-            						<c:if test="${review.starPoint eq 2 }">
-            							<span class="star-icon-fill">★★</span>
-            							<span class="star-icon-empty">★★★</span>
-            						</c:if>
-            						<c:if test="${review.starPoint eq 3 }">
-            							<span class="star-icon-fill">★★★</span>
-            							<span class="star-icon-empty">★★</span>
-            						</c:if>
-            						<c:if test="${review.starPoint eq 4 }">
-            							<span class="star-icon-fill">★★★★</span>
-            							<span class="star-icon-empty">★</span>
-            						</c:if>
-            						<c:if test="${review.starPoint eq 5 }">
-            							<span class="star-icon-fill">★★★★★</span>
-            						</c:if>
-            						${review.starPoint}
-            					</div>
-            					<div class="review-list-user-info">
-                					<span class="review-list__user--ellipsis">${review.reviewerId}</span> 님 / ${review.reviewDate}
-            					</div>
-        					</div>
-        					<div class="review-list-review-contents">
-            					${review.reviewContent}
-        						<div class="review-list-category">
-                					<ul class="review-list-category">
-                    					<li>카테고리 : ${review.advisKeyword }</li>
-                					</ul>
-            					</div>
-        					</div>
-    					</li>
-					</c:forEach>
-										</div>
-										<!-- 페이지바  -->
-										<div id='pageBar'><%=pageBar %></div>	
-									</div>
-								</article>
-
-
-							</div>
-						</div>
-					</div>
-				</div>
 		</div>
 	</div>
 </div>

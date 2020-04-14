@@ -122,7 +122,6 @@ public class MyPageDAOImpl implements MyPageDAO {
 
 	@Override
 	public int periodAdd(Period period) {
-		// TODO Auto-generated method stub
 		return sss.insert("mypage.periodAdd",period);
 	}
 
@@ -149,6 +148,12 @@ public class MyPageDAOImpl implements MyPageDAO {
 	public Counselor selectCounselorOne(String cmemberId) {
 		// TODO Auto-generated method stub
 		return sss.selectOne("mypage.selectCounselorOne", cmemberId);
+	}
+
+	@Override
+	public List<Period> selectPeriod(Period period) {
+		// TODO Auto-generated method stub
+		return sss.selectList("mypage.selectPeriod",period);
 	}
 
 

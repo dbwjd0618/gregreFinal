@@ -4,6 +4,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="wish">
 
+<delete id="deleteWishOne">
+	delete
+	from
+		tb_wishlist
+	where 
+		wish_id = #{wishId}
+ 		and
+ 		member_id = #{memberId}
+</delete>
+
 <update id="updateWishCheck">
 	update 
 		tb_wishlist

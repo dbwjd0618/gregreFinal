@@ -57,6 +57,8 @@ public interface MyPageDAO {
 
 	Counselor selectCounselorOne(String cmemberId);
 
+	List<Period> selectPeriod(Period period);
+
 
 
 

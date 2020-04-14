@@ -45,7 +45,7 @@ public class HomeController {
 		List<Post> favList = bs.favList();
 		model.addAttribute("favList", favList);
 		
-		if(member != null) {
+		if(member != null && !member.getGrade().equals("A")) {
 			String memberId = member.getMemberId();
 			log.debug("memberId = " + memberId);
 			model.addAttribute("memberId", memberId);

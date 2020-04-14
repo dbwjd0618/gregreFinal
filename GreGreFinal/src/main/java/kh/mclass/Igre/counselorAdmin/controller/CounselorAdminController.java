@@ -2,20 +2,24 @@ package kh.mclass.Igre.counselorAdmin.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.mclass.Igre.admin.model.exception.AdminException;
 import kh.mclass.Igre.admin.model.vo.Admin;
-import kh.mclass.Igre.counselorAdmin.model.service.CounselorAdminService;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
+import kh.mclass.Igre.counselorAdmin.model.service.CounselorAdminService;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -81,6 +85,87 @@ public class CounselorAdminController {
 		return "redirect:/counselorAdmin/login.do";
 		
 	}
+	
+	@GetMapping("/logout.do")
+	public String logout(SessionStatus sessionStatus,
+						 @ModelAttribute("adminLoggedIn") Admin admin,
+						 HttpSession session) {
+		
+		if(!sessionStatus.isComplete())
+			sessionStatus.setComplete();
+		
+		session.invalidate();
+							
+		return "redirect:/counselorAdmin/login.do";
+	}
+	
+	@GetMapping("/counselorView.do")
+	public String counselorView(Model model,
+								@RequestParam("advisId") String advisId) {
+		
+		Counselor counselor = cadminService.counselorView(advisId);
+		model.addAttribute("counselor", counselor);
+		log.debug("counselor={}", counselor);
+		
+		return "counselorAdmin/counselorAthorityUpdate";
+	}
 
+	@PostMapping("/athorityUpdate.do")
+	public String athorityUpdate(Counselor counselor) {
+		
+		int result =cadminService.athorityUpdate(counselor);
+		
+		return "redirect:/counselorAdmin/index.do";
+		
+	}
+	
+	@GetMapping("/counselorDelete.do")
+	public String delete(Model model,
+				 @RequestParam("advisId") String advisId,
+				 RedirectAttributes redirectAttributes) {
+	
+	int result = cadminService.counselorDelete(advisId);
+	
+	redirectAttributes.addFlashAttribute("msg", result>0?"회원탈퇴가 완료되었습니다.":"회원탈퇴에 실패하였습니다.");
+	
+	return "redirect:/counselorAdmin/index.do";
+	}
+	
+	@GetMapping("/counselorUpdate.do")
+	public String counselorUpdate(Model model,
+								  @RequestParam("advisId") String advisId) {
+
+		Counselor counselor = cadminService.counselorSelectOne(advisId);
+		model.addAttribute("counselor", counselor);
+		
+		List<Counselor> list = cadminService.list();
+		model.addAttribute("list", list);
+		
+		return "counselorAdmin/counselorUpdate";
+		
+	}
+	
+	
+	@PostMapping("/counselorUpdate.do")
+	public String counselorUpdate(Counselor counselor,
+								  RedirectAttributes redirectAttributes) {
+		
+		int result = cadminService.counselorUpdate(counselor);
+		
+		redirectAttributes.addFlashAttribute("msg", result>0?"상담사정보 수정이 완료되었습니다.":"상담사 정보 수정에 실패하였습니다.");
+									
+		return "redirect:/counselorAdmin/index.do";
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

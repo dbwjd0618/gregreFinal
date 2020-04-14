@@ -128,13 +128,7 @@ public class MyPageServiceImpl implements MyPageService {
 
 	@Override
 	public int periodAdd(Period period) {
-		int result = 0;
-		period.setMensesNext(period.getMensesEnd());
-		period.setChildbearingAgeEnd(period.getMensesEnd());
-		period.setChildbearingAgeStart(period.getMensesStart());
-		period.setPregnancyDate(period.getMensesEnd());
-		result = mpd.periodAdd(period);
-		return result;
+		return mpd.periodAdd(period);
 	}
 
 
@@ -160,6 +154,12 @@ public class MyPageServiceImpl implements MyPageService {
 	public Counselor selectCounselorOne(String cmemberId) {
 		// TODO Auto-generated method stub
 		return mpd.selectCounselorOne(cmemberId);
+	}
+
+	@Override
+	public List<Period> selectPeriod(Period period) {
+		// TODO Auto-generated method stub
+		return mpd.selectPeriod(period);
 	}
 
 

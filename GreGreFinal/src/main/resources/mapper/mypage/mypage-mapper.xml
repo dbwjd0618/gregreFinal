@@ -4,6 +4,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mypage">
 
+	<select id="selectPeriod" resultType="Period">
+
+	select
+		*
+	 from
+	 	TB_menses_${memberId}
+
+
+	 	 
+	</select>	
 	<insert id="periodAdd">
 	insert
 		into
@@ -11,14 +21,13 @@
 		values(
 		seq_${memberId}_menses.nextval,
 		to_date(#{mensesStart},'yyyy-MM-dd HH24:mi'),
-		to_date(#{mensesEnd},'yyyy-MM-dd HH24:mi'),	
+		to_date(#{mensesStart},'yyyy-MM-dd HH24:mi')+#{mensesCycle},	
 		#{mensesCycle},
-		to_date(#{mensesNext},'yyyy-MM-dd HH24:mi'),
-		to_date(#{childbearingAgeStart},'yyyy-MM-dd HH24:mi'),
-		to_date(#{childbearingAgeEnd},'yyyy-MM-dd HH24:mi'),
-		to_date(#{pregnancyDate},'yyyy-MM-dd HH24:mi')
-		)
-	
+		to_date(#{mensesStart},'yyyy-MM-dd HH24:mi')+1+#{mensesCycle},
+		to_date(#{mensesStart},'yyyy-MM-dd HH24:mi')+14,
+		to_date(#{mensesStart},'yyyy-MM-dd HH24:mi')+21,
+		null
+	)
 	</insert>
 	<select id="memberList" resultType="Member">
 		select

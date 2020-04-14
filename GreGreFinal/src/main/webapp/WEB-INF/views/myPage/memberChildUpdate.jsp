@@ -100,7 +100,7 @@
 								href="${pageContext.request.contextPath}/myPage/memberChildUpdate.do">
 								<div class="menu__title">자녀정보</div>
 							</a> <a class="menu__item"
-								href="${pageContext.request.contextPath}/myPage/myPeriodCalculatorView.do">
+								href="${pageContext.request.contextPath}/myPage/myPeriod.do">
 								<div class="menu__title">월경캘린더</div>
 							</a> <a class="menu__item"
 								href="${pageContext.request.contextPath}/myPage/counsellingInfo.do">
@@ -234,14 +234,15 @@
 
 
 													<br />
-													<h3>자녀이름 : ${c.childName }</h3>
-													<h3>자녀생일 : ${c.birthday }</h3>
+													<p>자녀이름 : ${c.childName }</p>
+												<p>자녀생일 : ${c.birthday }</p>
 													<br />
 													<c:forEach items="${list2}" var="v" varStatus="status">
 														<c:if test="${c.childId == v.childId}">
-															<h3>테스트:${v.vaccinCode }</h3>
-															<h3>테스트:${v.vaccinDate }</h3>
-															<h3>테스트:${v.nth }</h3>
+															<p>백신:${v.vaccinCode }</p>
+													<p>차수:${v.nth }</p>
+													<p>접종일:${v.vaccinDate }</p>
+													<br />
 
 
 
