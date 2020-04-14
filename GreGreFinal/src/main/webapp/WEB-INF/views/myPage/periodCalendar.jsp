@@ -78,12 +78,12 @@
                                 <input class="inputModal" type="text" name="edit-start" id="edit-start" />
                             </div>
                         </div>
-                        <div class="row">
+<!--                         <div class="row">
                             <div class="col-xs-12">
                                 <label class="col-xs-4" for="edit-end">끝</label>
                                 <input class="inputModal" type="text" name="edit-end" id="edit-end" />
                             </div>
-                        </div>
+                        </div> -->
                         
                         <div class="row">
                             <div class="col-xs-12">
