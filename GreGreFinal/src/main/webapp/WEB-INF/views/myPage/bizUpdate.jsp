@@ -106,7 +106,7 @@ span.error2{display:none;color:red ;}
 				</div>
 				
 				<div class="form-group">
-    <label for="exampleFormControlTextarea1">Example textarea</label>
+    <label for="exampleFormControlTextarea1">자기소개 수정</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
   </div>			
 								  		
