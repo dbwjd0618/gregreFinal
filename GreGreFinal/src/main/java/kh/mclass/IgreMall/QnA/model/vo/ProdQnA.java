@@ -3,6 +3,7 @@ package kh.mclass.IgreMall.QnA.model.vo;
 import java.io.Serializable;
 import java.sql.Date;
 
+import kh.mclass.IgreMall.admin.question.model.vo.AdminQnA;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +26,6 @@ public class ProdQnA  implements Serializable{
 	private Date qtnDate;
 	private String setSecret;
 	private String qaState;
+	
+	private AdminAnswer adminAnswer;
 }

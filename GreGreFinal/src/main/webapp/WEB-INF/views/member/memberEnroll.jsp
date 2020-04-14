@@ -129,7 +129,7 @@ span.error2{display:none;color:red ;}
   
                               <div class="form-group input-group">
                                   <div class="input-group-prepend">
-                                      <span class="input-group-text">비밀번호 찾기 힌트</span>
+                                      <span class="input-group-text">아이디/비밀번호 찾기 힌트</span>
                                   </div>
                                   <select name="pwdHintCode" id="pwdHintCode" class="custom-select">
                                       <option disabled selected value="">목록</option>

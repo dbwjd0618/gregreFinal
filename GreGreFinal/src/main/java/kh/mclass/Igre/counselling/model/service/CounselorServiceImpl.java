@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import kh.mclass.Igre.counselling.model.dao.CounselorDAO;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
+import kh.mclass.Igre.counselling.model.vo.EditReview;
 import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.reviewStar;
@@ -91,8 +92,26 @@ public class CounselorServiceImpl implements CounselorService {
 	}
 
 	@Override
-	public int bookingInsert(BookingInfo info) {
-		return counselorDAO.bookingInsert(info);
+	public BookingInfo bookingInsert(BookingInfo info) {
+		counselorDAO.bookingInsert(info);
+		BookingInfo result = counselorDAO.bookingSelect(info.getAppointNo());
+		
+		return result;
+	}
+
+	@Override
+	public int editReview(EditReview edit) {
+		return counselorDAO.editReview(edit);
+	}
+
+	@Override
+	public int deleteReview(int num) {
+		return counselorDAO.deleteReview(num);
+	}
+
+	@Override
+	public int recentSelectOne(String memberId) {
+		return counselorDAO.recentSelectOne(memberId);
 	}
 
 

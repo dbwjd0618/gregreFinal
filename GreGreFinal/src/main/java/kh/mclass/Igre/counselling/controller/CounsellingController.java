@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,12 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.mclass.Igre.common.Pagebar;
 import kh.mclass.Igre.counselling.model.service.CounselorService;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
+import kh.mclass.Igre.counselling.model.vo.EditReview;
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.reviewStar;
 import kh.mclass.Igre.member.model.vo.Member;
@@ -31,6 +34,7 @@ import net.sf.json.JSONArray;
 
 @Controller
 @Slf4j
+@SessionAttributes(value= {"memberLoggedIn"})
 @RequestMapping("/counselling")
 public class CounsellingController {
 	
@@ -82,10 +86,13 @@ public class CounsellingController {
 	@GetMapping("/bookingMain.do")
 	public ModelAndView bookingMain(@RequestParam(value = "cPage", defaultValue = "1")int cPage,
 									@RequestParam("advisId") String advisId,
-									Model model) {
+									Model model, HttpSession session) {
 		
 		ModelAndView mav = new ModelAndView();
 		final int numPerPage =5;
+		
+		Member member = (Member) session.getAttribute("memberLoggedIn");
+		mav.addObject("member",member);
 		
 		Counselor counselor = counselorService.selectOne(advisId);
 		
@@ -125,15 +132,31 @@ public class CounsellingController {
 	}
 	
 	@GetMapping("/bookingPage.do")
-	public void bookingPage(@RequestParam("advisId") String advisId,
-			
-							Model model) {
-	
+	public ModelAndView bookingPage(@RequestParam("advisId") String advisId, HttpSession session) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		//로그인 회원 정보 가져오기
+		Member member = (Member) session.getAttribute("memberLoggedIn");
+		
+		//최근 결제 내역 확인 (1일 경우 중복 불가! 0일 경우 중복 X 구매가능!)
+		int result = counselorService.recentSelectOne(member.getMemberId());
+		
+		if(result == 1) {
+			mav.addObject("msg","이미 진행 중인 상담 상품이 존재 합니다.");
+			mav.setViewName("/index");		
+		}
+		
+		
 		//상담사 정보
 		Counselor counselor = counselorService.selectOne(advisId);
 		Member m = new Member();
-		model.addAttribute("counselor", counselor);
+		mav.addObject("counselor", counselor);	
+
 		
+		
+		
+		return mav;
 	}
 	
 	@PostMapping(value = "/bookingEnd.do")
@@ -158,13 +181,18 @@ public class CounsellingController {
 		}
 		info.setPayInfo(payInfo);
 		
-		int result = counselorService.bookingInsert(info);
+		BookingInfo resultInfo =  counselorService.bookingInsert(info);
 		
-		String msg = result>0?"예약성공":"예약실패";
+		log.debug(resultInfo+"예약정보");
 		
-		redirectAttributes.addFlashAttribute("msg",msg);
+		String msg = resultInfo!=null?"예약성공":"예약실패";
+		model.addAttribute("msg",msg);
+		
+		String today = String.valueOf(resultInfo.getStartDay());
+		
 		
 		model.addAttribute("info", info);
+		model.addAttribute("today", today);
 		
 		return "counselling/bookingEnd";
 	}
@@ -195,6 +223,27 @@ public class CounsellingController {
 		}
 		return list;
 	}
+	
+	//리뷰 수정
+		@PostMapping("/editReview")
+		public String editReview(EditReview edit, RedirectAttributes redirect) {
+			
+			log.debug(edit+"수정 리뷰");
+			
+			int result = counselorService.editReview(edit);
+			
+
+			return "redirect:/counselling/bookingMain.do?advisId="+edit.getAdvisId();
+		}
+		
+		//리뷰 삭제
+		@GetMapping("/deleteReview.do")
+		public String deleteReview(@RequestParam(value="advisReviewNo") int num, @RequestParam(value="advisId") String id, RedirectAttributes redirect) {
+			
+			int result = counselorService.deleteReview(num);
+			
+			return "redirect:/counselling/bookingMain.do?advisId="+id;
+		}
 		
 	
 }

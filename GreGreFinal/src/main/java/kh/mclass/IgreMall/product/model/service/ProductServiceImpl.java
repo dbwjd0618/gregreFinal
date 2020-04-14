@@ -59,4 +59,14 @@ public class ProductServiceImpl implements ProductService{
 		
 	}
 
+	@Override
+	public int updateOption(ProdOption option) {
+		return productDAO.updateOption(option);
+	}
+
+	@Override
+	public int updateProduct(Product product) {
+		return productDAO.updateProduct(product);
+	}
+
 }

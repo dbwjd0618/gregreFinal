@@ -8,10 +8,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.js"></script>
 <!-- WebSocket: stomp.js CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
-​
 <link href="${pageContext.request.contextPath}/resources/css/index/inqChat.css" rel="stylesheet" type="text/css" />
 <script src="${pageContext.request.contextPath}/resources/js/index/inqChat.js"></script>
-​
 <style>
 #inqToAdmin {
 	position: fixed;
@@ -25,7 +23,7 @@
 .testimonial-3{min-height:300px;}
 body {padding-right: 0px !important;}
 </style>
-<c:if test="${not empty memberLoggedIn}">
+<c:if test="${not empty memberLoggedIn && memberLoggedIn.grade != 'A'}">
 	<script>
 		const memberId = '${memberId}';
 		const chatId = '${chatId}';
@@ -65,12 +63,6 @@ body {padding-right: 0px !important;}
 		}
 	</script>
 </c:if>
-<script>
-$(function() {
-	let data = ${weather};
-	console.log($(data).root());
-});
-</script>
 
 <div class="ftco-blocks-cover-1">
 
@@ -143,11 +135,32 @@ $(function() {
 					</ul>
 				</div>
 
-				<div class="photo-list">
-					<h2>시기별 맞춤정보</h2>
-					<a href="">
-						<img src="${pageContext.request.contextPath}/resources/images/index/more.png" class="more" alt=""></a>
-					<div class="photo-visual"></div>
+				<div class="photo-list" style="float:left; width:46.5%">
+					<h2>오늘의 예보</h2>
+					<div style="width:100%;">
+						<div id="div-weather" style="width:45%; display:inline-block;">
+							<span>오늘의 날씨 : </span><img src="" id="weatherImg" alt="" style="width:50px;"/>
+							<br /><br />
+							<span>강수확률  : </span><span id="pop"></span><span> %</span>
+							<br /><br />
+							<span id="tmn" style="color:blue;">최저온도</span>
+							<span>/</span>
+							<span id="tmx" style="color:red;">최고온도</span>
+						</div>
+						<div id="div-dust" style="width:45%; display:inline-block;">
+							<span>오늘의 미세먼지 상태는 </span>
+							<br />
+							<strong><span id="dust10" ></span></strong>
+							<br />
+							<span>입니다.</span>
+							<br /><br />
+							<span>오늘의 초미세먼지 상태는 </span>
+							<br />
+							<strong><span id="dust25"></span></strong>
+							<br />
+							<span>입니다.</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -194,7 +207,7 @@ $(function() {
 </div>
 <!--index contents end -->
 
-<c:if test="${not empty memberLoggedIn}">
+<c:if test="${not empty memberLoggedIn && memberLoggedIn.grade != 'A'}">
 	<i id="inqToAdmin" class="far fa-comments ${chatList != null ? 'rtnMsg' : ''}" title="관리자에게 문의하기" onclick="inqShow();"></i>
 	<input type="hidden" id="loginId" value="${memberLoggedIn.memberId}" />
 </c:if>
@@ -235,4 +248,87 @@ $(function() {
 		</div>
 	</div>
 </div>
+
+<script>
+$(function() {
+	$.ajax({
+		url:"${pageContext.request.contextPath}/api/weather.api",
+		dataType:"XML",
+		method:"GET",
+		success: function(data) {
+			console.log(data);
+			let $item = $(data).find("item");
+			console.log($item);
+			let pop = null;
+			let sky = null;
+			let tmn = null;
+			let tmx = null;
+			$.each($item, function(i, it) {
+				if(pop == null && $(it).find("category").text() == "POP") {
+					pop = $(it).find("fcstValue").text();
+				}
+				if(sky == null && $(it).find("category").text() == "SKY") {
+					sky = $(it).find("fcstValue").text();
+				}
+				if(tmn == null && $(it).find("category").text() == "TMN") {
+					tmn = $(it).find("fcstValue").text();
+				}
+				if(tmx == null && $(it).find("category").text() == "TMX") {
+					tmx = $(it).find("fcstValue").text();
+				}
+				if(pop != null && sky != null && tmn != null && tmx != null) {
+					return false;
+				}
+			});
+			$("#pop").text(pop);
+			$("#tmn").text(tmn+"°C");
+			$("#tmx").text(tmx+"°C");
+			if(sky == 1) {
+				$("#weatherImg").attr('src', "${pageContext.request.contextPath}/resources/images/index/맑음.png");
+			} else if (sky == 3) {
+				$("#weatherImg").attr('src', "${pageContext.request.contextPath}/resources/images/index/구름.png");
+			} else {
+				$("#weatherImg").attr('src', "${pageContext.request.contextPath}/resources/images/index/흐림.png");
+			}
+			console.log("AAAA", pop, sky, tmn, tmx);
+		},
+		error: function(x,s,e) {
+			console.log(x,s,e);
+		}
+	});
+	
+	$.ajax({
+		url:"${pageContext.request.contextPath}/api/dust.api",
+		dataType:"XML",
+		method:"GET",
+		success: function(data) {
+			console.log(data);
+			let pm10 = $(data).find("pm10Grade1h").text();
+			let pm25 = $(data).find("pm25Grade1h").text();
+			
+			if(pm10 == 1) {
+				$("#dust10").text("좋음").attr("style", "color:green");
+			} else if(pm10 == 2) {
+				$("#dust10").text("보통").attr("style", "color:yellowgreen");
+			} else if(pm10 == 3) {
+				$("#dust10").text("나쁨").attr("style", "color:orange");
+			} else {
+				$("#dust10").text("매우나쁨").attr("style", "color:red");
+			}
+			if(pm25 == 1) {
+				$("#dust25").text("좋음").attr("style", "color:green");
+			} else if(pm25 == 2) {
+				$("#dust25").text("보통").attr("style", "color:yellowgreen");
+			} else if(pm25 == 3) {
+				$("#dust25").text("나쁨").attr("style", "color:orange");
+			} else {
+				$("#dust25").text("매우나쁨").attr("style", "color:red");
+			}
+		},
+		error : function(x,s,e) {
+			console.log(x,s,e);
+		}
+	});
+});
+</script>
 

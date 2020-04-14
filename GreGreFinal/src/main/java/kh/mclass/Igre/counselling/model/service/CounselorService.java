@@ -6,6 +6,7 @@ import java.util.Map;
 
 import kh.mclass.Igre.chat.model.vo.Msg;
 import kh.mclass.Igre.counselling.model.vo.Counselor;
+import kh.mclass.Igre.counselling.model.vo.EditReview;
 import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
 import kh.mclass.Igre.counselling.model.vo.reviewStar;
@@ -39,7 +40,13 @@ public interface CounselorService {
 
 	List<Map<String, String>> selectCounselorList1(int cPage, int numPerPage);
 
-	int bookingInsert(BookingInfo info);
+	BookingInfo bookingInsert(BookingInfo info);
+
+	int editReview(EditReview edit);
+
+	int deleteReview(int num);
+
+	int recentSelectOne(String memberId);
 
 
 }

@@ -80,6 +80,21 @@ public class AccountController {
 		int raPrice=0;
 		int phCount=0;
 		int phPrice=0;
+		List<ChartValue> clist= accountService.clist();
+		List<ChartValue> crlist=new ArrayList<ChartValue>();
+		
+		for (int i = 0; i < clist.size(); i++) {
+			System.out.println("들어가는가");
+			if (!startDate.after(clist.get(i).getAdate())
+					&& !endDate.before(clist.get(i).getAdate())) {
+				System.out.println(clist.get(i).getAdate());
+				
+				crlist.add(clist.get(i));
+				/* System.err.println(rlist.get(i).getSupplyValue()); */
+			}
+		}
+		mav.addObject("clist",crlist);
+		System.out.println("crList"+crlist);
 		
 		int totalSupValue=0;
 		for (int i = 0; i < list.size(); i++) {
@@ -87,8 +102,9 @@ public class AccountController {
 			if (!startDate.after(list.get(i).getOrderDate())
 					&& !endDate.before(list.get(i).getOrderDate())) {
 				System.out.println(list.get(i).getOrderDate());
+				
 				rlist.add(list.get(i));
-				System.err.println(rlist.get(i).getSupplyValue());
+				/* System.err.println(rlist.get(i).getSupplyValue()); */
 				totalSupValue+=list.get(i).getSupplyValue();
 			}
 			
@@ -153,7 +169,9 @@ public class AccountController {
 		
 		//리스트로 해당 Account값들이 담겨있다.
 		log.debug("rList={}",rlist);
-		
+		log.debug("cList={}",clist);
+		mav.addObject("sdate",startDate);
+		mav.addObject("edate",endDate);
 		log.debug("pList={}",plist);//리스트로 해당 Account값들이 담겨있다.
 		
 		mav.addObject("plist",rlist);

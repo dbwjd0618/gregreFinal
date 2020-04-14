@@ -1,4 +1,4 @@
-package kh.mclass.IgreMall.shopMember.model.vo;
+package kh.mclass.IgreMall.review.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -14,18 +14,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Wish implements Serializable{
-
-	/**
+public class ReviewReco implements Serializable{/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String wishId; 
-	private String memberId; 
-	private String productId; 
-	private String optionId; 
-	private Date wishDate; 
-
-
+	private String memberId;
+	private String reviewId;
+	private String recoCheck;
 }

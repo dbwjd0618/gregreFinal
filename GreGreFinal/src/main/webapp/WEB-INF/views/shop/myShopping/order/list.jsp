@@ -378,8 +378,11 @@
 												</div>
 												<div class="order-list__item__production__item__delivery">
 													<c:if test="${not empty prodList.reviewId}">
-														<button
-															class="button button--color-blue-inverted button--size-50 button--shape-4 order-list__item__production__item__delivery__btn my-review-btn">리뷰보기</button>
+														<button class="button button--color-blue-inverted button--size-50 
+																	button--shape-4 order-list__item__production__item__delivery__btn 
+																	my-review-btn" onclick="location.href='${pageContext.request.contextPath}/shop/myShopping/review/list.do'">
+														리뷰보기
+														</button>
 													</c:if>
 													<c:if test="${ empty prodList.reviewId }">
 														<button

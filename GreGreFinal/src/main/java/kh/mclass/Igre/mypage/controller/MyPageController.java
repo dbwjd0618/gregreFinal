@@ -1,20 +1,20 @@
  package kh.mclass.Igre.mypage.controller;
 
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +26,7 @@ import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.service.MyPageService;
 import kh.mclass.Igre.mypage.model.vo.Child;
+import kh.mclass.Igre.mypage.model.vo.Period;
 import kh.mclass.Igre.mypage.model.vo.Vaccination;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,17 +35,47 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/myPage")
 @SessionAttributes(value= {"memberLoggedIn"})
 public class MyPageController {
-
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	@Autowired
 	private MyPageService mps;
 	
 	@GetMapping("/myPageMain")
-	public ModelAndView mypageview(ModelAndView mav,HttpSession session) {
+	public ModelAndView mypageview(BookingInfo book,ModelAndView mav,HttpSession session,Child child,Vaccination vaccination) {
 			
 			Member m = (Member) session.getAttribute("memberLoggedIn");
+			
+			String parentsId = m.getMemberId();
+			child.setParentsId(parentsId);
+			vaccination.setParentsId(parentsId);
+			book.setMemberId(m.getMemberId());
+			List<Child> list = mps.selectChild(child);
+			List<Vaccination> list2 = mps.selectVaccination(vaccination);
+			List<BookingInfo> list3 = mps.selectBookingInfoList(book);
+			
+			
+			
+			mav.addObject("list",list);
+			mav.addObject("list2",list2);
+			mav.addObject("list3",list3);
 			mav.addObject("m",m);
 			mav.setViewName("myPage/myPageMain");
 
+		return mav;
+	}
+	@GetMapping("periodCalendar.do")
+	public ModelAndView periodCalendar(ModelAndView mav,HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		mav.addObject("m",m);
+		mav.setViewName("myPage/periodCalendar");
+		return mav;
+	}
+	@GetMapping("myPeriod.do")
+	public ModelAndView myPeriod(ModelAndView mav,HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		mav.addObject("m",m);
+		mav.setViewName("myPage/myPeriod");
+		
 		return mav;
 	}
 	
@@ -88,6 +119,22 @@ public class MyPageController {
 		return mav;
 	}
 	
+	@PostMapping("childUpdateInfo")
+	public String childUpdateInfo(Child child,RedirectAttributes rda) {
+		int result = mps.childUpdateInfo(child);
+		String msg = result > 0 ? "수정 완료 " : "누락된 항목이 있습니다";
+		rda.addFlashAttribute("msg", msg);
+		return "redirect:/myPage/memberChildUpdate.do";
+	}
+	
+	@PostMapping("deleteChild.do")
+	public String deleteChild(Child child,RedirectAttributes rda) {
+		int result = mps.deleteChild(child);
+		String msg = result > 0 ? "수정 완료 " : "누락된 항목이 있습니다";
+		rda.addFlashAttribute("msg", msg);
+		return "redirect:/myPage/memberChildUpdate.do";
+	}
+	
 	@PostMapping("updateMember.do")
 	public String updateMember(SessionStatus ss,HttpSession session,Member member,RedirectAttributes rda,String addr1,String addr2,String addr3) {
 		String address = addr1 +"+"+ addr2 +"+"+ addr3;
@@ -97,17 +144,23 @@ public class MyPageController {
 		String msg = result > 0 ? "수정 완료 다시 로그인 하세요" : "누락된 항목이 있습니다";
 		rda.addFlashAttribute("msg", msg);
 
-		return "redirect:/member/login.do";
+		return "redirect:/";
 	}
 	
 	@PostMapping("updatePassword")
 	public String updatePassword(SessionStatus ss,HttpSession session,Member member,RedirectAttributes rda) {
+		String rawPassword = member.getMemberPwd();
+		log.debug("암호화전=",rawPassword);
+		
+		String encryptPassword = bcryptPasswordEncoder.encode(rawPassword);
+		log.debug("암호화후=",encryptPassword);
+		member.setMemberPwd(encryptPassword);
 		int result = mps.updatePassword(member);
 		ss.setComplete();
 		String msg = result > 0 ? "수정 완료 다시 로그인 하세요" : "누락된 항목이 있습니다";
 		rda.addFlashAttribute("msg", msg);
 
-		return "redirect:/member/login.do";
+		return "redirect:/";
 	}
 	
 	@PostMapping("/memberChildUpdate.do")
@@ -137,12 +190,13 @@ public class MyPageController {
 		List<Child> list = mps.selectChild(child);
 		List<Vaccination> list2 = mps.selectVaccination(vaccination);
 		
-
+		
+		
 //		Map<String,List<String>> maplist = new HashMap<String, List<String>>();
 //		maplist.put("list",list);
 //		maplist.put("list2",list2);
 //		Map<Child,Map<Child,List<Vaccination>>> map = mps.selectVaccin(maplist);		
-//		mav.addObject("m",m);
+		mav.addObject("m",m);
 		mav.addObject("list",list);
 		mav.addObject("list2",list2);
 		mav.setViewName("myPage/memberChildUpdate");
@@ -173,6 +227,19 @@ public class MyPageController {
 		return mav;
 	}
 	
+	@PostMapping("periodAdd.do")
+	@ResponseBody
+	public int periodAdd(Period period, HttpSession session) {
+		
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		
+		period.setMemberId(m.getMemberId());
+		
+		int result = mps.periodAdd(period);
+		
+		return result;
+	}
+	
 //	리뷰 작성
 	@PostMapping("/counsellingInfo.do")
 	public String reviewWrite(Review review, RedirectAttributes redirectAttributes) {
@@ -191,6 +258,19 @@ public class MyPageController {
 
 		return "redirect:/member/login.do";
 	}
+	
+	@PostMapping("findId")
+	public ModelAndView findId(ModelAndView mav , RedirectAttributes redirectAttributes,Member member) {
+		
+		Member selectmember = mps.findId(member);
+		String msg = selectmember!=null?"회원님의 아이디 : "+selectmember.getMemberId() :"입력정보가 일치하지 않습니다";
+		mav.addObject("selectmember",selectmember);
+		mav.addObject("msg",msg);
+		mav.setViewName("member/login");
+		return mav;
+	}
+	
+	
 	
 	
 	

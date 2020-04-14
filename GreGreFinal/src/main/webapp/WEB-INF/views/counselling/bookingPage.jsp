@@ -33,6 +33,9 @@ input.site-btn.place-btn {
     width: 170px;
     height: auto;
 }
+.col-md-10 {
+     text-align: right; 
+}
 [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
     cursor: pointer;
 }
@@ -56,7 +59,9 @@ input.site-btn.place-btn {
     margin-left: 70%;
 }
 
-
+.col-md-10 > h4{
+text-align: right;
+}
 
 .col-md-8 {
     -webkit-box-flex: 0;
@@ -141,7 +146,7 @@ span#total-price{
 	<div class="site-section">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-2 col-md-offset-2 col-md-3">
+				<div class="col-md-3">
 					<img
 						src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}"
 						class="align-self-center mr-3" alt="..."> <input
@@ -150,7 +155,7 @@ span#total-price{
 					<input type="hidden" name="advisName"
 						value="${counselor.advisName }" />
 				</div>
-				<div class="col-md-5">
+				<div class="col-md-8">
 					<table class="table table-hover">
 						<thead>
 							<tr>
@@ -158,6 +163,10 @@ span#total-price{
 							</tr>
 						</thead>
 						<tbody>
+							<tr class="price" id="1" value="${counselor.advisPrice}">
+								<th scope="row">1회 상담권</th>
+								<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${counselor.advisPrice}" />원</td>
+							</tr>
 							<tr class="price" id="2" value="${price1}">
 								<th scope="row">2주 프로그램</th>
 								<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${price1}" />원</td>
@@ -166,17 +175,13 @@ span#total-price{
 								<th scope="row">4주 프로그램</th>
 								<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${price2}" />원</td>
 							</tr>
-							<tr class="price" id="1" value="${counselor.advisPrice}">
-								<th scope="row">1회 상담권</th>
-								<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${counselor.advisPrice}" />원</td>
-							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 			<br> <br>
 			<div class="row">
-				<div class="col-md-offset-2 col-md-8">
+				<div class="col-md-10">
 					<h5>최종 결제 금액</h5>
 					<h4>
 						<strong><span id="total-price">0</span>원</strong>

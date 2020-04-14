@@ -1,6 +1,7 @@
 package kh.mclass.IgreMall.admin.question.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,35 @@ public class ShopAdminQuestionDAOImpl implements ShopAdminQuestionDAO {
 	public AdminQnA selectQnA(String qaId) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("adminQnA.selectQA",qaId);
+	}
+
+	@Override
+	public int answer(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("adminQnA.insertAnswer",map);
+	}
+
+	@Override
+	public int updateStatus(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("adminQnA.updateStatus",map);
+	}
+
+	@Override
+	public int totalcount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("adminQnA.totalCount");
+	}
+
+	@Override
+	public int nTotalcount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("adminQnA.nTotalCount");
+	}
+
+	@Override
+	public int yTotalcount() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("adminQnA.yTotalCount");
 	}
 }

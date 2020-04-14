@@ -70,6 +70,11 @@ public class ChildController {
         return mav;
 	}
 	
+	@GetMapping("/childWeekInfo")
+	public void childWeekInfo() {
+		
+	}
+	
 	@PostMapping("/childCare")
 	@ResponseBody
 	public void childCare( @RequestParam(value = "h_area1", defaultValue = "0") String sido, @RequestParam(value = "h_area2", defaultValue = "0") String gungu, HttpServletResponse response ) throws IOException
@@ -164,6 +169,8 @@ public class ChildController {
         
 //        return result;
 	}
+	
+
 
 }
 

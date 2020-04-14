@@ -24,4 +24,8 @@ public interface ProductDAO {
 
 	Object insertProduct(Product product);
 
+	int updateOption(ProdOption option);
+
+	int updateProduct(Product product);
+
 }

@@ -9,10 +9,7 @@
 
 <!-- 헤더 선언!!-->
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<script>
 
-
-</script>
 <%
 	Counselor C = (Counselor)request.getAttribute("counselor");
 	Member m = (Member)request.getAttribute("member");
@@ -31,13 +28,15 @@
         margin: 13% auto;
         max-width: 800px;
         min-width: 800px;
-        max-height: 550px;
-        min-height: 550px;
+        max-height: 600px;
+        min-height: 600px;
         border: 1px solid rgba(218,218,218);
         background-color: white;   
+        text-align: center;
     }
     .booking>h2{
         margin-left: 5%;
+        margin-top: 30px;
         font-size: 24px;
     }
     .booking>p{
@@ -46,8 +45,7 @@
 
     }
     table{
-        margin-top: 5%;
-        margin-left: 5%;
+        margin: 0 auto;
         border-collapse: separate;
         border-spacing: 0;
         text-align: left;
@@ -89,6 +87,22 @@
     }
 
 </style>
+<script>
+//콤마찍기
+$(function(){
+	
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+};
+
+let tt = ${info.payPrice };
+let str = comma(tt);
+
+$("#price").text(str+'원');
+});
+
+</script>
 <div class="booking-end-wrapper">
     <div class="booking">
         <h2>상담센터</h2>
@@ -108,16 +122,16 @@
                 <td>${info.appointNo }</td>
             </tr>
             <tr>
-                <th>상담사 이름</th>
-                <td></td>
+                <th>결제 날짜</th>
+                <td>${today }</td>
             </tr>
             <tr>
-                <th>예약일</th>
-                <td></td>
+                <th>상담횟수</th>
+                <td>${info.coin }회</td>
             </tr>
             <tr>
-                <th>상담 유형</th>
-                <td></td>
+                <th>상담 가격</th>
+                <td id="price"></td>
             </tr>
         </table>
         <div class="goto-main">

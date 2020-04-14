@@ -22,12 +22,32 @@
 		review_id = #{reviewId}
 
 </update>
+<update id="updateRecoCheck">
+	update 
+		tb_review_reco
+	set
+		reco_check = #{recoCheck}
+	where 
+		review_id = #{reviewId}
+ 		and
+ 		member_id = #{memberId}
+</update>
+
+<update id="updateReviewReco">
+	update 
+		TB_prod_review
+	set
+		review_Recommen = #{reviewRecommen}
+	where 
+		review_id = #{reviewId}
+
+</update>
 	
 <insert id="insertReview">
 	insert into
 		TB_prod_review
 	values (
-	 'r'||to_char(sysdate,'yyyymmdd')||to_char(seq_TB_coupon_id.nextval, 'fm000'),
+	 'r'||to_char(sysdate,'yyyymmdd')||to_char(seq_TB_coupon_id.nextval, 'fm0000'),
 	 #{orderNo},
 	 #{productId},
 	 #{optionId, typeHandler=strArrTypeHandler},
@@ -40,6 +60,36 @@
 	 #{reviewRecommen}
 	)
 </insert>
+<insert id="insertReviewReco">
+	insert into
+		TB_review_reco
+	values (
+	 #{memberId},
+	 #{reviewId},
+	 #{recoCheck}
+	)
+</insert>
+
+<select id="selectReviewReco" resultMap="reviewRecoMap">
+ 	select 
+ 		*
+ 	from
+ 		tb_review_reco
+ 	where 
+ 		review_id =#{reviewId}
+ 		and
+ 		member_id = #{memberId}
+
+</select>
+<select id="selectReviewOne" resultMap="reviewMap">
+ 	select 
+ 		*
+ 	from
+ 		TB_prod_review
+ 	where 
+ 		review_id =#{reviewId}
+
+</select>
 
 <select id="selectListReview" resultMap="reviewMap">
  	select 
@@ -81,6 +131,11 @@
 		<result column ='original_img' property="originalImg"  />
 		<result column ='renamed_img' property="renamedImg" />
 		<result column ='review_recommen' property="reviewRecommen"  />
+</resultMap>
+<resultMap type="reviewReco" id="reviewRecoMap">
+		<result column ='member_id' property="memberId"/>
+		<result column ='review_id' property="reviewId"/>
+		<result column ='reco_check' property="recoCheck"/>		
 </resultMap>
 
 </mapper>

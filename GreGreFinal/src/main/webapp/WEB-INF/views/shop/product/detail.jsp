@@ -17,9 +17,10 @@
 	type="text/css"></link>
 <style>
 img.review-modal__form__product__image {
-    border: 2px solid #cbc4c4;
-    padding: 5px;
+	border: 2px solid #cbc4c4;
+	padding: 5px;
 }
+
 .dropdown-wrap.select .btn-sel-option {
 	width: 100%;
 	height: 38px;
@@ -63,26 +64,39 @@ span.optVal1 {
 	color: #FF5722;
 	font-weight: 500;
 }
+
 span.opt-price {
-    float: right;
+	float: right;
 }
 
 span.optNm2 {
-    color: #FF5722;
-    font-weight: 500;
+	color: #FF5722;
+	font-weight: 500;
 }
-.modal-header{
-	border:0;
+
+.modal-header {
+	border: 0;
 }
-.modal-footer{
-	border:0;
+
+.modal-footer {
+	border: 0;
 }
-#cart-modal h5{
-    padding-bottom: 34px;
+
+#cart-modal h5 {
+	padding-bottom: 34px;
 }
+
 .avatar-text.col-lg-8 {
-    padding-top: 20px;
-    padding-bottom: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.sold-out-btn {
+	color: red !important;
+}
+button.heart-icon {
+    border: 0;
+    background-color: transparent;
 }
 </style>
 
@@ -177,6 +191,8 @@ span.optNm2 {
 		$('#opt2-list .item').remove();
 		$("#opt2-list").append(htmlOutput);
 		
+		
+		
 		//optionValue가 없을 때
 		if(${optionValue2}==""){
 			
@@ -194,10 +210,11 @@ span.optNm2 {
 				}
 			}
 			var price = "${p.price-p.discountPrice}";
-
+			var optPriceC = Number(optPrice) -Number('${p.discountPrice}');
 			var data = [ {
 				"optId" : optId,
-				"optPrice" : Number(optPrice),
+				"optPrice" : optPriceC,
+				"optPriceC" : comma(optPriceC),
 				"optNm" : optNm1,
 				"optStock" : Number(optStock)
 			} ];
@@ -209,9 +226,12 @@ span.optNm2 {
 			var template = $.templates("#itemTmplOption");
 			var htmlOutput = template.render(data);
 			$("#selected-option").append(htmlOutput);
-			var prevPrice = Number($('#totalPrice').text())+Number(optPrice);
-		
-			$('#totalPrice').text(prevPrice);		
+			var prevPrice = Number(uncomma($('#totalPrice').text()))+Number(uncomma(optPriceC));
+		   
+			$('#totalPrice').text(comma(prevPrice));	
+			
+			
+			
 		}
 
 	}
@@ -219,10 +239,11 @@ span.optNm2 {
 <script>
 	function addOption(optId, optPrice, optNm1, optNm2, optStock) {
 		var price = "${p.price-p.discountPrice}";
-		//$('.optPrice').val(price);
+
 		var data = [ {
 			"optId" : optId,
 			"optPrice" : Number(optPrice),
+			"optPriceC" : comma(optPrice),
 			"optNm" : optNm1+"/"+optNm2,
 			"optStock" : Number(optStock)
 		} ];
@@ -236,17 +257,17 @@ span.optNm2 {
 		var htmlOutput = template.render(data);
 		$("#selected-option").append(htmlOutput);
 		
-		var prevPrice = Number($('#totalPrice').text())+Number(optPrice);
+		var prevPrice = Number(uncomma($('#totalPrice').text()))+Number(uncomma(optPrice));
 	
-		$('#totalPrice').text(prevPrice);			
+		$('#totalPrice').text(comma(prevPrice));			
 		
 	
 	}
 </script>
 <script>
 	function optDelete(t) {
-		var rePrice = Number($('#totalPrice').text())-Number($(t).parent().parent().find('.optPrice').text());
-		$('#totalPrice').text(rePrice);
+		var rePrice = Number(uncomma($('#totalPrice').text()))-Number(uncomma($(t).parent().parent().find('.optPrice').text()));
+		$('#totalPrice').text(comma(rePrice));
 		$(t).parent().parent().remove();
 	}
 </script>
@@ -260,18 +281,13 @@ span.optNm2 {
 			num = 1;
 		} else if (num > 1) {
 			num--;
+			$(t).parent('div').find('[name=count]').val(num);
+			var resultOptPrice = Number(uncomma(optPrice)) * num;
+			var prevPrice = Number(uncomma($('#totalPrice').text()))-Number(uncomma(optPrice));
+		     $(t).parent().parent().parent().parent().parent().find('.optPrice').text(comma(resultOptPrice));
+		    $('#totalPrice').text(comma(prevPrice));	
 		}
-		$(t).parent('div').find('[name=count]').val(num);
-		var resultOptPrice = Number(optPrice) * num;
-		var prevPrice = Number($('#totalPrice').text())-Number(optPrice);
-		if(num>1){
-			$(t).parent().parent().parent().parent().parent().find('.optPrice').text(resultOptPrice);
-			$('#totalPrice').text(prevPrice);	
-		}if(num==1){
-			 $('#totalPrice').text(prevPrice); 
-			 $('#totalPrice').text(prevPrice);
-			$(t).parent().parent().parent().parent().parent().find('.optPrice').text(resultOptPrice);
-		}
+		
 
 	}
 	function inc(t, optPrice) {
@@ -279,20 +295,20 @@ span.optNm2 {
 		var num = Number($(t).parent('div').find('[name=count]').val());
 	
 		if (num >= $(t).parent('div').find('[name=count]').attr('max')) {
-			console.log("증가값=" + num);
+
 			alert('더이상 늘릴수 없습니다.');
 
 		} else if (num < $(t).parent('div').find('[name=count]').attr('max')) {
 			num++;
-			console.log("max값=" + $(t).parent('div').find('[name=count]').attr('max'));
+			
+			
+			var resultOptPrice = Number(uncomma(optPrice)) * num;
+			var prevPrice = Number(uncomma($('#totalPrice').text()))+Number(uncomma(optPrice));	
+			$(t).parent().parent().parent().parent().parent().find('.optPrice').text(comma(resultOptPrice));	
+			$('#totalPrice').text(comma(prevPrice));
 		}
 		$(t).parent('div').find('[name=count]').val(num);
-		var resultOptPrice = Number(optPrice) * num;
-		var prevPrice = Number($('#totalPrice').text())+Number(optPrice);
-		if(num < $(t).parent('div').find('[name=count]').attr('max')){
-			$(t).parent().parent().parent().parent().parent().find('.optPrice').text(resultOptPrice);	
-			$('#totalPrice').text(prevPrice);
-		}
+	
 
 	}
 </script>
@@ -301,6 +317,19 @@ span.optNm2 {
 function detailSubmit(index){
 	//장바구니 버튼클릭시 장바구니 등록
 	if(index == 1){
+		 <c:if test="${p.productStock eq 0 }">
+			alert("품절 상품입니다.");
+			return;
+		 </c:if>
+		<c:if test="${empty memberLoggedIn}">
+			alert("로그인 후 이용가능합니다.");
+			return;
+		</c:if>
+		var totalPrice = Number(uncomma($('#totalPrice').text()));
+		if(totalPrice==0){
+			alert("상품을 선택해 주세요.");
+			return;
+		}
 		 var optionIdArr = [];
 		 if($('[name=optionId]').val()!=null){
 	         $('[name=optionId]').each(function(i){//체크된 리스트 저장
@@ -338,6 +367,20 @@ function detailSubmit(index){
 	}
 	//바로구매하기
 	if(index==2){
+		 <c:if test="${p.productStock eq 0 }">
+			alert("품절 상품입니다.");
+			return;
+		 </c:if>
+		
+		<c:if test="${empty memberLoggedIn}">
+		alert("로그인 후 이용가능합니다.");
+		return;
+		</c:if>
+		var totalPrice = Number(uncomma($('#totalPrice').text()));
+		if(totalPrice==0){
+			alert("상품을 선택해 주세요.");
+			return;
+		}
 		document.detailFrm.action='${pageContext.request.contextPath }/shop/order/checkOut.do';
 		document.detailFrm.submit();
 		
@@ -360,7 +403,15 @@ function goQnA(){
 	alert("문의가 접수되었습니다. 빠른시일내에 답변드리겠습니다^^");
 	 
 }
-
+//문의하기 모달 창 띄우기
+function goQmodal(){
+	<c:if test="${empty memberLoggedIn}">
+	alert("로그인 후 이용가능합니다.");
+	return;
+	</c:if>
+	
+	$('#qNaModal').modal();
+}
 </script>
 <script>
 $(function(){
@@ -372,6 +423,80 @@ $(function(){
         return false;
     })
 })
+</script>
+<script>
+//찜하기 등록 및 업데이트
+function goWish(productId, t){
+	<c:if test="${empty memberLoggedIn}">
+	alert("로그인 후 이용가능합니다.");
+	return;
+	</c:if>
+	
+
+	var objParams = {
+			"productId" : productId
+	} 
+	$.ajax({
+		url: "${pageContext.request.contextPath}/shop/wish/wishUpdate.do",
+		type: "POST",
+		dataType : "json",
+		data: objParams,
+		success: function (data) {
+			
+			if( data.wishCheck == 'Y'){
+				console.log("레드");
+				$(t).find('.heart-img').remove();
+				var redHeart = '<img class="heart-img" src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon-p.png" style="width: 30px;">';
+				$(t).append(redHeart);
+			}else if( data.wishCheck == 'N'){
+				console.log("화이트");
+				$(t).find('.heart-img').remove();
+				var whiteHeart = '<img  class="heart-img" src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon.png" style="width: 30px;">';
+				$(t).append(whiteHeart); 
+			}
+		
+				
+		},
+		error:(x,s,e)=>{
+			console.log(x,s,e);
+		}
+	}); 
+}
+</script>
+<script>
+//도움이 돼요 버튼
+function reviewReco(reviewId, t){
+	
+	<c:if test="${empty memberLoggedIn}">
+	alert("로그인 후 이용가능합니다.");
+	return;
+	</c:if>
+	//리뷰 도움돼요  업뎅이트
+	var objParams = {
+			"reviewId" : reviewId
+	} 
+	$.ajax({
+		url: "${pageContext.request.contextPath}/shop/review/reivewRecoUpdate.do",
+		type: "POST",
+		dataType : "json",
+		data: objParams,
+		success: function (data) {
+			
+			if( data.recoCheck == 'Y'){
+				$(t).css('background-color','green');
+				$(t).css('color','white');
+			}else if( data.recoCheck == 'N'){
+				$(t).css('background-color','white');
+				$(t).css('color','green');			
+			}
+			$(t).next().find('.recoCount').text(comma(data.reviewRecommen));
+				
+		},
+		error:(x,s,e)=>{
+			console.log(x,s,e);
+		}
+	}); 
+}
 </script>
 <script>
 $(function(){
@@ -410,12 +535,12 @@ $(function(){
 								</c:if>
 								<c:if test="${fn:contains(p.productId, 'p')}">
 									<c:forEach var="attach" items="${attachList}" varStatus="vs">
-									<c:if test='${ "R" eq attach.imgType}'>
-										<img class="product-big-img"
-											src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attach.renamedImg}"
-											alt="">
-								
-									</c:if>
+										<c:if test='${ "R" eq attach.imgType}'>
+											<img class="product-big-img"
+												src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attach.renamedImg}"
+												alt="">
+
+										</c:if>
 									</c:forEach>
 								</c:if>
 								<div class="zoom-icon">
@@ -425,23 +550,23 @@ $(function(){
 							<div class="product-thumbs">
 								<div class="product-thumbs-track ps-slider owl-carousel">
 									<c:forEach var="attach" items="${attachList}" varStatus="vs">
-									<c:if test='${ "R" eq attach.imgType}'>
+										<c:if test='${ "R" eq attach.imgType}'>
 											<div class="pt active"
 												data-imgbigurl="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attach.renamedImg}">
 												<img
 													src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attach.renamedImg}"
 													alt="">
 											</div>
-										</c:if> 
+										</c:if>
 									</c:forEach>
-									<c:forEach var="attach" items="${attachList}" varStatus="vs"> 
+									<c:forEach var="attach" items="${attachList}" varStatus="vs">
 										<c:if test='${ "D" eq attach.imgType}'>
 											<div class="pt"
 												data-imgbigurl="${pageContext.request.contextPath}/resources/upload/shop/productSubImg/${attach.renamedImg}">
 												<img
 													src="${pageContext.request.contextPath}/resources/upload/shop/productSubImg/${attach.renamedImg}"
 													alt="">
-											</div> 
+											</div>
 										</c:if>
 									</c:forEach>
 								</div>
@@ -452,16 +577,75 @@ $(function(){
 								<div class="pd-title">
 									<span>${p.brandName }</span>
 									<h3>${p.productName }</h3>
-									<a href="#" class="heart-icon"><i class="icon_heart_alt"></i></a>
+									<!-- wish가 없는경우 -->
+									<c:if test="${empty wish }">
+									<button class="heart-icon" onclick="goWish('${p.productId}',this);">
+									<img class="heart-img" src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon.png" style="width: 30px;">
+									</button>
+									</c:if>
+									<!-- wish가 있는 경우 -->
+									<c:if test="${not empty wish }">
+										<c:if test="${ wish.wishCheck eq 'Y'}">								
+										<button class="heart-icon" onclick="goWish('${p.productId}',this);">
+										<img class="heart-img" src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon-p.png" style="width: 30px;">
+										</button>
+										</c:if>
+										<c:if test="${ wish.wishCheck eq 'N'}">								
+										<button class="heart-icon" onclick="goWish('${p.productId}',this);">
+										<img class="heart-img" src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon.png" style="width: 30px;">
+										</button>
+										</c:if>
+									</c:if>
 								</div>
 								<div class="pd-rating">
-									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-										class="fa fa-star-o"></i> <span>(5)</span>
+									<c:if test="${tStar == 0}">
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+									</c:if>
+									<c:if test="${tStar == 1}">
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+									</c:if>
+									<c:if test="${tStar == 2}">
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+									</c:if>
+									<c:if test="${tStar == 3}">
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o"></i>
+										<i class="fa fa-star-o"></i>
+									</c:if>
+									<c:if test="${tStar == 4}">
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o"></i>
+									</c:if>
+									<c:if test="${tStar == 5}">
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+									</c:if>
+									<span>(${avgStar })</span>
 								</div>
 								<div class="pd-desc">
 									<h4>
-										<c:set var="discountedPrice" value= "${p.price-p.discountPrice}"/>
+										<c:set var="discountedPrice"
+											value="${p.price-p.discountPrice}" />
 										<fmt:formatNumber type="number" maxFractionDigits="3"
 											value="${p.price-p.discountPrice}" />
 										원 <span> <fmt:formatNumber type="number"
@@ -471,7 +655,8 @@ $(function(){
 								</div>
 								<hr>
 								<ul class="pd-tags">
-									<li><span>배송비</span> ${p.deliveryFee }원</li>
+									<li><span>배송비</span> <fmt:formatNumber type="number"
+											maxFractionDigits="3" value="${p.deliveryFee}" />원</li>
 									<li><span>포인트</span> 최대 ${p.pointRate }% 적립</li>
 								</ul>
 								<hr>
@@ -494,12 +679,23 @@ $(function(){
 															<c:forEach items="${optionValue1}" var="opt1"
 																varStatus="vs">
 																<ul class="option-list">
-																	<li class="item">
-																		<!-- 가격 넘겨주기 addOption()  -->
-																		<button class="btn-option"
-																			onclick="addOpt1('${opt1}');">${opt1}</button>
-																			<c:set var="selectedOpt1" value="${opt1 }" scope="page" />
-																	</li>
+																	<li class="item"><c:forEach items="${optionList}"
+																			var="item">
+																			<c:if test="${item.optionValue ==opt1 }">
+																				<c:set var="optionStock" value="${item.optionStock}" />
+																			</c:if>
+																		</c:forEach> <c:if test="${optionStock eq 0 }">
+																			<!-- 가격 넘겨주기 addOption()  -->
+																			<button class="btn-option sold-out-btn">${opt1}
+																				<span class="sold-out-txt">[품절]</span>
+																			</button>
+																		</c:if> <c:if test="${optionStock  != 0 }">
+																			<!-- 가격 넘겨주기 addOption()  -->
+																			<button class="btn-option"
+																				onclick="addOpt1('${opt1}');">${opt1}</button>
+																			<c:set var="selectedOpt1" value="${opt1 }"
+																				scope="page" />
+																		</c:if></li>
 																</ul>
 															</c:forEach>
 														</c:if>
@@ -511,7 +707,8 @@ $(function(){
 												<div class="dropdown-wrap select fn-select"
 													data-role="dropdown" data-effect="slide"
 													style="z-index: 1;">
-													<button type="button" class="btn-sel-option fn-btn" id="btn-sel-option2">
+													<button type="button" class="btn-sel-option fn-btn"
+														id="btn-sel-option2">
 														${optNm}<span class="down-up-icon"></span>
 													</button>
 													<div class="dropdown-cont fn-cont right share-cont"
@@ -527,12 +724,24 @@ $(function(){
 									</c:if>
 									<script id="itemTmplOption2" type="text/x-jsrender"
 										data-jsv-tmpl="jsvTmpl">
+															
 															{{if optValueArr}}
+																{{if optStockArr ==0 }}
+																	<li class="item">
+																	<!-- 가격 넘겨주기 addOption()  --> 
+																	<button class="btn-option" style="color:red;">{{:optValueArr}} [품절]<span class="opt-price">{{:optPriceArr}}</span></button>
+																
+																</li>
+																{{/if}}
+																{{if optStockArr >0 }}		
 																<li class="item">
 																	<!-- 가격 넘겨주기 addOption()  --> 
 																	<button class="btn-option"
 																	onclick="addOption({{:optIdArr}}, {{:optPriceArr}}, '{{:optVal1}}','{{:optValueArr}}','{{:optStockArr}}');">{{:optValueArr}}<span class="opt-price">{{:optPriceArr}}</span></button>
+																
 																</li>
+																{{/if}}
+
 															{{/if}}
 
 												
@@ -550,63 +759,84 @@ $(function(){
                                             
                                             <div class="option-info">
                                                 <div class="fleft">
+	
+													<!--재고가 있는 경우-->
                                                     <!--수량체크-->
                                                     <div class="number-count fn-count">
                                                             <div class="quantity">
                                                                 <div class="pro-qty">
 																	<span class="dec qtybtn" onclick="dec(this,{{:optPrice}});">-</span>
                                                                     <input type="text" name="count"  value="1"  min="1" max="{{:optStock}}">
-                                                               		<span class="inc qtybtn" onclick="inc(this,{{:optPrice}});">+</span></div>
+                                                               		<span class="inc qtybtn" onclick="inc(this,{{:optPrice}});">+</span>
+																</div>
                                                             </div>
                                                         </div>
                                                 </div>
                                                 <div class="fright">
                                                     <div class="price-select">
-                                                        <span class="number optPrice">{{:optPrice}}</span><span class="unit">원</span>
+                                                        <span class="number optPrice">{{:optPriceC}}</span><span class="unit">원</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 									
                                     </script>
-                                <form name="detailFrm" method='POST' enctype="multipart/form-data">
-                                	<input type="hidden" name="memberId" value="${memberLoggedIn.memberId }"> 
-									<!-- 선택정보영역 -->
-									<div id="selected-option">
-									
-										<!-- 옵션이 없을 경우 -->
-										<c:if test="${ empty optionList }">
-										
-											 <div class="option-box">
-                                            <div class="sel-title">
-                                                                                                        선택 : ${p.productName}
-                                              
-                                            </div>
-                                            
-                                            <div class="option-info">
-                                                <div class="fleft">
-                                                    <!--수량체크-->
-                                                    <div class="number-count fn-count">
-                                                            <div class="quantity">
-                                                                <div class="pro-qty">
-																	<span class="dec qtybtn" id="dec-button" onclick="dec(this,${discountedPrice});">-</span>
-                                                                    <input type="text" name="count" value="1"  min="1" max="${p.productStock }">
-                                                               		<span class="inc qtybtn" id="inc-button" onclick="inc(this,${discountedPrice});">+</span></div>
-                                                            </div>
-                                                        </div>
-                                                </div>
-                                                <div class="fright">
-                                                    <div class="price-select">
-                                                        <span class="number optPrice">${discountedPrice}</span><span class="unit">원</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-										</c:if>
-										
-										<!--  옵션이 없을 경우 끝 -->
-									</div>
-								</form>
+									<form name="detailFrm" method='POST'
+										enctype="multipart/form-data">
+										<input type="hidden" name="memberId"
+											value="${memberLoggedIn.memberId }">
+										<!-- 선택정보영역 -->
+										<div id="selected-option">
+
+											<!-- 옵션이 없을 경우 -->
+											<c:if test="${ empty optionList }">
+
+												<div class="option-box">
+													<div class="sel-title">선택 : ${p.productName}</div>
+
+													<div class="option-info">
+														<div class="fleft">
+															<!--수량체크-->
+															<c:if test="${p.productStock eq 0 }">
+																<div class="number-count fn-count">품절 상품입니다.</div>
+															</c:if>
+															<c:if test="${p.productStock != 0 }">
+																<div class="number-count fn-count">
+																	<div class="quantity">
+																		<div class="pro-qty">
+																			<span class="dec qtybtn" id="dec-button"
+																				onclick="dec(this,${discountedPrice});">-</span> <input
+																				type="text" name="count" value="1" min="1"
+																				max="${p.productStock }"> <span
+																				class="inc qtybtn" id="inc-button"
+																				onclick="inc(this,${discountedPrice});">+</span>
+																		</div>
+																	</div>
+																</div>
+															</c:if>
+														</div>
+														<div class="fright">
+															<div class="price-select">
+																<c:if test="${p.productStock != 0 }">
+																	<span class="number optPrice"> <fmt:formatNumber
+																			type="number" maxFractionDigits="3"
+																			value="${discountedPrice}" /></span>
+																	<span class="unit">원</span>
+																</c:if>
+																<c:if test="${p.productStock eq 0 }">
+																	<span class="number optPrice"> <fmt:formatNumber
+																			type="number" maxFractionDigits="3" value="0" /></span>
+																	<span class="unit">원</span>
+																</c:if>
+															</div>
+														</div>
+													</div>
+												</div>
+											</c:if>
+
+											<!--  옵션이 없을 경우 끝 -->
+										</div>
+									</form>
 								</div>
 								<div class="row">
 									<div class="col">
@@ -615,33 +845,41 @@ $(function(){
 												<div class="tt-title">총 결제 예상 금액</div>
 											</div>
 											<div class="fright">
-												<div class="price-total" style="overflow: inherit;">
-													<c:if test="${ empty optionList }" >
-														<span class="number" id="totalPrice">${discountedPrice}</span>
-													</c:if >
-													<c:if test="${ not empty optionList }" >
-														<span class="number" id="totalPrice">0</span>
-													</c:if >
-													<span class="unit">원</span>
-												</div>
-												<div class="price-saving">
-													최대 예상적립P <span class="number pointAmt">0</span><span
-														class="unit">P</span>
-												</div>
+												<c:if test="${p.productStock eq 0 }">
+													<div class="price-total" style="overflow: inherit;">
+														<span class="number" id="totalPrice">0</span> <span
+															class="unit">원</span>
+													</div>
+												</c:if>
+												<c:if test="${p.productStock != 0 }">
+													<div class="price-total" style="overflow: inherit;">
+														<c:if test="${ empty optionList }">
+
+															<span class="number" id="totalPrice"> <fmt:formatNumber
+																	type="number" maxFractionDigits="3"
+																	value="${discountedPrice}" />
+															</span>
+														</c:if>
+														<c:if test="${ not empty optionList }">
+															<span class="number" id="totalPrice">0</span>
+														</c:if>
+														<span class="unit">원</span>
+													</div>
+												</c:if>
 											</div>
 										</div>
-							
+
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-lg-6" style="padding: 0 5px 0 10px !important;">
-										<input type="button"  
-											onclick="detailSubmit(1);"
+										<input type="button" onclick="detailSubmit(1);"
 											class="btn btn-outline-dark product-btn pd-cart" value="장바구니">
 									</div>
 									<div class="col-lg-6" style="padding: 0 5px 0 10px !important;">
-										<input type="button"  onclick="detailSubmit(2);"
-											class="btn btn-outline-dark product-btn check-out" value="바로구매">
+										<input type="button" onclick="detailSubmit(2);"
+											class="btn btn-outline-dark product-btn check-out"
+											value="바로구매">
 									</div>
 								</div>
 							</div>
@@ -653,9 +891,9 @@ $(function(){
 								<ul class="nav" role="tablist">
 									<li><a class="active" data-toggle="tab" href="#tab-1"
 										role="tab">상품상세정보</a></li>
-									<li><a data-toggle="tab" href="#tab-3" role="tab">상품리뷰(02)</a>
+									<li><a data-toggle="tab" href="#tab-3" role="tab">상품리뷰(${fn:length(reviewList)})</a>
 									</li>
-									<li><a data-toggle="tab" href="#tab-4" role="tab">상품Q&A(0)</a>
+									<li><a data-toggle="tab" href="#tab-4" role="tab">상품Q&A(${fn:length(prodQnAList)})</a>
 									</li>
 								</ul>
 							</div>
@@ -674,7 +912,7 @@ $(function(){
 									<div class="customer-review-option">
 										<div class="row">
 											<div class="mr-auto">
-												<h4>상품리뷰(02)</h4>
+												<h4>상품리뷰(${fn:length(reviewList)})</h4>
 											</div>
 										</div>
 										<div class="row">
@@ -685,9 +923,49 @@ $(function(){
 															총 평점</h5>
 													</div>
 													<div>
-														<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-															class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-															class="fa fa-star-o"></i> <i class="total_stars"><strong>4</strong>/5</i>
+														<c:if test="${tStar == 0}">
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+														</c:if>
+														<c:if test="${tStar == 1}">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+														</c:if>
+														<c:if test="${tStar == 2}">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+														</c:if>
+														<c:if test="${tStar == 3}">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+														</c:if>
+														<c:if test="${tStar == 4}">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o"></i>
+														</c:if>
+														<c:if test="${tStar == 5}">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+														</c:if>
+														<i class="total_stars"><strong>${avgStar}</strong>/5</i>
 													</div>
 												</div>
 
@@ -715,7 +993,7 @@ $(function(){
                                                             </svg>
 															사진리뷰
 														</button>
-													<!-- 	<div class="btn production-selling-section__right">
+														<!-- 	<div class="btn production-selling-section__right">
 															<button type="button" data-toggle="modal"
 																data-target="#writeReviewModal">리뷰쓰기</button>
 														</div> -->
@@ -724,72 +1002,112 @@ $(function(){
 											</div>
 										</div>
 										<div class="comment-option">
-										<c:forEach var="review" items="${reviewList}" varStatus="reVs" >
-											<div class="co-item row">
-
-												<div class="col-lg-2 comment-user-info">
-												<h5 style="margin-bottom: 15px;">${review.reviewerId }</h5>
-													<div class="at-rating">
-														<c:if test="${review.starPoint == 1}">
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star-o"></i> 
-														<i class="fa fa-star-o"></i> 
-														<i class="fa fa-star-o"></i> 
-														<i class="fa fa-star-o"></i> 
-														</c:if>
-															<c:if test="${review.starPoint == 2}">
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star-o"></i> 
-														<i class="fa fa-star-o"></i> 
-														<i class="fa fa-star-o"></i> 
-														</c:if>
-															<c:if test="${review.starPoint == 3}">
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star-o"></i> 
-														<i class="fa fa-star-o"></i> 
-														</c:if>
-														<c:if test="${review.starPoint == 4}">
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star-o"></i> 
-														</c:if>
-														<c:if test="${review.starPoint == 5}">
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star"></i> 
-														</c:if>
+											<c:if test="${ empty reviewList }">
+												<div class="co-item row">
+													<div class="col-lg-12 comment-user-info"
+														style="text-align: center;">
+														<h5>등록된 글이 없습니다.</h5>
 													</div>
-													
-													<c:forEach var="optName" items="${review.optionName}" varStatus="opN" >
-													<div><span>${optName}</span></div>
-													</c:forEach>
-													<span>${review.reviewDate }</span>
 												</div>
-												<div class="avatar-text col-lg-8">
-													<p class="at-reply">${review.reviewContent }</p>
-													<div class="production-review-item__help">
-														<button type="button"
-															class="production-review-item__help__btn btn btn-outline-success my-2 my-sm-0">
-															도움이 돼요</button>
-														<div class="production-review-item__help__text">
-															<span class="production-review-item__help__text__number">${review.reviewRecommen}</span>명에게
-															도움이 되었습니다.
+											</c:if>
+											<c:forEach var="review" items="${reviewList}"
+												varStatus="reVs">
+												<div class="co-item row">
+
+													<div class="col-lg-3 comment-user-info">
+														<h5 style="margin-bottom: 15px;">${review.reviewerId }</h5>
+														<div class="at-rating">
+															<c:if test="${review.starPoint == 1}">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</c:if>
+															<c:if test="${review.starPoint == 2}">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</c:if>
+															<c:if test="${review.starPoint == 3}">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+															</c:if>
+															<c:if test="${review.starPoint == 4}">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+															</c:if>
+															<c:if test="${review.starPoint == 5}">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+															</c:if>
+														</div>
+
+														<c:forEach var="optName" items="${review.optionName}"
+															varStatus="opN">
+															<div>
+																<span>${optName}</span>
+															</div>
+														</c:forEach>
+														<span>${review.reviewDate }</span>
+													</div>
+													<div class="avatar-text col-lg-7">
+														<p class="at-reply">${review.reviewContent }</p>
+														<div class="production-review-item__help">
+															<c:if test="${not empty recoList }">
+																<c:forEach var="reco" items="${recoList}">
+																	<c:if test="${reco.reviewId eq review.reviewId }">
+																		<c:if test="${reco.recoCheck eq 'Y' }">
+																			<button type="button"
+																				style="background: green; color: white;"
+																				class="production-review-item__help__btn btn btn-outline-success my-2 my-sm-0"
+																				onclick="reviewReco('${review.reviewId}', this);">
+																				도움이 돼요</button>
+																		</c:if>
+																		<c:if test="${reco.recoCheck eq 'N' }">
+																			<button type="button"
+																				class="production-review-item__help__btn btn btn-outline-success my-2 my-sm-0"
+																				onclick="reviewReco('${review.reviewId}', this);">
+																				도움이 돼요</button>
+																		</c:if>
+																		<c:if test="${empty reco.recoCheck }">
+																			<button type="button"
+																			class="production-review-item__help__btn btn btn-outline-success my-2 my-sm-0"
+																			onclick="reviewReco('${review.reviewId}', this);">
+																			도움이 돼요</button>
+												
+																		</c:if>
+																	</c:if>
+																</c:forEach>
+															</c:if>
+														
+															<div class="production-review-item__help__text">
+																<span
+																	class="production-review-item__help__text__number recoCount">
+																	<fmt:formatNumber type="number" maxFractionDigits="3"
+																		value="${review.reviewRecommen}" />
+																</span>명에게 도움이 되었습니다.
+															</div>
 														</div>
 													</div>
+													<div class="review-img col-lg-2 mb-2">
+														<img
+															src="${pageContext.request.contextPath}/resources/upload/shop/memberProdReview/${review.renamedImg}"
+															alt="">
+													</div>
 												</div>
-												<div class="review-img col-lg-2 mb-2">
-													<img src="${pageContext.request.contextPath}/resources/upload/shop/memberProdReview/${review.renamedImg}"
-														alt="">
-												</div>
-											</div>
-										</c:forEach>
+											</c:forEach>
 										</div>
 										<div class="modal fade" id="exampleModal" tabindex="-1"
 											role="dialog" aria-labelledby="exampleModalLabel"
@@ -832,13 +1150,13 @@ $(function(){
 									<div class="customer-review-option">
 										<div class="row" style="margin-bottom: 40px;">
 											<div class="col-lg-12">
-												<h4>상품Q&A(0)</h4>
+												<h4>상품Q&A(${fn:length(prodQnAList)})</h4>
 											</div>
 										</div>
 										<div class="row" style="margin-bottom: 20px;">
 											<div class=" col-lg-12 production-selling-section__right">
 												<button type="button" data-toggle="modal"
-													data-target="#qNaModal">상품문의하기</button>
+													onclick="goQmodal();">상품문의하기</button>
 											</div>
 										</div>
 										<div class="row">
@@ -855,70 +1173,75 @@ $(function(){
 														</tr>
 													</thead>
 													<tbody>
-													<!-- 문의 리스트 시작 -->
-													<c:forEach var="QnA" items="${prodQnAList}" varStatus="qVs">
-										
-														<tr class="view">
-															<td>${qVs.index+1 }</td>
-															<c:if test="${QnA.qaState eq'N'}">
-															<td>검토중</td>
-															</c:if>
-															<c:if test="${QnA.qaState eq'Y'}">
-															<td>답변완료</td>
-															</c:if>
-															 <c:if test="${QnA.setSecret eq'Y'}">
-															  <c:if test="${QnA.qtnerId eq memberLoggedIn.memberId }">
-															  <td>
-															  	<span class="secret-icon">
-															  	<img src="${pageContext.request.contextPath }/resources/images/shop/icon/secret.png" alt="">
-															  	</span>
-																	${QnA.qtnTitle}
+														<c:if test="${ empty prodQnAList }">
+															<tr class="">
+																<td colspan="6"
+																	style="text-align: center; padding: 40px 0;">
+																	<h5>등록된 글이 없습니다.</h5>
 																</td>
-															  </c:if>
-															  <c:if test="${QnA.qtnerId != memberLoggedIn.memberId }">
-																<td>
-																	<span class="secret-icon">
-															  		<img src="${pageContext.request.contextPath }/resources/images/shop/icon/secret.png" alt="">
-															  		</span>
-																	비밀글입니다
-																</td>
-															  </c:if>
-															</c:if>
-															 <c:if test="${QnA.setSecret eq 'N'}">
-															<td>${QnA.qtnTitle}</td>
-															</c:if>
-															<td>${QnA.qtnerId }</td>
-															<td>${QnA.qtnDate }</td>
-															<td></td>
-														</tr>
-														 <c:if test="${QnA.setSecret == 'N' || (QnA.setSecret=='Y' && QnA.qtnerId eq memberLoggedIn.memberId)}">
-														<tr class="fold">
-															<td colspan="6">
-																<div class="fold-content">
-																	<div class="qt">
-																		<span class="ic_qt"><img
-																			src="${pageContext.request.contextPath }/resources/img/QnA/q-icon.png" alt=""></span>
-																			${QnA.qtnContent }
-																	</div>
-																	 <c:if test="${QnA.qaState eq'Y'}">
-																	<div class="as">
-																		<span class="ic_as"><img
-																			src="${pageContext.request.contextPath }/resources/img/QnA/a-icon.png" alt=""></span>안녕하세요 고객님.
-																		접수해주신 상품문의에 대한 답변드립니다. 주문하신 상품은 어제 출고되었으며, 배송은 1~2일 소요
-																		예상됩니다. 감사합니다. 즐거운 하루 보내세요.
-																	</div>
-																	<p class="reginfo">
-																		<span class="wh">판매자의 답변</span> <span class="date">등록일
-																			: <em>2020-02-28 오후 4:32:44</em>
-																		</span>
-																	</p>
-																	</c:if>
-																</div>
-															</td>
-														</tr>
+															</tr>
 														</c:if>
-													</c:forEach>
-													<!-- 문의 리스트 끝-->
+														<!-- 문의 리스트 시작 -->
+														<c:forEach var="QnA" items="${prodQnAList}"
+															varStatus="qVs">
+
+															<tr class="view">
+																<td>${qVs.index+1 }</td>
+																<c:if test="${QnA.qaState eq'N'}">
+																	<td>검토중</td>
+																</c:if>
+																<c:if test="${QnA.qaState eq'Y'}">
+																	<td>답변완료</td>
+																</c:if>
+																<c:if test="${QnA.setSecret eq'Y'}">
+																	<c:if test="${QnA.qtnerId eq memberLoggedIn.memberId }">
+																		<td><span class="secret-icon"> <img
+																				src="${pageContext.request.contextPath }/resources/images/shop/icon/secret.png"
+																				alt="">
+																		</span> ${QnA.qtnTitle}</td>
+																	</c:if>
+																	<c:if test="${QnA.qtnerId != memberLoggedIn.memberId }">
+																		<td><span class="secret-icon"> <img
+																				src="${pageContext.request.contextPath }/resources/images/shop/icon/secret.png"
+																				alt="">
+																		</span> 비밀글입니다</td>
+																	</c:if>
+																</c:if>
+																<c:if test="${QnA.setSecret eq 'N'}">
+																	<td>${QnA.qtnTitle}</td>
+																</c:if>
+																<td>${QnA.qtnerId }</td>
+																<td>${QnA.qtnDate }</td>
+																<td></td>
+															</tr>
+															<c:if
+																test="${QnA.setSecret == 'N' || (QnA.setSecret=='Y' && QnA.qtnerId eq memberLoggedIn.memberId)}">
+																<tr class="fold">
+																	<td colspan="6">
+																		<div class="fold-content">
+																			<div class="qt">
+																				<span class="ic_qt"><img
+																					src="${pageContext.request.contextPath }/resources/img/QnA/q-icon.png"
+																					alt=""></span> ${QnA.qtnContent }
+																			</div>
+																			<c:if test="${QnA.qaState eq'Y'}">
+																				<div class="as">
+																					<span class="ic_as"><img
+																						src="${pageContext.request.contextPath }/resources/img/QnA/a-icon.png"
+																						alt=""></span>${QnA.adminAnswer.ansContent }
+																				</div>
+																				<p class="reginfo">
+																					<span class="wh">판매자의 답변</span> <span class="date">등록일
+																						: <em>${QnA.adminAnswer.ansDate }</em>
+																					</span>
+																				</p>
+																			</c:if>
+																		</div>
+																	</td>
+																</tr>
+															</c:if>
+														</c:forEach>
+														<!-- 문의 리스트 끝-->
 													</tbody>
 												</table>
 
@@ -979,8 +1302,7 @@ $(function(){
 					<div class="product-item">
 						<div class="pi-pic">
 							<img src="img/products/women-2.jpg" alt="">
-							<div class="icon">
-							</div>
+							<div class="icon"></div>
 							<ul>
 								<li class="w-icon active"><a href="#"><i
 										class="icon_bag_alt"></i></a></li>
@@ -1047,28 +1369,31 @@ $(function(){
 		</div>
 	</div>
 	<!-- 장바구니 Modal  -->
-	<div class="modal fade cart-modal" id="cart-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body" style="text-align:center;">
-	        <h5 class="modal-title" id="exampleModalLabel">장바구니에 상품을 담았습니다</h5>
-	        <div style="padding-bottom:15px;">
-		        <button type="button" class="btn btn-primary" onclick="goCart();">장바구니 보기</button>
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-	        </div>
-	      </div>
-	      <div class="modal-footer">
-	      </div>
-	    </div>
-	  </div>
+	<div class="modal fade cart-modal" id="cart-modal" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" style="text-align: center;">
+					<h5 class="modal-title" id="exampleModalLabel">장바구니에 상품을 담았습니다</h5>
+					<div style="padding-bottom: 15px;">
+						<button type="button" class="btn btn-primary" onclick="goCart();">장바구니
+							보기</button>
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">닫기</button>
+					</div>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
 	</div>
-	
-	
+
+
 
 	<!-- 문의하기 modal -->
 
@@ -1091,16 +1416,17 @@ $(function(){
 						</div>
 						<div class="bc-item">
 							<label for="bc-calvin"><input type="checkbox"
-								id="bc-calvin" name="setSecret" value="Y"> 비밀글 설정<span class="checkmark"></span>
-							</label>
+								id="bc-calvin" name="setSecret" value="Y"> 비밀글 설정<span
+								class="checkmark"></span> </label>
 						</div>
 						<div class="form-group">
 							<label for="QnA-text" class="col-form-label">문의 내용</label>
 							<textarea class="form-control" name="qtnContent" id="QnA-text"
 								placeholder="문의 내용을 입력하세요"></textarea>
 						</div>
-						<input type="hidden" name="qtnerId" value="${memberLoggedIn.memberId}"/>
-						<input type="hidden" name="productId" value="${p.productId}"/>
+						<input type="hidden" name="qtnerId"
+							value="${memberLoggedIn.memberId}" /> <input type="hidden"
+							name="productId" value="${p.productId}" />
 					</form>
 				</div>
 				<div class="modal-footer">

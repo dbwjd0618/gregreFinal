@@ -120,9 +120,7 @@ input[name="paymentMethodCode"] {
 	<!-- MAIN -->
 	<div class="main-content">
 		<c:if test="${b ne null }">
-		<div class="col-lg-12">
-			<h2>쿠폰지급</h2>
-		</div>
+		
 		<form
 			action="${pageContext.request.contextPath}/shop/admin/coupon/sendCoupon.do"
 			method="get" enctype="multipart/form-data">
@@ -155,16 +153,9 @@ input[name="paymentMethodCode"] {
 			<h2>쿠폰수정</h2>
 		</c:if>
 		</div>
-		<c:if test="${b eq null }">
 		<form
 			action="${pageContext.request.contextPath}/shop/admin/coupon/insertEnd.do"
 			method="get" enctype="multipart/form-data">
-		</c:if>
-		<c:if test="${b ne null }">
-		<form
-			action="${pageContext.request.contextPath}/shop/admin/coupon/updateEnd.do"
-			method="get" enctype="multipart/form-data">
-		</c:if>
 		
 			<input type="hidden" name="sellerId" value="igre_mall_test" />
 			<!-- 			<div class="form-group row">
@@ -183,6 +174,11 @@ input[name="paymentMethodCode"] {
 				</div>
 				
 			</div>
+			
+			
+			
+			
+			
 			<div class="form-group row">
 				<label for="couponName" class="col-sm-2 col-form-label">쿠폰명</label>
 				<div class="col-sm-5">
@@ -211,18 +207,93 @@ input[name="paymentMethodCode"] {
 						</c:if>
 				</div>
 			</div>
+		
+			<script>
+			$(function(){
+				$(".per").hide();
+			jQuery('#discountType').change(function() {
+				var state = jQuery('#discountType option:selected').val();
+				if ( state == 'C' ) {
+					jQuery('.per').hide();
+					jQuery('.won').show();
+				}
+				else{
+					jQuery('.won').hide();
+					jQuery('.per').show();
+				}
+				
+			});
+			})
 			
-			<div class="form-group row">
-				<label for="disCountValue" class="col-sm-2 col-form-label">할인금액/율</label>
+			$(document).ready(function(){
+ 
+    // 라디오버튼 클릭시 이벤트 발생
+   $(function(){
+	   $(".duration").hide();
+       $(".durationDay").show();
+    	$(".dura").attr('value','1992-02-20')
+    $("input:radio[name=couponType]").click(function(){
+        if($("input[name=couponType]:checked").val() == "N"){
+        	  $(".duration").hide();
+        	  $(".dura").attr('value','1992-02-20')
+        	  
+              $(".durationDay").show();
+              /* $(".discountCP").attr("value='원'") */
+            // radio 버튼의 value 값이 1이라면 활성화
+ 
+            
+            
+        }else if($("input[name=couponType]:checked").val() == "E"){
+        	 $(".duration").show();
+             $(".durationDay").hide();
+             $(".dura").removeAttr('value')
+             /* $(".discountCP").attr("value='%'") */
+            // radio 버튼의 value 값이 0이라면 비활성화
+        }
+    });
+   });
+});
+			
+			</script>
+			
+			<div class="form-group row ">
+				<label for="couponDuration" class="col-sm-2 col-form-label">유효기한</label>
 				<div class="col-sm-5">
-					<input type="number" name="disCountValue" class="form-control" value="${b eq null?'0':b.discountValue}">
+					<input type="number" name="couponDuration"  class="form-control" value="0"/>
 				</div>
 				<div class="col-form-label">
-					<c:if test="${b ne null }">
-					<span>${b.discountType eq"C"?'원':'%' }</span>
-					</c:if>
+					<span>일</span>
+				</div>
+				
+			</div>
+				
+				<div class="form-group row layer3">
+				
+				<label for="discountValue" class="col-sm-2 col-form-label">
+				<span class="per">할인율</span>  
+				<span class="won">할인금액</span>
+				</label>
+				
+				<div class="col-sm-5">
+					<input type="number" name="discountValue" class="form-control duraWon" >
+				</div>
+				<div class="col-form-label discountInt">
+					<span class="won">원</span>
+					<span class="per">%</span>
 				</div>
 			</div>
+			
+			<%-- <!-- 할인율 -->
+			 <div class="form-group row layer1">
+				<label for="discountRate" class="col-sm-2 col-form-label">할인율</label>
+				<div class="col-sm-5">
+					<input type="number" name="discountRate" class="form-control" value="${b eq null?'0':b.discountValue}">
+				</div>
+				<div class="col-form-label">
+					<span>%</span>
+				</div>
+			</div>  --%>
+			
 			<div class="form-group row">
 				<label for="maxValue" class="col-sm-2 col-form-label">최대할인금액</label>
 				<div class="col-sm-5">
@@ -232,16 +303,7 @@ input[name="paymentMethodCode"] {
 					<span>원</span>
 				</div>
 			</div>
-			<div class="form-group row">
-				<label for="couponDuration" class="col-sm-2 col-form-label">쿠폰사용기한</label>
-				<div class="col-sm-5">
-					<input type="date" name="couponDuration"  class="form-control" value="${b.couponDuration eq null?'':b.couponDuration }"/>
-				</div>
-				<div class="col-form-label">
-					<span>일</span>
-				</div>
-				
-			</div>
+			
 			
 <!-- 			<div class="form-group row">
 				<label for="productState" class="col-sm-2 col-form-label">상품노출</label>
@@ -264,19 +326,11 @@ input[name="paymentMethodCode"] {
 					<input type="text" name="memberId" class="form-control" placeholder="지급대상 아이디를 입력하세요(,로 구분)" value=""/>
 				</div>
 			</div> -->
-			<c:if test="${b eq null}">
 			
 			<div class=" text-center" style="padding-bottom: 50px">
 				<input type="submit" class="btn btn-primary btn-lg" id=""
 					value="쿠폰등록" />
 			</div>
-			</c:if>
-			<c:if test="${b ne null}">
-			<div class=" text-center" style="padding-bottom: 50px">
-				<input type="submit" class="btn btn-primary btn-lg" id=""
-					value="쿠폰수정" />
-			</div>
-			</c:if>
 		</form>
 		
 		

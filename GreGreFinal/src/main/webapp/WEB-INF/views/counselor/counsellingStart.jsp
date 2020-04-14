@@ -108,6 +108,11 @@ table.table th, table.table td {text-align: center;}
     </tr>
   </thead>
   <tbody>
+  <c:if test="${empty recentList }">
+   <tr>
+   	<td colspan="4">진행 중인 상담이 없습니다.</td>
+   </tr>
+  </c:if>
   <c:forEach items="${recentList }" var="m" varStatus="vs">
     <tr chatNo='<c:out value="${m.CHAT_ID}.${m.MEMBER_ID}"/>' /><%-- el의 문자열 더하기 연산대신 jstl out태그 사용 --%>
       <th scope="row">${vs.count}</th>
