@@ -1,6 +1,8 @@
  package kh.mclass.Igre.mypage.controller;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +24,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
+import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
+import kh.mclass.Igre.member.model.vo.BizMember;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.service.MyPageService;
 import kh.mclass.Igre.mypage.model.vo.Child;
@@ -53,8 +57,6 @@ public class MyPageController {
 			List<Vaccination> list2 = mps.selectVaccination(vaccination);
 			List<BookingInfo> list3 = mps.selectBookingInfoList(book);
 			
-			
-			
 			mav.addObject("list",list);
 			mav.addObject("list2",list2);
 			mav.addObject("list3",list3);
@@ -63,6 +65,80 @@ public class MyPageController {
 
 		return mav;
 	}
+	
+	//기업회원 마이페이지
+	@GetMapping("/bizUpdate")
+	public ModelAndView mypageBizView(ModelAndView mav,HttpSession session) {
+				
+			BizMember bz = (BizMember) session.getAttribute("bizmemberLoggedIn");
+				
+			Counselor c = mps.selectCounselorOne(bz.getCmemberId());
+				
+			mav.addObject("bz",bz);
+			mav.addObject("c", c);
+			mav.setViewName("myPage/bizUpdate");
+
+		return mav;
+	}
+	
+	//상담사 정보수정
+	@PostMapping("/updateCounselor.do") 
+	public String updateCounselor(SessionStatus sessionStatus, HttpSession session, BizMember bz, RedirectAttributes redirectAttributes) {
+		  
+			bz = (BizMember) session.getAttribute("bizmemberLoggedIn");
+		  
+			int result = mps.updateCounselor(bz); sessionStatus.setComplete(); 
+			String msg = result > 0 ? "수정 완료! 다시 로그인 하세요" : "수정 실패! 누락된 항목이 있습니다";
+			redirectAttributes.addFlashAttribute("msg", msg);
+		  
+			return "redirect:/member/login.do"; 
+			
+		}
+		  
+		  
+	//(상담사 마이페이지)진행중인 상담 보기  
+	@GetMapping("/bookingStatus.do") public ModelAndView
+		selectProgressCounselling(@RequestParam(value = "cPage", defaultValue ="1")int cPage, ModelAndView mav, BookingInfo book, HttpSession session,
+				HttpServletRequest request, HttpServletResponse response) {
+		  
+			final int numPerPage =5; 
+			
+			BizMember bz = (BizMember) session.getAttribute("bizmemberLoggedIn");		
+			Counselor c = mps.selectCounselorOne(bz.getCmemberId());
+	 
+			//예약정보 불러오기 
+			List<BookingInfo> list = mps.selectProgressCounselling(c);
+				  
+			mav.addObject("bz",bz);
+			mav.addObject("c",c);
+			mav.addObject("list",list);
+		  
+			return mav; 
+		  
+		  }
+		 
+		
+	//(상담사 마이페이지)종료된 상담 보기
+	@GetMapping("/bookingEndStatus.do") public ModelAndView
+			selectEndCounselling(@RequestParam(value = "cPage", defaultValue = "1")int
+					cPage, ModelAndView mav, BookingInfo book, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+		  
+			final int numPerPage =5;
+		  
+			BizMember bz = (BizMember) session.getAttribute("bizmemberLoggedIn");		
+			Counselor c = mps.selectCounselorOne(bz.getCmemberId());
+	 
+			//예약정보 불러오기 
+			List<BookingInfo> list = mps.selectEndCounselling(c);
+				  
+			mav.addObject("bz",bz);
+			mav.addObject("c",c);
+			mav.addObject("list",list);
+		    
+			return mav; 
+		  
+	}
+	
 	@GetMapping("periodCalendar.do")
 	public ModelAndView periodCalendar(ModelAndView mav,HttpSession session) {
 		Member m = (Member) session.getAttribute("memberLoggedIn");
@@ -70,6 +146,7 @@ public class MyPageController {
 		mav.setViewName("myPage/periodCalendar");
 		return mav;
 	}
+	
 	@GetMapping("myPeriod.do")
 	public ModelAndView myPeriod(ModelAndView mav,HttpSession session) {
 		Member m = (Member) session.getAttribute("memberLoggedIn");
@@ -212,20 +289,34 @@ public class MyPageController {
 		return "redirect:/";
 	}
 	
-	@GetMapping("/counsellingInfo.do")
-	public ModelAndView selectCounsellingInfo(@RequestParam(value = "cPage", defaultValue = "1")int cPage,  ModelAndView mav, BookingInfo book, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-		
-		final int numPerPage =5;
-		
-		Member m = (Member)session.getAttribute("memberLoggedIn");
-		book.setMemberId(m.getMemberId());
-		//예약정보 불러오기
-		List<BookingInfo> list = mps.selectBookingInfoList(book);
-		
-		mav.addObject("m",m);
-		mav.addObject("list",list);
-		return mav;
-	}
+	//상담 예약정보 불러오기
+		@GetMapping("/counsellingInfo.do")
+		public ModelAndView selectCounsellingInfo(@RequestParam(value = "cPage", defaultValue = "1")int cPage,  ModelAndView mav, BookingInfo book, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+			
+			final int numPerPage =5;
+			
+			Member m = (Member)session.getAttribute("memberLoggedIn");
+			book.setMemberId(m.getMemberId());
+			
+
+			//예약정보 불러오기
+			List<BookingInfo> list = mps.selectBookingInfoList(book);
+			
+			for(int i = 0; i<list.size(); i++) {
+				String str = "";
+				ArrayList<String> alist = new ArrayList<>();
+				for(int j = 0; j<list.get(i).getAdvisKeyword().length; j++) {
+					str+=list.get(i).getAdvisKeyword()[j];
+					alist.add(list.get(i).getAdvisKeyword()[j]);
+				}
+				list.get(i).setAdvisKeyStr(str);
+				list.get(i).setAdvisKeyList(alist);	
+			}
+			
+			mav.addObject("m",m);
+			mav.addObject("list",list);
+			return mav;
+		}
 	
 	@PostMapping("periodAdd.do")
 	@ResponseBody
@@ -240,14 +331,14 @@ public class MyPageController {
 		return result;
 	}
 	
-//	리뷰 작성
-	@PostMapping("/counsellingInfo.do")
-	public String reviewWrite(Review review, RedirectAttributes redirectAttributes) {
-		
-		int result = mps.reviewWrite(review);
-		
-		return "redirect:/myPage/counsellingInfo.do";
-	}
+//	//리뷰 작성
+//	@PostMapping("/counsellingInfo.do")
+//	public String reviewWrite(Review review, RedirectAttributes redirectAttributes) {
+//		
+//		int result = mps.reviewWrite(review);
+//		
+//		return "redirect:/myPage/counsellingInfo.do";
+//	}
 	
 	@PostMapping("findPassword.do")
 	public String findPassword(Member member,RedirectAttributes redirectAttributes) {
