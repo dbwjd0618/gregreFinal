@@ -24,6 +24,31 @@ public class CounselorAdminServiceImpl implements CounselorAdminService {
 	public List<Counselor> list() {
 		return cadminDAO.list();
 	}
+
+	@Override
+	public Counselor counselorView(String advisId) {
+		return cadminDAO.counselorView(advisId);
+	}
+
+	@Override
+	public int athorityUpdate(Counselor counselor) {
+		return cadminDAO.athorityUpdate(counselor);
+	}
+
+	@Override
+	public int counselorDelete(String advisId) {
+		return cadminDAO.counselorDelete(advisId);
+	}
+
+	@Override
+	public Counselor counselorSelectOne(String advisId) {
+		return cadminDAO.counselorSelectOne(advisId);
+	}
+
+	@Override
+	public int counselorUpdate(Counselor counselor) {
+		return cadminDAO.counselorUpdate(counselor);
+	}
 	
 	
 	

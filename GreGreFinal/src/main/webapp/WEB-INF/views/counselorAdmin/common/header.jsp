@@ -89,38 +89,53 @@
           </div>
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
-           <!--  <li class="header">상담사</li> -->
-           <br /><br />
+            <li class="header" style="text-align: center">상담사 정보</li>
             <li class="treeview">
               <a href="#">
                 <i class="fas fa-users"></i>&nbsp;
                 <span>일반</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
+              
               <ul class="treeview-menu">
-                <li><a href="#"><i class="far fa-laugh-beam"></i>&nbsp;&nbsp;
-                	회원 목록</a></li>
+	              <c:forEach items="${list }" var="counselor">
+					<c:if test="${counselor.advisGrade eq '일반   ' || '일반'}">
+	              	<li>
+	              	<a href="${pageContext.request.contextPath}/counselorAdmin/counselorUpdate.do?advisId=${counselor.advisId}">
+	              	<i class="far fa-laugh-beam"></i>${counselor.advisName }(${counselor.advisId })</a></li>
+					</c:if>
+	              </c:forEach>
               </ul>
             </li>
             <li>
               <a href="">
-                <i class="fas fa-user-secret"></i>&nbsp;&nbsp; <span>전문</span> 
+                <i class="fas fa-user-secret"></i><span>전문</span> 
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="#"><i class="far fa-laugh-beam"></i>&nbsp;&nbsp;
-               	 신고 내역</a></li>
+               <c:forEach items="${list }" var="counselor">
+					<c:if test="${counselor.advisGrade eq '전문   ' || '전문'}">
+	              	<li>
+	              	<a href="${pageContext.request.contextPath}/counselorAdmin/counselorUpdate.do?advisId=${counselor.advisId}">
+	              	<i class="far fa-laugh-beam"></i>${counselor.advisName }(${counselor.advisId })</a></li>
+					</c:if>
+              </c:forEach>
               </ul>
             </li>
             <li class="treeview">
               <a href="#">
-                <i class="fas fa-user-graduate"></i>&nbsp;&nbsp;
+                <i class="fas fa-user-graduate"></i>
                 <span>마스터</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="#"><i class="far fa-laugh-beam"></i>&nbsp;&nbsp;
-                	 게시판 목록</a></li>
+                <c:forEach items="${list }" var="counselor">
+					<c:if test="${counselor.advisGrade eq '마스터'}">
+	              	<li>
+	              	<a href="${pageContext.request.contextPath}/counselorAdmin/counselorUpdate.do?advisId=${counselor.advisId}">
+	              	<i class="far fa-laugh-beam"></i>${counselor.advisName }(${counselor.advisId })</a></li>
+					</c:if>
+              </c:forEach>
               </ul>
             </li>
           </ul>
