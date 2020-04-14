@@ -121,15 +121,41 @@ input[name="paymentMethodCode"] {
 		<div class="col-lg-12">
 			<h2>이벤트 등록</h2>
 		</div>
-		<form
+		<form enctype="multipart/form-data"
 			action="${pageContext.request.contextPath}/shop/admin/event/insert.do"
-			method="post" enctype="multipart/form-data">
+			method="get" >
+			<input type="hidden" name="eventNo" value="0" />
 			<input type="hidden" name="sellerId" value="igre_mall_test" />
 			<div class="form-group row">
 				<label for="eventTitle" class="col-sm-2 col-form-label">이벤트 제목</label>
 				<div class="col-sm-10">
 					<input type="text" name="eventTitle" class="form-control" id="">
 				</div>
+			</div>
+			<div class="form-group row">
+				<label for="eventThumb" class="col-sm-2 col-form-label">대표사진</label>
+				<div class="col-sm-10">
+					<input type="file" name="upFile">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="event_start" class="col-sm-2 col-form-label">이벤트시작날짜</label>
+				<div class="col-sm-5">
+					<input type="date" name="eventStart"  class="form-control" value="${b.couponDuration eq null?'':b.couponDuration }"/>
+				</div>
+				<div class="col-form-label">
+					<span>일</span>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="event_end" class="col-sm-2 col-form-label">이벤트종료날짜</label>
+				<div class="col-sm-5">
+					<input type="date" name="eventEnd"  class="form-control" value="${b.couponDuration eq null?'':b.couponDuration }"/>
+				</div>
+				<div class="col-form-label">
+					<span>일</span>
+				</div>
+				
 			</div>
 			<div class="form-group row">
 				<label for="eventContent" class="col-sm-2 col-form-label">이벤트 내용</label>

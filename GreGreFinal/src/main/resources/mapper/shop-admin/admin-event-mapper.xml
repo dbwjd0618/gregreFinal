@@ -3,6 +3,49 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminEvent">
+
+<select id="selectReply" resultType="EventReply">
+select
+	*
+from
+	TB_reply_event
+where
+	post_No=${eventNo}
+</select>
+<select  id="countReply" resultType="_int">
+select
+	count(*)
+from
+	TB_reply_event
+</select>
+
+<insert id="replyWrite">
+		insert into TB_reply_event values(
+		#{eventNo}, 
+		seq_event_reply.nextval, 
+		#{replyWriter}, 
+		#{replyContent}, 
+		default, 
+		default, 
+		default)
+	</insert>
+
+<insert id="postWrite">
+		insert into tb_reply_event values(
+			 seq_event_post.nextval, 
+			 #{writer}, 
+			 default,
+			<if test="postPwd == null or postPwd == ''">default, </if>
+			<if test="postPwd != null and postPwd != ''">#{postPwd},</if>
+			<if test="title == null or title == ''">default, </if>
+			<if test="title != null and title != ''">#{title}, </if>
+			<if test="content == null or content == ''">default, </if>
+			<if test="content != null and content != ''">#{content}, </if>
+			default, 0, 0, 0, 0,
+			<if test="originFilename == null">null, null</if>
+			<if test="originFilename != null">#{originFilename}, #{renameFilename}</if>
+		)
+	</insert>
 <select  id="selectEvent" resultType="Event">
 select 
 	* 
@@ -21,7 +64,8 @@ insert into
 		values(
 		seq_event_no.nextVal,
 		#{eventTitle},
-		null,
+		#{thumOrgImg},
+		#{thumReImg},
 		#{eventStart},
 		#{eventEnd},
 		'A',

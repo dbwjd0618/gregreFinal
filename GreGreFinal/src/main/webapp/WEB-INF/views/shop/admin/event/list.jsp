@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board/board.css">
 <jsp:include page="/WEB-INF/views/shop/admin/common/header.jsp"/>
 
-
         <!-- Right side column. Contains the navbar and content of the page -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
