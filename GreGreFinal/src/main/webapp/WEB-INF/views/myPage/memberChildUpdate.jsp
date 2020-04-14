@@ -234,8 +234,8 @@
 
 
 													<br />
-													<h3>자녀이름 : ${c.childName }</h3>
-													<h3>자녀생일 : ${c.birthday }</h3>
+													<p>자녀이름 : ${c.childName }</p>
+												<p>자녀생일 : ${c.birthday }</p>
 													<br />
 													<c:forEach items="${list2}" var="v" varStatus="status">
 														<c:if test="${c.childId == v.childId}">
