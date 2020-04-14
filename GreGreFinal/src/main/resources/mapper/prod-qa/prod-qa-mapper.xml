@@ -41,7 +41,8 @@
  	select 
  		*
  	from
- 		TB_QA
+ 		TB_QA q left join tb_shop_QA_answer a
+                 on q.qa_id = a.qa_id
  	where 
  		product_id =#{productId}
 
@@ -50,7 +51,8 @@
  	select 
  		*
  	from
- 		TB_QA
+ 		TB_QA q left join tb_shop_QA_answer a
+                 on q.qa_id = a.qa_id
  	where 
  		qtner_id =#{memberId}
 
@@ -67,6 +69,14 @@
 		<result column ='qtn_date' property="qtnDate"  />
 		<result column ='set_secret' property="setSecret"  />
 		<result column ='qa_state' property="qaState"  />
+		
+		<collection property="adminAnswer" ofType="adminAnswer">
+			<id column="answer_id" property="answerId" />
+			<result column="qa_id" property="qaId" />
+			<result column="seller_id" property="sellerId" />
+			<result column="ans_content" property="ansContent" />
+			<result column="ans_date" property="ansDate" />
+		</collection>
 </resultMap> 
 
 </mapper>

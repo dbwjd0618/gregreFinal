@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,14 +35,29 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/myPage")
 @SessionAttributes(value= {"memberLoggedIn"})
 public class MyPageController {
-
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	@Autowired
 	private MyPageService mps;
 	
 	@GetMapping("/myPageMain")
-	public ModelAndView mypageview(ModelAndView mav,HttpSession session) {
+	public ModelAndView mypageview(BookingInfo book,ModelAndView mav,HttpSession session,Child child,Vaccination vaccination) {
 			
 			Member m = (Member) session.getAttribute("memberLoggedIn");
+			
+			String parentsId = m.getMemberId();
+			child.setParentsId(parentsId);
+			vaccination.setParentsId(parentsId);
+			book.setMemberId(m.getMemberId());
+			List<Child> list = mps.selectChild(child);
+			List<Vaccination> list2 = mps.selectVaccination(vaccination);
+			List<BookingInfo> list3 = mps.selectBookingInfoList(book);
+			
+			
+			
+			mav.addObject("list",list);
+			mav.addObject("list2",list2);
+			mav.addObject("list3",list3);
 			mav.addObject("m",m);
 			mav.setViewName("myPage/myPageMain");
 
@@ -128,17 +144,23 @@ public class MyPageController {
 		String msg = result > 0 ? "수정 완료 다시 로그인 하세요" : "누락된 항목이 있습니다";
 		rda.addFlashAttribute("msg", msg);
 
-		return "redirect:/member/login.do";
+		return "redirect:/";
 	}
 	
 	@PostMapping("updatePassword")
 	public String updatePassword(SessionStatus ss,HttpSession session,Member member,RedirectAttributes rda) {
+		String rawPassword = member.getMemberPwd();
+		log.debug("암호화전=",rawPassword);
+		
+		String encryptPassword = bcryptPasswordEncoder.encode(rawPassword);
+		log.debug("암호화후=",encryptPassword);
+		member.setMemberPwd(encryptPassword);
 		int result = mps.updatePassword(member);
 		ss.setComplete();
 		String msg = result > 0 ? "수정 완료 다시 로그인 하세요" : "누락된 항목이 있습니다";
 		rda.addFlashAttribute("msg", msg);
 
-		return "redirect:/member/login.do";
+		return "redirect:/";
 	}
 	
 	@PostMapping("/memberChildUpdate.do")

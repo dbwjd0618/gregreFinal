@@ -10,11 +10,9 @@ insert into
 		values(
 			#{couponId},
 			#{memberId},
-			#{expireDate},
+			sysdate+${expireDate},
 			#{couponState}
 		)
-		
-
 	
 </insert>
 <select  id="selectCoupon" resultType="AdminCoupon">
@@ -41,11 +39,9 @@ insert into
 			#{couponName},
 			#{couponDetail},
 			#{discountValue},
-			#{discountRate},
 			#{discountType},
 			#{maxValue},
 			#{couponDuration},
-			#{couponDurationDay},
 			default
 		)
 

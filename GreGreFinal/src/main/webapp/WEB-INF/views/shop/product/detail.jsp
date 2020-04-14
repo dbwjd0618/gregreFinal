@@ -96,7 +96,7 @@ span.optNm2 {
 }
 button.heart-icon {
     border: 0;
-    background-color: white;
+    background-color: transparent;
 }
 </style>
 
@@ -1228,13 +1228,11 @@ $(function(){
 																				<div class="as">
 																					<span class="ic_as"><img
 																						src="${pageContext.request.contextPath }/resources/img/QnA/a-icon.png"
-																						alt=""></span>안녕하세요 고객님. 접수해주신 상품문의에 대한 답변드립니다.
-																					주문하신 상품은 어제 출고되었으며, 배송은 1~2일 소요 예상됩니다. 감사합니다. 즐거운
-																					하루 보내세요.
+																						alt=""></span>${QnA.adminAnswer.ansContent }
 																				</div>
 																				<p class="reginfo">
 																					<span class="wh">판매자의 답변</span> <span class="date">등록일
-																						: <em>2020-02-28 오후 4:32:44</em>
+																						: <em>${QnA.adminAnswer.ansDate }</em>
 																					</span>
 																				</p>
 																			</c:if>
