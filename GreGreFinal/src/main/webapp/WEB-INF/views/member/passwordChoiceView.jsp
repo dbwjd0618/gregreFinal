@@ -179,7 +179,7 @@
                                   </div>
                                   <input name="pwdAns" class="form-control" id="pwdAns" type="text">
                               </div>
-                              <input type="hidden" id="memberPwd" name="memberPwd" value="0000" />
+                              <input type="password" id="memberPwd" name="memberPwd" value="0000" style="display:none;"/>
                               
                               
                               
