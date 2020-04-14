@@ -134,7 +134,7 @@
 								<div class="row">
 								
 			<c:forEach items="${list3 }" var="a" >
-			<c:if test="${c.appoint_no != null }">
+			<c:if test="${a.appointNo != null }">
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <div class="card">
@@ -147,6 +147,7 @@
                                         <p>예약한 상담사명 : ${a.advisName} </p>
                                         <p>결제정보 : ${a.payInfo } </p>
                                         <p>결제일 : ${a.startDay} </p>
+                                        <p>남은횟수 : ${a.coin }</p>
                                     </div>
                                     <div class="col-md-2">
                                     </div>
