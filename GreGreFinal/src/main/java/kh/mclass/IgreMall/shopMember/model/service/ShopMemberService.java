@@ -27,4 +27,8 @@ public interface ShopMemberService {
 
 	int deleteCart(String cartId);
 
+	ShopMember selectShopMem(String memberId);
+
+	int insertShopMem(ShopMember sMem);
+
 }

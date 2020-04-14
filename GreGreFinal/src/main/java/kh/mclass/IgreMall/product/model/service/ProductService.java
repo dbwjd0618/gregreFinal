@@ -31,4 +31,10 @@ public interface ProductService {
 
 	void insertProduct(Product p);
 
+
+	int updateOption(ProdOption option);
+
+
+	int updateProduct(Product product);
+
 }

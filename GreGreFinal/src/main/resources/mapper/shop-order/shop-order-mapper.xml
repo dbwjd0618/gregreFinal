@@ -11,6 +11,8 @@
 		orderlist
 	where
 		member_id = #{memberId}
+	order by 
+		order_date desc
 </select>
 <select id="selectOrderList" resultMap="orderListMap">
 	select 

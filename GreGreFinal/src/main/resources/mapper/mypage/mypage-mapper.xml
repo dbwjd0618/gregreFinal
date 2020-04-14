@@ -4,6 +4,22 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mypage">
 
+	<insert id="periodAdd">
+	insert
+		into
+	TB_menses_${memberId}	
+		values(
+		seq_${memberId}_menses.nextval,
+		to_date(#{mensesStart},'yyyy-MM-dd HH24:mi'),
+		to_date(#{mensesEnd},'yyyy-MM-dd HH24:mi'),	
+		#{mensesCycle},
+		to_date(#{mensesNext},'yyyy-MM-dd HH24:mi'),
+		to_date(#{childbearingAgeStart},'yyyy-MM-dd HH24:mi'),
+		to_date(#{childbearingAgeEnd},'yyyy-MM-dd HH24:mi'),
+		to_date(#{pregnancyDate},'yyyy-MM-dd HH24:mi')
+		)
+	
+	</insert>
 	<select id="memberList" resultType="Member">
 		select
 			*
@@ -20,6 +36,16 @@
 	where
 		member_id= #{memberId}	
 	</update>
+	
+	<delete id="deleteChild">
+	delete
+		from
+	TB_Child
+		where
+	child_name = #{childName}
+		and
+	parents_Id = #{parentsId} 
+	</delete>
 	
 	<delete id="memberDelete">
 	delete
@@ -41,6 +67,27 @@
 		email = #{email}
 	where
 		member_id = #{memberId}			
+	</update>
+	
+	<!-- 마이페이지 상담사 정보보기  -->
+	<select id="selectCounselorOne" resultType="Counselor">
+	select
+		*
+	from
+		TB_adviser
+	where
+		advis_id = #{cmemberId}
+	</select>
+	
+	
+	<!-- 상담사 정보 업데이트  -->
+	<update id="updateCounselor" >
+	update
+		TB_adviser
+	set
+		advis_name = #{advisName}
+	where
+		advis_id = #{advisId}			
 	</update>
 	
 	<insert id="insertVaccion">
@@ -86,7 +133,24 @@
 	where member_id = #{memberId} and pwd_hint_code = #{pwdHintCode} and pwd_ans = #{pwdAns}
 		
 	</select>
-
+	<select id="findId" resultType="Member">
+	select
+		*
+	from
+		TB_MEMBER_INFO
+	where member_name = #{memberName} and phone = #{phone} and pwd_hint_code = #{pwdHintCode} and pwd_ans = #{pwdAns}
+	</select>
+	<update id="childUpdateInfo">
+	update
+		TB_child
+	set
+		birthday = #{birthday},
+		phone = #{phone}
+	where
+		parents_ID = #{parentsId}
+		
+	</update>
+	
 	<update id="fupdatePassword">
 	update
 		TB_MEMBER_INFO
@@ -95,6 +159,9 @@
 	where
 		member_id= #{memberId}	
 	</update>
+	
+
+	
 	<select id="selectChild" resultType="Child">
 	select
 		*
@@ -105,21 +172,42 @@
 	</select>
 	
 	<!-- 상담 예약정보 조회  -->
-	<select resultType="BookingInfo" id="selectBookingInfoList">
-		select 
-			C.advis_id, 
-			C.advis_name, 
-			C.advis_img, 
-			A.member_id,
-			A.appoint_no, 
-			A.coin, 
-			A.start_day, 
-			A.end_day, 
-			A.pay_price, 
-			A.payinfo 
-		from TB_adviser C join TB_appointment A
-    		on C.advis_id = A.advis_id
-    	where member_id = #{memberId}
+	<select resultMap="keywordMap" id="selectBookingInfoList">
+		select a.*, c.advis_keyword from TB_adviser C join TB_appointment A
+    on C.advis_id = A.advis_id
+    where member_id = #{memberId}
+	</select>
+	
+	<resultMap type="bookingInfo" id="keywordMap">
+		<result column="advis_keyword" property="advisKeyword" typeHandler="strArrTypeHandler"/>
+	</resultMap>
+	
+	<!-- (상담사) 본인에게 신청된 예약정보 조회  -->
+	<select resultType="BookingInfo" id="selectProgressCounselling">
+	select 
+		* 
+	from 
+		TB_appointment 
+	where 
+		advis_id = #{advisId} 
+	and 
+		coin >0 
+	order by 
+		end_day
+	</select>
+	
+	<!--(상담사) 종료된 상담정보 확인  -->
+	<select resultType="BookingInfo" id="selectEndCounselling">
+	select 
+		* 
+	from 
+		TB_appointment 
+	where 
+		advis_id = #{advisId} 
+	and 
+		coin = 0 
+	order by 
+		end_day
 	</select>
 	
 	<select id="selectVaccination" resultType="Vaccination">
@@ -130,6 +218,7 @@
 		where
 			parents_ID = #{parentsId}
 	</select>
+	
 	
 	
 </mapper>

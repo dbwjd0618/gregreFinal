@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
+import kh.mclass.Igre.counselling.model.vo.Counselor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +31,6 @@ public class BizMember implements Serializable{
 	private String memberPwd;
 	private String phone;
 	private String compDiv;
-
 
 	
 

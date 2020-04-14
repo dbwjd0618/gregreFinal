@@ -111,7 +111,7 @@
                   <!-- <span class="label label-primary pull-right">4</span> -->
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="${pageContext.request.contextPath}/shop/admin/product/insert.do"><i class="fa fa-circle-o"></i>상품 등록/삭제</a></li>
+                  <li><a href="${pageContext.request.contextPath}/shop/admin/product/insert.do"><i class="fa fa-circle-o"></i>상품 등록</a></li>
                   <li><a href="${pageContext.request.contextPath}/shop/admin/product/list.do"><i class="fa fa-circle-o"></i> 상품 관리</a></li>
                 </ul>
               </li>
@@ -148,8 +148,6 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="${pageContext.request.contextPath}/shop/admin/adminInfo.do"><i class="fa fa-circle-o"></i> 판매자 정보</a></li>
-                <li><a href="${pageContext.request.contextPath}/shop/admin/ban.do"><i class="fa fa-circle-o"></i> 회원 탈퇴</a></li>
-                <li><a href="${pageContext.request.contextPath}/shop/admin/withdrawll.do"><i class="fa fa-circle-o"></i> 탈퇴 회원 관리</a></li>
               </ul>
             </li>
             <li>
@@ -172,16 +170,7 @@
                 <li><a href="${pageContext.request.contextPath }/shop/admin/board.do"><i class="fa fa-circle-o"></i> 게시판 목록</a></li>
               </ul>
             </li>
-             <li class="treeview">
-              <a href="#">
-                <i class="fa fa-share"></i> <span>단체안내</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="mailbox.html"><i class="fa fa-circle-o"></i>단체 이메일</a></li>
-                <li><a href="message.html"><i class="fa fa-circle-o"></i> 단체 문자</a></li>
-              </ul>
-            </li>
+             
           </ul>
         </section>
         <!-- /.sidebar -->

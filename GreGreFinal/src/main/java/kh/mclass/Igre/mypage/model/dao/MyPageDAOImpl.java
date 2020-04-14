@@ -5,12 +5,15 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Repository;import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.mclass.Igre.counselling.model.vo.BookingInfo;
+import kh.mclass.Igre.counselling.model.vo.Counselor;
 import kh.mclass.Igre.counselling.model.vo.Review;
+import kh.mclass.Igre.member.model.vo.BizMember;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.vo.Child;
+import kh.mclass.Igre.mypage.model.vo.Period;
 import kh.mclass.Igre.mypage.model.vo.Vaccination;
 
 @Repository
@@ -79,6 +82,7 @@ public class MyPageDAOImpl implements MyPageDAO {
 		return sss.insert("mypage.insertVaccion",vaccination);
 	}
 
+
 	@Override
 	public List<Vaccination> selectVaccination(Vaccination vaccination) {
 		// TODO Auto-generated method stub
@@ -97,12 +101,55 @@ public class MyPageDAOImpl implements MyPageDAO {
 		return sss.update("mypage.fupdatePassword",member);
 	}
 
+	@Override
+
+	public Member findId(Member member) {
+		// TODO Auto-generated method stub
+		return sss.selectOne("mypage.findId",member);
+	}
+
+	@Override
+	public int childUpdateInfo(Child child) {
+		// TODO Auto-generated method stub
+		return sss.update("mypage.childUpdateInfo",child);
+	}
+
+	@Override
+	public int deleteChild(Child child) {
+		// TODO Auto-generated method stub
+		return sss.delete("mypage.deleteChild",child);
+	}
+
+	@Override
+	public int periodAdd(Period period) {
+		// TODO Auto-generated method stub
+		return sss.insert("mypage.periodAdd",period);
+	}
 
 
+	public List<BookingInfo> selectProgressCounselling(Counselor c) {
+		// TODO Auto-generated method stub
+		return sss.selectList("mypage.selectProgressCounselling", c);
+	}
 
 
+	@Override
+	public List<BookingInfo> selectEndCounselling(Counselor c) {
+		// TODO Auto-generated method stub
+		return sss.selectList("mypage.selectEndCounselling", c);
+	}
 
+	@Override
+	public int updateCounselor(BizMember bz) {
+		// TODO Auto-generated method stub
+		return sss.update("mypage.updateCounselor", bz);
+	}
 
+	@Override
+	public Counselor selectCounselorOne(String cmemberId) {
+		// TODO Auto-generated method stub
+		return sss.selectOne("mypage.selectCounselorOne", cmemberId);
+	}
 
 
 }

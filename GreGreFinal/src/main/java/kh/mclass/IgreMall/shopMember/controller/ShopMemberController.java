@@ -91,15 +91,7 @@ public class ShopMemberController {
 		
 		result = shopMemberService.updateCartOne(cart);
 			// 옵션 id 삭제
-		/*
-		 * optionIdList.remove(optionId); cart.setOptionId(optionIdList.toArray(new
-		 * String[optionIdList.size()])); // 옵션수량 삭제 prodCountList.remove(idx);
-		 * cart.setProdCount(prodCountList.toArray(new String[prodCountList.size()]));
-		 * 
-		 * result = shopMemberService.updateCartOne(cart);
-		 */
-			
-
+	
 		Map<String, Object> map = new HashMap<>();
 		if (result > 0) {
 			map.put("cartId", cartId);
@@ -187,9 +179,10 @@ public class ShopMemberController {
 		Product product = (Product) session.getAttribute("p");
 
 		String message = "장바구니 담기 실패";
-		String[] optionId = new String[optionIdList.size()];
-		String[] count = new String[optionIdList.size()];
-		if (!optionIdList.get(0).equals(product.getProductId())) {
+		//옵션아이디 있는 경우
+		if (optionIdList !=null) {
+			String[] optionId = new String[optionIdList.size()];
+			String[] count = new String[optionIdList.size()];
 			for (int i = 0; i < optionIdList.size(); i++) {
 				optionId[i] = optionIdList.get(i);
 				count[i] = countList.get(i);
@@ -203,7 +196,7 @@ public class ShopMemberController {
 			}
 
 		} else {
-
+			String[] count = new String[1];
 			count[0] = countList.get(0);
 
 			cart = new Cart(null, memberId, product.getProductId(), null, count, null);
@@ -358,6 +351,7 @@ public class ShopMemberController {
 						optionValue[t] = opt.getOptionValue();
 						int stock = Integer.parseInt(orderProdList.get(j).getProdCount()[t]);
 						int optPrice = (opt.getOptionPrice() - product.getDiscountPrice()) * stock;
+						//int optPrice = opt.getOptionPrice() * stock;
 						optionPrice[t] = Integer.toString(optPrice);
 					}
 					orderProdList.get(j).setOptionValue(optionValue);

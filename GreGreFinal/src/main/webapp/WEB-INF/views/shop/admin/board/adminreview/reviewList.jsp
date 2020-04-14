@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <fmt:requestEncoding value="utf-8" />
-<jsp:include page="/WEB-INF/views/shop/admin/common/header.jsp"/>
+
 <!--myReview-->
 <link rel="stylesheet" media="screen"
 	href="https://d1nyaccf3kuclt.cloudfront.net/dist/css/App-ba29e8bb.css">
@@ -118,6 +118,7 @@ $(function(){
 </script>
 <!-- review list -->
 <!-- Breadcrumb Section Begin -->
+<jsp:include page="/WEB-INF/views/shop/admin/common/header.jsp"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board/board.css">
   <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -169,7 +170,7 @@ $(function(){
                                 <tr>
                                 	 <td>${r.reviewId }</td> 
                                 	<td>${r.productName }</td>
-                                	<td>${r.reviewContent }</td>
+                                	<td><a href="${pageContext.request.contextPath }/shop/product/detail.do?productId=${r.productId}">${r.reviewContent }</a></td>
                                 	<td>${r.renamedImg }</td>
                                 	<c:forEach items="${r.optionId }" var="op" varStatus="ovs">
                                 	<td>${op }${!ovs.last?",":"" }</td>
@@ -217,5 +218,42 @@ $(function(){
           </div><!-- /.content-wrapper -->
 
 
-			<!-- review List 끝 -->
-		
+<!-- Js Plugins -->
+    <script src="${pageContext.request.contextPath }/resources/js/shop/jquery-3.3.1.min.js"></script>
+    <!-- jQuery 2.1.3 -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/jQuery-2.1.3.min.js"></script>
+    <!-- jQuery UI 1.11.2 -->
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <!-- Bootstrap 3.3.2 JS -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/bootstrap.min.js" type="text/javascript"></script>    
+    <!-- Morris.js charts -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/morris.min.js" type="text/javascript"></script>
+    <!-- Sparkline -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/jquery.sparkline.min.js" type="text/javascript"></script>
+    <!-- jvectormap -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/admin/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
+    <!-- daterangepicker -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/daterangepicker.js" type="text/javascript"></script>
+    <!-- datepicker -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/bootstrap-datepicker.js" type="text/javascript"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
+    <!-- iCheck -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/icheck.min.js" type="text/javascript"></script>
+    <!-- Slimscroll -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <!-- FastClick -->
+    <script src='${pageContext.request.contextPath}/resources/js/admin/fastclick.min.js'></script>
+    <!-- AdminLTE App -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/app.min.js" type="text/javascript"></script>
+
+
+
+    <!-- AdminLTE for demo purposes -->
+    <script src="${pageContext.request.contextPath}/resources/js/admin/demo.js" type="text/javascript"></script>

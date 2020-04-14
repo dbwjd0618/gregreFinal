@@ -60,4 +60,14 @@ public class ShopMemberServiceImpl implements ShopMemberService {
 	public int deleteCart(String cartId) {
 		return shopMemberDAO.deleteCart(cartId);
 	}
+
+	@Override
+	public ShopMember selectShopMem(String memberId) {
+		return shopMemberDAO.selectShopMem(memberId);
+	}
+
+	@Override
+	public int insertShopMem(ShopMember sMem) {
+		return shopMemberDAO.insertShopMem(sMem);
+	}
 }

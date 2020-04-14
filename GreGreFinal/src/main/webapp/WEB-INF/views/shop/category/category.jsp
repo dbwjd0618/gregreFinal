@@ -12,8 +12,52 @@
 .pi-pic {
 	height: 265px;
 }
+
+button.heart-icon {
+	border: 0;
+	background-color: transparent;
+}
 </style>
 
+<script>
+//찜하기 등록 및 업데이트
+function goWish(productId, t){
+	<c:if test="${empty memberLoggedIn}">
+	alert("로그인 후 이용가능합니다.");
+	return;
+	</c:if>
+	
+
+	var objParams = {
+			"productId" : productId
+	} 
+	$.ajax({
+		url: "${pageContext.request.contextPath}/shop/wish/wishUpdate.do",
+		type: "POST",
+		dataType : "json",
+		data: objParams,
+		success: function (data) {
+			
+			if( data.wishCheck == 'Y'){
+				console.log("레드");
+				$(t).find('.heart-img').remove();
+				var redHeart = '<img class="heart-img" src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon-p.png" style="width: 30px;">';
+				$(t).append(redHeart);
+			}else if( data.wishCheck == 'N'){
+				console.log("화이트");
+				$(t).find('.heart-img').remove();
+				var whiteHeart = '<img  class="heart-img" src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon.png" style="width: 30px;">';
+				$(t).append(whiteHeart); 
+			}
+		
+				
+		},
+		error:(x,s,e)=>{
+			console.log(x,s,e);
+		}
+	}); 
+}
+</script>
 <!-- Breadcrumb Section Begin -->
 <div class="breacrumb-section">
 	<div class="container">
@@ -211,8 +255,46 @@
 													alt="">
 											</c:if>
 											<div class="icon">
-												<img src="https://img.icons8.com/ios/50/000000/hearts.png"
-													style="width: 25px;">
+												<c:if test="${ p.wish !=null }">
+													<c:forEach var="wish" items="${wishList }">
+														<c:if
+															test="${ wish.wishCheck eq 'Y' && wish.productId eq p.productId}">
+																<button class="heart-icon"
+																onclick="goWish('${p.productId}',this);">
+																<img class="heart-img"
+																	src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon-p.png"
+																	style="width: 30px;">
+															</button>
+														</c:if>
+														<c:if
+															test="${ wish.wishCheck eq 'N'  && wish.productId eq p.productId}">
+																<button class="heart-icon"
+																onclick="goWish('${p.productId}',this);">
+																<img class="heart-img"
+																	src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon.png"
+																	style="width: 30px;">
+															</button>
+														</c:if>
+												
+													</c:forEach>
+													<c:if
+														test="${ wish.wishCheck eq 'N'  && wish.productId != p.productId}">
+														<button class="heart-icon"
+															onclick="goWish('${p.productId}',this);">
+															<img class="heart-img"
+																src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon.png"
+																style="width: 30px;">
+														</button>
+													</c:if>
+												</c:if>
+												<c:if test="${p.wish ==null }">
+													<button class="heart-icon"
+														onclick="goWish('${p.productId}',this);">
+														<img class="heart-img"
+															src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon.png"
+															style="width: 30px;">
+													</button>
+												</c:if>
 											</div>
 											<ul>
 												<li class="w-icon active"><a href="#"><svg
@@ -278,6 +360,7 @@
 				<!-- 페이지 바 시작-->
 				<nav aria-label="Page navigation example">
 					<ul class="pagination">
+						<!-- 이전 페이지 -->
 						<c:if test="${pageNo ==1 }">
 							<li class="page-item"><a class="page-link" href="#"
 								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
@@ -285,26 +368,30 @@
 							</a></li>
 						</c:if>
 						<c:if test="${pageNo >1 }">
-						<li class="page-item">
-							<c:if test="${ category2 =='' && category1!='' }">
-								<a class="page-link" href="${pageContext.request.contextPath }/shop/category.do?category1=${category1}&cPage=${pageStart-1}" aria-label="Previous"> 
-									<span aria-hidden="true">&laquo;</span>
-									<span class="sr-only">Previous</span>
-								</a>	
-							</c:if>
-							<c:if test="${ category2 !='' && category1 =='' }">
-								<a class="page-link" href="${pageContext.request.contextPath }/shop/category.do?category1=${category1}&cPage=${pageStart-1}" aria-label="Previous"> 
-									<span aria-hidden="true">&laquo;</span>
-									<span class="sr-only">Previous</span>
-								</a>	
-							</c:if>
-							<c:if test="${ category2!='' && category1!='' }">
-								<a class="page-link" href="${pageContext.request.contextPath }/shop/category.do?category1=${category1}&category2=${category2}&cPage=${pageStart-1}" aria-label="Previous"> 
-									<span aria-hidden="true">&laquo;</span>
-									<span class="sr-only">Previous</span>
-								</a>	
-							</c:if>
-							</li>
+							<li class="page-item"><c:if
+									test="${ category2 =='' && category1!='' }">
+									<a class="page-link"
+										href="${pageContext.request.contextPath }/shop/category.do?category1=${category1}&cPage=${pageStart-1}"
+										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+										<span class="sr-only">Previous</span>
+									</a>
+								</c:if> <c:if test="${ category2 !='' && category1 =='' }">
+									<a class="page-link"
+										href="${pageContext.request.contextPath }/shop/category.do?category1=${category1}&cPage=${pageStart-1}"
+										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+										<span class="sr-only">Previous</span>
+									</a>
+								</c:if> <c:if test="${ category2!='' && category1!='' }">
+									<a class="page-link"
+										href="${pageContext.request.contextPath }/shop/category.do?category1=${category1}&category2=${category2}&cPage=${pageStart-1}"
+										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+										<span class="sr-only">Previous</span>
+									</a>
+								</c:if></li>
+						</c:if>
+						<!-- 넘버 -->
+						<c:if test="${pageEnd >totalPage }">
+							<c:set var="pageEnd" value="${totalPage }" />
 						</c:if>
 						<c:forEach begin="${pageStart }" end="${pageEnd}"
 							varStatus="countVs">
@@ -323,8 +410,10 @@
 									href="${pageContext.request.contextPath }/shop/category.do?category1=${category1}&category2=${category2}&cPage=${countVs.index}">${countVs.index }</a></li>
 								<li class="page-item">
 							</c:if>
+
 							<c:set var="pageNo" value="${countVs.index }" />
 						</c:forEach>
+
 						<!-- 다음 페이지 -->
 						<c:if test="${pageNo >totalPage }">
 							<li><a class="page-link" href="#" aria-label="Next"> <span

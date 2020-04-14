@@ -1,14 +1,15 @@
  package kh.mclass.Igre.mypage.controller;
 
 import java.sql.Date;
-import java.util.HashMap;
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpRequest;
+import org.apache.struts.action.ForwardingActionForward;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ import kh.mclass.Igre.counselling.model.vo.Review;
 import kh.mclass.Igre.member.model.vo.Member;
 import kh.mclass.Igre.mypage.model.service.MyPageService;
 import kh.mclass.Igre.mypage.model.vo.Child;
+import kh.mclass.Igre.mypage.model.vo.Period;
 import kh.mclass.Igre.mypage.model.vo.Vaccination;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,6 +47,21 @@ public class MyPageController {
 			mav.addObject("m",m);
 			mav.setViewName("myPage/myPageMain");
 
+		return mav;
+	}
+	@GetMapping("periodCalendar.do")
+	public ModelAndView periodCalendar(ModelAndView mav,HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		mav.addObject("m",m);
+		mav.setViewName("myPage/periodCalendar");
+		return mav;
+	}
+	@GetMapping("myPeriod.do")
+	public ModelAndView myPeriod(ModelAndView mav,HttpSession session) {
+		Member m = (Member) session.getAttribute("memberLoggedIn");
+		mav.addObject("m",m);
+		mav.setViewName("myPage/myPeriod");
+		
 		return mav;
 	}
 	
@@ -86,6 +103,22 @@ public class MyPageController {
 		mav.setViewName("myPage/memberUpdate");
 
 		return mav;
+	}
+	
+	@PostMapping("childUpdateInfo")
+	public String childUpdateInfo(Child child,RedirectAttributes rda) {
+		int result = mps.childUpdateInfo(child);
+		String msg = result > 0 ? "수정 완료 " : "누락된 항목이 있습니다";
+		rda.addFlashAttribute("msg", msg);
+		return "redirect:/myPage/memberChildUpdate.do";
+	}
+	
+	@PostMapping("deleteChild.do")
+	public String deleteChild(Child child,RedirectAttributes rda) {
+		int result = mps.deleteChild(child);
+		String msg = result > 0 ? "수정 완료 " : "누락된 항목이 있습니다";
+		rda.addFlashAttribute("msg", msg);
+		return "redirect:/myPage/memberChildUpdate.do";
 	}
 	
 	@PostMapping("updateMember.do")
@@ -137,12 +170,13 @@ public class MyPageController {
 		List<Child> list = mps.selectChild(child);
 		List<Vaccination> list2 = mps.selectVaccination(vaccination);
 		
-
+		
+		
 //		Map<String,List<String>> maplist = new HashMap<String, List<String>>();
 //		maplist.put("list",list);
 //		maplist.put("list2",list2);
 //		Map<Child,Map<Child,List<Vaccination>>> map = mps.selectVaccin(maplist);		
-//		mav.addObject("m",m);
+		mav.addObject("m",m);
 		mav.addObject("list",list);
 		mav.addObject("list2",list2);
 		mav.setViewName("myPage/memberChildUpdate");
@@ -173,6 +207,20 @@ public class MyPageController {
 		return mav;
 	}
 	
+	@PostMapping("periodAdd.do")
+	public void periodAdd(ModelAndView mav,Period period,Member memer,HttpSession session) {
+
+		
+//		log.debug("editStart {}", editStart);
+//		period.setMensesStart(editStart);
+//		period.setMensesEnd(editEnd);
+		System.out.println("달력쉬벌탱 :"+period);
+		Member m = (Member)session.getAttribute("memberLoggedIn");
+		System.out.println("쉬벌"+m);
+		int result = mps.periodAdd(period);
+
+	}
+	
 //	리뷰 작성
 	@PostMapping("/counsellingInfo.do")
 	public String reviewWrite(Review review, RedirectAttributes redirectAttributes) {
@@ -191,6 +239,19 @@ public class MyPageController {
 
 		return "redirect:/member/login.do";
 	}
+	
+	@PostMapping("findId")
+	public ModelAndView findId(ModelAndView mav , RedirectAttributes redirectAttributes,Member member) {
+		
+		Member selectmember = mps.findId(member);
+		String msg = selectmember!=null?"회원님의 아이디 : "+selectmember.getMemberId() :"입력정보가 일치하지 않습니다";
+		mav.addObject("selectmember",selectmember);
+		mav.addObject("msg",msg);
+		mav.setViewName("member/login");
+		return mav;
+	}
+	
+	
 	
 	
 	

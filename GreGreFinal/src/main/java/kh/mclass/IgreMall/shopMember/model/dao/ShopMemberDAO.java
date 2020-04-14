@@ -27,4 +27,8 @@ public interface ShopMemberDAO {
 
 	int deleteCart(String cartId);
 
+	ShopMember selectShopMem(String memberId);
+
+	int insertShopMem(ShopMember sMem);
+
 }

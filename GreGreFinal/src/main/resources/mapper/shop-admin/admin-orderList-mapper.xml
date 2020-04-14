@@ -3,6 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminOrder">
+<delete id="deleteOrders">
+delete 
+	orderList
+where 
+	order_no =#{orderNo}
+	
+</delete>
 <select id="totalOrders" resultType="_int">
 select 
 	count(*)
@@ -15,15 +22,15 @@ from
        on B.product_id = D.product_id
 where 
 	C.img_type='R'
-<if test="productName !=null or productName !=''">
+<if test="productName != null or productName != ''">
 and
 	product_name like '%${productName}%'
 </if>
-<if test="payState!=null">
+<if test="payState!=null ">
 and
 	product_state = #{payState}
 </if>
-<if test="payMethod!=''">
+<if test="payMethod!=null">
 and
 	pay_method = #{payMethod}
 </if>
@@ -40,17 +47,26 @@ and
 
 
 <select id="searchList" resultMap="orderCollection">
-select 
+
+
+
+select
 	*
 from 
-	orderlist A left join tb_order_product B
+	orderlist A left join tb_order_product B  
         on A.order_no = B.order_no
-      left join tb_prod_img C
+        left join tb_prod_img C
        on B.product_id = C.product_id
-       left join tb_product D
-       on B.product_id = D.product_id
-where 
+       left join tb_member_info D
+       	on A.member_id = D.member_id
+       	left join tb_prod_option E
+     on B.option_id = E.option_id
+       left join tb_product F
+       on B.product_id = F.product_id
+where  
 	C.img_type='R'
+
+
 
 <if test="productName !=''">
 and
@@ -81,10 +97,16 @@ from
         on A.order_no = B.order_no
         left join tb_prod_img C
        on B.product_id = C.product_id
+       left join tb_member_info D
+       	on A.member_id = D.member_id
+       	left join tb_prod_option E
+     on B.option_id = E.option_id
+     left join tb_product F
+     on B.product_id= F.product_id
 where 
 	C.img_type='R'
 </select>
-<resultMap type="OrderList" id="orderCollection">
+<resultMap type="AdminOrderList" id="orderCollection">
 <id column="order_no" property="orderNo"/>
 <result column="member_id" property="memberId"/>
 <result column="seller_id" property="sellerId"/>
@@ -102,8 +124,14 @@ where
 <result column="pay_state" property="payState"/>
 <result column="delivery_state" property="deliveryState"/>
 <result column="order_date" property="orderDate"/>
+<result column="member_name" property="memberName"/>
+<result column="phone" property="phone"/>
+<result column="option_id" property="optionId"/>
+<result column="option_name" property="optionName"/>
+<result column="option_value" property="optionValue"/>
+<result column="PROD_COUNT" property="prodCount"/>
 
-<collection property="attachList" ofType="Attachment2">
+<collection property="attachList" ofType="AdminAttachment2">
 		<id column="attachment_no" property="attachmentNo"></id>	
 		<result column="product_Id" property="productId"/>
 		<result column="product_name" property="productName"/>

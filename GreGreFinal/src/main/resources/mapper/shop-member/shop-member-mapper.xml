@@ -77,6 +77,14 @@
 		default
 		)
 	</insert>
+	<insert id="insertShopMem">
+		insert into
+		tb_consumer_info 
+		values (
+		#{memberId},	
+		0
+		)
+	</insert>
 
 	<select id="selectOne" resultMap="shopMemberCollection">
 		select
@@ -87,6 +95,13 @@
 		on M.member_id = C.member_id
 		where
 		M.member_Id = #{memberId}
+	</select>
+	<select id="selectShopMem" resultMap="shopMemberCollection">
+		select
+		*
+		from tb_consumer_info 
+		where
+		member_Id = #{memberId}
 	</select>
 	<select id="selectCouponInfoOne"
 		resultType="kh.mclass.IgreMall.coupon.model.vo.CouponInfo">

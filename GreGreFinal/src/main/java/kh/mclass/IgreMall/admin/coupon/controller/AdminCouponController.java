@@ -33,7 +33,8 @@ public class AdminCouponController {
 		CouponPeople cp = new CouponPeople();
 		for(int i=0;i<strMemberId.length;i++) { 
 			cp.setCouponState("N");
-			cp.setCouponId(c.getCouponId()); cp.setExpireDate(c.getCouponDuration());
+			cp.setCouponId(c.getCouponId()); 
+			cp.setExpireDate(c.getCouponDuration());
 			cp.setMemberId(strMemberId[i]);
 			
 			int result = adminCouponService.sendCoupon(cp);
@@ -63,24 +64,26 @@ public class AdminCouponController {
 		return mav;
 	}
 	@GetMapping("/update.do")
-	public ModelAndView Coupon(ModelAndView mav,String couponId) {
+	public ModelAndView Coupon(ModelAndView mav,
+			String couponId) {
 		log.debug("호호호호");
 //		AdminCoupon cp = adminCouponService.selectcurCoupon();
 		AdminCoupon a = new AdminCoupon();
 		a.setCouponId(couponId);
 		AdminCoupon b= adminCouponService.selectCoupon(a);
+		System.err.println(b);
 		mav.addObject("b",b);
 		
-		mav.setViewName("shop/admin/coupon/insertCoupon");
+		mav.setViewName("shop/admin/coupon/sendCoupon");
 		
 		return mav;
 	}
 	@RequestMapping("/insertEnd.do")
-	public ModelAndView insertCoupon(ModelAndView mav, AdminCoupon c,String memberId,
-			@RequestParam(value = "couponDuration") Date d) {
+	public ModelAndView insertCoupon(ModelAndView mav, AdminCoupon c,String memberId
+			
+			) {
+		log.debug("쿠폰등록한다.");
 		log.debug("people={}",memberId);
-		System.out.println(d);
-		c.setCouponDuration(d);
 		
 		log.debug("c={}",c);
 		int result= adminCouponService.insertCoupon(c);
