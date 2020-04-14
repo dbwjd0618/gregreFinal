@@ -33,5 +33,10 @@ public class WishServiceImpl implements WishService {
 		return wishDAO.selectWishList(memberId);
 	}
 
+	@Override
+	public int deleteWishOne(Wish wish) {
+		return wishDAO.deleteWishOne(wish);
+	}
+
 	
 }

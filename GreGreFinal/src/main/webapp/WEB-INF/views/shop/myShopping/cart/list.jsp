@@ -453,6 +453,43 @@ $(function(){
 
 </script>
 <script>
+//카트 상품 삭제(복수개)
+function deleteCartList(){
+	 if (confirm("해당 상품을 장바구니에서 삭제하시겠습니까?")) {
+		
+		 	var  checkedCart =$('input[name=check]:checked');	
+			//수량
+			var cartIdArr = new Array();
+		
+			$(checkedCart).each(function (index, item) { 
+				cartIdArr.push($(item).val());
+		 	});
+			var objParams = {
+					"cartIdArr" : cartIdArr
+			}
+			console.log("cartIdArr="+cartIdArr);
+
+			$.ajax({
+				url: "${pageContext.request.contextPath}/shop/myShopping/cartListDelete.do",
+				type: "POST",
+				dataType : "json",
+				data: objParams,
+				success: function (data) {
+	
+					location.reload();
+					alert("삭제 되었습니다.");
+						
+				},
+				error:(x,s,e)=>{
+					console.log(x,s,e);
+				}
+			}); 
+		  
+		} 
+
+}
+</script>
+<script>
 //카트 상품 삭제
 function cartDelete(cartId){
 	 if (confirm("해당 상품을 장바구니에서 삭제하시겠습니까?")) {
@@ -603,39 +640,49 @@ function cartSubmit(index, cartId){
 											<div class="filter-widget">
 												<div class="fw-brand-check">
 													<div class="bc-item">
-														<label for="bc-calvin"> 
-														<input type="checkbox"
-															name="check" class="bc-calvin" value="${cart.cartId }"> 
+														<label for="bc-calvin"> <input type="checkbox"
+															name="check" class="bc-calvin" value="${cart.cartId }">
 															<span class="checkmark one-chk"></span>
 														</label>
 													</div>
 												</div>
 											</div>
 										</td>
-										<td class=" first-row prod-img"><img
-											class="prod-main-img"
-											src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${imgList.get(vs.index)}"
-											alt=""></td>
+										<td class=" first-row prod-img"><a
+											href="${pageContext.request.contextPath }/shop/product/detail.do?productId=${cart.product.productId}">
+												<c:if
+													test="${fn:contains(cart.product.attachList.get(0).originalImg, 'http://')}">
+													<img class="prod-main-img"
+														src="${cart.product.attachList.get(0).originalImg}" alt="">
+												</c:if> <c:if test="${fn:contains(cart.product.productId, 'p')}">
+													<img class="prod-main-img"
+														src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${imgList.get(vs.index)}" alt="">
+												</c:if>
+										</a></td>
 										<!-- 상품정보 -->
 										<td class="cart-title first-row">
 											<div class="product_button_area--2QEjZg27nU">
-												<button type="button" class="button_delete--3w1UpShPvn" onclick="cartDelete('${cart.cartId }');">
+												<button type="button" class="button_delete--3w1UpShPvn"
+													onclick="cartDelete('${cart.cartId }');">
 													<span class="blind">상품삭제버튼</span>
 												</button>
 											</div>
 											<div class="prod-info-container">
-												<h5>
-													[<span>${ cart.product.brandName}</span>]
-												</h5>
-												<h3 class="product-name">${ cart.product.productName}</h3>
-												<c:set var="discountedPrice"
-													value="${cart.product.price - cart.product.discountPrice}" />
-												<span class="orgn_price "><em><fmt:formatNumber
-															type="number" maxFractionDigits="3"
-															value="${cart.product.price}" /></em>원</span> <span
+												<a
+													href="${pageContext.request.contextPath }/shop/product/detail.do?productId=${cart.product.productId}">
+													<h5>
+														[<span>${ cart.product.brandName}</span>]
+													</h5>
+													<h3 class="product-name">${ cart.product.productName}</h3>
+													<c:set var="discountedPrice"
+														value="${cart.product.price - cart.product.discountPrice}" />
+													<span class="orgn_price "><em><fmt:formatNumber
+																type="number" maxFractionDigits="3"
+																value="${cart.product.price}" /></em>원</span> <span
 													class="product_price_"><fmt:formatNumber
-														type="number" maxFractionDigits="3"
-														value="${discountedPrice}" />원</span>
+															type="number" maxFractionDigits="3"
+															value="${discountedPrice}" />원</span>
+												</a>
 											</div>
 										</td>
 										<!-- 옵션 -->
@@ -710,22 +757,19 @@ function cartSubmit(index, cartId){
 										<!-- 주문금액 -->
 										<td class="total-price first-row"><span class="allPrice"><fmt:formatNumber
 													type="number" maxFractionDigits="3"
-													value="${allPriceList.get(vs.index) }" /> </span>원 <br> 
-											<c:if
+													value="${allPriceList.get(vs.index) }" /> </span>원 <br> <c:if
 												test="${ cart.product.deliveryFee eq 0}">
 												<span class="deli-fee">(배송비 무료)</span>
 												<input type="hidden" name="deliveryFee"
 													value="${cart.product.deliveryFee }" />
-											</c:if> 
-											<c:if test="${ cart.product.deliveryFee > 0}">
+											</c:if> <c:if test="${ cart.product.deliveryFee > 0}">
 												<span class="deli-fee">(배송비 <em><fmt:formatNumber
 															type="number" maxFractionDigits="3"
 															value="${cart.product.deliveryFee }" /></em>원)
 												</span>
 												<input type="hidden" name="deliveryFee"
 													value="${cart.product.deliveryFee }" />
-											</c:if> 
-											<input type="button" class="btn btn-light"
+											</c:if> <input type="button" class="btn btn-light"
 											style="margin-top: 10px;" value="바로구매"
 											onclick="cartSubmit(2, '${cart.cartId}');" /></td>
 										<!-- 배송비 -->
@@ -739,7 +783,8 @@ function cartSubmit(index, cartId){
 				<div class="row">
 					<div class="col-lg-4">
 						<div class="cart-buttons">
-							<a href="#" class="primary-btn continue-shop">선택 삭제</a> <a
+							<button  class="primary-btn continue-shop" onclick="deleteCartList();">선택 삭제</button> 
+							<a
 								href="#" class="primary-btn continue-shop">계속 쇼핑하기</a>
 						</div>
 					</div>
@@ -771,8 +816,8 @@ function cartSubmit(index, cartId){
 								</span>
 								</li>
 							</ul>
-							<input type="button" class="btn proceed-btn" onclick="cartSubmit(1);"
-								value="구매하기" />
+							<input type="button" class="btn proceed-btn"
+								onclick="cartSubmit(1);" value="구매하기" />
 						</div>
 					</div>
 				</div>

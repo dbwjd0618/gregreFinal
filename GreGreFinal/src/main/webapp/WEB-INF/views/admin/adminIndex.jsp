@@ -214,9 +214,6 @@ $(function(){
 								<input type="text" class="form-control" name="subject"
 									placeholder="제목" />
 							</div>
-							<div class="form-group">
-								<input type="file" class="form-control" name="file" />
-							</div>
 							<div>
 								<textarea class="textarea" placeholder="내용" name="content"
 									style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>

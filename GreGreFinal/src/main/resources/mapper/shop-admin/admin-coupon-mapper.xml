@@ -8,6 +8,7 @@
 insert into
 	tb_coupon_list
 		values(
+			'c'||to_char(sysdate,'yymmdd')||to_char(seq_TB_cou_list_id.nextval, 'fm0000'),
 			#{couponId},
 			#{memberId},
 			sysdate+${expireDate},
