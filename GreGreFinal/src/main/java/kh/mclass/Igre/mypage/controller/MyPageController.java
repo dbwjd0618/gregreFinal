@@ -1,21 +1,19 @@
  package kh.mclass.Igre.mypage.controller;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.http.HttpRequest;
-import org.apache.struts.action.ForwardingActionForward;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -208,17 +206,16 @@ public class MyPageController {
 	}
 	
 	@PostMapping("periodAdd.do")
-	public void periodAdd(ModelAndView mav,Period period,Member memer,HttpSession session) {
-
+	@ResponseBody
+	public int periodAdd(Period period, HttpSession session) {
 		
-//		log.debug("editStart {}", editStart);
-//		period.setMensesStart(editStart);
-//		period.setMensesEnd(editEnd);
-		System.out.println("달력쉬벌탱 :"+period);
 		Member m = (Member)session.getAttribute("memberLoggedIn");
-		System.out.println("쉬벌"+m);
+		
+		period.setMemberId(m.getMemberId());
+		
 		int result = mps.periodAdd(period);
-
+		
+		return result;
 	}
 	
 //	리뷰 작성
