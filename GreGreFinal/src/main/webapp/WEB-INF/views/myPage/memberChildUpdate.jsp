@@ -100,7 +100,7 @@
 								href="${pageContext.request.contextPath}/myPage/memberChildUpdate.do">
 								<div class="menu__title">자녀정보</div>
 							</a> <a class="menu__item"
-								href="${pageContext.request.contextPath}/myPage/myPeriodCalculatorView.do">
+								href="${pageContext.request.contextPath}/myPage/myPeriod.do">
 								<div class="menu__title">월경캘린더</div>
 							</a> <a class="menu__item"
 								href="${pageContext.request.contextPath}/myPage/counsellingInfo.do">
@@ -242,6 +242,7 @@
 															<p>백신:${v.vaccinCode }</p>
 													<p>차수:${v.nth }</p>
 													<p>접종일:${v.vaccinDate }</p>
+													<br />
 
 
 

@@ -27,7 +27,12 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
     <!--서브메뉴 js-->
     <script src="${pageContext.request.contextPath}/resources/js/subMenu/subMenu.js"></script>
-
+<style>
+.site-section-cover.overlay:before {
+	width: 0;
+	background-image: url();
+}
+</style>
 
   
    <script>
@@ -39,7 +44,8 @@
    }); */
    </script>
  <div class="ftco-blocks-cover-1">
-      <div class="site-section-cover overlay" data-stellar-background-ratio="0.5" >
+      <div class="site-section-cover overlay" data-stellar-background-ratio="0.5"
+      style="background-image: url('${pageContext.request.contextPath}/resources/images/myPage/mypagebg.jpg')">
         <div class="container">
           <div class="row align-items-center ">
             <div class="col-md-5 mt-5 pt-5">
@@ -108,13 +114,13 @@
 							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/memberChildUpdate.do"> 
 								<div class="menu__title">자녀정보</div>
 							</a>   
-							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/myPeriodCalculatorView.do">
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/myPeriod.do">
 								<div class="menu__title">월경캘린더</div>
 							</a> 
 							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/">
 								<div class="menu__title">상담정보/리뷰</div>
 							</a> 
-							<a class="menu__item" href="#">
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/deleteMember.do">
 								<div class="menu__title">회원탈퇴</div>
 							</a>
 						</div>

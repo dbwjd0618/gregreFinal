@@ -161,6 +161,13 @@ public class MyPageServiceImpl implements MyPageService {
 		// TODO Auto-generated method stub
 		return mpd.selectCounselorOne1(cmemberId);
 	}
+	
+	@Override
+	public List<Period> selectPeriod(Period period) {
+		// TODO Auto-generated method stub
+		return mpd.selectPeriod(period);
+
+	}
 
 
 }

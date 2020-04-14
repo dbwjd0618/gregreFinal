@@ -32,7 +32,7 @@ public class AdminCouponController {
 		
 		CouponPeople cp = new CouponPeople();
 		for(int i=0;i<strMemberId.length;i++) { 
-			cp.setCouponState("N");
+			cp.setCouponState("Y");
 			cp.setCouponId(c.getCouponId()); 
 			cp.setExpireDate(c.getCouponDuration());
 			cp.setMemberId(strMemberId[i]);

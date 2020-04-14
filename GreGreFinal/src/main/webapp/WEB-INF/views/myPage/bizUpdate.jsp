@@ -12,11 +12,15 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
     <!--서브메뉴 js-->
     <script src="${pageContext.request.contextPath}/resources/js/subMenu/subMenu.js"></script>
-	<style>
-	sapn.pguide {display:none;font-size: 12px;position:absolute; top:12px; right:10px ; }
+<style>
+sapn.pguide {display:none;font-size: 12px;position:absolute; top:12px; right:10px ; }
 span.ok1{display:none;color:green;}
 span.error2{display:none;color:red ;}
-	</style>
+.site-section-cover.overlay:before {
+	width: 0;
+	background-image: url();
+}
+</style>
 
    
    
@@ -97,26 +101,26 @@ span.error2{display:none;color:red ;}
 					<div class="input-group-prepend">
 						<span class="input-group-text">아이디</span>
 					</div>
-					<input type="text" name="memberId" id="advisId_" class="form-control" value="${c.advisId}" readonly>
+					<input type="text" name="advisId" id="advisId_" class="form-control" value="${c.advisId}" readonly>
 				</div>
 
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text">이름</span>
 					</div>
-					<input type="text"  name="memberName" id="advisName" class="form-control" value="${c.advisName }"><br>
+					<input type="text"  name="advisName" id="advisName" class="form-control" value="${c.advisName }"><br>
 				</div>
 				<div class="form-group">
    					<label for="exampleFormControlInput1"><strong>한줄소개</strong></label>
-    				<input type="email" class="form-control" id="advisLineIntro" value="${c.advisLineIntro }">
+    				<input type="text" class="form-control" name="advisLineIntro" value="${c.advisLineIntro }">
   				</div>
   				<div class="form-group">
     				<label for="exampleFormControlInput1"><strong>학력사항</strong></label>
-    				<input type="email" class="form-control" id="advisCareer" value="${c.advisCareer }">
+    				<input type="text" class="form-control" name="advisCareer" value="${c.advisCareer }">
   				</div>
   				<div class="form-group">
     				<label for="exampleFormControlInput1"><strong>자격증</strong></label>
-    				<input type="email" class="form-control" id="advisLicense" value="${c.advisLicense }">
+    				<input type="text" class="form-control" name="advisLicense" value="${c.advisLicense }">
   				</div>  						
 								  		
 				<div class="form-group">

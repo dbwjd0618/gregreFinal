@@ -110,7 +110,7 @@ var newEvent = function (start, end, eventType) {
             url: "/Igre/myPage/periodAdd.do",
             data: {
             	"mensesStart":eventData.start,
-		    	"mensesEnd":eventData.end,
+//		    	"mensesEnd":eventData.end,
 		    	"mensesCycle":eventData.mensescycle, 
             },
             

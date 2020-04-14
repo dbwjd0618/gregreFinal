@@ -18,6 +18,8 @@ public interface WishDAO {
 
 	List<Wish> selectWishList(String memberId);
 
+	int deleteWishOne(Wish wish);
+
 
 
 }
