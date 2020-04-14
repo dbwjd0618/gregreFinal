@@ -210,41 +210,44 @@ input[name="paymentMethodCode"] {
 		
 			<script>
 			$(function(){
-				$(".layer3").hide();
-				$(".layer1").hide();
+				$(".per").hide();
 			jQuery('#discountType').change(function() {
 				var state = jQuery('#discountType option:selected').val();
 				if ( state == 'C' ) {
-					jQuery('.layer3').show();
-					jQuery('.layer1').hide();
+					jQuery('.per').hide();
+					jQuery('.won').show();
 				}
 				else{
-					jQuery('.layer1').show();
-					jQuery('.layer3').hide();
+					jQuery('.won').hide();
+					jQuery('.per').show();
 				}
 				
 			});
 			})
 			
-			
-			
 			$(document).ready(function(){
  
     // 라디오버튼 클릭시 이벤트 발생
    $(function(){
+	   $(".duration").hide();
+       $(".durationDay").show();
+    	$(".dura").attr('value','1992-02-20')
     $("input:radio[name=couponType]").click(function(){
- 
         if($("input[name=couponType]:checked").val() == "N"){
-            $(".duration").show();
-            $(".durationDay").hide();
+        	  $(".duration").hide();
+        	  $(".dura").attr('value','1992-02-20')
+        	  
+              $(".durationDay").show();
+              /* $(".discountCP").attr("value='원'") */
             // radio 버튼의 value 값이 1이라면 활성화
  
             
             
         }else if($("input[name=couponType]:checked").val() == "E"){
-              
-              $(".duration").hide();
-              $(".durationDay").show();
+        	 $(".duration").show();
+             $(".durationDay").hide();
+             $(".dura").removeAttr('value')
+             /* $(".discountCP").attr("value='%'") */
             // radio 버튼의 value 값이 0이라면 비활성화
         }
     });
@@ -253,47 +256,35 @@ input[name="paymentMethodCode"] {
 			
 			</script>
 			
-			<div class="form-group row duration">
-				<label for="couponDuration" class="col-sm-2 col-form-label">쿠폰사용기한</label>
+			<div class="form-group row ">
+				<label for="couponDuration" class="col-sm-2 col-form-label">유효기한</label>
 				<div class="col-sm-5">
-					<input type="date" name="couponDuration"  class="form-control" value="${b.couponDuration eq null?'':b.couponDuration }"/>
+					<input type="number" name="couponDuration"  class="form-control" value="0"/>
 				</div>
 				<div class="col-form-label">
 					<span>일</span>
 				</div>
 				
 			</div>
-			<div class="form-group row durationDay">
-				<label for="couponDurationDay" class="col-sm-2 col-form-label">유효기한</label>
-				<div class="col-sm-5">
-					<input type="number" name="couponDurationDay"  class="form-control" value="일 수를 작성바랍니다(ex: 10)"/>
-				</div>
-				<div class="col-form-label">
-					<span>일</span>
-				</div>
 				
-			</div>
-			
 				<div class="form-group row layer3">
-				<label for="discountValue" class="col-sm-2 col-form-label">할인금액</label>
+				
+				<label for="discountValue" class="col-sm-2 col-form-label">
+				<span class="per">할인율</span>  
+				<span class="won">할인금액</span>
+				</label>
+				
 				<div class="col-sm-5">
-					<input type="number" name="discountValue" class="form-control" value="${b eq null?'0':b.discountValue}">
+					<input type="number" name="discountValue" class="form-control duraWon" >
 				</div>
-				<div class="col-form-label">
-					<span>원</span>
+				<div class="col-form-label discountInt">
+					<span class="won">원</span>
+					<span class="per">%</span>
 				</div>
 			</div>
 			
-			
-			
-			
-			
-			
-			
-			<!-- 할인금액 -->
-			
-			<!-- 할인율 -->
-			<div class="form-group row layer1">
+			<%-- <!-- 할인율 -->
+			 <div class="form-group row layer1">
 				<label for="discountRate" class="col-sm-2 col-form-label">할인율</label>
 				<div class="col-sm-5">
 					<input type="number" name="discountRate" class="form-control" value="${b eq null?'0':b.discountValue}">
@@ -301,7 +292,7 @@ input[name="paymentMethodCode"] {
 				<div class="col-form-label">
 					<span>%</span>
 				</div>
-			</div>
+			</div>  --%>
 			
 			<div class="form-group row">
 				<label for="maxValue" class="col-sm-2 col-form-label">최대할인금액</label>
@@ -335,19 +326,11 @@ input[name="paymentMethodCode"] {
 					<input type="text" name="memberId" class="form-control" placeholder="지급대상 아이디를 입력하세요(,로 구분)" value=""/>
 				</div>
 			</div> -->
-			<c:if test="${b eq null}">
 			
 			<div class=" text-center" style="padding-bottom: 50px">
 				<input type="submit" class="btn btn-primary btn-lg" id=""
 					value="쿠폰등록" />
 			</div>
-			</c:if>
-			<c:if test="${b ne null}">
-			<div class=" text-center" style="padding-bottom: 50px">
-				<input type="submit" class="btn btn-primary btn-lg" id=""
-					value="쿠폰수정" />
-			</div>
-			</c:if>
 		</form>
 		
 		
