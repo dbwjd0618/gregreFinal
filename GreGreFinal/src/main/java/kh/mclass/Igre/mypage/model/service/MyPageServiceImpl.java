@@ -145,9 +145,9 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 
 	@Override
-	public int updateCounselor(BizMember bz) {
+	public int updateCounselor(Counselor c) {
 		// TODO Auto-generated method stub
-		return mpd.updateCounselor(bz);
+		return mpd.updateCounselor(c);
 	}
 
 	@Override
@@ -157,9 +157,16 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 
 	@Override
+	public Counselor selectCounselorOne1(String cmemberId) {
+		// TODO Auto-generated method stub
+		return mpd.selectCounselorOne1(cmemberId);
+	}
+	
+	@Override
 	public List<Period> selectPeriod(Period period) {
 		// TODO Auto-generated method stub
 		return mpd.selectPeriod(period);
+
 	}
 
 
