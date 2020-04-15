@@ -172,7 +172,7 @@
     <div class="container">
         <div class="col-lg-6 text-center">
             <div class="section-title">
-                <h2>Deal Of The Week</h2>
+                <h2>오늘의 딜</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed<br /> do ipsum dolor sit amet,
                     consectetur adipisicing elit </p>
                 <div class="product-price">
@@ -182,20 +182,20 @@
             </div>
             <div class="countdown-timer" id="countdown">
                 <div class="cd-item">
-                    <span>56</span>
-                    <p>Days</p>
+                    <span>7</span>
+                    <p>일</p>
                 </div>
                 <div class="cd-item">
                     <span>12</span>
-                    <p>Hrs</p>
+                    <p>시간</p>
                 </div>
                 <div class="cd-item">
                     <span>40</span>
-                    <p>Mins</p>
+                    <p>분</p>
                 </div>
                 <div class="cd-item">
                     <span>52</span>
-                    <p>Secs</p>
+                    <p>초</p>
                 </div>
             </div>
             <a href="#" class="primary-btn">Shop Now</a>

@@ -31,6 +31,7 @@ public class OrderProduct implements Serializable{
 	private String[] optionPrice;
 	private String[] prodCount;
 	private String renamedImg;
+	private String originalImg;
 	private int deliveryFee;
 	private String reviewId;
 	public OrderProduct(String orderNo, String productId, String[] optionId, String[] prodCount) {
