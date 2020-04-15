@@ -4,6 +4,7 @@
 <!-- admin header 선언 -->
 <%@ include file="/WEB-INF/views/admin/common/header.jsp"%>
 
+
 <!-- Right side column. Contains the navbar and content of the page -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->

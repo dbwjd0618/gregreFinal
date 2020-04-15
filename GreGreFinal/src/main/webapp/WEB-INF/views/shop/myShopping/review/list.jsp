@@ -210,8 +210,8 @@ $(function(){
 							<div class="my-review-list__list__item col-lg-10">
 								<div class="my-review-list__list__item__wrap row ">
 									<div class="my-review-list__list__item__product col-lg-9">
-										<a class="my-review-list__list__item__product__name"
-											href="/productions/29029/selling"> [${review.brandName }]
+									<a class="my-review-list__list__item__product__name"
+									href="${pageContext.request.contextPath }/shop/product/detail.do?productId=${review.productId}"> [${review.brandName }]
 											${review.productName } </a>
 										<div class="my-review-list__list__item__product__explain">
 											<c:forEach var="optName" items="${review.optionName}"

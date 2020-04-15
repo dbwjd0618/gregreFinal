@@ -15,7 +15,7 @@ where
 </select>
 
 <insert id="insertMenses">
-insert into TB_MENSES_${memberId} values(seq_${memberId}_menses.nextval,#{startDay},null,#{cycle},#{nextMemses},#{ageStart},#{ageEnd},null)
+insert into TB_MENSES_${memberId} values(seq_${memberId}_menses.nextval,#{startDay},#{startDay}+#{cycle},#{cycle},#{nextMemses},#{ageStart},#{ageEnd},null)
 
 </insert>
 </mapper>

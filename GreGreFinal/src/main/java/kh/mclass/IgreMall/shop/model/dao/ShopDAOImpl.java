@@ -57,6 +57,15 @@ public class ShopDAOImpl implements ShopDAO {
 		
 		return sqlSession.selectList("product.productListAll",categories, rowBounds);
 	}
+
+	@Override
+	public List<Product> searchListAll(int cPage, int numPerPage, Product product) {
+		int offset = (cPage-1)*numPerPage;
+		int limit= numPerPage;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return sqlSession.selectList("product.searchListAll",product, rowBounds);
+	}
 	
 
 }

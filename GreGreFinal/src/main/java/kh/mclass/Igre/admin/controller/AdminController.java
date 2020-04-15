@@ -134,8 +134,15 @@ public class AdminController {
 	public String update(Amember amember, 
 						 RedirectAttributes redirectAttributes) {
 		
-		int result = adminService.updateMember(amember);
+		String rawPassword = amember.getMemberPwd();
+		log.debug("암호전=", rawPassword);
 		
+		String encryptPassword = bcryptPasswordEncoder.encode(rawPassword);
+		log.debug("암호화후=", encryptPassword);
+		
+		amember.setMemberPwd(encryptPassword);
+		
+		int result = adminService.updateMember(amember);
 		redirectAttributes.addFlashAttribute("msg", result>0?"회원정보 수정이 완료되었습니다.":"회원정보 수정에 실패하였습니다.");
 		
 		return "redirect:/admin/memberList.do";
@@ -154,9 +161,16 @@ public class AdminController {
 	@PostMapping("/adminUpdate.do")
 	public String adminUpdate(Amember amember,
 							  RedirectAttributes redirectAttributes) {
+
+		String rawPassword = amember.getMemberPwd();
+		log.debug("암호전=", rawPassword);
+		
+		String encryptPassword = bcryptPasswordEncoder.encode(rawPassword);
+		log.debug("암호화후=", encryptPassword);
+		
+		amember.setMemberPwd(encryptPassword);
 		
 		int result = adminService.updateAdmin(amember);
-		
 		redirectAttributes.addFlashAttribute("msg", result>0?"정보수정이 완료되었습니다.":"정보수정에 실패하였습니다.");
 		
 		return "redirect:/admin/index.do";
