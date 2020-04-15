@@ -634,6 +634,20 @@ function cartSubmit(index, cartId){
 								</tr>
 							</thead>
 							<tbody>
+								<c:if test="${empty cartList }">
+											<tr>
+												<td></td>
+												<td class="chk-col" colspan="4">
+													<div class="filter-widget">
+														<div class="fw-brand-check">
+															<div class="bc-item" style="padding-top: 60px; padding-bottom:30px;">장바구니가 비어있습니다.</div>
+														</div>
+													</div>
+												</td>
+
+											</tr>
+								</c:if>
+								<c:if test="${not empty cartList }">
 								<c:forEach var="cart" items="${cartList}" varStatus="vs">
 									<tr>
 										<td class="chk-col">
@@ -775,7 +789,7 @@ function cartSubmit(index, cartId){
 										<!-- 배송비 -->
 									</tr>
 								</c:forEach>
-
+								</c:if>
 							</tbody>
 						</table>
 					</form>
