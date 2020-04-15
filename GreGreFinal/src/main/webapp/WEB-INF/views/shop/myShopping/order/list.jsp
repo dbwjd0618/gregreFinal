@@ -1,3 +1,6 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="kh.mclass.IgreMall.order.model.vo.OrderList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -313,8 +316,21 @@
 										<div class="order-list__item__production__wrap">
 											<div class="order-list__item__production__item">
 												<div class="order-list__item__production__item__wrap">
-													<img class="order-list__item__production__item__img"
-														src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${prodList.renamedImg}">
+													<a href="${pageContext.request.contextPath }/shop/product/detail.do?productId=${prodList.productId}">
+															<c:if
+																test="${fn:contains(prodList.originalImg, 'http://')}">
+																<img class="order-list__item__production__item__img"
+																	src="${prodList.originalImg}"
+																	alt="">
+															</c:if> 
+															<c:if test="${fn:contains(prodList.productId, 'p')}">
+																<img class="order-list__item__production__item__img"
+																	src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${prodList.renamedImg}"
+																	alt="">
+															</c:if>
+													</a>
+													
+													
 													<div class="order-list__item__production__item__info">
 														<div
 															class="order-list__item__production__item__info__wrap order-list__item-container">
@@ -385,7 +401,7 @@
 														리뷰보기
 														</button>
 													</c:if>
-													<c:if test="${ empty prodList.reviewId }">
+													<c:if test="${ empty prodList.reviewId && order.deliveryState !='입금대기' }">
 														<button
 															class="button button--color-blue-inverted button--size-50 button--shape-4 order-list__item__production__item__delivery__btn review-btn">리뷰작성</button>
 													</c:if>

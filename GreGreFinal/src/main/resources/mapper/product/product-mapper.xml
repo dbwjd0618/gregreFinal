@@ -20,6 +20,7 @@
 		option_id = #{optionId}
 </update>	
 	
+
 <select id="selectSellerId" resultType="string">
 	    SELECT 
 	    	seller_id
@@ -91,6 +92,18 @@
 		category_id= #{categoryId}
 	</if>
 </select>
+
+<select id="searchListAll" resultMap="productList">
+	    select *
+		from (select * 
+        	from tb_product A join tb_prod_img B
+           	 on A.product_id = B.product_id
+        	where B.img_type ='R'  order by A.enroll_date desc )
+	    where
+		1=1
+			and product_name like '%${keyword}%'
+			or brand_name like '%${keyword}%'
+</select>	
 	
 <select  id="productListAll" resultMap="productList">
 select *
@@ -123,6 +136,8 @@ where
 		category_id= #{categoryId}
 </if>
 </select>
+
+
 <select id="selectProductOne" resultMap="productList">
 select 
 	*
