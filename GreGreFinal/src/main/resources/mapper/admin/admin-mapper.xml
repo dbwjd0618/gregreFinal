@@ -368,6 +368,15 @@
 			tb_member_info
 	</select>
 	
+	<select id="newMemberCnt" resultType="_int">
+		select 
+			count(*) 
+		from 
+			TB_member_info 
+		where 
+			(sysdate-30) <![CDATA[<]]> enroll_date	
+	</select>
+	
 	
  </mapper>
  
