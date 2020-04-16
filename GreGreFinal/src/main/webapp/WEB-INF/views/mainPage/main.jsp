@@ -138,30 +138,27 @@ body {
 				<div class="col-md-5 top-links"
 					style="padding: 0 !important; margin-top: 68px;">
 					<ul>
-						<li class="link1"><a
-							href="${pageContext.request.contextPath }/pregnancy/prePregnancy.do">
-								<img
-								src="${pageContext.request.contextPath}/resources/images/index/pregnant-icon.png"
-								alt=""> <br> 임신
-						</a></li>
-						<li class="link2"><a
-							href="${pageContext.request.contextPath }/child/childInfo.do">
-								<img
-								src="${pageContext.request.contextPath}/resources/images/index/child-icon.png"
-								alt=""> <br> 육아
-						</a></li>
-						<li class="link3"><a
-							href="${pageContext.request.contextPath }/find/pharmacy.do">
-								<img
-								src="${pageContext.request.contextPath}/resources/images/index/reserve_hospital-icon.png"
-								alt=""> <br> 마스크구매
-						</a></li>
-						<li class="link4"><a
-							href="${pageContext.request.contextPath }/counselling/counselorFind.do">
-								<img
-								src="${pageContext.request.contextPath}/resources/images/index/counseling-icon.png"
-								alt=""> <br> 온라인상담
-						</a></li>
+						<li class="link1">
+							<a href="${pageContext.request.contextPath }/pregnancy/prePregnancy.do">
+								<img src="${pageContext.request.contextPath}/resources/images/index/pregnant-icon.png" alt=""> <br> 임신
+							</a>
+						</li>
+						<li class="link2">
+							<a href="${pageContext.request.contextPath }/child/childInfo.do">
+								<img src="${pageContext.request.contextPath}/resources/images/index/child-icon.png" alt=""> <br> 육아
+							</a>
+						</li>
+						<li class="link3">
+							<a href="${pageContext.request.contextPath }/find/pharmacy.do">
+								<img src="${pageContext.request.contextPath}/resources/images/index/reserve_hospital-icon.png" alt=""> <br> 마스크현황
+							</a>
+						</li>
+						<li class="link4">
+							<a href="${pageContext.request.contextPath }/counselling/counselorFind.do">
+								<img src="${pageContext.request.contextPath}/resources/images/index/counseling-icon.png" alt=""> <br> 온라인상담
+							</a>
+						</li>
+
 					</ul>
 				</div>
 			</div>

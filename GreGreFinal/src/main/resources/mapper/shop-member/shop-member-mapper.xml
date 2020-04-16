@@ -3,6 +3,20 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shopMember">
+<select id="selectList3" resultType="Winner">
+select 
+	*
+from
+	tb_event_part A left join tb_event B
+		on A.event_no = B.event_no
+		left join tb_coupon_info C
+		on A.couponid = C.coupon_id
+		left join tb_reply_event D
+		on A.event_no = D.post_no
+where 
+	A.event_Part_id=#{memberId}
+
+</select>
 	<delete id="deleteCart">
 		delete from 
 	 	tb_consumer_cart

@@ -47,7 +47,12 @@
 </head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+<style>
+a{
+text-decoration: none !important;
+}
 
+</style>
 
   <div class="site-wrap" id="home-section">
 

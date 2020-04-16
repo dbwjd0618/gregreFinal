@@ -27,8 +27,9 @@
             <!--담청자 발표 -->
             <div class="board-detail event">
                 <div class="board-header row">
-                    <h3 class="title">프리미엄 상품 구매시 팸퍼스 기저귀 100% 증정 이벤트 감자퐁 당첨자발표</h3>
-
+                <c:forEach items="${wl}" var="w">
+                    <h3 class="title">[Igre-Mall] ${w.eventTitle }</h3>
+				</c:forEach>
                     <div class="date">2020.02.19</div>
                 </div>
                 <!-- s: 당첨자발표 상세 내용 -->
@@ -36,25 +37,10 @@
                     <div class="board-content-inner col-lg-12">
                         <div class="row">
                             <div class="col-lg-12">
-                                <p>                        
-                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque 
-                                    itaque voluptate facere velit illo saepe facilis a quisquam eum dolore 
-                                    excepturi adipisci distinctio voluptas delectus debitis quis, non sed 
-                                    laborum?
-                                </p>
-                                <p>                        
-                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque 
-                                        itaque voluptate facere velit illo saepe facilis a quisquam eum dolore 
-                                        excepturi adipisci distinctio voluptas delectus debitis quis, non sed 
-                                        laborum?
-                                </p>
-                                <p>                        
-                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque 
-                                        itaque voluptate facere velit illo saepe facilis a quisquam eum dolore 
-                                        excepturi adipisci distinctio voluptas delectus debitis quis, non sed 
-                                        laborum?
-                                    </p>
-
+                            <c:forEach items="${wl}" var="w">
+                            <p>${w.eventPartContent }</p>
+							
+							</c:forEach>
                             </div>
 
                         </div>
@@ -82,83 +68,19 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">번호</th>
-                                            <th scope="col">이름</th>
                                             <th scope="col">아이디</th>
                                             <th scope="col">당첨경품</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
-                                        <tr>
-                                            <td>1</td>
-                                            <td>이*지</td>
-                                            <td>amore1***</td>
-                                            <td>아이꼬야 감자퐁1박스(8입) 교환쿠폰</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>2</td>
-                                            <td>김*옥</td>
-                                            <td>jun2***</td>
-                                            <td>아이꼬야 감자퐁1박스(8입) 교환쿠폰</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>3</td>
-                                            <td>김*은</td>
-                                            <td>kim412987***</td>
-                                            <td>아이꼬야 감자퐁1박스(8입) 교환쿠폰</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>4</td>
-                                            <td>이*희</td>
-                                            <td>seehe***</td>
-                                            <td>아이꼬야 감자퐁1박스(8입) 교환쿠폰</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>5</td>
-                                            <td>이*선</td>
-                                            <td>ohho***</td>
-                                            <td>아이꼬야 감자퐁1박스(8입) 교환쿠폰</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>6</td>
-                                            <td>추*수</td>
-                                            <td>ppukkubs***</td>
-                                            <td>아이꼬야 감자퐁1박스(8입) 교환쿠폰</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>7</td>
-                                            <td>주*경</td>
-                                            <td>sidsma***</td>
-                                            <td>아이꼬야 감자퐁1박스(8입) 교환쿠폰</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>8</td>
-                                            <td>유*영</td>
-                                            <td>staryou123***</td>
-                                            <td>아이꼬야 감자퐁1박스(8입) 교환쿠폰</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>9</td>
-                                            <td>최*연</td>
-                                            <td>tkfkd9***</td>
-                                            <td>아이꼬야 감자퐁1박스(8입) 교환쿠폰</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>10</td>
-                                            <td>심*용</td>
-                                            <td>dydshi***</td>
-                                            <td>아이꼬야 감자퐁1박스(8입) 교환쿠폰</td>
-                                        </tr>
-
+										<c:forEach items="${wl }" var="w" varStatus="num" begin="0">
+	                                        <tr>
+	                                            <td>${num.index+1 }</td>
+	                                            <td>${w.eventPartId }</td>
+	                                            <td>${w.couponName }</td>
+	                                        </tr>
+										</c:forEach>
+                                       
                                     </tbody>
                                 </table>
 

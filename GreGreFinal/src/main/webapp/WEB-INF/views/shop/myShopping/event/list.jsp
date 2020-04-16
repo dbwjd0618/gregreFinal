@@ -99,15 +99,14 @@
 								</tr>
 							</thead>
 							<tbody>
-
+							<c:forEach items="${wlist }" var="w">	
 								<tr>
 									<td class="aleft"><a href="/event/notice/detail/"
-										class="title">[케어비몰]첫만남 첫소개 첫-사전예약!</a></td>
-
-									<td>2020.03.20</td>
-									<td><a href=""><span class="fc-gray">미발표</span></a></td>
+										class="title">${w.eventTitle }</a></td>
+									<td>${w.replyWriteTime }</td>
+									<td><a href=""><span class="fc-gray">당첨</span></a></td>
 								</tr>
-
+							</c:forEach>
 							</tbody>
 						</table>
 					</div>
