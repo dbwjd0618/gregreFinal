@@ -10,7 +10,8 @@ insert into
 		#{eventNo},
 		seq_event_part_no.nextval,
 		#{memberId},
-		null
+		#{resultMsg},
+		#{couponId}
 		)
 </insert>
 <insert id="sendCoupon">

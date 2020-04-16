@@ -6,14 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Setter
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 
 public class WinnerEvent {
 	private int eventNo;
 	private String eventPratNo;
 	private String memberId;
+	private String resultMsg;
+	private String couponId;
 }

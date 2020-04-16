@@ -245,6 +245,19 @@ body {padding-right: 0px !important;}
 	</div>
 </div>
 </div>
+         <!-- jQuery 2.1.3 -->
+        <script src="${pageContext.request.contextPath}/resources/js/admin/jQuery-2.1.3.min.js"></script>
+        
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>  
+        
+        <!-- Slimscroll -->
+        <script src="${pageContext.request.contextPath}/resources/js/admin/jquery.slimscroll.min.js" type="text/javascript"></script>
+        <!-- FastClick -->
+        <script src='${pageContext.request.contextPath}/resources/js/admin/fastclick.min.js'></script>
+        <!-- AdminLTE App -->
+        <script src="${pageContext.request.contextPath}/resources/js/admin/app.min.js" type="text/javascript"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="${pageContext.request.contextPath}/resources/js/admin/demo.js" type="text/javascript"></script>
 
 <script>	
 	function reportShow(replyNo, reporteeId) {

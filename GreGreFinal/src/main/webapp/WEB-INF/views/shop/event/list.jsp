@@ -57,16 +57,19 @@
                             </div>
                             <div class="fright">
                                 <div class="notice-list">
-                                        <ul>
+                                        <c:forEach items="${wlist}" var="l">
+                                        <ul style="margin-top:5px">
                                              <li>
-                                                <a href="${pageContext.request.contextPath }/shop/event/noticeDetail.do" class="item">
-                                                    <span class="ntit">프리미엄 상품 구매시 팸퍼스 기저귀 100% 증정 이벤트 감자퐁 당첨자발표</span>
+                                                <a href="${pageContext.request.contextPath }/shop/event/noticeDetail.do?eventNo=${l.eventNo}" class="item">
+                                                    <span class="ntit">${l.eventTitle }</span>
                                                     <span class="ndate">20.02.19</span>
                                                 </a>
                                             </li>
-                                                
-                                        </ul>					
+                                        </ul>	
+                                        </c:forEach>
+                                        				
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
