@@ -87,9 +87,13 @@ span.deli-fee {
 </style>
 <script>
 	function goSearch() {
-
-		document.searchFrm.action = '${pageContext.request.contextPath }/shop/searchList.do';
-		document.searchFrm.submit();
+		if($('[name=keyword]').val()== ''){
+        	alert('검색어를 입력하세요');
+        	return false; 
+    	}else{
+			document.searchFrm.action = '${pageContext.request.contextPath }/shop/searchList.do';
+			document.searchFrm.submit();
+    	}
 
 	}
 </script>
@@ -257,7 +261,7 @@ span.deli-fee {
 																									items="${optName }" var="optNm"
 																									varStatus="nmVs">
 																${optNm} : ${optValue[nmVs.index]} / 
-																		</c:forEach> <em class="opt-count">${cart.prodCount[optVs.index] }</em>개
+																		</c:forEach> <em class="opt-count2">${cart.prodCount[optVs.index] }</em>개
 																						</span></li>
 																					</ul>
 																				</div>
@@ -267,7 +271,7 @@ span.deli-fee {
 																			<div class="fn-count">
 																				<ul class="">
 																					<li><span class="info-con"> 상품 주문 수량 :
-																							<em class="opt-count">${cart.prodCount[0]}</em>개
+																							<em class="opt-count2">${cart.prodCount[0]}</em>개
 																					</span></li>
 																				</ul>
 																			</div>

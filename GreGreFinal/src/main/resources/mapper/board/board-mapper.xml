@@ -129,7 +129,6 @@
 				</if>
 				like '%${srchCon}%'
 			</if>
-			and R.reply_writer = #{memberId}
 		</where>
 	</select>
 	

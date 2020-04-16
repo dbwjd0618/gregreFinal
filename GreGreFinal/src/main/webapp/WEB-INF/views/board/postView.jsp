@@ -154,7 +154,7 @@ body {padding-right: 0px !important;}
 												<c:if test="${memberLoggedIn.memberId != reply.replyWriter }">
 													<i class="far fa-thumbs-up rclick" onclick="recom('${reply.replyNo}');">${reply.recommenCount}</i>&nbsp;&nbsp;
 													<i class="far fa-thumbs-down rclick" onclick="decom('${reply.replyNo}');">${reply.decommenCount}</i>&nbsp;&nbsp;
-													<i title="신고" class="fas fa-exclamation-triangle rclick" onclick="reportShow('${reply.replyNo}', ${reply.replyWriter})"></i>
+													<i title="신고" class="fas fa-exclamation-triangle rclick" onclick="reportShow('${reply.replyNo}', '${reply.replyWriter}')"></i>
 												</c:if>
 											</div>
 											<c:if test="${memberLoggedIn.memberId == reply.replyWriter}">
@@ -336,9 +336,9 @@ body {padding-right: 0px !important;}
 				error : function(x,s,e) {
 					console.log(x,s,e);
 				}
-		  });
-		  $("[name=reportContent]:checked").check(false);
-		  $('#modalBox').modal('hide');
+		});
+		$("[name=reportContent]:checked").prop("checked", false);
+		$('#modalBox').modal('hide');
 	}
 </script>
 
