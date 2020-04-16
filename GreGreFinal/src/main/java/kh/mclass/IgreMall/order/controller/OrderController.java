@@ -61,7 +61,6 @@ public class OrderController {
 			@RequestParam(value = "couponListId", required = false) String couponListId,
 			@RequestParam(value = "addPoint", required = false) String addPoint,
 			RedirectAttributes redirectAttributes) {
-
 		Member m = (Member) session.getAttribute("memberLoggedIn");
 		List<OrderProduct> orderProdList = (ArrayList<OrderProduct>) session.getAttribute("orderProdList");
 		orderList.setMemberId(m.getMemberId());
@@ -193,7 +192,17 @@ public class OrderController {
 			payMethod = "실시간계좌이체";
 			break;
 		}
-
+		
+		
+		//장바구니 삭제
+		int cartResult=0;
+		String[] cartIdArr = (String[])session.getAttribute("cartIdArr");
+		if(cartIdArr!=null) {
+			for(int i=0;i<cartIdArr.length;i++) {
+				String cartId = cartIdArr[i];
+				cartResult = shopMemberService.deleteCart(cartId);
+			}
+		}
 		mav.addObject("orderNo", orderList.getOrderNo());
 		mav.addObject("orderDate", orderDate);
 		mav.addObject("payPrice", totalPrice);
@@ -265,7 +274,7 @@ public class OrderController {
 					coupon.setCouponState("N");
 				}
 			}
-			System.out.println("coupon=" + coupon);
+
 			int couponResult = shopMemberService.updateCoupon(coupon);
 			redirectAttributes.addFlashAttribute("msg", couponResult > 0 ? "쿠폰 사용 성공!" : "쿠폰 사용 실패");
 		}
@@ -379,6 +388,18 @@ public class OrderController {
 			payMethod = "실시간계좌이체";
 			break;
 		}
+		
+		//장바구니 삭제
+		int cartResult=0;
+		String[] cartIdArr = (String[])session.getAttribute("cartIdArr");
+		if(cartIdArr!=null) {
+			for(int i=0;i<cartIdArr.length;i++) {
+				String cartId = cartIdArr[i];
+				cartResult = shopMemberService.deleteCart(cartId);
+			}
+		}
+		
+		
 
 		mav.addObject("orderNo", orderList.getOrderNo());
 		mav.addObject("orderDate", orderDate);
@@ -456,7 +477,10 @@ public class OrderController {
 		else {
 			// 상품 한개 바로구매
 			if (cartIdOne != null) {
-
+				String cartIdArr[] = new String[1];
+				cartIdArr[0] =cartIdOne;
+				session.setAttribute("cartIdArr", cartIdArr);
+				
 				Cart cart = shopMemberService.selectCartOne(cartIdOne);
 				Product product = productService.selectProductOne(cart.getProductId());
 				prodList.add(product);
@@ -498,6 +522,11 @@ public class OrderController {
 			}
 			// 선택된 장바구니 상품만 구매
 			else {
+				
+				String cartIdArr[] = new String[cartId.length];
+				cartIdArr= cartId;
+				session.setAttribute("cartIdArr", cartIdArr);
+				
 				List<Cart> cartList = new ArrayList<>();
 				for (int i = 0; i < cartId.length; i++) {
 					Cart cart = shopMemberService.selectCartOne(cartId[i]);
@@ -551,7 +580,7 @@ public class OrderController {
 			}
 
 		}
-
+		log.debug("cartId={}", cartId);
 		mav.addObject("prodList", prodList);
 		mav.addObject("sMem", sMem);
 		mav.addObject("totalAmountList", totalAmountList);

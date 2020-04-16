@@ -65,11 +65,11 @@
 				seq_adv_review_no.nextval,
 				#{appointNo},
 				#{advisId},
-				#{advisKeyword},
 				#{reviewerId},
 				#{starPoint},
 				#{reviewContent},
-				sysdate
+				sysdate,
+				#{advisKeyword}
 				)
 	</insert>
 	

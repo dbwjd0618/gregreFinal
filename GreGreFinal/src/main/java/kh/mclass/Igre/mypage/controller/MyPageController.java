@@ -87,11 +87,18 @@ public class MyPageController {
 	
 	//상담사 정보수정
 	@PostMapping("/updateCounselor.do") 
-	public String updateCounselor(SessionStatus sessionStatus, HttpSession session, BizMember bz, RedirectAttributes redirectAttributes) {
+	public String updateCounselor(SessionStatus sessionStatus, HttpSession session, Counselor c, RedirectAttributes redirectAttributes,
+								@RequestParam("advisName") String advisName) {
 		  
-			bz = (BizMember) session.getAttribute("bizmemberLoggedIn");
-		  
-			int result = mps.updateCounselor(bz); sessionStatus.setComplete(); 
+			log.debug("cmmmmmmmmmmm"+c);
+			 
+//			Counselor c = mps.selectCounselorOne1(bz.getCmemberId());
+			
+			c.setAdvisName(advisName);
+			
+			int result = mps.updateCounselor(c); sessionStatus.setComplete();
+			System.out.println("@@@@@@@@@@@@@@@@@@1@@@@@@@@@@@@@@@@@@@="+c);
+			System.out.println("@@@@@@@@@@@@@@@@@@2@@@@@@@@@@@@@@@@@@@="+result);
 			String msg = result > 0 ? "수정 완료! 다시 로그인 하세요" : "수정 실패! 누락된 항목이 있습니다";
 			redirectAttributes.addFlashAttribute("msg", msg);
 		  
@@ -338,14 +345,18 @@ public class MyPageController {
 		return result;
 	}
 	
-//	//리뷰 작성
-//	@PostMapping("/counsellingInfo.do")
-//	public String reviewWrite(Review review, RedirectAttributes redirectAttributes) {
-//		
-//		int result = mps.reviewWrite(review);
-//		
-//		return "redirect:/myPage/counsellingInfo.do";
-//	}
+	//리뷰 작성
+	@PostMapping("/reviewWrite.do")
+	public String reviewWrite(Review review, RedirectAttributes redirectAttributes, String starPoint) {
+		
+		review.setStarPoint(Integer.parseInt(starPoint));
+		int result = mps.reviewWrite(review);
+		
+		redirectAttributes.addFlashAttribute("msg", result>0?"리뷰등록 성공!":"리뷰등록 실패!");
+		
+		return "redirect:/myPage/counsellingInfo.do";
+	}
+
 	
 	@PostMapping("findPassword.do")
 	public String findPassword(Member member,RedirectAttributes redirectAttributes) {

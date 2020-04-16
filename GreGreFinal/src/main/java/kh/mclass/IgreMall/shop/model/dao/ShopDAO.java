@@ -21,6 +21,8 @@ public interface ShopDAO {
 
 	List<Product> productListAll(int cPage, int numPerPage, Map<String, String> categories);
 
+	List<Product> searchListAll(int cPage, int numPerPage, Product product);
+
 
 
 }

@@ -41,6 +41,7 @@ public class Product  implements Serializable{
 	private List<ProdOption> optionList;
 	private Wish wish;
 	
+	private String keyword;
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
