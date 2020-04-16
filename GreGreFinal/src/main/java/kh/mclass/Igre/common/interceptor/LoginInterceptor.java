@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kh.mclass.Igre.member.model.vo.BizMember;
 import kh.mclass.Igre.member.model.vo.Member;
@@ -25,8 +26,15 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		logger.debug("memberLoggedIn = " + memberLoggedIn);
 		logger.debug("bizmemberLoggedIn = " + bizmemberLoggedIn);
 		if(memberLoggedIn == null && bizmemberLoggedIn==null) {
+			if("STOP".equals(ss.getAttribute("refererConf"))) {
+				response.sendRedirect(request.getContextPath());
+				ss.removeAttribute("refererConf");
+				ss.removeAttribute("msg");
+				return false;
+			}
 			ss.setAttribute("msg", "로그인 후 이용해주세요");
 			response.sendRedirect(request.getHeader("referer"));
+			ss.setAttribute("refererConf", "STOP");
 			return false;
 		}
 		

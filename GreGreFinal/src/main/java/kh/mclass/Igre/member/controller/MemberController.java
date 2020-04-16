@@ -125,9 +125,9 @@ public class MemberController {
 
 	@GetMapping("/logout.do")
 	public String logout(SessionStatus ss, HttpServletRequest request, HttpSession session) {
+		String referer = request.getHeader("referer");
 		if (!ss.isComplete())
 			ss.setComplete();
-		String referer = request.getHeader("referer");
 		session.setAttribute("referer", referer);
 		log.debug("referer = " + referer);
 		return "redirect:"+referer;

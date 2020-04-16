@@ -48,6 +48,13 @@
   <script src="${pageContext.request.contextPath}/resources/js/subMenu/subMenu.js"></script>
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   </body>
+ <c:if test="${not empty refererConf}">
+<script>
+$(function() {
+	<% session.removeAttribute("refererConf"); %>
+});
+</script>
+</c:if>
   
 
 </html>
