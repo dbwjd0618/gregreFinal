@@ -92,7 +92,17 @@
 		category_id= #{categoryId}
 	</if>
 </select>
-
+<select id="selectRecoProdList" resultMap="productList">
+	    select *
+		from (select * 
+        	from tb_product A left join tb_prod_img B
+           	 on A.product_id = B.product_id
+            join tb_order_product O
+             on A.product_id = O.product_id
+        	where B.img_type ='R'  order by A.enroll_date desc )
+		 where
+		 	sysdate >= to_date(add_months(sysdate, -1))
+</select>	
 <select id="searchListAll" resultMap="productList">
 	    select *
 		from (select * 
@@ -104,7 +114,18 @@
 			and product_name like '%${keyword}%'
 			or brand_name like '%${keyword}%'
 </select>	
-	
+<select resultType="_int" id="selectProdTotalContents">
+		SELECT 
+			COUNT(*) 
+		from (select * 
+        	from tb_product A join tb_prod_img B
+           	 on A.product_id = B.product_id
+        	where B.img_type ='R'  order by A.enroll_date desc )
+	    where
+		1=1
+			and product_name like '%${keyword}%'
+			or brand_name like '%${keyword}%'
+</select>
 <select  id="productListAll" resultMap="productList">
 select *
 from (select * 
@@ -139,12 +160,12 @@ where
 
 
 <select id="selectProductOne" resultMap="productList">
-select 
-	*
-from 
-	tb_product
-where 
-	product_id = #{productId}
+ select 
+	R.*
+from(select * 
+        from tb_product A join tb_prod_img B
+            on A.product_id = B.product_id
+        where B.img_type ='R'  AND A.PRODUCT_ID =  #{productId} order by A.enroll_date desc ) R
 </select>
 <select id="selectAttachList" resultMap="attachList">
 select 
@@ -207,6 +228,13 @@ where
 		<result column="option_supply_value" property="optionSupplyValue"/>		
 		<result column="option_price" property="optionPrice"/>	
 		<result column="option_state" property="optionState"/>	
+	</collection>
+	
+	<collection property="orderProduct" ofType="kh.mclass.IgreMall.order.model.vo.OrderProduct">
+			<id column ='order_no' property="orderNo"/>
+			<result column ='product_id' property="productId"/>
+			<result column ='option_id' property="optionId"  typeHandler="strArrTypeHandler"/>
+			<result column ='prod_count' property="prodCount"  typeHandler="strArrTypeHandler"/>
 	</collection>
 </resultMap>
 
