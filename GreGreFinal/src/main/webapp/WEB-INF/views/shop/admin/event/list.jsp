@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board/board.css">
 <jsp:include page="/WEB-INF/views/shop/admin/common/header.jsp"/>
 
-
         <!-- Right side column. Contains the navbar and content of the page -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -57,7 +56,7 @@
 									<th>작성자</th>
 									<th>작성날짜</th>
 									<th>조회수</th>
-									<th></th>
+									<th>쿠폰제공</th>
 								</tr>
 								<c:if test="${empty el}">
 								<tr>
@@ -72,6 +71,8 @@
 										<td>${e.eventTitle}</td>
 										<td>${e.eventStart}</td>
 										<td>${e.eventEnd}</td>
+										
+										<td><button onclick="location.href='${pageContext.request.contextPath}/shop/admin/event/sendCoupon.do?eventNo=${e.eventNo}'">쿠폰제공</button></td>
 <%--										<td>
  											<c:if test="${memberLoggedIn == null }">
 												<img src="${pageContext.request.contextPath}/resources/img/board/StarGray.png" class="Gray" style="width:21px;"/>

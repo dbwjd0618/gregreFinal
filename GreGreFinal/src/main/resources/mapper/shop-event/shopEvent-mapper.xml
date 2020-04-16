@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shopEvent">
+<select id="selectReply" resultType="EventReply">
+select
+	*
+from
+	TB_reply_event
+where
+	post_No=#{eventNo}
+</select>
+
+<select  id="countReply" resultType="_int">
+select
+	count(*)
+from
+	TB_reply_event
+</select>
+
+<insert id="replyWrite">
+		insert into TB_reply_event values(
+		#{eventNo}, 
+		seq_event_reply.nextval, 
+		#{replyWriter}, 
+		#{replyContent}, 
+		default, 
+		default, 
+		default)
+	</insert>
+
+
+<select id="selectOne" resultType="ShopEvent">
+select
+	*
+from
+	tb_event
+where 
+	event_no = #{eventNo}
+
+</select>
+<select  id="selectList" resultType="ShopEvent">
+select
+	*
+from
+	tb_event
+</select>
+
+</mapper>

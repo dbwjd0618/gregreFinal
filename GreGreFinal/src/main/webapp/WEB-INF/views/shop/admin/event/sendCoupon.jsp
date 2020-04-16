@@ -85,6 +85,50 @@ body {padding-right: 0px !important;}
 								</form>
 							</div>
 						</div>
+						<div style="margin: 30px;">댓글 작성자 리스트</div>
+						
+						<c:set  var="count" value="0" />
+						<c:forEach items="${replyList}" var="r" varStatus="rs">
+						
+						<c:set  var="count" value="${count+1 }" />
+						<span style="padding-right:20px; padding-bottom:20px; font-size: 20px;">${r.replyWriter } ${!rs.last?",":"" } ${count %10 eq 0 ?'<br/>':''}</span>
+						</c:forEach>
+						
+										<form
+			action="${pageContext.request.contextPath}/shop/admin/coupon/sendECoupon.do"
+			method="get" enctype="multipart/form-data">
+			<input type="hidden" name="eventNo" value="${e.eventNo }" />
+			<div class="form-group row" style="margin-top: 30px;">
+				<label for="selectCoupon" class="col-sm-2 col-form-label">쿠폰선택</label>
+				<div class="col-sm-10">
+					<select name="couponId">
+				<c:forEach items="${clist }" var="c">
+						<option value="${c.couponId}" selected>쿠폰명=${c.couponName }, 할인방법:${c.discountType eq 'P'?'% 단위':'원 단위' }, ${c.discountType eq 'P'?'할인 율':'할인 금액' }:${c.discountValue} ${c.discountType eq 'P'?'%':'원' }</option>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
+			<div class="form-group row" style="margin-top: 30px;">
+			
+				<label for="memberId" class="col-sm-2 col-form-label">쿠폰지급대상자</label>
+				<div class="col-sm-10">
+					<input type="text" name="memberId" class="form-control" placeholder="지급대상 아이디를 입력하세요(,로 구분)" value=""/>
+				</div>
+			</div>
+			
+			<input type="hidden" name="couponId" value="${b.couponId }" />
+			<input type="hidden" name="couponType" value="${b.couponType }" />
+			<input type="hidden" name="couponName" value="${b.couponName }" />
+			<input type="hidden" name="discountValue" value="${b.discountValue }" />
+			<input type="hidden" name="maxValue" value="${b.maxValue }" />
+			<input type="hidden" name="couponDuration" value="${b.couponDuration }" />
+			
+			<div class=" text-center" style="padding-bottom: 50px">
+				<input type="submit" class="btn btn-primary btn-lg" id=""
+					value="쿠폰전송" />
+			</div>
+			</form>
+						
 						<table id="content" style="width: 100%;">
 							<tr>
 								<td style="width: 80%; text-align: left;">글 작성자 : 아이그레 ${e.eventNo }</td>
