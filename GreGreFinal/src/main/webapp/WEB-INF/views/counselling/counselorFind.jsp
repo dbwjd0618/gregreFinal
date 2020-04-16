@@ -36,11 +36,7 @@ $(function(){
 		result += "<span class='star-rating-middle'><span style='width:"+counselorR[i].starPoint*20+"%'>&nbsp;</span></span>"
 		result += "<div class='partner-list-box__review-score js-review-star-num'>"+counselorR[i].reviewTotal+"개의 리뷰</div></div></div></div>";
 		//상담 이미지
-<<<<<<< HEAD
-		result += "<div class='counselor-img'><img src='${pageContext.request.contextPath}/resources/upload/member/"+counselorR[i].advisImg+"'alt='상담사 사진'></div>";
-=======
 		result += "<div class='counselor-img'><img src='${pageContext.request.contextPath }/resources/upload/member/"+counselorR[i].advisImg+"'alt='상담사 사진'></div>";
->>>>>>> branch 'master' of https://github.com/Wingater/GreGre
 		//상담 유형
 		result += "<div class='counselor-type'><div><ul class='counselor-type'><li class='counselling-type'>";
 		for(var j=0; j<counselorR[i].advisKeyword.length; j++){
@@ -95,11 +91,7 @@ $(function(){
 				result += "<span class='star-rating-middle'><span style='width:"+nameChk[i].starPoint*20+"%'>&nbsp;</span></span>"
 				result += "<div class='partner-list-box__review-score js-review-star-num'>"+nameChk[i].reviewTotal+"개의 리뷰</div></div></div></div>";
 				//상담 이미지
-<<<<<<< HEAD
-				result += "<div class='counselor-img'><img src='${pageContext.request.contextPath}/resources/upload/member/"+nameChk[i].advisImg+"'alt='상담사 사진'></div>";
-=======
 				result += "<div class='counselor-img'><img src='${pageContext.request.contextPath }/resources/upload/member/"+nameChk[i].advisImg+"'alt='상담사 사진'></div>";
->>>>>>> branch 'master' of https://github.com/Wingater/GreGre
 				//상담 유형
 				result += "<div class='counselor-type'><div><ul class='counselor-type'><li class='counselling-type'>";
 				for(var j=0; j<nameChk[i].advisKeyword.length; j++){
@@ -423,11 +415,7 @@ function filter(){
 				result += "<span class='star-rating-middle'><span style='width:"+resultArr[i].starPoint*20+"%'>&nbsp;</span></span>"
 				result += "<div class='partner-list-box__review-score js-review-star-num'>"+resultArr[i].reviewTotal+"개의 리뷰</div></div></div></div>";
 				//상담 이미지
-<<<<<<< HEAD
-				result += "<div class='counselor-img'><img src='${pageContext.request.contextPath}/resources/upload/member/"+resultArr[i].advisImg+"'alt='상담사 사진'></div>";
-=======
 				result += "<div class='counselor-img'><img src='${pageContext.request.contextPath }/resources/upload/member/"+resultArr[i].advisImg+"'alt='상담사 사진'></div>";
->>>>>>> branch 'master' of https://github.com/Wingater/GreGre
 				//상담 유형
 				result += "<div class='counselor-type'><div><ul class='counselor-type'><li class='counselling-type'>";
 				for(var j=0; j<resultArr[i].advisKeyword.length; j++){
