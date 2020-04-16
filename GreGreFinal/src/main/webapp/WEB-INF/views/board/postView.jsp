@@ -125,7 +125,7 @@ body {padding-right: 0px !important;}
 								<td colspan="2" style="text-align: left;">
 									<i title="목록으로" class="fas fa-clipboard-list clickable" onclick="location.href='${pageContext.request.contextPath}/board/postList?boardCode=${post.boardCode }'"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									<c:if test="${memberLoggedIn != null && memberLoggedIn.memberId != post.writer}">
-										<i title="신고하기" class="fas fa-exclamation-triangle clickable" onclick="reportShow(0, '${post.writer}')"></i>
+										<i title="신고하기" class="fas fa-exclamation-triangle clickable" onclick="reportShow('0', '${post.writer}')"></i>
 									</c:if>
 								</td>
 								<c:if test="${memberLoggedIn.memberId == post.writer}">
@@ -150,12 +150,11 @@ body {padding-right: 0px !important;}
 												<c:if test="${memberLoggedIn.memberId == reply.replyWriter}">
 													<i class="far fa-thumbs-up"> ${reply.recommenCount}</i>&nbsp;&nbsp;
 													<i class="far fa-thumbs-down"> ${reply.decommenCount}</i>&nbsp;&nbsp;
-													<i title="신고" class="fas fa-exclamation-triangle"></i>
 												</c:if>
 												<c:if test="${memberLoggedIn.memberId != reply.replyWriter }">
 													<i class="far fa-thumbs-up rclick" onclick="recom('${reply.replyNo}');">${reply.recommenCount}</i>&nbsp;&nbsp;
 													<i class="far fa-thumbs-down rclick" onclick="decom('${reply.replyNo}');">${reply.decommenCount}</i>&nbsp;&nbsp;
-													<i title="신고" class="fas fa-exclamation-triangle rclick" onclick="reportShow(${reply.replyNo}, ${reply.replyWriter})"></i>
+													<i title="신고" class="fas fa-exclamation-triangle rclick" onclick="reportShow('${reply.replyNo}', ${reply.replyWriter})"></i>
 												</c:if>
 											</div>
 											<c:if test="${memberLoggedIn.memberId == reply.replyWriter}">
@@ -264,6 +263,8 @@ body {padding-right: 0px !important;}
 					<input type="hidden" name="reporterId" value="${memberLoggedIn.memberId }" />
 					<input type="hidden" name="boardCode" value="${post.boardCode}" />
 					<input type="hidden" name="postNo" value="${post.postNo}" />
+					<input type="hidden" name="replyNo"/>
+					<input type="hidden" name="reporteeId"/>
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -285,6 +286,7 @@ body {padding-right: 0px !important;}
 			replyNo : replyNo,
 			reporterId : $("[name=reporterId]").val()
  		}
+		console.log(report);
 		$.ajax({
 	 		url: "${pageContext.request.contextPath}/board/checkReport.ajax",
 			data : report,
@@ -295,6 +297,9 @@ body {padding-right: 0px !important;}
 					alert("이미 신고하셨습니다.");
 					return;
 		  		}
+				$('#modalBox').modal('show');
+				$("[name=replyNo]").val(replyNo);
+				$("[name=reporteeId]").val(reporteeId);
 	  		},
 	  		error: function(x,s,e) {
 				console.log(x,s,e);
@@ -302,20 +307,20 @@ body {padding-right: 0px !important;}
 				return;
 			}
 		});
-		$('#modalBox').modal('show');
 	}
 	
 	$('#closeModalBtn').on('click', function(){	
-	  $('#modalBox').modal('hide');	
+		$("[name=reportContent]:checked").prop("checked", false);
+		$('#modalBox').modal('hide');	
 	});
 	
 	function reportSubmit() {
 		  let report = {
 				boardCode : $("[name=boardCode]").val(),
 				postNo : $("[name=postNo]").val(),
-				replyNo : replyNo,
+				replyNo : $("[name=replyNo]").val(),
 				reporterId : $("[name=reporterId]").val(),
-				reporteeId : reporteeId,
+				reporteeId : $("[name=reporteeId]").val(),
 				reportContent : $("[name=reportContent]:checked").val()
 		  }
 		  $.ajax({
@@ -332,7 +337,7 @@ body {padding-right: 0px !important;}
 					console.log(x,s,e);
 				}
 		  });
-		  $("[name=reportContent]:checked").checked(false);
+		  $("[name=reportContent]:checked").check(false);
 		  $('#modalBox').modal('hide');
 	}
 </script>

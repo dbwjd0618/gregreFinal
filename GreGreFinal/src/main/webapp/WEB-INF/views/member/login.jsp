@@ -7,6 +7,13 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="" name="pageTitle" />
 </jsp:include>
+<c:if test="${not empty memberLoggedIn }">
+<script>
+	$(function() {
+		location.href='${pageContext.request.contextPath}';
+	});
+</script>
+</c:if>
 
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/login.css"> 

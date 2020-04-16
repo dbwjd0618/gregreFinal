@@ -57,12 +57,7 @@ public class MemberController {
 			Member m = (Member) session.getAttribute("memberLoggedIn");
 			m.getMemberId().equals(null);
 		} catch (NullPointerException e) {
-			String referer = (String)session.getAttribute("referer"); 
-			if(referer == null || "".equals(referer)) {
-				request.getHeader("referer");
-				session.setAttribute("referer", referer);
-			}
-			log.debug("referer = " + referer);
+			session.setAttribute("referer", request.getHeader("referer"));
 			return "member/login";
 		} catch (Exception e) {
 			e.printStackTrace();
