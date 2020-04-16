@@ -39,17 +39,13 @@
                     <div class="gcol">
                         <div class="evt-sm-banner">
                             <ul class="fn-evt-banner-2 slick-initialized slick-slider">
-                                
                                     <div aria-live="polite" class="slick-list">
                                     	<div class="slick-track" style="opacity: 1; width: 550px; transform: translate3d(0px, 0px, 0px);" role="listbox"><li class="slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" style="width: 550px;" tabindex="-1" role="option" aria-describedby="slick-slide10">
                                         <a href="/exhibition/form/7" tabindex="0"><img src="https://shoppingcdn.namyangi.com/attach/site/2020/202001/f30dde76-0fbc-4df5-9f10-e0f204011017.png" alt="남양분유 인기상품 모음전"></a>
                                     </li></div></div>
-                                
                             </ul>
                         </div>
                     </div>
-                
-                    
                     <div class="gcol">
                         <div class="evt-notice-box">
                             <div class="fleft">
@@ -93,11 +89,10 @@
                                                 <img src="${pageContext.request.contextPath }/resources/upload/shop/eventImg/${l.thumReImg }" >
                                             </span>
                                             <span class="evt-info">
-                                                <span class="evt-title">${l.eventTitle }</span>
+                                                <span class="evt-title">[Igre-Mall] ${l.eventTitle }</span>
                                                 <span class="evt-list">
                                                     <span class="evt-li">
                                                         <span class="el-title">기간</span>
-                                                                                                        
                                                         <span class="el-cont">${l.eventStart } ~ ${l.eventEnd }</span>
                                                     </span>
                                                 </span>
@@ -105,72 +100,30 @@
                                                     
                                                         <span class="sticky black">댓글</span>
                                                     
-                                                    <span class="sticky red">D-3 </span>
+                                                    <span class="sticky red">D-3</span>
                                                 </span>
                                             </span>
                                         </a>
                                     </li>
                                     </c:forEach>
-                                
-                                    <li class="item">
-                                        <a href="javascript:cl.page.getDetail(19);" class="evt">
-                                            <span class="evt-img">
-                                                <img src="https://shoppingcdn.namyangi.com/attach/item/2020/202002/001533e8-94d9-4f47-af89-f1a85a828ce8.png" onerror="this.src='/resources/images/common/evt_noimg_560.jpg'" alt="[케어비몰]첫만남 첫소개 첫-사전예약!">
-                                            </span>
-                                            <span class="evt-info">
-                                                <span class="evt-title">[그레몰]이벤트2</span>
-                                                <span class="evt-list">
-                                                    <span class="evt-li">
-                                                        <span class="el-title">기간</span>
-                                                        
-                                                        
-                                                        <span class="el-cont">20.03.02 ~ 20.03.24</span>
-                                                    </span>
-                                                </span>
-                                                <span class="evt-sticky">
-                                                    
-                                                        <span class="sticky black">댓글</span>
-                                                    
-                                                        <span class="sticky red">D-16</span>
-                                                </span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                
-                                    <li class="item">
-                                        <a href="javascript:cl.page.getDetail(17);" class="evt">
-                                            <span class="evt-img">
-                                                <img src="https://shoppingcdn.namyangi.com/attach/item/2020/202002/dc3d19ad-2d37-4931-aeda-4c732ff71a32.png" onerror="this.src='/resources/images/common/evt_noimg_560.jpg'" alt="남양몰 프리미엄멤버십 무료가입&amp;쇼핑지원금 증정이벤트">
-                                            </span>
-                                            <span class="evt-info">
-                                                <span class="evt-title">[그레몰]이벤트3</span>
-                                                <span class="evt-list">
-                                                    <span class="evt-li">
-                                                        <span class="el-title">기간</span>
-                                                        
-                                                        
-                                                        <span class="el-cont">20.02.19 ~ 20.04.05</span>
-                                                    </span>
-                                                </span>
-                                                <span class="evt-sticky">
-                                                    
-                                                        <span class="sticky black">댓글</span>
-                                                    
-                                                    <span class="sticky red">D-16</span>
-                                                </span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                
                             </ul>
-                        
-                        
-                
         		</div>
 			</div>
         <!--event end-->
     	</div>
 	</div>
 </div>
+
+<script>
+$(function(){
+	<c:forEach items="${list}" var="l">
+	alert(${l.eventStart });
+	</c:forEach>
+	
+	
+});
+
+</script>
+
 
 <jsp:include page="/WEB-INF/views/shop/common/footer.jsp"/>	
