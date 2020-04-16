@@ -148,7 +148,7 @@ span#total-price{
 			<div class="row">
 				<div class="col-md-3">
 					<img
-						src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}"
+						src="${pageContext.request.contextPath }/resources/upload/member/${counselor.advisImg}"
 						class="align-self-center mr-3" alt="..."> <input
 						type="hidden" name="advisImg" value="${counselor.advisImg}" />
 					<h4>${counselor.advisName }&nbsp;<span class="c-grade">${counselor.advisGrade }</span>상담사</h4>
