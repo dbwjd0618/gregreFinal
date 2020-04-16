@@ -1,7 +1,6 @@
-package kh.mclass.IgreMall.admin.event.vo;
+package kh.mclass.IgreMall.event.model.vo;
 
 import java.sql.Date;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Event {
+public class ShopEvent {
 	private int eventNo;
 	private String eventTitle;
 	private Date eventStart;
@@ -24,6 +23,4 @@ public class Event {
 	private String eventContent;
 	private String thumOrgImg;
 	private String thumReImg;
-	
-	
 }
