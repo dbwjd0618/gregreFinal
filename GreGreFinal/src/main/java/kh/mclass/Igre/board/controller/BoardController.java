@@ -333,7 +333,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/postWrite.do")
-	public void postWrite(Model model, @RequestParam("boardCode") String boardCode) {
+	public String postWrite(Model model, @RequestParam("boardCode") String boardCode, HttpSession session, RedirectAttributes rda) {
 		
 		param.put("boardCode", boardCode);
 		String boardName = bs.boardName(param);
@@ -344,8 +344,20 @@ public class BoardController {
 		model.addAttribute("boardName", boardName);
 		model.addAttribute("boardCode", boardCode);
 		
+		if(boardCode.equals("B1")) {
+			Member m = (Member)session.getAttribute("memberLoggedIn");
+			if(!m.getGrade().equals("A")) {
+				rda.addFlashAttribute("msg", "잘못된 접근입니다.");
+				log.debug("확인");
+				return "redirect:/board/postList?boardCode="+boardCode;
+			}
+		}
+		
+		
 		List<Board> boardList = bs.boardList();
 		model.addAttribute("boardList", boardList);
+		
+		return "board/postWrite";
 	}
 	
 	@PostMapping("/postWrite.do")

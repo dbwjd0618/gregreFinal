@@ -141,7 +141,10 @@ function preferSwitch(it, mi, bc, pn) {
 								<span>총 ${postCount}건</span>
 							</div>
 							<div class="col-md-6" style="text-align: right; padding-right: 3px;">
-								<c:if test="${boardCode != 'B1' || memberLoggedIn.grade == 'A'}">
+								<c:if test="${boardCode == 'B1' && memberLoggedIn.grade == 'A'}">
+									<i class="fas fa-pencil-alt" style="color:blue; cursor:pointer;" onclick="location.href='postWrite.do?boardCode=${boardCode}'"></i>
+								</c:if>
+								<c:if test="${boardCode != 'B1' && not empty memberLoggedIn}">
 									<i class="fas fa-pencil-alt" style="color:blue; cursor:pointer;" onclick="location.href='postWrite.do?boardCode=${boardCode}'"></i>
 								</c:if>
 							</div>

@@ -2416,13 +2416,13 @@ min-height: 28rem;
 	margin: 5px;
 	width: 7px;
 	height: 7px;
-	background-color: rgba(255, 255, 255, 0.3);
+	background-color: white;
 	display: inline-block;
 	border-radius: 50%;
 }
 
 .nonloop-block-13 .owl-dots .owl-dot.active>span {
-	background: #fff;
+	background: #ff460c;
 }
 
 .img-years {
@@ -2724,8 +2724,8 @@ min-height: 28rem;
 }
 
 .testimonial-3-wrap {
-	background: rgb(85, 94, 104);
-	padding: 30px;
+/* 	background: rgb(85, 94, 104); */
+/* 	padding: 30px; */
 	-webkit-box-shadow: 0 5px 30px -10px rgba(255, 255, 255, 0.5);
 	box-shadow: 0 5px 30px -10px rgba(255, 255, 255, 0.5);
 }

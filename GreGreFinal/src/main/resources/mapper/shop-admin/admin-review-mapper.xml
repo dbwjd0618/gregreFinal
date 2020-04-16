@@ -14,7 +14,9 @@ select
 	* 
 from
 	 TB_prod_review A left join tb_product B
-	 	on A.product_id = B.product_id
+	 		on A.product_id = B.product_id
+	 	left join tb_prod_option C
+	 		on A.option_id = C.option_id
 </select>
 
 <resultMap type="AdminProdReview" id="adminReviewMap">

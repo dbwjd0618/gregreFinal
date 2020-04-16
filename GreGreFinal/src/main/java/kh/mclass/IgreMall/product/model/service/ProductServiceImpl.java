@@ -69,4 +69,9 @@ public class ProductServiceImpl implements ProductService{
 		return productDAO.updateProduct(product);
 	}
 
+	@Override
+	public List<Product> selectRecoProdList() {
+		return productDAO.selectRecoProdList();
+	}
+
 }

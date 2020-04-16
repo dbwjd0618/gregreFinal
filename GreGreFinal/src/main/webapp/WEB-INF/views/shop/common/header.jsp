@@ -73,14 +73,16 @@
 img.prod-main-img {
 	width: 100px;
 }
-.info-con{
+
+.info-con {
 	font-size: 14px;
-	font-height:10px;
+	font-height: 10px;
 }
+
 span.deli-fee {
-    color: black;
-    font-weight: 400;
-    font-size: 0.9em;
+	color: black;
+	font-weight: 400;
+	font-size: 0.9em;
 }
 </style>
 <script>
@@ -92,11 +94,11 @@ span.deli-fee {
 	}
 </script>
 <script>
-	function cartSubmit(index) {
+	function hCartSubmit(index) {
 		//장바구니 구매하기
 		if (index == 1) {
-			document.cartFrm.action = '${pageContext.request.contextPath }/shop/order/checkOut.do';
-			document.cartFrm.submit();
+			document.hCartFrm.action = '${pageContext.request.contextPath }/shop/order/checkOut.do';
+			document.hCartFrm.submit();
 
 		}
 	}
@@ -138,8 +140,8 @@ span.deli-fee {
 			<div class="row">
 				<div class="col-lg-3 col-md-3">
 					<div class="logo">
-						<a href="${pageContext.request.contextPath }/shop/shop.do"> 
-							<img src="${pageContext.request.contextPath }/resources/images/logo/igre_mall_logo.png"
+						<a href="${pageContext.request.contextPath }/shop/shop.do"> <img
+							src="${pageContext.request.contextPath }/resources/images/logo/igre_mall_logo.png"
 							alt="">
 						</a>
 					</div>
@@ -198,112 +200,115 @@ span.deli-fee {
 									src="https://img.icons8.com/ios/50/000000/shopping-bag.png"
 									width="20px"> <span>${cartListCount }</span>
 							</a>
-								<div class="cart-hover">
+						<div class="cart-hover">
 									<div class="select-items">
-										<form name="cartFrm" method='POST' enctype="multipart/form-data">
-										<table>
-											<tbody>
-												<c:if test="${empty cartList }">
-													<tr>
-														<td class="si-pic"><img
-															src="img/select-product-1.jpg" alt=""></td>
-														<td class="si-text">
-															<div class="product-selected">장바구니가 비어있습니다.</div>
-														</td>
-														<td class="si-close"><i class="ti-close"></i></td>
-													</tr>
-												</c:if>
-												<c:if test="${not empty cartList }">
-													<c:forEach var="cart" items="${cartList}" varStatus="vs">
-											
-														<tr style="border-bottom:0;">
-															<td class="si-pic"><c:if
-																	test="${fn:contains(cart.product.attachList.get(0).originalImg, 'http://')}">
-																	<img class="prod-main-img"
-																		src="${cart.product.attachList.get(0).originalImg}"
-																		alt="">
-																</c:if> <c:if
-																	test="${fn:contains(cart.product.productId, 'p')}">
-																	<c:forEach var="img"
-																		items="${cart.product.attachList }">
-																		<c:if test="${img.imgType eq 'R' }">
-																			<img class="prod-main-img"
-																				src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${img.renamedImg}"
-																				alt="">
-																		</c:if>
-																	</c:forEach>
-																</c:if></td>
+										<form name="hCartFrm" method='POST'
+											enctype="multipart/form-data">
+											<table>
+												<tbody>
+													<c:if test="${empty cartList }">
+														<tr>
+															<td class="si-pic"><img
+																src="img/select-product-1.jpg" alt=""></td>
 															<td class="si-text">
-																<div class="product-selected">
-																	<input type="hidden" name="check" value="${cart.cartId }">
-																	<h6>[${cart.product.brandName }]</h6>
-																	<h6>${cart.product.productName }</h6>
-																	<c:if test="${not empty cart.optionId }">
-																	<c:forEach items="${cart.optionList}" var="optList"
-																		varStatus="optVs">
-																		<input type="hidden" name="optionId"
-																			value="${optList.optionId}">
-																		<c:set var="optName"
-																			value="${fn:split(optList.optionName,',') }" />
-																		<c:set var="optValue"
-																			value="${fn:split(optList.optionValue,',') }" />
-																		<div class=" fn-count">
-																			<ul class="">
-																				<li><span class="info-con"> <c:forEach
-																							items="${optName }" var="optNm" varStatus="nmVs">
+																<div class="product-selected">장바구니가 비어있습니다.</div>
+															</td>
+															<td class="si-close"><i class="ti-close"></i></td>
+														</tr>
+													</c:if>
+													<c:if test="${not empty cartList }">
+														<c:forEach var="cart" items="${cartList}" varStatus="vs">
+
+															<tr style="border-bottom: 0;">
+																<td class="si-pic"><c:if
+																		test="${fn:contains(cart.product.attachList.get(0).originalImg, 'http://')}">
+																		<img class="prod-main-img"
+																			src="${cart.product.attachList.get(0).originalImg}"
+																			alt="">
+																	</c:if> <c:if
+																		test="${fn:contains(cart.product.productId, 'p')}">
+																		<c:forEach var="img"
+																			items="${cart.product.attachList }">
+																			<c:if test="${img.imgType eq 'R' }">
+																				<img class="prod-main-img"
+																					src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${img.renamedImg}"
+																					alt="">
+																			</c:if>
+																		</c:forEach>
+																	</c:if></td>
+																<td class="si-text">
+																	<div class="product-selected">
+																		<input type="hidden" name="check"
+																			value="${cart.cartId }">
+																		<h6>[${cart.product.brandName }]</h6>
+																		<h6>${cart.product.productName }</h6>
+																		<c:if test="${not empty cart.optionId }">
+																			<c:forEach items="${cart.optionList}" var="optList"
+																				varStatus="optVs">
+																				<input type="hidden" name="optionId"
+																					value="${optList.optionId}">
+																				<c:set var="optName"
+																					value="${fn:split(optList.optionName,',') }" />
+																				<c:set var="optValue"
+																					value="${fn:split(optList.optionValue,',') }" />
+																				<div class=" fn-count">
+																					<ul class="">
+																						<li><span class="info-con"> <c:forEach
+																									items="${optName }" var="optNm"
+																									varStatus="nmVs">
 																${optNm} : ${optValue[nmVs.index]} / 
 																		</c:forEach> <em class="opt-count">${cart.prodCount[optVs.index] }</em>개
-																				</span></li>															
-																			</ul>
-																		</div>
-																	</c:forEach>
-																	</c:if>
-																	<c:if test="${ empty cart.optionId }">
-																		<div class="fn-count">
-																			<ul class="">
-																				<li><span class="info-con"> 상품 주문 수량 : <em
-																						class="opt-count">${cart.prodCount[0]}</em>개
-																				</span></li>
-																			</ul>
-																		</div>
-																	</c:if>
-
-																	<p>
-																		<fmt:formatNumber type="number" maxFractionDigits="3"
-																			value="${allPriceList.get(vs.index) }" />
-																		</span>원
-																		<c:if test="${ cart.product.deliveryFee eq 0}">
-																			<span class="deli-fee">(배송비 무료)</span>
-																			<input type="hidden" name="deliveryFee"
-																				value="${cart.product.deliveryFee }" />
+																						</span></li>
+																					</ul>
+																				</div>
+																			</c:forEach>
 																		</c:if>
-																		<c:if test="${ cart.product.deliveryFee > 0}">
-																			<span class="deli-fee">(배송비 <em><fmt:formatNumber
-																						type="number" maxFractionDigits="3"
-																						value="${cart.product.deliveryFee }" /></em>원)
-																			</span>
-																			<input type="hidden" name="deliveryFee"
-																				value="${cart.product.deliveryFee }" />
+																		<c:if test="${ empty cart.optionId }">
+																			<div class="fn-count">
+																				<ul class="">
+																					<li><span class="info-con"> 상품 주문 수량 :
+																							<em class="opt-count">${cart.prodCount[0]}</em>개
+																					</span></li>
+																				</ul>
+																			</div>
 																		</c:if>
 
-																	</p>
-																</div>
-															</td>
-															<td class="si-close"></td>
-														</tr>
-													</c:forEach>
-												</c:if>
-											</tbody>
-										</table>
-										
+																		<p>
+																			<fmt:formatNumber type="number" maxFractionDigits="3"
+																				value="${allPriceList.get(vs.index) }" />
+																			</span>원
+																			<c:if test="${ cart.product.deliveryFee eq 0}">
+																				<span class="deli-fee">(배송비 무료)</span>
+																				<input type="hidden" name="deliveryFee"
+																					value="${cart.product.deliveryFee }" />
+																			</c:if>
+																			<c:if test="${ cart.product.deliveryFee > 0}">
+																				<span class="deli-fee">(배송비 <em><fmt:formatNumber
+																							type="number" maxFractionDigits="3"
+																							value="${cart.product.deliveryFee }" /></em>원)
+																				</span>
+																				<input type="hidden" name="deliveryFee"
+																					value="${cart.product.deliveryFee }" />
+																			</c:if>
+
+																		</p>
+																	</div>
+																</td>
+																<td class="si-close"></td>
+															</tr>
+														</c:forEach>
+													</c:if>
+												</tbody>
+											</table>
+
 										</form>
 									</div>
 									<div class="select-total">
 										<div class="row">
-											<div class="col-lg-12" >
-												<span style="color:black;">총 상품금액:</span>
-												<h5 style="color:black;">
-													<em id="totalProdPrice" style="color:black;"> <fmt:formatNumber
+											<div class="col-lg-12">
+												<span style="color: black;">총 상품금액:</span>
+												<h5 style="color: black;">
+													<em id="totalProdPrice2" style="color: black;"> <fmt:formatNumber
 															type="number" maxFractionDigits="3"
 															value="${totalProdPrice}" />
 													</em>원
@@ -313,9 +318,9 @@ span.deli-fee {
 										</div>
 										<div class="row">
 											<div class="col-lg-12">
-												<span style="color:black;">총 배송비:</span>
-												<h5 style="color:black;">
-													<em id="totalDeliPrice" style="color:black;"> <fmt:formatNumber
+												<span style="color: black;">총 배송비:</span>
+												<h5 style="color: black;">
+													<em id="totalDeliPrice2" style="color: black;"> <fmt:formatNumber
 															type="number" maxFractionDigits="3"
 															value="${totalDeliPrice}" />
 													</em>원
@@ -324,9 +329,9 @@ span.deli-fee {
 										</div>
 										<div class="row">
 											<div class="col-lg-12">
-												<span style="color:black;">총 할인금액:</span>
-												<h5 style="color:black;">
-													(-)<em id="totalDisPrice" style="color:black;"> <fmt:formatNumber
+												<span style="color: black;">총 할인금액:</span>
+												<h5 style="color: black;">
+													(-)<em id="totalDisPrice2" style="color: black;"> <fmt:formatNumber
 															type="number" maxFractionDigits="3"
 															value="${totalDisPrice}" />
 													</em>원
@@ -336,8 +341,8 @@ span.deli-fee {
 										<div class="row">
 											<div class="col-lg-12">
 												<span>결제금액:</span>
-												<h5 >
-													<em id="totalOrderPrice"> <fmt:formatNumber
+												<h5>
+													<em id="totalOrderPrice2"> <fmt:formatNumber
 															type="number" maxFractionDigits="3"
 															value="${totalOrderPrice}" />
 													</em>원
@@ -346,11 +351,14 @@ span.deli-fee {
 										</div>
 									</div>
 									<div class="select-button">
-										<input type="button" class="btn btn-dark" style="width:100%;"
-											onclick="cartSubmit(1);" value="구매하기" />
+										<input type="button" class="btn btn-dark" style="width: 100%;"
+											onclick="hCartSubmit(1);" value="구매하기" />
 									</div>
-									
-								</div></li>
+
+								</div>
+					
+								
+								</li>
 
 						</ul>
 					</c:if>

@@ -27,7 +27,8 @@ public class AdminProdReview implements Serializable{/**
 	private String productName;
 	private String brandName;
 	private String[] optionId;
-	private String[] optionName;
+	private String optionValue;
+	private String optionName;
 	private String reviewerId;
 	private int starPoint;
 	private Date reviewDate;
@@ -36,6 +37,7 @@ public class AdminProdReview implements Serializable{/**
 	private String renamedImg;
 	private int reviewRecommen;
 	private String prodImg;
+	
 	
 	
 }

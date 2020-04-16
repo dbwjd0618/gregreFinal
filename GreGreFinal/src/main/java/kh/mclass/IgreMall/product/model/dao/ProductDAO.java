@@ -28,4 +28,6 @@ public interface ProductDAO {
 
 	int updateProduct(Product product);
 
+	List<Product> selectRecoProdList();
+
 }

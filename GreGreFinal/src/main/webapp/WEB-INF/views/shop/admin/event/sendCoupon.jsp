@@ -7,6 +7,33 @@
 <jsp:include page="/WEB-INF/views/shop/admin/common/header.jsp">
 	<jsp:param value="" name="pageTitle" />
 </jsp:include>
+
+
+
+
+<!-- summernotes -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
+
+
 <!-- 게시판 CSS -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/board/board.css">
@@ -122,6 +149,15 @@ body {padding-right: 0px !important;}
 			<input type="hidden" name="discountValue" value="${b.discountValue }" />
 			<input type="hidden" name="maxValue" value="${b.maxValue }" />
 			<input type="hidden" name="couponDuration" value="${b.couponDuration }" />
+			<input type="hidden" name="eventNo" value="${e.eventNo }" />
+			<p>썸머노트 호출</p>
+			<div class="form-group row">
+				<label for="resultMsg" class="col-sm-2 col-form-label">이벤트결과 메모</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" id="summernote" name="resultMsg"
+						maxlength="140" rows="7"></textarea>
+				</div>
+			</div>
 			
 			<div class=" text-center" style="padding-bottom: 50px">
 				<input type="submit" class="btn btn-primary btn-lg" id=""
@@ -290,7 +326,53 @@ body {padding-right: 0px !important;}
 </div>
 </div>
 
+<script type="text/javascript">
+	$('#summernote').summernote({
+		placeholder : '제품설명을 입력해주세요.',
+		tabsize : 2,
+		height : 300,
+		focus : true,
+		lang : 'ko-KR',
+		callbacks : {
+			onImageUpload : function(files, editor, welEditable) {
+				for (var i = files.length - 1; i >= 0; i--) {
+					sendFile(files[i], this);
+				}
+			}
+		}
+	});
+</script>
+<script>
+	function sendFile(file, el) {
+		var form_data = new FormData();
+		form_data.append('file', file);
+		$.ajax({
+					data : form_data,
+					type : "POST",
+					url : '${pageContext.request.contextPath}/shop/admin/product/insertImg.do',
+					cache : false,
+					contentType : false,
+					enctype : 'multipart/form-data',
+					processData : false,
+					success : function(data) {
+
+						console.log("img up load success");
+
+						var url = '${pageContext.request.contextPath}/resources/upload/shop/productDetail/'
+								+ data[1];
+
+						console.log("url=" + url);
+						$(el).summernote('editor.insertImage', url);
+						$('summernote')
+								.append(
+										'<img src="'+url+'" width = "400", height = "auto" />');
+					}
+				});
+	}
+</script>
 <script>	
+
+
 	function reportShow(replyNo, reporteeId) {
 		if($("[name=reporterId]").val() == "") {
 			alert("로그인 먼저 진행해주세요.");

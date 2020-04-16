@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kh.mclass.IgreMall.coupon.model.vo.Coupon;
+import kh.mclass.IgreMall.event.model.vo.Winner;
 import kh.mclass.IgreMall.product.model.vo.Product;
 import kh.mclass.IgreMall.review.model.vo.ProdReview;
 
@@ -19,6 +20,11 @@ public class CouponDAOImpl implements CouponDAO {
 	@Override
 	public List<Coupon> selectListMyCoupon(String memberId) {
 		return sqlSession.selectList("shopMember.selectListMyCoupon",memberId);
+	}
+
+	@Override
+	public List<Winner> SelectList(String memberId) {
+		return sqlSession.selectList("shopMember.selectList3",memberId);
 	}
 
 	
