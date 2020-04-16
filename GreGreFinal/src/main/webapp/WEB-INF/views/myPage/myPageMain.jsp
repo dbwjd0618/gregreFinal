@@ -133,11 +133,8 @@
 
 				<c:forEach items="${list3 }" var="a">
 					<c:if test="${a.appointNo != null }">
-						<div class="row mb-3">
-							<div class="col-md-12">
-								<div class="card">
+	
 
-									<div class="row">
 
 										<div class="row mb-3">
 											<div class="col-md-12">
@@ -164,12 +161,7 @@
 											</div>
 										</div>
 
-									</div>
-								</div>
-
-
-							</div>
-						</div>
+		
 					</c:if>
 				</c:forEach>
 
