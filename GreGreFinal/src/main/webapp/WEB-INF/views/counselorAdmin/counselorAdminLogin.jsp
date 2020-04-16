@@ -50,12 +50,12 @@
           </div>
           <div class="row">
             <div class="col-xs-8">    
-              <div class="checkbox icheck">
+              <!-- <div class="checkbox icheck">
                &nbsp; &nbsp; &nbsp; &nbsp;
                 <label>
                   <input type="checkbox"> 아이디 저장
                 </label>
-              </div>                        
+              </div> -->                        
             </div><!-- /.col -->
             <div class="col-xs-4">
               <button type="submit" class="btn btn-primary btn-block btn-flat">로그인</button>

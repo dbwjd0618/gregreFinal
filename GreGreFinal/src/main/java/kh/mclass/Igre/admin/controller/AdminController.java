@@ -58,10 +58,12 @@ public class AdminController {
 		List<Member> member = adminService.indexMember();
 		List<Admin> admin = adminService.indexAdmin();
 		int allMemberCnt = adminService.allMemberCnt();
+		int newMemberCnt = adminService.newMemberCnt();
 		
 		model.addAttribute("member", member);
 		model.addAttribute("admin", admin);
 		model.addAttribute("allMemberCnt", allMemberCnt);
+		model.addAttribute("newMemberCnt", newMemberCnt);
 		
 		return "admin/adminIndex";
 	}

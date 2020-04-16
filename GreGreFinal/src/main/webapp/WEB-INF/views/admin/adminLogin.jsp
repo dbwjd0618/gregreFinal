@@ -41,7 +41,7 @@
         <p class="login-box-msg">로그인을 해주세요.</p>
         <form action="${pageContext.request.contextPath}/admin/login.do" method="post">
           <div class="form-group has-feedback">
-            <input type="text" class="form-control" name="adminId" placeholder="아이디"/>
+            <input type="text" id="adminId" class="form-control" name="adminId" placeholder="아이디"/>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
@@ -50,12 +50,12 @@
           </div>
           <div class="row">
             <div class="col-xs-8">    
-              <div class="checkbox icheck">
+              <!-- <div class="checkbox icheck">
                &nbsp; &nbsp; &nbsp; &nbsp;
                 <label>
-                  <input type="checkbox"> 아이디 저장
+                  <input type="checkbox" id="idSaveCheck"> 아이디 저장
                 </label>
-              </div>                        
+              </div> -->                        
             </div><!-- /.col -->
             <div class="col-xs-4">
               <button type="submit" class="btn btn-primary btn-block btn-flat">로그인</button>
