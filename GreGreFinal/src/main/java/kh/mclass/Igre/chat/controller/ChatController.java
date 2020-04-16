@@ -149,7 +149,7 @@ public class ChatController {
 		model.addAttribute("info",info);
 		model.addAttribute("counselorId",counselorId);
 		
-		//2.로그인을 하지 않았거나, 로그인을 해도 최초접속인 경우 chatId를 발급하고 db에 저장한다.
+		//2.상품구매후  최초접속인 경우 chatId를 발급하고 db에 저장한다.
 		if(chatId == null){
 			chatId = counselorCreateChatId(20);//chat_randomToken -> jdbcType=char(20byte)
 			
@@ -160,8 +160,6 @@ public class ChatController {
 			
 			//chat_room, chat_member테이블에 데이터 생성
 			 chatService.counselorCreateChatRoom(list);
-		
-
 		}
 		//chatId가 존재하는 경우, 채팅내역 조회
 		else{
@@ -245,9 +243,8 @@ public class ChatController {
 	//채팅 실행
 	@MessageMapping("/chattt/counselor/{chatId}/{counselorId}")
 	@SendTo(value={"/chat/counselor/{chatId}", "/chat/counselor/{counselorId}/push"})
-	public Msg sendEcho(Msg fromMessage, @DestinationVariable String chatId,@DestinationVariable String counselorId){
-		System.out.println("실행");
-		System.out.println(counselorId);
+	public Msg sendEcho(Msg fromMessage, @DestinationVariable String chatId,
+							@DestinationVariable String counselorId){
 		log.debug("fromMessage={}",fromMessage);
 		
 		//db에 메세지로그
