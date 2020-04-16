@@ -99,10 +99,10 @@ public class MyPageController {
 			int result = mps.updateCounselor(c); sessionStatus.setComplete();
 			System.out.println("@@@@@@@@@@@@@@@@@@1@@@@@@@@@@@@@@@@@@@="+c);
 			System.out.println("@@@@@@@@@@@@@@@@@@2@@@@@@@@@@@@@@@@@@@="+result);
-			String msg = result > 0 ? "수정 완료! 다시 로그인 하세요" : "수정 실패! 누락된 항목이 있습니다";
+			String msg = result > 0 ? "수정 완료!" : "수정 실패! 누락된 항목이 있습니다";
 			redirectAttributes.addFlashAttribute("msg", msg);
 		  
-			return "redirect:/member/login.do"; 
+			return "redirect:/"; 
 			
 		}
 		  
