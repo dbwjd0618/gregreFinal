@@ -58,6 +58,8 @@
 			*
 		from 
 			TB_adviser
+		where
+			advis_grade != '1'
 	</select>
 	
 	<!-- 상담사 전체 인원 count  -->
@@ -66,6 +68,8 @@
 			COUNT(*)
 		FROM
 			TB_adviser
+		where
+			advis_grade != '1'
 	</select>
 	
 	<!-- 상담사별 리뷰게시글 숫자 count -->
