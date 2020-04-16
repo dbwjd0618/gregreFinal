@@ -17,6 +17,7 @@ import lombok.ToString;
 public class AdminCoupon implements Serializable{/**
 	 * 
 	 */
+	//힘내자 정우야
 	private static final long serialVersionUID = 1L;
 	
 	private String couponId;

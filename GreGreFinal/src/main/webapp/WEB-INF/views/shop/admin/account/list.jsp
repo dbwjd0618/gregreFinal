@@ -228,7 +228,7 @@
 											<div class="value-sub">
 												<strong class="text-danger">총 결재 금액</strong>
 											</div>
-											<div class="value-self">${totalPrice}원</div>
+											<div class="value-self won">${totalPrice}원</div>
 										</div>
 									</div>
 									<div class="row">
@@ -295,42 +295,7 @@
       <div id="curve_chart" style="height: 500px; position: relative;">
      	<div><br /> <h2>매출이 없습니다..</h2></div>
       </div>
-<!-- 										<script type="text/javascript"
-											src="https://www.gstatic.com/charts/loader.js"></script>
-										<script type="text/javascript">
-    google.charts.load("current", {packages:['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-        ["Element", "거래 건수", { role: "style" } ],
-        ["실시간계좌", ${acCount}, "silver"],
-        ["신용카드", ${crCount}, "color: #e5e4e2"],
-        ["휴대폰", ${phCount}, "color: #e5e4e2"],
-        ["토스", ${toCount}, "gold"],
-        ["카카오페이", ${kaCount}, "#b87333"],
-        ["네이버페이", ${naCount}, "color: #e5e4e2"]
-        
-      ]);
 
-      var view = new google.visualization.DataView(data);
-      view.setColumns([0, 1,
-                       { calc: "stringify",
-                         sourceColumn: 1,
-                         type: "string",
-                         role: "annotation" },
-                       2]);
-
-      var options = {
-        title: "결제유형",
-        width: 1800,
-        height: 500,
-        bar: {groupWidth: "95%"},
-        legend: { position: "none" },
-      };
-      var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
-      chart.draw(view, options);
-  }
-  </script> -->
 										
 								
 								</div>
@@ -341,6 +306,13 @@
 		</div>
 	</div>
 </div>
+<script>
+jQuery('.won').text(function() {
+    jQuery(this).text(
+        jQuery(this).text().format()
+    );
+});
+</script>
 <!-- /.content-wrapper -->
 
 <!-- </div> -->

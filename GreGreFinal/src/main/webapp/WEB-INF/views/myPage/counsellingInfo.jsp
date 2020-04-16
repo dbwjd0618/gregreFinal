@@ -50,13 +50,13 @@
           <div class="row align-items-center ">
             <div class="col-md-5 mt-5 pt-5">
               <h1 class="mb-3 font-weight-bold text-teal">마이페이지</h1>
-              <p><a href="index.html" class="text-white">Home</a> <span class="mx-3">/</span> <strong>상담정보</strong></p>
+              <p><a href="${pageContext.request.contextPath}/" class="text-white">Home</a> <span class="mx-3">/</span> <strong>상담정보</strong></p>
             </div> 
           </div>
         </div>
       </div>
     </div>
-
+<!-- home버튼 수정 -->
 <!-- contents begin-->
 <style>
 /* 별점  */
@@ -117,7 +117,7 @@
 							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/myPeriod.do">
 								<div class="menu__title">월경캘린더</div>
 							</a> 
-							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/">
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/counsellingInfo.do">
 								<div class="menu__title">상담정보/리뷰</div>
 							</a> 
 							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/deleteMember.do">
