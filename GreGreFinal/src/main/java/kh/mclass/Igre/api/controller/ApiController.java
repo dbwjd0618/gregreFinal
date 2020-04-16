@@ -65,7 +65,6 @@ public class ApiController {
             String line = "";
             while((line = br.readLine()) != null) {
                 result += line + "\n";
-                System.out.println(line);
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -74,7 +73,6 @@ public class ApiController {
         		urlconnection.disconnect();
 				br.close();
 				
-				System.out.println(result);
 				response.setContentType("text/xml; charset=utf-8");
 				PrintWriter out = response.getWriter();
 				out.write(result);
@@ -99,7 +97,6 @@ public class ApiController {
             String line = "";
             while((line = br.readLine()) != null) {
                 result += line + "\n";
-                System.out.println(line);
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -108,7 +105,6 @@ public class ApiController {
         		urlconnection.disconnect();
 				br.close();
 				
-				System.out.println(result);
 				response.setContentType("text/xml; charset=utf-8");
 				PrintWriter out = response.getWriter();
 				out.write(result);

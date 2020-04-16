@@ -57,8 +57,11 @@ public class MemberController {
 			Member m = (Member) session.getAttribute("memberLoggedIn");
 			m.getMemberId().equals(null);
 		} catch (NullPointerException e) {
-			String referer = request.getHeader("referer");
-			session.setAttribute("referer", referer);
+			String referer = (String)session.getAttribute("referer"); 
+			if(referer == null || "".equals(referer)) {
+				request.getHeader("referer");
+				session.setAttribute("referer", referer);
+			}
 			log.debug("referer = " + referer);
 			return "member/login";
 		} catch (Exception e) {
@@ -80,7 +83,7 @@ public class MemberController {
 				model.addAttribute("memberLoggedIn", m);
 			} else {
 				rda.addFlashAttribute("msg", "입력 정보가 올바르지 않습니다.");
-				return "redirect:/";
+				return "redirect:/member/login.do";
 			}
 		} catch (Exception e) {
 			rda.addFlashAttribute("msg", "로그인 도중 오류가 발생했습니다.");
@@ -125,10 +128,13 @@ public class MemberController {
 
 
 	@GetMapping("/logout.do")
-	public String logout(SessionStatus ss) {
+	public String logout(SessionStatus ss, HttpServletRequest request, HttpSession session) {
 		if (!ss.isComplete())
 			ss.setComplete();
-		return "redirect:/";
+		String referer = request.getHeader("referer");
+		session.setAttribute("referer", referer);
+		log.debug("referer = " + referer);
+		return "redirect:"+referer;
 	}
 
 	// --------------------상욱--------------------

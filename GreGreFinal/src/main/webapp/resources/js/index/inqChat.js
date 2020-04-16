@@ -67,4 +67,7 @@ function inqShow() {
 	$('#modalBox').modal('show');
 	$(".rtnMsg").attr("style", "color: #4e4ecf54").removeClass("rtnMsg");
 }
+$(document).on("click", ".close", function() {
+	$("#modalBox").modal('hide');
+});
 
