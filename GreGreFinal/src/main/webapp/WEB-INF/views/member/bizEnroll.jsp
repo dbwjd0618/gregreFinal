@@ -125,6 +125,7 @@ span.error2{display:none;color:red ;}
                                   </div>
                               </div>
                               
+                              
                              <div class="form-group input-group">
                                   <div class="input-group-prepend">
                                       <span class="input-group-text"> 소개</span>
