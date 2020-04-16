@@ -39,7 +39,18 @@
  		update
  			tb_adviser
  		set
- 			advis_grade = #{advisGrade}
+ 		<if test="advisGrade == '일반'">
+ 			advis_grade = #{advisGrade},
+ 			advis_price = 15000
+ 		</if>
+ 		<if test="advisGrade == '전문'">
+ 			advis_grade = #{advisGrade},
+ 			advis_price = 30000
+ 		</if>
+ 		<if test="advisGrade == '마스터'">
+ 			advis_grade = #{advisGrade},
+ 			advis_price = 50000
+ 		</if>
  		where
  			advis_id = #{advisId}
  	</update>

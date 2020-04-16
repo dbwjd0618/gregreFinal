@@ -245,6 +245,11 @@ public class AdminDAOImpl implements AdminDAO {
 	public int allMemberCnt() {
 		return sqlSession.selectOne("admin.allMemberCnt");
 	}
+
+	@Override
+	public int newMemberCnt() {
+		return sqlSession.selectOne("admin.newMemberCnt");
+	}
 	
 
 

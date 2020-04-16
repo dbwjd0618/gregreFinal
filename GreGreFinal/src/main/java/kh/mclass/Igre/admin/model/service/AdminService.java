@@ -74,6 +74,8 @@ public interface AdminService {
 
 	int allMemberCnt();
 
+	int newMemberCnt();
+
 
 
 

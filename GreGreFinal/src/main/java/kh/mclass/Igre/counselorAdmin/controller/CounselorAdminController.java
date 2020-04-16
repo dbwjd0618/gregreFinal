@@ -109,7 +109,10 @@ public class CounselorAdminController {
 		
 		Counselor counselor = cadminService.counselorView(advisId);
 		model.addAttribute("counselor", counselor);
-		log.debug("counselor={}", counselor);
+		
+		List<Counselor> list = cadminService.list();
+		model.addAttribute("list", list);
+		
 		
 		return "counselorAdmin/counselorAthorityUpdate";
 	}

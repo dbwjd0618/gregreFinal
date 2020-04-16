@@ -139,7 +139,7 @@ $(function(){
 				<!-- small box -->
 				<div class="small-box bg-aqua">
 					<div class="inner">
-						<h3>150<sup style="font-size: 20px">명</sup></h3>
+						<h3>${newMemberCnt}<sup style="font-size: 20px">명</sup></h3>
 						<p>신규회원</p>
 					</div>
 					<div class="icon">
@@ -153,7 +153,7 @@ $(function(){
 				<div class="small-box bg-green">
 					<div class="inner">
 						<h3>
-							53<sup style="font-size: 20px">명</sup>
+							33<sup style="font-size: 20px">명</sup>
 						</h3>
 						<p>오늘 접속자</p>
 					</div>
@@ -180,7 +180,7 @@ $(function(){
 				<!-- small box -->
 				<div class="small-box bg-red">
 					<div class="inner">
-						<h3>665<sup style="font-size: 20px">명</sup></h3>
+						<h3>105<sup style="font-size: 20px">명</sup></h3>
 						<p>총 접속자수</p>
 					</div>
 					<div class="icon">

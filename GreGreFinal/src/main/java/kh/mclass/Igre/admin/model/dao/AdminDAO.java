@@ -90,5 +90,7 @@ public interface AdminDAO {
 
 	int allMemberCnt();
 
+	int newMemberCnt();
+
 
 }
