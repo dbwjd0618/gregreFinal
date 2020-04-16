@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <fmt:requestEncoding value="utf-8" />
-<jsp:include page="/WEB-INF/views/common/header.jsp">
+<jsp:include page="/WEB-INF/views/shop/admin/common/header.jsp">
 	<jsp:param value="" name="pageTitle" />
 </jsp:include>
 <!-- 게시판 CSS -->
@@ -66,6 +66,7 @@ body {padding-right: 0px !important;}
 </style>
 
 <!-- body begin-->
+<div class="content-wrapper">
 <div class="site-section" style="padding: 0px;">
 	<div class="container" style="margin-top: 0px; max-width: 1440px;">
 		<div class="row">
@@ -75,10 +76,10 @@ body {padding-right: 0px !important;}
 					<div class="container" style="padding: 0px;">
 						<div class="row">
 							<div class="col-md-6">
-								<span style="font-size: x-large">${e.title }</span>
+								<span style="font-size: x-large">${e.eventTitle }</span>
 								<form action="" id="postForm" method="POST">
-									<input type="hidden" name="boardCode" value="${e.title}" />
-									<input type="hidden" name="postNo" value="${e.title}" />
+									<input type="hidden" name="boardCode" value="${e.eventTitle}" />
+									<input type="hidden" name="postNo" value="${e.eventTitle}" />
 									<%-- <input type="hidden" name="writer" value="${memberLoggedIn.memberId}" /> --%>
 									<input type="hidden" id="delRpl" name="replyNo" />
 								</form>
@@ -86,7 +87,7 @@ body {padding-right: 0px !important;}
 						</div>
 						<table id="content" style="width: 100%;">
 							<tr>
-								<td style="width: 80%; text-align: left;">글 작성자 : 아이그레</td>
+								<td style="width: 80%; text-align: left;">글 작성자 : 아이그레 ${e.eventNo }</td>
 							</tr>
 							<tr style="border-bottom : unset;">
 								<td colspan="4" style="text-align: left; height: 300px;">${e.eventContent }</td>
@@ -243,6 +244,8 @@ body {padding-right: 0px !important;}
 		</div>
 	</div>
 </div>
+</div>
+
 <script>	
 	function reportShow(replyNo, reporteeId) {
 		if($("[name=reporterId]").val() == "") {
@@ -324,13 +327,13 @@ function writeReply() {
 	}
 	
 	let reply = {
-			boardCode : "${post.boardCode}",
-			postNo : "${post.postNo}",
+			eventNo : "${e.eventNo }",
+			postNo : "${e.eventNo }",
 			replyWriter : "${memberLoggedIn.memberId}",
 			replyContent : $("#ReplyWrite").val()
 	}
 	$.ajax({
-			url: "${pageContext.request.contextPath}/board/replyWrite.ajax",
+			url: "${pageContext.request.contextPath}/shop/admin/event/replyWrite.ajax",
 			data: reply,
 			type: "POST",
 			success: function(data) {
@@ -473,4 +476,3 @@ function modPost() {
 }
 </script>
 
-<jsp:include page="/WEB-INF/views/common/footer.jsp" />

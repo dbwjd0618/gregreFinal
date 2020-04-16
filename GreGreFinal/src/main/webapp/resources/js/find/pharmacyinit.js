@@ -18,7 +18,7 @@
 				// 1. 지도 띄우기
 				map = new Tmapv2.Map("map_div", {
 					center : new Tmapv2.LatLng(lat, lon),
-					width : "70%",  
+					width : "65%",  
 					height : "400px",
 					zoom : 15,
 					zoomControl : true,
@@ -127,6 +127,9 @@
 			
 			// 4. POI 상세 정보 API
 			function poiDetail(poiId){
+				
+				$(".resultInfo").remove();
+				
 				$.ajax({
 					method:"GET",
 					url:"https://apis.openapi.sk.com/tmap/pois/"+poiId+"?version=1&resCoordType=EPSG3857&format=json&callback=result&appKey="+"l7xxfd41c38838d04a5ebdf59fe1a80ac9eb",
@@ -149,6 +152,7 @@
 						
 						var labelPosition = new Tmapv2.LatLng(lat, lon);
 						
+						
 						$.ajax({
 							method:"GET",
 							url:"https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByGeo/json?lat="+lat+"&lng="+lon+"&m=1000",
@@ -157,7 +161,7 @@
 								for(var i=0; i<data.count; i++){
 									if(data.stores[i].name == name){
 										
-										var content = "<div style=' border-radius:10px 10px 10px 10px;background-color:#2f4f4f; position: relative; width:max-content;"
+										var content = "<div class='resultInfo' style=' border-radius:10px 10px 10px 10px;background-color:#2f4f4f; position: relative; width:max-content;"
 											+ "line-height: 15px; padding: 5px 5px 2px 4px; right:65px;'>"
 											+ "<div style='font-size: 11px; font-weight: bold ; line-height: 15px; color : white; width: max-content' >"
 												+ "이름 : "

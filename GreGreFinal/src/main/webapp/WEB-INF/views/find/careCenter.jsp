@@ -50,6 +50,9 @@ margin: 10px;
 .custom-select{
 width: max-content;
 }
+#map_div{
+margin-left: 30px;
+}
 </style>
 <!-- 헤더 소개 부분 -->
 <div class="ftco-blocks-cover-1">

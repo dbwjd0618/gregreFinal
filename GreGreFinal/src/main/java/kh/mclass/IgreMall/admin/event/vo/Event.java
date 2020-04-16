@@ -1,6 +1,7 @@
 package kh.mclass.IgreMall.admin.event.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,4 +22,8 @@ public class Event {
 	private Date eventEnd;
 	private String eventType;
 	private String eventContent;
+	private String thumOrgImg;
+	private String thumReImg;
+	
+	
 }
