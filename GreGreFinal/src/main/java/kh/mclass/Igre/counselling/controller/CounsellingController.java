@@ -117,7 +117,7 @@ public class CounsellingController {
 		list1.add(new reviewStar(3, counselorService.countReview(advisId, 3)));
 		list1.add(new reviewStar(2, counselorService.countReview(advisId, 2)));
 		list1.add(new reviewStar(1, counselorService.countReview(advisId, 1)));
-				
+						
 		//상담사 한명의 리뷰 평점 평균
 		Double reviewRating = counselorService.selectReviewRating(advisId);
 
