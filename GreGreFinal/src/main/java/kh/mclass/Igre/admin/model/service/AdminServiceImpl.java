@@ -182,6 +182,11 @@ public class AdminServiceImpl implements AdminService{
 		return adminDAO.allMemberCnt();
 	}
 
+	@Override
+	public int newMemberCnt() {
+		return adminDAO.newMemberCnt();
+	}
+
 
 
 	

@@ -37,4 +37,7 @@ public interface ProductService {
 
 	int updateProduct(Product product);
 
+
+	List<Product> selectRecoProdList();
+
 }

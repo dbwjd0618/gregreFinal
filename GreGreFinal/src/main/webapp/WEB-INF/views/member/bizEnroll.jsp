@@ -26,6 +26,14 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fonts/flaticon/font/flaticon.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/aos.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  
+<c:if test="${not empty memberLoggedIn }">
+<script>
+	$(function() {
+		location.href='${pageContext.request.contextPath}';
+	});
+</script>
+</c:if>
   <!-- MAIN CSS -->
 
 

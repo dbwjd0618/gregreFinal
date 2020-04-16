@@ -25,6 +25,7 @@ import kh.mclass.IgreMall.QnA.model.service.ProdQnAService;
 import kh.mclass.IgreMall.QnA.model.vo.ProdQnA;
 import kh.mclass.IgreMall.coupon.model.service.CouponService;
 import kh.mclass.IgreMall.coupon.model.vo.Coupon;
+import kh.mclass.IgreMall.event.model.vo.Winner;
 import kh.mclass.IgreMall.order.model.service.OrderService;
 import kh.mclass.IgreMall.order.model.vo.OrderList;
 import kh.mclass.IgreMall.order.model.vo.OrderProduct;
@@ -743,8 +744,9 @@ public class ShopMemberController {
 				myCouponCount++;
 			}
 		}
-
+		 List<Winner> wlist = couponService.SelectList(memberId);
 		mav.addObject("myCouponCount", myCouponCount);
+		mav.addObject("wlist",wlist);
 		// Point
 		ShopMember sMem = shopMemberService.selectOne(memberId);
 		mav.addObject("point", sMem.getPoint());

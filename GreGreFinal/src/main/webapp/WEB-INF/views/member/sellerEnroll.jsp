@@ -27,7 +27,13 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/aos.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <!-- MAIN CSS -->
-
+<c:if test="${not empty memberLoggedIn }">
+<script>
+	$(function() {
+		location.href='${pageContext.request.contextPath}';
+	});
+</script>
+</c:if>
 
 <!--login css-->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/login.css"> 

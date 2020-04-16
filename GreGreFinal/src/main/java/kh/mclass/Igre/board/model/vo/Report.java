@@ -22,6 +22,6 @@ public class Report implements Serializable{
 	private String boardCode;
 	private int postNo;
 	private int replyNo;
-	private String replyContent;
+	private String reportContent;
 
 }

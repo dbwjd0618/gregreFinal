@@ -41,7 +41,7 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-
+	
 	<!-- #4. post방식 인코딩 설정 UTF-8 필터 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -60,5 +60,9 @@
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
 		<location>/WEB-INF/views/common/error.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/common/error4.jsp</location>
 	</error-page>
 </web-app>

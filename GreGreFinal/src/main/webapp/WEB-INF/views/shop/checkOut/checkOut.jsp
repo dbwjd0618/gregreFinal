@@ -211,11 +211,9 @@ function goMember() {
 <!--쿠폰 사용 -->
 <script>
 	function goCoupon() {
-		var couponValue = $("input[name=coupon-radio]:checked").next().next()
-				.val();
-		var couponListId = $("input[name=coupon-radio]:checked").next().next()
-				.next().val();
-
+		var couponValue = $("input[name=coupon-radio]:checked").next().next().val();
+		var couponListId = $("input[name=coupon-radio]:checked").next().next().next().val();
+		var discountType = $("input[name=coupon-radio]:checked").next().next().next().next().val();
 		var totalProd = Number(uncomma($('#total-prod').text()));
 		var totalDel = Number(uncomma($('#total-del')));
 		var totalDis = Number(uncomma($('#total-dis').text()));
@@ -224,11 +222,16 @@ function goMember() {
 		var totalPay = totalProd + totalDel - totalDis - usedPoint - usedCoupon;
 
 		var discountedPrice = totalProd - totalDis;
+		
+		console.log("discountType ")
 		//쿠폰사용
 		if (couponValue != null) {
+			console.log("여기=");
 			if (discountType == 'P') { // 할인율
 				var usingCoupon = Number(couponValue) * discountedPrice;
 				totalPay -= usingCoupon;
+				
+				console.log("여기="+totalPay);
 				$("#total-pay").text(comma(totalPay));
 
 				$("#pro_coupon").val(comma(usingCoupon));
@@ -239,6 +242,7 @@ function goMember() {
 			// 할인금액
 			else if (discountType == 'C') {
 				totalPay -= Number(uncomma(couponValue));
+				console.log("여기="+totalPay);
 				$("#total-pay").text(comma(totalPay));
 				$("#pro_coupon").val(comma(couponValue));
 				$('#used-coupon').text(comma(couponValue));
@@ -867,7 +871,8 @@ function goMember() {
 																value="${cList.discountValue }" />
 														</c:if>
 														<input type="hidden" id="couponListId"
-															value="${cList.couponListId}"> <input
+															value="${cList.couponListId}"> 
+														<input
 															type="hidden" id="discountType"
 															value="${cList.discountType}">
 
@@ -1343,7 +1348,6 @@ function goMember() {
 							}
 						}
 					});
-
 			//총 상품 금액
 			var prodPrice = Number(uncomma($('#total-prod').text()));
 			//배송비

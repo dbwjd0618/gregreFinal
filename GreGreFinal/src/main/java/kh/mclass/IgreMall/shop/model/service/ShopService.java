@@ -22,6 +22,8 @@ public interface ShopService {
 
 	List<Product> searchListAll(int cPage, int numPerPage, Product p);
 
+	int selectProdTotalContents(Product p);
+
 
 
 }

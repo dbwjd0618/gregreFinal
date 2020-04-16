@@ -21,9 +21,13 @@
     padding: 12px 0 !important;
 }
 </style>
+<c:if test="${not empty memberLoggedIn }">
 <script>
-
+	$(function() {
+		location.href='${pageContext.request.contextPath}';
+	});
 </script>
+</c:if>
     
            <!-- contents begin-->
            <div class="site-section">
