@@ -56,7 +56,7 @@
 					<li class="list active"><a href="">육아정보</a>
 					 <ul class="items">
 				         <li><a href="${pageContext.request.contextPath }/child/childInfo.do">예방접종</a></li>
-				         <li><a href="${pageContext.request.contextPath }/child/childWeekInfo.do">임신주기별 정보</a></li>
+				         <li><a href="${pageContext.request.contextPath }/child/childWeekInfo.do">시기별 정보</a></li>
 				      </ul>
 					</li>
 					<li class="list"><a href="${pageContext.request.contextPath }/child/childCare.do">아이지킴이</a></li>

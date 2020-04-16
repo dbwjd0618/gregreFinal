@@ -23,6 +23,8 @@ public interface ShopDAO {
 
 	List<Product> searchListAll(int cPage, int numPerPage, Product product);
 
+	int selectProdTotalContents(Product p);
+
 
 
 }
