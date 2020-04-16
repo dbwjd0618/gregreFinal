@@ -65,33 +65,29 @@
 				seq_adv_review_no.nextval,
 				#{appointNo},
 				#{advisId},
-				#{advisKeyword},
 				#{reviewerId},
 				#{starPoint},
 				#{reviewContent},
-				sysdate
+				sysdate,
+				#{advisKeyword}
 				)
 	</insert>
 	
-	<!-- 리뷰 수정  -->
-	<update id="reviewUpdate">
-	update
-		TB_adviser_review
-	set
-		advis_keyword = #{advisKeyword},
-		star_point = #{starPoint},
-		review_content = {reviewContent}
-	where
-		appoint_no = #{appointNo}
+	<!-- 리뷰수정 -->
+	<update id="editReview">
+		update
+			TB_adviser_review 
+		set
+			review_content = #{reviewContent}
+		where
+			advis_review_no = #{advisReviewNo}
+
 	</update>
 	
-	<!-- 리뷰 삭제  -->
-	<delete id="reviewDelete">
-		delete
-			from
-		TB_adviser_review
-			where
-		appoint_no= #{appointNo}	
+	<!-- 리뷰삭제 -->
+	<delete id="deleteReview">
+		delete from TB_adviser_review 
+			where advis_review_no = #{num}
 	</delete>
 	
 </mapper>

@@ -234,7 +234,7 @@ width: 100%;
 							</div>
 							<div class="partner-list-box__img" id="partnerProfileImgEl">
 								<img
-									src="${pageContext.request.contextPath}/resources/images/counselling/${counselor.advisImg}"
+									src="${pageContext.request.contextPath }/resources/upload/member/${counselor.advisImg}"
 									alt="상담사 프로필 이미지">
 							</div>
 							<div class="partner-list-box__info-bottom">

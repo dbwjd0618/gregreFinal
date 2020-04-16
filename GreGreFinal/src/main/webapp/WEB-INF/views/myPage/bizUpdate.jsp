@@ -12,11 +12,15 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
     <!--서브메뉴 js-->
     <script src="${pageContext.request.contextPath}/resources/js/subMenu/subMenu.js"></script>
-	<style>
-	sapn.pguide {display:none;font-size: 12px;position:absolute; top:12px; right:10px ; }
+<style>
+sapn.pguide {display:none;font-size: 12px;position:absolute; top:12px; right:10px ; }
 span.ok1{display:none;color:green;}
 span.error2{display:none;color:red ;}
-	</style>
+.site-section-cover.overlay:before {
+	width: 0;
+	background-image: url();
+}
+</style>
 
    
    
@@ -31,13 +35,15 @@ span.error2{display:none;color:red ;}
    
    </script>
  <div class="ftco-blocks-cover-1">
-      <div class="site-section-cover overlay" data-stellar-background-ratio="0.5" >
+      <div class="site-section-cover overlay" 
+      data-stellar-background-ratio="0.5"
+      style="background-image: url('${pageContext.request.contextPath}/resources/images/counselling/cinfo.jpg')">
         <div class="container">
           <div class="row align-items-center ">
             <div class="col-md-5 mt-5 pt-5">
               <h1 class="mb-3 font-weight-bold text-teal">상담사 정보 페이지</h1>
 
-              <p><a href="${pageContext.request.contextPath}/counselling/images/cinfo.jpg" class="text-white">Home</a> <span class="mx-3">/</span> <strong>상담사 정보 수정</strong></p>
+              <p><a href="${pageContext.request.contextPath}/" class="text-white">Home</a> <span class="mx-3">/</span> <strong>상담사 정보 수정</strong></p>
 
             </div> 
           </div>
@@ -95,20 +101,27 @@ span.error2{display:none;color:red ;}
 					<div class="input-group-prepend">
 						<span class="input-group-text">아이디</span>
 					</div>
-					<input type="text" name="memberId" id="memberId_" class="form-control" value="${c.advisId}" readonly>
+					<input type="text" name="advisId" id="advisId_" class="form-control" value="${c.advisId}" readonly>
 				</div>
 
 				<div class="form-group input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text">이름</span>
 					</div>
-					<input type="text"  name="memberName" id="memberName" class="form-control" value="${c.advisName }" readonly><br>
+					<input type="text"  name="advisName" id="advisName" class="form-control" value="${c.advisName }"><br>
 				</div>
-				
 				<div class="form-group">
-    <label for="exampleFormControlTextarea1">Example textarea</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-  </div>			
+   					<label for="exampleFormControlInput1"><strong>한줄소개</strong></label>
+    				<input type="text" class="form-control" name="advisLineIntro" value="${c.advisLineIntro }">
+  				</div>
+  				<div class="form-group">
+    				<label for="exampleFormControlInput1"><strong>학력사항</strong></label>
+    				<input type="text" class="form-control" name="advisCareer" value="${c.advisCareer }">
+  				</div>
+  				<div class="form-group">
+    				<label for="exampleFormControlInput1"><strong>자격증</strong></label>
+    				<input type="text" class="form-control" name="advisLicense" value="${c.advisLicense }">
+  				</div>  						
 								  		
 				<div class="form-group">
 					<input type="submit" class="btn btn-primary btn-block" value="정보수정">
@@ -119,12 +132,9 @@ span.error2{display:none;color:red ;}
 				</div>
 									
 				</form>
-			</article>
+		</article>
 		</div>
-		
-            
-
-
+	
             </div>
 
 
