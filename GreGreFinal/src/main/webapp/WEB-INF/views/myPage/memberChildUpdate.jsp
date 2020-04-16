@@ -726,6 +726,7 @@
 <script>
 	//백신
 	//$(function() {
+	
 	$(document)
 			.ready(
 					function() {
