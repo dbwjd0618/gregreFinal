@@ -342,7 +342,7 @@ em{
    .section-title .product-price {
 	   font-size: 24px;
 	   font-weight: 700;
-	   color: #4CA4ED;
+	   color: #F44336;
    }
    
    .section-title .product-price span {
@@ -1452,6 +1452,9 @@ em{
 	   padding: 16px 18px 12px 19px;
    }
    
+   li.w-icon.active {
+    width: 60%;
+}
    .product-item .pi-text {
 	   text-align: center;
 	   padding-top: 26px;

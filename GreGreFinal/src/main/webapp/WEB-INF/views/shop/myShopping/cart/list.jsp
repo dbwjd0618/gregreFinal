@@ -382,7 +382,6 @@ $(function(){
 	function inc(t, optPrice, plusPrice, cartId, optionId) {
 
 		var num = Number($(t).parent('div').find('[name=count]').val());
-	
 		if (num >= $(t).parent('div').find('[name=count]').attr('max')) {
 			alert('더이상 늘릴수 없습니다.');
 
@@ -390,9 +389,37 @@ $(function(){
 			num++;
 			var resultOptPrice  = Number(uncomma($(t).parent().parent().parent().parent().parent().parent().find('.allPrice').text()));
 			resultOptPrice += Number(optPrice); 
-			$(t).parent().parent().parent().parent().parent().parent().find('.allPrice').text(comma(resultOptPrice));
+			$(t).parent().parent().parent().parent().parent().parent().find('.allPrice').text(comma(resultOptPrice));			
+			$(t).parent('div').find('[name=count]').val(comma(num));
+			$(t).parent().parent().parent().find('.opt-count').text(comma(num));
+			var plusPrices = Number(plusPrice)*num;
+			$(t).parent().parent().parent().find('.plus-price em').text(comma(plusPrices));		
+			//상품수량
+			var optCountArr = new Array();
+			$('.opt-count').each(function (index, item) { 
+				optCountArr.push(uncomma($(item).text()));
+			});
+			//총 상품금액
+			var totalPrice = 0;
+			$('.notDisP').each(function (index, item) { 
+				totalPrice += Number(uncomma($(item).val()))*Number(optCountArr[index]);
+		 	});
+			$('#totalProdPrice').text(comma(totalPrice));
+		
+		 	var all = 0;//할인된 금액 총합
+			$('.allPrice').each(function (index, item) { 
+				all += Number(uncomma($(item).text()));
+		 	});
+		 	//총상품금액 - 할인적용된 금액 총합 = 총할인금액
+			var totalDisPrice = totalPrice -all;
+			$('#totalDisPrice').text(comma(totalDisPrice));		 
+			//총 결제금액 
+			var totalOrder = Number(uncomma($('#totalProdPrice').text()))
+							+ Number(uncomma($('#totalDeliPrice').text()))
+						   - Number(uncomma($('#totalDisPrice').text()));
 			
-			//수량 업뎅이트
+			$('#totalOrderPrice').text(comma(totalOrder));	
+			//수량 업데이트
 			var objParams = {
 					"cartId" : cartId,
 					"optionId" : optionId,
@@ -404,6 +431,7 @@ $(function(){
 				dataType : "json",
 				data: objParams,
 				success: function (data) {
+
 					
 						
 				},
@@ -413,39 +441,9 @@ $(function(){
 			}); 
 			
 		}
-		$(t).parent('div').find('[name=count]').val(comma(num));
-		$(t).parent().parent().parent().find('.opt-count').text(comma(num));
-		var plusPrices = Number(plusPrice)*num;
-		$(t).parent().parent().parent().find('.plus-price em').text(comma(plusPrices));
-		
-		//상품수량
-		var optCountArr = new Array();
-		$('.opt-count').each(function (index, item) { 
-			optCountArr.push(uncomma($(item).text()));
-		});
-		//총 상품금액
-		var totalPrice = 0;
-		$('.notDisP').each(function (index, item) { 
-			totalPrice += Number(uncomma($(item).val()))*Number(optCountArr[index]);
-	 	});
-		$('#totalProdPrice').text(comma(totalPrice));
+
 		
 		
-		
-	 	var all = 0;//할인된 금액 총합
-		$('.allPrice').each(function (index, item) { 
-			all += Number(uncomma($(item).text()));
-	 	});
-	 	//총상품금액 - 할인적용된 금액 총합 = 총할인금액
-		var totalDisPrice = totalPrice -all;
-		$('#totalDisPrice').text(comma(totalDisPrice));
-	 
-		//총 결제금액 
-		var totalOrder = Number(uncomma($('#totalProdPrice').text()))
-						+ Number(uncomma($('#totalDeliPrice').text()))
-					   - Number(uncomma($('#totalDisPrice').text()));
-		
-		$('#totalOrderPrice').text(comma(totalOrder));
 		
 
 	}

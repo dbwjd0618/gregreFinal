@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
+import kh.mclass.IgreMall.order.model.vo.OrderProduct;
 import kh.mclass.IgreMall.wish.model.vo.Wish;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,6 +43,8 @@ public class Product  implements Serializable{
 	private Wish wish;
 	
 	private String keyword;
+	
+	private OrderProduct orderProduct;
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
