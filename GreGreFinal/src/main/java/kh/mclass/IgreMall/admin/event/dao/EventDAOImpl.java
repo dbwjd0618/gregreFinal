@@ -56,6 +56,11 @@ public class EventDAOImpl implements EventDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("adminEvent.selectReply", e);
 	}
+	@Override
+	public List<EventReply> selectDReply(Event e) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("adminEvent.selectDReply", e);
+	}
 
 	@Override
 	public int insertEventImg(AttachmentEvent attach1) {

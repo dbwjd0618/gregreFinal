@@ -1,6 +1,10 @@
 package kh.mclass.IgreMall.event.controller;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +50,8 @@ public class EventController {
 		mav.addObject("replyList",EPlist);
 		mav.addObject("replyCount",totalReply);
 		mav.addObject("s",s);
-		mav.setViewName("shop/event/detail");
+//		Calendar cal = Calendar.getInstance();
+	
 		return mav;
 	}
 	@GetMapping("/noticeDetail.do")

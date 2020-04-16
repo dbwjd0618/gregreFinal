@@ -22,6 +22,7 @@ public interface EventDAO {
 	int countReply(Event e);
 
 	List<EventReply> selectReply(Event e);
+	List<EventReply> selectDReply(Event e);
 
 	int insertEventImg(AttachmentEvent attach1);
 

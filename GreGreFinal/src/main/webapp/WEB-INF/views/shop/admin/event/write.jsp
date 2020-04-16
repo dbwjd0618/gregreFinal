@@ -123,7 +123,7 @@ input[name="paymentMethodCode"] {
 		</div>
 		<form enctype="multipart/form-data"
 			action="${pageContext.request.contextPath}/shop/admin/event/insert.do"
-			method="get" >
+			method="POST" enctype="multipart/form-data">
 			<input type="hidden" name="eventNo" value="0" />
 			<input type="hidden" name="sellerId" value="igre_mall_test" />
 			<div class="form-group row">
@@ -133,9 +133,9 @@ input[name="paymentMethodCode"] {
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="eventThumb" class="col-sm-2 col-form-label">대표사진</label>
+				<label for="Thumbnail" class="col-sm-2 col-form-label">대표사진</label>
 				<div class="col-sm-10">
-					<input type="file" name="upFile">
+					<input type="file" name="Thumbnail">
 				</div>
 			</div>
 			<div class="form-group row">

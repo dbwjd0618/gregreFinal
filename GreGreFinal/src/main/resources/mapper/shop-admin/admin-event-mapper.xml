@@ -4,6 +4,15 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="adminEvent">
 
+<select id="selectDReply" resultType="EventReply">
+select 
+	distinct reply_writer
+from
+	TB_reply_event
+where
+	post_No=${eventNo}
+</select>
+
 <select id="selectReply" resultType="EventReply">
 select
 	*

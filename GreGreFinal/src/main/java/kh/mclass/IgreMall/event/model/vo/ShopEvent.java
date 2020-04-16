@@ -21,4 +21,6 @@ public class ShopEvent {
 	private Date eventEnd;
 	private String eventType;
 	private String eventContent;
+	private String thumOrgImg;
+	private String thumReImg;
 }

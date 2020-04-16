@@ -25,5 +25,5 @@ public class Event {
 	private String thumOrgImg;
 	private String thumReImg;
 	
-	AttachmentEvent attachment;
+	
 }

@@ -13,12 +13,91 @@ import org.springframework.web.servlet.ModelAndView;
 import kh.mclass.IgreMall.admin.coupon.model.service.AdminCouponService;
 import kh.mclass.IgreMall.admin.coupon.model.vo.AdminCoupon;
 import kh.mclass.IgreMall.admin.coupon.model.vo.CouponPeople;
+import kh.mclass.IgreMall.admin.event.vo.Event;
+import kh.mclass.IgreMall.admin.event.vo.EventReply;
+import kh.mclass.IgreMall.admin.event.vo.WinnerEvent;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/shop/admin/coupon")
 @Slf4j
 public class AdminCouponController {
+	
+	@RequestMapping("/sendECoupon.do")
+	public ModelAndView selectEvent1(ModelAndView mav,
+			Event e,
+			int eventNo,
+			String memberId,
+			String couponId) {
+		System.out.println("일단 찍혀야하는데 ?");
+//		Event e1 = eventService.selectEvent(e);
+//		int totalReply = eventService.countReply(e);
+//		List<EventReply> EPlist = eventService.selectDReply(e);
+		
+		List<AdminCoupon> clist = adminCouponService.couponList();
+		
+		//쿠폰 지급
+				AdminCoupon c = new AdminCoupon();
+				String strMemberId[]= null;
+				strMemberId=memberId.split(",");
+				c.setCouponId(couponId);//일단이게 널이네 ?
+				String rePlace= couponId.replaceFirst(",", "");
+				
+				c.setCouponId(rePlace);
+				c=adminCouponService.selectCoupon(c); 
+				System.out.println("쿠폰찍혀야한"+c);
+				
+				CouponPeople cp = new CouponPeople();
+				
+				
+				WinnerEvent we= new WinnerEvent();
+				for(int i=0;i<strMemberId.length;i++) { 
+					cp.setCouponState("Y");
+					cp.setCouponId(c.getCouponId()); 
+					cp.setExpireDate(c.getCouponDuration());
+					cp.setMemberId(strMemberId[i]);
+					//WinnerEvent 당첨자 저장
+					
+					we.setEventNo(eventNo);
+					we.setMemberId(strMemberId[i]);
+					int winnerResult= adminCouponService.WinnerCS(we);
+					int result = adminCouponService.sendCoupon(cp);
+				}
+					
+		mav.addObject("clist",clist);
+		log.debug("쿠폰리스트{}",clist);
+//		log.debug("쿠폰지급..{}",EPlist);
+//		mav.addObject("replyList", EPlist);
+//		mav.addObject("e", e1);
+//		mav.addObject("replyCount", totalReply);
+		
+		
+		mav.setViewName("shop/admin/event/sendCoupon");
+		return mav;
+	}
+	@RequestMapping("/sendECoupon1.do")
+	public ModelAndView sendECoupon(ModelAndView mav,String memberId,String couponId) {
+		System.out.println("찍히냐");
+		AdminCoupon c = new AdminCoupon();
+		String strMemberId[]= null;
+		strMemberId=memberId.split(",");
+		
+		c.setCouponId(couponId);
+				
+		c=adminCouponService.selectCoupon(c);
+		
+		CouponPeople cp = new CouponPeople();
+		for(int i=0;i<strMemberId.length;i++) { 
+			cp.setCouponState("Y");
+			 cp.setCouponId(c.getCouponId());
+			cp.setExpireDate(c.getCouponDuration());
+			cp.setMemberId(strMemberId[i]);
+			
+			int result = adminCouponService.sendCoupon(cp);
+		}
+		return mav;
+	}
+	
 	@RequestMapping("/sendCoupon.do")
 	public ModelAndView sendCoupon(ModelAndView mav,String memberId,String couponId) {
 		System.out.println("찍히냐");

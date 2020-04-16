@@ -87,7 +87,7 @@
                                     <li class="item">
                                         <a href="${pageContext.request.contextPath }/shop/event/detail.do?eventNo=${l.eventNo}" class="evt">
                                             <span class="evt-img">
-                                                <img src="https://shoppingcdn.namyangi.com/attach/item/2020/202002/21520ab5-fa54-417a-a174-d5f64f5d805b.png" onerror="this.src='/resources/images/common/evt_noimg_560.jpg'" alt="[케어비몰]새로운 이유식 케어비 사전예약 공유이벤트">
+                                                <img src="${pageContext.request.contextPath }/resources/upload/shop/eventImg/${l.thumReImg }" >
                                             </span>
                                             <span class="evt-info">
                                                 <span class="evt-title">${l.eventTitle }</span>
@@ -102,7 +102,7 @@
                                                     
                                                         <span class="sticky black">댓글</span>
                                                     
-                                                    <span class="sticky red">D-3 ====${l.eventEnd-l.eventStart }</span>
+                                                    <span class="sticky red">D-3 </span>
                                                 </span>
                                             </span>
                                         </a>
