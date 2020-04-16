@@ -87,7 +87,7 @@
 				<div class="sidebar">
 					<div class="sidebar__header">
 						<div class="profile sidebar__profile">
-							<img class="profile__avatar" src="${pageContext.request.contextPath}/resources/images/counselling/${c.advisImg }"/>
+							<img class="profile__avatar" src="${pageContext.request.contextPath}/resources/upload/member/${c.advisImg }"/>
 							<div class="profile__name">${m.memberId }</div>
 						</div>
 					</div>
