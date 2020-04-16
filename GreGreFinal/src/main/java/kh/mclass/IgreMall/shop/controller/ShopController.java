@@ -1,9 +1,12 @@
 package kh.mclass.IgreMall.shop.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +24,6 @@ import kh.mclass.IgreMall.product.model.service.ProductService;
 import kh.mclass.IgreMall.product.model.vo.Attachment;
 import kh.mclass.IgreMall.product.model.vo.ProdOption;
 import kh.mclass.IgreMall.product.model.vo.Product;
-import kh.mclass.IgreMall.product.model.vo.ProductCount;
 import kh.mclass.IgreMall.shop.model.service.ShopService;
 import kh.mclass.IgreMall.shopMember.model.service.ShopMemberService;
 import kh.mclass.IgreMall.shopMember.model.vo.Cart;
@@ -99,7 +101,7 @@ public class ShopController {
 				allPriceList.add(price);
 			}
 		}
-		
+			
 		
 		int totalProdPrice = 0;
 		int totalDeliPrice = 0;
@@ -117,7 +119,85 @@ public class ShopController {
 		}
 
 		int totalOrderPrice = totalProdPrice + totalDeliPrice - totalDisPrice;
+		
+		//추천 상품 
+		List<Product> prodList = productService.selectRecoProdList();
 
+		
+		Map<String, Integer> countMap = new HashMap<>();
+		for(int i=0;i<prodList.size();i++) {
+			for(int j=0;j<prodList.get(i).getOrderProduct().getProdCount().length;j++) {
+				String[] prodCountArr =prodList.get(i).getOrderProduct().getProdCount();
+				int cnt = 0;
+				for(int t=0;t<prodCountArr.length;t++) {
+					cnt += Integer.parseInt(prodCountArr[t]);
+				}
+				countMap.put(prodList.get(i).getProductId(), cnt);
+			}
+		}
+		
+		log.debug("countMap={}",countMap);
+		
+		 //[1] 입력
+        int[] score = new int[countMap.size()];
+        String[] productIdArr = new String[countMap.size()];
+        Set set = countMap.keySet();
+
+        Iterator iterator = set.iterator();
+        
+        int idx=0;
+        
+        while(iterator.hasNext()){
+        	  String key = (String)iterator.next();
+        	  score[idx] = countMap.get(key);
+        	  productIdArr[idx] = key; 
+        	  idx++;
+        }
+        
+        int[] rank = new int[countMap.size()];
+           
+        //[2] 처리                     
+        for(int i=0; i<score.length; i++){
+            rank[i] = 1; //1등으로 초기화
+           
+            for (int j = 0; j < score.length; j++) { //기준데이터와 나머지데이터비교                             
+                if(score[i]<score[j]){   //기준데이터가 나머지데이터라 비교했을때 적으면 rank[i] 카운트
+                    rank[i]++; //COUNT                 
+                }              
+            }          
+        }      
+        
+       for(int i=0;i<score.length;i++) {
+    	   for(int j=i+1;j<score.length;j++) {
+    		   if(rank[i]> rank[j]) {
+    			   int tmep = score[i];
+    			   score[i]= score[j];
+    			   score[j] = tmep;
+    			   
+    			   int rmep = rank[i];
+    			   rank[i]= rank[j];
+    			   rank[j] = rmep;
+    			   
+    			   String pmep = productIdArr[i];
+    			   productIdArr[i]= productIdArr[j];
+    			   productIdArr[j] = pmep;
+    			   
+    		   }
+    	   }
+       }
+		
+		List<Product> recoProdList = new ArrayList<>();
+		for(int i=0;i<score.length;i++) {
+			if(rank[i]<6 && rank[i]>0) {
+				String productId = productIdArr[i];
+				Product p = productService.selectProductOne(productId);
+				recoProdList.add(p);
+			}
+		}
+		
+		//추천상품
+		mav.addObject("recoProdList", recoProdList);
+		
 		//총 상품금액
 		session.setAttribute("totalProdPrice", totalProdPrice);
 		//총 배송비
@@ -145,7 +225,7 @@ public class ShopController {
 	public ModelAndView searchList(ModelAndView mav, @RequestParam(value = "cPage", defaultValue = "1") int cPage,
 			@RequestParam(value = "keyword", required = false) String keyword, HttpSession session) {
 
-		final int numPerPage = 100;
+		final int numPerPage = 12;
 		Product p = new Product();
 		p.setKeyword(keyword);
 
@@ -162,10 +242,13 @@ public class ShopController {
 
 		// 검색 상품 출력
 		List<Product> searchList = shopService.searchListAll(cPage, numPerPage, p);
-
+		
+		
+		//2. 전체컨텐츠수 구하기
+		int totalAllProd = shopService.selectProdTotalContents(p);
+		
 		// 찜하기 추가
 		for (int i = 0; i < searchList.size(); i++) {
-			System.out.println("serarch=" + searchList.get(i));
 			for (int j = 0; j < wishList.size(); j++) {
 				if (searchList.get(i).getProductId().equals(wishList.get(j).getProductId())) {
 					searchList.get(i).setWish(wishList.get(j));
@@ -173,8 +256,7 @@ public class ShopController {
 
 			}
 		}
-
-		int totalAllProd = searchList.size();
+		
 
 		final int pageBarSize = 10;
 

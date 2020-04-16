@@ -186,22 +186,7 @@ function goWish(productId, t){
 												</c:if>
 											</div>
 											<ul>
-												<li class="w-icon active"><a href="#"><svg
-															style="width: 18px; height: 16px; margin-bottom: 3px;"
-															xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-															width="50" height="50" viewBox="0 0 172 172"
-															style=" fill:#000000;">
-													<g fill="none" fill-rule="nonzero" stroke="none"
-																stroke-width="1" stroke-linecap="butt"
-																stroke-linejoin="miter" stroke-miterlimit="10"
-																stroke-dasharray="" stroke-dashoffset="0"
-																font-family="none" font-weight="none" font-size="none"
-																text-anchor="none" style="mix-blend-mode: normal">
-													<path d="M0,172v-172h172v172z" fill="none"></path>
-													<g fill="#ffffff">
-													<path
-																d="M86,3.44c-19.04094,0 -34.4,15.35906 -34.4,34.4v6.88h-27.1975l-0.3225,3.01l-13.76,120.4l-0.43,3.87h152.22l-0.43,-3.87l-13.76,-120.4l-0.3225,-3.01h-27.1975v-6.88c0,-19.04094 -15.35906,-34.4 -34.4,-34.4zM86,10.32c15.35906,0 27.52,12.16094 27.52,27.52v6.88h-55.04v-6.88c0,-15.35906 12.16094,-27.52 27.52,-27.52zM30.6375,51.6h20.9625v7.8475c-2.05594,1.19594 -3.44,3.37281 -3.44,5.9125c0,3.80281 3.07719,6.88 6.88,6.88c3.80281,0 6.88,-3.07719 6.88,-6.88c0,-2.53969 -1.38406,-4.71656 -3.44,-5.9125v-7.8475h55.04v7.8475c-2.05594,1.19594 -3.44,3.37281 -3.44,5.9125c0,3.80281 3.07719,6.88 6.88,6.88c3.80281,0 6.88,-3.07719 6.88,-6.88c0,-2.53969 -1.38406,-4.71656 -3.44,-5.9125v-7.8475h20.9625l13.0075,113.52h-136.74z"></path></g></g></svg></a></li>
-												<li class="quick-view"><a
+												<li class="w-icon active"><a
 													href="${pageContext.request.contextPath }/shop/product/detail.do?productId=${p.productId}">상세보기</a></li>
 											</ul>
 										</div>
@@ -258,7 +243,7 @@ function goWish(productId, t){
 						<c:if test="${pageNo >1 }">
 							<li class="page-item">
 									<a class="page-link"
-										href="${pageContext.request.contextPath }/shop/category.do?category1=${category1}&cPage=${pageStart-1}"
+										href="${pageContext.request.contextPath }/shop/searchList.do?keyword=${keyword}&cPage=${pageStart-1}"
 										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 										<span class="sr-only">Previous</span>
 									</a>
@@ -272,7 +257,7 @@ function goWish(productId, t){
 							varStatus="countVs">
 						
 								<li class="page-item"><a class="page-link"
-									href="${pageContext.request.contextPath }shop/searchList.do?keyword=${keyword}&cPage=${countVs.index}">${countVs.index }</a></li>
+									href="${pageContext.request.contextPath }/shop/searchList.do?keyword=${keyword}&cPage=${countVs.index}">${countVs.index }</a></li>
 								<li class="page-item">	
 
 							<c:set var="pageNo" value="${countVs.index }" />
@@ -285,11 +270,20 @@ function goWish(productId, t){
 							</a></li>
 						</c:if>
 						<c:if test="${pageNo <=totalPage }">
+							<c:if test="${pageNo == totalPage }">
+								<a class="page-link"
+									href="#"
+									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+									<span class="sr-only">Next</span>
+								</a>
+							</c:if>
+							<c:if test="${pageNo < totalPage }">
 								<a class="page-link"
 									href="${pageContext.request.contextPath }shop/searchList.do?keyword=${keyword}&cPage=${pageEnd+1}"
 									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 									<span class="sr-only">Next</span>
 								</a>
+							</c:if>
 						</c:if>
 					</ul>
 				</nav>
