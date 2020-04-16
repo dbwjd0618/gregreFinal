@@ -3,6 +3,31 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shopEvent">
+<select id="selectWinner1" resultType="Winner">
+select 
+	*
+from
+	tb_event_part A left join tb_event B
+		on A.event_no = B.event_no
+		left join tb_coupon_info C
+		on A.couponid = C.coupon_id
+where 
+	A.event_No=#{eventNo}
+</select>
+<select id="selectWinner" resultType="Winner">
+select 
+	*
+from
+	tb_event_part A left join tb_event B
+		on A.event_no = B.event_no
+		left join tb_coupon_info C
+		on A.couponid = C.coupon_id
+<!-- group by
+	event_part_no
+order by
+	event_part_no desc
+  -->
+</select>
 <select id="selectReply" resultType="EventReply">
 select
 	*

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.mclass.IgreMall.admin.event.vo.EventReply;
 import kh.mclass.IgreMall.event.model.vo.ShopEvent;
+import kh.mclass.IgreMall.event.model.vo.Winner;
 
 @Repository
 public class ShopEventDAOImpl implements ShopEventDAO {
@@ -44,6 +45,18 @@ public class ShopEventDAOImpl implements ShopEventDAO {
 		// TODO Auto-generated method stub
 		
 		return sqlSession.selectList("shopEvent.selectReply",eventNo);
+	}
+
+	@Override
+	public List<Winner> selectWinner() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("shopEvent.selectWinner");
+	}
+
+	@Override
+	public List<Winner> selectWinner(int eventNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("shopEvent.selectWinner1",eventNo);
 	}
 
 }
