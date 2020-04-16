@@ -110,14 +110,15 @@ public class CounsellingController {
 		List<Map<String,String>> list = counselorService.selectReviewList(c, cPage, numPerPage);
 		mav.addObject("pageBar",Pagebar.getPageBar(reviewCountSelectOne, cPage, numPerPage,"/Igre/counselling/bookingMain.do?advisId="+advisId));
 		
-		
+		//1점부터 5점까지 준 사람들을 Arraylist로 저장
 		List<reviewStar> list1 = new ArrayList<>();
 		list1.add(new reviewStar(5, counselorService.countReview(advisId, 5)));
 		list1.add(new reviewStar(4, counselorService.countReview(advisId, 4)));
 		list1.add(new reviewStar(3, counselorService.countReview(advisId, 3)));
 		list1.add(new reviewStar(2, counselorService.countReview(advisId, 2)));
 		list1.add(new reviewStar(1, counselorService.countReview(advisId, 1)));
-				
+						
+		//상담사 한명의 리뷰 평점 평균
 		Double reviewRating = counselorService.selectReviewRating(advisId);
 
 		mav.addObject("reviewRating",reviewRating);
