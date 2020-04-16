@@ -21,5 +21,20 @@ public class InfoServiceImpl implements InfoService {
 		// TODO Auto-generated method stub
 		return infoDao.updateAdmin(s);
 	}
+	@Override
+	public int totalSell() {
+		// TODO Auto-generated method stub
+		return infoDao.totalSell();
+	}
+	@Override
+	public int totalOrder() {
+		// TODO Auto-generated method stub
+		return  infoDao.totalOrder();
+	}
+	@Override
+	public int totalQa() {
+		// TODO Auto-generated method stub
+		return infoDao.totalQa();
+	}
 
 }
