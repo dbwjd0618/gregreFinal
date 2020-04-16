@@ -16,15 +16,15 @@
 #example3{
 	display: inline-block; 
 	width:auto;
-	margin-left:269px;
+	margin-left:19px;
 	position: relative;
-    bottom: -30px;
+    bottom: 43px;
     text-align: center;
 }
 
 .fa-user-times{
 	color: lightgray; 
-	margin:0px -100px 42px 200px;
+	/* margin:0px -100px 42px 200px; */
 }
 </style>
 

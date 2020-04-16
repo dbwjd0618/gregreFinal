@@ -8,13 +8,27 @@
 <!-- WebSocket: stomp.js CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
 <!-- adminchat.css -->
-<link href="${pageContext.request.contextPath}/resources/css/admin/adminchat.css" rel="stylesheet" type="text/css" />
+<%-- <link href="${pageContext.request.contextPath}/resources/css/admin/adminchat.css" rel="stylesheet" type="text/css" /> --%>
 <!-- adminchat.js  -->
 <script src="${pageContext.request.contextPath}/resources/js/admin/chat.js"></script>
 
 <!-- table css -->
 <style>
-table.table th, table.table td {text-align: center;}
+table.table th, table.table td {
+	text-align: center;
+	font-size : 16px;
+}
+
+.table{
+    background-color: white;
+}
+
+.fa-comments{
+	 color: lightgray; 
+	 margin-left: 83px;
+}
+
+
 </style>
 
 <!-- list에서 클릭시 chat으로 이동하는 script -->
@@ -22,11 +36,19 @@ table.table th, table.table td {text-align: center;}
 function goChat(chatId){
 	location.href = "${pageContext.request.contextPath}/admin/chat/"+chatId;
 }
+
+$(function(){
+	$("table td").mouseover(function(){
+		$(this).parents("table tr").css("backgroundColor", "#f3f3f3");
+	});
+	$("table td").mouseout(function(){
+		$(this).parents("table tr").css("backgroundColor", "white");
+	});
+})
 </script>
 
 <!-- lastCheck script -->
 <script>
-
 
 //웹소켓 선언 및 연결
 //1. 최초 웹소켓 생성 url : /stomp
@@ -72,36 +94,32 @@ $(()=>{
 
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>
-			1:1 채팅
-		</h1>
+		<h1> 채팅목록 </h1>
 		<ol class="breadcrumb">
 			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li><a href="#">1:1채팅</a></li>
 			<li class="active">채팅리스트</li>
 		</ol>
 	</section>
-
-	<table class="table">
-	  <thead>
-	    <tr>
-	      <th scope="col">#</th>
-	      <th scope="col">회원아이디</th>
-	      <th scope="col">메세지</th>
-	      <th scope="col">안읽은 메세지수</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	  <c:forEach items="${recentList }" var="map" varStatus="vs">
-	    <tr chatNo='<c:out value="${map.CHAT_ID}.${map.MEMBER_ID}"/>' /><%-- el의 문자열 더하기 연산대신 jstl out태그 사용 --%>
-	      <th scope="row">${vs.count}</th>
-	      <td><a href="javascript:goChat('${map.CHAT_ID}')">${map.MEMBER_ID }</a></td>
-	      <td>${map.MSG }</td>
-	      <td><span class="badge badge-light">${map.CNT }</span></td>
-	    </tr>
-	  </c:forEach>
-	  </tbody>
-	</table>
+	<div class="chat-table">
+		<table class="table">
+		    <tr>
+		      <th style="width:50px">NO.</th>
+		      <th style="width:50px">회원아이디</th>
+		      <th style="width:100px">메세지</th>
+		    </tr>
+		  <c:forEach items="${recentList }" var="map" varStatus="vs">
+		    <tr chatNo='<c:out value="${map.CHAT_ID}.${map.MEMBER_ID}"/>' /><%-- el의 문자열 더하기 연산대신 jstl out태그 사용 --%>
+		      <th class="row">${vs.count}</th>
+		      <td class="row"><a href="javascript:goChat('${map.CHAT_ID}')">${map.MEMBER_ID }</a></td>
+		      <td class="row">${map.MSG }</td>
+		    </tr>
+		  </c:forEach>
+		</table>
+		<div style="font-size: 60px; display: inline-block;">
+		<i class="far fa-comments fa-10x" ></i>
+		</div>
+	</div>
 </div>
 
 <!-- admin footer 선언 -->

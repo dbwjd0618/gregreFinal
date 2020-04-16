@@ -91,7 +91,15 @@ public class ProductController {
 		int totalStar=0;
 		if(reviewList.size()> 0) {
 			for(int i=0;i<reviewList.size();i++) {
-				String[] optionName = new String[reviewList.get(i).getOptionId().length];
+				if(reviewList.get(i).getOptionId()!=null) {
+					String[] optionName = new String[reviewList.get(i).getOptionId().length];
+					
+					for(int j=0;j<reviewList.get(i).getOptionId().length;j++) {
+						ProdOption option = productService.selectOptionOne(reviewList.get(i).getOptionId()[j]);
+						optionName[j] = option.getOptionValue().replaceAll(",", "/");
+					}
+					reviewList.get(i).setOptionName(optionName);
+				}
 				totalStar+=reviewList.get(i).getStarPoint();
 				//리뷰추천
 				ReviewReco reviewReco1 = new ReviewReco();
@@ -104,12 +112,7 @@ public class ProductController {
 				}else {
 					recoList.add(reviewReco2);					
 				}
-				
-				for(int j=0;j<reviewList.get(i).getOptionId().length;j++) {
-					ProdOption option = productService.selectOptionOne(reviewList.get(i).getOptionId()[j]);
-					optionName[j] = option.getOptionValue().replaceAll(",", "/");
-				}
-				reviewList.get(i).setOptionName(optionName);
+			
 			}
 			//사용자 총 평점
 			avgStar = (double)totalStar/(double)reviewList.size();
