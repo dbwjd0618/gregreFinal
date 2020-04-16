@@ -85,7 +85,7 @@ public class MemberController {
 		} catch (Exception e) {
 			rda.addFlashAttribute("msg", "로그인 도중 오류가 발생했습니다.");
 			e.printStackTrace();
-			return "redirect:/";
+
 		}
 		return "redirect:/";
 	}
@@ -105,6 +105,7 @@ public class MemberController {
 		try {
 			if (bm != null && bcryptPasswordEncoder.matches(memberPwd,bm.getMemberPwd())) {
 				model.addAttribute("bizmemberLoggedIn", bm);
+				
 			} else {
 			rda.addFlashAttribute("msg", "입력 정보가 올바르지 않습니다.");
 			return "redirect:/";
@@ -251,6 +252,7 @@ public class MemberController {
 		String advisKeywordlist = advisKeyword1 + "," + advisKeyword2 + "," + advisKeyword3;
 		String adimg1 = upFiles[0].getOriginalFilename();
 		String adimg2 = upFiles[1].getOriginalFilename();
+
 		advis.setAdvisImg(adimg1);
 		advis.setAdvislicenseFile(adimg2);
 		advis.setAdvisKeyword(advisKeywordlist);
@@ -273,10 +275,13 @@ public class MemberController {
 				{ // TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
+			
+			advis.setAdvisImg(renamedFileName);
+			advis.setAdvislicenseFile(renamedFileName);
 			int result = ms.bizEnroll(bizmember, advis);
 
-			redirectAttributes.addFlashAttribute("msg", result > 0 ? "등록성공!" : "등록실패!");
+			String msg = result > 0 ? "회원가입 완료!" : "누락된 항목이 있습니다";
+			redirectAttributes.addFlashAttribute("msg", msg);
 			}
 
 		} catch (Exception e) {
