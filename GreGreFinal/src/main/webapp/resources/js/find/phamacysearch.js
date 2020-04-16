@@ -55,6 +55,7 @@
 						success:function(response){
 							console.log(response);
 							
+							
 							if(response == undefined){
 								alert("해당 검색이 없습니다.");
 							}

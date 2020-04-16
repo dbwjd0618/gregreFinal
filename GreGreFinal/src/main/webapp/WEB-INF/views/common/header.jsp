@@ -180,7 +180,9 @@
           <ul class="depth-2">
             <!-- 상담센터 여기서부터 링크 이동 -->
             <li><a href="${pageContext.request.contextPath }/counselling/counselorFind.do">상담사 찾기</a></li>
+	         <c:if test="${bizmemberLoggedIn == null }">   
 	            <li><a href="${pageContext.request.contextPath }/chat/counsellingStart.do">상담하기</a></li>
+            </c:if>
             <c:if test="${bizmemberLoggedIn != null }">
 	            <li><a href="${pageContext.request.contextPath }/counselor/counsellingStart.do">상담관리</a></li>
             </c:if>
