@@ -8,20 +8,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ShopEvent {
+public class Winner {
 	private int eventNo;
+	private int eventPartNo;
+	private String eventPartId;
+	private String eventPartContent;
+	private int couponId;
+	private String couponName;
 	private String eventTitle;
-	private Date eventStart;
-	private Date eventEnd;
-	private String eventType;
-	private String eventContent;
-	private String thumOrgImg;
-	private String thumReImg;
-	
+	private Date replyWriteTime;
 }

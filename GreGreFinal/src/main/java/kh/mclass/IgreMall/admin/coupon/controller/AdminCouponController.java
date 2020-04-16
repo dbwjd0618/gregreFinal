@@ -28,7 +28,8 @@ public class AdminCouponController {
 			Event e,
 			int eventNo,
 			String memberId,
-			String couponId) {
+			String couponId,
+			String resultMsg) {
 		System.out.println("일단 찍혀야하는데 ?");
 //		Event e1 = eventService.selectEvent(e);
 //		int totalReply = eventService.countReply(e);
@@ -44,6 +45,7 @@ public class AdminCouponController {
 				String rePlace= couponId.replaceFirst(",", "");
 				
 				c.setCouponId(rePlace);
+				
 				c=adminCouponService.selectCoupon(c); 
 				System.out.println("쿠폰찍혀야한"+c);
 				
@@ -51,6 +53,8 @@ public class AdminCouponController {
 				
 				
 				WinnerEvent we= new WinnerEvent();
+				we.setResultMsg(resultMsg);
+				we.setCouponId(rePlace);
 				for(int i=0;i<strMemberId.length;i++) { 
 					cp.setCouponState("Y");
 					cp.setCouponId(c.getCouponId()); 
