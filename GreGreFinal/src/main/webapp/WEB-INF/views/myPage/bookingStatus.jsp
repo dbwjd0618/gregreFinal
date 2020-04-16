@@ -35,7 +35,7 @@
           <div class="row align-items-center ">
             <div class="col-md-5 mt-5 pt-5">
               <h1 class="mb-3 font-weight-bold text-teal">상담사 정보 페이지</h1>
-              <p><a href="index.html" class="text-white">Home</a> <span class="mx-3">/</span> <strong>진행중인 상담 목록</strong></p>
+              <p><a href="${pageContext.request.contextPath}/" class="text-white">Home</a> <span class="mx-3">/</span> <strong>진행중인 상담 목록</strong></p>
             </div> 
           </div>
         </div>
