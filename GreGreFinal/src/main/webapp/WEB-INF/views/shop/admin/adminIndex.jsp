@@ -44,7 +44,7 @@
               <!-- small box -->
               <div class="small-box bg-green">
                 <div class="inner">
-                  <h3>53<sup style="font-size: 20px"></sup></h3>
+                  <h3>${totalPrice }<sup style="font-size: 20px"></sup></h3>
                   <p>매출</p>
                 </div>
                 <div class="icon">
@@ -56,7 +56,7 @@
               <!-- small box -->
               <div class="small-box bg-yellow">
                 <div class="inner">
-                  <h3>44</h3>
+                  <h3>${totalQa }</h3>
                   <p>문의 수</p>
                 </div>
                 
@@ -71,7 +71,7 @@
               <!-- small box -->
               <div class="small-box bg-red">
                 <div class="inner">
-                  <h3>665</h3>
+                  <h3>${totalOrder}</h3>
                   <p>주문 건수</p>
                 </div>
                 <div class="icon">
@@ -132,8 +132,11 @@
             </section><!-- /.Left col -->
             <!-- right col (We are only adding the ID to make the widgets sortable)-->
             <section class="col-lg-5 connectedSortable">
-
-
+<script>
+function numberFormat(inputNumber) {
+	   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+</script>
               <!-- Calendar -->
               <div class="box box-solid bg-green-gradient">
                 <div class="box-header">
