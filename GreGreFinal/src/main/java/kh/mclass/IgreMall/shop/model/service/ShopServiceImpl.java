@@ -50,6 +50,11 @@ public class ShopServiceImpl implements ShopService {
 		return shopDAO.searchListAll(cPage, numPerPage, product);
 	}
 
+	@Override
+	public int selectProdTotalContents(Product p) {
+		return shopDAO.selectProdTotalContents(p);
+	}
+
 
 
 	

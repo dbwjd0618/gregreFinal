@@ -95,7 +95,7 @@ body {padding-right: 0px !important;}
 						</li>
 						<li class="link3">
 							<a href="${pageContext.request.contextPath }/find/pharmacy.do">
-								<img src="${pageContext.request.contextPath}/resources/images/index/reserve_hospital-icon.png" alt=""> <br> 마스크구매
+								<img src="${pageContext.request.contextPath}/resources/images/index/reserve_hospital-icon.png" alt=""> <br> 마스크현황
 							</a>
 						</li>
 						<li class="link4">

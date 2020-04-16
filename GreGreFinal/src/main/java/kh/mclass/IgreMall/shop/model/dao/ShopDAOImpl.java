@@ -66,6 +66,12 @@ public class ShopDAOImpl implements ShopDAO {
 		
 		return sqlSession.selectList("product.searchListAll",product, rowBounds);
 	}
+
+	@Override
+	public int selectProdTotalContents(Product product) {
+		
+		 return sqlSession.selectOne("product.selectProdTotalContents",product);
+	}
 	
 
 }

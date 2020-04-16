@@ -117,7 +117,7 @@
 							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/myPeriod.do">
 								<div class="menu__title">월경캘린더</div>
 							</a> 
-							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/">
+							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/counsellingInfo.do">
 								<div class="menu__title">상담정보/리뷰</div>
 							</a> 
 							<a class="menu__item" href="${pageContext.request.contextPath}/myPage/deleteMember.do">

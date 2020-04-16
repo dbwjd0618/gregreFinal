@@ -70,4 +70,9 @@ public class ProductDAOImpl implements ProductDAO{
 	public int updateProduct(Product product) {
 		return sqlSession.update("product.updateProduct", product);
 	}
+
+	@Override
+	public List<Product> selectRecoProdList() {
+		return sqlSession.selectList("product.selectRecoProdList");
+	}
 }

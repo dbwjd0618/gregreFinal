@@ -5,7 +5,7 @@
 <mapper namespace="board">
 
 	<select id="boardList" resultType="Board">
-		select * from TB_board
+		select * from TB_board order by board_code
 	</select>
 
 	<select id="postList" resultType="Post">
