@@ -27,8 +27,9 @@
             <!--담청자 발표 -->
             <div class="board-detail event">
                 <div class="board-header row">
-                    <h3 class="title">프리미엄 상품 구매시 팸퍼스 기저귀 100% 증정 이벤트 감자퐁 당첨자발표</h3>
-
+                <c:forEach items="${wl}" var="w">
+                    <h3 class="title">[Igre-Mall] ${w.eventTitle }</h3>
+				</c:forEach>
                     <div class="date">2020.02.19</div>
                 </div>
                 <!-- s: 당첨자발표 상세 내용 -->
