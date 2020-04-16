@@ -141,7 +141,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                       <img src="${pageContext.request.contextPath}/resources/images/counselling/${a.advisImg }" class="imgmini">
+                                       <img src="${pageContext.request.contextPath}/resources/upload/member/${a.advisImg }" class="imgmini">
                                     </div>
                                     <div class="col-md-7">
                                         <p>예약한 상담사명 : ${a.advisName} </p>
