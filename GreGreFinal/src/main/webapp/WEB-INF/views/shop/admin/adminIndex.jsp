@@ -3,8 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!-- taglib는 매 jsp 마다 필요함 -->
-
 
 
 <!-- 한글깨질때. -->
@@ -44,7 +44,7 @@
               <!-- small box -->
               <div class="small-box bg-green">
                 <div class="inner">
-                  <h3>${totalPrice }<sup style="font-size: 20px"></sup></h3>
+                  <h3><fmt:formatNumber value="${totalPrice }" pattern="#,###" /><sup style="font-size: 20px"></sup></h3>
                   <p>매출</p>
                 </div>
                 <div class="icon">

@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!-- taglib는 매 jsp 마다 필요함 -->
 
 <!-- 한글깨질때. -->
@@ -159,59 +160,64 @@
 						<td class="text-center vertical-middle">신용카드</td>
 						<td class="text-right vertical-middle"><c:out
 								value="${crCount }"></c:out>건</td>
-						<td class="text-right vertical-middle"><c:out
-								value="${crPrice}"></c:out>원</td>
+								<td  class="text-right vertical-middle">
+							<fmt:formatNumber value="${crPrice}" pattern="#,###" />
+						원</td>
 					</tr>
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">무통장입금</td>
 						<td class="text-right vertical-middle"><c:out
 								value="${acCount}"></c:out>건</td>
-						<td class="text-right vertical-middle"><c:out
-								value="${acPrice}"></c:out>원</td>
+								<td  class="text-right vertical-middle">
+							<fmt:formatNumber value="${acPrice}" pattern="#,###" />
+						원</td>
 					</tr>
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">휴대전화</td>
 						<td class="text-right vertical-middle"><c:out
 								value="${phCount}"></c:out>건</td>
-						<td class="text-right vertical-middle"><c:out
-								value="${phPrice}"></c:out>원</td>
+								<td  class="text-right vertical-middle">
+							<fmt:formatNumber value="${phPrice}" pattern="#,###" />
+						원</td>
 					</tr>
 
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">카카오페이</td>
 						<td class="text-right vertical-middle"><c:out
 								value="${kaCount}"></c:out>건</td>
-						<td class="text-right vertical-middp.le"><c:out
-								value="${kaPrice}"></c:out>원</td>
-					</tr>
+								<td  class="text-right vertical-middle">
+							<fmt:formatNumber value="${kaPrice}" pattern="#,###" />
+						원</td>
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">토스</td>
 						<td class="text-right vertical-middle"><c:out
 								value="${toCount}"></c:out>건</td>
-						<td class="text-right vertical-middle"><c:out
-								value="${toPrice}"></c:out>원</td>
+								<td  class="text-right vertical-middle">
+							<fmt:formatNumber value="${toPrice}" pattern="#,###" />
+						원</td>
 					</tr>
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">네이버페이</td>
 						<td class="text-right vertical-middle"><c:out
 								value="${naCount}"></c:out>건</td>
-						<td class="text-right vertical-middle"><c:out
-								value="${naPrice}"></c:out>원</td>
+								<td  class="text-right vertical-middle">
+							<fmt:formatNumber value="${naPrice}" pattern="#,###" />
+						원</td>
 					</tr>
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">실시간계좌이체</td>
 						<td class="text-right vertical-middle"><c:out
 								value="${raCount}"></c:out>건</td>
-						<td class="text-right vertical-middle"><c:out
-								value="${raPrice}"></c:out>원</td>
+						<td class="text-right vertical-middle">
+						<fmt:formatNumber value="${raPrice}" pattern="#,###" />
+						원</td>
 					</tr>
 
 					<tr style="background-color: #ffffff;">
 						<td class="text-center vertical-middle">합계</td>
 						<td class="text-right vertical-middle"><c:out
 								value="${totalCount}"></c:out> 건</td>
-						<td class="text-right vertical-middle"><c:out
-								value="${totalPrice}"></c:out> 원</td>
+						<td class="text-right vertical-middle"><fmt:formatNumber value="${totalPrice }" pattern="#,###" /> 원</td>
 					</tr>
 
 				</tbody>
@@ -228,7 +234,7 @@
 											<div class="value-sub">
 												<strong class="text-danger">총 결재 금액</strong>
 											</div>
-											<div class="value-self won">${totalPrice}원</div>
+											<div class="value-self won"><fmt:formatNumber value="${totalPrice }" pattern="#,###" />원</div>
 										</div>
 									</div>
 									<div class="row">
@@ -237,7 +243,7 @@
 												<div class="value-sub">
 													<strong class="text-danger">총 판매 이익</strong>
 												</div>
-												<div class="value-self">${totalPrice-totalSupPrice}원</div>
+												<div class="value-self"><fmt:formatNumber value="${totalPrice-totalSupPrice}" pattern="#,###" />원</div>
 											</div>
 										</div>
 										<div class="col-lg-3 bordered " style="width: 23%;">
