@@ -694,7 +694,6 @@ em{
 	   height: 100%;
 	   border: none;
 	   font-size: 16px;
-	   color: #d1d1d1;
 	   padding-left: 20px;
    }
    
@@ -778,7 +777,7 @@ em{
 	   position: absolute;
 	   right: -70px;
 	   top: 100px;
-	   width: 350px;
+	   width: 400px;
 	   background: #ffffff;
 	   z-index: 99;
 	   text-align: left;

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import kh.mclass.IgreMall.admin.coupon.model.dao.AdminCouponDAO;
 import kh.mclass.IgreMall.admin.coupon.model.vo.AdminCoupon;
 import kh.mclass.IgreMall.admin.coupon.model.vo.CouponPeople;
+import kh.mclass.IgreMall.admin.event.vo.WinnerEvent;
 
 @Service
 public class AdminCouponServiceImpl implements AdminCouponService {
@@ -42,6 +43,12 @@ public class AdminCouponServiceImpl implements AdminCouponService {
 	public AdminCoupon selectcurCoupon(AdminCoupon c) {
 		// TODO Auto-generated method stub
 		return adminCouponDao.selectcurCoupon(c);
+	}
+
+	@Override
+	public int WinnerCS(WinnerEvent we) {
+		// TODO Auto-generated method stub
+		return adminCouponDao.WinnerCS(we);
 	}
 	
 }

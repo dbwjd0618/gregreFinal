@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kh.mclass.IgreMall.admin.coupon.model.vo.AdminCoupon;
 import kh.mclass.IgreMall.admin.coupon.model.vo.CouponPeople;
+import kh.mclass.IgreMall.admin.event.vo.WinnerEvent;
 
 @Repository
 public class AdminCouponDAOImpl implements AdminCouponDAO {
@@ -43,5 +44,11 @@ public class AdminCouponDAOImpl implements AdminCouponDAO {
 	public AdminCoupon selectcurCoupon(AdminCoupon c) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("adminCoupon.selectcurCoupon",c);
+	}
+
+	@Override
+	public int WinnerCS(WinnerEvent we) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("adminCoupon.winnerCS",we);
 	}
 }

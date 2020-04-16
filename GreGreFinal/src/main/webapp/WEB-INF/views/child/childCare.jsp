@@ -87,7 +87,7 @@ label.input-group-text {
 						href="${pageContext.request.contextPath }/child/childInfo.do">육아정보</a></li>
 					<li class="list"><a
 						href="${pageContext.request.contextPath }/child/childCare.do">아이지킴이</a></li>
-					<li class="list"><a href="#">육아상담</a></li>
+					<li class="list"><a href="${pageContext.request.contextPath }/counselling/counselorFind.do">육아상담</a></li>
 				</ul>
 			</div>
 

@@ -783,9 +783,11 @@ function cartSubmit(index, cartId){
 												</span>
 												<input type="hidden" name="deliveryFee"
 													value="${cart.product.deliveryFee }" />
-											</c:if> <input type="button" class="btn btn-light"
+											</c:if> 
+											<input type="button" class="btn btn-light"
 											style="margin-top: 10px;" value="바로구매"
-											onclick="cartSubmit(2, '${cart.cartId}');" /></td>
+											onclick="cartSubmit(2, '${cart.cartId}');" />
+											</td>
 										<!-- 배송비 -->
 									</tr>
 								</c:forEach>

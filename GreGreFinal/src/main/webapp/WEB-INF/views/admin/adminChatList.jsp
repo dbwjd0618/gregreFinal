@@ -19,17 +19,13 @@ table.table th, table.table td {
 	font-size : 16px;
 }
 
-.chat-table{
-	padding: 42px 297px;
-}
-
 .table{
     background-color: white;
 }
 
 .fa-comments{
 	 color: lightgray; 
-	 margin-left: 200px;
+	 margin-left: 83px;
 }
 
 

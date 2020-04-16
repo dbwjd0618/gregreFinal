@@ -55,7 +55,7 @@ margin-bottom: 30px;
 				<ul class="menu">
 					<li class="list"><a href="${pageContext.request.contextPath }/pregnancy/prePregnancy.do">임신정보</a></li>
 					<li class="list"><a href="${pageContext.request.contextPath }/pregnancy/calendar.do">월경캘린더</a></li>
-					<li class="list"><a href="#">임신상담</a></li>
+					<li class="list"><a href="${pageContext.request.contextPath }/counselling/counselorFind.do">임신상담</a></li>
 				</ul>
 			</div>
 
