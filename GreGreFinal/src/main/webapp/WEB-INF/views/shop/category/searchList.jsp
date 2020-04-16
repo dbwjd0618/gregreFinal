@@ -279,7 +279,7 @@ function goWish(productId, t){
 							</c:if>
 							<c:if test="${pageNo < totalPage }">
 								<a class="page-link"
-									href="${pageContext.request.contextPath }shop/searchList.do?keyword=${keyword}&cPage=${pageEnd+1}"
+									href="${pageContext.request.contextPath }/shop/searchList.do?keyword=${keyword}&cPage=${pageEnd+1}"
 									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 									<span class="sr-only">Next</span>
 								</a>

@@ -21,7 +21,7 @@ public class PayAccountInfo implements Serializable{/**
 	
 	private String orderNo;
 	private String bankName;
-	private String account;
+	private String accountNo;
 	private String accountHolder;
 	private Date expireDate;
 	

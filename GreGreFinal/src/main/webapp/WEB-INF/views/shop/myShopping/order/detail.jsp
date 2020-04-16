@@ -172,7 +172,7 @@ div.option {
 				</div>
 				<div class="field">
 					<div class="title">계좌번호</div>
-					<div class="content">${payAccInfo.account}</div>
+					<div class="content">${payAccInfo.accountNo}</div>
 				</div>
 				<div class="field">
 					<div class="title">예금주</div>
