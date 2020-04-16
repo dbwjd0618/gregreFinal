@@ -390,6 +390,28 @@ $(function(){
 			var resultOptPrice  = Number(uncomma($(t).parent().parent().parent().parent().parent().parent().find('.allPrice').text()));
 			resultOptPrice += Number(optPrice); 
 			$(t).parent().parent().parent().parent().parent().parent().find('.allPrice').text(comma(resultOptPrice));			
+			
+			
+			//수량 업데이트
+			var objParams = {
+					"cartId" : cartId,
+					"optionId" : optionId,
+					"num" : num
+			} 
+			$.ajax({
+				url: "${pageContext.request.contextPath}/shop/myShopping/cartUpdate.do",
+				type: "POST",
+				dataType : "json",
+				data: objParams,
+				success: function (data) {
+
+					
+						
+				},
+				error:(x,s,e)=>{
+					console.log(x,s,e);
+				}
+			}); 
 			$(t).parent('div').find('[name=count]').val(comma(num));
 			$(t).parent().parent().parent().find('.opt-count').text(comma(num));
 			var plusPrices = Number(plusPrice)*num;
@@ -419,27 +441,6 @@ $(function(){
 						   - Number(uncomma($('#totalDisPrice').text()));
 			
 			$('#totalOrderPrice').text(comma(totalOrder));	
-			//수량 업데이트
-			var objParams = {
-					"cartId" : cartId,
-					"optionId" : optionId,
-					"num" : num
-			} 
-			$.ajax({
-				url: "${pageContext.request.contextPath}/shop/myShopping/cartUpdate.do",
-				type: "POST",
-				dataType : "json",
-				data: objParams,
-				success: function (data) {
-
-					
-						
-				},
-				error:(x,s,e)=>{
-					console.log(x,s,e);
-				}
-			}); 
-			
 		}
 
 		
@@ -686,11 +687,15 @@ function cartSubmit(index, cartId){
 														[<span>${ cart.product.brandName}</span>]
 													</h5>
 													<h3 class="product-name">${ cart.product.productName}</h3>
+													
 													<c:set var="discountedPrice"
 														value="${cart.product.price - cart.product.discountPrice}" />
+													<c:if test="${cart.product.discountPrice>0 }">
 													<span class="orgn_price "><em><fmt:formatNumber
 																type="number" maxFractionDigits="3"
-																value="${cart.product.price}" /></em>원</span> <span
+																value="${cart.product.price}" /></em>원</span> 
+													</c:if>
+													<span
 													class="product_price_"><fmt:formatNumber
 															type="number" maxFractionDigits="3"
 															value="${discountedPrice}" />원</span>
