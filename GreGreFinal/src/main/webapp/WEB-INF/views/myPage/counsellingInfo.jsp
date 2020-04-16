@@ -56,7 +56,7 @@
         </div>
       </div>
     </div>
-
+<!-- home버튼 수정 -->
 <!-- contents begin-->
 <style>
 /* 별점  */
