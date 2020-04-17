@@ -43,11 +43,17 @@ function goWish(productId, t){
 				$(t).find('.heart-img').remove();
 				var redHeart = '<img class="heart-img" src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon-p.png" style="width: 30px;">';
 				$(t).append(redHeart);
+				
+				var count = Number($('#wishListCount').text()) +1;
+				$('#wishListCount').text(count);
 			}else if( data.wishCheck == 'N'){
 				console.log("화이트");
 				$(t).find('.heart-img').remove();
 				var whiteHeart = '<img  class="heart-img" src="${pageContext.request.contextPath }/resources/images/shop/icon/heart-icon.png" style="width: 30px;">';
 				$(t).append(whiteHeart); 
+				
+				var count = Number($('#wishListCount').text()) -1;
+				$('#wishListCount').text(count);
 			}
 		
 				
@@ -58,13 +64,14 @@ function goWish(productId, t){
 	}); 
 }
 </script>
+
 <!-- Breadcrumb Section Begin -->
 <div class="breacrumb-section">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="breadcrumb-text">
-					<a href="shop.html"> <svg style="margin-bottom: 2.5px;"
+					<a href="${pageContext.request.contextPath }/shop/shop.do"> <svg style="margin-bottom: 2.5px;"
 							xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16px"
 							height="16px" viewBox="0 0 172 172" style=" fill:#000000;">
 							<g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1"
@@ -78,13 +85,13 @@ function goWish(productId, t){
 								d="M86,15.0472l-78.83333,70.9528h21.5v64.5h43v-50.16667h28.66667v50.16667h43v-64.5h21.5z"></path></g></g></svg>
 						Home
 					</a>
-					<c:if test="${ category1 eq 'CA1'|| category2 eq 'CA2'}">
+					<c:if test="${ category1 eq 'CA1'|| category2 eq 'CA2' || category1 eq'CA2'}">
 						<span>분유/이유식</span>
 					</c:if>
-					<c:if test="${ category1 eq 'CA3'|| category2 eq 'CA4'}">
+					<c:if test="${ category1 eq 'CA3'|| category2 eq 'CA4' || category1 eq'CA4'}">
 						<span>기저귀/물티슈</span>
 					</c:if>
-					<c:if test="${ category1 eq 'CA5'|| category2 eq 'CA6'}">
+					<c:if test="${ category1 eq 'CA5'|| category2 eq 'CA6' || category1 eq'CA6'}">
 						<span>수유/이유용품</span>
 					</c:if>
 					<c:if test="${ category1 eq 'CA7'}">
@@ -95,14 +102,32 @@ function goWish(productId, t){
 		</div>
 		<div class="row product-category-title">
 			<div class="col-lg-7">
-				<c:if test="${ category1 eq 'CA1'|| category1 eq 'CA2'}">
+				<c:if test="${ category1 eq 'CA1'&& category2 eq 'CA2'}">
 					<h2 class="sub-title">분유/이유식</h2>
 				</c:if>
-				<c:if test="${ category1 eq 'CA3'|| category1 eq 'CA4'}">
+				<c:if test="${ category1 eq 'CA1'&& category2 != 'CA2'}">
+					<h2 class="sub-title">분유</h2>
+				</c:if>
+				<c:if test="${ category1 eq 'CA2'}">
+					<h2 class="sub-title">이유식</h2>
+				</c:if>
+				<c:if test="${ category1 eq 'CA3'&& category2 eq 'CA4'}">
 					<h2 class="sub-title">기저귀/물티슈</h2>
 				</c:if>
-				<c:if test="${ category1 eq 'CA5'|| category1 eq 'CA6'}">
+				<c:if test="${ category1 eq 'CA3'&& category2 != 'CA4'}">
+					<h2 class="sub-title">기저귀</h2>
+				</c:if>
+				<c:if test="${ category1 eq 'CA4'}">
+					<h2 class="sub-title">물티슈</h2>
+				</c:if>
+				<c:if test="${ category1 eq 'CA5'&& category2 eq 'CA6'}">
 					<h2 class="sub-title">수유/이유용품</h2>
+				</c:if>
+				<c:if test="${ category1 eq 'CA5' && category2 != 'CA6'}">
+					<h2 class="sub-title">수유용퓸</h2>
+				</c:if>
+				<c:if test="${ category1 eq 'CA6'}">
+					<h2 class="sub-title">이유용품</h2>
 				</c:if>
 				<c:if test="${ category1 eq 'CA7'}">
 					<h2 class="sub-title">목욕용품</h2>
@@ -110,7 +135,7 @@ function goWish(productId, t){
 			</div>
 			<div class="col-lg-5 product-sub-nav">
 				<nav class="nav">
-					<c:if test="${category1 eq 'CA1' ||category1 eq 'CA2'}">
+					<c:if test="${category1 eq 'CA1' && category2 eq 'CA2'}">
 						<input type="button" class="nav-item is-active"
 							active-color="rebeccapurple"
 							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA1&category2=CA2'"
@@ -122,8 +147,32 @@ function goWish(productId, t){
 							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA2'"
 							value="이유식" />
 					</c:if>
+					<c:if test="${category1 eq 'CA1' && category2 != 'CA2'}">
+						<input type="button" class="nav-item"
+							active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA1&category2=CA2'"
+							value="전체" />
+						<input type="button" class="nav-item is-active" active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA1'"
+							value="분유" />
+						<input type="button" class="nav-item" active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA2'"
+							value="이유식" />
+					</c:if>
+					<c:if test="${category1 eq 'CA2'}">
+						<input type="button" class="nav-item"
+							active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA1&category2=CA2'"
+							value="전체" />
+						<input type="button" class="nav-item " active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA1'"
+							value="분유" />
+						<input type="button" class="nav-item is-active" active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA2'"
+							value="이유식" />
+					</c:if>
 
-					<c:if test="${category1 eq 'CA3' || category1 eq 'CA4'}">
+					<c:if test="${category1 eq 'CA3' &&  category2 eq 'CA4'}">
 						<input type="button" class="nav-item is-active"
 							active-color="rebeccapurple"
 							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA3&category2=CA4'"
@@ -135,20 +184,68 @@ function goWish(productId, t){
 							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA4'"
 							value="물티슈" />
 					</c:if>
-					<c:if test="${category1 eq 'CA5' || category1 eq 'CA6'}">
+					<c:if test="${category1 eq 'CA3' && category2 != 'CA4'}">
+						<input type="button" class="nav-item "
+							active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA3&category2=CA4'"
+							value="전체" />
+						<input type="button" class="nav-item is-active" active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA3'"
+							value="기저귀" />
+						<input type="button" class="nav-item" active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA4'"
+							value="물티슈" />
+					</c:if>
+					<c:if test="${category1 eq 'CA4'}">
+						<input type="button" class="nav-item"
+							active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA3&category2=CA4'"
+							value="전체" />
+						<input type="button" class="nav-item" active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA3'"
+							value="기저귀" />
+						<input type="button" class="nav-item is-active" active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA4'"
+							value="물티슈" />
+					</c:if>
+					<c:if test="${category1 eq 'CA5' && category2 eq 'CA6'}">
 						<input type="button" class="nav-item is-active"
 							active-color="rebeccapurple"
 							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA5&category2=CA6'"
 							value="전체" />
 						<input type="button" class="nav-item" active-color="rebeccapurple"
 							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA5'"
-							value="수유" />
+							value="수유용품" />
 						<input type="button" class="nav-item" active-color="rebeccapurple"
 							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA6'"
 							value="이유용품" />
 					</c:if>
-					<c:if test="${category1 eq 'CA7' }">
+					<c:if test="${category1 eq 'CA5' && category2 != 'CA6'}">
+						<input type="button" class="nav-item"
+							active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA5&category2=CA6'"
+							value="전체" />
+						<input type="button" class="nav-item is-active" active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA5'"
+							value="수유용품" />
 						<input type="button" class="nav-item" active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA6'"
+							value="이유용품" />
+					</c:if>
+					<c:if test="${category1 eq 'CA6'}">
+						<input type="button" class="nav-item"
+							active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA5&category2=CA6'"
+							value="전체" />
+						<input type="button" class="nav-item" active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA5'"
+							value="수유용품" />
+						<input type="button" class="nav-item is-active" active-color="rebeccapurple"
+							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA6'"
+							value="이유용품" />
+					</c:if>
+					<c:if test="${category1 eq 'CA7' }">
+						<input type="button" class="nav-item is-active" active-color="rebeccapurple"
 							onclick="location.href='${pageContext.request.contextPath }/shop/category.do?category1=CA7'"
 							value="목욕용품" />
 					</c:if>
@@ -254,6 +351,9 @@ function goWish(productId, t){
 													src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${p.attachList.get(0).renamedImg}"
 													alt="">
 											</c:if>
+											<c:if test="${p.discountPrice >0 }">
+											<div class="sale">Sale</div>
+											</c:if>
 											<div class="icon">
 												<c:if test="${ p.wish !=null }">
 													<c:forEach var="wish" items="${wishList }">
@@ -329,9 +429,18 @@ function goWish(productId, t){
 												<h5>${p.productName }</h5>
 											</a>
 											<div class="product-price">
-												<fmt:formatNumber type="number" maxFractionDigits="3"
+												<c:set var="discountedPrice"
 													value="${p.price-p.discountPrice}" />
-												원
+												<fmt:formatNumber type="number" maxFractionDigits="3"
+													value="${discountedPrice }" />
+												원 
+												<c:if test="${p.discountPrice > 0 }">
+												<span> 
+												<fmt:formatNumber type="number"
+														maxFractionDigits="3" value="${p.price}" />원
+												</span>
+												</c:if>
+									
 											</div>
 										</div>
 									</div>

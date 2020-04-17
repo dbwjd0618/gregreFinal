@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.mclass.Igre.member.model.vo.Member;
@@ -44,6 +45,8 @@ public class ShopController {
 	ShopMemberService shopMemberService;
 	@Autowired
 	ProductService productService;
+	
+	
 	
 	@GetMapping("/shop.do")
 	public ModelAndView shop(ModelAndView mav, HttpSession session) {
@@ -208,6 +211,7 @@ public class ShopController {
 		session.setAttribute("totalOrderPrice", totalOrderPrice);
 		
 		session.setAttribute("cartList", cartList);
+		session.setAttribute("wishList", wishList);
 		session.setAttribute("cartListCount", cartList.size());
 		session.setAttribute("allPriceList", allPriceList);
 		
