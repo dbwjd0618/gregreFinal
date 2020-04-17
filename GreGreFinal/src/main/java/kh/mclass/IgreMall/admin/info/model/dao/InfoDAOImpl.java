@@ -23,4 +23,22 @@ public class InfoDAOImpl implements InfoDAO {
 		return sqlSession.update("shopAdmin.updateAdmin",s);
 	}
 
+	@Override
+	public int totalSell() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("shopAdmin.totalPrice");
+	}
+
+	@Override
+	public int totalOrder() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("shopAdmin.totalOrder");
+	}
+
+	@Override
+	public int totalQa() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("shopAdmin.totalQa");
+	}
+
 }

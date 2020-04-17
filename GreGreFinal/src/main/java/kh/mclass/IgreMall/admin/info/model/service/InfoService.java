@@ -8,4 +8,10 @@ public interface InfoService {
 
 	int updateAdmin(ShopAdmin s);
 
+	int totalSell();
+
+	int totalOrder();
+
+	int totalQa();
+
 }

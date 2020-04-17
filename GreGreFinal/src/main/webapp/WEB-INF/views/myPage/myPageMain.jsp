@@ -107,13 +107,7 @@
 													</c:if>
 												</c:forEach>
 											</div>
-											<div class="col-md-3">
-												<div>
-													<br />
-												</div>
 
-												<!-- <button type="button" class="btn btn-outline bg-gray" onclick="addVaccin();">예방접종</button> -->
-											</div>
 
 										</div>
 
@@ -126,7 +120,7 @@
 					</c:forEach>
 				</c:if>
 
-				
+
 				<div class="row mb-4">
 					<div class="col-md-12">
 						<h4 style="text-align: center;">
@@ -134,47 +128,57 @@
 						</h4>
 					</div>
 				</div>
-				
 
 
+<<<<<<< HEAD
 				<div class="row mb-3">
 					<div class="col-md-12">
 						
 							<div class="row">
+=======
 
-								<c:forEach items="${list3 }" var="a">
-									<c:if test="${a.appointNo != null }">
+				<c:forEach items="${list3 }" var="a">
+					<c:if test="${a.appointNo != null }">
+	
+>>>>>>> branch 'master' of https://github.com/Wingater/GreGre
+
+
 										<div class="row mb-3">
 											<div class="col-md-12">
 												<div class="card">
+													<div class="card-body">
+														<div class="row">
+															<div class="col-md-3">
+																<img
+																	src="${pageContext.request.contextPath}/resources/images/counselling/${a.advisImg }"
+																	class="imgmini">
+															</div>
+															<div class="col-md-7">
+																<p>예약한 상담사명 : ${a.advisName}</p>
+																<p>결제정보 : ${a.payInfo }</p>
+																<p>결제일 : ${a.startDay}</p>
+																<p>남은횟수 : ${a.coin }</p>
+															</div>
 
-													<div class="row">
-														<div class="col-md-3">
-															<img
-																src="${pageContext.request.contextPath}/resources/images/counselling/${a.advisImg }"
-																class="imgmini">
 														</div>
-														<div class="col-md-7">
-															<p>예약한 상담사명 : ${a.advisName}</p>
-															<p>결제정보 : ${a.payInfo }</p>
-															<p>결제일 : ${a.startDay}</p>
-															<p>남은횟수 : ${a.coin }</p>
-														</div>
-														<div class="col-md-2"></div>
 													</div>
 
 
 												</div>
 											</div>
 										</div>
-									</c:if>
-								</c:forEach>
 
+<<<<<<< HEAD
 							</div>
 
 						
 					</div>
 				</div>
+=======
+		
+					</c:if>
+				</c:forEach>
+>>>>>>> branch 'master' of https://github.com/Wingater/GreGre
 
 
 
@@ -191,34 +195,34 @@
 
 
 
-				<div class="row mb-3">
-					
-						<div class="card">
+				<c:forEach items="${list4 }" var="p" varStatus="vs">
+					<c:if test="${p.mensesNo != null }">
+						<c:if test="${vs.last == true }">
+							<div class="row mb-3">
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="row">
 
-							<div class="row">
+												<div class="col-md-6">
+													<p style="font-weight: bold">마지막 생리 정보</p>
+													<p>생리 시작일 : ${p.mensesStart }</p>
+													<p>종료 예정일 : ${p.mensesEnd}</p>
+													<p>생리주기 : ${p.mensesCycle } 일</p>
+												</div>
 
-								<div class="col-md-6">
-									<c:forEach items="${list4 }" var="p" varStatus="vs">
-										<c:if test="${p.mensesNo != null }">
-											<c:if test="${vs.last == true }">
-												<p style="font-weight: bold">마지막 생리 정보</p>
-												<p>생리 시작일 : ${p.mensesStart }</p>
-												<p>종료 예정일 : ${p.mensesEnd}</p>
-												<p>생리주기 : ${p.mensesCycle } 일</p>
-											</c:if>
-										</c:if>
-									</c:forEach>
+
+
+											</div>
+										</div>
+									</div>
 								</div>
 
 
-
-
 							</div>
-
-						</div>
-					
-
-				</div>
+						</c:if>
+					</c:if>
+				</c:forEach>
 
 
 
