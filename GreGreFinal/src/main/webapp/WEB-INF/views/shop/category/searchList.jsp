@@ -69,7 +69,7 @@ function goWish(productId, t){
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="breadcrumb-text">
-					<a href="shop.html"> <svg style="margin-bottom: 2.5px;"
+					<a href="${pageContext.request.contextPath }/shop/shop.do"> <svg style="margin-bottom: 2.5px;"
 							xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16px"
 							height="16px" viewBox="0 0 172 172" style=" fill:#000000;">
 							<g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1"
@@ -83,12 +83,13 @@ function goWish(productId, t){
 								d="M86,15.0472l-78.83333,70.9528h21.5v64.5h43v-50.16667h28.66667v50.16667h43v-64.5h21.5z"></path></g></g></svg>
 						Home
 					</a>
+					<span>검색</span>
 				</div>
 			</div>
 		</div>
 		<div class="row product-category-title">
 			<div class="col-lg-7">
-				
+			
 			</div>
 			<div class="col-lg-5 product-sub-nav">
 				<nav class="nav">
@@ -142,6 +143,9 @@ function goWish(productId, t){
 												<img
 													src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${p.attachList.get(0).renamedImg}"
 													alt="">
+											</c:if>
+											<c:if test="${p.discountPrice >0 }">
+											<div class="sale">Sale</div>
 											</c:if>
 											<div class="icon">
 												<c:if test="${ p.wish !=null }">
@@ -217,9 +221,17 @@ function goWish(productId, t){
 												<h5>${p.productName }</h5>
 											</a>
 											<div class="product-price">
-												<fmt:formatNumber type="number" maxFractionDigits="3"
+												<c:set var="discountedPrice"
 													value="${p.price-p.discountPrice}" />
-												원
+												<fmt:formatNumber type="number" maxFractionDigits="3"
+													value="${discountedPrice }" />
+												원 
+												<c:if test="${p.discountPrice > 0 }">
+												<span> 
+												<fmt:formatNumber type="number"
+														maxFractionDigits="3" value="${p.price}" />원
+												</span>
+												</c:if>
 											</div>
 										</div>
 									</div>

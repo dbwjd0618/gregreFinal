@@ -99,10 +99,146 @@ button.heart-icon {
     background-color: transparent;
 }
 </style>
+<script>
+function addOpt2(optVal1) {
+	console.log("optVal1="+optVal1)
+	 var dataOpt1 = new Array();
+	<c:forEach items="${optionValue1}" var ="item">
+		dataOpt1.push("${item}");
+	</c:forEach>
+	var dataOpt2 = new Array();
+	<c:forEach items="${optionValue2}" var ="item">
+		dataOpt2.push("${item}");
+	</c:forEach>
+	var dataOptList = new Array();
+	<c:forEach items="${optionList}" var ="item">
+		var optItem = new Object();
+		optItem.optionId = "${item.optionId}";
+		optItem.optionName = "${item.optionName}";
+		optItem.optionValue = "${item.optionValue}";
+		optItem.optionStock = "${item.optionStock}";
+		optItem.optionPrice = "${item.optionPrice}";
+		dataOptList.push(optItem);
+	</c:forEach>
+	var dataResultOption = new Array();
 
+	
+	var idx=0;
+	var t=0;
+	var optPriceArr = new Array();
+	var optValueArr = new Array();
+	var optStockArr = new Array();
+	var optIdArr = new Array();
+	
+	var discountPrice = Number("${p.discountPrice}");
+	for( idx ; idx<dataOpt1.length;idx++){
+		for( t ; t<dataOpt2.length;t++){
+			var resultOption = optVal1+','+dataOpt2[t];
+			 for (var a=0; a<dataOptList.length;a++) {
+				if(resultOption == dataOptList[a].optionValue){
+					optPriceArr.push(Number(dataOptList[a].optionPrice)-discountPrice);
+					optValueArr.push(dataOpt2[t]);
+					optStockArr.push(dataOptList[a].optionStock);
+					optIdArr.push(dataOptList[a].optionId);
+				}
+				
+			} 
+		}
+	}
+
+	$('span.optVal1').remove();
+	$('#btn-sel-option1').toggleClass("open").next(".dropdown-cont").toggleClass("open");
+	var optValHtml = '<span class="optVal1">' + optVal1 + '</span>';
+	$('#btn-sel-option1').append(optValHtml);
+	
+	var data = [ { 
+		"optVal1" :   optVal1,
+		"optPriceArr" :  optPriceArr[0],
+		"optValueArr" :   optValueArr[0],
+		"optStockArr" :   optStockArr[0],
+		"optIdArr" :   optIdArr[0]
+		
+	    },
+	    { 
+			"optVal1" :   optVal1,
+			"optPriceArr" :  optPriceArr[1],
+			"optValueArr" :   optValueArr[1],
+			"optStockArr" :   optStockArr[1],
+			"optIdArr" :   optIdArr[1]
+			
+		  },
+		  { 
+				"optVal1" :   optVal1,
+				"optPriceArr" :  optPriceArr[2],
+				"optValueArr" :   optValueArr[2],
+				"optStockArr" :   optStockArr[2],
+				"optIdArr" :   optIdArr[2]
+				
+			  },
+			  { 
+					"optVal1" :   optVal1,
+					"optPriceArr" :  optPriceArr[3],
+					"optValueArr" :   optValueArr[3],
+					"optStockArr" :   optStockArr[3],
+					"optIdArr" :   optIdArr[3]
+					
+				  }
+		    
+	    
+	    ];
+	var template = $.templates("#itemTmplOption2");
+	var htmlOutput = template.render(data);
+	$('#opt2-list .item').remove();
+	$("#opt2-list").append(htmlOutput);
+	
+	//optionValue가 없을 때
+	if(dataOpt2 == ""){
+	
+
+		var optId="";
+		var optPrice=0;
+		var optNm1="";
+		var optStock=0;
+		for(var vIdx =0; vIdx <dataOptList.length ; vIdx++){
+			if(dataOptList[vIdx].optionValue == optVal1){
+		
+				optId = dataOptList[vIdx].optionId;
+				optPrice = dataOptList[vIdx].optionPrice;
+				optNm1 = dataOptList[vIdx].optionValue;
+				optStock = dataOptList[vIdx].optionStock;
+			}
+		}
+		var price = "${p.price-p.discountPrice}";
+		var optPriceC = Number(optPrice) -Number('${p.discountPrice}');
+		var data = [ {
+			"optId" : optId,
+			"optPrice" : optPriceC,
+			"optPriceC" : comma(optPriceC),
+			"optNm" : optNm1,
+			"optStock" : Number(optStock)
+		} ];
+		
+		$('span.optNm2').remove();
+
+
+		
+		var template = $.templates("#itemTmplOption");
+		var htmlOutput = template.render(data);
+		$("#selected-option").append(htmlOutput);
+		var prevPrice = Number(uncomma($('#totalPrice').text()))+Number(uncomma(optPriceC));
+	   
+		$('#totalPrice').text(comma(prevPrice));	
+		
+		
+		
+	}
+
+}
+</script>
 <script>
 	function addOpt1(optVal1) {
-		var dataOpt1 = new Array();
+		console.log("optVal1="+optVal1)
+		 var dataOpt1 = new Array();
 		<c:forEach items="${optionValue1}" var ="item">
 			dataOpt1.push("${item}");
 		</c:forEach>
@@ -233,7 +369,7 @@ button.heart-icon {
 			
 			
 		}
-
+ 
 	}
 </script>
 <script>
@@ -692,7 +828,7 @@ $(function(){
 																		</c:if> <c:if test="${optionStock  != 0 }">
 																			<!-- 가격 넘겨주기 addOption()  -->
 																			<button class="btn-option"
-																				onclick="addOpt1('${opt1}');">${opt1}</button>
+																				onclick="addOpt2('${opt1}');">${opt1}</button>
 																			<c:set var="selectedOpt1" value="${opt1 }"
 																				scope="page" />
 																		</c:if></li>
@@ -1261,113 +1397,6 @@ $(function(){
 		</div>
 	</section>
 	<!-- Product Shop Section End -->
-	<!-- Related Products Section End -->
-	<div class="related-products spad">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="section-title">
-						<h2>추천 상품</h2>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-lg-3 col-sm-6">
-					<div class="product-item">
-						<div class="pi-pic">
-							<img src="img/products/women-1.jpg" alt="">
-							<div class="sale">Sale</div>
-							<div class="icon">
-								<i class="icon_heart_alt"></i>
-							</div>
-							<ul>
-								<li class="w-icon active"><a href="#"><i
-										class="icon_bag_alt"></i></a></li>
-								<li class="quick-view"><a href="#">+ Quick View</a></li>
-								<li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-							</ul>
-						</div>
-						<div class="pi-text">
-							<div class="catagory-name">Coat</div>
-							<a href="#">
-								<h5>Pure Pineapple</h5>
-							</a>
-							<div class="product-price">
-								$14.00 <span>$35.00</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-sm-6">
-					<div class="product-item">
-						<div class="pi-pic">
-							<img src="img/products/women-2.jpg" alt="">
-							<div class="icon"></div>
-							<ul>
-								<li class="w-icon active"><a href="#"><i
-										class="icon_bag_alt"></i></a></li>
-								<li class="quick-view"><a href="#">+ Quick View</a></li>
-								<li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-							</ul>
-						</div>
-						<div class="pi-text">
-							<div class="catagory-name">Shoes</div>
-							<a href="#">
-								<h5>Guangzhou sweater</h5>
-							</a>
-							<div class="product-price">$13.00</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-sm-6">
-					<div class="product-item">
-						<div class="pi-pic">
-							<img src="img/products/women-3.jpg" alt="">
-							<div class="icon">
-								<i class="icon_heart_alt"></i>
-							</div>
-							<ul>
-								<li class="w-icon active"><a href="#"><i
-										class="icon_bag_alt"></i></a></li>
-								<li class="quick-view"><a href="#">+ Quick View</a></li>
-								<li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-							</ul>
-						</div>
-						<div class="pi-text">
-							<div class="catagory-name">Towel</div>
-							<a href="#">
-								<h5>Pure Pineapple</h5>
-							</a>
-							<div class="product-price">$34.00</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-sm-6">
-					<div class="product-item">
-						<div class="pi-pic">
-							<img src="img/products/women-4.jpg" alt="">
-							<div class="icon">
-								<i class="icon_heart_alt"></i>
-							</div>
-							<ul>
-								<li class="w-icon active"><a href="#"><i
-										class="icon_bag_alt"></i></a></li>
-								<li class="quick-view"><a href="#">+ Quick View</a></li>
-								<li class="w-icon"><a href="#"><i class="fa fa-random"></i></a></li>
-							</ul>
-						</div>
-						<div class="pi-text">
-							<div class="catagory-name">Towel</div>
-							<a href="#">
-								<h5>Converse Shoes</h5>
-							</a>
-							<div class="product-price">$34.00</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 	<!-- 장바구니 Modal  -->
 	<div class="modal fade cart-modal" id="cart-modal" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1394,7 +1423,7 @@ $(function(){
 	</div>
 
 
-
+<!--  dkdkdkdkdkdk -->
 	<!-- 문의하기 modal -->
 
 	<div class="modal fade" id="qNaModal" tabindex="-1" role="dialog"

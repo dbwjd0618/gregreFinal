@@ -53,7 +53,7 @@
 				<!--시설찾기 서브메뉴-->
 				<h2>임신</h2>
 				<ul class="menu">
-					<li class="list"><a href="${pageContext.request.contextPath }/pregnancy/pregnancy.do">임신정보</a>
+					<li class="list"><a href="${pageContext.request.contextPath }/pregnancy/prePregnancy.do">임신정보</a>
 					<li class="list"><a href="${pageContext.request.contextPath }/pregnancy/calendar.do">월경캘린더</a></li>
 					<li class="list"><a href="${pageContext.request.contextPath }/counselling/counselorFind.do">임신상담</a></li>
 				</ul>

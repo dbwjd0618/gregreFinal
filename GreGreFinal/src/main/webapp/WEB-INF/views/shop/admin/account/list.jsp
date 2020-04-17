@@ -374,7 +374,7 @@ jQuery('.won').text(function() {
 
 <script type="text/javascript">
 function edit(val,m) {
-	alert("뭐에요 ?.");
+	alert("해당 상품을 변경합니다");
 	//할인가격 받아오는곳.
 	var vs = val;
 	var discountPrice = "discount_"+vs;
