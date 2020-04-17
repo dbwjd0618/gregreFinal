@@ -40,15 +40,15 @@ function athorityUpdate(){
 							</div>
 							<div class="form-group">
 								<label for="nickname">이름</label> <input type="text"
-									class="form-control" id="counselorName" name="advisName" value="${counselor.advisName }" readonly>
+									class="form-control" id="counselorName" name="advisName" value="${counselor.advisName }" >
 							</div>
 							<div class="form-group">
-								<label for="memberemail">경력</label> <input type="email"
-									class="form-control" id="career" name="advisCareer" value="${counselor.advisCareer }" readonly>
+								<label for="memberemail">경력</label> <input type="text"
+									class="form-control" id="career" name="advisCareer" value="${counselor.advisCareer }" >
 							</div>
 							<div class="form-group">
-								<label for="memberemail">자격증</label> <input type="email"
-									class="form-control" id="license" name="advisLicense" value="${counselor.advisLicense }" readonly>
+								<label for="memberemail">자격증</label> <input type="text"
+									class="form-control" id="license" name="advisLicense" value="${counselor.advisLicense }" >
 							</div>
 							<div class="form-group">
 								<label for="memberAuthor">회원 권한</label>

@@ -46,15 +46,14 @@ function sendMessage() {
 }
 
 function scrollTop() {
-	console.log("!!!!", $(".messages").prop('scrollHeight'));
 	$(".messages").scrollTop($(".messages").prop('scrollHeight'));
 	$('.messages').animate({ scrollTop: $('.messages').prop('scrollHeight') }, 300);
 
 }
 
-function lastCheck() {
+function lastCheck(chatId, memberId) {
 	let data = {
-			chtId : chatId,
+			chatId : chatId,
 			memberId : memberId,
 			time : Date.now(),
 			type: "LASTCHECK"

@@ -130,10 +130,17 @@
 				</div>
 
 
+<<<<<<< HEAD
+				<div class="row mb-3">
+					<div class="col-md-12">
+						
+							<div class="row">
+=======
 
 				<c:forEach items="${list3 }" var="a">
 					<c:if test="${a.appointNo != null }">
 	
+>>>>>>> branch 'master' of https://github.com/Wingater/GreGre
 
 
 										<div class="row mb-3">
@@ -161,9 +168,17 @@
 											</div>
 										</div>
 
+<<<<<<< HEAD
+							</div>
+
+						
+					</div>
+				</div>
+=======
 		
 					</c:if>
 				</c:forEach>
+>>>>>>> branch 'master' of https://github.com/Wingater/GreGre
 
 
 

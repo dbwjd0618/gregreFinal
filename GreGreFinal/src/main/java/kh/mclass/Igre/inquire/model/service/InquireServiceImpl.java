@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kh.mclass.Igre.chat.model.vo.Msg;
 import kh.mclass.Igre.inquire.model.dao.InquireDAO;
 import kh.mclass.Igre.inquire.model.vo.InqChatMember;
 import kh.mclass.Igre.inquire.model.vo.InqMsg;
@@ -41,6 +42,19 @@ public class InquireServiceImpl implements InquireService {
 	@Override
 	public List<InqMsg> chatListByChatId(String chatId) {
 		return id.chatListByChatId(chatId);
+	}
+
+	@Override
+	public int updateLastCheck(InqMsg fromMessage) {
+		System.out.println("서비스 시작");
+		int result = id.updateLastCheck(fromMessage);
+		System.out.println("서비스 종료");
+		return result;
+	}
+
+	@Override
+	public int lastCheck(String chatId, String memberId) {
+		return id.lastCheck(chatId, memberId);
 	}
 
 }

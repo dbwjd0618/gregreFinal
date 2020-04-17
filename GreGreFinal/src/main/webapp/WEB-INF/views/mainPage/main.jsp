@@ -59,7 +59,7 @@ body {
 
 		stompClient.connect({}, function(frame) {
 			console.log('connected stomp over sockjs');
-			// 	lastCheck(chatId);
+			lastCheck(chatId, memberId);
 		});
 
 		function chatSubscribe() {
@@ -88,13 +88,13 @@ body {
 															.append(
 																	"<li class='message right appeared'><div class='avatar'></div><div class='text_wrapper'><div class='text'>"
 																			+ messsageBody.msg
-																			+ "</div></div></li>");
+																			+ "</div></div><div class='chatMid'>"+messsageBody.memberId+"</div></li>");
 												} else {
 													$(".messages")
 															.append(
 																	"<li class='message left appeared'><div class='avatar'></div><div class='text_wrapper'><div class='text'>"
 																			+ messsageBody.msg
-																			+ "</div></div></li>");
+																			+ "</div></div><div class='chatMid'>"+messsageBody.memberId+"</div></li>");
 												}
 												scrollTop();
 											});
@@ -120,7 +120,7 @@ body {
 							</div>
 							<a href="http://bokjiro.go.kr/plaza/noticeView.do?no=661">
 								<div class="testimonial-3 d-flex"
-									style="background: url('${pageContext.request.contextPath}/resources/images/mainSlide/slide-img2.png') no-repeat;     background-size: 105% 320px; height: 320px;;">
+									style="background: url('${pageContext.request.contextPath}/resources/images/mainSlide/slide-img2.png') no-repeat;     background-size: 105% 320px; height: 320px;">
 								</div>
 							</a>
 							<div class="testimonial-3 d-flex"
@@ -269,7 +269,7 @@ body {
 
 <c:if test="${not empty memberLoggedIn && memberLoggedIn.grade != 'A'}">
 	<i id="inqToAdmin"
-		class="far fa-comments ${chatList != null ? 'rtnMsg' : ''}"
+		class="far fa-comments <%-- ${lastCheck gt 0 ? 'rtnMsg' : ''} --%>"
 		title="관리자에게 문의하기" onclick="inqShow();"></i>
 	<input type="hidden" id="loginId" value="${memberLoggedIn.memberId}" />
 </c:if>
@@ -296,6 +296,7 @@ body {
 							<div class="text_wrapper">
 								<div class="text">${msg.msg }</div>
 							</div>
+							<div class="chatMid">${msg.memberId }</div>
 						</li>
 					</c:forEach>
 				</ul>
@@ -321,9 +322,7 @@ body {
 					dataType : "XML",
 					method : "GET",
 					success : function(data) {
-						console.log(data);
 						let $item = $(data).find("item");
-						console.log($item);
 						let pop = null;
 						let sky = null;
 						let tmn = null;
@@ -378,7 +377,6 @@ body {
 			dataType : "XML",
 			method : "GET",
 			success : function(data) {
-				console.log(data);
 				let pm10 = $(data).find("pm10Grade1h").text();
 				let pm25 = $(data).find("pm25Grade1h").text();
 
