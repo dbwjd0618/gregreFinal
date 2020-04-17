@@ -55,7 +55,7 @@
       <header class="main-header">
         <!-- Logo -->
         <a href="${pageContext.request.contextPath }/shop/admin/index.do" class="logo" 
-            style="background-image: url('${pageContext.request.contextPath}/resouces/images/logo/igre_mall_footer.png'); 
+            style="background-image: url('${pageContext.request.contextPath}/resources/images/logo/igre_mall_footer_logo.png'); 
         background-size:contain; background-repeat:no-repeat;" ></a>
         
         <!-- Header Navbar: style can be found in header.less -->
