@@ -145,7 +145,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                       <img src="${pageContext.request.contextPath}/resources/images/counselling/${c.advisImg }" class="imgmini">
+                                       <img src="${pageContext.request.contextPath}/resources/upload/member/${c.advisImg }" class="imgmini">
                                     </div>
                                     <div class="col-md-7">
                                         <p>예약한 상담사명 : ${c.advisName} </p>
@@ -276,7 +276,7 @@ function innerModal(advisImg, advisName, appointNo, startDay, advisId, reviewerI
 	var imgg = advisImg;
 	var keyword = adviskeyList;
 	
-	var imgSrc ="${pageContext.request.contextPath}/resources/images/counselling/"+imgg;
+	var imgSrc ="${pageContext.request.contextPath}/resources/upload/member/"+imgg;
 	console.log("name="+name);
 	console.log("no="+no);
 	console.log("sday="+sday);
