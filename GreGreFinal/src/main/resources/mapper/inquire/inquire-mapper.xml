@@ -41,4 +41,21 @@
 		order by id
 	</select>
 	
+	<update id="lcUpdate">
+		update chat_member set last_check = #{time}
+		where chat_room_id = (select id from chat_room where chat_id = #{chatRoomId}) and member_id = #{memberId}
+	</update>
+	
+	<select id="lastCheck" resultType="String">
+		select last_check from chat_member where chat_room_id = (select id from chat_room where chat_id = #{chatId}) and member_id = #{memberId}
+	</select>
+	
+	<select id="lcReturn" resultType="_int">
+		select count(*) from chat_log where chat_room_id = (select id from chat_room where chat_id = #{chatId}) and member_id != #{memberId} and time <![CDATA[>]]> #{lastCheck}
+	</select>
+	
+	<select id="test" resultType="_int">
+		select 1 from dual
+	</select>
+	
 </mapper>

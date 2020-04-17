@@ -29,14 +29,16 @@ public class InquireController {
 		
 		return fromMessage;
 	}
-//	
-//	@MessageMapping("/lastCheck/{chatId}")
-//	@SendTo(value={"/chat/admin/push"})
-//	public Msg lastCheckM(@RequestBody Msg fromMessage){
-//		log.debug("lastCheckM={}",fromMessage);
-////		is.updateLastCheck(fromMessage);
-//		
-//		return fromMessage; 
-//	}
+	
+	@MessageMapping("/inq/lastCheck/{chatId}")
+	@SendTo(value={"/inq/chat/{chatId}"})
+	public InqMsg lastCheckM(@RequestBody InqMsg fromMessage, @DestinationVariable String chatId){
+		log.debug("lastCheckM={}",fromMessage);
+		System.out.println("AAA");
+		log.debug("chatId = " + chatId);
+		int result = is.updateLastCheck(fromMessage);
+		log.debug("lastCheck 완료");
+		return fromMessage; 
+	}
 
 }

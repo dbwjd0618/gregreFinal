@@ -17,4 +17,8 @@ public interface InquireService {
 
 	List<InqMsg> chatListByChatId(String chatId);
 
+	int updateLastCheck(InqMsg fromMessage);
+
+	int lastCheck(String chatId, String memberId);
+
 }
