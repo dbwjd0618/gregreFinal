@@ -1,6 +1,8 @@
 package kh.mclass.Igre.inquire.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +46,27 @@ public class InquireDAOImpl implements InquireDAO {
 
 	@Override
 	public List<InqMsg> chatListByChatId(String chatId) {
-		return sss.selectList("chatListByChatId", chatId);
+		return sss.selectList("inquire.chatListByChatId", chatId);
+	}
+
+	@Override
+	public int updateLastCheck(InqMsg fromMessage) {
+		System.out.println("DAO 시작");
+		System.out.println(fromMessage);
+		System.out.println("이건되나?" + sss.selectOne("inquire.test"));
+		
+		int result = sss.update("inquire.lcUpdate", fromMessage);
+		System.out.println("last 끝!" + result);
+		return result;
+	}
+
+	@Override
+	public int lastCheck(String chatId, String memberId) {
+		Map<String, String> param = new HashMap<>();
+		param.put("chatId", chatId);
+		param.put("memberId", memberId);
+		param.put("lastCheck", sss.selectOne("inquire.lastCheck", param));
+		return sss.selectOne("inquire.lcReturn", param);
 	}
 
 }

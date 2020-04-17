@@ -55,7 +55,7 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="fright">
-                                    <a href="/mypage/event" class="tico bic-b-arrow popFamilyLoginMenu">나의 당첨내역 확인<span
+                                    <a href="${pageContext.request.contextPath }/shop/myShopping/event/list.do" class="tico bic-b-arrow popFamilyLoginMenu">나의 당첨내역 확인<span
                                         class="ic"></span></a>
                                 </div>
 
