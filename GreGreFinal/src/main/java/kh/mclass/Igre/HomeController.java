@@ -67,8 +67,10 @@ public class HomeController {
 				
 			} else {
 				List<InqMsg> chatList = is.chatListByChatId(chatId);
+				int result = is.lastCheck(chatId, memberId);
 				
 				model.addAttribute("chatList", chatList);
+				model.addAttribute("lastCheck", result);
 			}
 			
 			log.debug("chatId = " + chatId);
