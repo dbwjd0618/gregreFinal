@@ -220,7 +220,7 @@ public class OrderController {
 	public ModelAndView finishPayment(ModelAndView mav, OrderList orderList, HttpSession session,
 			@RequestParam(value = "bankName", required = false) String bankName,
 			@RequestParam(value = "accountHolder", required = false) String accountHolder,
-			@RequestParam(value = "account", required = false) String account,
+			@RequestParam(value = "accountNo", required = false) String accountNo,
 			@RequestParam(value = "expireDate", required = false) String expireDate,
 			@RequestParam(value = "totalPrice", required = false) String totalPrice,
 			@RequestParam(value = "prodPrice", required = false) String prodPrice,
@@ -343,7 +343,7 @@ public class OrderController {
 			PayAccountInfo payAccInfo = new PayAccountInfo();
 			payAccInfo.setAccountHolder(accountHolder);
 			payAccInfo.setBankName(bankName);
-			payAccInfo.setAccount(account);
+			payAccInfo.setAccountNo(accountNo);
 			payAccInfo.setOrderNo(orderList.getOrderNo());
 
 			try {

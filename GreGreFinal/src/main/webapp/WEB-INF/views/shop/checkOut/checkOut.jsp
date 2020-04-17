@@ -338,10 +338,17 @@ function goMember() {
 									<tr>
 										<td class="cart-pic first-row"><c:forEach var="attach"
 												items="${prod.attachList}">
+												<c:if
+													test="${fn:contains(prod.attachList.get(0).originalImg, 'http://')}">
+													<img class="prod-main-img"
+														src="${prod.attachList.get(0).originalImg}" alt="">
+												</c:if> 
+												<c:if test="${fn:contains(prod.productId, 'p')}">
 												<c:if test='${ "R" eq attach.imgType}'>
 													<img
 														src="${pageContext.request.contextPath}/resources/upload/shop/productMainImg/${attach.renamedImg}"
 														alt="">
+												</c:if>
 												</c:if>
 											</c:forEach></td>
 										<td class="cart-title first-row">
@@ -397,11 +404,16 @@ function goMember() {
 															type="number" maxFractionDigits="3"
 															value="${totalDiscount}" /></em>원 </span>
 										</span></td>
-										<td class="total-price first-row"><span
-											class="orgn_price "><em class="origin-price"> <fmt:formatNumber
-														type="number" maxFractionDigits="3"
-														value="${totalPriceList.get(vs.index)+totalDiscount}" /></em>원
-										</span> <strong> <em><fmt:formatNumber type="number"
+										<td class="total-price first-row">
+										<c:if test="${prod.discountPrice > 0}">
+											<span class="orgn_price ">
+												<em class="origin-price"> 
+												<fmt:formatNumber
+															type="number" maxFractionDigits="3"
+															value="${totalPriceList.get(vs.index)+totalDiscount}" /></em>원
+											</span> 
+										</c:if>
+										<strong> <em><fmt:formatNumber type="number"
 														maxFractionDigits="3"
 														value="${totalPriceList.get(vs.index)}" /></em>원
 										</strong></td>
@@ -794,7 +806,7 @@ function goMember() {
 		<input type="hidden" name="couponListId" value=""> <input
 			type="hidden" name="bankName" value=""> <input type="hidden"
 			name="accountHolder" value=""> <input type="hidden"
-			name="account" value=""> <input type="hidden"
+			name="accountNo" value=""> <input type="hidden"
 			name="expireDate" value=""> <input type="hidden"
 			name="prodPrice" value=""> <input type="hidden"
 			name="totalDeliveryFee" value=""> <input type="hidden"
@@ -1154,13 +1166,12 @@ function goMember() {
 								console.log(data);
 
 								$('[name=bankName]').val(data.bankname);
-								$('[name=account]').val(data.account);
-								$('[name=accountHolder]').val(
-										data.accounthodler);
+								$('[name=accountNo]').val(data.account);
+								$('[name=accountHolder]').val(data.accounthodler);
 								$('[name=expireDate]').val(data.expiredate);
-
+								console.log("accountNo="+data.account);
 								var finishPayment = "${pageContext.request.contextPath}/shop/order/finishPayment.do";
-								document.checkOutFrm.action = finishPayment;
+								 document.checkOutFrm.action = finishPayment;
 								document.checkOutFrm.submit();
 
 							}).confirm(function(data) {
