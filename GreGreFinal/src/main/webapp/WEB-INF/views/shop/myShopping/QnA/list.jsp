@@ -86,8 +86,19 @@ $(function(){
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="breadcrumb-text product-more">
-					<a href="${pageContext.request.contextPath }/"><i
-						class="fa fa-home"></i> Home</a> <a href="./shop.html">MY쇼핑</a> <span>주문확인/배송조회</span>
+					<a href="${pageContext.request.contextPath }/shop/shop.do">
+					<svg style="margin-bottom: 2.5px;"
+							xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16px"
+							height="16px" viewBox="0 0 172 172" style=" fill:#000000;">
+							<g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1"
+								stroke-linecap="butt" stroke-linejoin="miter"
+								stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+								font-family="none" font-weight="none" font-size="none"
+								text-anchor="none" style="mix-blend-mode: normal">
+							<path d="M0,172v-172h172v172z" fill="none"></path>
+							<g fill="#b2b2b2">
+							<path
+								d="M86,15.0472l-78.83333,70.9528h21.5v64.5h43v-50.16667h28.66667v50.16667h43v-64.5h21.5z"></path></g></g></svg> Home</a> <a href="./shop.html">MY쇼핑</a> <span>상품문의내역</span>
 				</div>
 			</div>
 		</div>

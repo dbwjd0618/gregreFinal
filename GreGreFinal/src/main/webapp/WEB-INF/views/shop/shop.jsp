@@ -119,14 +119,18 @@
 									<h5>${prod.productName }</h5>
 								</a>
 								<div class="product-price">
-
+									
 									<c:set var="discountedPrice"
 										value="${prod.price-prod.discountPrice}" />
 									<fmt:formatNumber type="number" maxFractionDigits="3"
 										value="${discountedPrice }" />
-									원 <span> <fmt:formatNumber type="number"
+									원 
+									<c:if test="${prod.discountPrice > 0 }">
+									<span> 
+									<fmt:formatNumber type="number"
 											maxFractionDigits="3" value="${prod.price}" />원
 									</span>
+									</c:if>
 
 								</div>
 							</div>

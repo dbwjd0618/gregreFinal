@@ -1,3 +1,5 @@
+<%@page import="kh.mclass.Igre.member.model.vo.Member"%>
+<%@page import="kh.mclass.IgreMall.wish.model.vo.Wish"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="kh.mclass.IgreMall.shopMember.model.vo.Cart"%>
 <%@page import="java.util.List"%>
@@ -6,8 +8,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
-
 <fmt:requestEncoding value="utf-8" />
 <!DOCTYPE html>
 <html lang="zxx">
@@ -87,13 +87,13 @@ span.deli-fee {
 </style>
 <script>
 	function goSearch() {
-		if($('[name=keyword]').val()== ''){
-        	alert('검색어를 입력하세요');
-        	return false; 
-    	}else{
+		if ($('[name=keyword]').val() == '') {
+			alert('검색어를 입력하세요');
+			return false;
+		} else {
 			document.searchFrm.action = '${pageContext.request.contextPath }/shop/searchList.do';
 			document.searchFrm.submit();
-    	}
+		}
 
 	}
 </script>
@@ -196,15 +196,15 @@ span.deli-fee {
 							<li class="heart-icon"><a
 								href="${pageContext.request.contextPath }/shop/myShopping/wish/list.do">
 									<img src="https://img.icons8.com/ios/50/000000/hearts.png"
-									width="25px"> <span>${wishListConut }</span>
+									width="25px"> <span id="wishListCount">${wishListConut }</span>
 							</a></li>
 							<li class="cart-icon"><a
 								href="${pageContext.request.contextPath }/shop/myShopping/cart.do">
 									<img
 									src="https://img.icons8.com/ios/50/000000/shopping-bag.png"
-									width="20px"> <span>${cartListCount }</span>
+									width="20px"> <span id="cartListCount">${cartListCount }</span>
 							</a>
-						<div class="cart-hover">
+								<div class="cart-hover">
 									<div class="select-items">
 										<form name="hCartFrm" method='POST'
 											enctype="multipart/form-data">
@@ -359,10 +359,7 @@ span.deli-fee {
 											onclick="hCartSubmit(1);" value="구매하기" />
 									</div>
 
-								</div>
-					
-								
-								</li>
+								</div></li>
 
 						</ul>
 					</c:if>
