@@ -33,8 +33,12 @@ public class ShopAdminController {
 	@GetMapping("/index.do")
 	public ModelAndView index(ModelAndView mav,
 							@SessionAttribute (value="bizmemberLoggedIn")BizMember  biz) {
-		
-		
+		int TotalCount= infoService.totalSell();
+		int totalOrder= infoService.totalOrder();
+		int totalQa= infoService.totalQa();
+		mav.addObject("totalPrice",TotalCount);
+		mav.addObject("totalOrder",totalOrder);
+		mav.addObject("totalQa",totalQa);
 		mav.addObject("biz",biz);
 		mav.setViewName("shop/admin/adminIndex");
 		
